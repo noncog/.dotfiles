@@ -44,7 +44,7 @@ After everything is setup, you can use all git commands with the dotfiles alias.
 #+END_SRC
 ** Recommendations For GitHub Users
 Use the private noreply email provided by github to prevent leaking your personal email in git commits.
-Provided by GitHub [[https://github.com/settings/email][here]].
+- Provided by GitHub [[https://github.com/settings/email][here]].
 #+BEGIN_SRC  
   - set on the command line using:
   git config --global user.email <noreply-email>
@@ -52,7 +52,7 @@ Provided by GitHub [[https://github.com/settings/email][here]].
   git config --global user.email
 #+END_SRC
 Use personal access tokens when commiting from command line
-Provided by GitHub [[https://github.com/settings/tokens][here]].
+- Provided by GitHub [[https://github.com/settings/tokens][here]].
 #+BEGIN_SRC
   - generate a token for repository changes.
   - save it locally to your system, it will not be accessible again.
