@@ -8,7 +8,7 @@ Along with this config, I also use some bash scripts to display a list of my cur
 
 * Controls
 Mostly standard.
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 # set mod key
 set $mod Mod4
 
@@ -43,13 +43,16 @@ bindsym $mod+grave layout toggle split
 # focus between floating and tiling
 bindsym $mod+space focus mode_toggle
 
+# make window float
+bindsym $mod+Shift+space floating toggle
+
 # fullscreen
 bindsym $mod+F11 fullscreen toggle  
 #+END_SRC
 
 
 * Settings
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 focus_wrapping no
 #+END_SRC
 
@@ -57,19 +60,19 @@ focus_wrapping no
 * Looks
 ** Font
 I try to use Fira Code for everything.
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 font pango:Fira Code 11
 #+END_SRC
 
 ** Wallpaper
 Check out my wallpapers [[https://github.com/Salvarath][directory]].
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 exec --no-startup-id nitrogen --restore 
 #+END_SRC
 
 ** Dracula Theme
 Will be switching to Dracula colors for all apps. Currently custom to wallpaper.
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 # class                 border  bground text    indicator child_border
 client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
@@ -82,7 +85,7 @@ client.background       #F8F8F2
 
 ** i3-gaps
 Needs simplified to remove features I don't use.
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 # Necessary for i3-gaps to work properly (pixel can be any value)
 for_window [class="^.*"] border pixel 2
 
@@ -102,12 +105,12 @@ gaps outer 0
 * Utilities & Startup
 I use all of the defaults that come with i3 for a simple installation. 
 ** Network-Manager
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 exec --no-startup-id nm-applet
 #+END_SRC
 
 ** Pulse Audio Control
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
@@ -116,31 +119,31 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 #+END_SRC
 
 ** Rofi
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 #+END_SRC
 
 ** Polybar
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 # note that exec_always runs every time you restart i3 not just initialization.
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 #+END_SRC
 
 ** Picom Daemon
 Picom is used to get transparency only for my package installed polybar and i3-gaps hack for floating bar.
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 exec --no-startup-id picom -b
 #+END_SRC
 
 ** Emacs Daemon
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 exec --no-startup-id emacs --daemon
 #+END_SRC
 
 
 * Workspaces
 I only use 3 universal workspaces. Some apps get their own workspace. Some apps live in scratchpad.
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 # name workspaces
 set $ws1 "1"
 set $ws2 "2"
@@ -166,11 +169,11 @@ workspace $ws3 output eDP-1 HDMI-1-0
 * Apps
 ** Terminal
 Launches default terminal, tries one of the following in order: [[https://man.archlinux.org/man/i3-sensible-terminal.1][terminal list]].
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 bindsym $mod+Return exec i3-sensible-terminal
 #+END_SRC
 ** Emacs Client
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -a emacs
 bindsym $mod+e [class="Emacs"] focus
 #+END_SRC
@@ -178,7 +181,7 @@ bindsym $mod+e [class="Emacs"] focus
 ** Firefox
 I give Firefox it's own workspace.
 Below is also an example, of how you make an app appear on your primary monitor e.g laptop vs monitor.
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 set $firefox "Firefox"
 assign [class="Firefox-esr"] $firefox
 workspace $firefox output HDMI-1-0 eDP-1
@@ -188,7 +191,7 @@ bindsym $mod+f [class="Firefox-esr" tiling] focus
 #+END_SRC
 
 ** Clion
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 set $clion "CLion"
 assign [class="jetbrains-clion"] $clion
 workspace $clion output HDMI-1-0 eDP-1
@@ -198,7 +201,7 @@ bindsym $mod+c [class="jetbrains-clion"] focus
 #+END_SRC
 
 ** Pycharm
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 set $pycharm "PyCharm"
 assign [class="jetbrains-pycharm"] $pycharm
 workspace $pycharm output HDMI-1-0 eDP-1
@@ -209,7 +212,7 @@ bindsym $mod+p [class="jetbrains-pycharm"] focus
 
 ** Anki
 I give this it's own workspace to not deal with floating dialog issues in a scratchpad.
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 set $anki "Anki"
 assign [class="Anki"] $anki
 workspace $anki output eDP-1 HDMI-1-0
@@ -223,28 +226,28 @@ bindsym $mod+a [class="Anki"] focus
 Explain what the scratchpad is.
 Explain the size I use.
 ** Ranger
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 for_window [instance="Ranger-Float"] floating enable, resize set 1080 1080, move position center, move scratchpad, sticky enable
 bindsym $mod+Shift+r exec --no-startup-id kitty --name Ranger-Float -e ranger
 bindsym $mod+r [instance="Ranger-Float"] scratchpad show
 #+END_SRC
 
 ** Tor
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 for_window [class="Tor Browser"] floating enable, resize set 1080 1080, move position center, move scratchpad, sticky enable
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
 bindsym $mod+t [class="Tor Browser"] scratchpad show
 #+END_SRC
 
 ** Discord
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 for_window [class="discord"] floating enable, resize set 1080 720, move position center, move scratchpad, sticky enable
 bindsym $mod+Shift+d exec --no-startup-id discord
 bindsym $mod+d [class="discord"] scratchpad show
 #+END_SRC
 
 ** Spotify
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 for_window [class="Spotify"] floating enable, resize set 1080 720, move position center, move scratchpad, sticky enable
 bindsym $mod+Shift+s exec --no-startup-id spotify
 bindsym $mod+s [class="Spotify"] scratchpad show
@@ -253,7 +256,7 @@ bindsym $mod+s [class="Spotify"] scratchpad show
 
 * Modes & Moded Apps
 ** Resize Mode
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 set $resize_mode Resize: (-), (+), (Shift -), (Shift +)
 mode "$resize_mode" {
         # vim keys
@@ -272,31 +275,32 @@ bindsym $mod+equal mode "$resize_mode"
 
 ** Manage Mode
 This custom mode is how I control my system and i3.
-#+BEGIN_SRC config
-set $manage_mode (P)oweroff, (R)eboot, (D)esktop, (L)ogout i3, (C)onfig, (i)3 Reload, (K)eybinds
-mode "$manage_mode" {
-	# keys
-	bindsym $mod+p exec --no-startup-id systemctl poweroff
-	bindsym $mod+r exec --no-startup-id systemctl reboot
-	bindsym $mod+d exec --no-startup-id bash $HOME/.config/i3/displays.sh; mode "default"
-	bindsym $mod+l exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
-	bindsym $mod+c reload
-	bindsym $mod+i restart
-	bindsym $mod+k exec --no-startup-id bash $HOME/.config/i3/keybinds.sh; mode "default"
+#+BEGIN_SRC conf
+  set $manage_mode (P)oweroff, (R)eboot, (D)esktop, (L)ogout i3, (C)onfig, (i)3 Reload, (K)eybinds, (S)creenshot
+  mode "$manage_mode" {
+	  # keys
+	  bindsym $mod+p exec --no-startup-id systemctl poweroff
+	  bindsym $mod+r exec --no-startup-id systemctl reboot
+	  bindsym $mod+d exec --no-startup-id bash $HOME/.config/i3/displays.sh; mode "default"
+	  bindsym $mod+l exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
+	  bindsym $mod+c reload
+	  bindsym $mod+i restart
+	  bindsym $mod+k exec --no-startup-id bash $HOME/.config/i3/keybinds.sh; mode "default"
+	  bindsym $mod+s exec --no-startup-id "scrot -d 1 $HOME/.screenshots/%b%d::%H%M%S.png"; mode "default"
 
-	# back to normal
-	bindsym $mod+Return mode "default"
-	bindsym $mod+Escape mode "default"
-	bindsym Escape mode "default"
-}
-bindsym $mod+Escape mode "$manage_mode"  
+	  # back to normal
+	  bindsym $mod+Return mode "default"
+	  bindsym $mod+Escape mode "default"
+	  bindsym Escape mode "default"
+  }
+  bindsym $mod+Escape mode "$manage_mode"  
 #+END_SRC
 
 ** Youtube Mode
 Probably the pinnacle of my config.
 A mini floating youtube player with sizes and positions for laptop and desktop.
 *** TODO Fix the positions on laptop/desktop.
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 # REQUIRED: Firefox: about:config > full-screen-api.ignore-widgets true
 # NOTE: These dimensions are for i3-gaps
 set $youtube_mode (Y)outube, (L)aptop, (D)esktop, (H)ide
@@ -330,7 +334,7 @@ bindsym $mod+y [con_mark="youtube"] scratchpad show
 
 * Tips
 ** Finding Keynames (keysym)
-#+BEGIN_SRC config
+#+BEGIN_SRC conf
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
 #+END_SRC
 

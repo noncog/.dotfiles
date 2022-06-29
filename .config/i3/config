@@ -32,6 +32,9 @@ bindsym $mod+grave layout toggle split
 # focus between floating and tiling
 bindsym $mod+space focus mode_toggle
 
+# make window float
+bindsym $mod+Shift+space floating toggle
+
 # fullscreen
 bindsym $mod+F11 fullscreen toggle
 
@@ -165,7 +168,7 @@ mode "$resize_mode" {
 }
 bindsym $mod+equal mode "$resize_mode"
 
-set $manage_mode (P)oweroff, (R)eboot, (D)esktop, (L)ogout i3, (C)onfig, (i)3 Reload, (K)eybinds
+set $manage_mode (P)oweroff, (R)eboot, (D)esktop, (L)ogout i3, (C)onfig, (i)3 Reload, (K)eybinds, (S)creenshot
 mode "$manage_mode" {
 	# keys
 	bindsym $mod+p exec --no-startup-id systemctl poweroff
@@ -175,6 +178,7 @@ mode "$manage_mode" {
 	bindsym $mod+c reload
 	bindsym $mod+i restart
 	bindsym $mod+k exec --no-startup-id bash $HOME/.config/i3/keybinds.sh; mode "default"
+	bindsym $mod+s exec --no-startup-id "scrot -d 1 $HOME/.screenshots/%b%d::%H%M%S.png"; mode "default"
 
 	# back to normal
 	bindsym $mod+Return mode "default"
