@@ -65,7 +65,7 @@ To get your configurations (or these) on a fresh system, you simply clone the ba
   git clone --bare https://github.com/noncog/.dotfiles $HOME/.dotfiles
   
   # alias only in this shell instance
-  # assumes that you back up your .bashrc with the permanent alias,
+  # assumes you back up your .bashrc with the permanent alias,
   # which will be installed momentarily.
   
   alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
