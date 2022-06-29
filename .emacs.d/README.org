@@ -1,0 +1,80 @@
+#+TITLE: Emacs Config
+
+This is my version of an organized emacs config.
+
+Maybe put some useful stuff here.
+
+* UI
+This section removes unwanted elements to make Emacs look more minimal and modern.
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (setq inhibit-startup-message t)     ; removes startup splash
+
+  (tool-bar-mode -1)                   ; disable the toolbar
+  (tooltip-mode -1)                    ; disable tooltips
+  (scroll-bar-mode -1)                 ; disable visible scrollbar
+
+  (global-display-line-numbers-mode 1) ; displays line numbers in all files
+  (setq visible-bell nil)              ; disable screen flashing at end of file
+
+  ;; eventually Disable line numbers for some modes here...
+  
+#+END_SRC
+
+* Behavior
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (global-auto-revert-mode 1)          ; autoloads changes to files
+#+END_SRC
+
+* Font
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  ;; Where the font section will go
+#+END_SRC
+
+* Package System
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (require 'package)
+  (setq-default load-prefer-newer t)
+
+  (setq package-archives
+	'(("GNU ELPA" . "https://elpa.gnu.org/packages/")
+	  ("MELPA" . "https://melpa.org/packages/"))
+	package-archive-priorities
+	'(("GNU ELPA" . 5)
+	  ("MELPA" . 1)))
+
+  (when (version< emacs-version "27.0") (package-initialize))
+
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package t))
+
+  (setq-default
+   use-package-always-ensure t
+   use-package-verbose t)
+#+END_SRC
+
+* Org Mode
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package org)
+#+END_SRC
+** Org Keybinds
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (global-set-key (kbd "C-c l") #'org-store-link)
+  (global-set-key (kbd "C-c a") #'org-agenda)
+  (global-set-key (kbd "C-c c") #'org-capture)
+#+END_SRC
+
+* Dracula Theme
+I use *Dracula* theme everywhere I can. Check it out [[https://draculatheme.com/][Here]].
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package dracula-theme
+    :ensure t)
+
+  (load-theme 'dracula t)
+#+END_SRC
+* Customize File
+This is an annoying addon to the emacs config from the customize interface, you can hide it in a separate file using the following.
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  ;(setq custom-file "~/.emacs.d/custom.el")
+  ;(load custom-file)
+#+END_SRC
