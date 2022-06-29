@@ -18,7 +18,7 @@ A word of advice:
 - See Recommendations section below for important GitHub practices before beginning.
 - You do not need a .gitignore, so long as you never add .dotfiles to your .dotfiles. 
 ** Initial Setup
-Create a bare repository and an alias command to control it.
+Create a bare repository and an alias command to control it. Then hide all untracked files.
 #+BEGIN_SRC
   git init --bare $HOME/.dotfiles
   echo "alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'" >> $HOME/.bashrc
@@ -43,7 +43,7 @@ After everything is setup, you can use all git commands with the dotfiles alias.
   dotfiles log
 #+END_SRC
 ** Recommendations For GitHub Users
-Use the private noreply email provided by github to prevent leaking your personal email in git commits.
+Use the private noreply email provided by GitHub to prevent leaking your personal email in git commits.
 - Provided by GitHub [[https://github.com/settings/email][here]].
 #+BEGIN_SRC  
   - set on the command line using:
@@ -74,7 +74,7 @@ To get your configurations (or these) on a fresh system, you simply clone the ba
 #+END_SRC
 If you have configs already in place, the above will likely fail, and ask you to remove the config files before dotfiles can be cloned in.
 
-If this is the case you can manually solve conflicts or use the following automatic cloning script:
+If this is the case, you can manually solve conflicts or use the following automatic cloning script:
 - WARNING: If used as is, this will backup your dotfiles and replace them with mine. Change the repository for your own use.
 ** Automated Cloning Script
 #+BEGIN_SRC
@@ -93,4 +93,4 @@ If this is the case you can manually solve conflicts or use the following automa
   # hide untracked files
   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
 #+END_SRC
-Again, this script is part of my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script, which may be easier for you to use to setup your software and clone dotfiles managed with git --bare.
+Again, this script is part of my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script, which may be easier for you to use to setup your software and clone dotfiles managed with a git --bare repository.
