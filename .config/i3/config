@@ -1,0 +1,215 @@
+# set mod key
+set $mod Mod4
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+i focus up
+bindsym $mod+l focus right  
+
+# change focus 
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+i move up
+bindsym $mod+Shift+l move right  
+
+# drag floaters key
+floating_modifier $mod
+
+# kill window
+bindsym $mod+Shift+q kill
+
+# split in horizontal orientation
+bindsym $mod+Shift+v split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# change window layout mode
+bindsym $mod+Tab layout tabbed
+bindsym $mod+grave layout toggle split
+
+# focus between floating and tiling
+bindsym $mod+space focus mode_toggle
+
+# fullscreen
+bindsym $mod+F11 fullscreen toggle
+
+focus_wrapping no
+
+font pango:Fira Code 11
+
+exec --no-startup-id nitrogen --restore
+
+# class                 border  bground text    indicator child_border
+client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+
+client.background       #F8F8F2
+
+# Necessary for i3-gaps to work properly (pixel can be any value)
+for_window [class="^.*"] border pixel 2
+
+# Smart Gaps
+smart_gaps on
+smart_gaps inverse_outer
+
+# Smart Borders
+smart_borders on
+
+# Set inner/outer gaps
+gaps inner 10
+gaps outer 0
+
+exec --no-startup-id nm-applet
+
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
+
+# note that exec_always runs every time you restart i3 not just initialization.
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+exec --no-startup-id picom -b
+
+exec --no-startup-id emacs --daemon
+
+# name workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+
+# switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+
+# assign workspaces to monitors
+workspace $ws1 output HDMI-1-0 eDP-1
+workspace $ws2 output HDMI-1-0 eDP-1
+workspace $ws3 output eDP-1 HDMI-1-0
+
+bindsym $mod+Return exec i3-sensible-terminal
+
+bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -a emacs
+bindsym $mod+e [class="Emacs"] focus
+
+set $firefox "Firefox"
+assign [class="Firefox-esr"] $firefox
+workspace $firefox output HDMI-1-0 eDP-1
+bindsym $mod+Control+Shift+f move container to workspace $firefox
+bindsym $mod+Shift+f exec --no-startup-id firefox
+bindsym $mod+f [class="Firefox-esr" tiling] focus
+
+set $clion "CLion"
+assign [class="jetbrains-clion"] $clion
+workspace $clion output HDMI-1-0 eDP-1
+bindsym $mod+Control+Shift+c move container to workspace $clion
+bindsym $mod+Shift+c exec --no-startup-id sh /opt/clion-2022.1.2/bin/clion.sh
+bindsym $mod+c [class="jetbrains-clion"] focus
+
+set $pycharm "PyCharm"
+assign [class="jetbrains-pycharm"] $pycharm
+workspace $pycharm output HDMI-1-0 eDP-1
+bindsym $mod+Control+Shift+p move container to workspace $pycharm
+bindsym $mod+Shift+p exec --no-startup-id sh /opt/pycharm-2022.1.2/bin/pycharm.sh
+bindsym $mod+p [class="jetbrains-pycharm"] focus
+
+set $anki "Anki"
+assign [class="Anki"] $anki
+workspace $anki output eDP-1 HDMI-1-0
+bindsym $mod+Control+Shift+a move container to workspace $anki
+bindsym $mod+Shift+a exec --no-startup-id anki
+bindsym $mod+a [class="Anki"] focus
+
+for_window [instance="Ranger-Float"] floating enable, resize set 1080 1080, move position center, move scratchpad, sticky enable
+bindsym $mod+Shift+r exec --no-startup-id kitty --name Ranger-Float -e ranger
+bindsym $mod+r [instance="Ranger-Float"] scratchpad show
+
+for_window [class="Tor Browser"] floating enable, resize set 1080 1080, move position center, move scratchpad, sticky enable
+bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
+bindsym $mod+t [class="Tor Browser"] scratchpad show
+
+for_window [class="discord"] floating enable, resize set 1080 720, move position center, move scratchpad, sticky enable
+bindsym $mod+Shift+d exec --no-startup-id discord
+bindsym $mod+d [class="discord"] scratchpad show
+
+for_window [class="Spotify"] floating enable, resize set 1080 720, move position center, move scratchpad, sticky enable
+bindsym $mod+Shift+s exec --no-startup-id spotify
+bindsym $mod+s [class="Spotify"] scratchpad show
+
+set $resize_mode Resize: (-), (+), (Shift -), (Shift +)
+mode "$resize_mode" {
+        # vim keys
+        bindsym $mod+minus resize shrink width 10 px or 10 ppt
+        bindsym $mod+equal resize grow width 10 px or 10 ppt
+        bindsym $mod+Shift+minus resize shrink height 10 px or 10 ppt
+        bindsym $mod+Shift+equal resize grow height 10 px or 10 ppt
+
+        # back to normal
+        bindsym $mod+Return mode "default"
+        bindsym $mod+Escape mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $mod+equal mode "$resize_mode"
+
+set $manage_mode (P)oweroff, (R)eboot, (D)esktop, (L)ogout i3, (C)onfig, (i)3 Reload, (K)eybinds
+mode "$manage_mode" {
+	# keys
+	bindsym $mod+p exec --no-startup-id systemctl poweroff
+	bindsym $mod+r exec --no-startup-id systemctl reboot
+	bindsym $mod+d exec --no-startup-id bash $HOME/.config/i3/displays.sh; mode "default"
+	bindsym $mod+l exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
+	bindsym $mod+c reload
+	bindsym $mod+i restart
+	bindsym $mod+k exec --no-startup-id bash $HOME/.config/i3/keybinds.sh; mode "default"
+
+	# back to normal
+	bindsym $mod+Return mode "default"
+	bindsym $mod+Escape mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $mod+Escape mode "$manage_mode"
+
+# REQUIRED: Firefox: about:config > full-screen-api.ignore-widgets true
+# NOTE: These dimensions are for i3-gaps
+set $youtube_mode (Y)outube, (L)aptop, (D)esktop, (H)ide
+set $yt_default_w 720
+set $yt_default_h 407
+set $yt_d_w 720
+set $yt_d_h 407
+set $yt_d_x 2920 px
+set $yt_d_y 989 px
+set $yt_l_w 636
+set $yt_l_h 360
+set $yt_l_x 1282 px
+set $yt_l_y 675 px
+# set to your unique youtube page. ideally a page you will never visit. otherwise your firefox will be turned into the youtuber player.
+for_window [title="YouTube Premium - YouTube — Mozilla Firefox"] floating enable, resize set $yt_default_w $yt_default_h, move position center
+for_window [title="YouTube Premium - YouTube — Mozilla Firefox"] move scratchpad, sticky enable, mark youtube
+mode "$youtube_mode" {
+     bindsym $mod+y exec --no-startup-id firefox --new-window https://www.youtube.com/premium; mode "default"
+     bindsym $mod+l [con_mark="youtube"] focus, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; mode "default"
+     bindsym $mod+d [con_mark="youtube"] focus, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; mode "default"
+     bindsym $mod+h [con_mark="youtube"] focus, scratchpad show; mode "default"
+     # return
+     bindsym $mod+BackSpace mode "default"
+     bindsym $mod+Return mode "default"
+     bindsym $mod+Escape mode "default"
+}
+bindsym $mod+Shift+y mode "$youtube_mode"
+bindsym $mod+y [con_mark="youtube"] scratchpad show
+
+# To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
