@@ -10,7 +10,7 @@ Simply put, the files are cloned to where they belong!
 * Usage
 If you're on a debian-based distribution, you can use my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script to automatically install my system setup, software, and dotfiles. Or easily fork/modify it to install your own software and dotfiles!
 
-Otherwise, to just install dotfiles managed with a bare repository on a fresh system see the cloning section below!
+Otherwise, to just install dotfiles (like these)  managed with a bare repository on a fresh system see the cloning section below!
 * Short Setup Guide
 This is the absolute bare minimum guide one could use to start managing their dotfiles with a bare repository. For more information, there are numerous guides on the internet.
 
@@ -59,7 +59,8 @@ Use personal access tokens when commiting from command line.
   - enter the token when prompted for your password during a push.
 #+END_SRC
 * Cloning
-** Simple Clone Of dotfiles
+To get your configurations (or these) on a fresh system, you simply clone the bare repository and they're automatically installed!
+** Simple Clone
 #+BEGIN_SRC
   git clone --bare https://github.com/noncog/.dotfiles $HOME/.dotfiles
   
@@ -73,7 +74,7 @@ Use personal access tokens when commiting from command line.
 #+END_SRC
 If you have configs already in place, the above will likely fail, and ask you to remove the config files before dotfiles can be cloned in.
 
-If this is the case use the following cloning script:
+If this is the case you can manually solve conflicts or use the following automatic cloning script:
 - WARNING: If used as is, this will backup your dotfiles and replace them with mine. Change the repository for your own use, or fork/customize my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] for your needs.
 ** Automated Cloning Script
 #+BEGIN_SRC
@@ -92,4 +93,4 @@ If this is the case use the following cloning script:
   # hide untracked files
   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
 #+END_SRC
-Again, this script is part of my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script, which may be easier to use to setup your software and clone your dotfiles managed with git --bare.
+Again, this script is part of my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script, which may be easier for you to use to setup your software and clone your dotfiles managed with git --bare.
