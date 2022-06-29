@@ -1,0 +1,14 @@
+#+TITLE: .dotfiles with git --bare
+My system configuration files are managed with a git --bare repository.
+
+In short, this allows easy versioning and installation of dotfiles without symlinks or any form of moving/copying.
+
+Simply put the files are cloned to where they belong!
+
+- To use these dotfiles follow the usage.
+- To setup your own git --bare managed dotfiles follow the short setup guide below!
+* Usage
+** Use my debian-autosetup
+** Clone dotfiles as is
+** Automated cloning script
+* A Short Setup Guide 
