@@ -93,4 +93,10 @@ If this is the case, you can manually solve conflicts or use the following autom
   # hide untracked files
   /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
 #+END_SRC
+*** Usage
+#+BEGIN_SRC
+ # Save this script to a file ending in .sh (dotfiles.sh)
+ chmod +x dotfiles.sh
+ ./dotfiles.sh 
+#+END_SRC
 Again, this script is part of my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script, which may be easier for you to use to setup your software and clone dotfiles managed with a git --bare repository.
