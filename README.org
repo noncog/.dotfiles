@@ -11,28 +11,29 @@ Simply put, the files are cloned to where they belong!
 ** Use my debian-autosetup
 ** Clone dotfiles as is
 ** Automated cloning script
-* A Short Setup Guide
+* Short Setup Guide
+This is the absolute bare minimum guide one could use to start managing their dotfiles using a bare repository. For more information, there are numerous guides on the internet, some better than others. A word of advice: you do not need a .gitignore, so long as you never add .dotfiles to your .dotfiles. Some will say online that you should use .gitignore, it's superfluous and dirties your home directory. 
+** Create bare repository and dotfiles command
 #+BEGIN_SRC
-  # create local --bare repository and dotfiles command
   git init --bare $HOME/.dotfiles
   echo "alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'" >> $HOME/.bashrc
   dotfiles config --local status.showUntrackedFiles no
-
-  # adding files
+#+END_SRC
+** Adding files
+#+BEGIN_SRC
   dotfiles add .bashrc
   dotfiles commit -m "Added .bashrc"
-
-  # pushing
-  # for first push ever, use:
+#+END_SRC
+** First Push
+#+BEGIN_SRC
   dotfiles remote add origin <your dotfiles repo>
   dotfiles push -u origin master
-
-  # once setup can just use:
+#+END_SRC
+** Push + Other Commands
+After everything is setup, you can use all git commands with the dotfiles alias.
+#+BEGIN_SRC
+  # common commands
   dotfiles push
-
-  # other commands example:
   dotfiles status
   dotfiles log
-
-  # all git commands work with dotfiles alias
 #+END_SRC
