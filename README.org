@@ -12,7 +12,9 @@ Simply put, the files are cloned to where they belong!
 ** Clone dotfiles as is
 ** Automated cloning script
 * Short Setup Guide
-This is the absolute bare minimum guide one could use to start managing their dotfiles using a bare repository. For more information, there are numerous guides on the internet, some better than others. A word of advice: you do not need a .gitignore, so long as you never add .dotfiles to your .dotfiles. Some will say online that you should use .gitignore, it's superfluous and dirties your home directory. 
+This is the absolute bare minimum guide one could use to start managing their dotfiles using a bare repository. For more information, there are numerous guides on the internet.
+
+A word of advice: you do not need a .gitignore, so long as you never add .dotfiles to your .dotfiles. Some will say online that you should use .gitignore, but it's superfluous and dirties your home directory. 
 ** Create bare repository and dotfiles command
 #+BEGIN_SRC
   git init --bare $HOME/.dotfiles
