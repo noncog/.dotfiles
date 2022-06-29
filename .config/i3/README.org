@@ -173,14 +173,19 @@ Launches default terminal, tries one of the following in order: [[https://man.ar
 bindsym $mod+Return exec i3-sensible-terminal
 #+END_SRC
 ** Emacs Client
+I give Emacs it's own workspace.
+Below is also an example, of how you make an app appear on your primary monitor e.g laptop vs monitor.
 #+BEGIN_SRC conf
+set $emacs "Emacs"
+assign [class="Emacs"] $emacs	
+workspace $emacs output HDMI-1-0 eDP-1
+bindsym $mod+Control+Shift+r move container to workspace $emacs
 bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -a emacs
 bindsym $mod+e [class="Emacs"] focus
 #+END_SRC
 
 ** Firefox
 I give Firefox it's own workspace.
-Below is also an example, of how you make an app appear on your primary monitor e.g laptop vs monitor.
 #+BEGIN_SRC conf
 set $firefox "Firefox"
 assign [class="Firefox-esr"] $firefox

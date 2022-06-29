@@ -106,6 +106,10 @@ workspace $ws3 output eDP-1 HDMI-1-0
 
 bindsym $mod+Return exec i3-sensible-terminal
 
+set $emacs "Emacs"
+assign [class="Emacs"] $emacs	
+workspace $emacs output HDMI-1-0 eDP-1
+bindsym $mod+Control+Shift+r move container to workspace $emacs
 bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -a emacs
 bindsym $mod+e [class="Emacs"] focus
 
