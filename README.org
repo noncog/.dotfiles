@@ -17,7 +17,8 @@ This is the absolute bare minimum guide one could use to start managing their do
 A word of advice:
 - See Recommendations section below for important github practices before beginning.
 - You do not need a .gitignore, so long as you never add .dotfiles to your .dotfiles. 
-** Create Bare Repository and Dotfiles Command
+** Initial Setup
+Create a bare repository and an alias command to control it.
 #+BEGIN_SRC
   git init --bare $HOME/.dotfiles
   echo "alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'" >> $HOME/.bashrc
@@ -28,12 +29,12 @@ A word of advice:
   dotfiles add .bashrc
   dotfiles commit -m "Added .bashrc"
 #+END_SRC
-** First Push
+** First Push / Remote Setup
 #+BEGIN_SRC
   dotfiles remote add origin <your dotfiles repo>
   dotfiles push -u origin master
 #+END_SRC
-** Push + Other Commands
+** Commands
 After everything is setup, you can use all git commands with the dotfiles alias.
 #+BEGIN_SRC
   # common commands
@@ -41,19 +42,18 @@ After everything is setup, you can use all git commands with the dotfiles alias.
   dotfiles status
   dotfiles log
 #+END_SRC
-** Recommendations
-#+BEGIN_SRC
-  Use the private noreply email provided by github to prevent leaking your personal email in git commits.
-  https://github.com/settings/email
-  
+** Recommendations For GitHub Users
+Use the private noreply email provided by github to prevent leaking your personal email in git commits.
+Provided by GitHub [[https://github.com/settings/email][here]].
+#+BEGIN_SRC  
   - set on the command line using:
   git config --global user.email <noreply-email>
   - check it was set using:
   git config --global user.email
-  
-  Use personal access tokens when commiting from command line
-  https://github.com/settings/tokens
-
+#+END_SRC
+Use personal access tokens when commiting from command line
+Provided by GitHub [[https://github.com/settings/tokens][here]].
+#+BEGIN_SRC
   - generate a token for repository changes.
   - save it locally to your system, it will not be accessible again.
   - enter the token when prompted for your password during a push.
