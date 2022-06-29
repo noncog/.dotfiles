@@ -11,7 +11,7 @@
 
 (global-auto-revert-mode 1)          ; autoloads changes to files
 
-;; Where the font section will go
+(set-face-attribute 'default nil :font "Fira Code")
 
 (require 'package)
 (setq-default load-prefer-newer t)
