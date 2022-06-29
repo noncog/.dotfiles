@@ -75,7 +75,7 @@ To get your configurations (or these) on a fresh system, you simply clone the ba
 If you have configs already in place, the above will likely fail, and ask you to remove the config files before dotfiles can be cloned in.
 
 If this is the case you can manually solve conflicts or use the following automatic cloning script:
-- WARNING: If used as is, this will backup your dotfiles and replace them with mine. Change the repository for your own use, or fork/customize my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] for your needs.
+- WARNING: If used as is, this will backup your dotfiles and replace them with mine. Change the repository for your own use.
 ** Automated Cloning Script
 #+BEGIN_SRC
   # clone dotfiles
