@@ -73,6 +73,7 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 ** Configuration
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (setq dashboard-center-content t)    ; center dashboard
+  (setq dashboard-set-init-info nil)     ; hide package and load time info
 #+END_SRC
 * Dracula Theme
 I use *Dracula* theme everywhere I can. Check it out [[https://draculatheme.com/][Here]].

@@ -46,6 +46,7 @@
   (dashboard-setup-startup-hook))
 
 (setq dashboard-center-content t)    ; center dashboard
+(setq dashboard-set-init-info nil)     ; hide package and load time info
 
 (use-package dracula-theme)
 
