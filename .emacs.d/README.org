@@ -1,23 +1,21 @@
-#+TITLE: Emacs Config
+#+TITLE:Emacs Config
 
 This is my version of an organized emacs config.
 
 * UI
 This section removes unwanted elements to make Emacs look more minimal and modern.
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (setq inhibit-startup-message t)     ; removes startup splash
+  (setq inhibit-startup-message t      ; removes startup splash
+	visible-bell nil               ; disable screen flashing at end of file
+	column-number-mode t)          ; display column number 
 
   (tool-bar-mode -1)                   ; disable the toolbar
   (menu-bar-mode -1)                   ; disable the menu bar
   (tooltip-mode -1)                    ; disable tooltips
   (scroll-bar-mode -1)                 ; disable visible scrollbar
-
-  (global-display-line-numbers-mode 1) ; displays line numbers in all files
-  (setq visible-bell nil)              ; disable screen flashing at end of file
-  (setq column-number-mode t)          ; display column number 
+  (global-display-line-numbers-mode 1) ; displays line numbers in all files      
 
   ;; eventually Disable line numbers for some modes here...
-
 #+END_SRC
 
 * Behavior
@@ -48,16 +46,29 @@ This section removes unwanted elements to make Emacs look more minimal and moder
     (package-refresh-contents)
     (package-install 'use-package t))
 
-  (setq
-   use-package-always-ensure t
-   use-package-verbose t)
+  (setq use-package-always-ensure t
+	use-package-verbose t)
 #+END_SRC
 
 * Org Mode
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package org)
+  (use-package org
+    :config
+    (setq org-ellipsis " ▾"             ; change ellipsis
+	  org-hide-emphasis-markers t)  ; hide formatting for markdown
+
+    (setq org-agenda-files
+	  '("~/Documents/todo.org")))
 #+END_SRC
-** Keybinds
+
+** Org Bullets
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package org-bullets
+    :after org
+    :hook (org-mode . org-bullets-mode))
+#+END_SRC
+
+** Global Keybinds
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (global-set-key (kbd "C-c l") #'org-store-link)
   (global-set-key (kbd "C-c a") #'org-agenda)
@@ -68,13 +79,13 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package dashboard
     :config
-    (dashboard-setup-startup-hook))
+    (dashboard-setup-startup-hook)
+    (setq dashboard-center-content t    ; center dashboard
+	  dashboard-set-init-info nil)  ; hide package and load time info
+    )
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
 #+END_SRC
-** Configuration
-#+BEGIN_SRC emacs-lisp :tangle init.el
-  (setq dashboard-center-content t)    ; center dashboard
-  (setq dashboard-set-init-info nil)     ; hide package and load time info
-#+END_SRC
+
 * Dracula Theme
 I use *Dracula* theme everywhere I can. Check it out [[https://draculatheme.com/][Here]].
 #+BEGIN_SRC emacs-lisp :tangle init.el
