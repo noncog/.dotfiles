@@ -6,6 +6,7 @@
 
 (global-display-line-numbers-mode 1) ; displays line numbers in all files
 (setq visible-bell nil)              ; disable screen flashing at end of file
+(setq column-number-mode t)          ; display column number 
 
 ;; eventually Disable line numbers for some modes here...
 
@@ -29,7 +30,7 @@
   (package-refresh-contents)
   (package-install 'use-package t))
 
-(setq-default
+(setq
  use-package-always-ensure t
  use-package-verbose t)
 
@@ -39,8 +40,13 @@
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 
-(use-package dracula-theme
-  :ensure t)
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook))
+
+(setq dashboard-center-content t)    ; center dashboard
+
+(use-package dracula-theme)
 
 (load-theme 'dracula t)
 

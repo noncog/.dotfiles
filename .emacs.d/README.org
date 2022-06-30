@@ -13,9 +13,10 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 
   (global-display-line-numbers-mode 1) ; displays line numbers in all files
   (setq visible-bell nil)              ; disable screen flashing at end of file
+  (setq column-number-mode t)          ; display column number 
 
   ;; eventually Disable line numbers for some modes here...
-  
+
 #+END_SRC
 
 * Behavior
@@ -46,7 +47,7 @@ This section removes unwanted elements to make Emacs look more minimal and moder
     (package-refresh-contents)
     (package-install 'use-package t))
 
-  (setq-default
+  (setq
    use-package-always-ensure t
    use-package-verbose t)
 #+END_SRC
@@ -55,18 +56,27 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package org)
 #+END_SRC
-** Org Keybinds
+** Keybinds
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (global-set-key (kbd "C-c l") #'org-store-link)
   (global-set-key (kbd "C-c a") #'org-agenda)
   (global-set-key (kbd "C-c c") #'org-capture)
 #+END_SRC
 
+* Dashboard
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package dashboard
+    :config
+    (dashboard-setup-startup-hook))
+#+END_SRC
+** Configuration
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (setq dashboard-center-content t)    ; center dashboard
+#+END_SRC
 * Dracula Theme
 I use *Dracula* theme everywhere I can. Check it out [[https://draculatheme.com/][Here]].
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package dracula-theme
-    :ensure t)
+  (use-package dracula-theme)
 
   (load-theme 'dracula t)
 #+END_SRC
