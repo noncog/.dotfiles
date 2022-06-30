@@ -159,6 +159,8 @@ for_window [class="Spotify"] floating enable, resize set 1080 720, move scratchp
 bindsym $mod+Shift+s exec --no-startup-id spotify
 bindsym $mod+s [class="Spotify"] scratchpad show, move position center
 
+for_window [class="Nitrogen"] floating enable, resize set 1080 720, move scratchpad, sticky enable, scratchpad show, move position center
+
 set $resize_mode Resize: (-), (+), (Shift -), (Shift +)
 mode "$resize_mode" {
         # vim keys

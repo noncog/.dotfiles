@@ -253,6 +253,11 @@ bindsym $mod+Shift+s exec --no-startup-id spotify
 bindsym $mod+s [class="Spotify"] scratchpad show, move position center
 #+END_SRC
 
+** Nitrogen
+#+BEGIN_SRC conf
+for_window [class="Nitrogen"] floating enable, resize set 1080 720, move scratchpad, sticky enable, scratchpad show, move position center
+#+END_SRC 
+
 * Modes & Moded Apps
 ** Resize Mode
 #+BEGIN_SRC conf
