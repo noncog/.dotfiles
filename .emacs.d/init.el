@@ -1,6 +1,7 @@
 (setq inhibit-startup-message t)     ; removes startup splash
 
 (tool-bar-mode -1)                   ; disable the toolbar
+(menu-bar-mode -1)                   ; disable the menu bar
 (tooltip-mode -1)                    ; disable tooltips
 (scroll-bar-mode -1)                 ; disable visible scrollbar
 
