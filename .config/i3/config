@@ -139,25 +139,25 @@ bindsym $mod+Control+Shift+a move container to workspace $anki
 bindsym $mod+Shift+a exec --no-startup-id anki
 bindsym $mod+a [class="Anki"] focus
 
-for_window [class="kitty"] floating enable, resize set 1080 720, move position center, move scratchpad, sticky enable
+for_window [class="kitty"] floating enable, resize set 1080 720, move scratchpad, sticky enable
 bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
-bindsym $mod+Return [class="kitty"] scratchpad show
+bindsym $mod+Return [class="kitty"] scratchpad show, move position center
 
-for_window [instance="Ranger-Float"] floating enable, resize set 1080 1080, move position center, move scratchpad, sticky enable
+for_window [instance="Ranger-Float"] floating enable, resize set 1080 720, move scratchpad, sticky enable
 bindsym $mod+Shift+r exec --no-startup-id kitty --name Ranger-Float -e ranger
-bindsym $mod+r [instance="Ranger-Float"] scratchpad show
+bindsym $mod+r [instance="Ranger-Float"] scratchpad show, move position center
 
-for_window [class="Tor Browser"] floating enable, resize set 1080 1080, move position center, move scratchpad, sticky enable
+for_window [class="Tor Browser"] floating enable, resize set 1080 900, move scratchpad, sticky enable
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
-bindsym $mod+t [class="Tor Browser"] scratchpad show
+bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
 
-for_window [class="discord"] floating enable, resize set 1080 720, move position center, move scratchpad, sticky enable
+for_window [class="discord"] floating enable, resize set 1080 720, move scratchpad, sticky enable
 bindsym $mod+Shift+d exec --no-startup-id discord
-bindsym $mod+d [class="discord"] scratchpad show
+bindsym $mod+d [class="discord"] scratchpad show, move position center
 
-for_window [class="Spotify"] floating enable, resize set 1080 720, move position center, move scratchpad, sticky enable
+for_window [class="Spotify"] floating enable, resize set 1080 720, move scratchpad, sticky enable
 bindsym $mod+Shift+s exec --no-startup-id spotify
-bindsym $mod+s [class="Spotify"] scratchpad show
+bindsym $mod+s [class="Spotify"] scratchpad show, move position center
 
 set $resize_mode Resize: (-), (+), (Shift -), (Shift +)
 mode "$resize_mode" {
