@@ -71,13 +71,24 @@
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 
+(use-package projectile
+  :init (setq projectile-project-search-path '("~/Projects/"))
+  :config (projectile-mode) ;launch mode here
+  :bind-keymap ("C-c p" . projectile-command-map))
+
 (use-package dashboard
+  :init
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
   :config
-  (dashboard-setup-startup-hook)
+  (dashboard-setup-startup-hook) ; start dashboard
   (setq dashboard-center-content t    ; center dashboard
-	dashboard-set-init-info nil)  ; hide package and load time info
+        dashboard-set-init-info nil)  ; hide package and load time info
+  ; set dashboard items
+  (setq dashboard-items '((recents  . 5)
+                      (agenda . 5)
+                      (projects . 5)
+                      (bookmarks . 5)))
   )
-(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
 
 (use-package which-key
   :init (which-key-mode) ; turn on which-key
