@@ -59,11 +59,16 @@ This section removes unwanted elements to make Emacs look more minimal and moder
   (setq use-package-always-ensure t
 	use-package-verbose t)
 #+END_SRC
+* Diminish
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package diminish)
+#+END_SRC
 
 * Org Mode
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package org
     :hook (org-mode . visual-line-mode)
+    :diminish org-indent-mode
     :config
     ;; looks
     (setq org-ellipsis " ▾"             ; change ellipsis
@@ -110,8 +115,9 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 
 * Which Key
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package which-key)
-  (which-key-mode) ; turn on which-key 
+  (use-package which-key
+    :init (which-key-mode) ; turn on which-key
+    :diminish which-key-mode)
 #+END_SRC
 
 * Dracula Theme

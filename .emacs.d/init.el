@@ -40,8 +40,11 @@
 (setq use-package-always-ensure t
       use-package-verbose t)
 
+(use-package diminish)
+
 (use-package org
   :hook (org-mode . visual-line-mode)
+  :diminish org-indent-mode
   :config
   ;; looks
   (setq org-ellipsis " ▾"             ; change ellipsis
@@ -76,8 +79,9 @@
   )
 (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
 
-(use-package which-key)
-(which-key-mode) ; turn on which-key
+(use-package which-key
+  :init (which-key-mode) ; turn on which-key
+  :diminish which-key-mode)
 
 (use-package dracula-theme)
 
