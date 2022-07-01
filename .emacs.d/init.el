@@ -14,6 +14,8 @@
 
 (set-face-attribute 'default nil :font "Fira Code")
 
+;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
 (require 'package)
 (setq-default load-prefer-newer t)
 
@@ -34,6 +36,7 @@
       use-package-verbose t)
 
 (use-package org
+  :hook (org-mode . visual-line-mode)
   :config
   (setq org-ellipsis " ▾"             ; change ellipsis
         org-hide-emphasis-markers t)  ; hide formatting for markdown

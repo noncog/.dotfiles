@@ -28,6 +28,11 @@ This section removes unwanted elements to make Emacs look more minimal and moder
   (set-face-attribute 'default nil :font "Fira Code")
 #+END_SRC
 
+* Keybinds
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  ;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+#+END_SRC
+
 * Package System
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (require 'package)
@@ -53,6 +58,7 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 * Org Mode
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package org
+    :hook (org-mode . visual-line-mode)
     :config
     (setq org-ellipsis " ▾"             ; change ellipsis
           org-hide-emphasis-markers t)  ; hide formatting for markdown
