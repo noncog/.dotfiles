@@ -36,14 +36,21 @@
 (use-package org
   :config
   (setq org-ellipsis " ▾"             ; change ellipsis
-	org-hide-emphasis-markers t)  ; hide formatting for markdown
+        org-hide-emphasis-markers t)  ; hide formatting for markdown
+  (setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
 
-  (setq org-agenda-files
-	'("~/Documents/todo.org")))
+  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
+  (setq org-directory "~/Documents/org")    ; set org files - only used for some interactive prompting to choose an org file when capturing note I think
+  (setq org-agenda-files'("~/Documents/org")) ; Direrctory or list of files for org-agenda
+  ; maybe set archive location have to figure out how I want to archive..
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+
+  (setq org-log-done 'time)) ; Add completion time to DONE items.
+  ; maybe use org-log-done 'note to require a note on finishing..
 
 (use-package org-bullets
   :after org
-  :hook (org-mode . org-bullets-mode))
+  :hook (org-mode . org-bullets-mode)) ; could try org bullets mode 1
 
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
@@ -56,6 +63,9 @@
 	dashboard-set-init-info nil)  ; hide package and load time info
   )
 (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
+
+(use-package which-key)
+(which-key-mode) ; turn on which-key
 
 (use-package dracula-theme)
 
