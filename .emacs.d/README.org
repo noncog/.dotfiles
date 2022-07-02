@@ -35,7 +35,9 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 
 * Keybinds
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  ;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+    ;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (global-set-key (kbd "C-=") 'text-scale-increase)
+  (global-set-key (kbd "C--") 'text-scale-decrease)
 #+END_SRC
 
 * Package System

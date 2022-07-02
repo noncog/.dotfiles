@@ -20,6 +20,8 @@
 (set-face-attribute 'default nil :font "Fira Code")
 
 ;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
 
 (require 'package)
 (setq-default load-prefer-newer t)
