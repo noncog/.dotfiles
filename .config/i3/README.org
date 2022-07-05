@@ -137,6 +137,10 @@ exec --no-startup-id picom -b
 exec --no-startup-id emacs --daemon
 #+END_SRC
 
+** Extreme Cooling 4 Linux
+#+BEGIN_SRC conf
+  bindsym $mod+Shift+z exec --no-startup-	id ec4Linux change-state
+#+END_SRC
 * Workspaces
 I only use 3 universal workspaces. Some apps get their own workspace. Some apps live in scratchpad.
 #+BEGIN_SRC conf
