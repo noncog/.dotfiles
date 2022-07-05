@@ -1,8 +1,4 @@
 #!/bin/bash
-# make second monitor available
-xrandr --setprovideroutputsource NVIDIA-G0 modesetting
-# auto to start using it
-xrandr --auto
 # rotate laptop display
 xrandr --output eDP-1 --rotate right --auto
 # set monitor positions
