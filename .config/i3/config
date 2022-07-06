@@ -78,7 +78,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 
 # note that exec_always runs every time you restart i3 not just initialization.
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 exec --no-startup-id picom -b
 

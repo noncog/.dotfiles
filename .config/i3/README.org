@@ -123,7 +123,7 @@ bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 ** Polybar
 #+BEGIN_SRC conf
 # note that exec_always runs every time you restart i3 not just initialization.
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 #+END_SRC
 
 ** Picom Daemon
