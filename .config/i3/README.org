@@ -139,7 +139,7 @@ exec --no-startup-id emacs --daemon
 
 ** Extreme Cooling 4 Linux
 #+BEGIN_SRC conf
-  bindsym $mod+Shift+z exec --no-startup-	id ec4Linux change-state
+  bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
 #+END_SRC
 * Workspaces
 I only use 3 universal workspaces. Some apps get their own workspace. Some apps live in scratchpad.
@@ -225,9 +225,11 @@ Explain what the scratchpad is.
 Explain the size I use.
 ** Kitty
 #+BEGIN_SRC conf
-for_window [class="kitty"] floating enable, resize set 1080 720, move scratchpad, sticky enable
-bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
-bindsym $mod+Return [class="kitty"] scratchpad show, move position center
+  # for this to work correctly you must set the environment variable $TERMINAL in your .xsessionrc for Debian distros
+  # or, in .xprofile, .profile, .xsession, .xinitrc, some distributions and users have different requirements, figure out yours.
+  for_window [class="kitty"] floating enable, resize set 1080 720, move scratchpad, sticky enable
+  bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
+  bindsym $mod+Return [class="kitty"] scratchpad show, move position center
 #+END_SRC
 ** Ranger
 #+BEGIN_SRC conf
