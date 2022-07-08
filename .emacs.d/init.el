@@ -57,6 +57,10 @@
 (global-set-key (kbd "C-c b") 'counsel-bookmark)
 (global-set-key (kbd "C-c d") 'counsel-descbinds)
 
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
+
 (use-package pdf-tools
   :bind (:map pdf-view-mode-map
               ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
@@ -81,7 +85,8 @@
 
   ;; settings
   (setq org-log-done 'time) ; Add completion time to DONE items.
-  (setq org-return-follows-link t)) ; enter opens links in org
+  (setq org-return-follows-link t) ; enter opens links in org
+  (setq org-capture-bookmark nil)) ;prevent org capture from adding to bookmarks list
   ; maybe use org-log-done 'note to require a note on finishing..
 
 (use-package org-bullets
