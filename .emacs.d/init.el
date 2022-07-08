@@ -47,7 +47,8 @@
 
 (use-package counsel
   :config
-  (ivy-mode 1))
+  (ivy-mode 1)
+  (diminish 'ivy-mode))
 (setq ivy-count-format "(%d/%d) ")
 
 (global-set-key (kbd "C-s") 'swiper-isearch)
@@ -66,21 +67,25 @@
   :bind (:map pdf-view-mode-map
               ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
   :config
-  (pdf-tools-install))
+  (setq-default pdf-view-display-size 'fit-page))
+(pdf-tools-install)
 
 (use-package org
-  :hook (org-mode . visual-line-mode)
-  :diminish org-indent-mode
+  :hook ((org-mode . visual-line-mode)
+         (org-mode . org-indent-mode))
+  :diminish visual-line-mode
   :config
   ;; looks
   (setq org-ellipsis " ▾"             ; change ellipsis
         org-hide-emphasis-markers t)  ; hide formatting for markdown
-  (setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
+  ;(setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
+  ;(diminish 'org-indent-mode)         ; diminish the indent-mode highlighter
+  ;(diminish 'visual-line-mode)        ; diminishes visual line mode highlighter
 
   ;; files and org settings
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
   (setq org-directory "~/Documents/org")    ; set org files - only used for some interactive prompting to choose an org file when capturing note I think
-  (setq org-agenda-files'("~/Documents/org")) ; Directory or list of files for org-agenda
+  (setq org-agenda-files'("~/Documents/org/scratchpad.org")) ; Directory or list of files for org-agenda
   ; maybe set archive location have to figure out how I want to archive..
   (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 
@@ -88,6 +93,9 @@
   (setq org-log-done 'time) ; Add completion time to DONE items.
   (setq org-return-follows-link t) ; enter opens links in org
   (setq org-capture-bookmark nil)) ;prevent org capture from adding to bookmarks list
+
+  (use-package org-indent
+  :diminish org-indent-mode) ; I'm using this to diminish org mode it sucks but it is what it is
   ; maybe use org-log-done 'note to require a note on finishing..
 
 (use-package org-bullets
@@ -98,9 +106,9 @@
   :config
   (setq org-noter-always-create-frame nil))  ; prevent noter from making a new frame
 
-(global-set-key (kbd "C-c l") #'org-store-link)
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
 
 (use-package projectile
   :init (setq projectile-project-search-path '("~/Projects/"))
