@@ -4,6 +4,7 @@ This is my version of an organized emacs config.
 
 * UI
 This section removes unwanted elements to make Emacs look more minimal and modern.
+
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (setq inhibit-startup-message t      ; removes startup splash
         visible-bell nil               ; disable screen flashing at end of file
@@ -13,8 +14,8 @@ This section removes unwanted elements to make Emacs look more minimal and moder
   (menu-bar-mode -1)                   ; disable the menu bar
   (tooltip-mode -1)                    ; disable tooltips
   (scroll-bar-mode -1)                 ; disable visible scrollbar
-  (global-display-line-numbers-mode 1) ; displays line numbers in all files
-
+  ;(global-display-line-numbers-mode 1) ; displays line numbers in all files
+  
   ;; eventually Disable line numbers for some modes here...
 #+END_SRC
 
@@ -61,11 +62,18 @@ This section removes unwanted elements to make Emacs look more minimal and moder
   (setq use-package-always-ensure t
 	use-package-verbose t)
 #+END_SRC
+
 * Diminish
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package diminish)
 #+END_SRC
 
+* PDF Tools
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package pdf-tools
+    :config
+    (pdf-tools-install))
+#+END_SRC
 * Org Mode
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package org
@@ -97,6 +105,13 @@ This section removes unwanted elements to make Emacs look more minimal and moder
     :hook (org-mode . org-bullets-mode)) ; could try org bullets mode 1
 #+END_SRC
 
+** Org Noter
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package org-noter
+    :config
+    (setq org-noter-always-create-frame nil))  ; prevent noter from making a new frame
+#+END_SRC
+
 ** Global Keybinds
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (global-set-key (kbd "C-c l") #'org-store-link)
@@ -111,6 +126,7 @@ This section removes unwanted elements to make Emacs look more minimal and moder
     :config (projectile-mode) ;launch mode here
     :bind-keymap ("C-c p" . projectile-command-map))
 #+END_SRC
+
 * Dashboard
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package dashboard
@@ -142,6 +158,7 @@ I use *Dracula* theme everywhere I can. Check it out [[https://draculatheme.com/
 
   (load-theme 'dracula t)
 #+END_SRC
+
 * Customize File
 This is an annoying addon to the emacs config from the customize interface, you can hide it in a separate file using the following.
 #+BEGIN_SRC emacs-lisp :tangle init.el

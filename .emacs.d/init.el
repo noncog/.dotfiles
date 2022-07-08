@@ -6,7 +6,7 @@
 (menu-bar-mode -1)                   ; disable the menu bar
 (tooltip-mode -1)                    ; disable tooltips
 (scroll-bar-mode -1)                 ; disable visible scrollbar
-(global-display-line-numbers-mode 1) ; displays line numbers in all files
+;(global-display-line-numbers-mode 1) ; displays line numbers in all files
 
 ;; eventually Disable line numbers for some modes here...
 
@@ -44,6 +44,10 @@
 
 (use-package diminish)
 
+(use-package pdf-tools
+  :config
+  (pdf-tools-install))
+
 (use-package org
   :hook (org-mode . visual-line-mode)
   :diminish org-indent-mode
@@ -68,6 +72,10 @@
 (use-package org-bullets
   :after org
   :hook (org-mode . org-bullets-mode)) ; could try org bullets mode 1
+
+(use-package org-noter
+  :config
+  (setq org-noter-always-create-frame nil))  ; prevent noter from making a new frame
 
 (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
