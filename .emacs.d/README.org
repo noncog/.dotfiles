@@ -36,9 +36,12 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 
 * Keybinds
 #+BEGIN_SRC emacs-lisp :tangle init.el
-    ;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (global-set-key (kbd "C-=") 'text-scale-increase)
+  ;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  ; set zoom commands
+  (global-set-key (kbd "C-=") 'text-scale-inAcrease)
   (global-set-key (kbd "C--") 'text-scale-decrease)
+
+
 #+END_SRC
 
 * Package System
@@ -57,7 +60,7 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
-    (package-install 'use-package t))
+    (package-install 'use-package))
 
   (setq use-package-always-ensure t
 	use-package-verbose t)
@@ -68,9 +71,28 @@ This section removes unwanted elements to make Emacs look more minimal and moder
   (use-package diminish)
 #+END_SRC
 
+* Counsel/Ivy/Swiper
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (use-package counsel
+    :config
+    (ivy-mode 1))
+  (setq ivy-count-format "(%d/%d) ")
+#+END_SRC
+
+** Global Keybinds
+Consider separating these and modifying respective packager binds using use-package. I did not because I am unsure if use-package will try to install ivy and swiper, whereas counsel has them as dependencies and installs them.
+#+BEGIN_SRC emacs-lisp :tangle init.el
+  (global-set-key (kbd "C-s") 'swiper-isearch)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
+#+END_SRC
+
 * PDF Tools
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package pdf-tools
+    :bind (:map pdf-view-mode-map
+                ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
     :config
     (pdf-tools-install))
 #+END_SRC
@@ -88,7 +110,7 @@ This section removes unwanted elements to make Emacs look more minimal and moder
     ;; files and org settings
     (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
     (setq org-directory "~/Documents/org")    ; set org files - only used for some interactive prompting to choose an org file when capturing note I think
-    (setq org-agenda-files'("~/Documents/org")) ; Direrctory or list of files for org-agenda
+    (setq org-agenda-files'("~/Documents/org")) ; Directory or list of files for org-agenda
     ; maybe set archive location have to figure out how I want to archive..
     (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 

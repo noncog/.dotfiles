@@ -20,7 +20,8 @@
 (set-face-attribute 'default nil :font "Fira Code")
 
 ;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(global-set-key (kbd "C-=") 'text-scale-increase)
+; set zoom commands
+(global-set-key (kbd "C-=") 'text-scale-inAcrease)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 
 (require 'package)
@@ -37,14 +38,26 @@
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (package-install 'use-package t))
+  (package-install 'use-package))
 
 (setq use-package-always-ensure t
       use-package-verbose t)
 
 (use-package diminish)
 
+(use-package counsel
+  :config
+  (ivy-mode 1))
+(setq ivy-count-format "(%d/%d) ")
+
+(global-set-key (kbd "C-s") 'swiper-isearch)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x b") 'counsel-switch-buffer)
+
 (use-package pdf-tools
+  :bind (:map pdf-view-mode-map
+              ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
   :config
   (pdf-tools-install))
 
@@ -60,7 +73,7 @@
   ;; files and org settings
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
   (setq org-directory "~/Documents/org")    ; set org files - only used for some interactive prompting to choose an org file when capturing note I think
-  (setq org-agenda-files'("~/Documents/org")) ; Direrctory or list of files for org-agenda
+  (setq org-agenda-files'("~/Documents/org")) ; Directory or list of files for org-agenda
   ; maybe set archive location have to figure out how I want to archive..
   (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 
