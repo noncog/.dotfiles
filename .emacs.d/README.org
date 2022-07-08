@@ -93,6 +93,7 @@ Consider separating these and modifying respective packager binds using use-pack
 * Ivy Rich
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package ivy-rich
+    :after ivy     ;not sure if I need or not
     :init
     (ivy-rich-mode 1))
 #+END_SRC
@@ -104,7 +105,7 @@ Consider separating these and modifying respective packager binds using use-pack
     :config
     (pdf-tools-install))
 #+END_SRC
-* Org Mode
+* Org Modemode
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package org
     :hook (org-mode . visual-line-mode)
@@ -154,7 +155,9 @@ Consider separating these and modifying respective packager binds using use-pack
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package projectile
     :init (setq projectile-project-search-path '("~/Projects/"))
-    :config (projectile-mode) ;launch mode here
+    :config
+    (projectile-mode) ;launch mode here
+    (setq projectile-completion-system 'ivy)
     :bind-keymap ("C-c p" . projectile-command-map))
 #+END_SRC
 

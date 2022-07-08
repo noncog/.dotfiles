@@ -58,6 +58,7 @@
 (global-set-key (kbd "C-c d") 'counsel-descbinds)
 
 (use-package ivy-rich
+  :after ivy     ;not sure if I need or not
   :init
   (ivy-rich-mode 1))
 
@@ -103,7 +104,9 @@
 
 (use-package projectile
   :init (setq projectile-project-search-path '("~/Projects/"))
-  :config (projectile-mode) ;launch mode here
+  :config
+  (projectile-mode) ;launch mode here
+  (setq projectile-completion-system 'ivy)
   :bind-keymap ("C-c p" . projectile-command-map))
 
 (use-package dashboard
