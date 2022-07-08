@@ -170,7 +170,9 @@ Consider separating these and modifying respective packager binds using use-pack
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package which-key
     :init (which-key-mode) ; turn on which-key
-    :diminish which-key-mode)
+    :diminish which-key-mode
+    :config
+    (setq which-key-idle-delay 0.5))
 #+END_SRC
 
 * Dracula Theme
