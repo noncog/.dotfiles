@@ -36,9 +36,8 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 
 * Keybinds
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  ;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   ; set zoom commands
-  (global-set-key (kbd "C-=") 'text-scale-inAcrease)
+  (global-set-key (kbd "C-=") 'text-scale-increase)
   (global-set-key (kbd "C--") 'text-scale-decrease)
 #+END_SRC
 
@@ -68,12 +67,14 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package delight)
 #+END_SRC
+
 * Counsel/Ivy/Swiper
 #+BEGIN_SRC emacs-lisp :tangle init.el
-    (use-package counsel
-      :config
-      (ivy-mode 1))
-    (setq ivy-count-format "(%d/%d) ")
+  (use-package counsel
+    :config
+    (ivy-mode 1)
+    :delight ivy-mode)
+  (setq ivy-count-format "(%d/%d) ")
 #+END_SRC
 
 ** Global Keybinds
@@ -85,6 +86,8 @@ Consider separating these and modifying respective packager binds using use-pack
   (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
   (global-set-key (kbd "C-c b") 'counsel-bookmark)
   (global-set-key (kbd "C-c d") 'counsel-descbinds)
+  (global-set-key (kbd "C-h f") 'counsel-describe-function)
+  (global-set-key (kbd "C-h v") 'counsel-describe-variable)
 #+END_SRC
 
 * Ivy Rich
@@ -94,6 +97,7 @@ Consider separating these and modifying respective packager binds using use-pack
     :init
     (ivy-rich-mode 1))
 #+END_SRC
+
 * PDF Tools
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package pdf-tools
@@ -102,6 +106,7 @@ Consider separating these and modifying respective packager binds using use-pack
     (setq-default pdf-view-display-size 'fit-page))
   (pdf-tools-install)
 #+END_SRC
+
 * Org Mode
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package org
@@ -123,7 +128,11 @@ Consider separating these and modifying respective packager binds using use-pack
     ;; settings
     (setq org-log-done 'time) ; Add completion time to DONE items.
     (setq org-return-follows-link t) ; enter opens links in org
-    (setq org-capture-bookmark nil)) ;prevent org capture from adding to bookmarks list
+    (setq org-capture-bookmark nil) ;prevent org capture from adding to bookmarks list
+
+    :delight
+    (org-indent-mode nil org-indent)
+    (visual-line-mode nil emacs))
   
     ; maybe use org-log-done 'note to require a note on finishing..
 #+END_SRC
@@ -156,31 +165,34 @@ Consider separating these and modifying respective packager binds using use-pack
     :config
     (projectile-mode) ;launch mode here
     (setq projectile-completion-system 'ivy)
-    :bind-keymap ("C-c p" . projectile-command-map))
+    :bind-keymap ("C-c p" . projectile-command-map)
+    :delight '(:eval (concat " " (projectile-project-name))))
 #+END_SRC
 
 * Dashboard
 #+BEGIN_SRC emacs-lisp :tangle init.el
-    (use-package dashboard
-      :init
-      (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
-      :config
-      (dashboard-setup-startup-hook) ; start dashboard
-      (setq dashboard-center-content t    ; center dashboard
-            dashboard-set-init-info nil)  ; hide package and load time info
-      ; set dashboard items
-      (setq dashboard-items '((recents  . 5)
-                              (agenda . 5)
-                              (projects . 5)
-                              (bookmarks . 5))))
-#+END_SRC
+  (use-package dashboard
+    :init
+    (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
+    :config
+    (dashboard-setup-startup-hook) ; start dashboard
+    (setq dashboard-center-content t    ; center dashboard
+          dashboard-set-init-info nil)  ; hide package and load time info
+    ; set dashboard items
+    (setq dashboard-items '((recents  . 5)
+                            (agenda . 5)
+                            (projects . 5)
+                            (bookmarks . 5)))
+    :delight dashboard-mode)
+  #+END_SRC
 
 * Which Key
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package which-key
     :init (which-key-mode) ; turn on which-key
     :config
-    (setq which-key-idle-delay 0.5))
+    (setq which-key-idle-delay 0.5)
+    :delight which-key-mode)
 #+END_SRC
 
 * Dracula Theme

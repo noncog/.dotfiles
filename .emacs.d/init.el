@@ -19,9 +19,8 @@
 
 (set-face-attribute 'default nil :font "Fira Code")
 
-;(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 ; set zoom commands
-(global-set-key (kbd "C-=") 'text-scale-inAcrease)
+(global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 
 (require 'package)
@@ -47,7 +46,8 @@
 
 (use-package counsel
   :config
-  (ivy-mode 1))
+  (ivy-mode 1)
+  :delight ivy-mode)
 (setq ivy-count-format "(%d/%d) ")
 
 (global-set-key (kbd "C-s") 'swiper-isearch)
@@ -56,6 +56,8 @@
 (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
 (global-set-key (kbd "C-c b") 'counsel-bookmark)
 (global-set-key (kbd "C-c d") 'counsel-descbinds)
+(global-set-key (kbd "C-h f") 'counsel-describe-function)
+(global-set-key (kbd "C-h v") 'counsel-describe-variable)
 
 (use-package ivy-rich
   :after ivy     ;not sure if I need or not
@@ -87,7 +89,11 @@
   ;; settings
   (setq org-log-done 'time) ; Add completion time to DONE items.
   (setq org-return-follows-link t) ; enter opens links in org
-  (setq org-capture-bookmark nil)) ;prevent org capture from adding to bookmarks list
+  (setq org-capture-bookmark nil) ;prevent org capture from adding to bookmarks list
+
+  :delight
+  (org-indent-mode nil org-indent)
+  (visual-line-mode nil emacs))
 
   ; maybe use org-log-done 'note to require a note on finishing..
 
@@ -108,7 +114,8 @@
   :config
   (projectile-mode) ;launch mode here
   (setq projectile-completion-system 'ivy)
-  :bind-keymap ("C-c p" . projectile-command-map))
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :delight '(:eval (concat " " (projectile-project-name))))
 
 (use-package dashboard
   :init
@@ -119,18 +126,18 @@
         dashboard-set-init-info nil)  ; hide package and load time info
   ; set dashboard items
   (setq dashboard-items '((recents  . 5)
-                      (agenda . 5)
-                      (projects . 5)
-                      (bookmarks . 5)))
-  )
+                          (agenda . 5)
+                          (projects . 5)
+                          (bookmarks . 5)))
+  :delight dashboard-mode)
 
 (use-package which-key
   :init (which-key-mode) ; turn on which-key
   :config
-  (setq which-key-idle-delay 0.5))
+  (setq which-key-idle-delay 0.5)
+  :delight which-key-mode)
 
 (use-package dracula-theme)
-
 (load-theme 'dracula t)
 
 ;(setq custom-file "~/.emacs.d/custom.el")
