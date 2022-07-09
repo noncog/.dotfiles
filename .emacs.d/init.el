@@ -43,12 +43,11 @@
 (setq use-package-always-ensure t
       use-package-verbose t)
 
-(use-package diminish)
+(use-package delight)
 
 (use-package counsel
   :config
-  (ivy-mode 1)
-  (diminish 'ivy-mode))
+  (ivy-mode 1))
 (setq ivy-count-format "(%d/%d) ")
 
 (global-set-key (kbd "C-s") 'swiper-isearch)
@@ -64,8 +63,7 @@
   (ivy-rich-mode 1))
 
 (use-package pdf-tools
-  :bind (:map pdf-view-mode-map
-              ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
+  :bind (:map pdf-view-mode-map ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
   :config
   (setq-default pdf-view-display-size 'fit-page))
 (pdf-tools-install)
@@ -73,14 +71,11 @@
 (use-package org
   :hook ((org-mode . visual-line-mode)
          (org-mode . org-indent-mode))
-  :diminish visual-line-mode
   :config
   ;; looks
   (setq org-ellipsis " ▾"             ; change ellipsis
         org-hide-emphasis-markers t)  ; hide formatting for markdown
   ;(setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
-  ;(diminish 'org-indent-mode)         ; diminish the indent-mode highlighter
-  ;(diminish 'visual-line-mode)        ; diminishes visual line mode highlighter
 
   ;; files and org settings
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
@@ -94,8 +89,6 @@
   (setq org-return-follows-link t) ; enter opens links in org
   (setq org-capture-bookmark nil)) ;prevent org capture from adding to bookmarks list
 
-  (use-package org-indent
-  :diminish org-indent-mode) ; I'm using this to diminish org mode it sucks but it is what it is
   ; maybe use org-log-done 'note to require a note on finishing..
 
 (use-package org-bullets
@@ -133,7 +126,6 @@
 
 (use-package which-key
   :init (which-key-mode) ; turn on which-key
-  :diminish which-key-mode
   :config
   (setq which-key-idle-delay 0.5))
 

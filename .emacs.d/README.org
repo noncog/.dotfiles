@@ -64,17 +64,15 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 	use-package-verbose t)
 #+END_SRC
 
-* Diminish
+* Delight
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package diminish)
+  (use-package delight)
 #+END_SRC
-
 * Counsel/Ivy/Swiper
 #+BEGIN_SRC emacs-lisp :tangle init.el
     (use-package counsel
       :config
-      (ivy-mode 1)
-      (diminish 'ivy-mode))
+      (ivy-mode 1))
     (setq ivy-count-format "(%d/%d) ")
 #+END_SRC
 
@@ -99,8 +97,7 @@ Consider separating these and modifying respective packager binds using use-pack
 * PDF Tools
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package pdf-tools
-    :bind (:map pdf-view-mode-map
-                ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
+    :bind (:map pdf-view-mode-map ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
     :config
     (setq-default pdf-view-display-size 'fit-page))
   (pdf-tools-install)
@@ -110,14 +107,11 @@ Consider separating these and modifying respective packager binds using use-pack
   (use-package org
     :hook ((org-mode . visual-line-mode)
            (org-mode . org-indent-mode))
-    :diminish visual-line-mode
     :config
     ;; looks
     (setq org-ellipsis " ▾"             ; change ellipsis
           org-hide-emphasis-markers t)  ; hide formatting for markdown
     ;(setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
-    ;(diminish 'org-indent-mode)         ; diminish the indent-mode highlighter
-    ;(diminish 'visual-line-mode)        ; diminishes visual line mode highlighter
 
     ;; files and org settings
     (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
@@ -130,9 +124,6 @@ Consider separating these and modifying respective packager binds using use-pack
     (setq org-log-done 'time) ; Add completion time to DONE items.
     (setq org-return-follows-link t) ; enter opens links in org
     (setq org-capture-bookmark nil)) ;prevent org capture from adding to bookmarks list
-
-    (use-package org-indent
-    :diminish org-indent-mode) ; I'm using this to diminish org mode it sucks but it is what it is
   
     ; maybe use org-log-done 'note to require a note on finishing..
 #+END_SRC
@@ -170,26 +161,24 @@ Consider separating these and modifying respective packager binds using use-pack
 
 * Dashboard
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package dashboard
-    :init
-    (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
-    :config
-    (dashboard-setup-startup-hook) ; start dashboard
-    (setq dashboard-center-content t    ; center dashboard
-          dashboard-set-init-info nil)  ; hide package and load time info
-    ; set dashboard items
-    (setq dashboard-items '((recents  . 5)
-                        (agenda . 5)
-                        (projects . 5)
-                        (bookmarks . 5)))
-    )
+    (use-package dashboard
+      :init
+      (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
+      :config
+      (dashboard-setup-startup-hook) ; start dashboard
+      (setq dashboard-center-content t    ; center dashboard
+            dashboard-set-init-info nil)  ; hide package and load time info
+      ; set dashboard items
+      (setq dashboard-items '((recents  . 5)
+                              (agenda . 5)
+                              (projects . 5)
+                              (bookmarks . 5))))
 #+END_SRC
 
 * Which Key
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package which-key
     :init (which-key-mode) ; turn on which-key
-    :diminish which-key-mode
     :config
     (setq which-key-idle-delay 0.5))
 #+END_SRC
@@ -198,7 +187,6 @@ Consider separating these and modifying respective packager binds using use-pack
 I use *Dracula* theme everywhere I can. Check it out [[https://draculatheme.com/][Here]].
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (use-package dracula-theme)
-
   (load-theme 'dracula t)
 #+END_SRC
 
