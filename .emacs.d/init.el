@@ -11,7 +11,9 @@
 
 ; enable line numbers for certain modes
 ; to find modes, when in mode/file do C-h v major-mode RET, add it's mode-hook here.
-(dolist (mode '(sh-mode-hook))
+(dolist (mode '(sh-mode-hook
+		conf-mode-hook ; looks like you can't do but can, all conf-modes inherit this property.
+		))
   (add-hook mode (lambda () (display-line-numbers-mode 1))))
 
 (global-auto-revert-mode 1)          ; autoloads changes to files
