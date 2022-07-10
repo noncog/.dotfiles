@@ -8,15 +8,19 @@ This section removes unwanted elements to make Emacs look more minimal and moder
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (setq inhibit-startup-message t      ; removes startup splash
       visible-bell nil               ; disable screen flashing at end of file
-      column-number-mode t)          ; display column number
+      ;column-number-mode t          ; display column number
+      )          
 
 (tool-bar-mode -1)                   ; disable the toolbar
 (menu-bar-mode -1)                   ; disable the menu bar
 (tooltip-mode -1)                    ; disable tooltips
 (scroll-bar-mode -1)                 ; disable visible scrollbar
-;(global-display-line-numbers-mode 1) ; displays line numbers in all files
-  
-;; eventually Disable line numbers for some modes here...
+(line-number-mode -1)                ; disable listing current line/column in minibuffer lighter
+
+; enable line numbers for certain modes
+; to find modes, when in mode/file do C-h v major-mode RET, add it's mode-hook here.
+(dolist (mode '(sh-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 1))))
 #+END_SRC
 
 * Behavior
@@ -209,6 +213,13 @@ I use *Dracula* theme everywhere I can. Check it out [[https://draculatheme.com/
   - C-h v major-mode RET - lists major-mode
   - C-h m - lists minor-modes
 
+- display-line-numbers-mode is faster than linum-mode
+  - linum-mode adds a gutter to the left. See: https://www.reddit.com/r/emacs/comments/tf9u4e/line_number_display/
+  - I display line numbers per major mode I want to use it with. Not globally and disable per mode I don't.
+     - I want to do this so that it does not show up in the list of enabled modes
+       
+- If you want to know which package a variable belongs to, do C-h v or M-x describe-variable followed by the var name (for a function name, C-h f or M-x describe-function). From the *Help* window that pops up, navigate to the package's .el file and see the (provide ..) call to find out the package name.
+ 
 * Customize File
 This is an annoying addon to the emacs config from the customize interface, you can hide it in a separate file using the following.
 #+BEGIN_SRC emacs-lisp :tangle init.el

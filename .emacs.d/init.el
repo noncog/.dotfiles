@@ -1,14 +1,18 @@
 (setq inhibit-startup-message t      ; removes startup splash
       visible-bell nil               ; disable screen flashing at end of file
-      column-number-mode t)          ; display column number
+      ;column-number-mode t          ; display column number
+      )          
 
 (tool-bar-mode -1)                   ; disable the toolbar
 (menu-bar-mode -1)                   ; disable the menu bar
 (tooltip-mode -1)                    ; disable tooltips
 (scroll-bar-mode -1)                 ; disable visible scrollbar
-;(global-display-line-numbers-mode 1) ; displays line numbers in all files
-  
-;; eventually Disable line numbers for some modes here...
+(line-number-mode -1)                ; disable listing current line/column in minibuffer lighter
+
+; enable line numbers for certain modes
+; to find modes, when in mode/file do C-h v major-mode RET, add it's mode-hook here.
+(dolist (mode '(sh-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 1))))
 
 (global-auto-revert-mode 1)          ; autoloads changes to files
 
