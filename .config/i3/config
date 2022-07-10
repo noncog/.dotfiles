@@ -5,13 +5,13 @@ set $mod Mod4
 bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+i focus up
-bindsym $mod+l focus right  
+bindsym $mod+l focus right
 
 # change focus 
 bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
 bindsym $mod+Shift+i move up
-bindsym $mod+Shift+l move right  
+bindsym $mod+Shift+l move right
 
 # drag floaters key
 floating_modifier $mod
