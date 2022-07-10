@@ -48,6 +48,45 @@
 (setq use-package-always-ensure t
       use-package-verbose t)
 
+(use-package org
+  :hook ((org-mode . visual-line-mode)
+         (org-mode . org-indent-mode))
+  :config
+  ;; looks
+  (setq org-ellipsis " ▾"             ; change ellipsis
+        org-hide-emphasis-markers t)  ; hide formatting for markdown
+					;(setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
+  ;; files and org settings
+  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
+  (setq org-directory "~/Documents/org")    ; set org files - only used for some interactive prompting to choose an org file when capturing note I think
+  
+
+  ;; settings
+  (setq org-log-done 'time) ; Add completion time to DONE items.
+  (setq org-return-follows-link t) ; enter opens links in org
+  (setq org-capture-bookmark nil) ;prevent org capture from adding to bookmarks list
+  (setq org-edit-src-content-indentation 0) ;prevent adding spaces to/indenting code blocks
+  (setq org-agenda-files'("~/Documents/org")) ; Directory or list of files for org-agenda
+  ; maybe set archive location have to figure out how I want to archive..
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+  :delight
+  (org-indent-mode nil org-indent)
+  (visual-line-mode nil emacs))
+
+  ; maybe use org-log-done 'note to require a note on finishing..
+
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)) ; could try org bullets mode 1
+
+(use-package org-noter
+  :config
+  (setq org-noter-always-create-frame nil))  ; prevent noter from making a new frame
+
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
+
 (use-package delight)
 
 (use-package counsel
@@ -75,45 +114,6 @@
   :config
   (setq-default pdf-view-display-size 'fit-page))
   (pdf-tools-install)
-
-(use-package org
-  :hook ((org-mode . visual-line-mode)
-         (org-mode . org-indent-mode))
-  :config
-  ;; looks
-  (setq org-ellipsis " ▾"             ; change ellipsis
-        org-hide-emphasis-markers t)  ; hide formatting for markdown
-					;(setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
-  ;; files and org settings
-  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
-  (setq org-directory "~/Documents/org")    ; set org files - only used for some interactive prompting to choose an org file when capturing note I think
-  (setq org-agenda-files'("~/Documents/org/scratchpad.org")) ; Directory or list of files for org-agenda
-  ; maybe set archive location have to figure out how I want to archive..
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
-
-  ;; settings
-  (setq org-log-done 'time) ; Add completion time to DONE items.
-  (setq org-return-follows-link t) ; enter opens links in org
-  (setq org-capture-bookmark nil) ;prevent org capture from adding to bookmarks list
-  (setq org-edit-src-content-indentation 0) ;prevent adding spaces to/indenting code blocks
-
-  :delight
-  (org-indent-mode nil org-indent)
-  (visual-line-mode nil emacs))
-
-  ; maybe use org-log-done 'note to require a note on finishing..
-
-(use-package org-bullets
-  :after org
-  :hook (org-mode . org-bullets-mode)) ; could try org bullets mode 1
-
-(use-package org-noter
-  :config
-  (setq org-noter-always-create-frame nil))  ; prevent noter from making a new frame
-
-(global-set-key (kbd "C-c l") 'org-store-link)
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c c") 'org-capture)
 
 (use-package projectile
   :init (setq projectile-project-search-path '("~/Projects/"))
@@ -148,3 +148,16 @@
 
 ;(setq custom-file "~/.emacs.d/custom.el")
 ;(load custom-file)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(dracula-theme which-key dashboard projectile pdf-tools ivy-rich counsel delight org-noter org-bullets org use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
