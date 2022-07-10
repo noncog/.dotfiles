@@ -196,7 +196,7 @@ animation-discharging-foreground = ${colors.red}
 type = internal/temperature
 thermal-zone = 0
 base-temperature = 40
-warn-temperature = 60
+warn-temperature = 65
 interval = 3
 
 format = <ramp> <label>
