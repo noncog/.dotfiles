@@ -22,57 +22,57 @@ A word of advice:
 ** Initial Setup
 Create a bare repository and an alias command to control it. Then hide all untracked files.
 #+BEGIN_SRC
-  git init --bare $HOME/.dotfiles
-  echo "alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'" >> $HOME/.bashrc
-  dotfiles config --local status.showUntrackedFiles no
+git init --bare $HOME/.dotfiles
+echo "alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'" >> $HOME/.bashrc
+dotfiles config --local status.showUntrackedFiles no
 #+END_SRC
 ** Adding Files
 #+BEGIN_SRC
-  dotfiles add .bashrc
-  dotfiles commit -m "Added .bashrc"
+dotfiles add .bashrc
+dotfiles commit -m "Added .bashrc"
 #+END_SRC
 ** First Push / Remote Setup
 #+BEGIN_SRC
-  dotfiles remote add origin <your dotfiles repo>
-  dotfiles push -u origin master
+dotfiles remote add origin <your dotfiles repo>
+dotfiles push -u origin master
 #+END_SRC
 ** Commands
 After everything is setup, you can use all git commands with the dotfiles alias.
 #+BEGIN_SRC
-  # common commands
-  dotfiles push
-  dotfiles status
-  dotfiles log
+# common commands
+dotfiles push
+dotfiles status
+dotfiles log
 #+END_SRC
 ** Recommendations For GitHub Users
 Use the private noreply email provided by GitHub to prevent leaking your personal email in git commits.
 - Provided by GitHub [[https://github.com/settings/email][here]].
-#+BEGIN_SRC  
-  - set on the command line using:
-  git config --global user.email <noreply-email>
-  - check it was set using:
-  git config --global user.email
+#+BEGIN_SRC
+- set on the command line using:
+git config --global user.email <noreply-email>
+- check it was set using:
+git config --global user.email
 #+END_SRC
 Use personal access tokens when commiting from command line.
 - Provided by GitHub [[https://github.com/settings/tokens][here]].
 #+BEGIN_SRC
-  - generate a token for repository changes.
-  - save it locally to your system, it will not be accessible again.
-  - enter the token when prompted for your password during a push.
+- generate a token for repository changes.
+- save it locally to your system, it will not be accessible again.
+- enter the token when prompted for your password during a push.
 #+END_SRC
 * Cloning
 To get your configurations (or these) on a fresh system, you simply clone the bare repository and checkout and they're automatically installed!
 ** Simple Clone
 #+BEGIN_SRC
-  git clone --bare https://github.com/noncog/.dotfiles $HOME/.dotfiles
+git clone --bare https://github.com/noncog/.dotfiles $HOME/.dotfiles
   
-  # alias only in this shell instance
-  # assumes you back up your .bashrc with the permanent alias,
-  # which will be installed momentarily.
+# alias only in this shell instance
+# assumes you back up your .bashrc with the permanent alias,
+# which will be installed momentarily.
   
-  alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
-  dotfiles checkout
+dotfiles checkout
 #+END_SRC
 If you have configs already in place, the above will likely fail, and ask you to remove the config files before dotfiles can be cloned in.
 
@@ -80,25 +80,25 @@ If this is the case, you can manually solve conflicts or use the following autom
 - WARNING: If used as is, this will backup your dotfiles and replace them with mine. Change the repository for your own use.
 ** Automated Cloning Script
 #+BEGIN_SRC
-  # clone dotfiles
-  git clone --bare https://github.com/noncog/.dotfiles $HOME/.dotfiles
+# clone dotfiles
+git clone --bare https://github.com/noncog/.dotfiles $HOME/.dotfiles
 
-  # checkout will backup dotfiles in the way
-  cd ${HOME}
-  mkdir -p .dotfiles-backup && \
-  /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
-  xargs -I{} mv {} .dotfiles-backup/{}
+# checkout will backup dotfiles in the way
+cd ${HOME}
+mkdir -p .dotfiles-backup && \
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
+xargs -I{} mv {} .dotfiles-backup/{}
 
-  # now check out
-  /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
+# now check out
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
 
-  # hide untracked files
-  /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
+# hide untracked files
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
 #+END_SRC
 *** Usage
 #+BEGIN_SRC
- # Save this script to a file ending in .sh (dotfiles.sh)
- chmod +x dotfiles.sh
- ./dotfiles.sh 
+# Save this script to a file ending in .sh (dotfiles.sh)
+chmod +x dotfiles.sh
+./dotfiles.sh 
 #+END_SRC
 Again, this script is part of my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script, which may be easier for you to use to setup your software and clone dotfiles managed with a git --bare repository.
