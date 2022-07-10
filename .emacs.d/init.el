@@ -1,13 +1,13 @@
 (setq inhibit-startup-message t      ; removes startup splash
       visible-bell nil               ; disable screen flashing at end of file
-      column-number-mode t)          ; display column number 
+      column-number-mode t)          ; display column number
 
 (tool-bar-mode -1)                   ; disable the toolbar
 (menu-bar-mode -1)                   ; disable the menu bar
 (tooltip-mode -1)                    ; disable tooltips
 (scroll-bar-mode -1)                 ; disable visible scrollbar
 ;(global-display-line-numbers-mode 1) ; displays line numbers in all files
-
+  
 ;; eventually Disable line numbers for some modes here...
 
 (global-auto-revert-mode 1)          ; autoloads changes to files
@@ -27,11 +27,11 @@
 (setq-default load-prefer-newer t)
 
 (setq package-archives
-      '(("GNU ELPA" . "https://elpa.gnu.org/packages/")
-	("MELPA" . "https://melpa.org/packages/"))
-      package-archive-priorities
-      '(("GNU ELPA" . 5)
-	("MELPA" . 1)))
+	'(("GNU ELPA" . "https://elpa.gnu.org/packages/")
+	  ("MELPA" . "https://melpa.org/packages/"))
+	package-archive-priorities
+	'(("GNU ELPA" . 5)
+	  ("MELPA" . 1)))
 
 (when (version< emacs-version "27.0") (package-initialize))
 
@@ -48,7 +48,7 @@
   :config
   (ivy-mode 1)
   :delight ivy-mode)
-(setq ivy-count-format "(%d/%d) ")
+  (setq ivy-count-format "(%d/%d) ")
 
 (global-set-key (kbd "C-s") 'swiper-isearch)
 (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -68,7 +68,7 @@
   :bind (:map pdf-view-mode-map ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
   :config
   (setq-default pdf-view-display-size 'fit-page))
-(pdf-tools-install)
+  (pdf-tools-install)
 
 (use-package org
   :hook ((org-mode . visual-line-mode)
@@ -77,8 +77,7 @@
   ;; looks
   (setq org-ellipsis " ▾"             ; change ellipsis
         org-hide-emphasis-markers t)  ; hide formatting for markdown
-  ;(setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
-
+					;(setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
   ;; files and org settings
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
   (setq org-directory "~/Documents/org")    ; set org files - only used for some interactive prompting to choose an org file when capturing note I think
@@ -90,6 +89,7 @@
   (setq org-log-done 'time) ; Add completion time to DONE items.
   (setq org-return-follows-link t) ; enter opens links in org
   (setq org-capture-bookmark nil) ;prevent org capture from adding to bookmarks list
+  (setq org-edit-src-content-indentation 0) ;prevent adding spaces to/indenting code blocks
 
   :delight
   (org-indent-mode nil org-indent)

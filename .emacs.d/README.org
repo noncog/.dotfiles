@@ -6,205 +6,214 @@ This is my version of an organized emacs config.
 This section removes unwanted elements to make Emacs look more minimal and modern.
 
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (setq inhibit-startup-message t      ; removes startup splash
-        visible-bell nil               ; disable screen flashing at end of file
-        column-number-mode t)          ; display column number 
+(setq inhibit-startup-message t      ; removes startup splash
+      visible-bell nil               ; disable screen flashing at end of file
+      column-number-mode t)          ; display column number
 
-  (tool-bar-mode -1)                   ; disable the toolbar
-  (menu-bar-mode -1)                   ; disable the menu bar
-  (tooltip-mode -1)                    ; disable tooltips
-  (scroll-bar-mode -1)                 ; disable visible scrollbar
-  ;(global-display-line-numbers-mode 1) ; displays line numbers in all files
+(tool-bar-mode -1)                   ; disable the toolbar
+(menu-bar-mode -1)                   ; disable the menu bar
+(tooltip-mode -1)                    ; disable tooltips
+(scroll-bar-mode -1)                 ; disable visible scrollbar
+;(global-display-line-numbers-mode 1) ; displays line numbers in all files
   
-  ;; eventually Disable line numbers for some modes here...
+;; eventually Disable line numbers for some modes here...
 #+END_SRC
 
 * Behavior
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (global-auto-revert-mode 1)          ; autoloads changes to files
+(global-auto-revert-mode 1)          ; autoloads changes to files
 
-  ;; scrolling
-  (setq scroll-step 1)
-  (setq scroll-conservatively 10000)
-  (setq auto-window-vscroll nil)
+;; scrolling
+(setq scroll-step 1)
+(setq scroll-conservatively 10000)
+(setq auto-window-vscroll nil)
 #+END_SRC
 
 * Font
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (set-face-attribute 'default nil :font "Fira Code")
+(set-face-attribute 'default nil :font "Fira Code")
 #+END_SRC
 
 * Keybinds
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  ; set zoom commands
-  (global-set-key (kbd "C-=") 'text-scale-increase)
-  (global-set-key (kbd "C--") 'text-scale-decrease)
+; set zoom commands
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
 #+END_SRC
 
 * Package System
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (require 'package)
-  (setq-default load-prefer-newer t)
+(require 'package)
+(setq-default load-prefer-newer t)
 
-  (setq package-archives
+(setq package-archives
 	'(("GNU ELPA" . "https://elpa.gnu.org/packages/")
 	  ("MELPA" . "https://melpa.org/packages/"))
 	package-archive-priorities
 	'(("GNU ELPA" . 5)
 	  ("MELPA" . 1)))
 
-  (when (version< emacs-version "27.0") (package-initialize))
+(when (version< emacs-version "27.0") (package-initialize))
 
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-  (setq use-package-always-ensure t
-	use-package-verbose t)
+(setq use-package-always-ensure t
+      use-package-verbose t)
 #+END_SRC
 
 * Delight
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package delight)
+(use-package delight)
 #+END_SRC
 
 * Counsel/Ivy/Swiper
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package counsel
-    :config
-    (ivy-mode 1)
-    :delight ivy-mode)
+(use-package counsel
+  :config
+  (ivy-mode 1)
+  :delight ivy-mode)
   (setq ivy-count-format "(%d/%d) ")
 #+END_SRC
 
 ** Global Keybinds
 Consider separating these and modifying respective packager binds using use-package. I did not because I am unsure if use-package will try to install ivy and swiper, whereas counsel has them as dependencies and installs them.
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (global-set-key (kbd "C-s") 'swiper-isearch)
-  (global-set-key (kbd "M-x") 'counsel-M-x)
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-  (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
-  (global-set-key (kbd "C-c b") 'counsel-bookmark)
-  (global-set-key (kbd "C-c d") 'counsel-descbinds)
-  (global-set-key (kbd "C-h f") 'counsel-describe-function)
-  (global-set-key (kbd "C-h v") 'counsel-describe-variable)
+(global-set-key (kbd "C-s") 'swiper-isearch)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x b") 'counsel-switch-buffer)
+(global-set-key (kbd "C-c b") 'counsel-bookmark)
+(global-set-key (kbd "C-c d") 'counsel-descbinds)
+(global-set-key (kbd "C-h f") 'counsel-describe-function)
+(global-set-key (kbd "C-h v") 'counsel-describe-variable)
 #+END_SRC
 
 * Ivy Rich
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package ivy-rich
-    :after ivy     ;not sure if I need or not
-    :init
-    (ivy-rich-mode 1))
+(use-package ivy-rich
+  :after ivy     ;not sure if I need or not
+  :init
+  (ivy-rich-mode 1))
 #+END_SRC
 
 * PDF Tools
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package pdf-tools
-    :bind (:map pdf-view-mode-map ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
-    :config
-    (setq-default pdf-view-display-size 'fit-page))
+(use-package pdf-tools
+  :bind (:map pdf-view-mode-map ("C-s" . isearch-forward)) ;uses isearch instead of ivy-search in pdf-mode as it breaks it
+  :config
+  (setq-default pdf-view-display-size 'fit-page))
   (pdf-tools-install)
 #+END_SRC
 
 * Org Mode
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package org
-    :hook ((org-mode . visual-line-mode)
-           (org-mode . org-indent-mode))
-    :config
-    ;; looks
-    (setq org-ellipsis " ▾"             ; change ellipsis
-          org-hide-emphasis-markers t)  ; hide formatting for markdown
-    ;(setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
+(use-package org
+  :hook ((org-mode . visual-line-mode)
+         (org-mode . org-indent-mode))
+  :config
+  ;; looks
+  (setq org-ellipsis " ▾"             ; change ellipsis
+        org-hide-emphasis-markers t)  ; hide formatting for markdown
+					;(setq org-startup-indented t)       ; use indent-mode (I think) in all org-mode
+  ;; files and org settings
+  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
+  (setq org-directory "~/Documents/org")    ; set org files - only used for some interactive prompting to choose an org file when capturing note I think
+  (setq org-agenda-files'("~/Documents/org/scratchpad.org")) ; Directory or list of files for org-agenda
+  ; maybe set archive location have to figure out how I want to archive..
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
 
-    ;; files and org settings
-    (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))  ; associate .org with org-mode
-    (setq org-directory "~/Documents/org")    ; set org files - only used for some interactive prompting to choose an org file when capturing note I think
-    (setq org-agenda-files'("~/Documents/org/scratchpad.org")) ; Directory or list of files for org-agenda
-    ; maybe set archive location have to figure out how I want to archive..
-    (setq org-refile-targets '((org-agenda-files :maxlevel . 3)))
+  ;; settings
+  (setq org-log-done 'time) ; Add completion time to DONE items.
+  (setq org-return-follows-link t) ; enter opens links in org
+  (setq org-capture-bookmark nil) ;prevent org capture from adding to bookmarks list
+  (setq org-edit-src-content-indentation 0) ;prevent adding spaces to/indenting code blocks
 
-    ;; settings
-    (setq org-log-done 'time) ; Add completion time to DONE items.
-    (setq org-return-follows-link t) ; enter opens links in org
-    (setq org-capture-bookmark nil) ;prevent org capture from adding to bookmarks list
+  :delight
+  (org-indent-mode nil org-indent)
+  (visual-line-mode nil emacs))
 
-    :delight
-    (org-indent-mode nil org-indent)
-    (visual-line-mode nil emacs))
-  
-    ; maybe use org-log-done 'note to require a note on finishing..
+  ; maybe use org-log-done 'note to require a note on finishing..
 #+END_SRC
 
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package org-bullets
-    :after org
-    :hook (org-mode . org-bullets-mode)) ; could try org bullets mode 1
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)) ; could try org bullets mode 1
 #+END_SRC
 
 ** Org Noter
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package org-noter
-    :config
-    (setq org-noter-always-create-frame nil))  ; prevent noter from making a new frame
+(use-package org-noter
+  :config
+  (setq org-noter-always-create-frame nil))  ; prevent noter from making a new frame
 #+END_SRC
 
 ** Global Keybinds
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (global-set-key (kbd "C-c l") 'org-store-link)
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
 #+END_SRC
 
 * Projectile
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package projectile
-    :init (setq projectile-project-search-path '("~/Projects/"))
-    :config
-    (projectile-mode) ;launch mode here
-    (setq projectile-completion-system 'ivy)
-    :bind-keymap ("C-c p" . projectile-command-map)
-    :delight '(:eval (concat " " (projectile-project-name))))
+(use-package projectile
+  :init (setq projectile-project-search-path '("~/Projects/"))
+  :config
+  (projectile-mode) ;launch mode here
+  (setq projectile-completion-system 'ivy)
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :delight '(:eval (concat " " (projectile-project-name))))
 #+END_SRC
 
 * Dashboard
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package dashboard
-    :init
-    (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
-    :config
-    (dashboard-setup-startup-hook) ; start dashboard
-    (setq dashboard-center-content t    ; center dashboard
-          dashboard-set-init-info nil)  ; hide package and load time info
-    ; set dashboard items
-    (setq dashboard-items '((recents  . 5)
-                            (agenda . 5)
-                            (projects . 5)
-                            (bookmarks . 5)))
-    :delight dashboard-mode)
-  #+END_SRC
+(use-package dashboard
+  :init
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
+  :config
+  (dashboard-setup-startup-hook) ; start dashboard
+  (setq dashboard-center-content t    ; center dashboard
+        dashboard-set-init-info nil)  ; hide package and load time info
+  ; set dashboard items
+  (setq dashboard-items '((recents  . 5)
+                          (agenda . 5)
+                          (projects . 5)
+                          (bookmarks . 5)))
+  :delight dashboard-mode)
+#+END_SRC
 
 * Which Key
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package which-key
-    :init (which-key-mode) ; turn on which-key
-    :config
-    (setq which-key-idle-delay 0.5)
-    :delight which-key-mode)
+(use-package which-key
+  :init (which-key-mode) ; turn on which-key
+  :config
+  (setq which-key-idle-delay 0.5)
+  :delight which-key-mode)
 #+END_SRC
 
 * Dracula Theme
 I use *Dracula* theme everywhere I can. Check it out [[https://draculatheme.com/][Here]].
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  (use-package dracula-theme)
-  (load-theme 'dracula t)
+(use-package dracula-theme)
+(load-theme 'dracula t)
 #+END_SRC
+
+* Tips
+- C-h k - Gives info about keybinds you can use for setting them.
+
+- To see current modes:
+  - C-h v major-mode RET - lists major-mode
+  - C-h m - lists minor-modes
 
 * Customize File
 This is an annoying addon to the emacs config from the customize interface, you can hide it in a separate file using the following.
 #+BEGIN_SRC emacs-lisp :tangle init.el
-  ;(setq custom-file "~/.emacs.d/custom.el")
-  ;(load custom-file)
+;(setq custom-file "~/.emacs.d/custom.el")
+;(load custom-file)
 #+END_SRC
+
+
