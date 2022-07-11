@@ -1,0 +1,9 @@
+* Noncog's Wallpaper Collection
+This is my small collection of desktop wallpapers.
+#+HTML: <p align="center"><img src="Wallpaper-Red Nebula.png"/></p>
+I host these on GitHub to be automatically installed with my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script.
+
+I use nitrogen to automatically set my wallpaper on new systems. Refer to my [[https://github.com/noncog/.dotfiles][.dotfiles]]
+
+* Ownership
+Because I download wallpapers from sites like Reddit or Imgur, I have no way of knowing if there is a copyright on these images. If you find an image hosted in this repository that is yours and of limited use, please let me know and I will remove it.
