@@ -12,7 +12,7 @@ Simply put, the files are cloned to where they belong!
 * Usage
 If you're on a debian-based distribution, you can use my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script to automatically install my system setup, software, and dotfiles. Or easily fork/modify it to install your own software and dotfiles!
 
-Otherwise, to just install dotfiles (like these)  managed with a bare repository on a fresh system see the cloning section below!
+Otherwise, _to just install dotfiles_ (like these)  managed with a bare repository on a fresh system _see the cloning section below_!
 * Short Setup Guide
 This is the absolute bare minimum guide one could use to start managing their dotfiles with a bare repository. For more information, there are numerous guides on the internet.
 
@@ -45,7 +45,7 @@ dotfiles status
 dotfiles log
 #+END_SRC
 ** Recommendations For GitHub Users
-Use the private noreply email provided by GitHub to prevent leaking your personal email in git commits.
+*Use the private noreply email* provided by GitHub to prevent leaking your personal email in git commits.
 - Provided by GitHub [[https://github.com/settings/email][here]].
 #+BEGIN_SRC
 - set on the command line using:
@@ -53,7 +53,7 @@ git config --global user.email <noreply-email>
 - check it was set using:
 git config --global user.email
 #+END_SRC
-Use personal access tokens when commiting from command line.
+*Use personal access tokens when commiting from command line.*
 - Provided by GitHub [[https://github.com/settings/tokens][here]].
 #+BEGIN_SRC
 - generate a token for repository changes.
@@ -77,7 +77,7 @@ dotfiles checkout
 If you have configs already in place, the above will likely fail, and ask you to remove the config files before dotfiles can be cloned in.
 
 If this is the case, you can manually solve conflicts or use the following automatic cloning script:
-- WARNING: If used as is, this will backup your dotfiles and replace them with mine. Change the repository for your own use.
+- *WARNING*: If used as is, this will backup your dotfiles and replace them with mine. Change the repository for your own use.
 ** Automated Cloning Script
 #+BEGIN_SRC
 # clone dotfiles
