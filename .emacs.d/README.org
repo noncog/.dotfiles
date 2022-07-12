@@ -117,6 +117,20 @@ This section modifies built in package settings or settings without a correspond
   (setq org-bullets-bullet-list '("Ͻ" "✖" "➖" "❯" "○" "➡" "➕" "⬤"))
   )
 #+END_SRC
+Here are some custom utf-8 symbols I've been toying with:
+#+BEGIN_SRC
+Default:
+("◉" "○" "✸" "✿")
+➜ ▸ ➡ ❯ ➤ ▻ ▹ ► ▷ ▸
+ ◢ ◣ ◤ ◥
+⚊ − — ➖ 〜 ┅ ✚ ➕ ✘
+▾ ⬇ ▽
+◎ ● ◐ ◑ ◒ ◓ ◖ ◗
+⬤ Փ ○ ✦ ✧
+□ ■ ▣ ▤ ▢ ⬕ ⬖ ⬗ ⬘ ⬙ ◆ ◇
+⚞ ☰ ▰ ▱ ▮ ▯ ╺ ╼
+⚖ ⚗ ☥
+#+END_SRC
 
 ** Org Noter
 #+BEGIN_SRC emacs-lisp :tangle init.el
