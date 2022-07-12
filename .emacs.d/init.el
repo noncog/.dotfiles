@@ -28,6 +28,7 @@
   :config
   ;; basic interface configuration
   (set-face-attribute 'default nil :font "Fira Code") ; set font
+  (set-cursor-color "#ff79c6")                        ; set cursor color
   (tool-bar-mode -1)                                  ; disable the toolbar
   (menu-bar-mode -1)                                  ; disable the menu bar
   (tooltip-mode -1)                                   ; disable tooltips
@@ -69,14 +70,19 @@
   (setq org-ellipsis " ▾")                            ; set custom ellipsis
   (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
   ;; settings
+  (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)                           ; add completion time to DONE items.
+  (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
   (setq org-return-follows-link t)                    ; enter opens links in org
   (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
   (setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to source code blocks
   ;; directories and files
   (setq org-directory "~/Documents/org")              ; set org file directory - only used for some prompt for capturing
   (setq org-agenda-files'("~/Documents/org"))         ; set org agenda directory or list of files to query
-  ;; global keybinds
+  ;; custom todo states and tags                                            ; ! timestamp 
+  (setq org-todo-keywords                                                   ; @ note      
+      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@/!)"))) ; / settings to use when leaving state: ! or @   
+  ;; global keybinds                                                        
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
