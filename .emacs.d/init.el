@@ -43,9 +43,11 @@
   (delete-selection-mode 1)                           ; replaces active region by typing
   (setq show-parens-delay 0)                          ; remove delay of showing parenthesis
   (show-paren-mode 1)                                 ; show matching parenthesis
+  (setq backup-directory-alist                        ; move backup files to folder instead of littering
+	'(("." . "~/.emacs.d/file-backups")))
   ;; smooth scrolling
   (setq scroll-step 1)                                ; scroll window one line at a time
-  (setq scroll-conservatively 101)                    ; never recenter point
+  (setq scroll-conservatively 101)                    ; value above 100 removes half page jump
   (setq auto-window-vscroll nil)                      ; default to above scroll settings per window, never change them
   ;; line numbers for specific modes                  ; to find mode-hooks, when in mode/file do C-h v major-mode RET. Or C-h m.
   (dolist (mode '(sh-mode-hook
@@ -66,16 +68,18 @@
   ((org-mode . visual-line-mode)                      ; enable line wrapping
    (org-mode . org-indent-mode))                      ; enable virtual indents and hide leading stars for readability
   :config
+  ;; settings
   ;; looks
   (setq org-ellipsis " ▾")                            ; set custom ellipsis
   (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
-  ;; settings
+  (setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to source code blocks
+  ;; logging
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)                           ; add completion time to DONE items.
   (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
+  ;; behavior
   (setq org-return-follows-link t)                    ; enter opens links in org
   (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
-  (setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to source code blocks
   ;; directories and files
   (setq org-directory "~/Documents/org")              ; set org file directory - only used for some prompt for capturing
   (setq org-agenda-files'("~/Documents/org"))         ; set org agenda directory or list of files to query
@@ -126,6 +130,8 @@
 (use-package ivy-rich
   :after ivy                                          ; ensures ivy-rich package is loaded after ivy
   :config
+  ;; settings
+  (setq ivy-initial-inputs-alist nil)                 ; removes ^ from ivy, means can search any words in commands
   ;; start mode
   (ivy-rich-mode 1)
   )
