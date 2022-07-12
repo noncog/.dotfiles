@@ -7,7 +7,7 @@ Simply put, the files are cloned to where they belong!
 
 - To use these dotfiles as is, follow the usage section.
 - To setup your own git --bare managed dotfiles follow the short setup guide below!
-#+HTML: <p align="center"><img src=".screenshots/system_demo1.png"/></p>
+#+HTML: <p align="center"><img src=".screenshots/system_demo.png"/></p>
 
 * Usage
 If you're on a debian-based distribution, you can use my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script to automatically install my system setup, software, and dotfiles. Or easily fork/modify it to install your own software and dotfiles!
