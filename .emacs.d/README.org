@@ -106,7 +106,10 @@ This section modifies built in package settings or settings without a correspond
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package org-bullets
   :after org                                          ; ensures org-bullets package is loaded after org package
-  :hook (org-mode . org-bullets-mode))                ; start bullets-mode after org-mode
+  :hook (org-mode . org-bullets-mode)                 ; start bullets-mode after org-mode
+  :config
+  (setq org-bullets-bullet-list '("Ͻ" "✖" "➖" "❯" "○" "➡" "➕" "⬤"))
+  )
 #+END_SRC
 
 ** Org Noter
