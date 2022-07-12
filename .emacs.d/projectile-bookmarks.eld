@@ -1,0 +1,1 @@
+("~/Projects/Stonker/" "~/Projects/OpenDG-Private/" "~/Projects/debian-autosetup/" "~/Projects/Visual-Sort/" "~/Projects/")
