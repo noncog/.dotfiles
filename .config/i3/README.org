@@ -288,7 +288,7 @@ mode "$resize_mode" {
 bindsym $mod+equal mode "$resize_mode"  
 #+END_SRC
 
-** Yout ube Mode
+** Youtube Mode
 Probably the pinnacle of my config.
 A mini floating youtube player with sizes and positions for laptop and desktop.
 *** TODO Fix the positions on laptop/desktop.
