@@ -117,7 +117,10 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 ** Rofi
 #+BEGIN_SRC conf
+# desktop app launcher
 bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
+# custom menu launcher
+bindsym $mod+Shift+BackSpace exec --no-startup-id $HOME/.config/rofi/menu/menu.sh
 #+END_SRC
 
 ** Polybar
