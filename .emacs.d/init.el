@@ -38,20 +38,21 @@
   (setq visible-bell nil)                             ; disable screen flashing at end of file
   (setq inhibit-startup-screen t)                     ; removes startup splash-screen/message
   ;; behavior
+  (setq-default tab-width 4)                          ; change tabs to 4 from 8
   (global-auto-revert-mode 1)                         ; autoloads changes to files
   (setq-default load-prefer-newer t)                  ; loads newer versions of packages
   (delete-selection-mode 1)                           ; replaces active region by typing
   (setq show-parens-delay 0)                          ; remove delay of showing parenthesis
   (show-paren-mode 1)                                 ; show matching parenthesis
   (setq backup-directory-alist                        ; move backup files to folder instead of littering
-	'(("." . "~/.emacs.d/file-backups")))
+		'(("." . "~/.emacs.d/file-backups")))
   ;; smooth scrolling
   (setq scroll-step 1)                                ; scroll window one line at a time
   (setq scroll-conservatively 101)                    ; value above 100 removes half page jump
   (setq auto-window-vscroll nil)                      ; default to above scroll settings per window, never change them
   ;; line numbers for specific modes                  ; to find mode-hooks, when in mode/file do C-h v major-mode RET. Or C-h m.
   (dolist (mode '(sh-mode-hook
-		  conf-mode-hook))                      ; all conf-modes inherit this property. no-info on this variable, but works. 
+				  conf-mode-hook))                      ; all conf-modes inherit this property. no-info on this variable, but works. 
   (add-hook mode (lambda () (display-line-numbers-mode 1))))
   ;; global keybinds
   (global-set-key (kbd "C-=") 'text-scale-increase)   ; set zoom in
@@ -74,7 +75,7 @@
   (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
   (setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to source code blocks
   ;; logging
-  (setq org-agenda-start-with-log-mode t)
+  (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
   (setq org-log-done 'time)                           ; add completion time to DONE items.
   (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
   ;; behavior
