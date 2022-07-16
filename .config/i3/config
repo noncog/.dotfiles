@@ -183,26 +183,6 @@ mode "$resize_mode" {
 }
 bindsym $mod+equal mode "$resize_mode"
 
-set $manage_mode (P)oweroff, (R)eboot, (D)esktop, (L)ogout i3, (C)onfig, (i)3 Reload, (K)eybinds, (S)creenshot, (E)macs Kill
-mode "$manage_mode" {
-	# keys
-	bindsym $mod+p exec --no-startup-id systemctl poweroff
-	bindsym $mod+r exec --no-startup-id systemctl reboot
-	bindsym $mod+d exec --no-startup-id bash $HOME/.config/i3/displays.sh; mode "default"
-	bindsym $mod+l exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
-	bindsym $mod+c reload
-	bindsym $mod+i restart
-	bindsym $mod+k exec --no-startup-id bash $HOME/.config/i3/keybinds.sh; mode "default"
-	bindsym $mod+s exec --no-startup-id "scrot -d 1 $HOME/.screenshots/%b%d::%H%M%S.png"; mode "default"
-	bindsym $mod+e exec --no-startup-id bash $HOME/.config/i3/killemacs.sh; mode "default"
-
-	# back to normal
-	bindsym $mod+Return mode "default"
-	bindsym $mod+Escape mode "default"
-	bindsym Escape mode "default"
-}
-bindsym $mod+Escape mode "$manage_mode"
-
 # REQUIRED: Firefox: about:config > full-screen-api.ignore-widgets true
 # NOTE: These dimensions are for i3-gaps
 set $youtube_mode (Y)outube, (L)aptop, (D)esktop, (H)ide

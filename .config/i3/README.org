@@ -144,6 +144,7 @@ exec --no-startup-id emacs --daemon
 #+BEGIN_SRC conf
   bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
 #+END_SRC
+
 * Workspaces
 I only use 3 universal workspaces. Some apps get their own workspace. Some apps live in scratchpad.
 #+BEGIN_SRC conf
@@ -228,12 +229,13 @@ Explain what the scratchpad is.
 Explain the size I use.
 ** Kitty
 #+BEGIN_SRC conf
-  # for this to work correctly you must set the environment variable $TERMINAL in your .xsessionrc for Debian distros
-  # or, in .xprofile, .profile, .xsession, .xinitrc, some distributions and users have different requirements, figure out yours.
-  for_window [class="kitty"] floating enable, resize set 1080 720, move scratchpad, sticky enable
-  bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
-  bindsym $mod+Return [class="kitty"] scratchpad show, move position center
+# for this to work correctly you must set the environment variable $TERMINAL in your .xsessionrc for Debian distros
+# or, in .xprofile, .profile, .xsession, .xinitrc, some distributions and users have different requirements, figure out yours.
+for_window [class="kitty"] floating enable, resize set 1080 720, move scratchpad, sticky enable
+bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
+bindsym $mod+Return [class="kitty"] scratchpad show, move position center
 #+END_SRC
+
 ** Ranger
 #+BEGIN_SRC conf
 for_window [instance="Ranger-Float"] floating enable, resize set 1080 720, move scratchpad, sticky enable
@@ -286,31 +288,7 @@ mode "$resize_mode" {
 bindsym $mod+equal mode "$resize_mode"  
 #+END_SRC
 
-** Manage Mode
-This custom mode is how I control my system and i3.
-#+BEGIN_SRC conf
-set $manage_mode (P)oweroff, (R)eboot, (D)esktop, (L)ogout i3, (C)onfig, (i)3 Reload, (K)eybinds, (S)creenshot, (E)macs Kill
-mode "$manage_mode" {
-	# keys
-	bindsym $mod+p exec --no-startup-id systemctl poweroff
-	bindsym $mod+r exec --no-startup-id systemctl reboot
-	bindsym $mod+d exec --no-startup-id bash $HOME/.config/i3/displays.sh; mode "default"
-	bindsym $mod+l exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'"
-	bindsym $mod+c reload
-	bindsym $mod+i restart
-	bindsym $mod+k exec --no-startup-id bash $HOME/.config/i3/keybinds.sh; mode "default"
-	bindsym $mod+s exec --no-startup-id "scrot -d 1 $HOME/.screenshots/%b%d::%H%M%S.png"; mode "default"
-	bindsym $mod+e exec --no-startup-id bash $HOME/.config/i3/killemacs.sh; mode "default"
-
-	# back to normal
-	bindsym $mod+Return mode "default"
-	bindsym $mod+Escape mode "default"
-	bindsym Escape mode "default"
-}
-bindsym $mod+Escape mode "$manage_mode"  
-#+END_SRC
-
-** Youtube Mode
+** Yout ube Mode
 Probably the pinnacle of my config.
 A mini floating youtube player with sizes and positions for laptop and desktop.
 *** TODO Fix the positions on laptop/desktop.
