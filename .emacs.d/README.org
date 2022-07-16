@@ -1,6 +1,6 @@
 #+TITLE:Emacs Config
 
-This is my version of an organized emacs config.
+This is my version of an organized emacs config. Good luck!
 
 * Package System
 I use use-package to manage my packages. The main reason I do, is that use-package automatically installs the latest of my desired packages when I first launch Emacs. Otherwise, one would have to use the built in GUI package installer to manually install all of their desired packages. I strive for automation and this not only accomplishes that, but also cleans up much of the elisp configuration leading to greater readability.
@@ -243,7 +243,7 @@ Default:
 #+END_SRC
 
 * Dracula Theme
-I use *Dracula* theme everywhere I can. Check it out [[https://draculatheme.com/][Here]].
+I use *Dracula* theme everywhere I can. Check it out: [[https://draculatheme.com/][here]]
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package dracula-theme
   :config
