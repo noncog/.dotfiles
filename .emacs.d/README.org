@@ -3,6 +3,7 @@
 This is my version of an organized emacs config.
 
 * Package System
+I use use-package to manage my packages. The main reason I do, is that use-package automatically installs the latest of my desired packages when I first launch Emacs. Otherwise, one would have to use the built in GUI package installer to manually install all of their desired packages. I strive for automation and this not only accomplishes that, but also cleans up much of the elisp configuration leading to greater readability.
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (require 'package)
 
@@ -74,6 +75,7 @@ This section modifies built in package settings or settings without a correspond
 #+END_SRC
 
 * Delight
+Use-package has support for both diminish and delight, packages used for hiding minor-mode lighters from the modeline. I prefer delight as the documentation is better and diminish failed me. I may one day switch to minions to hide all lighters behind an icon. Or use mood-line or doom modeline.
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package delight)
 #+END_SRC
