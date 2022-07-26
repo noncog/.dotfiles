@@ -41,7 +41,6 @@
   (setq visible-bell nil)                             ; disable screen flashing at end of file
   (setq inhibit-startup-screen t)                     ; removes startup splash-screen/message
   ;; behavior
-  (setq-default tab-width 4)                          ; change tabs to 4 from 8
   (global-auto-revert-mode 1)                         ; autoloads changes to files
   (setq-default load-prefer-newer t)                  ; loads newer versions of packages
   (delete-selection-mode 1)                           ; replaces active region by typing
@@ -82,6 +81,7 @@
   (setq org-ellipsis " ▾")                            ; set custom ellipsis
   (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
   (setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to source code blocks
+  ;(setq org-src-preserve-indentation t)               ; don't change indents, or add any spaces
   ;; logging
   (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
   (setq org-log-done 'time)                           ; add completion time to DONE items.
