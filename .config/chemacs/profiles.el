@@ -1,2 +1,2 @@
-(("default" . ((user-emacs-directory . "~/.emacs.default")))
+(("default" . ((user-emacs-directory . "~/.config/cogmacs")))
  ("doom" . ((user-emacs-directory . "~/.doom-emacs"))))
