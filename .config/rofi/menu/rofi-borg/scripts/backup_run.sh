@@ -86,7 +86,6 @@ prune_logs() {
 # function to copy individual files to individuals directory for borg-backup.
 # it does not support backing individual files so we do that ourselves.
 get_individuals() {
-    notify "Aggregating..."
     cp "$HOME/.mozilla/firefox/noncog/bookmarks.html" "$HOME/.individuals/bookmarks.html"
 }
 
