@@ -120,7 +120,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # desktop app launcher
 bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 # custom menu launcher
-bindsym $mod+Shift+BackSpace exec --no-startup-id $HOME/.config/rofi/menu/menu.sh
+bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/menu/menu.sh
 #+END_SRC
 
 ** Polybar
@@ -142,7 +142,14 @@ exec --no-startup-id emacs --daemon
 
 ** Extreme Cooling 4 Linux
 #+BEGIN_SRC conf
-  bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+#+END_SRC
+
+** Startup Apps
+#+BEGIN_SRC conf
+exec --no-startup-id emacs
+exec --no-startup-id firefox
+exec --no-startup-id kitty
 #+END_SRC
 
 * Workspaces
