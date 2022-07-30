@@ -26,5 +26,7 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-export PATH=$PATH:~/.doom-emacs/bin
+export PATH=$PATH:/opt/doom-emacs/bin
 export TERMINAL=/usr/bin/kitty
+
+xmodmap ~/.Xmodmap
