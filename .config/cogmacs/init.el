@@ -180,7 +180,7 @@
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   ;; settings
-  (setq projectile-project-search-path '("~/Projects/"))
+  (setq projectile-project-search-path '("~/projects/"))
   (setq projectile-completion-system 'ivy)
   ;; start mode
   (projectile-mode)
