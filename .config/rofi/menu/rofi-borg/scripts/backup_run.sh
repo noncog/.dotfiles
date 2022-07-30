@@ -27,32 +27,33 @@ log_count=$5; log_count=$((log_count+1))                       # number of backu
 
 # quote any options containing spaces
 backup_options=(
-	--verbose
-	'--filter AME'
-	--list
-	--stats
-	--show-rc
-	--compression
-	lz4
+    --verbose
+    '--filter AME'
+    --list
+    --stats
+    --show-rc
+    --compression
+    lz4
 )
 
 prune_options=(
-	--list
-	--show-rc
-	--keep-daily 7
-	--keep-weekly 4
-	--keep-monthly 6
-	--keep-yearly 3
+    --list
+    --show-rc
+    --keep-daily 7
+    --keep-weekly 4
+    --keep-monthly 6
+    --keep-yearly 3
 )
 
 archive_name="::{hostname}-{now}"
 # borg may use the following placeholders: {now}, {utcnow}, {fqdn}, {hostname}, {user} and others
 
 backup_directories=(
-	$HOME/documents
-	$HOME/books
-	$HOME/pictures/archive
-	$HOME/.individuals
+    $HOME/books
+    $HOME/documents
+    $HOME/pictures/archive
+    $HOME/projects
+    $HOME/.individuals
 )
 
 #============#
@@ -67,22 +68,22 @@ exec &>> $tempfile
 
 # utility for printing info into logs
 info() {
-	printf "%s %s\n" "$*" "$( date )"
+    printf "%s %s\n" "$*" "$( date )"
 }
 
 # function for notifications if enabled
 notify() {
-	if [ $notifications == "y" ]; then
-		eval $notifier $1
-	fi
+    if [ $notifications == "y" ]; then
+	eval $notifier $1
+    fi
 }
 
 # function to delete excess logs
 prune_logs() {
-	# if logs is >= log_count delete the oldest
-	if [ $(ls $logs | wc -l) -ge $log_count ]; then
-		(cd $logs && ls -tp | grep -v '/$' | tail -n +$log_count | xargs -I {} rm -- {})
-	fi
+    # if logs is >= log_count delete the oldest
+    if [ $(ls $logs | wc -l) -ge $log_count ]; then
+	(cd $logs && ls -tp | grep -v '/$' | tail -n +$log_count | xargs -I {} rm -- {})
+    fi
 }
 # function to copy individual files to individuals directory for borg-backup.
 # it does not support backing individual files so we do that ourselves.
