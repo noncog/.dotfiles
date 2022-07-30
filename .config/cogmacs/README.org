@@ -1,4 +1,4 @@
-#+TITLE:Emacs Config
+#+TITLE:Cogmacs Config
 #+STARTUP: hideblocks
 These are my dotfiles for vanilla emacs. I use Chemacs 2 to load both vanilla and doom emacs. Thus, this directory is not the default one. That one is now inhabited by chemacs2. This is a constant work in my progress...I may become doomed.
 
