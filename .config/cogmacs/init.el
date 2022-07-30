@@ -99,9 +99,9 @@
   (add-to-list 'display-buffer-alist '("CAPTURE-.note" (display-buffer-at-bottom) (window-height . 15))) ; display buffer at bottom
   
   ;; directories and files
-  (setq org-directory "~/Documents/org")              ; set org file directory - only used for some prompt for capturing
-  (setq org-agenda-files '("~/Documents/org"))         ; set org agenda directory or list of files to query
-  (setq org-default-notes-file "~/Documents/org/notes.org")
+  (setq org-directory "~/documents/org")              ; set org file directory - only used for some prompt for capturing
+  (setq org-agenda-files '("~/documents/org"))         ; set org agenda directory or list of files to query
+  (setq org-default-notes-file "~/documents/org/notes.org")
   ;; custom todo states and tags                                            ; ! timestamp 
   (setq org-todo-keywords                                                   ; @ note      
       '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@/!)"))) ; / settings to use when leaving state: ! or @
