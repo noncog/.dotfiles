@@ -16,17 +16,17 @@
   :preface
   ;; intuitive split settings
   (defun noncog/split-and-follow-horizontally ()
-	"Split window below."
-	(interactive)
-	(split-window-below)
-	(other-window 1))
+    "Split window below."
+    (interactive)
+    (split-window-below)
+    (other-window 1))
   (defun noncog/split-and-follow-vertically ()
-	"Split window right."
-	(interactive)
-	(split-window-right)
-	(other-window 1))
+    "Split window right."
+    (interactive)
+    (split-window-right)
+    (other-window 1))
   ;; prevent functions from hiding windows. used by calling advice, see org section for example
-  (defun noncog-no-delete-windows (oldfun &rest args)
+  (defun noncog/no-delete-windows (oldfun &rest args)
 	(cl-letf (((symbol-function 'delete-other-windows) 'ignore)) (apply oldfun args)))
   :config
   ;; basic interface configuration
@@ -59,7 +59,7 @@
   (setq auto-window-vscroll nil)                      ; default to above scroll settings per window, never change them
   ;; line numbers for specific modes                  ; to find mode-hooks, when in mode/file do C-h v major-mode RET. Or C-h m.
   (dolist (mode '(sh-mode-hook
-				  conf-mode-hook))                      ; all conf-modes inherit this property. no-info on this variable, but works. 
+		  conf-mode-hook))                      ; all conf-modes inherit this property. no-info on this variable, but works. 
   (add-hook mode (lambda () (display-line-numbers-mode 1))))
   ;; global keybinds
   (global-set-key (kbd "C-=") 'text-scale-increase)   ; set zoom in
@@ -72,9 +72,19 @@
 (use-package delight)
 
 (use-package org
+  :preface
+  (defun noncog/org-heading-size ()
+    "set org headings to same size - theme and face independent"
+    (dolist (face '(org-level-1
+		    org-level-2
+		    org-level-3
+		    org-level-4
+		    org-level-5))
+      (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
   :hook
   ((org-mode . visual-line-mode)                      ; enable line wrapping
-   (org-mode . org-indent-mode))                      ; enable virtual indents and hide leading stars for readability
+   (org-mode . org-indent-mode)                       ; enable virtual indents and hide leading stars for readability
+   (org-mode . noncog/org-heading-size))              ; enable custom org-heading-size
   :config
   ;; settings
   ;; looks
@@ -91,7 +101,7 @@
   (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
   (setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
   ;; custom org note windowing
-  (advice-add 'org-add-log-note :around 'noncog-no-delete-windows) ; prevent from hiding other windows
+  (advice-add 'org-add-log-note :around 'noncog/no-delete-windows) ; prevent from hiding other windows
   (add-to-list 'display-buffer-alist '("*Org Note*" (display-buffer-below-selected) (window-height . 10))) ; display buffer in this window
   ;; custom org capture windowing
   (with-eval-after-load "org-capture" (advice-add 'org-capture-place-template :around 'noncog-no-delete-windows)) ; prevent from hiding other windows
