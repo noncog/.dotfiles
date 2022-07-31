@@ -178,49 +178,14 @@
 
 (use-package pulsar
   :config
-  (setq pulsar-pulse-functions
-      ;; NOTE 2022-04-09: The commented out functions are from before
-      ;; the introduction of `pulsar-pulse-on-window-change'.  Try that
-      ;; instead.
-      '(recenter-top-bottom
-        move-to-window-line-top-bottom
-        reposition-window
-        ;; bookmark-jump
-        ;; other-window
-        ;; delete-window
-        ;; delete-other-windows
-        forward-page
-        backward-page
-        scroll-up-command
-        scroll-down-command
-        ;; windmove-right
-        ;; windmove-left
-        ;; windmove-up
-        ;; windmove-down
-        ;; windmove-swap-states-right
-        ;; windmove-swap-states-left
-        ;; windmove-swap-states-up
-        ;; windmove-swap-states-down
-        ;; tab-new
-        ;; tab-close
-        ;; tab-next
-        org-next-visible-heading
-        org-previous-visible-heading
-        org-forward-heading-same-level
-        org-backward-heading-same-level
-        outline-backward-same-level
-        outline-forward-same-level
-        outline-next-visible-heading
-        outline-previous-visible-heading
-        outline-up-heading))
-
-(setq pulsar-pulse-on-window-change t)
-(setq pulsar-pulse t)
-(setq pulsar-delay 0.055)
-(setq pulsar-iterations 10)
-(setq pulsar-face 'pulsar-magenta)
-(setq pulsar-highlight-face 'pulsar-yellow)
-
+  ;; note - not using pulsar-pulse-functions and defining them all
+  (setq pulsar-pulse-on-window-change t)
+  (setq pulsar-pulse t)
+  (setq pulsar-delay 0.055)
+  (setq pulsar-iterations 10)
+  (setq pulsar-face 'pulsar-magenta)
+  (setq pulsar-highlight-face 'pulsar-yellow)
+  
 (pulsar-global-mode 1))
 
 (use-package pdf-tools
@@ -275,16 +240,3 @@
   :config
   (load-theme 'dracula t)
   )
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(pulsar which-key use-package projectile pdf-tools org-noter org-bullets ivy-rich dracula-theme delight dashboard counsel ace-window)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
