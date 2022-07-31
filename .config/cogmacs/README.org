@@ -65,10 +65,13 @@ This section modifies built in package settings or settings without a correspond
   (add-to-list 'display-buffer-alist '("*Apropos*" display-buffer-same-window))
   (add-to-list 'display-buffer-alist '("*Help*" display-buffer-same-window))
   (add-to-list 'display-buffer-alist '("*Warning*" display-buffer-at-bottom))
-  ;; smooth scrolling
+  ;; scrolling
+  ;; smooth
   (setq scroll-step 1)                                ; scroll window one line at a time
   (setq scroll-conservatively 101)                    ; value above 100 removes half page jump
   (setq auto-window-vscroll nil)                      ; default to above scroll settings per window, never change them
+  ;; point position related to scrolling
+  (setq scroll-preserve-screen-position 'always)      ; keeps point at position while scrolling
   ;; line numbers for specific modes                  ; to find mode-hooks, when in mode/file do C-h v major-mode RET. Or C-h m.
   (dolist (mode '(sh-mode-hook
 		  conf-mode-hook))                      ; all conf-modes inherit this property. no-info on this variable, but works. 
@@ -79,6 +82,9 @@ This section modifies built in package settings or settings without a correspond
   ;; custom intuitive split settings
   (global-set-key (kbd "C-x 2") #'noncog/split-and-follow-horizontally)
   (global-set-key (kbd "C-x 3") #'noncog/split-and-follow-vertically)
+  ;; custom scroll buffer around point
+  (global-set-key (kbd "M-p") #'scroll-down-line)
+  (global-set-key (kbd "M-n") #'scroll-up-line)
   )
 #+END_SRC
 
