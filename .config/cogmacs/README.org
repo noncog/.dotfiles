@@ -3,13 +3,13 @@
 These are my dotfiles for vanilla emacs. I use Chemacs 2 to load both vanilla and doom emacs. Thus, this directory is not the default one. That one is now inhabited by chemacs2. This is a constant work in my progress...I may become doomed.
 
 This is my version of an organized vanilla emacs config. Good luck!
-* Reload
-`C-x 9` reloads the init-file
+* Reload Emacs
+`C-x 9` reloads the init-file.
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/reload-init-file ()
   (interactive)
   (load-file "~/.config/cogmacs/init.el")
-  (princ "Init-file reloaded.")
+  (princ "init.el reloaded.")
   )
 
 (global-set-key (kbd "C-x 9") 'noncog/reload-init-file)
@@ -308,7 +308,8 @@ Default:
 (use-package which-key
   :config
   ;; settings
-  (setq which-key-idle-delay 0.5)
+  (setq which-key-popup-type 'minibuffer)             ; set window mode
+  (setq which-key-idle-delay 0.5) 
   ;; start mode
   (which-key-mode)
   ;; hiding minibuffer lighters

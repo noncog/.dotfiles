@@ -1,7 +1,7 @@
 (defun noncog/reload-init-file ()
   (interactive)
   (load-file "~/.config/cogmacs/init.el")
-  (princ "Init-file reloaded.")
+  (princ "init.el reloaded.")
   )
 
 (global-set-key (kbd "C-x 9") 'noncog/reload-init-file)
@@ -243,7 +243,8 @@
 (use-package which-key
   :config
   ;; settings
-  (setq which-key-idle-delay 0.5)
+  (setq which-key-popup-type 'minibuffer)             ; set window mode
+  (setq which-key-idle-delay 0.5) 
   ;; start mode
   (which-key-mode)
   ;; hiding minibuffer lighters
