@@ -1,3 +1,11 @@
+(defun noncog/reload-init-file ()
+  (interactive)
+  (load-file "~/.config/cogmacs/init.el")
+  (princ "Init-file reloaded.")
+  )
+
+(global-set-key (kbd "C-x 9") 'noncog/reload-init-file)
+
 (require 'package)
 
 (setq package-archives
