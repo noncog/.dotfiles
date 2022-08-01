@@ -78,6 +78,12 @@
   ;; custom intuitive split settings
   (global-set-key (kbd "C-x 2") #'noncog/split-and-follow-horizontally)
   (global-set-key (kbd "C-x 3") #'noncog/split-and-follow-vertically)
+  ;; custom window focus/move keybinds
+  (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
+  (global-set-key (kbd "C-M-i") 'windmove-up)
+  (global-set-key (kbd "C-M-J") 'windmove-left)
+  (global-set-key (kbd "C-M-k") 'windmove-down)
+  (global-set-key (kbd "C-M-l") 'windmove-right)
   ;; custom scroll buffer around point
   (global-set-key (kbd "M-p") #'scroll-down-line)
   (global-set-key (kbd "M-n") #'scroll-up-line)
@@ -186,6 +192,7 @@
   (setq aw-background nil)                            ; removes black overlay
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))        ; switch from number keys to home row keys for window-ids
   ;(setq aw-dispatch-always t)                         ; enables ace-window for any window count
+  ;(setq aw-minibuffer-flag t)                         ; display ace-window string in minibuffer
   ;; global keybinds
   (global-set-key (kbd "M-o") 'ace-window)
   )
