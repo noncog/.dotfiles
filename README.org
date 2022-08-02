@@ -1,6 +1,6 @@
 #+HTML: <h1 align="center"><i>~/.dotfiles</i></h1>
 #+HTML: <p align="center"><img src=".screenshots/system_demo.png"/></p>
-#+HTML: <p align="center"><code>This repository holds all my system configuration files. Feel free to use it as is, or take what you like!</code></p>
+#+HTML: <p align="center"><code>This repository holds all my system configuration files. Take what you like or use as is!</code></p>
 #+HTML: <p align="center">&#91 <a href="#usage">Usage</a> - <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a> &#93;</p>
 
 I'm building a "distro" of sorts following my own philosophy of how a system should be built, maintained, and interacted with.
