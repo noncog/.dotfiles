@@ -5,7 +5,7 @@
 
 * Overview
 I'm building a "distro" of sorts, following my own philosophy of how a system should be built, maintained, and interacted with.
-
+#+HTML: <details><summary><b>Philosophy</b></summary><ul><li>Minimalism</li></ul></details>
 * Information
 *** Core
 - OS: Debian
