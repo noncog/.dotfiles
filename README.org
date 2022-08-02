@@ -6,6 +6,9 @@
 * Overview
 I'm building a "distro" of sorts, following my own philosophy of how a system should be built, maintained, and interacted with.
 #+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><ul><li>Stability</li><li>Minimalism</li><li>Customizability</li></ul></details><details><summary><b>Keybinds</b></summary></details>
+
+#+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><details><summary><b>Stability</b></summary><p>test</p><details><summary><b>Minimalism</b></summary><p>test</p><details><summary><b>Customizability</b></summary><p>test</p></summary></details>
+
 * Information
 *** Core
 - OS: Debian
