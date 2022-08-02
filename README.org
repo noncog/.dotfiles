@@ -4,7 +4,7 @@ This repository contains all the configuration files for my Linux system.
 
 This system and the software it uses follows my own philosophy of what a system should be and how one should manage and interact with it.
 
-#+HTML: <p align="center"><a href="#usage">Usage</a> &curren <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a></p>
+#+HTML: <p align="center">&#91 <a href="#usage">Usage</a> - <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a> &#93;</p>
 
 * Information
 *** Core
