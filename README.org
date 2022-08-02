@@ -10,6 +10,9 @@ This system and the software it uses follows my own philosophy of what a system 
 Relative linking
 #+HTML: <a href="#Usage">Usage</a>
 
+A centered HTML based org document link "tree"
+#+HTML: <p align="center"><a href="#Usage">Usage</a><a href="#Short-Setup-Guide">Short Setup Guide</a></p>
+
 * Information
 *** Core
 - OS: Debian
