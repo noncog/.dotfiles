@@ -4,6 +4,8 @@ This repository contains all the configuration files for my Linux system.
 
 This system and the software it uses follows my own philosophy of what a system should be and how one should manage and interact with it.
 
+[[#Short Setup Guide][Testing linking]]
+
 * Information
 *** Core
 - OS: Debian
