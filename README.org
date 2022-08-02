@@ -11,8 +11,11 @@ Relative linking
 #+HTML: <a href="#Usage">Usage</a>
 
 A centered HTML based org document link "tree"
-#+HTML: <p align="center"><a href="#usage">Usage</a> &curren <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a> </p>
+#+HTML: <p align="center"><q><a href="#usage">Usage</a> &curren <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a></q></p>
+Testing inside a quote
 
+Testing inside a block quote
+#+HTML: <p align="center"><blockquote> <a href="#usage">Usage</a> &curren <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a></blockquote></p>
 * Information
 *** Core
 - OS: Debian
