@@ -11,7 +11,7 @@ Relative linking
 #+HTML: <a href="#Usage">Usage</a>
 
 A centered HTML based org document link "tree"
-#+HTML: <p align="center"><a href="#usage">Usage</a> - <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a> </p>
+#+HTML: <p align="center"><a href="#usage">Usage</a> &curren <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a> </p>
 
 * Information
 *** Core
