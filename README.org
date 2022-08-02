@@ -1,4 +1,29 @@
-#+TITLE: .dotfiles with git --bare
+#+HTML: <h1 align="center">Cogmacs</h1>
+
+
+
+* Information
+- OS: Debian 11
+- WM: i3
+- Terminal: Kitty
+- Shell: bash
+- Launcher: rofi
+- Compositor: picom
+- Status Bar: polybar
+- Notifications: dunst
+- Wallpaper Setter: nitrogen
+- Theme: Dracula
+- Font: Fira Code
+- Editor: Emacs/Cogmacs
+- Ebook Reader: zathura
+- Screenshots: scrot
+- Video Player: vlc
+- Image Viewer: sxiv
+- File Manager: ranger
+- Network Menu: network-manager-gnome
+
+
+* Old Info:
 My system configuration files are managed with a git --bare repository.
 
 This allows easy versioning and installation of dotfiles without symlinks or any form of moving/copying.
