@@ -1,7 +1,15 @@
 #+HTML: <h1 align="center"><i>~/.dotfiles</i></h1>
+#+HTML: <p align="center">This repository contains all the configuration files for my Linux system. Feel free to use it as is, or take what you like!</p>
 #+HTML: <p align="center"><img src=".screenshots/system_demo.png"/></p>
 #+HTML: <p align="center">&#91 <a href="#usage">Usage</a> - <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a> &#93;</p>
-This repository contains all the configuration files for my Linux system. This system and the software it uses follows my own philosophy of what a system should be and how one should manage and interact with it.
+
+
+
+I'm building a "distro" of sorts following my own philosophy of how a system should be built, maintained, and interacted with.
+
+a "distro" of sorts, which aligns with my philosophy on how a system should be built, maintained, and interacted with.
+
+This system and the software it uses follows my own philosophy of what a system should be and how one should manage and interact with it.
 
 * Information
 *** Core
