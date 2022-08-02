@@ -4,10 +4,12 @@
 #+HTML: <p align="center">&#91 <a href="#usage">Usage</a> - <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a> &#93;</p>
 
 * Overview
-I'm building a "distro" of sorts, following my own philosophy of how a system should be built, maintained, and interacted with.
+My "Distro" of sorts, follows my philosophy of how a system should be built, maintained, and interacted with.
 #+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><ul><li>Stability</li><li>Minimalism</li><li>Customizability</li></ul></details><details><summary><b>Keybinds</b></summary></details>
 
-#+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><details><summary><b>Stable</b></summary><p>test</p></details><details><summary><b>Minimalism</b></summary><p>test</p></details><details><summary><b>Customizability</b></summary><p>test</p></details></details>
+#+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><details><summary><b>Stability</b></summary><p>test</p></details><details><summary><b>Minimalism</b></summary><p>test</p></details><details><summary><b>Customizability</b></summary><p>test</p></details></details>
+
+#+HTML:  <details><summary><b>Philosophy</b></summary><ul><li><details><summary><b>Stability</b></summary></li></ul></details>
 
 * Information
 *** Core
