@@ -7,10 +7,8 @@ This system and the software it uses follows my own philosophy of what a system 
 
 #+HTML: <p align="center"> [[#Short-Setup-Guide][Testing linking]] </p>
 
-#+HTML: <a href="/Usage">Usage</a>
-stuff filler
-#+HTML: <a name="Adding Files"> Test Link to Adding Files </a>
-
+Relative linking
+#+HTML: <a href="#Usage">Usage</a>
 
 * Information
 *** Core
