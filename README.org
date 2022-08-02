@@ -5,11 +5,11 @@
 
 * Overview
 My "Distro" of sorts, follows my philosophy of how a system should be built, maintained, and interacted with.
-#+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><ul><li>Stability</li><li>Minimalism</li><li>Customizability</li></ul></details><details><summary><b>Keybinds</b></summary></details>
+#+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><ul><li>Stability - I don't need or use the latest and greatest. I would rather it just work. Often, older tools are better supported and more powerful than the "next big thing."</li><li>Minimalism</li><li>Customizability</li></ul></details><details><summary><b>Keybinds</b></summary></details>
 
 #+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><details><summary><b>Stability</b></summary><p>test</p></details><details><summary><b>Minimalism</b></summary><p>test</p></details><details><summary><b>Customizability</b></summary><p>test</p></details></details>
 
-#+HTML:  <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><ul><li><details><summary><b>Stability</b></summary><p>test</p></details></li><li><details><summary><b>Minimalism</b></summary><p>test</p></details></li><li><details><summary><b>Customizability</b></summary><p>test</p></details></li></ul></details>
+#+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><ul><li><details><summary><b>Stability</b></summary><p>test</p></details></li><li><details><summary><b>Minimalism</b></summary><p>test</p></details></li><li><details><summary><b>Customizability</b></summary><p>test</p></details></li></ul></details>
 
 * Information
 *** Core
