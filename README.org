@@ -7,6 +7,7 @@
 | OS:    | Debian 11 | Test  | stuff |
 | WM:    |           |       |       |
 
+** Core
 - OS: Debian
 - WM: i3
 - Terminal: Kitty
@@ -16,6 +17,7 @@
 - Status Bar: polybar
 - Notifications: dunst
 - Wallpaper Setter: nitrogen
+** Software
 - Theme: Dracula
 - Font: Fira Code
 - Editor: Emacs/Cogmacs
