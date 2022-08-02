@@ -3,7 +3,7 @@
 
 
 * Information
-- OS: Debian 11
+- OS: Debian 11              - Test: some other item, multi bullet
 - WM: i3
 - Terminal: Kitty
 - Shell: bash
