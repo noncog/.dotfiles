@@ -8,6 +8,8 @@ This system and the software it uses follows my own philosophy of what a system 
 #+HTML: <p align="center"> [[#Short-Setup-Guide][Testing linking]] </p>
 
 #+HTML: <a href="/Usage">Usage</a>
+# uses wrong thing, is a separate file linker in the tree.
+#+HTML: <a name="Adding Files"> Test Link to Adding Files </a>
 
 
 * Information
