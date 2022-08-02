@@ -5,7 +5,8 @@
 
 * Overview
 I'm building a "distro" of sorts, following my own philosophy of how a system should be built, maintained, and interacted with.
-#+HTML: <details><summary><b>Philosophy</b></summary><ul><li>Minimalism</li></ul></details>
+#+HTML: <details><summary><b>Philosophy</b></summary><ul><li>Stability</li><li>Minimalism</li><li>Customizability</li></ul></details>
+
 * Information
 *** Core
 - OS: Debian
@@ -27,7 +28,6 @@ I'm building a "distro" of sorts, following my own philosophy of how a system sh
 - Image Viewer: sxiv
 - File Manager: ranger
 - Network Menu: network-manager-gnome
-
 
 * Old Info:
 My system configuration files are managed with a git --bare repository.
