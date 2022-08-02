@@ -4,7 +4,7 @@
   (princ "init.el reloaded.")
   )
 
-(global-set-key (kbd "C-x 9") 'noncog/reload-init-file)
+(global-set-key (kbd "C-c r") 'noncog/reload-init-file)
 
 (require 'package)
 
@@ -79,9 +79,10 @@
   (global-set-key (kbd "C-x 2") #'noncog/split-and-follow-horizontally)
   (global-set-key (kbd "C-x 3") #'noncog/split-and-follow-vertically)
   ;; custom window focus/move keybinds
-  (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
+;  (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
+  ;(define-key input-decode-map "\C-i" [C-i])
   (global-set-key (kbd "C-M-i") 'windmove-up)
-  (global-set-key (kbd "C-M-J") 'windmove-left)
+  (global-set-key (kbd "C-M-j") 'windmove-left)
   (global-set-key (kbd "C-M-k") 'windmove-down)
   (global-set-key (kbd "C-M-l") 'windmove-right)
   ;; custom scroll buffer around point
