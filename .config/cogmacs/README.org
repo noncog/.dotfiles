@@ -1,5 +1,4 @@
-#+TITLE:Cogmacs Config
-#+STARTUP: hideblocks
+#+HTML: <h1 align="center">Cogmacs</h1>
 These are my dotfiles for vanilla emacs. I use Chemacs 2 to load both vanilla and doom emacs. Thus, this directory is not the default one. That one is now inhabited by chemacs2. This is a constant work in my progress...I may become doomed.
 
 This is my version of an organized vanilla emacs config. Good luck!
@@ -94,8 +93,6 @@ This section modifies built in package settings or settings without a correspond
   (global-set-key (kbd "C-x 2") #'noncog/split-and-follow-horizontally)
   (global-set-key (kbd "C-x 3") #'noncog/split-and-follow-vertically)
   ;; custom window focus/move keybinds
-;  (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
-  ;(define-key input-decode-map "\C-i" [C-i])
   (global-set-key (kbd "C-M-i") 'windmove-up)
   (global-set-key (kbd "C-M-j") 'windmove-left)
   (global-set-key (kbd "C-M-k") 'windmove-down)
@@ -257,8 +254,8 @@ Default:
   ;; note - not using pulsar-pulse-functions and defining them all
   (setq pulsar-pulse-on-window-change t)
   (setq pulsar-pulse t)
-  (setq pulsar-delay 0.055)
-  (setq pulsar-iterations 10)
+  (setq pulsar-delay 0.095)
+  (setq pulsar-iterations 12)
   (setq pulsar-face 'pulsar-magenta)
   (setq pulsar-highlight-face 'pulsar-yellow)
   

@@ -79,8 +79,6 @@
   (global-set-key (kbd "C-x 2") #'noncog/split-and-follow-horizontally)
   (global-set-key (kbd "C-x 3") #'noncog/split-and-follow-vertically)
   ;; custom window focus/move keybinds
-;  (setq local-function-key-map (delq '(kp-tab . [9]) local-function-key-map))
-  ;(define-key input-decode-map "\C-i" [C-i])
   (global-set-key (kbd "C-M-i") 'windmove-up)
   (global-set-key (kbd "C-M-j") 'windmove-left)
   (global-set-key (kbd "C-M-k") 'windmove-down)
@@ -203,8 +201,8 @@
   ;; note - not using pulsar-pulse-functions and defining them all
   (setq pulsar-pulse-on-window-change t)
   (setq pulsar-pulse t)
-  (setq pulsar-delay 0.055)
-  (setq pulsar-iterations 10)
+  (setq pulsar-delay 0.095)
+  (setq pulsar-iterations 12)
   (setq pulsar-face 'pulsar-magenta)
   (setq pulsar-highlight-face 'pulsar-yellow)
   
