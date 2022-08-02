@@ -9,7 +9,7 @@ I'm building a "distro" of sorts, following my own philosophy of how a system sh
 #+HTML: <details><summary><h3>Philosophy</h3></summary>Testing a heading inside of a folded section</details>
 #+HTML: <details><summary><h3>Philosophy</h3></summary>Testing a heading inside of a folded section</details>
 
-#+HTML: <details><summary><h3>Philosophy</h3></summary>Testing a heading inside of a folded section</details><details><summary><h3>Philosophy</h3></summary>Testing a heading inside of a folded section</details>
+#+HTML: <details><summary><h4>Philosophy</h4></summary>Testing a heading inside of a folded section</details><details><summary><h4>Philosophy</h4></summary>Testing a heading inside of a folded section</details>
 * Information
 *** Core
 - OS: Debian
