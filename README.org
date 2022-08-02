@@ -1,4 +1,4 @@
-#+HTML: <h1 align="center">Cogmacs</h1>
+#+HTML: <h1 align="center"><i>.dotfiles</i></h1>
 
 
 
