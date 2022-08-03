@@ -13,5 +13,14 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML: <details><summary><b>Keybinds</b></summary><p>Test description.</p></details>
 
 #+BEGIN_QUOTE
-*Disclaimer:* /This is not a community framework or distribution./ It's a private configuraiton and an ongoing experiment. I make no guarantees that it will work out of the box for anyone but myself. It may also change drastically and without warning.
+*Disclaimer:* /This is not a community framework or distribution./ It's a private configuraiton and an ongoing experiment. I make no guarantees that it will work out of the box for anyone but myself. It may also change without warning. However, if you would like to use it as is then use debian-autosetup.
 #+END_QUOTE
+
+#+HTML: <details><summary><b>More Information</b></summary>
+
+* Installation
+
+* Foo
+
+* Bar
+#+HTML: </details>
