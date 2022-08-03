@@ -12,11 +12,14 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML: <details><summary><b>Features</b></summary><p><ul><li><a href="https://draculatheme.com/">Dracula</a> theme everywhere!</li></ul></p></details>
 
-#+HTML: <details><summary><b>Software</b></summary><p>Test description.</p></details>
+#+HTML: <details><summary><b>Software</b></summary><p>Test description.</p>
+| Purpose | Software  | Config     |
+| OS      | Debian 11 |            |
+| WM      | i3        | [[https://github.com/noncog/.dotfiles/tree/master/.config/i3][.config/i3]] |
+| test    | foo       | bar        |
+#+HTML: </details>
 
 #+HTML: <details><summary><b>Keybinds</b></summary><p>Test description.</p></details>
-
-#+HTML: <head><title>HTML Table Generator</title><style>table {border:2px outset #292929; padding:5px;} table th {border:2px outset #292929; padding:5px; background: #e05d44; color: #ffffff;} table td {border:2px outset #292929; text-align:center; padding:5px; background: #757575; color: #ffffff;}</style></head><body><table><thead><tr><th>Header 1</th></tr></thead><tbody><tr><td>&nbsp;</td></tr></tbody></table></body>
 
 #+BEGIN_QUOTE
 *Disclaimer:* /This is not a community framework or distribution./ It's a private configuration and an ongoing experiment that may change without warning.
