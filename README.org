@@ -17,7 +17,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML: <details><summary><b>Keybinds</b></summary><p>Test description.</p></details>
 
 #+BEGIN_QUOTE
-*Disclaimer:* /This is not a community framework or distribution./ It's a private configuration and an ongoing experiment that may change without warning. However, if you would like to use my system, then use my automatic system setup script: [[https://github.com/noncog/debian-autosetup][debian-autosetup]] on a fresh Debian 11 install.
+*Disclaimer:* /This is not a community framework or distribution./ It's a private configuration and an ongoing experiment that may change without warning. However, if you would like to use my system, then see More Information below.
 #+END_QUOTE
 
 #+HTML: <details><summary><b>More Information</b></summary>
