@@ -13,7 +13,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML: <details><summary><b>Keybinds</b></summary><p>Test description.</p></details>
 
 #+BEGIN_QUOTE
-*Disclaimer:* /This is not a community framework or distribution./ It's a private configuraiton and an ongoing experiment. I make no guarantees that it will work out of the box for anyone but myself. It may also change without warning. However, if you would like to use my system, then use [[https://github.com/noncog/debian-autosetup][debian-autosetup]] on a fresh Debian 11 install.
+*Disclaimer:* /This is not a community framework or distribution./ It's a private configuraiton and an ongoing experiment that may change without warning. However, if you would like to use my system, then use my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script on a fresh Debian 11 install.
 #+END_QUOTE
 
 #+HTML: <details><summary><b>More Information</b></summary>
