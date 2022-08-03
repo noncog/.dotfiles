@@ -19,7 +19,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML: <details><summary><b>More Information</b></summary>
 
 * Installation
-https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white
+#+HTML: <a href="https://stackoverflow.com/questions/66716288/embedding-shields-io-badge-html-in-github-readme-rst"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a>
 * Foo
 #+MARKDOWN:[![Made with Doom Emacs](https://img.shields.io/badge/Made_with-Doom_Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white)](https://github.com/hlissner/doom-emacs) 
 * Bar
