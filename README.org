@@ -12,7 +12,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML: <details><summary><b>Features</b></summary><p><ul><li><a href="https://draculatheme.com/">Dracula</a> theme everywhere!</li></ul></p></details>
 
-#+HTML: <details><summary><b>Software</b></summary>
+#+HTML: <details><summary><b>Software</b></summary><br>
 
 | Purpose       | Software              | Config           |
 | OS            | Debian 11             |                  |
