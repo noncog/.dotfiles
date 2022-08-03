@@ -1,7 +1,7 @@
 #+HTML: <h1 align="center"><i>~/.dotfiles</i></h1>
 #+HTML: <p align="center"><img src=".screenshots/system_demo.png"/></p>
 #+HTML: <p align="center"><code>This repository holds my system configuration files. Take what you like or use as is!</code></p>
-#+HTML: <p align="center">&#91 <a href="#usage">Usage</a> - <a href="#short-setup-guide">Short Setup Guide</a> - <a href="#cloning">Cloning</a> &#93;</p>
+#+HTML: <p align="center">&#91 <a href="#installation">Install</a> - <a href="#foo">foo</a> - <a href="#bar">bar</a> &#93;</p>
 
 * Overview
 This system follows my philosophy of how a system should be built, maintained, and interacted with.
