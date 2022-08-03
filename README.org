@@ -18,6 +18,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+BEGIN_QUOTE
 *Disclaimer:* /This is not a community framework or distribution./ It's a private configuration and an ongoing experiment that may change without warning.
+
 However, if you would like to use my system, then see =More Information= below.
 #+END_QUOTE
 
