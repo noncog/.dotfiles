@@ -3,7 +3,7 @@
 
 #+HTML: <p align="center"><img src=".screenshots/system_demo.png"/></p>
 #+HTML: <p align="center"><code>This repository holds my system configuration files. Take what you like or use as is!</code></p>
-#+HTML: <p align="center">&#91 <a href="#installation">Install</a> - <a href="#foo">foo</a> - <a href="#bar">bar</a> &#93;</p>
+
 
 * Overview
 This system follows my philosophy of how a system should be built, maintained, and interacted with.
@@ -21,6 +21,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML: <details><summary><b>More Information</b></summary>
 
 * Installation
+#+HTML: <p align="center">&#91 <a href="#installation">Install</a> - <a href="#foo">foo</a> - <a href="#bar">bar</a> &#93;</p>
 * Foo
 * Bar
 #+HTML: </details>
