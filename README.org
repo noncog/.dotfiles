@@ -6,7 +6,7 @@
 * Overview
 My system follows my philosophy of how a system should be built, maintained, and interacted with.
 
-#+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><ul><li><details><summary><b>Stability</b></summary><p>I don't need or use the latest and greatest. I would rather it just work.<br>Often, older tools are better supported and more powerful than "the next big thing."</br></p></details></li><li><details><summary><b>Minimalism</b></summary><p>I try to do the most with what I've got.<br>I prefer to use the tools I already have to accomplish what another tool could.</br></p></details></li><li><details><summary><b>Customizability</b></summary><p>test</p></details></li></ul></details>
+#+HTML: <details><summary><b>Philosophy</b></summary><p align="center"><code>Everyone has one on Linux ... these are mine.</code></p><ul><li><details><summary><b>Stability</b></summary><p>I don't need or use the latest and greatest. I would rather it just work.<br>Often, older tools are better supported and more powerful than "the next big thing."</p></details></li><li><details><summary><b>Minimalism</b></summary><p>I try to do the most with what I've got.<br>I prefer to use the tools I already have to accomplish what another tool could.<br><br>I sometimes break this convention for the sake of aesthetics. e.g. <code>rofi > dmenu</code></p></details></li><li><details><summary><b>Customizability</b></summary><p>test</p></details></li></ul></details>
 
 * Information
 *** Core
