@@ -13,15 +13,23 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML: <details><summary><b>Features</b></summary><p><ul><li><a href="https://draculatheme.com/">Dracula</a> theme everywhere!</li></ul></p></details>
 
 #+HTML: <details><summary><b>Software</b></summary>
-#+BEGIN_CENTER
-Test text
-#+END_CENTER
-#+BEGIN_CENTER
-| Purpose | Software  | Config     |
-| OS      | Debian 11 |            |
-| WM      | i3        | [[https://github.com/noncog/.dotfiles/tree/master/.config/i3][.config/i3]] |
-| test    | foo       | bar        |
-#+END_CENTER
+
+| Purpose       | Software              | Config           |
+| OS            | Debian 11             |                  |
+| WM            | i3                    | [[https://github.com/noncog/.dotfiles/tree/master/.config/i3][.config/i3]]       |
+| Notifications | Dunst                 | .config/dunst    |
+| Status Bar    | Polybar               | .config/polybar  |
+| Compositor    | Picom                 | .config/picom    |
+| Wallpapers    | Nitrogen              | .config/nitrogen |
+| Screenshots   | Scrot                 |                  |
+| Network Menu  | Network-Manager-Gnome |                  |
+| Terminal      | Kitty                 | .config/kitty    |
+| Shell         | bash                  | .bashrc          |
+| Editor        | Emacs                 | .config/cogmacs  |
+| File Manager  | Ranger                | .config/ranger   |
+| Ebook Reader  | Zathura               | .config/zathura  |
+| Image Viewer  | sxiv                  |                  |
+| Video Player  | vlc                   |                  |
 
 #+HTML:</details>
 
