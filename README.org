@@ -17,19 +17,20 @@ This system follows my philosophy of how a system should be built, maintained, a
 | Purpose       | Software              | Config           |
 | OS            | Debian 11             |                  |
 | WM            | i3                    | [[https://github.com/noncog/.dotfiles/tree/master/.config/i3][.config/i3]]       |
-| Notifications | Dunst                 | .config/dunst    |
-| Status Bar    | Polybar               | .config/polybar  |
+| Launcher      | Rofi                  | [[https://github.com/noncog/.dotfiles/tree/master/.config/rofi][.config/rofi]]     |
+| Notifications | Dunst                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/dunst][.config/dunst]]    |
+| Status Bar    | Polybar               | [[https://github.com/noncog/.dotfiles/tree/master/.config/polybar][.config/polybar]]  |
 | Compositor    | Picom                 | .config/picom    |
-| Wallpapers    | Nitrogen              | .config/nitrogen |
+| Wallpapers    | Nitrogen              | [[https://github.com/noncog/.dotfiles/tree/master/.config/nitrogen][.config/nitrogen]] |
 | Screenshots   | Scrot                 |                  |
 | Network Menu  | Network-Manager-Gnome |                  |
-| Terminal      | Kitty                 | .config/kitty    |
-| Shell         | bash                  | .bashrc          |
-| Editor        | Emacs                 | .config/cogmacs  |
+| Terminal      | Kitty                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/kitty][.config/kitty]]    |
+| Shell         | Bash                  | [[https://github.com/noncog/.dotfiles/blob/master/.bashrc][.bashrc]]          |
+| Editor        | Emacs                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/cogmacs][.config/cogmacs]]  |
 | File Manager  | Ranger                | .config/ranger   |
 | Ebook Reader  | Zathura               | .config/zathura  |
-| Image Viewer  | sxiv                  |                  |
-| Video Player  | vlc                   |                  |
+| Image Viewer  | SXIV                  |                  |
+| Video Player  | VLC                   |                  |
 
 #+HTML:</details>
 
