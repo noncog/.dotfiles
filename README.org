@@ -20,7 +20,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML: <details><summary><b>More Information</b></summary>
 
-#+HTML: <p align="center"><code>&#91 <a href="#install">Install</a> - <a href="#foo">foo</a> - <a href="#get--bare-guide">Git -bare Guide</a> &#93</code></p>
+#+HTML: <p align="center"><code>&#91 <a href="#install">Install</a> - <a href="#foo">foo</a> - <a href="#git--bare-guide">Git -bare Guide</a> &#93</code></p>
 
 * Install
 Use shield org literate
