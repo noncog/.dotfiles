@@ -1,5 +1,6 @@
-#+HTML: <p align="center"><a href=""><img src="https://img.shields.io/badge/Debian-11-critical?style=flat-square&logo=Debian&logoColor=white" /></a> <a href="https://stackoverflow.com/questions/66716288/embedding-shields-io-badge-html-in-github-readme-rst"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
 #+HTML: <h1 align="center"><i>~/.dotfiles</i></h1>
+#+HTML: <p align="center"><a href=""><img src="https://img.shields.io/badge/Debian-11-critical?style=flat-square&logo=Debian&logoColor=white" /></a> <a href="https://stackoverflow.com/questions/66716288/embedding-shields-io-badge-html-in-github-readme-rst"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
+
 #+HTML: <p align="center"><img src=".screenshots/system_demo.png"/></p>
 #+HTML: <p align="center"><code>This repository holds my system configuration files. Take what you like or use as is!</code></p>
 #+HTML: <p align="center">&#91 <a href="#installation">Install</a> - <a href="#foo">foo</a> - <a href="#bar">bar</a> &#93;</p>
