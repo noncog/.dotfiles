@@ -56,6 +56,18 @@ This section modifies built in package settings or settings without a correspond
   ;; prevent functions from hiding windows. used by calling advice, see org section for example
   (defun noncog/no-delete-windows (oldfun &rest args)
 	(cl-letf (((symbol-function 'delete-other-windows) 'ignore)) (apply oldfun args)))
+  ;; create a toggleable view for my org file
+  (setq noncog/scratchpad-file "/home/jake/documents/org/scratchpad.org")
+  (setq noncog/scratchpad-visible nil)
+  (defun noncog/toggle-scratchpad ()
+    (interactive)
+    (if noncog/scratchpad-visible
+	(progn ;; visible
+	  (delete-window (get-buffer-window (get-file-buffer noncog/scratchpad-file)))
+	  (setq noncog/scratchpad-visible nil))
+    (progn ;; not visible
+      (let ((buffer (find-file-noselect noncog/scratchpad-file))) (let ((display-buffer-mark-dedicated t)) (display-buffer-in-side-window buffer '((side . right) (window-parameters (no-delete-other-windows . t))))))
+      (setq noncog/scratchpad-visible t))))
   :config
   ;; basic interface configuration
   (set-face-attribute 'default nil :font "Fira Code") ; set font
@@ -95,6 +107,8 @@ This section modifies built in package settings or settings without a correspond
   ;; global keybinds
   (global-set-key (kbd "C-=") 'text-scale-increase)   ; set zoom in
   (global-set-key (kbd "C--") 'text-scale-decrease)   ; set zoom out
+  ;; custom display buffer stuff
+  (global-set-key (kbd "C-c s") #'noncog/toggle-scratchpad)
   ;; custom intuitive split settings
   (global-set-key (kbd "C-x 2") #'noncog/split-and-follow-horizontally)
   (global-set-key (kbd "C-x 3") #'noncog/split-and-follow-vertically)
