@@ -92,7 +92,7 @@ dotfiles log
 **** Cloning
 To get your configurations (or these) on a fresh system, you simply clone the bare repository, checkout, and they're automatically installed!
 
-I reccomend you let the cloning be done by debian-autosetup.
+I reccomend you let the cloning be done by =debian-autosetup=.
 
 If you want to know how it's done though...
 ***** Simple Clone
