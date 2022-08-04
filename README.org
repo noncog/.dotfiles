@@ -20,7 +20,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 | Launcher      | Rofi                  | [[https://github.com/noncog/.dotfiles/tree/master/.config/rofi][.config/rofi]]     |
 | Notifications | Dunst                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/dunst][.config/dunst]]    |
 | Status Bar    | Polybar               | [[https://github.com/noncog/.dotfiles/tree/master/.config/polybar][.config/polybar]]  |
-| Compositor    | Picom                 | .config/picom    |
+| Compositor    | Picom                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/picom][.config/picom]]    |
 | Wallpapers    | Nitrogen              | [[https://github.com/noncog/.dotfiles/tree/master/.config/nitrogen][.config/nitrogen]] |
 | Screenshots   | Scrot                 |                  |
 | Network Menu  | Network-Manager-Gnome |                  |
@@ -58,8 +58,8 @@ The configurations are managed in a =git -bare= repository. And =debian-autosetu
 
 Therefore, to have a fully version controlled system with an automatic installer, all you must do is:
 1. Fork debian-autosetup
-2. Manage your configurations with a git -bare repository. See guide below.
-3. Customize debian-autosetup with your software and point it to your configurations repository.
+2. Manage your dotfiles with a git -bare repository. See guide below.
+3. Customize debian-autosetup with your software and point it to your dotfiles repository.
 
 *** Git -Bare Setup Guide
 This is the absolute =bare= minimum guide one could use to start managing their dotfiles with a bare repository. For more information, there are numerous guides on the internet.
