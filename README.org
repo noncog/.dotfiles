@@ -78,7 +78,7 @@ dotfiles commit -m "Added .bashrc"
 #+END_SRC
 **** First Push / Remote Setup
 #+BEGIN_SRC
-dotfiles remote add origin <your dotfiles repo>
+dotfiles remote add origin <your dotfiles repo> 
 dotfiles push -u origin master
 #+END_SRC
 **** Commands
@@ -89,8 +89,46 @@ dotfiles push
 dotfiles status
 dotfiles log
 #+END_SRC
+**** Cloning
+I reccomend you let the cloning be done by debian-autosetup.
+
+If you want to know it's done though...
+***** Simple Clone
+#+BEGIN_SRC
+git clone --bare <your dotfiles repo> $HOME/.dotfiles
+  
+# alias only in this shell instance
+# assumes you back up your .bashrc with the permanent alias,
+# which will be installed momentarily.
+  
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+dotfiles checkout
+#+END_SRC
+If you have configs already in place, the above will likely fail, and ask you to remove the config files before dotfiles can be cloned in.
+
+If this is the case, you can manually solve conflicts or use the following automatic cloning script:
+- *WARNING*: This will backup your dotfiles and replace them.
+- =NOTE= This is the same script used in debian-autosetup.
+***** Automated Cloning Script
+#+BEGIN_SRC
+# clone dotfiles
+git clone --bare <your dotfiles repo> $HOME/.dotfiles
+
+# checkout will backup dotfiles in the way
+cd ${HOME}
+mkdir -p .dotfiles-backup && \
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
+xargs -I{} mv {} .dotfiles-backup/{}
+
+# now check out
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
+
+# hide untracked files
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
+#+END_SRC
 **** Recommendations For GitHub Users
-*Use the private noreply email* provided by GitHub to prevent leaking your personal email in git commits.
+Use the private noreply email provided by GitHub to prevent leaking your personal email in git commits.
 - Provided by GitHub [[https://github.com/settings/email][here]].
 #+BEGIN_SRC
 - set on the command line using:
@@ -98,7 +136,7 @@ git config --global user.email <noreply-email>
 - check it was set using:
 git config --global user.email
 #+END_SRC
-*Use personal access tokens or ssh keys when commiting from the command line.*
+Use personal access tokens or ssh keys when commiting from the command line.
 - Access tokens provided by GitHub [[https://github.com/settings/tokens][here]].
 #+BEGIN_SRC
 - generate a token for repository changes.
