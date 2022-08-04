@@ -46,5 +46,6 @@ However, if you would like to use my system, then see =More Information= below.
 
 #+HTML: <h1 align="center">System</h1>
 #+HTML: <p align="center"><code>&#91 <a href="#install">Install</a> - <a href="#foo">foo</a> - <a href="#git--bare-guide">Git -bare Guide</a> &#93</code></p>
+#+HTML:<code>mermaid graph TD; A-->B; A-->C; B-->D; C-->D;</code>
 Foo Bar Filler
 #+HTML: </details>
