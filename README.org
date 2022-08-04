@@ -145,5 +145,6 @@ Use personal access tokens or ssh keys when commiting from the command line.
 - save it locally to your system, it will not be accessible again.
 - enter the token when prompted for your password during a push.
 #+END_SRC
+- ssh setup guide provided by GitHub [[https://docs.github.com/en/authentication/connecting-to-github-with-ssh][here]].
 
 #+HTML: </details>
