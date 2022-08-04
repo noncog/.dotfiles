@@ -1,5 +1,7 @@
 export XDG_SESSION_TYPE="x11"
 
+xmodmap ~/.Xmodmap
+
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
 xrandr --dpi 96
