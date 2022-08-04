@@ -49,8 +49,9 @@ However, if you would like to use my system, then see =More Information= below.
 
 It's actually very simple. The software I use and their configurations are installed by [[https://github.com/noncog/debian-autosetup][debian-autosetup]].
 
+** Use Mine
 If you want to use my exact system the way it is, just run debian-autosetup.
-
+** Build Your Own
 You may not want to use my system, because it's custom to me. But you can still use my tools and techniques to save yourself a lot of work.
 
 The configurations are managed in a =git -bare= repository. And debian-autosetup can install softtware and dotfiles managed with git -bare repositories.
