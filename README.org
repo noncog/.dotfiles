@@ -56,5 +56,14 @@ graph TD;
     C-->D;
 ```
 #+END_SRC
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
 Foo Bar Filler
 #+HTML: </details>
