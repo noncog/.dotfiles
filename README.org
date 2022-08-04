@@ -47,6 +47,11 @@ However, if you would like to use my system, then see =More Information= below.
 #+HTML: <h1 align="center">System</h1>
 #+HTML: <p align="center"><code>&#91 <a href="#install">Install</a> - <a href="#foo">foo</a> - <a href="#git--bare-guide">Git -bare Guide</a> &#93</code></p>
 
-You may not want to use my system, because it's custom to me. But I aim to share with you all the information that you would need to setup a similar one.
+
+I aim to share all the information on my system, if you want to use it or not. Maybe you 
+If you want to use my system or not, I aim to share all the information about it
+
+
+You may not want to use my system, because it's custom to me. But, here is all the information you would need to build a similar one.
 
 #+HTML: </details>
