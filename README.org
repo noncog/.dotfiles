@@ -56,6 +56,9 @@ You may not want to use my system, because it's custom to me. But you can still 
 
 The configurations are managed in a =git -bare= repository. And =debian-autosetup= can install software and configurations managed with git -bare repositories.
 
-Therefore, to have a fully version controlled system with an automatic installer, all you must do is fork debian-autosetup, customize it with your software, manage your configurations with a git -bare repository and point debian-autosetup to it.
-
+Therefore, to have a fully version controlled system with an automatic installer, all you must do is:
+1. Fork debian-autosetup
+2. Manage your configurations with a git -bare repository. See guide below.
+3. Customize debian-autosetup with your software and point it to your configurations repository.
+  
 #+HTML: </details>
