@@ -45,11 +45,11 @@ However, if you would like to use my system, then see =More Information= below.
 #+HTML: <details><summary><b>More Information</b></summary>
 
 #+HTML: <h1 align="center">System</h1>
-#+HTML: <p align="center"><code>&#91 <a href="#install">Install</a> - <a href="#foo">foo</a> - <a href="#git--bare-guide">Git -bare Guide</a> &#93</code></p>
 
 It's actually very simple. The software I use and their configurations are installed by [[https://github.com/noncog/debian-autosetup][debian-autosetup]].
 
-If you want to use my system, just run debian-autosetup on a fresh Debian 11 minimal install.
+If you want to use my system as is, just follow the instructions for debian-autosetup.
+- =NOTE= I use Nvidia and Intel wifi drivers, remove those from the apt package list if you don't.
 
 *** Build Your Own
 You may not want to use my system, because it's custom to me. But you can still use my tools and techniques to save yourself a lot of work.
