@@ -46,6 +46,9 @@ However, if you would like to use my system, then see =More Information= below.
 
 #+HTML: <h1 align="center">System</h1>
 #+HTML: <p>It's actually very simple. The software I use and their configurations are installed by <a href="https://github.com/noncog/debian-autosetup">debian-autosetup</a>.</p>
+
+*** Use Mine
+
 #+HTML: <p>If you want to use my system as is, just follow the instructions for debian-autosetup.<br><code>Note</code> I use Nvidia and Intel wifi drivers, remove those from the apt package list if you don't.</p>
 
 *** Build Your Own
