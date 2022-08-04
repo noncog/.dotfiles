@@ -15,22 +15,22 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML: <details><summary><b>Software</b></summary><br>
 
 | Purpose       | Software              | Config           |
-| OS            | Debian 11             |                  |
-| WM            | i3                    | [[https://github.com/noncog/.dotfiles/tree/master/.config/i3][.config/i3]]       |
-| Launcher      | Rofi                  | [[https://github.com/noncog/.dotfiles/tree/master/.config/rofi][.config/rofi]]     |
-| Notifications | Dunst                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/dunst][.config/dunst]]    |
-| Status Bar    | Polybar               | [[https://github.com/noncog/.dotfiles/tree/master/.config/polybar][.config/polybar]]  |
-| Compositor    | Picom                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/picom][.config/picom]]    |
-| Wallpapers    | Nitrogen              | [[https://github.com/noncog/.dotfiles/tree/master/.config/nitrogen][.config/nitrogen]] |
-| Screenshots   | Scrot                 |                  |
-| Network Menu  | Network-Manager-Gnome |                  |
-| Terminal      | Kitty                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/kitty][.config/kitty]]    |
-| Shell         | Bash                  | [[https://github.com/noncog/.dotfiles/blob/master/.bashrc][.bashrc]]          |
-| Editor        | Emacs                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/cogmacs][.config/cogmacs]]  |
-| File Manager  | Ranger                | .config/ranger   |
-| Ebook Reader  | Zathura               | .config/zathura  |
-| Image Viewer  | SXIV                  |                  |
-| Video Player  | VLC                   |                  |
+| OS            | [[https://www.debian.org/][Debian 11]]             |                  |
+| WM            | [[https://i3wm.org/][i3]]                    | [[https://github.com/noncog/.dotfiles/tree/master/.config/i3][.config/i3]]       |
+| Launcher      | [[https://github.com/davatorium/rofi][Rofi]]                  | [[https://github.com/noncog/.dotfiles/tree/master/.config/rofi][.config/rofi]]     |
+| Notifications | [[https://dunst-project.org/][Dunst]]                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/dunst][.config/dunst]]    |
+| Status Bar    | [[https://polybar.github.io/][Polybar]]               | [[https://github.com/noncog/.dotfiles/tree/master/.config/polybar][.config/polybar]]  |
+| Compositor    | [[https://github.com/yshui/picom][Picom]]                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/picom][.config/picom]]    |
+| Wallpapers    | [[https://github.com/l3ib/nitrogen/][Nitrogen]]              | [[https://github.com/noncog/.dotfiles/tree/master/.config/nitrogen][.config/nitrogen]] |
+| Screenshots   | [[https://github.com/resurrecting-open-source-projects/scrot][Scrot]]                 |                  |
+| Network Menu  | [[https://wiki.gnome.org/Projects/NetworkManager][Network-Manager-Gnome]] |                  |
+| Terminal      | [[https://sw.kovidgoyal.net/kitty/][Kitty]]                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/kitty][.config/kitty]]    |
+| Shell         | [[https://www.gnu.org/software/bash/][Bash]]                  | [[https://github.com/noncog/.dotfiles/blob/master/.bashrc][.bashrc]]          |
+| Editor        | [[https://www.gnu.org/software/emacs/][Emacs]]                 | [[https://github.com/noncog/.dotfiles/tree/master/.config/cogmacs][.config/cogmacs]]  |
+| File Manager  | [[https://github.com/ranger/ranger][Ranger]]                | .config/ranger   |
+| Ebook Reader  | [[https://pwmt.org/projects/zathura/][Zathura]]               | .config/zathura  |
+| Image Viewer  | [[https://github.com/muennich/sxiv][SXIV]]                  |                  |
+| Video Player  | [[https://www.videolan.org/vlc/][VLC]]                   |                  |
 
 #+HTML:</details>
 
