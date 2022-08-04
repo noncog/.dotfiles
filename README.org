@@ -47,6 +47,14 @@ However, if you would like to use my system, then see =More Information= below.
 #+HTML: <h1 align="center">System</h1>
 #+HTML: <p align="center"><code>&#91 <a href="#install">Install</a> - <a href="#foo">foo</a> - <a href="#git--bare-guide">Git -bare Guide</a> &#93</code></p>
 
-You may not want to use my system, because it's custom to me. But, here is all the information you would need to build a similar one.
+It's actually very simple. The software I use and their configurations are installed by [[https://github.com/noncog/debian-autosetup][debian-autosetup]].
+
+If you want to use my exact system the way it is, just run debian-autosetup.
+
+You may not want to use my system, because it's custom to me. But you can still use my tools and techniques to save yourself a lot of work.
+
+The configurations are managed in a =git -bare= repository. And debian-autosetup can install softtware and dotfiles managed with git -bare repositories.
+
+Therefore, to have a fully version controlled system with an automatic installer, all you must do is fork debian-autosetup, customize it with your software, manage your configurations with a git -bare repository and point debian-autosetup to it.
 
 #+HTML: </details>
