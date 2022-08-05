@@ -22,10 +22,10 @@ notifier="dunstify"                       # set to command for your notification
 
 scripts="$directory/scripts"                                   # dfirectory for menu item scripts
 logs="$directory/logs"                                         # directory of logs & tmp files
-config="${0##*/}"; config="${config%.*}.rasi"                  # get rofi config for script
+config="${0##*/}"; config="${config%.*}.rasi"                  # get rofi config for scripts
 # config file titles must match associated script title
 
-rofi_command="rofi -theme $directory/configs/$config"          # rofi config for menu
+rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 57 -theme $directory/configs/$config"          # rofi config for menu
 rofi_error_command="rofi -theme $directory/configs/error.rasi" # rofi config for error message
 
 #===========#
@@ -117,7 +117,7 @@ if [ $log_count -ge 1 ]; then
 
 	# execute command for selection
 	if [[ -f "${scripts[index]#*=}" ]]; then
-	    bash "${scripts[index]#*=}" $directory $notifications $notifier $logs $log_count $downloads
+	    bash "${scripts[index]#*=}" $directory $notifications $notifier $logs $log_count $downloads $config
 	else
 	    err_msg "$selection script not found."
 	fi
