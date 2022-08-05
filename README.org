@@ -49,7 +49,7 @@ However, if you would like to use my system, then see =More Information= below.
 
 *** Use Mine
 
-#+HTML: <p>If you want to use my system as is, just follow the instructions for debian-autosetup.<br><code>Note</code> I use Nvidia and Intel wifi drivers, remove those from the apt package list if you don't.</p>
+#+HTML: <p>If you want to use my system as is, just follow the instructions for debian-autosetup.<ul><li><code>Note</code> I use Nvidia and Intel wifi drivers, remove those from the apt package list if you don't.</li></ul></p>
 
 *** Build Your Own
 You may not want to use my system, because it's custom to me. But you can still use my tools and techniques to save yourself a lot of work.
