@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 dir="$HOME/.config/rofi/cogmenu"
-rofi_command="rofi -no-fixed-num-lines -theme $dir/configs/cogmenu.rasi"
+rofi_command="rofi -location 2 -yoffset 57 -no-fixed-num-lines -theme $dir/configs/cogmenu.rasi"
 
 # Options
 screenshot=" Screenshot"
@@ -13,7 +13,7 @@ power=" Power"
 
 # Error msg
 msg() {
-	rofi -theme "$HOME/.config/rofi/cogmenu/configs/message.rasi" -e "$1"
+	rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
 }
 
 # Variable passed to rofi
