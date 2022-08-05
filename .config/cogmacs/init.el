@@ -47,6 +47,7 @@
 	  (setq noncog/scratchpad-visible nil))
     (progn ;; not visible
       (let ((buffer (find-file-noselect noncog/scratchpad-file))) (let ((display-buffer-mark-dedicated t)) (display-buffer-in-side-window buffer '((side . right) (window-parameters (no-delete-other-windows . t))))))
+      (select-window (get-buffer-window (get-file-buffer noncog/scratchpad-file)))
       (setq noncog/scratchpad-visible t))))
   :config
   ;; basic interface configuration
