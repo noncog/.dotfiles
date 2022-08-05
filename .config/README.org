@@ -1,4 +1,4 @@
-#+HTML: <h1 align="center">Configs<h1>
+#+HTML: <h1 align="center">Configs</h1>
 
 This directory contains the majority of my configurations.
 
