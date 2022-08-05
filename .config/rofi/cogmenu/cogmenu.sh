@@ -30,7 +30,7 @@ case $chosen in
 	;;
     $brightness)
 	if [[ -f "$dir/brightness.sh" ]]; then
-	    bash "$dir/brightness.sh"
+	    bash "$dir/brightness.sh" -selected-row 1
 	else
 	    msg "@brightness file not found"
 	fi
