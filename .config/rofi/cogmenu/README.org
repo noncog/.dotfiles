@@ -1,3 +1,7 @@
 #+HTML: <h1 align="center">Cogmenu</h1>
 
 #+HTML: <p align="center"><img src="cogmenu.png" /></p>
+
+This is my custom system menu. It functions as a "catch all" for other menus, although it does not contain all of my menus.
+
+If you want to use these features, some of the scripts are only found here, however do not use =rofi-borg= from here. Instead see the [[https://github.com/noncog/rofi-borg][rofi-borg]] repository.
