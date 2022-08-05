@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 dir="$HOME/.config/rofi/cogmenu"
-rofi_command="rofi -theme $dir/configs/settings.rasi"
+rofi_command="rofi -theme $dir/configs/controls.rasi"
 
 # Options
 desktop=" Desktop mode"
