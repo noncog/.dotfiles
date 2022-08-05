@@ -1,1 +1,3 @@
 #+HTML: <h1 align="center">Cogmenu</h1>
+
+#+HTML: <p align="center"><img src="cogmenu.png" /></p>
