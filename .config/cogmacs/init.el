@@ -1,8 +1,7 @@
 (defun noncog/reload-init-file ()
   (interactive)
   (load-file "~/.config/cogmacs/init.el")
-  (princ "init.el reloaded.")
-  )
+  (princ "init.el reloaded."))
 
 (global-set-key (kbd "C-c r") 'noncog/reload-init-file)
 
@@ -22,6 +21,20 @@
 (use-package emacs
   :ensure nil
   :preface
+  (defun noncog/org-show-current-heading-tidily ()
+  (interactive)  ;Inteactive
+  "Show next entry, keeping other entries closed."
+  (if (save-excursion (end-of-line) (outline-invisible-p))
+      (progn (org-show-entry) (show-children))
+    (outline-back-to-heading)
+    (unless (and (bolp) (org-on-heading-p))
+      (org-up-heading-safe)
+      (hide-subtree)
+      (error "Boundary reached"))
+    (org-overview)
+    (org-reveal t)
+    (org-show-entry)
+    (show-children)))
   ;; intuitive split settings
   (defun noncog/split-and-follow-horizontally ()
     "Split window below."
@@ -88,8 +101,10 @@
   ;; global keybinds
   (global-set-key (kbd "C-=") 'text-scale-increase)   ; set zoom in
   (global-set-key (kbd "C--") 'text-scale-decrease)   ; set zoom out
-  ;; custom display buffer stuff
+  ;; custom scratchpad buffer viewer
   (global-set-key (kbd "C-c s") #'noncog/toggle-scratchpad)
+  ;; fold other org-mode headers
+  (global-set-key (kbd "C-c C-h") #'noncog/org-show-current-heading-tidily)
   ;; custom intuitive split settings
   (global-set-key (kbd "C-x 2") #'noncog/split-and-follow-horizontally)
   (global-set-key (kbd "C-x 3") #'noncog/split-and-follow-vertically)
