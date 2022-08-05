@@ -8,7 +8,7 @@ screenshot=" Screenshot"
 brightness=" Brightness"
 configuration=" Configs"
 backups=" Backups"
-settings=" Settings"
+controls=" Controls"
 power=" Power"
 
 # Error msg
@@ -17,7 +17,7 @@ msg() {
 }
 
 # Variable passed to rofi
-options="$screenshot\n$brightness\n$configuration\n$backups\n$settings\n$power"
+options="$screenshot\n$brightness\n$configuration\n$backups\n$controls\n$power"
 
 chosen="$(echo -e "$options" | $rofi_command -p 'menu' -dmenu -selected-row 1)"
 case $chosen in
@@ -49,9 +49,9 @@ case $chosen in
 	    msg "@backups file not found"
 	fi
         ;;
-    $settings)
-	if [[ -f "$dir/settings.sh" ]]; then
-	    bash "$dir/settings.sh"
+    $controls)
+	if [[ -f "$dir/controls.sh" ]]; then
+	    bash "$dir/controls.sh"
 	else
 	    msg "@settings file not found"
 	fi
