@@ -1,0 +1,11 @@
+#+HTML: <h1 align="center">Configs<h1>
+
+This directory contains the majority of my configurations.
+
+This is the $XDG_HOME_CONFIG directory, otherwise known as .config.
+
+I try to use as many configurations as I can from this directory.
+
+As such, not all of these directories are the default ones for their configuration files.
+
+Support for $XDG_HOME_CONFIG is growing amongst software and many popular softwares support multiple configuration directories, consider moving some of yours to .config.
