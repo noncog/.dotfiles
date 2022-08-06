@@ -12,7 +12,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML: <details><summary><b>Features</b></summary><p><ul><li><a href="https://draculatheme.com/">Dracula</a> theme everywhere!</li><li><a href="https://github.com/tonsky/FiraCode">Fira Code</a> font.</li><li><a href="https://github.com/FortAwesome/Font-Awesome">Font Awesome 5</a> icon font.</li><li>Floating <a href="https://github.com/noncog/.dotfiles/tree/master/.config/i3#youtube-mode">YouTube player</a>!</li><li><code>CPU Thermometer</code> - A reactive icon, with warning colors.</li><li><code>Xmodmap</code> - System level keyboard mapping.<ul><li>Caps-lock bound to Control, for Emacsers... or everyone really.</li></ul></li><li><code>Custom Menus</code> - Powered by Rofi!<ul><li><b>Cogmenu</b> - My custom system <a href="https://github.com/noncog/.dotfiles/tree/master/.config/rofi/cogmenu">menu</a>.</li><ul><li>Screenshtos</li><li>Brightness</li><li>Config Editor</li><li>Borg Backups<ul><li>Provided by <a href="https://github.com/noncog/rofi-borg">rofi-borg</a>.</li></ul></li><li>Controls<ul><li>i3 Reloader</li><li>i3 Keybinds Viewer</li><li>Kill Emacs</li></ul></li><li>Power Menu</li></ul></ul></li></ul></p></details>
 
-#+HTML: <details><summary><b>Software</b></summary><br><p align="center">
+#+HTML: <details><summary><b>Software</b></summary><br><p align="center">test
 
 | Purpose       | Software              | Config           |
 | OS            | [[https://www.debian.org/][Debian 11]]             |                  |
