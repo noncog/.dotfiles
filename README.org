@@ -14,6 +14,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML: <details><summary><b>Software</b></summary><br>
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
+test
 | Purpose       | Software              | Config           |
 | OS            | [[https://www.debian.org/][Debian 11]]             |                  |
 | WM            | [[https://i3wm.org/][i3]]                    | [[https://github.com/noncog/.dotfiles/tree/master/.config/i3][.config/i3]]       |
