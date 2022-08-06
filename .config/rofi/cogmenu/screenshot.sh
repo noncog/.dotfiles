@@ -9,7 +9,7 @@ area=" Area"
 window=" Window"
 
 # Error msg
-msg() {
+err_msg() {
 	rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
 }
 
@@ -22,21 +22,21 @@ case $chosen in
 		if [[ -f /usr/bin/scrot ]]; then
 			sleep 1; scrot -d 1 $HOME/pictures/screenshots/screen-%b%d::%H%M%S.png
 		else
-			msg "Scrot -d failed."
+			err_msg "Scrot -d failed."
 		fi
         ;;
     $area)
 		if [[ -f /usr/bin/scrot ]]; then
 			scrot -s $HOME/pictures/screenshots/area-%b%d::%H%M%S.png
 		else
-			msg "Scrot -s failed."
+			err_msg "Scrot -s failed."
 		fi
         ;;
     $window)
 		if [[ -f /usr/bin/scrot ]]; then
 		    sleep 1; scrot -u $HOME/pictures/screenshots/window-%b%d::%H%M%S.png
 		else
-			msg "Scrot -u failed."
+			err_msg "Scrot -u failed."
 		fi
         ;;
 esac

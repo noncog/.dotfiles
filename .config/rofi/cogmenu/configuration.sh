@@ -12,7 +12,7 @@ kitty="Kitty"
 cogmacs="Emacs"
 
 # Error msg
-msg() {
+err_msg() {
 	rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
 }
 
@@ -25,42 +25,42 @@ case $chosen in
 		if [[ -f "$HOME/.config/dunst/dunstrc" ]]; then
 			emacsclient -a emacs $HOME/.config/dunst/dunstrc &
 		else
-			msg "$dunst config not found."
+			err_msg "$dunst config not found."
 		fi
         ;;
     $i3)
 		if [[ -f "$HOME/.config/i3/README.org" ]]; then
 			emacsclient -a emacs $HOME/.config/i3/README.org &
 		else
-			msg "$i3 config not found."
+			err_msg "$i3 config not found."
 		fi
         ;;
     $polybar)
 		if [[ -f "$HOME/.config/polybar/config" ]]; then
 			emacsclient -a emacs $HOME/.config/polybar/config &
 		else
-			msg "$polybar config not found."
+			err_msg "$polybar config not found."
 		fi
         ;;
     $picom)
 		if [[ -f "$HOME/.config/picom/picom.conf" ]]; then
 			emacsclient -a emacs $HOME/.config/picom/picom.conf &
 		else
-			msg "$picom config not found."
+			err_msg "$picom config not found."
 		fi
         ;;
     $kitty)
 		if [[ -f "$HOME/.config/kitty/kitty.conf" ]]; then
 			emacsclient -a emacs $HOME/.config/kitty/kitty.conf &
 		else
-			msg "$kitty config not found."
+			err_msg "$kitty config not found."
 		fi
         ;;
     $cogmacs)
 		if [[ -f "$HOME/.config/cogmacs/README.org" ]]; then
 			emacsclient -a emacs $HOME/.emacs.d/README.org &
 		else
-			msg "$kitty config not found."
+			err_msg "$kitty config not found."
 		fi
         ;;
 esac

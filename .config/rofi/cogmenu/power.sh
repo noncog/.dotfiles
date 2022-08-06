@@ -8,11 +8,6 @@ power=" Power off"
 restart=" Restart"
 logout=" Logout i3"
 
-# Error msg
-msg() {
-	rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
-}
-
 # Variable passed to rofi
 options="$power\n$restart\n$logout"
 

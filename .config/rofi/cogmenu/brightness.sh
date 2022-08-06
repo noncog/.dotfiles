@@ -8,7 +8,7 @@ up=" Up"
 down=" Down"
 
 # Error msg
-msg() {
+err_msg() {
 	rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
 }
 
@@ -21,14 +21,14 @@ case $chosen in
 		if [[ -f "$dir/brightness_change.sh" ]]; then
 			bash "$dir/brightness_change.sh" + && bash "$dir/brightness.sh" -selected-row 0
 		else
-			msg "$down failed."
+			err_msg "$down failed."
 		fi
         ;;
     $down)
 		if [[ -f "$dir/brightness_change.sh" ]]; then
 			bash "$dir/brightness_change.sh" - && bash "$dir/brightness.sh" -selected-row 1
 		else
-			msg "$up failed."
+			err_msg "$up failed."
 		fi
         ;;
 esac

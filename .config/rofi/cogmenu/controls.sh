@@ -10,7 +10,7 @@ keybindsi3=" i3 Keybinds"
 killemacs=" Kill Emacs"
 
 # Error msg
-msg() {
+err_msg() {
 	rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
 }
 
@@ -23,7 +23,7 @@ case $chosen in
 		if [[ -f "$dir/desktop.sh" ]]; then
 		    bash "$dir/desktop.sh"
 		else
-			msg "$desktop file not found"
+			err_msg "$desktop file not found"
 		fi
         ;;
     $reloadi3)
