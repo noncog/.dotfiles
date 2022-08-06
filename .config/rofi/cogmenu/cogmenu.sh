@@ -13,7 +13,7 @@ power=" Power"
 
 # Error msg
 err_msg() {
-	rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
+    rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
 }
 
 # Variable passed to rofi

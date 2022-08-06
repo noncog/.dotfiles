@@ -11,7 +11,7 @@ killemacs=" Kill Emacs"
 
 # Error msg
 err_msg() {
-	rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
+    rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
 }
 
 # Variable passed to rofi
@@ -19,22 +19,22 @@ options="$desktop\n$reloadi3\n$keybindsi3\n$killemacs"
 
 chosen="$(echo -e "$options" | $rofi_command -p 'custom settings' -dmenu)"
 case $chosen in
-	$desktop)
-		if [[ -f "$dir/desktop.sh" ]]; then
-		    bash "$dir/desktop.sh"
-		else
-			err_msg "$desktop file not found"
-		fi
-        ;;
+    $desktop)
+	if [[ -f "$dir/desktop.sh" ]]; then
+	    bash "$dir/desktop.sh"
+	else
+	    err_msg "$desktop file not found"
+	fi
+	;;
     $reloadi3)
-		i3-msg reload
-		i3-msg restart
-        ;;
+	i3-msg reload
+	i3-msg restart
+	;;
     $keybindsi3)
-		grep -e '^[^#]*bind' ~/.config/i3/config | rofi -p 'keybinds' -dmenu
-        ;;
-	$killemacs)
-		emacsclient -e "(kill-emacs)"
-		killall emacs
-        ;;
+	grep -e '^[^#]*bind' ~/.config/i3/config | rofi -p 'keybinds' -dmenu
+	;;
+    $killemacs)
+	emacsclient -e "(kill-emacs)"
+	killall emacs
+	;;
 esac
