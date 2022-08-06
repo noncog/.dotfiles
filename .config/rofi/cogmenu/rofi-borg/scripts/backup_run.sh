@@ -93,7 +93,7 @@ get_individuals() {
 
 # main backup function
 backup() {
-        # output progress
+    # output progress
     notify "Backup: Starting!"
     info "Starting backup!"
 

@@ -48,17 +48,17 @@ export BORG_PASSCOMMAND="cat $HOME/.borg-passphrase"
 #============#
 
 items=(
-	backup=" Backup"
-	list=" List"
-	download=" Download"
-	delete=" Delete"
+    backup=" Backup"
+    list=" List"
+    download=" Download"
+    delete=" Delete"
 )
 
 scripts=(
-	backup="$scripts/backup_run.sh"
-	list="$scripts/backup_list.sh"
-	download="$scripts/backup_download.sh"
-	delete="$scripts/backup_delete.sh"
+    backup="$scripts/backup_run.sh"
+    list="$scripts/backup_list.sh"
+    download="$scripts/backup_download.sh"
+    delete="$scripts/backup_delete.sh"
 )
 
 #===========#
@@ -67,33 +67,33 @@ scripts=(
 
 # create command to push/pipe menu into rofi
 assemble_menu() {
-	declare -A menu
-	declare -a order
-	# assemble menu items from items array
-	for item in "${items[@]}"; do
-		menu+=(["${item%=*}"]="${item#*=}")
-		order+=( "${item%=*}" )
-	done
-	for item in "${order[@]}"; do
-		echo "${menu["$item"]}"
-	done
+    declare -A menu
+    declare -a order
+    # assemble menu items from items array
+    for item in "${items[@]}"; do
+	menu+=(["${item%=*}"]="${item#*=}")
+	order+=( "${item%=*}" )
+    done
+    for item in "${order[@]}"; do
+	echo "${menu["$item"]}"
+    done
 }
 
 # function for notifications if enabled
 notify() {
-	if [ $notifications == "y" ]; then
-		eval $notifier $1
-	fi
+    if [ $notifications == "y" ]; then
+	eval $notifier $1
+    fi
 }
 
 # error message
 err_msg() {
-	$rofi_error_command -e "$1"
+    $rofi_error_command -e "$1"
 }
 
 # if logs set correctly: log_count >= 1 proceed
 if [ $log_count -ge 1 ]; then
-    
+        
     # create logs directory
     if [ ! -d "${logs}" ]; then
 	mkdir -p "${logs}"
