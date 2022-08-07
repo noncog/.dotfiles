@@ -144,7 +144,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML:<li>Screen</li>
 #+HTML:<li>Area</li>
 #+HTML:<li>Window</li>
-#+HTML:<ins>Using scrot</ins>
+#+HTML:<li>uses scrot</li>
 #+HTML:</ul>
 #+HTML:</li>
 
