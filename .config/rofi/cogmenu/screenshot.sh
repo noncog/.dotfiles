@@ -16,7 +16,7 @@ err_msg() {
 # Variable passed to rofi
 options="$screen\n$area\n$window"
 
-chosen="$(echo -e "$options" | $rofi_command -p 'scrot' -dmenu -selected-row 1)"
+chosen="$(echo -e "$options" | $rofi_command -p 'scrot' -dmenu)"
 case $chosen in
     $screen)
 	if [[ -f /usr/bin/scrot ]]; then
