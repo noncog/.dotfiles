@@ -128,7 +128,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 
 #+HTML:<li>
-#+HTML:<<code>Custom Menus</code> - Powered by <a href="https://github.com/davatorium/rofi">Rofi</a>!
+#+HTML:<code>Custom Menus</code> - Powered by <a href="https://github.com/davatorium/rofi">Rofi</a>!
 
 #+HTML:<ul>
 
