@@ -139,7 +139,8 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML:<ul>
 
 #+HTML:<li>
-#+HTML:Screenshots - Using scrot
+#+HTML:Screenshots
+#+HTML:<p><ins>Using scrot</ins></p>
 #+HTML:<ul>
 #+HTML:<li>Screen</li>
 #+HTML:<li>Area</li>
@@ -148,7 +149,8 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML:</li>
 
 #+HTML:<li>
-#+HTML:Brightness - Using xrandr
+#+HTML:Brightness
+#+HTML:<p><ins>Using xrandr</ins></p>
 #+HTML:<ul>
 #+HTML:<li>Up</li>
 #+HTML:<li>Down</li>
