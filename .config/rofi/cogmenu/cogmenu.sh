@@ -6,7 +6,6 @@ rofi_command="rofi -location 2 -yoffset 57 -no-fixed-num-lines -theme $dir/confi
 # Options
 screenshot=" Screenshot"
 brightness=" Brightness"
-configuration=" Configs"
 backups=" Backups"
 controls=" Controls"
 power=" Power"
@@ -17,7 +16,7 @@ err_msg() {
 }
 
 # Variable passed to rofi
-options="$screenshot\n$brightness\n$configuration\n$backups\n$controls\n$power"
+options="$screenshot\n$brightness\n$backups\n$controls\n$power"
 
 chosen="$(echo -e "$options" | $rofi_command -p 'menu' -dmenu -selected-row 1)"
 case $chosen in
@@ -33,13 +32,6 @@ case $chosen in
 	    bash "$dir/brightness.sh" -selected-row 1
 	else
 	    err_msg "@brightness file not found"
-	fi
-        ;;
-    $configuration)
-	if [[ -f "$dir/configuration.sh" ]]; then
-	    bash "$dir/configuration.sh"
-	else
-	    err_msg "@configuration file not found"
 	fi
         ;;
     $backups)
