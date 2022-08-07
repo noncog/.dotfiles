@@ -3,7 +3,7 @@
 
 #+HTML: <p align="center"><img src=".system_demo.png"/></p>
 #+HTML: <p align="center"><code>This repository holds my system configuration files. Take what you like or use as is!</code></p>
-
+#+HTML: <p align="center">For a tutorial on managing your dotfiles with git -bare see <code>More Information</code>!</p>
 
 * Overview
 This system follows my philosophy of how a system should be built, maintained, and interacted with.
