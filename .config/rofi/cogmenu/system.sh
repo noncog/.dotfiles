@@ -11,7 +11,7 @@ logout=" Logout i3"
 # Variable passed to rofi
 options="$power\n$restart\n$logout"
 
-chosen="$(echo -e "$options" | $rofi_command -p 'system' -dmenu -selected-row 1)"
+chosen="$(echo -e "$options" | $rofi_command -p 'system' -dmenu)"
 case $chosen in
     $power)
 	systemctl poweroff
