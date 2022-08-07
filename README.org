@@ -150,11 +150,10 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML:<li>
 #+HTML:Brightness
-#+HTML:<br>
-#+HTML:<ins>Using xrandr</ins>
 #+HTML:<ul>
 #+HTML:<li>Up</li>
 #+HTML:<li>Down</li>
+#+HTML:<li>uses xrandr</li>
 #+HTML:</ul>
 #+HTML:</li>
 
