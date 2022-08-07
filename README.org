@@ -108,7 +108,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML: <details>
 #+HTML:<summary><b>Features</b></summary><p>
 
-#+HTML<ul>
+#+HTML:<ul>
 
 #+HTML:<li><a href="https://draculatheme.com/">Dracula</a> theme everywhere!</li>
 
