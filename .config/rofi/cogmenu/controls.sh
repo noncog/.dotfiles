@@ -3,21 +3,20 @@
 dir="$HOME/.config/rofi/cogmenu"
 rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 47 -theme $dir/configs/cogmenu.rasi"
 
-# Options
+# options
 desktop=" Desktop mode"
 reloadi3=" Reload i3"
 keybindsi3=" i3 Keybinds"
-killemacs=" Kill Emacs"
 
-# Error msg
+# error msg
 err_msg() {
     rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
 }
 
-# Variable passed to rofi
-options="$desktop\n$reloadi3\n$keybindsi3\n$killemacs"
+# variables passed to rofi
+options="$desktop\n$reloadi3\n$keybindsi3"
 
-chosen="$(echo -e "$options" | $rofi_command -p 'custom settings' -dmenu)"
+chosen="$(echo -e "$options" | $rofi_command -p 'controls' -dmenu)"
 case $chosen in
     $desktop)
 	if [[ -f "$dir/desktop.sh" ]]; then
@@ -32,9 +31,5 @@ case $chosen in
 	;;
     $keybindsi3)
 	grep -e '^[^#]*bind' ~/.config/i3/config | rofi -p 'keybinds' -dmenu
-	;;
-    $killemacs)
-	emacsclient -e "(kill-emacs)"
-	killall emacs
 	;;
 esac
