@@ -9,7 +9,7 @@
 chemacs_directory="$HOME/.config/chemacs"
 
 # must set your install directory
-directory="$HOME/.config/rofi/rofi-chemacs"
+directory="$HOME/projects/rofi-chemacs"
 
 # set which command you want to use
 # these must be in opposition
@@ -19,13 +19,12 @@ use_emacsclient="y"
 # can optionally change the prompt message rofi shows
 prompt_message="Emacs"
 
-#=============#
-# script-vars #  DONT CHANGE
-#=============#
+# distance from top of screen in pixels
+vertical_offset=57
 
-config="${0##*/}"; config="${config%.*}.rasi"
-# to change location increase the -yoffset
-rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 57 -theme $directory/configs/$config"
+#=============#
+# script-vars #  CAN CHANGE ICON GLYPHS, nothing else
+#=============#
 
 # define menu options
 default=" Default"
@@ -33,6 +32,14 @@ set_default=" Set Default"
 configurations=" Configs"
 kill_emacs=" Kill Emacs"
 start_daemon=" Start Daemon"
+
+#=============#
+# script-vars #  DONT CHANGE
+#=============#
+
+config="${0##*/}"; config="${config%.*}.rasi"
+# to change location increase the -yoffset
+rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset $vertical_offset -theme $directory/configs/$config"
 
 # error message
 err_msg() {
@@ -117,12 +124,14 @@ else
 		    echo $new_default > $chemacs_directory/profile
 		fi
 	    fi
-	    emacs --daemon	    
+	    if [[ "$use_emacs" == "n" ]] && [[ "$use_emacsclient" == "y" ]]; then
+		emacs --daemon
+	    fi
 	    exit 0
 	;;
 	$configurations)
 	    if [[ -f "$directory/scripts/configs.sh" ]]; then
-		bash "$directory/scripts/configs.sh" $directory $chemacs_directory $config $use_emacs $use_emacsclient
+		bash "$directory/scripts/configs.sh" $directory $chemacs_directory $config $use_emacs $use_emacsclient $vertical_offset
 	    else
 		err_msg "$configurations file not found"
 	    fi
