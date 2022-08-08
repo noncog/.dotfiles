@@ -51,9 +51,9 @@ The exception to this rule, is that settings related to "looks" are in the [[htt
 *** Custom Functions
 #+HTML:<details>
 #+HTML:<summary>
-**** Windowing
+***** Windowing
 #+HTML:</summary>
-***** Intuitive Splitting
+****** Intuitive Splitting
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/split-and-follow-horizontally ()
   "Intuitively splits the window below and focuses it."
@@ -67,7 +67,7 @@ The exception to this rule, is that settings related to "looks" are in the [[htt
   (other-window 1))
 #+END_SRC
   
-***** Window Deletion Prevention
+****** Window Deletion Prevention
 I use this to make org-mode not delete other windows when displaying some of it's buffers: (org-agenda), (org-add-note), etc.
 
 Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_other_windows_when/][here]].
@@ -77,7 +77,7 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
   (cl-letf (((symbol-function 'delete-other-windows) 'ignore)) (apply oldfun args)))
 #+END_SRC
 
-***** My Org Document Viewer
+****** My Org Document Viewer
 #+BEGIN_SRC emacs-lisp :tangle init.el
 ;; file and a sentinel variables
 (setq noncog/scratchpad-file "/home/jake/documents/org/scratchpad.org")
@@ -101,7 +101,7 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
 
 #+HTML:<details>
 #+HTML:<summary>
-**** Reload Emacs
+***** Reload Emacs
 #+HTML:</summary>
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/reload-init-file ()
@@ -173,7 +173,7 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
 #+END_SRC
 
 * Looks
-** Theme
+*** Theme
 I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package dracula-theme
@@ -181,6 +181,9 @@ I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
   :config
   (load-theme 'dracula t))
 (set-cursor-color "#ff79c6")                        ; set cursor color
+#+END_SRC
+*** Customizations
+#+BEGIN_SRC emacs-lisp :tangle init.el
 #+END_SRC
 
 * Delight
