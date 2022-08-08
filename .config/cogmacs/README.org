@@ -55,11 +55,12 @@ I use [[https://github.com/jwiegley/use-package][this]] to install and configure
 #+END_SRC
 
 * Emacs
-This section modifies built in package settings.
+This section modifies built in settings and packages.
 
 ** Custom Functions
-
+#+HTML:<details><summary>
 *** Windowing
+#+HTML:</summary>
 **** Intuitive Splitting
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/split-and-follow-horizontally ()
@@ -75,7 +76,8 @@ This section modifies built in package settings.
 #+END_SRC
   
 **** Window Deletion Prevention
-I use this to make org-mode not delete other windows when displaying some of it's buffers. (org-agenda), (org-add-note), etc.
+I use this to make org-mode not delete other windows when displaying some of it's buffers: (org-agenda), (org-add-note), etc.
+
 Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_other_windows_when/][here]].
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/no-delete-windows (oldfun &rest args)
@@ -85,7 +87,6 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
 
 **** My Org Document Viewer
 #+BEGIN_SRC emacs-lisp :tangle init.el
-
 ;; define the file and a sentinel variable
 (setq noncog/scratchpad-file "/home/jake/documents/org/scratchpad.org")
 (setq noncog/scratchpad-visible nil)
@@ -105,6 +106,7 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
 	(setq noncog/scratchpad-visible t))))
 #+END_SRC
 
+#+HTML:</details>
 ** Configuration
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package emacs
