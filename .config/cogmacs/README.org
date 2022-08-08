@@ -26,7 +26,7 @@ I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not
 * Package Management
 *** Package.el
 [[https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/package.el][This]] is the default package handler for Emacs.
-**** Setup
+
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (require 'package)
 
@@ -44,13 +44,13 @@ I use [[https://github.com/jwiegley/use-package][this]] to install and configure
 
 - Cannot delete packages, I just delete =elpa= folder and relaunch.
   - Considering implementing [[https://www.reddit.com/r/emacs/comments/np6ey4/how_packageel_works_with_use_package/][this]] for install/delete control.
-**** Setup
-Install and configure.
+    
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
+;; output progress
 (setq use-package-verbose t)
 #+END_SRC
 
