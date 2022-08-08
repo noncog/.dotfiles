@@ -4,13 +4,17 @@
 
 #+HTML: <p align="center"><img src="cogmacs.png"/></p>
 
+#+HTML: <p align="center"><code>Cogmacs</code> is my ongoing GNU Emacs configuration.</p>
 
-Cogmacs is my ongoing GNU Emacs configuration. It is not meant for public use and represents my developing opinion and interactions with Emacs.
+#+BEGIN_QUOTE
+*Disclaimer:* /This is not a community framework or distribution./ It's a private configuration and an ongoing experiment that may change without warning.
+#+END_QUOTE
 
+
+
+
+* About
 I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not the default one. Default is now inhabited by Chemacs2.
-
-This is a constant work in progress... I may become Doomed.
-
 * Reload Emacs
 `C-c r` reloads the init-file.
 #+BEGIN_SRC emacs-lisp :tangle init.el
