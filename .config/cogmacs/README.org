@@ -2,6 +2,9 @@
 
 #+HTML: <p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
 
+#+HTML: <p align="center"><img src="cogmacs.png"/></p>
+
+
 Cogmacs is my ongoing GNU Emacs configuration. It is not meant for public use and represents my developing opinion and interactions with Emacs.
 
 I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not the default one. Default is now inhabited by Chemacs2.
