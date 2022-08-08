@@ -10,9 +10,6 @@
 *Disclaimer:* /This is not a community framework or distribution./ It's a private configuration and an ongoing experiment that may change without warning.
 #+END_QUOTE
 
-
-
-
 * About
 I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not the default one. Default is now inhabited by Chemacs2.
 * Reload Emacs
@@ -25,21 +22,36 @@ I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not
 
 (global-set-key (kbd "C-c r") 'noncog/reload-init-file)
 #+END_SRC
-* Package System
-I use use-package to manage my packages. The main reason I do, is that use-package automatically installs the latest of my desired packages when I first launch Emacs. Otherwise, one would have to use the built in GUI package installer to manually install all of their desired packages. I strive for automation and this not only accomplishes that, but also cleans up much of the elisp configuration leading to greater readability.
+
+* Package Management
+*** Package.el
+[[https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/package.el][This]] is the default package handler for Emacs.
+**** Setup
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (require 'package)
 
-(setq package-archives
+;; set sources
+(setq package-archives 
       '(("gnu" . "https://elpa.gnu.org/packages/")
 		("melpa" . "https://melpa.org/packages/")))
+#+END_SRC
 
+*** Use-Package
+I use [[https://github.com/jwiegley/use-package][this]] to install and configure my packages.
+
+- Installs my packages on startup.
+- Cleans up much of the elisp configuration, leading to greater readability.
+
+- Cannot delete packages, I just delete =elpa= folder and relaunch.
+  - Considering implementing [[https://www.reddit.com/r/emacs/comments/np6ey4/how_packageel_works_with_use_package/][this]] for install/delete control.
+**** Setup
+Install and configure.
+#+BEGIN_SRC emacs-lisp :tangle init.el
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
-(setq use-package-always-ensure t
-      use-package-verbose t)
+(setq use-package-verbose t)
 #+END_SRC
 
 * Emacs
@@ -149,12 +161,14 @@ This section modifies built in package settings or settings without a correspond
 * Delight
 Use-package has support for both diminish and delight, which are packages used for hiding minor-mode lighters from the modeline. I prefer delight as the documentation is better and diminish failed me. I may one day switch to minions to hide all lighters behind an icon. Or use mood-line or doom Semodeline.
 #+BEGIN_SRC emacs-lisp :tangle init.el
-(use-package delight)
+(use-package delight
+  :ensure t)
 #+END_SRC
 
 * Org Mode
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package org
+  :ensure t
   :preface
   (defun noncog/org-heading-size ()
     "set org headings to same size - theme and face independent"
@@ -212,6 +226,7 @@ Use-package has support for both diminish and delight, which are packages used f
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package org-bullets
+  :ensure t
   :after org                                          ; ensures org-bullets package is loaded after org package
   :hook (org-mode . org-bullets-mode)                 ; start bullets-mode after org-mode
   :config
@@ -236,6 +251,7 @@ Default:
 ** Org Noter
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package org-noter
+  :ensure t
   :config
   ;; settings
   (setq org-noter-always-create-frame nil)            ; prevent noter from making a new frame
@@ -245,6 +261,7 @@ Default:
 * Counsel/Ivy/Swiper
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package counsel
+  :ensure t
   :config
   ;; settings
   (setq ivy-count-format "(%d/%d) ")
@@ -267,6 +284,7 @@ Default:
 * Ivy Rich
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package ivy-rich
+  :ensure t
   :after ivy                                          ; ensures ivy-rich package is loaded after ivy
   :config
   ;; settings
@@ -279,6 +297,7 @@ Default:
 * Ace-Window
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package ace-window
+  :ensure t
   :config
   ;; settings
   (setq aw-background nil)                            ; removes black overlay
@@ -293,6 +312,7 @@ Default:
 * Pulsar
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package pulsar
+  :ensure t
   :config
   ;; note - not using pulsar-pulse-functions and defining them all
   (setq pulsar-pulse-on-window-change t)
@@ -307,6 +327,7 @@ Default:
 * PDF Tools
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package pdf-tools
+  :ensure t
   ;; mode keybind
   :bind (:map pdf-view-mode-map ("C-s" . isearch-forward)) ; use isearch instead of ivy-search in pdf-mode as it breaks it
   :config
@@ -320,6 +341,7 @@ Default:
 * Projectile
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package projectile
+  :ensure t
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   ;; settings
@@ -334,6 +356,7 @@ Default:
 * Dashboard
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package dashboard
+  :ensure t
   :init
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
   :config
@@ -354,6 +377,7 @@ Default:
 * Which Key
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package which-key
+  :ensure t
   :config
   ;; settings
   (setq which-key-popup-type 'minibuffer)             ; set window mode
@@ -369,6 +393,7 @@ Default:
 I use *Dracula* theme everywhere I can. Check it out: [[https://draculatheme.com/][here]]
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package dracula-theme
+  :ensure t
   :config
   (load-theme 'dracula t)
   )
