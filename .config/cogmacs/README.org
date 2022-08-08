@@ -12,17 +12,6 @@
 
 * About
 I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not the default one. Default is now inhabited by Chemacs2.
-* Reload Emacs
-`C-c r` reloads the init-file.
-#+BEGIN_SRC emacs-lisp :tangle init.el
-(defun noncog/reload-init-file ()
-  (interactive)
-  (load-file "~/.config/cogmacs/init.el")
-  (princ "init.el reloaded."))
-
-(global-set-key (kbd "C-c r") 'noncog/reload-init-file)
-#+END_SRC
-
 * Package Management
 *** Package.el
 [[https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/package.el][This]] is the default package handler for Emacs.
@@ -58,7 +47,8 @@ I use [[https://github.com/jwiegley/use-package][this]] to install and configure
 This section modifies built in settings and packages.
 
 ** Custom Functions
-#+HTML:<details><summary>
+#+HTML:<details>
+#+HTML:<summary>
 *** Windowing
 #+HTML:</summary>
 **** Intuitive Splitting
@@ -87,7 +77,7 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
 
 **** My Org Document Viewer
 #+BEGIN_SRC emacs-lisp :tangle init.el
-;; define the file and a sentinel variable
+;; file and a sentinel variables
 (setq noncog/scratchpad-file "/home/jake/documents/org/scratchpad.org")
 (setq noncog/scratchpad-visible nil)
 
@@ -105,8 +95,21 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
 	(select-window (get-buffer-window (get-file-buffer noncog/scratchpad-file)))
 	(setq noncog/scratchpad-visible t))))
 #+END_SRC
-
 #+HTML:</details>
+
+#+HTML:<details>
+#+HTML:<summary>
+*** Reload Emacs
+#+HTML:</summary>
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(defun noncog/reload-init-file ()
+  "A function to reload Emacs while it's running."
+  (interactive)
+  (load-file "~/.config/cogmacs/init.el")
+  (princ "init.el reloaded."))
+#+END_SRC
+#+HTML:</details>
+
 ** Configuration
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package emacs
@@ -160,6 +163,8 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
   (global-set-key (kbd "C-M-j") 'windmove-left)
   (global-set-key (kbd "C-M-k") 'windmove-down)
   (global-set-key (kbd "C-M-l") 'windmove-right)
+  ;; reload emacs
+  (global-set-key (kbd "C-c r") 'noncog/reload-init-file)
   ;; custom scroll buffer around point
   (global-set-key (kbd "M-p") #'scroll-down-line)
   (global-set-key (kbd "M-n") #'scroll-up-line)
