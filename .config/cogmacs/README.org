@@ -12,6 +12,7 @@
 
 * About
 I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not the default one. Default is now inhabited by Chemacs2.
+
 * Package Management
 *** Package.el
 [[https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/package.el][This]] is the default package handler for Emacs.
@@ -46,12 +47,13 @@ I use [[https://github.com/jwiegley/use-package][this]] to install and configure
 * Emacs
 This section modifies built in settings and packages.
 
-** Custom Functions
+The exception to this rule, is that settings related to "looks" are in the [[https://github.com/noncog/.dotfiles/tree/master/.config/cogmacs#looks][Looks]] section.
+*** Custom Functions
 #+HTML:<details>
 #+HTML:<summary>
-*** Windowing
+**** Windowing
 #+HTML:</summary>
-**** Intuitive Splitting
+***** Intuitive Splitting
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/split-and-follow-horizontally ()
   "Intuitively splits the window below and focuses it."
@@ -65,7 +67,7 @@ This section modifies built in settings and packages.
   (other-window 1))
 #+END_SRC
   
-**** Window Deletion Prevention
+***** Window Deletion Prevention
 I use this to make org-mode not delete other windows when displaying some of it's buffers: (org-agenda), (org-add-note), etc.
 
 Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_other_windows_when/][here]].
@@ -75,7 +77,7 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
   (cl-letf (((symbol-function 'delete-other-windows) 'ignore)) (apply oldfun args)))
 #+END_SRC
 
-**** My Org Document Viewer
+***** My Org Document Viewer
 #+BEGIN_SRC emacs-lisp :tangle init.el
 ;; file and a sentinel variables
 (setq noncog/scratchpad-file "/home/jake/documents/org/scratchpad.org")
@@ -99,7 +101,7 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
 
 #+HTML:<details>
 #+HTML:<summary>
-*** Reload Emacs
+**** Reload Emacs
 #+HTML:</summary>
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/reload-init-file ()
@@ -110,14 +112,13 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
 #+END_SRC
 #+HTML:</details>
 
-** Configuration
+*** Configuration
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package emacs
   :ensure nil
   :config
   ;; basic interface configuration
   (set-face-attribute 'default nil :font "Fira Code") ; set font
-  (set-cursor-color "#ff79c6")                        ; set cursor color
   (tool-bar-mode -1)                                  ; disable the toolbar
   (menu-bar-mode -1)                                  ; disable the menu bar
   (tooltip-mode -1)                                   ; disable tooltips
@@ -169,6 +170,17 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
   (global-set-key (kbd "M-p") #'scroll-down-line)
   (global-set-key (kbd "M-n") #'scroll-up-line)
   )
+#+END_SRC
+
+* Looks
+** Theme
+I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
+#+BEGIN_SRC emacs-lisp :tangle init.el
+(use-package dracula-theme
+  :ensure t
+  :config
+  (load-theme 'dracula t))
+(set-cursor-color "#ff79c6")                        ; set cursor color
 #+END_SRC
 
 * Delight
@@ -418,16 +430,6 @@ Default:
   (which-key-mode)
   ;; hiding minibuffer lighters
   :delight which-key-mode                             ; hide which-key-mode
-  )
-#+END_SRC
-
-* Dracula Theme
-I use *Dracula* theme everywhere I can. Check it out: [[https://draculatheme.com/][here]]
-#+BEGIN_SRC emacs-lisp :tangle init.el
-(use-package dracula-theme
-  :ensure t
-  :config
-  (load-theme 'dracula t)
   )
 #+END_SRC
 
