@@ -47,7 +47,10 @@ I use [[https://github.com/jwiegley/use-package][this]] to install and configure
 * Emacs
 This section modifies built in settings and packages.
 
+#+HTML:<details>
+#+HTML:<summary>
 ** Custom Functions
+#+HTML:</summary>
 *** Intuitive Splitting
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/split-and-follow-horizontally ()
@@ -99,8 +102,12 @@ I use this to make org-mode not delete other windows when displaying some of it'
   (load-file "~/.config/cogmacs/init.el")
   (princ "init.el reloaded."))
 #+END_SRC
+#+HTML:</details>
 
+#+HTML:<details>
+#+HTML:<summary>
 ** Configuration
+#+HTML:</summary>
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package emacs
   :ensure nil
@@ -159,8 +166,12 @@ I use this to make org-mode not delete other windows when displaying some of it'
   (global-set-key (kbd "M-n") #'scroll-up-line)
   )
 #+END_SRC
+#+HTML:</details>
 
+#+HTML:<details>
+#+HTML:<summary>
 ** Looks
+#+HTML:</summary>
 *** Theme
 I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
 #+BEGIN_SRC emacs-lisp :tangle init.el
@@ -173,7 +184,7 @@ I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (set-cursor-color "#ff79c6")                        ; set cursor color
 #+END_SRC
-
+#+HTML:</details>
 * Delight
 Use-package has support for both diminish and delight, which are packages used for hiding minor-mode lighters from the modeline. I prefer delight as the documentation is better and diminish failed me. I may one day switch to minions to hide all lighters behind an icon. Or use mood-line or doom Semodeline.
 #+BEGIN_SRC emacs-lisp :tangle init.el
