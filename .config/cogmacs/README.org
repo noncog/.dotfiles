@@ -11,9 +11,6 @@
 #+END_QUOTE
 
 * About
-:LOGBOOK:
-- Note taken on [2022-08-09 Tue 01:31]
-:END:
 I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not the default one. Default is now inhabited by Chemacs2.
 
 * Package Management
