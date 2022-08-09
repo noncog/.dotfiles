@@ -106,7 +106,7 @@ I use this to make org-mode not delete other windows when displaying some of it'
 
 #+HTML:<details>
 #+HTML:<summary>
-** Configuration
+** General Configuration
 #+HTML:</summary>
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package emacs
@@ -160,7 +160,7 @@ I use this to make org-mode not delete other windows when displaying some of it'
 
 #+HTML:<details>
 #+HTML:<summary>
-** Appearance
+* Appearance
 #+HTML:</summary>
 *** Theme
 I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
@@ -185,9 +185,7 @@ I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
 #+END_SRC
 *** Modeline
 **** Delight
-Use-package supports both diminish and delight for hiding minor-mode lighters from the modeline.
-
-I prefer delight as the documentation is better and diminish has failed me.
+Use-package supports both diminish and delight keywords for hiding minor-mode lighters from the modeline. I prefer delight as the documentation is better and diminish has failed me.
 
 I consider one day changing modelines entirely to doom modeline, moodline, or minions.
 #+BEGIN_SRC emacs-lisp :tangle init.el
