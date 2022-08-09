@@ -182,6 +182,7 @@ I use this to make org-mode not delete other windows when displaying some of it'
 
 #+HTML:</details>
 
+#+HTML:<p>
 * Appearance
 *** Theme
 I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
@@ -458,3 +459,4 @@ Considering separating these packages.
   :delight which-key-mode                             ; hide which-key-mode
   )
 #+END_SRC
+#+HTML:</p>
