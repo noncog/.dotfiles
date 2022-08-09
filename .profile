@@ -28,3 +28,6 @@ fi
 
 export PATH=$PATH:/opt/doom-emacs/bin
 export TERMINAL=/usr/bin/kitty
+
+export EDITOR="emacsclient -c -s $(cat $HOME/.config/chemacs/profile)"
+export VISUAL=$EDITOR
