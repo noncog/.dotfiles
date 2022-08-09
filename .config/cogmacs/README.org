@@ -192,6 +192,7 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
 
 * Packages
 ** Org Mode
+*** Custom Functions
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/org-show-current-heading-tidily ()
   (interactive)  ;Inteactive
@@ -212,17 +213,20 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :tangle init.el
+(defun noncog/org-heading-size ()
+  "set org headings to same size - theme and face independent"
+  (dolist (face '(org-level-1
+		  org-level-2
+		  org-level-3
+		  org-level-4
+		  org-level-5))
+    (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
+#+END_SRC
+
+*** General Configuration
+#+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package org
   :ensure t
-  :preface
-  (defun noncog/org-heading-size ()
-    "set org headings to same size - theme and face independent"
-    (dolist (face '(org-level-1
-		    org-level-2
-		    org-level-3
-		    org-level-4
-		    org-level-5))
-      (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
   :hook
   ((org-mode . visual-line-mode)                      ; enable line wrapping
    (org-mode . org-indent-mode)                       ; enable virtual indents and hide leading stars for readability
@@ -268,7 +272,7 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
   (visual-line-mode nil emacs))                       ; hide visual-line-mode
 #+END_SRC
 
-*** Org Bullets
+** Org Bullets
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package org-bullets
   :ensure t
@@ -293,7 +297,7 @@ Default:
 ⚖ ⚗ ☥
 #+END_SRC
 
-*** Org Noter
+** Org Noter
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package org-noter
   :ensure t
