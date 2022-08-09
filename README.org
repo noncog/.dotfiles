@@ -203,6 +203,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML:</p>
 #+HTML:</ul>
 #+HTML:<li><code>Cogmacs</code> - My custom Emacs <a href="https://github.com/noncog/.dotfiles/tree/master/.config/cogmacs">configuration</a>.</li>
+#+HTML:</ul>
 #+HTML:</p>
 #+HTML:</details>
 
