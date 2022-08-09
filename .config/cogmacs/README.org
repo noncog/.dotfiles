@@ -172,15 +172,13 @@ I use this to make org-mode not delete other windows when displaying some of it'
 ) ;; end use-package block
 #+END_SRC
 
-#+HTML:<!---
-#+BEGIN_SRC emacs-lisp :tangle init.el :noweb yes
+#+BEGIN_SRC emacs-lisp :tangle init.el :noweb yes :exports none
 <<use-package-emacs>>
   <<use-package-emacs-config>>
 #+END_SRC
-#+HTML:-->
+
 #+HTML:</details>
 
-#+HTML:<p>
 * Appearance
 *** Theme
 I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
@@ -457,4 +455,3 @@ Considering separating these packages.
   :delight which-key-mode                             ; hide which-key-mode
   )
 #+END_SRC
-#+HTML:</p>
