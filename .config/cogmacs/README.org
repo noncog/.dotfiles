@@ -462,7 +462,8 @@ Considering separating these packages.
   (setq projectile-completion-system 'ivy)
   ;; start mode
   (projectile-mode)
-  :delight '(:eval (concat " " (projectile-project-name)))) ; use custom projectile minibuffer lighter with project name
+  :delight '(:eval (concat " " (projectile-project-name))) ; use custom projectile minibuffer lighter with project name
+  )
 #+END_SRC
 
 ** Dashboard
