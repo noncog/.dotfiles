@@ -109,15 +109,13 @@ I use this to make org-mode not delete other windows when displaying some of it'
 ** General Configuration
 #+HTML:</summary>
 
-#+NAME: use-package-emacs
-#+BEGIN_SRC emacs-lisp :tangle init.el
+#+BEGIN_SRC emacs-lisp :noweb-ref use-package-emacs
 (use-package emacs
   :ensure nil
   :config
 #+END_SRC
-  
-#+BEGIN_SRC emacs-lisp :tangle init.el :noweb yes
-<<use-package-emacs>>
+
+#+BEGIN_SRC emacs-lisp :noweb-ref use-package-emacs-config
 ;; behavior
 (global-auto-revert-mode 1)                         ; autoloads changes to files
 (setq-default load-prefer-newer t)                  ; loads newer versions of packages
@@ -127,19 +125,31 @@ I use this to make org-mode not delete other windows when displaying some of it'
 (setq help-window-select t)                         ; auto select help windows when created
 (setq backup-directory-alist                        ; move backup files to folder instead of littering
       '(("." . "~/.config/cogmacs/file-backups")))
+#+END_SRC
+      
+#+BEGIN_SRC emacs-lisp :noweb-ref use-package-emacs-config
 ;; scrolling
 (setq scroll-step 1)                                ; scroll window one line at a time
 (setq scroll-conservatively 101)                    ; value above 100 removes half page jump
 (setq auto-window-vscroll nil)                      ; default to above scroll settings per window, never change them
 (setq scroll-preserve-screen-position 'always)      ; keeps point at position while scrolling
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :noweb-ref use-package-emacs-config
 ;; line numbers for specific modes                  ; to find mode-hooks, when in mode/file do C-h v major-mode RET. Or C-h m
 (dolist (mode '(sh-mode-hook
 		conf-mode-hook))
 (add-hook mode (lambda () (display-line-numbers-mode 1))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :noweb-ref use-package-emacs-config
 ;; custom buffer windowing
 (add-to-list 'display-buffer-alist '("*Apropos*" display-buffer-same-window))
 (add-to-list 'display-buffer-alist '("*Help*" display-buffer-same-window))
 (add-to-list 'display-buffer-alist '("*Warning*" display-buffer-at-bottom))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :noweb-ref use-package-emacs-config
 ;; keybinds
 ;; zoom in/out
 (global-set-key (kbd "C-=") 'text-scale-increase)   
@@ -159,9 +169,13 @@ I use this to make org-mode not delete other windows when displaying some of it'
 (global-set-key (kbd "C-c t") #'noncog/toggle-brain)
 ;; reload emacs
 (global-set-key (kbd "C-c r") #'noncog/reload-init-file)
-)
+) ;; end use-package block
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle init.el :noweb yes
+<<use-package-emacs>>
+  <<use-package-emacs-config>>
+#+END_SRC
 
 #+HTML:</details>
 
@@ -237,6 +251,7 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
    (org-mode . org-indent-mode)                       ; enable virtual indents and hide leading stars for readability
    (org-mode . noncog/org-heading-size))              ; enable custom org-heading-size
   :config
+  
   ;; appearance
   (setq org-ellipsis " ▾")                            ; set custom ellipsis
   (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
