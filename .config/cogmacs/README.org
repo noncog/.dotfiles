@@ -172,11 +172,13 @@ I use this to make org-mode not delete other windows when displaying some of it'
 ) ;; end use-package block
 #+END_SRC
 
-
+#+HTML:<!--
 #+BEGIN_SRC emacs-lisp :tangle init.el :noweb yes
 <<use-package-emacs>>
   <<use-package-emacs-config>>
 #+END_SRC
+
+#+HTML:-->
 
 #+HTML:</details>
 
