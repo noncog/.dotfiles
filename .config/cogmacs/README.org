@@ -209,7 +209,11 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
 
 * Packages
 ** Org Mode
+#+HTML:<details>
+#+HTML:<summary>
 *** Custom Functions
+#+HTML:</summary>
+**** Show Current Heading Only
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/org-show-current-heading-tidily ()
   (interactive) 
@@ -226,7 +230,7 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
     (org-show-entry)
     (show-children)))
 #+END_SRC
-
+**** Custom Heading Sizes
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/org-heading-size ()
   "set org headings to same size - theme and face independent"
@@ -238,7 +242,12 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
     (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
 #+END_SRC
 
+#+HTML:</details>
+#+HTML:<details>
+#+HTML:<summary
 *** General Configuration
+#+HTML:</summary>
+
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package org
   :ensure t
@@ -247,7 +256,6 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
    (org-mode . org-indent-mode)                       ; enable virtual indents and hide leading stars for readability
    (org-mode . noncog/org-heading-size))              ; enable custom org-heading-size
   :config
-  
   ;; appearance
   (setq org-ellipsis " ▾")                            ; set custom ellipsis
   (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
@@ -284,6 +292,7 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
   (org-indent-mode nil org-indent)                    ; hide indent-mode 
   (visual-line-mode nil emacs))                       ; hide visual-line-mode
 #+END_SRC
+#+HTML:</details>
 
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp :tangle init.el
