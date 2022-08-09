@@ -49,7 +49,7 @@ This section modifies built in settings and packages.
 
 #+HTML:<details>
 #+HTML:<summary>
-*** Custom Functions
+** Custom Functions
 #+HTML:</summary>
 #+HTML:<details>
 #+HTML:<summary>
