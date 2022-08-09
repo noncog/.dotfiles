@@ -13,6 +13,8 @@
 * About
 I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not the default one. Default is now inhabited by Chemacs2.
 
+Currently using Emacs 27.1.
+
 * Package Management
 *** Package.el
 [[https://github.com/emacs-mirror/emacs/blob/master/lisp/emacs-lisp/package.el][This]] is the default package handler for Emacs.
@@ -320,6 +322,7 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
 #+END_SRC
 
 #+HTML:</details>
+
 ** Org Bullets
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package org-bullets

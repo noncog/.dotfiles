@@ -54,7 +54,6 @@
 (use-package emacs
   :ensure nil
   :config
-  ;; behavior
   (global-auto-revert-mode 1)                         ; autoloads changes to files
   (setq-default load-prefer-newer t)                  ; loads newer versions of packages
   (delete-selection-mode 1)                           ; replaces active region by typing or pasting
@@ -62,21 +61,17 @@
   (show-paren-mode 1)                                 ; show matching parenthesis
   (setq help-window-select t)                         ; auto select help windows when created
   (setq backup-directory-alist                        ; move backup files to folder instead of littering
-	'(("." . "~/.config/cogmacs/file-backups")))
-  ;; scrolling
+        '(("." . "~/.config/cogmacs/file-backups")))
   (setq scroll-step 1)                                ; scroll window one line at a time
   (setq scroll-conservatively 101)                    ; value above 100 removes half page jump
   (setq auto-window-vscroll nil)                      ; default to above scroll settings per window, never change them
   (setq scroll-preserve-screen-position 'always)      ; keeps point at position while scrolling
-  ;; line numbers for specific modes                  ; to find mode-hooks, when in mode/file do C-h v major-mode RET. Or C-h m
   (dolist (mode '(sh-mode-hook
-		  conf-mode-hook))
+  		conf-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 1))))
-  ;; custom buffer windowing
   (add-to-list 'display-buffer-alist '("*Apropos*" display-buffer-same-window))
   (add-to-list 'display-buffer-alist '("*Help*" display-buffer-same-window))
   (add-to-list 'display-buffer-alist '("*Warning*" display-buffer-at-bottom))
-  ;; keybinds
   ;; zoom in/out
   (global-set-key (kbd "C-=") 'text-scale-increase)   
   (global-set-key (kbd "C--") 'text-scale-decrease)   
@@ -95,7 +90,7 @@
   (global-set-key (kbd "C-c t") #'noncog/toggle-brain)
   ;; reload emacs
   (global-set-key (kbd "C-c r") #'noncog/reload-init-file)
-  )
+  ) ;; end use-package block
 
 (use-package dracula-theme
   :ensure t
@@ -147,26 +142,21 @@
    (org-mode . org-indent-mode)                       ; enable virtual indents and hide leading stars for readability
    (org-mode . noncog/org-heading-size))              ; enable custom org-heading-size
   :config
-  ;; appearance
   (setq org-ellipsis " ▾")                            ; set custom ellipsis
   (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
   (setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to source code blocks
-  ;; logging
   (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
   (setq org-log-done 'time)                           ; add completion time to DONE items.
   (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
-  ;; behavior
   (setq org-return-follows-link t)                    ; enter opens links in org
   (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
   (setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
-  ;; directories and files
   (setq org-directory "~/documents/org")              
   (setq org-agenda-files '("~/documents/org"))        
   (setq org-default-notes-file "~/documents/org/notes.org")
   ;; todo states                                                            ; ! timestamp 
   (setq org-todo-keywords                                                   ; @ note      
       '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@/!)"))) ; / settings to use when leaving state: ! or @
-  ;; custom windowing
   ;; org-note
   (advice-add 'org-add-log-note :around #'noncog/no-delete-windows)
   (add-to-list 'display-buffer-alist '("*Org Note*" (display-buffer-below-selected) (window-height . 10))) ; display buffer in this window
@@ -174,11 +164,10 @@
   (with-eval-after-load "org-capture" (advice-add 'org-capture-place-template :around 'noncog-no-delete-windows)) ; prevent from hiding other windows
   (add-to-list 'display-buffer-alist '("CAPTURE-.note" (display-buffer-at-bottom) (window-height . 15)))          ; display buffer at bottom
   (add-to-list 'display-buffer-alist '("*Org Select*" (display-buffer-at-bottom) (window-height . 15)))           ; display buffer at bottom
-  ;; keybinds
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
   (global-set-key (kbd "C-c l") 'org-store-link)
-  (global-set-key (kbd "C-c C-h") #'noncog/org-show-current-heading-tidily)  
+  (global-set-key (kbd "C-c C-h") #'noncog/org-show-current-heading-tidily)
   :delight
   (org-indent-mode nil org-indent)                    ; hide indent-mode 
   (visual-line-mode nil emacs))                       ; hide visual-line-mode
