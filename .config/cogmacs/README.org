@@ -70,15 +70,14 @@ This section modifies built in settings and packages.
 #+END_SRC
   
 **** Window Deletion Prevention
-I use this to make org-mode not delete other windows when displaying some of it's buffers: (org-agenda), (org-add-note), etc.
-
-Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_other_windows_when/][here]].
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/no-delete-windows (oldfun &rest args)
   "A function for use with advice to prevent other functions from using delete-other-window."
   (cl-letf (((symbol-function 'delete-other-windows) 'ignore)) (apply oldfun args)))
 #+END_SRC
+I use this to make org-mode not delete other windows when displaying some of it's buffers: (org-agenda), (org-add-note), etc.
 
+Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_other_windows_when/][here]].
 **** My Org Document Viewer
 #+BEGIN_SRC emacs-lisp :tangle init.el
 ;; file and a sentinel variables
