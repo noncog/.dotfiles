@@ -109,57 +109,57 @@ I use this to make org-mode not delete other windows when displaying some of it'
 ** General Configuration
 #+HTML:</summary>
 
-#+BEGIN_SRC emacs-lisp :noweb yes
-<<emacs-config>>
-#+END_SRC
-
-
+#+NAME: use-package-emacs
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package emacs
   :ensure nil
   :config
-  ;; behavior
-  (global-auto-revert-mode 1)                         ; autoloads changes to files
-  (setq-default load-prefer-newer t)                  ; loads newer versions of packages
-  (delete-selection-mode 1)                           ; replaces active region by typing or pasting
-  (setq show-parens-delay 0)                          ; remove delay of showing parenthesis
-  (show-paren-mode 1)                                 ; show matching parenthesis
-  (setq help-window-select t)                         ; auto select help windows when created
-  (setq backup-directory-alist                        ; move backup files to folder instead of littering
-	'(("." . "~/.config/cogmacs/file-backups")))
-  ;; scrolling
-  (setq scroll-step 1)                                ; scroll window one line at a time
-  (setq scroll-conservatively 101)                    ; value above 100 removes half page jump
-  (setq auto-window-vscroll nil)                      ; default to above scroll settings per window, never change them
-  (setq scroll-preserve-screen-position 'always)      ; keeps point at position while scrolling
-  ;; line numbers for specific modes                  ; to find mode-hooks, when in mode/file do C-h v major-mode RET. Or C-h m
-  (dolist (mode '(sh-mode-hook
-		  conf-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 1))))
-  ;; custom buffer windowing
-  (add-to-list 'display-buffer-alist '("*Apropos*" display-buffer-same-window))
-  (add-to-list 'display-buffer-alist '("*Help*" display-buffer-same-window))
-  (add-to-list 'display-buffer-alist '("*Warning*" display-buffer-at-bottom))
-  ;; keybinds
-  ;; zoom in/out
-  (global-set-key (kbd "C-=") 'text-scale-increase)   
-  (global-set-key (kbd "C--") 'text-scale-decrease)   
-  ;; intuitive window splitting
-  (global-set-key (kbd "C-x 2") #'noncog/split-and-follow-horizontally)
-  (global-set-key (kbd "C-x 3") #'noncog/split-and-follow-vertically)
-  ;; custom window focus/move keybinds
-  (global-set-key (kbd "C-M-i") 'windmove-up)
-  (global-set-key (kbd "C-M-j") 'windmove-left)
-  (global-set-key (kbd "C-M-k") 'windmove-down)
-  (global-set-key (kbd "C-M-l") 'windmove-right)
-  ;; scroll buffer around point
-  (global-set-key (kbd "M-p") #'scroll-down-line)
-  (global-set-key (kbd "M-n") #'scroll-up-line)
-  ;; org 'brain' buffer viewer
-  (global-set-key (kbd "C-c t") #'noncog/toggle-brain)
-  ;; reload emacs
-  (global-set-key (kbd "C-c r") #'noncog/reload-init-file)
-  )
+#+END_SRC
+  
+#+BEGIN_SRC emacs-lisp :tangle init.el :noweb yes
+<<use-package-emacs>>
+;; behavior
+(global-auto-revert-mode 1)                         ; autoloads changes to files
+(setq-default load-prefer-newer t)                  ; loads newer versions of packages
+(delete-selection-mode 1)                           ; replaces active region by typing or pasting
+(setq show-parens-delay 0)                          ; remove delay of showing parenthesis
+(show-paren-mode 1)                                 ; show matching parenthesis
+(setq help-window-select t)                         ; auto select help windows when created
+(setq backup-directory-alist                        ; move backup files to folder instead of littering
+      '(("." . "~/.config/cogmacs/file-backups")))
+;; scrolling
+(setq scroll-step 1)                                ; scroll window one line at a time
+(setq scroll-conservatively 101)                    ; value above 100 removes half page jump
+(setq auto-window-vscroll nil)                      ; default to above scroll settings per window, never change them
+(setq scroll-preserve-screen-position 'always)      ; keeps point at position while scrolling
+;; line numbers for specific modes                  ; to find mode-hooks, when in mode/file do C-h v major-mode RET. Or C-h m
+(dolist (mode '(sh-mode-hook
+		conf-mode-hook))
+(add-hook mode (lambda () (display-line-numbers-mode 1))))
+;; custom buffer windowing
+(add-to-list 'display-buffer-alist '("*Apropos*" display-buffer-same-window))
+(add-to-list 'display-buffer-alist '("*Help*" display-buffer-same-window))
+(add-to-list 'display-buffer-alist '("*Warning*" display-buffer-at-bottom))
+;; keybinds
+;; zoom in/out
+(global-set-key (kbd "C-=") 'text-scale-increase)   
+(global-set-key (kbd "C--") 'text-scale-decrease)   
+;; intuitive window splitting
+(global-set-key (kbd "C-x 2") #'noncog/split-and-follow-horizontally)
+(global-set-key (kbd "C-x 3") #'noncog/split-and-follow-vertically)
+;; custom window focus/move keybinds
+(global-set-key (kbd "C-M-i") 'windmove-up)
+(global-set-key (kbd "C-M-j") 'windmove-left)
+(global-set-key (kbd "C-M-k") 'windmove-down)
+(global-set-key (kbd "C-M-l") 'windmove-right)
+;; scroll buffer around point
+(global-set-key (kbd "M-p") #'scroll-down-line)
+(global-set-key (kbd "M-n") #'scroll-up-line)
+;; org 'brain' buffer viewer
+(global-set-key (kbd "C-c t") #'noncog/toggle-brain)
+;; reload emacs
+(global-set-key (kbd "C-c r") #'noncog/reload-init-file)
+)
 #+END_SRC
 
 
