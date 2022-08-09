@@ -244,7 +244,7 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
 **** Custom Heading Sizes
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/org-heading-size ()
-  "set org headings to same size - theme and face independent"
+  "Set org headings to same size - theme and face independent"
   (dolist (face '(org-level-1
 		  org-level-2
 		  org-level-3
