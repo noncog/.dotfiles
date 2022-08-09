@@ -227,8 +227,8 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
 **** Show Current Heading Only
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/org-show-current-heading-tidily ()
-  (interactive) 
   "Show next entry, keeping other entries closed."
+  (interactive) 
   (if (save-excursion (end-of-line) (outline-invisible-p))
       (progn (org-show-entry) (show-children))
     (outline-back-to-heading)
