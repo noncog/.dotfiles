@@ -112,8 +112,8 @@
   :ensure t)
 
 (defun noncog/org-show-current-heading-tidily ()
-  (interactive) 
   "Show next entry, keeping other entries closed."
+  (interactive) 
   (if (save-excursion (end-of-line) (outline-invisible-p))
       (progn (org-show-entry) (show-children))
     (outline-back-to-heading)
@@ -127,7 +127,7 @@
     (show-children)))
 
 (defun noncog/org-heading-size ()
-  "set org headings to same size - theme and face independent"
+  "Set org headings to same size - theme and face independent"
   (dolist (face '(org-level-1
 		  org-level-2
 		  org-level-3
@@ -260,7 +260,8 @@
   (setq projectile-completion-system 'ivy)
   ;; start mode
   (projectile-mode)
-  :delight '(:eval (concat " " (projectile-project-name)))) ; use custom projectile minibuffer lighter with project name
+  :delight '(:eval (concat " " (projectile-project-name))) ; use custom projectile minibuffer lighter with project name
+  )
 
 (use-package dashboard
   :ensure t
