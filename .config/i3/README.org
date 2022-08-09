@@ -1,4 +1,5 @@
-#+TITLE: i3 Config
+#+HTML:<h1 align="center">i3 Config</h1>
+
 #+PROPERTY: header-args :tangle config
 
 i3 is an open source tiling window manager for X11. I use a fork of it called i3-gaps. These are my config settings.
