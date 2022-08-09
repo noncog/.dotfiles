@@ -244,7 +244,7 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
 
 #+HTML:</details>
 #+HTML:<details>
-#+HTML:<summary
+#+HTML:<summary>
 *** General Configuration
 #+HTML:</summary>
 
