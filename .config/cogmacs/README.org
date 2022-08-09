@@ -114,7 +114,7 @@ Found [[https://www.reddit.com/r/orgmode/comments/ick62v/stop_org_from_hiding_ot
 #+END_SRC
 #+HTML:</details>
 #+HTML:</details>
-*** Configuration
+** Configuration
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package emacs
   :ensure nil
