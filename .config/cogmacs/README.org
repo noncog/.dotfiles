@@ -112,16 +112,6 @@ I use this to make org-mode not delete other windows when displaying some of it'
 (use-package emacs
   :ensure nil
   :config
-  ;; basic interface configuration
-  (set-face-attribute 'default nil :font "Fira Code") ; set font
-  (tool-bar-mode -1)                                  ; disable the toolbar
-  (menu-bar-mode -1)                                  ; disable the menu bar
-  (tooltip-mode -1)                                   ; disable tooltips
-  (scroll-bar-mode -1)                                ; disable visible scrollbar
-  (line-number-mode 1)                                ; enable line number in minibuffer lighter
-  (column-number-mode 1)                              ; enable column number in minibuffer lighter
-  (setq visible-bell nil)                             ; disable screen flashing at end of file
-  (setq inhibit-startup-screen t)                     ; removes startup splash-screen/message
   ;; behavior
   (global-auto-revert-mode 1)                         ; autoloads changes to files
   (setq-default load-prefer-newer t)                  ; loads newer versions of packages
@@ -183,15 +173,29 @@ I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
 *** Customizations
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (set-cursor-color "#ff79c6")                        ; set cursor color
+(set-face-attribute 'default nil :font "Fira Code") ; set font
+(tool-bar-mode -1)                                  ; disable the toolbar
+(menu-bar-mode -1)                                  ; disable the menu bar
+(tooltip-mode -1)                                   ; disable tooltips
+(scroll-bar-mode -1)                                ; disable visible scrollbar
+(line-number-mode 1)                                ; enable line number in minibuffer lighter
+(column-number-mode 1)                              ; enable column number in minibuffer lighter
+(setq visible-bell nil)                             ; disable screen flashing at end of file
+(setq inhibit-startup-screen t)                     ; removes startup splash-screen/message
 #+END_SRC
-#+HTML:</details>
-* Delight
-Use-package has support for both diminish and delight, which are packages used for hiding minor-mode lighters from the modeline. I prefer delight as the documentation is better and diminish failed me. I may one day switch to minions to hide all lighters behind an icon. Or use mood-line or doom Semodeline.
+*** Modeline
+**** Delight
+Use-package supports both diminish and delight for hiding minor-mode lighters from the modeline.
+
+I prefer delight as the documentation is better and diminish has failed me.
+
+I consider one day changing modelines entirely to doom modeline, moodline, or minions.
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (use-package delight
   :ensure t)
 #+END_SRC
 
+#+HTML:</details>
 * Org Mode
 #+BEGIN_SRC emacs-lisp :tangle init.el
 (defun noncog/org-show-current-heading-tidily ()
