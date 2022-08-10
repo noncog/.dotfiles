@@ -323,12 +323,6 @@ exec --no-startup-id emacs --daemon
 exec --no-startup-id picom -b
 #+END_SRC
 
-** Polybar
-#+BEGIN_SRC conf
-# note that exec_always runs every time you restart i3 not just initialization.
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-#+END_SRC
-
 ** Network-Manager
 #+BEGIN_SRC conf
 exec --no-startup-id nm-applet
@@ -346,6 +340,14 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 ** Extreme Cooling 4 Linux
 #+BEGIN_SRC conf
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+#+END_SRC
+
+** Polybar
+#+BEGIN_SRC conf
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# note that exec_always runs every time you restart i3 not just initialization.
+# this allows polybar to be restarted with i3 restarting.
 #+END_SRC
 
 ** Rofi
