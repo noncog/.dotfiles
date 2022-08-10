@@ -9,7 +9,7 @@
 [[https://i3wm.org/docs/userguide.html][Here]] is the user documentation.
 
 * Basic Controls
-Mostly standard.
+Mostly standard with some improvements.
 #+BEGIN_SRC conf
 # set mod key
 set $mod Mod4
