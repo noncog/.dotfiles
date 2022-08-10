@@ -281,14 +281,16 @@ set $yt_l_h 360
 set $yt_l_x 1274 px
 set $yt_l_y 710 px
 #+END_SRC
-**** Mode
+**** YouTube URL and Title
 #+BEGIN_SRC conf
 # set to your unique youtube page. ideally a page you will never visit.
 # otherwise your firefox will be turned into the youtuber player...
 set $youtube_page https://www.youtube.com/premium
 set $youtube_title "YouTube Premium - YouTube — Mozilla Firefox"   
 # found using xprop
-  
+#+END_SRC
+**** Mode
+#+BEGIN_SRC conf
 for_window [title=$youtube_title] floating enable, resize set $yt_default_w $yt_default_h, move position center
 for_window [title=$youtube_title] move scratchpad, sticky enable, mark youtube
 	   
