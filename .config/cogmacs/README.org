@@ -202,7 +202,7 @@ I use *Dracula* [[https://draculatheme.com/][theme]] everywhere I can.
 (tool-bar-mode -1)                                    ; disable the toolbar
 (menu-bar-mode -1)                                    ; disable the menu bar
 (tooltip-mode -1)                                     ; disable tooltips
-(scroll-bar-mode 1)                                   ; enable visible scrollbar
+(scroll-bar-mode -1)                                   ; enable visible scrollbar
 (line-number-mode 1)                                  ; enable line number in minibuffer lighter
 (column-number-mode 1)                                ; enable column number in minibuffer lighter
 (setq visible-bell nil)                               ; disable screen flashing at end of file
