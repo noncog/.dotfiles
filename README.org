@@ -190,7 +190,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML:<li>
 #+HTML:<details>
-#+HTML:<summary><code>rofi-chemacs</code> - My custom Emacs <a href="https://github.com/noncog/rofi-chemacs">menu</a>.</summary>
+#+HTML:<summary><code>rofi-chemacs</code> - My custom Emacs <a href="https://github.com/noncog/rofi-chemacs">menu</a> based on <a href="https://github.com/plexus/chemacs2">Chemacs2</a>.</summary>
 
 #+HTML:<ul>
 #+HTML:<li>Profiles</li>
