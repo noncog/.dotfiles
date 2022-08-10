@@ -171,8 +171,8 @@ set $yt_default_h 407
 set $yt_d_w 720
 set $yt_d_h 407
 # location
-set $yt_d_x 2920 px
-set $yt_d_y 989 px
+set $yt_d_x 2910 px
+set $yt_d_y 1023 px
 
 # size
 set $yt_l_w 636
