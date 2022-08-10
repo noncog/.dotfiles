@@ -161,24 +161,38 @@ mode "$resize_mode" {
 }
 bindsym $mod+equal mode "$resize_mode"
 
-# REQUIRED: Firefox: about:config > full-screen-api.ignore-widgets true
-# NOTE: These dimensions are for i3-gaps
-set $youtube_mode (Y)outube, (L)aptop, (D)esktop
+# Firefox: about:config > full-screen-api.ignore-widgets true
+
+# NOTE: These dimensions are for i3-gaps, they will be different for i3.
 set $yt_default_w 720
 set $yt_default_h 407
+
+# size
 set $yt_d_w 720
 set $yt_d_h 407
+# location
 set $yt_d_x 2920 px
 set $yt_d_y 989 px
+
+# size
 set $yt_l_w 636
 set $yt_l_h 360
+# location
 set $yt_l_x 1274 px
 set $yt_l_y 710 px
-# set to your unique youtube page. ideally a page you will never visit. otherwise your firefox will be turned into the youtuber player.
-for_window [title="YouTube Premium - YouTube — Mozilla Firefox"] floating enable, resize set $yt_default_w $yt_default_h, move position center
-for_window [title="YouTube Premium - YouTube — Mozilla Firefox"] move scratchpad, sticky enable, mark youtube
+
+# set to your unique youtube page. ideally a page you will never visit.
+# otherwise your firefox will be turned into the youtuber player...
+set $youtube_page https://www.youtube.com/premium
+set $youtube_title "YouTube Premium - YouTube — Mozilla Firefox"   
+# found using xprop
+  
+for_window [title=$youtube_title] floating enable, resize set $yt_default_w $yt_default_h, move position center
+for_window [title=$youtube_title] move scratchpad, sticky enable, mark youtube
+	   
+set $youtube_mode (Y)outube, (L)aptop, (D)esktop
 mode "$youtube_mode" {
-     bindsym $mod+y exec --no-startup-id firefox --new-window https://www.youtube.com/premium; mode "default"
+     bindsym $mod+y exec --no-startup-id firefox --new-window $youtube_page; mode "default"
      bindsym $mod+l [con_mark="youtube"] focus, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; mode "default"
      bindsym $mod+d [con_mark="youtube"] focus, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; mode "default"
      
