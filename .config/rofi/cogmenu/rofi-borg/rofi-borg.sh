@@ -22,9 +22,9 @@ notifier="dunstify"                       # set to command for your notification
 
 scripts="$directory/scripts"                                   # dfirectory for menu item scripts
 logs="$directory/logs"                                         # directory of logs & tmp files
-config="${0##*/}"; config="${config%.*}.rasi"                  # get rofi config for scripts
-# config file titles must match associated script title
+config="${0##*/}"; config="${config%.*}.rasi"                  # get rofi config for script# config file titles must match associated script title
 
+# to change location on screen, increase -yoffset 
 rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 57 -theme $directory/configs/$config"          # rofi config for menu
 rofi_error_command="rofi -theme $directory/configs/error.rasi" # rofi config for error message
 
@@ -42,6 +42,7 @@ export BORG_REMOTE_PATH="/usr/local/bin/borg1/borg1"
 # rsync.net users must use BORG_REMOTE_PATH
 export BORG_PASSCOMMAND="cat $HOME/.borg-passphrase" 
 # my recommended way to pass borg your passphrase only during execution of this script and not globally setting in environment variables
+# just put your password in that file and it will just work.
 
 #============#
 # menu-items # CAN CUSTOMIZE
@@ -92,8 +93,7 @@ err_msg() {
 }
 
 # if logs set correctly: log_count >= 1 proceed
-if [ $log_count -ge 1 ]; then
-        
+if [ $log_count -ge 1 ]; then    
     # create logs directory
     if [ ! -d "${logs}" ]; then
 	mkdir -p "${logs}"

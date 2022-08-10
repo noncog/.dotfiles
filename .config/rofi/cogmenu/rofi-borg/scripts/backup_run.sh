@@ -56,6 +56,13 @@ backup_directories=(
     $HOME/.individuals
 )
 
+# function to copy individual files to individuals directory for borg-backup.
+# it does not support backing individual files so we do that ourselves.
+# please create this directory if it does not exist or specify your own.
+get_individuals() {
+    cp "$HOME/.mozilla/firefox/noncog/bookmarks.html" "$HOME/.individuals/bookmarks.html"
+}
+
 #============#
 # backup_run #
 #============#
@@ -85,11 +92,6 @@ prune_logs() {
 	(cd $logs && ls -tp | grep -v '/$' | tail -n +$log_count | xargs -I {} rm -- {})
     fi
 }
-# function to copy individual files to individuals directory for borg-backup.
-# it does not support backing individual files so we do that ourselves.
-get_individuals() {
-    cp "$HOME/.mozilla/firefox/noncog/bookmarks.html" "$HOME/.individuals/bookmarks.html"
-}
 
 # main backup function
 backup() {
@@ -114,7 +116,7 @@ backup() {
     prune_exit=$?
 
     # note - later versions of borg will need compact to be done here
-
+    
     # use highest exit code as global exit code
     global_exit=$(( backup_exit > prune_exit ? backup_exit : prune_exit ))
 
