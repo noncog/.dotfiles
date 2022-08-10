@@ -8,3 +8,5 @@
 These are often called 'XDG', an acronym for /Cross-Desktop Group/. This is the =$XDG_HOME_CONFIG= directory, the directory where user configs should be written. Typically, this is $HOME/.config.
 
 Support for XDG directories is growing and many popular softwares support multiple configuration directories including this one. Consider moving some of yours to .config.
+
+I try to put as many as I can here.
