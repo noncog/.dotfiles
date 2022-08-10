@@ -1,10 +1,10 @@
-#+HTML:<h1 align="center">i3 Config</h1>
+#+HTML:<h1 align="center">i3 Config ... With Gaps!</h1>
 
 #+PROPERTY: header-args :tangle config
 
-i3 is an open source tiling window manager for X11. I use a fork of it called i3-gaps. These are my config settings.
-[[https://i3wm.org/docs/userguide.html][Here]] is a link to the user documentation.
+#+HTML:<p align="center"><code>i3</code> is an open source tiling window manager for X11. I use a fork of it called <code><a href="https://github.com/Airblader/i3">i3-gaps</a></code>.</p>
 
+[[https://i3wm.org/docs/userguide.html][Here]] is the user documentation.
 
 * Basic Controls
 Mostly standard.
