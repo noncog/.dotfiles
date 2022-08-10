@@ -2,9 +2,9 @@
 set $mod Mod4
 
 # change focus
+bindsym $mod+i focus up
 bindsym $mod+j focus left
 bindsym $mod+k focus down
-bindsym $mod+i focus up
 bindsym $mod+l focus right
 
 # change focus 
@@ -19,11 +19,11 @@ floating_modifier $mod
 # kill window
 bindsym $mod+Shift+q kill
 
-# split in horizontal orientation
-bindsym $mod+Shift+v split h
+# split window horizontally
+bindsym $mod+h split v
 
-# split in vertical orientation
-bindsym $mod+v split v
+# split window vertically
+bindsym $mod+v split h
 
 # change window layout mode
 bindsym $mod+Tab layout tabbed
@@ -67,32 +67,6 @@ smart_borders on
 gaps inner 10
 gaps outer 0
 
-exec --no-startup-id nm-applet
-
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
-# desktop app launcher
-bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
-# custom menu launcher
-bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
-
-exec --no-startup-id emacs --daemon
-
-# note that exec_always runs every time you restart i3 not just initialization.
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
-exec --no-startup-id picom -b
-
-bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
-
-exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
-exec --no-startup-id sleep 2 && firefox
-exec --no-startup-id kitty
-
 # name workspaces
 set $ws1 "1"
 set $ws2 "2"
@@ -116,7 +90,7 @@ workspace $ws3 output eDP-1 HDMI-1-0
 set $emacs "Emacs"
 assign [class="Emacs"] $emacs	
 workspace $emacs output HDMI-1-0 eDP-1
-bindsym $mod+Control+Shift+r move container to workspace $emacs
+bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-chemacs.sh
 bindsym $mod+e [class="Emacs"] focus
 
@@ -148,8 +122,6 @@ bindsym $mod+Control+Shift+a move container to workspace $anki
 bindsym $mod+Shift+a exec --no-startup-id anki
 bindsym $mod+a [class="Anki"] focus
 
-# for this to work correctly you must set the environment variable $TERMINAL in your .xsessionrc for Debian distros
-# or, in .xprofile, .profile, .xsession, .xinitrc, some distributions and users have different requirements, figure out yours.
 for_window [class="kitty"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
 bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
 bindsym $mod+Return [class="kitty"] scratchpad show, move position center
@@ -174,22 +146,24 @@ for_window [class="Nitrogen"] floating enable, resize set 50 ppt 50 ppt, move sc
 
 set $resize_mode Resize: (-), (+), (Shift -), (Shift +)
 mode "$resize_mode" {
-        # vim keys
-        bindsym $mod+minus resize shrink width 10 px or 10 ppt
-        bindsym $mod+equal resize grow width 10 px or 10 ppt
-        bindsym $mod+Shift+minus resize shrink height 10 px or 10 ppt
-        bindsym $mod+Shift+equal resize grow height 10 px or 10 ppt
+     bindsym $mod+minus resize shrink width 10 px or 10 ppt
+     bindsym $mod+equal resize grow width 10 px or 10 ppt
+     bindsym $mod+Shift+minus resize shrink height 10 px or 10 ppt
+     bindsym $mod+Shift+equal resize grow height 10 px or 10 ppt
 
-        # back to normal
-        bindsym $mod+Return mode "default"
-        bindsym $mod+Escape mode "default"
-	bindsym Escape mode "default"
+     # back to normal
+     bindsym $mod+Escape mode "default"
+     bindsym $mod+BackSpace mode "default"
+     bindsym $mod+Return mode "default"
+     bindsym Escape mode "default"
+     bindsym BackSpace mode "default"
+     bindsym Return mode "default"
 }
 bindsym $mod+equal mode "$resize_mode"
 
 # REQUIRED: Firefox: about:config > full-screen-api.ignore-widgets true
 # NOTE: These dimensions are for i3-gaps
-set $youtube_mode (Y)outube, (L)aptop, (D)esktop, (H)ide
+set $youtube_mode (Y)outube, (L)aptop, (D)esktop
 set $yt_default_w 720
 set $yt_default_h 407
 set $yt_d_w 720
@@ -198,8 +172,8 @@ set $yt_d_x 2920 px
 set $yt_d_y 989 px
 set $yt_l_w 636
 set $yt_l_h 360
-set $yt_l_x 1282 px
-set $yt_l_y 675 px
+set $yt_l_x 1274 px
+set $yt_l_y 710 px
 # set to your unique youtube page. ideally a page you will never visit. otherwise your firefox will be turned into the youtuber player.
 for_window [title="YouTube Premium - YouTube — Mozilla Firefox"] floating enable, resize set $yt_default_w $yt_default_h, move position center
 for_window [title="YouTube Premium - YouTube — Mozilla Firefox"] move scratchpad, sticky enable, mark youtube
@@ -207,13 +181,45 @@ mode "$youtube_mode" {
      bindsym $mod+y exec --no-startup-id firefox --new-window https://www.youtube.com/premium; mode "default"
      bindsym $mod+l [con_mark="youtube"] focus, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; mode "default"
      bindsym $mod+d [con_mark="youtube"] focus, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; mode "default"
-     bindsym $mod+h [con_mark="youtube"] focus, scratchpad show; mode "default"
-     # return
+     
+     # back to normal
+     bindsym $mod+Escape mode "default"
      bindsym $mod+BackSpace mode "default"
      bindsym $mod+Return mode "default"
-     bindsym $mod+Escape mode "default"
+     bindsym Escape mode "default"
+     bindsym BackSpace mode "default"
+     bindsym Return mode "default"
 }
 bindsym $mod+Shift+y mode "$youtube_mode"
 bindsym $mod+y [con_mark="youtube"] scratchpad show
 
+exec --no-startup-id emacs --daemon
+
+exec --no-startup-id picom -b
+
+# note that exec_always runs every time you restart i3 not just initialization.
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+exec --no-startup-id nm-applet
+
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+
+# desktop app launcher
+bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
+# custom menu launcher
+bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
+
+exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
+exec --no-startup-id sleep 2 && firefox
+exec --no-startup-id kitty
+
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
+
+# To find window related information use:
+# xprop and xwininfo
