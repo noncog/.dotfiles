@@ -1,23 +1,23 @@
 #!/usr/bin/bash
 
-dir="$HOME/.config/rofi/cogmenu"
-rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 47 -theme $dir/configs/cogmenu.rasi"
+directory="$HOME/.config/rofi/cogmenu"
+rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 57 -theme $directory/configs/cogmenu.rasi"
 
-# Options
+# options
 screen=" Screen"
 area=" Area"
 window=" Window"
 
-# Error msg
+# error msg
 err_msg() {
-    rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
+    rofi -theme "$directory/configs/error.rasi" -e "$1"
 }
 
-# Variable passed to rofi
+# variable passed to rofi
 options="$screen\n$area\n$window"
 
-chosen="$(echo -e "$options" | $rofi_command -p 'scrot' -dmenu)"
-case $chosen in
+selection="$(echo -e "$options" | $rofi_command -p 'scrot' -dmenu)"
+case $selection in
     $screen)
 	if [[ -f /usr/bin/scrot ]]; then
 	    sleep 1; scrot -d 1 $HOME/pictures/screenshots/screen-%b%d::%H%M%S.png

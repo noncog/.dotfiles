@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-dir="$HOME/.config/rofi/cogmenu"
-rofi_command="rofi -location 2 -yoffset 57 -no-fixed-num-lines -theme $dir/configs/cogmenu.rasi"
+directory="$HOME/.config/rofi/cogmenu"
+rofi_command="rofi -location 2 -yoffset 57 -no-fixed-num-lines -theme $directory/configs/cogmenu.rasi"
 
 # options
 screenshot=" Screenshot"
@@ -12,47 +12,47 @@ system=" System"
 
 # error msg
 err_msg() {
-    rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
+    rofi -theme "$directory/configs/error.rasi" -e "$1"
 }
 
 # variables passed to rofi
 options="$screenshot\n$brightness\n$backups\n$controls\n$system"
 
-chosen="$(echo -e "$options" | $rofi_command -p 'menu' -dmenu -selected-row 1)"
-case $chosen in
+selection="$(echo -e "$options" | $rofi_command -p 'cogmenu' -dmenu -selected-row 1)"
+case $selection in
     $screenshot)
-	if [[ -f "$dir/screenshot.sh" ]]; then
-	    bash "$dir/screenshot.sh"
+	if [[ -f "$directory/screenshot.sh" ]]; then
+	    bash "$directory/screenshot.sh"
 	else
-	    err_msg "$screenshot file not found"
+	    err_msg "$screenshot file not found."
 	fi
 	;;
     $brightness)
-	if [[ -f "$dir/brightness.sh" ]]; then
-	    bash "$dir/brightness.sh" -selected-row 1
+	if [[ -f "$directory/brightness.sh" ]]; then
+	    bash "$directory/brightness.sh" -selected-row 1
 	else
-	    err_msg "$brightness file not found"
+	    err_msg "$brightness file not found."
 	fi
         ;;
     $backups)
-	if [[ -f "$dir/rofi-borg/rofi-borg.sh" ]]; then
-	    bash "$dir/rofi-borg/rofi-borg.sh"
+	if [[ -f "$directory/rofi-borg/rofi-borg.sh" ]]; then
+	    bash "$directory/rofi-borg/rofi-borg.sh"
 	else
-	    err_msg "$backups file not found"
+	    err_msg "$backups file not found."
 	fi
         ;;
     $controls)
-	if [[ -f "$dir/controls.sh" ]]; then
-	    bash "$dir/controls.sh"
+	if [[ -f "$directory/controls.sh" ]]; then
+	    bash "$directory/controls.sh"
 	else
-	    err_msg "$settings file not found"
+	    err_msg "$controls file not found."
 	fi
         ;;
     $system)
-	if [[ -f "$dir/system.sh" ]]; then
-	    bash "$dir/system.sh"
+	if [[ -f "$directory/system.sh" ]]; then
+	    bash "$directory/system.sh"
 	else
-	    err_msg "$system file not found"
+	    err_msg "$system file not found."
 	fi
         ;;
 esac

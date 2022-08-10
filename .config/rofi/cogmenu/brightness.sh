@@ -1,34 +1,34 @@
 #!/usr/bin/bash
 
-dir="$HOME/.config/rofi/cogmenu"
-rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 47 -theme $dir/configs/cogmenu.rasi"
+directory="$HOME/.config/rofi/cogmenu"
+rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 57 -theme $directory/configs/cogmenu.rasi"
 
-# Options
+# options
 up=" Up"
 down=" Down"
 
-# Error msg
+# error msg
 err_msg() {
-    rofi -theme "$HOME/.config/rofi/cogmenu/configs/error.rasi" -e "$1"
+    rofi -theme "$directory/configs/error.rasi" -e "$1"
 }
 
-# Variable passed to rofi
+# variables passed to rofi
 options="$up\n$down"
 
-chosen="$(echo -e "$options" | $rofi_command -p 'brightness' -dmenu $1 $2)"
-case $chosen in
+selection="$(echo -e "$options" | $rofi_command -p 'brightness' -dmenu $1 $2)"
+case $selection in
     $up)
-	if [[ -f "$dir/brightness_change.sh" ]]; then
-	    bash "$dir/brightness_change.sh" + && bash "$dir/brightness.sh" -selected-row 0
+	if [[ -f "$directory/brightness_change.sh" ]]; then
+	    bash "$directory/brightness_change.sh" + && bash "$directory/brightness.sh" -selected-row 0
 	else
-	    err_msg "$down failed."
+	    err_msg "$up file not found."
 	fi
 	;;
     $down)
-	if [[ -f "$dir/brightness_change.sh" ]]; then
-	    bash "$dir/brightness_change.sh" - && bash "$dir/brightness.sh" -selected-row 1
+	if [[ -f "$directory/brightness_change.sh" ]]; then
+	    bash "$directory/brightness_change.sh" - && bash "$directory/brightness.sh" -selected-row 1
 	else
-	    err_msg "$up failed."
+	    err_msg "$down file not found."
 	fi
         ;;
 esac

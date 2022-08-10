@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-dir="$HOME/.config/rofi/cogmenu"
-rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 47 -theme $dir/configs/cogmenu.rasi"
+directory="$HOME/.config/rofi/cogmenu"
+rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 57 -theme $directory/configs/cogmenu.rasi"
 
 # options
 power=" Power Off"
@@ -11,8 +11,8 @@ logout=" Logout i3"
 # variable passed to rofi
 options="$power\n$restart\n$logout"
 
-chosen="$(echo -e "$options" | $rofi_command -p 'system' -dmenu)"
-case $chosen in
+selection="$(echo -e "$options" | $rofi_command -p 'system' -dmenu)"
+case $selection in
     $power)
 	systemctl poweroff
         ;;
