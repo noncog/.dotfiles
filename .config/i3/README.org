@@ -1,6 +1,8 @@
+#+PROPERTY: header-args :tangle config
+
 #+HTML:<h1 align="center">i3 Config ... With Gaps!</h1>
 
-#+PROPERTY: header-args :tangle config
+#+HTML: <p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
 
 #+HTML:<p align="center"><code>i3</code> is an open source tiling window manager for X11. I use a fork of it called <code><a href="https://github.com/Airblader/i3">i3-gaps</a></code>.</p>
 
