@@ -256,6 +256,7 @@
   :bind-keymap ("C-c p" . projectile-command-map)
   :config
   ;; settings
+  (setq projectile-auto-discover nil)
   (setq projectile-project-search-path '("~/projects/"))
   (setq projectile-completion-system 'ivy)
   ;; start mode
@@ -273,7 +274,7 @@
         dashboard-set-init-info nil)                  ; hide package and load time info
   (setq dashboard-items '((recents  . 5)              ; customize dashboard items
                           (agenda . 5)
-                          (projects . 5)
+                          (projects . 7)
                           (bookmarks . 5)))
   ;; start mode
   (dashboard-setup-startup-hook)
