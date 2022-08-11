@@ -12,6 +12,7 @@
 
 * About
 =NOTE= - Development ceased =8/11/22= until further notice, testing using =Doom Emacs=.
+
 I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not the default one. Default is now inhabited by Chemacs2.
 
 Currently using Emacs 27.1.
