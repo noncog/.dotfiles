@@ -270,12 +270,16 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
  (org-mode . org-indent-mode)                       ; enable virtual indents and hide leading stars for readability
  (org-mode . noncog/org-heading-size))              ; enable custom org-heading-size
  #+END_SRC
-**** Appearance
+**** Modules
 #+BEGIN_SRC emacs-lisp :noweb-ref use-package-org-config
 :config
-(setq org-ellipsis " ▾")                            ; set custom ellipsis
-(setq org-hide-emphasis-markers t)                  ; hide formatting for markup
-(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to source code blocks
+(setq org-modules (quote (org-habit)))              ; enable org-habit modulet
+#+END_SRC
+**** Habits
+#+BEGIN_SRC emacs-lisp :noweb-ref use-package-org-config
+(setq org-habit-show-habits-only-for-today nil)
+(setq org-habit-show-all-today t)
+(setq org-agenda-repeating-timestamp-show-all nil)
 #+END_SRC
 **** Logging
 #+BEGIN_SRC emacs-lisp :noweb-ref use-package-org-config
@@ -297,9 +301,17 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
 #+END_SRC
 **** Todo
 #+BEGIN_SRC emacs-lisp :noweb-ref use-package-org-config
-;; todo states                                                            ; ! timestamp 
-(setq org-todo-keywords                                                   ; @ note      
-    '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@/!)"))) ; / settings to use when leaving state: ! or @
+;; todo states                               
+(setq org-todo-keywords                      
+    '((sequence "TODO(t)" "IDEA(i)" "PROJ(p)" "STRT(s)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@/!)")
+      (sequence "[ ](T)" "[-](S)" "[?](W)" "[X](D)")
+      (sequence "OKAY(o)" "YES(y)" "NO(n)")))
+#+END_SRC
+**** Appearance
+#+BEGIN_SRC emacs-lisp :noweb-ref use-package-org-config
+(setq org-ellipsis " ▾")                            ; set custom ellipsis
+(setq org-hide-emphasis-markers t)                  ; hide formatting for markup
+(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to source code blocks
 #+END_SRC
 **** Custom Buffer Windowing
 #+BEGIN_SRC emacs-lisp :noweb-ref use-package-org-config
@@ -475,10 +487,10 @@ Considering separating these packages.
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
   :config
   ;; settings
-  (setq dashboard-center-content t                    ; center dashboard
-        dashboard-set-init-info nil)                  ; hide package and load time info
+  (setq dashboard-center-content t)                   ; center dashboard
+  (setq dashboard-set-init-info nil)                  ; hide package and load time info
+  
   (setq dashboard-items '((recents  . 5)              ; customize dashboard items
-                          (agenda . 5)
                           (projects . 7)
                           (bookmarks . 5)))
   ;; start mode

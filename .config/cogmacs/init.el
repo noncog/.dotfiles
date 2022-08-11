@@ -142,9 +142,10 @@
    (org-mode . org-indent-mode)                       ; enable virtual indents and hide leading stars for readability
    (org-mode . noncog/org-heading-size))              ; enable custom org-heading-size
   :config
-  (setq org-ellipsis " ▾")                            ; set custom ellipsis
-  (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
-  (setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to source code blocks
+  (setq org-modules (quote (org-habit)))              ; enable org-habit modulet
+  (setq org-habit-show-habits-only-for-today nil)
+  (setq org-habit-show-all-today t)
+  (setq org-agenda-repeating-timestamp-show-all nil)
   (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
   (setq org-log-done 'time)                           ; add completion time to DONE items.
   (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
@@ -154,9 +155,14 @@
   (setq org-directory "~/documents/org")              
   (setq org-agenda-files '("~/documents/org"))        
   (setq org-default-notes-file "~/documents/org/notes.org")
-  ;; todo states                                                            ; ! timestamp 
-  (setq org-todo-keywords                                                   ; @ note      
-      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@/!)"))) ; / settings to use when leaving state: ! or @
+  ;; todo states                               
+  (setq org-todo-keywords                      
+      '((sequence "TODO(t)" "IDEA(i)" "PROJ(p)" "STRT(s)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@/!)")
+        (sequence "[ ](T)" "[-](S)" "[?](W)" "[X](D)")
+        (sequence "OKAY(o)" "YES(y)" "NO(n)")))
+  (setq org-ellipsis " ▾")                            ; set custom ellipsis
+  (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
+  (setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to source code blocks
   ;; org-note
   (advice-add 'org-add-log-note :around #'noncog/no-delete-windows)
   (add-to-list 'display-buffer-alist '("*Org Note*" (display-buffer-below-selected) (window-height . 10))) ; display buffer in this window
@@ -270,10 +276,10 @@
   (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*"))) ; set new frames from emacsclient -c to dashboard
   :config
   ;; settings
-  (setq dashboard-center-content t                    ; center dashboard
-        dashboard-set-init-info nil)                  ; hide package and load time info
+  (setq dashboard-center-content t)                   ; center dashboard
+  (setq dashboard-set-init-info nil)                  ; hide package and load time info
+  
   (setq dashboard-items '((recents  . 5)              ; customize dashboard items
-                          (agenda . 5)
                           (projects . 7)
                           (bookmarks . 5)))
   ;; start mode
