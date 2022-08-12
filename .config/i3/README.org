@@ -184,6 +184,12 @@ bindsym $mod+a [class="Anki"] focus
 
 * Scratchpad Apps
 The scratchpad is an invisible workspace. I put "floating" apps into it. They can only be spawned and focused/hidden.
+
+** Hide Visible Scratchpad windows
+#+BEGIN_SRC conf
+bindsym $mod+semicolon exec --no-startup-id bash $HOME/.config/i3/scratchpad_hide_visible.sh
+#+END_SRC
+
 ** Kitty
 =NOTE= - To use i3-sensible-terminal, you have to set $TERMINAL environment variable.
 #+BEGIN_SRC conf

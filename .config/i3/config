@@ -122,6 +122,8 @@ bindsym $mod+Control+Shift+a move container to workspace $anki
 bindsym $mod+Shift+a exec --no-startup-id anki
 bindsym $mod+a [class="Anki"] focus
 
+bindsym $mod+semicolon exec --no-startup-id bash $HOME/.config/i3/scratchpad_hide_visible.sh
+
 for_window [class="kitty"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
 bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
 bindsym $mod+Return [class="kitty"] scratchpad show, move position center
