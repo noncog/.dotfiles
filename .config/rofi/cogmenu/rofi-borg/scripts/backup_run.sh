@@ -52,6 +52,7 @@ backup_directories=(
     $HOME/books
     $HOME/documents
     $HOME/pictures/archive
+    $HOME/videos/archive
     $HOME/projects
     $HOME/.individuals
 )
