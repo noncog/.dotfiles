@@ -252,6 +252,8 @@ bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
 exec --no-startup-id sleep 2 && firefox
 exec --no-startup-id kitty --name Kitty-Float
+# restart i3 to make sure startup windows are moved to scratchpad
+exec --no-startup-id restart
 
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
 
