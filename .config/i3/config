@@ -2,15 +2,15 @@
 set $mod Mod4
 
 # change focus
-bindsym $mod+i focus up
-bindsym $mod+j focus left
-bindsym $mod+k focus down
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# change focus 
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+i move up
+# move window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 # drag floaters key
@@ -19,11 +19,7 @@ floating_modifier $mod
 # kill window
 bindsym $mod+Shift+q kill
 
-# split window horizontally
-bindsym $mod+h split v
-
-# split window vertically
-bindsym $mod+v split h
+# window splitting moved to modes area
 
 # change window layout mode
 bindsym $mod+Tab layout tabbed
@@ -36,7 +32,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+Shift+space floating toggle
 
 # fullscreen
-bindsym $mod+F11 fullscreen toggle
+bindsym $mod+minus fullscreen toggle
 
 focus_wrapping no
 
@@ -124,14 +120,18 @@ bindsym $mod+a [class="Anki"] focus
 
 bindsym $mod+semicolon exec --no-startup-id bash $HOME/.config/i3/scratchpad_hide_visible.sh
 
-for_window [class="kitty"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
-bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
-bindsym $mod+Return [class="kitty"] scratchpad show, move position center
+for_window [instance="Floating-Kitty"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
+bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
+bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, move position center
 
 # NOTE - changing size using shrink instead of set, this is the only way it would work...
-for_window [instance="Ranger-Float"] floating enable, resize shrink 50 ppt, move scratchpad, sticky enable
-bindsym $mod+Shift+r exec --no-startup-id kitty --name Ranger-Float -e ranger
-bindsym $mod+r [instance="Ranger-Float"] scratchpad show, move position center
+for_window [instance="Floating-Ranger"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
+bindsym $mod+Shift+r exec --no-startup-id kitty --name "Floating-Ranger" -e ranger
+bindsym $mod+r [instance="Floating-Ranger"] scratchpad show, move position center
+
+for_window [instance="Floating-Vim"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
+bindsym $mod+Shift+v exec --no-startup-id kitty --name "Floating-Vim" -e vim
+bindsym $more+r [instance="Floating-Vim"] scratchpad show, move position center
 
 for_window [class="Tor Browser"] floating enable, resize set 75 ppt 75 ppt, move scratchpad, sticky enable
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
@@ -163,6 +163,21 @@ mode "$resize_mode" {
      bindsym Return mode "default"
 }
 bindsym $mod+equal mode "$resize_mode"
+
+set $split_mode Split: (v)ertically, (s)plit horizontally
+mode "$split_mode" {
+     bindsym $mod+v split h; mode "default"
+     bindsym $mod+s split v; mode "default"
+
+     # back to normal
+     bindsym $mod+Escape mode "default"
+     bindsym $mod+BackSpace mode "default"
+     bindsym $mod+Return mode "default"
+     bindsym Escape mode "default"
+     bindsym BackSpace mode "default"
+     bindsym Return mode "default"
+}
+bindsym $mod+w mode "$split_mode"
 
 # Firefox: about:config > full-screen-api.ignore-widgets true
 
@@ -236,7 +251,7 @@ bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 
 exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
 exec --no-startup-id sleep 2 && firefox
-exec --no-startup-id kitty
+exec --no-startup-id kitty --name Kitty-Float
 
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
 

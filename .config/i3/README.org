@@ -9,21 +9,21 @@
 [[https://i3wm.org/docs/userguide.html][Here]] is the user documentation.
 
 * Basic Controls
-Mostly standard, with some improvements.
+Mostly standard, using vim binds with some improvements.
 #+BEGIN_SRC conf
 # set mod key
 set $mod Mod4
 
 # change focus
-bindsym $mod+i focus up
-bindsym $mod+j focus left
-bindsym $mod+k focus down
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# change focus 
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+i move up
+# move window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 # drag floaters key
@@ -32,11 +32,7 @@ floating_modifier $mod
 # kill window
 bindsym $mod+Shift+q kill
 
-# split window horizontally
-bindsym $mod+h split v
-
-# split window vertically
-bindsym $mod+v split h
+# window splitting moved to modes area
 
 # change window layout mode
 bindsym $mod+Tab layout tabbed
@@ -49,7 +45,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+Shift+space floating toggle
 
 # fullscreen
-bindsym $mod+F11 fullscreen toggle
+bindsym $mod+minus fullscreen toggle
 #+END_SRC
 
 * Settings
@@ -185,25 +181,31 @@ bindsym $mod+a [class="Anki"] focus
 * Scratchpad Apps
 The scratchpad is an invisible workspace. I put "floating" apps into it. They can only be spawned and focused/hidden.
 
-** Hide Visible Scratchpad windows
+** Hide Visible Scratchpad Windows
 #+BEGIN_SRC conf
 bindsym $mod+semicolon exec --no-startup-id bash $HOME/.config/i3/scratchpad_hide_visible.sh
 #+END_SRC
 
 ** Kitty
-=NOTE= - To use i3-sensible-terminal, you have to set $TERMINAL environment variable.
 #+BEGIN_SRC conf
-for_window [class="kitty"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
-bindsym $mod+Shift+Return exec --no-startup-id i3-sensible-terminal
-bindsym $mod+Return [class="kitty"] scratchpad show, move position center
+for_window [instance="Floating-Kitty"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
+bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
+bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, move position center
 #+END_SRC
 
 ** Ranger
 #+BEGIN_SRC conf
 # NOTE - changing size using shrink instead of set, this is the only way it would work...
-for_window [instance="Ranger-Float"] floating enable, resize shrink 50 ppt, move scratchpad, sticky enable
-bindsym $mod+Shift+r exec --no-startup-id kitty --name Ranger-Float -e ranger
-bindsym $mod+r [instance="Ranger-Float"] scratchpad show, move position center
+for_window [instance="Floating-Ranger"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
+bindsym $mod+Shift+r exec --no-startup-id kitty --name "Floating-Ranger" -e ranger
+bindsym $mod+r [instance="Floating-Ranger"] scratchpad show, move position center
+#+END_SRC
+
+** Vim
+#+BEGIN_SRC conf
+for_window [instance="Floating-Vim"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
+bindsym $mod+Shift+v exec --no-startup-id kitty --name "Floating-Vim" -e vim
+bindsym $more+r [instance="Floating-Vim"] scratchpad show, move position center
 #+END_SRC
 
 ** Tor
@@ -251,6 +253,24 @@ mode "$resize_mode" {
      bindsym Return mode "default"
 }
 bindsym $mod+equal mode "$resize_mode"  
+#+END_SRC
+
+** Window splitting
+#+BEGIN_SRC conf
+set $split_mode Split: (v)ertically, (s)plit horizontally
+mode "$split_mode" {
+     bindsym $mod+v split h; mode "default"
+     bindsym $mod+s split v; mode "default"
+
+     # back to normal
+     bindsym $mod+Escape mode "default"
+     bindsym $mod+BackSpace mode "default"
+     bindsym $mod+Return mode "default"
+     bindsym Escape mode "default"
+     bindsym BackSpace mode "default"
+     bindsym Return mode "default"
+}
+bindsym $mod+w mode "$split_mode"
 #+END_SRC
 
 ** Youtube Mode
@@ -369,7 +389,7 @@ bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+BEGIN_SRC conf
 exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
 exec --no-startup-id sleep 2 && firefox
-exec --no-startup-id kitty
+exec --no-startup-id kitty --name Kitty-Float
 #+END_SRC
 
 * Tips
