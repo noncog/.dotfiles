@@ -131,7 +131,7 @@ bindsym $mod+r [instance="Floating-Ranger"] scratchpad show, move position cente
 
 for_window [instance="Floating-Vim"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
 bindsym $mod+Shift+v exec --no-startup-id kitty --name "Floating-Vim" -e vim
-bindsym $more+r [instance="Floating-Vim"] scratchpad show, move position center
+bindsym $mod+v [instance="Floating-Vim"] scratchpad show, move position center
 
 for_window [class="Tor Browser"] floating enable, resize set 75 ppt 75 ppt, move scratchpad, sticky enable
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
