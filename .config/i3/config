@@ -137,9 +137,13 @@ for_window [class="Tor Browser"] floating enable, resize set 75 ppt 75 ppt, move
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
 bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
 
-for_window [class="discord"] floating enable, resize set 50 ppt 85 ppt, move scratchpad, sticky enable
-bindsym $mod+Shift+d exec --no-startup-id discord
-bindsym $mod+d [class="discord"] scratchpad show, move position center
+set $discord_page https://discord.com/
+set $discord_title "Discord | Your Place to Talk and Hang Out — Mozilla Firefox"
+for_window [title=$discord_title] floating enable, resize set 50 ppt 85 ppt, move scratchpad, sticky enable
+for_window [title=$discord_title] move scratchpad, sticky enable, mark discord
+
+bindsym $mod+Shift+d exec --no-startup-id firefox --new-window $discord_page
+bindsym $mod+d [con_mark="discord"] scratchpad show, move position center
 
 for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, move scratchpad, sticky enable
 bindsym $mod+Shift+s exec --no-startup-id spotify
