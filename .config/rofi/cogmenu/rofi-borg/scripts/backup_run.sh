@@ -49,12 +49,12 @@ archive_name="::{hostname}-{now}"
 # borg may use the following placeholders: {now}, {utcnow}, {fqdn}, {hostname}, {user} and others
 
 backup_directories=(
+    $HOME/.individuals
     $HOME/books
     $HOME/documents
     $HOME/pictures/archive
-    $HOME/videos/archive
     $HOME/projects
-    $HOME/.individuals
+    $HOME/videos/archive
 )
 
 # function to copy individual files to individuals directory for borg-backup.
@@ -102,7 +102,7 @@ backup() {
 
     # get the individual files
     get_individuals
-    
+
     # create backup
     borg create ${backup_options[@]} $archive_name ${backup_directories[@]}
     backup_exit=$?
