@@ -1,5 +1,11 @@
+#+HTML:<h1 align="center">Doom Emacs</h1>
+* Default Advice
+#+BEGIN_SRC emacs-lisp
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -32,19 +38,37 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+#+END_SRC
 
+* Initial Setup
+** Enable lexical binding
+Supposedly makes this file run slightly faster...
+#+BEGIN_SRC emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+END_SRC
 
+** Personal information
+*** TODO Update with secure private email that can be expose to the internet.
+#+BEGIN_SRC emacs-lisp
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
-
+#+END_SRC
+** Autoload File Changes
+#+BEGIN_SRC emacs-lisp
+(global-auto-revert-mode 1)
+#+END_SRC
+* Appearance
+** Theme
+#+BEGIN_SRC emacs-lisp
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function.
 (setq doom-theme 'doom-dracula)
-
+#+END_SRC
+** Font
+#+BEGIN_SRC emacs-lisp
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
@@ -57,7 +81,9 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
 ;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'normal'))
 
 ;(setq doom-font (font-spec :family "Fira Code" :size 14))
@@ -66,39 +92,87 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
+#+END_SRC
 
+** Cursor color
+#+BEGIN_SRC emacs-lisp
 ;(set-cursor-color "#ff79c6")
 ;(evil-set-cursor-color "#ff79c6")
 ;(+evil-update-cursor-color-h)
-
+#+END_SRC
+** Line Numbers
+#+BEGIN_SRC emacs-lisp
 (setq display-line-numbers-type 'relative)
-
+#+END_SRC
+* Packages
+** Org-Mode Related
+:PROPERTIES:
+:CUSTOM_ID: org
+:END:
+*** Initialization
+**** Directories
+#+BEGIN_SRC emacs-lisp
 (setq org-directory "~/documents/org/")
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
+#+END_SRC
+*** Org
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org
+(use-package! org
+  :config
+#+END_SRC
+**** Hooks
+**** Modules
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+(setq org-modules (quote (org-habit)))
+#+END_SRC
+**** Habits
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+;(setq org-habit-show-habits-only-for-today nil)
+;(setq org-habit-show-all-today t)
+;(setq org-agenda-repeating-timestamp-show-all nil)
+#+END_SRC
+**** Logging
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+(setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
+(setq org-log-done 'time)                           ; add completion time to DONE items.
+(setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
+#+END_SRC
+**** Behavior
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+(setq org-return-follows-link t)                    ; enter opens links in org
+(setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
+(setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
+#+END_SRC
+**** Appearance
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+(setq org-ellipsis " ▾")                            ; set custom ellipsis
+(setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
+;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
+(setq org-hide-emphasis-markers t)                  ; hide formatting for markup
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp :tangle no :exports none :noweb-ref use-package-org-end
+)
+#+END_SRC
+*** Org-Noter
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter
+(use-package! org-noter
+  :config
+  (setq org-noter-always-create-frame nil)
+  (setq org-noter-auto-save-last-location t)
+  (setq org-noter-separate-notes-from-heading t))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :noweb yes :exports none
 (after! org
-  (use-package! org
-    :config
-    (setq org-modules (quote (org-habit)))
-    ;(setq org-habit-show-habits-only-for-today nil)
-    ;(setq org-habit-show-all-today t)
-    ;(setq org-agenda-repeating-timestamp-show-all nil)
-    (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
-    (setq org-log-done 'time)                           ; add completion time to DONE items.
-    (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
-    (setq org-return-follows-link t)                    ; enter opens links in org
-    (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
-    (setq org-ellipsis " ▾")                            ; set custom ellipsis
-    (setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
-    ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
-    (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
-    )
-  (use-package! org-noter
-    :config
-    (setq org-noter-always-create-frame nil)
-    (setq org-noter-auto-save-last-location t)
-    (setq org-noter-separate-notes-from-heading t))
+  <<use-package-org>>
+    <<use-package-org-config>>
+    <<use-package-org-end>>
+  <<use-package-org-noter>>
   )
-
+#+END_SRC
+** PDF-Tools
+#+BEGIN_SRC emacs-lisp
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
+#+END_SRC
