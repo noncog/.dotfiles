@@ -1,4 +1,5 @@
 #+HTML:<h1 align="center">Doom Emacs</h1>
+#+HTML:<p align="center">This is my doom... Henrik has doomed us all!</p>
 * Default Advice
 #+BEGIN_SRC emacs-lisp
 ;; Place your private configuration here! Remember, you do not need to run 'doom
@@ -105,6 +106,9 @@ Supposedly makes this file run slightly faster...
 (setq display-line-numbers-type 'relative)
 #+END_SRC
 * Packages
+#+BEGIN_SRC emacs-lisp :tangle no :exports none :noweb-ref use-package-end
+)
+#+END_SRC
 ** Org-Mode Related
 :PROPERTIES:
 :CUSTOM_ID: org
@@ -151,24 +155,25 @@ Supposedly makes this file run slightly faster...
 (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle no :exports none :noweb-ref use-package-org-end
-)
-#+END_SRC
 *** Org-Noter
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter
 (use-package! org-noter
   :config
   (setq org-noter-always-create-frame nil)
   (setq org-noter-auto-save-last-location t)
-  (setq org-noter-separate-notes-from-heading t))
+  (setq org-noter-separate-notes-from-heading t)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :noweb yes :exports none
 (after! org
   <<use-package-org>>
     <<use-package-org-config>>
-    <<use-package-org-end>>
+    <<use-package-end>>
+  )
+
+(after! org-noter
   <<use-package-org-noter>>
+    <<use-package-end>>
   )
 #+END_SRC
 ** PDF-Tools
@@ -176,3 +181,4 @@ Supposedly makes this file run slightly faster...
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
 #+END_SRC
+tnother thingsadfasdfest

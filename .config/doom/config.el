@@ -40,6 +40,8 @@
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
 
+(global-auto-revert-mode 1)
+
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function.
@@ -88,16 +90,21 @@
     (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
     (setq org-return-follows-link t)                    ; enter opens links in org
     (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
+    (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
     (setq org-ellipsis " ▾")                            ; set custom ellipsis
     (setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
     ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
     )
+  )
+
+(after! org-noter
   (use-package! org-noter
     :config
     (setq org-noter-always-create-frame nil)
     (setq org-noter-auto-save-last-location t)
-    (setq org-noter-separate-notes-from-heading t))
+    (setq org-noter-separate-notes-from-heading t)
+    )
   )
 
 (after! pdf-tools
