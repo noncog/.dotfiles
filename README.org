@@ -211,7 +211,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML:<li>
 #+HTML:<code>Cogmacs</code> - My custom Emacs <a href="https://github.com/noncog/.dotfiles/tree/master/.config/cogmacs">configuration</a>.
 #+HTML:<ul>
-#+HTML:<li><code>NOTE</code> - Development slowed as of <code>8/11/22</code>, now experimenting with <code>Doom Emacs</code> and <code>Vim</code>.</li>
+#+HTML:<li><code>NOTE</code> - Development slowed as of <code>8/11/22</code>, now experimenting with <code>Doom Emacs</code> and <code>Vim</code>. Thus, my system now has these too!</li>
 #+HTML:</li>
 #+HTML:</ul>
 #+HTML:</p>
