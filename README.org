@@ -115,7 +115,12 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML:<li><a href="https://github.com/tonsky/FiraCode">Fira Code</a> font.</li>
 
-#+HTML:<li><a href="https://github.com/FortAwesome/Font-Awesome">Font Awesome 5</a> icon font.</li>
+#+HTML:<li>
+#+HTML:<a href="https://github.com/FortAwesome/Font-Awesome">Font Awesome 5</a> icon font.
+#+HTML:<ul>
+#+HTML:<li>Allows me to have icons anywhere I can put text!</li>
+#+HTML:</ul>
+#+HTML:</li>
 
 #+HTML:<li>Floating <a href="https://github.com/noncog/.dotfiles/tree/master/.config/i3#youtube-mode">YouTube player</a>!</li>
 
