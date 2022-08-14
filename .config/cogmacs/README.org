@@ -11,11 +11,11 @@
 #+END_QUOTE
 
 * About
-=NOTE= - Development ceased =8/11/22= until further notice, testing using =Doom Emacs=.
+=NOTE= - Development slowed since =8/11/22= currently testing using =Doom Emacs= and =Vim=.
 
-I use Chemacs 2 to load both Cogmacs and Doom Emacs. Thus, this directory is not the default one. Default is now inhabited by Chemacs2.
-
-Currently using Emacs 27.1.
+- Created for =Emacs 27.1=
+- Used with [[https://github.com/plexus/chemacs2][Chemacs2]] and [[https://github.com/noncog/rofi-chemacs][rofi-chemacs]]
+  - Allows multiple Emacs profiles, thus this directory is not the default one. Default now inhabited by Chemacs2.
 
 *** Literate Configuration
 For my most important configurations, I'm migrating to [[https://leanpub.com/lit-config/read][literate configurations]] using Emacs' org-mode. This enables me to have a single annotated file for a particular configuration which automatically writes out the actual configuration file from the .org file.
@@ -25,6 +25,10 @@ Since I use org-mode for configurations, there are some techniques possible that
 When inside of an org-mode source blocks, you can use =org-babel-demarcate-block= (C-c C-v d) to split the block you’re currently in so that you can insert an annotation or heading.
 
 =noweb= blocks are extremely useful for configuration organization. This allows the org-mode document to have a different structure than the yielded configuration file. The [[https://orgmode.org/manual/Noweb-Reference-Syntax.html][org-mode manual]] documentation on this topic is extremely useful for understanding the ways you can use this.
+*** README.org != init.el
+#+BEGIN_QUOTE
+*Warning:* README.org does not represent the actual elisp code because of the use of =noweb= blocks. This is done to better share the features I use, not how I write elisp. To see 'under the hood', refer to =init.el= and the raw README.org file. For example, I cleverly split up use-package declarations into more visually appealing and better documented code blocks for viewing here on GitHub.
+#+END_QUOTE
 
 * Package Management
 *** Package.el
