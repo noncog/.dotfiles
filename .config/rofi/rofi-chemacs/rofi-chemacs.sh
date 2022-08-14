@@ -9,7 +9,7 @@
 chemacs_directory="$HOME/.config/chemacs"
 
 # must set your install directory
-directory="$HOME/projects/rofi-chemacs"
+directory="$HOME/.config/rofi/rofi-chemacs"
 
 # set which command you want to use
 # these must be in opposition
