@@ -174,6 +174,8 @@
   (global-set-key (kbd "C-c c") 'org-capture)
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c C-h") #'noncog/org-show-current-heading-tidily)
+  (define-key org-mode-map (kbd "C-c <up>") 'org-priority-up)
+  (define-key org-mode-map (kbd "C-c <down>") 'org-priority-down)
   :delight
   (org-indent-mode nil org-indent)                    ; hide indent-mode 
   (visual-line-mode nil emacs))                       ; hide visual-line-mode
@@ -190,7 +192,10 @@
   :ensure t
   :config
   ;; settings
+  (setq org-noter-notes-search-path '("~/documents/org/noter"))
   (setq org-noter-always-create-frame nil)            ; prevent noter from making a new frame
+  (setq org-noter-auto-save-last-location t)          ; remember location in notes
+  (setq org-noter-separate-notes-from-heading t)      ; add blank line between headings and notes
   )
 
 (use-package counsel
