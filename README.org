@@ -208,7 +208,6 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML:</li>
 #+HTML:</p>
 #+HTML:</ul>
-#+HTML:<li>
 #+HTML:<li><code>Editors!</code></li>
 #+HTML:<ul>
 #+HTML:<li><code>Cogmacs</code> - My custom Emacs <a href="https://github.com/noncog/.dotfiles/tree/master/.config/cogmacs">configuration</a>.</li>
