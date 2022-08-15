@@ -32,7 +32,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+Shift+space floating toggle
 
 # fullscreen
-bindsym $mod+minus fullscreen toggle
+bindsym $mod+F11 fullscreen toggle
 
 focus_wrapping no
 
@@ -202,6 +202,8 @@ set $split_mode Split: (v)ertically, (s)plit horizontally
 mode "$split_mode" {
      bindsym $mod+v split h; mode "default"
      bindsym $mod+s split v; mode "default"
+     bindsym v split h; mode "default"
+     bindsym s split v; mode "default"
 
      # back to normal
      bindsym $mod+Escape mode "default"
