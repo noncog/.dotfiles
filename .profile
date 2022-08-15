@@ -31,3 +31,5 @@ export TERMINAL=/usr/bin/kitty
 
 export EDITOR="emacsclient -c -s $(cat $HOME/.config/chemacs/profile)"
 export VISUAL=$EDITOR
+
+export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
