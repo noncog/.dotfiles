@@ -37,6 +37,9 @@ bindsym $mod+apostrophe scratchpad show
 # fullscreen
 bindsym $mod+F11 fullscreen toggle
 
+# emergency shutdown
+bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
+
 focus_wrapping no
 
 font pango:Fira Code 11
