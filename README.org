@@ -211,8 +211,8 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML:<li><code>Editors!</code></li>
 #+HTML:<ul>
 #+HTML:<li><code>Cogmacs</code> - My custom Emacs <a href="https://github.com/noncog/.dotfiles/tree/master/.config/cogmacs">configuration</a>.</li>
-#+HTML:<li><code>Doom</code> - An Emacs <a href="https://github.com/doomemacs/doomemacs">distribution</a> powered by Vim binds!</li>
-#+HTML:<li><code>Vim</code> - Everyone's favorite modal editor... even though Emacs has modes...</li>
+#+HTML:<li><code>Doom</code> - An Emacs <a href="https://github.com/doomemacs/doomemacs">distribution</a>, powered by Vim binds! Evil.</li>
+#+HTML:<li><code>Vim</code> - Everyone's favorite modal editor... even though Emacs has modes.</li>
 #+HTML:</ul>
 #+HTML:</li>
 #+HTML:</ul>
