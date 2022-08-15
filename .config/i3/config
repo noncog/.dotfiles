@@ -83,6 +83,36 @@ workspace $ws1 output HDMI-1-0 eDP-1
 workspace $ws2 output HDMI-1-0 eDP-1
 workspace $ws3 output eDP-1 HDMI-1-0
 
+exec --no-startup-id emacs --daemon
+
+exec --no-startup-id picom -b
+
+exec --no-startup-id nm-applet
+
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# note that exec_always runs every time you restart i3 not just initialization.
+# this allows polybar to be restarted with i3 restarting.
+
+# desktop app launcher
+bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
+# custom menu launcher
+bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
+
+exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
+exec --no-startup-id sleep 2 && firefox
+exec --no-startup-id kitty --name Kitty-Float
+# restart i3 to make sure startup windows are moved to scratchpad
+exec --no-startup-id restart
+
 set $emacs "Emacs"
 assign [class="Emacs"] $emacs	
 workspace $emacs output HDMI-1-0 eDP-1
@@ -228,36 +258,6 @@ mode "$youtube_mode" {
 }
 bindsym $mod+Shift+y mode "$youtube_mode"
 bindsym $mod+y [con_mark="youtube"] scratchpad show
-
-exec --no-startup-id emacs --daemon
-
-exec --no-startup-id picom -b
-
-exec --no-startup-id nm-applet
-
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
-bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
-
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
-# note that exec_always runs every time you restart i3 not just initialization.
-# this allows polybar to be restarted with i3 restarting.
-
-# desktop app launcher
-bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
-# custom menu launcher
-bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
-
-exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
-exec --no-startup-id sleep 2 && firefox
-exec --no-startup-id kitty --name Kitty-Float
-# restart i3 to make sure startup windows are moved to scratchpad
-exec --no-startup-id restart
 
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
 
