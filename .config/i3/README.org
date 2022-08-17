@@ -103,12 +103,13 @@ gaps outer 0
 #+END_SRC
 
 * Workspaces
-I only use 3 universal workspaces. Some apps get their own workspace. Some apps live in the scratchpad.
+I only use 3 universal workspaces and a 'coding' workspace. Some apps get their own workspace. Some apps live in the scratchpad.
 #+BEGIN_SRC conf
 # name workspaces
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
+set $code "Code"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -124,6 +125,7 @@ bindsym $mod+Shift+3 move container to workspace number $ws3
 workspace $ws1 output HDMI-1-0 eDP-1
 workspace $ws2 output HDMI-1-0 eDP-1
 workspace $ws3 output eDP-1 HDMI-1-0
+workspace $code output HDMI-1-0 eDP-1
 #+END_SRC
 
 * Utilities
@@ -210,24 +212,24 @@ bindsym $mod+f [class="Firefox-esr" tiling] focus
 
 ** Clion
 #+BEGIN_SRC conf
-set $clion "CLion"
-assign [class="jetbrains-clion"] $clion
-workspace $clion output HDMI-1-0 eDP-1
-bindsym $mod+Control+Shift+c move container to workspace $clion
-bindsym $mod+Shift+c exec --no-startup-id sh /opt/clion-2022.1.2/bin/clion.sh
+assign [class="jetbrains-clion"] $code
+bindsym $mod+Control+Shift+c move container to workspace $code
 bindsym $mod+c [class="jetbrains-clion"] focus
 #+END_SRC
 
 ** Pycharm
 #+BEGIN_SRC conf
-set $pycharm "PyCharm"
-assign [class="jetbrains-pycharm"] $pycharm
-workspace $pycharm output HDMI-1-0 eDP-1
-bindsym $mod+Control+Shift+p move container to workspace $pycharm
-bindsym $mod+Shift+p exec --no-startup-id sh /opt/pycharm-2022.1.2/bin/pycharm.sh
+assign [class="jetbrains-pycharm"] $code
+bindsym $mod+Control+Shift+p move container to workspace $code
 bindsym $mod+p [class="jetbrains-pycharm"] focus
 #+END_SRC
 
+** IntelliJ Idea
+#+BEGIN_SRC conf
+assign [class="jetbrains-idea"] $code
+bindsym $mod+Control+Shift+i move container to workspace $code
+bindsym $mod+i [class="jetbrains-idea"] focus
+#+END_SRC
 ** Anki
 I give this it's own workspace to not deal with floating dialog issues in a scratchpad.
 #+BEGIN_SRC conf
