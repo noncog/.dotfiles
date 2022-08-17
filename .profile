@@ -31,3 +31,7 @@ export TERMINAL=/usr/bin/kitty
 
 export EDITOR="emacsclient -c -s $(cat $HOME/.config/chemacs/profile)"
 export VISUAL=$EDITOR
+
+
+# Added by Toolbox App
+export PATH="$PATH:/home/jake/.local/share/JetBrains/Toolbox/scripts"
