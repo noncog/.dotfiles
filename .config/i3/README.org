@@ -5,6 +5,7 @@
 #+HTML: <p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
 
 #+HTML:<p align="center"><code>i3</code> is an open source tiling window manager for X11. I use a fork of it called <code><a href="https://github.com/Airblader/i3">i3-gaps</a></code>.</p>
+#+STARTUP: show2levels
 
 [[https://i3wm.org/docs/userguide.html][Here]] is the user documentation.
 
@@ -214,6 +215,7 @@ bindsym $mod+f [class="Firefox-esr" tiling] focus
 #+BEGIN_SRC conf
 assign [class="jetbrains-clion"] $code
 bindsym $mod+Control+Shift+c move container to workspace $code
+bindsym $mod+Shift+c exec --no-startup-id clion
 bindsym $mod+c [class="jetbrains-clion"] focus
 #+END_SRC
 
@@ -221,6 +223,7 @@ bindsym $mod+c [class="jetbrains-clion"] focus
 #+BEGIN_SRC conf
 assign [class="jetbrains-pycharm"] $code
 bindsym $mod+Control+Shift+p move container to workspace $code
+bindsym $mod+Shift+p exec --no-startup-id pycharm
 bindsym $mod+p [class="jetbrains-pycharm"] focus
 #+END_SRC
 
@@ -228,6 +231,7 @@ bindsym $mod+p [class="jetbrains-pycharm"] focus
 #+BEGIN_SRC conf
 assign [class="jetbrains-idea"] $code
 bindsym $mod+Control+Shift+i move container to workspace $code
+bindsym $mod+Shift+i exec --no-startup-id idea
 bindsym $mod+i [class="jetbrains-idea"] focus
 #+END_SRC
 ** Anki
@@ -283,7 +287,7 @@ bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
 for_window [class="discord"] floating enable, resize set 50 ppt 85 ppt, move scratchpad, sticky enable
 for_window [class="discord"] move scratchpad, sticky enable, mark discord
 
-bindsym $mod+Shift+d exec --no-startup-id discord
+bindsym $mod+Shift+d exec discord
 bindsym $mod+d [class="discord"] scratchpad show, move position center
 #+END_SRC
 
