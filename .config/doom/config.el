@@ -62,8 +62,8 @@
 
 ;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'normal'))
 
-;(setq doom-font (font-spec :family "Fira Code" :size 14))
-;(setq doom-unicode-font (font-spec :family "Fira Code" :size 16))
+(setq doom-font (font-spec :family "Fira Code" :size 14))
+(setq doom-unicode-font (font-spec :family "Fira Code" :size 16))
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
@@ -92,7 +92,7 @@
     (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
     (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
     (setq org-ellipsis " ▾")                            ; set custom ellipsis
-    (setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
+    ;(setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
     ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
     )

@@ -49,7 +49,7 @@ Supposedly makes this file run slightly faster...
 #+END_SRC
 
 ** Personal information
-*** TODO Update with secure private email that can be expose to the internet.
+Needs updated with secure private public email.
 #+BEGIN_SRC emacs-lisp
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
@@ -87,8 +87,8 @@ Supposedly makes this file run slightly faster...
 #+BEGIN_SRC emacs-lisp
 ;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'normal'))
 
-;(setq doom-font (font-spec :family "Fira Code" :size 14))
-;(setq doom-unicode-font (font-spec :family "Fira Code" :size 16))
+(setq doom-font (font-spec :family "Fira Code" :size 14))
+(setq doom-unicode-font (font-spec :family "Fira Code" :size 16))
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
@@ -150,7 +150,7 @@ Supposedly makes this file run slightly faster...
 **** Appearance
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-ellipsis " ▾")                            ; set custom ellipsis
-(setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
+;(setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
 ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
 (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
 #+END_SRC
@@ -181,4 +181,3 @@ Supposedly makes this file run slightly faster...
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
 #+END_SRC
-tnother thingsadfasdfest
