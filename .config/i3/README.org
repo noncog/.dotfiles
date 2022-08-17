@@ -46,7 +46,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+Shift+space floating toggle
 
 # cycle through scratchpad windows
-bindsym $mod+apostrophe scratchpad show
+bindsym $mod+apostrophe scratchpad show, move position center
 
 # fullscreen
 bindsym $mod+F11 fullscreen toggle
