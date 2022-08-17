@@ -103,7 +103,7 @@ Needs updated with secure private public email.
 #+END_SRC
 ** Line Numbers
 #+BEGIN_SRC emacs-lisp
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type 'visual)
 #+END_SRC
 * Packages
 #+BEGIN_SRC emacs-lisp :tangle no :exports none :noweb-ref use-package-end

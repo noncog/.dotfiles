@@ -73,7 +73,7 @@
 ;(evil-set-cursor-color "#ff79c6")
 ;(+evil-update-cursor-color-h)
 
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type 'visual)
 
 (setq org-directory "~/documents/org/")
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
