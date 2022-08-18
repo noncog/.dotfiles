@@ -38,7 +38,7 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
 
 # cycle through scratchpad windows
-bindsym $mod+apostrophe [workspace="__focused__"] scratchpad show
+bindsym $mod+apostrophe scratchpad show, move position center
 # fullscreen
 bindsym $mod+F11 fullscreen toggle
 
