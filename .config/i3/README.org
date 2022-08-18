@@ -9,6 +9,11 @@
 
 [[https://i3wm.org/docs/userguide.html][Here]] is the user documentation.
 
+* Monitors
+#+BEGIN_SRC conf
+set $laptop eDP-1-1
+set $external HDMI-0
+#+END_SRC
 * Basic Controls
 Mostly standard, using vim binds with some improvements.
 #+BEGIN_SRC conf
@@ -45,9 +50,11 @@ bindsym $mod+space focus mode_toggle
 # make window float
 bindsym $mod+Shift+space floating toggle
 
+# hide scratchpad windows on focused workspace
+bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
+
 # cycle through scratchpad windows
 bindsym $mod+apostrophe scratchpad show, move position center
-
 # fullscreen
 bindsym $mod+F11 fullscreen toggle
 
@@ -123,10 +130,10 @@ bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
 
 # assign workspaces to monitors
-workspace $ws1 output HDMI-1-0 eDP-1
-workspace $ws2 output HDMI-1-0 eDP-1
-workspace $ws3 output eDP-1 HDMI-1-0
-workspace $code output HDMI-1-0 eDP-1
+workspace $ws1 output $external $laptop
+workspace $ws2 output $external $laptop
+workspace $ws3 output $laptop $external
+workspace $code output $external $laptop
 #+END_SRC
 
 * Utilities
@@ -195,7 +202,7 @@ I use a particular format for how my apps are managed.
 #+BEGIN_SRC conf
 set $emacs "Emacs"
 assign [class="Emacs"] $emacs	
-workspace $emacs output HDMI-1-0 eDP-1
+workspace $emacs output $external $laptop
 bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-chemacs.sh
 bindsym $mod+e [class="Emacs"] focus
@@ -205,7 +212,7 @@ bindsym $mod+e [class="Emacs"] focus
 #+BEGIN_SRC conf
 set $firefox "Firefox"
 assign [class="Firefox-esr"] $firefox
-workspace $firefox output HDMI-1-0 eDP-1
+workspace $firefox output $external $laptop
 bindsym $mod+Control+Shift+f move container to workspace $firefox
 bindsym $mod+Shift+f exec --no-startup-id firefox
 bindsym $mod+f [class="Firefox-esr" tiling] focus
@@ -239,7 +246,7 @@ I give this it's own workspace to not deal with floating dialog issues in a scra
 #+BEGIN_SRC conf
 set $anki "Anki"
 assign [class="Anki"] $anki
-workspace $anki output eDP-1 HDMI-1-0
+workspace $anki output $external $laptop
 bindsym $mod+Control+Shift+a move container to workspace $anki
 bindsym $mod+Shift+a exec --no-startup-id anki
 bindsym $mod+a [class="Anki"] focus
@@ -247,11 +254,6 @@ bindsym $mod+a [class="Anki"] focus
 
 * Scratchpad Apps
 The scratchpad is an invisible workspace. I put "floating" apps into it. They can only be spawned and focused/hidden.
-
-** Hide Visible Scratchpad Windows
-#+BEGIN_SRC conf
-bindsym $mod+semicolon exec --no-startup-id bash $HOME/.config/i3/scratchpad_hide_visible.sh
-#+END_SRC
 
 ** Kitty
 #+BEGIN_SRC conf
@@ -287,7 +289,7 @@ bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
 for_window [class="discord"] floating enable, resize set 50 ppt 85 ppt, move scratchpad, sticky enable
 for_window [class="discord"] move scratchpad, sticky enable, mark discord
 
-bindsym $mod+Shift+d exec discord
+bindsym $mod+Shift+d exec --no-startup-id discord
 bindsym $mod+d [class="discord"] scratchpad show, move position center
 #+END_SRC
 

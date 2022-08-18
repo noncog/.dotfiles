@@ -1,3 +1,6 @@
+set $laptop eDP-1-1
+set $external HDMI-0
+
 # set mod key
 set $mod Mod4
 
@@ -31,9 +34,11 @@ bindsym $mod+space focus mode_toggle
 # make window float
 bindsym $mod+Shift+space floating toggle
 
-# cycle through scratchpad windows
-bindsym $mod+apostrophe scratchpad show, move position center
+# hide scratchpad windows on focused workspace
+bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
 
+# cycle through scratchpad windows
+bindsym $mod+apostrophe [workspace="__focused__"] scratchpad show
 # fullscreen
 bindsym $mod+F11 fullscreen toggle
 
@@ -86,10 +91,10 @@ bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
 
 # assign workspaces to monitors
-workspace $ws1 output HDMI-1-0 eDP-1
-workspace $ws2 output HDMI-1-0 eDP-1
-workspace $ws3 output eDP-1 HDMI-1-0
-workspace $code output HDMI-1-0 eDP-1
+workspace $ws1 output $external $laptop
+workspace $ws2 output $external $laptop
+workspace $ws3 output $laptop $external
+workspace $code output $external $laptop
 
 exec --no-startup-id emacs --daemon
 
@@ -123,14 +128,14 @@ exec --no-startup-id restart
 
 set $emacs "Emacs"
 assign [class="Emacs"] $emacs	
-workspace $emacs output HDMI-1-0 eDP-1
+workspace $emacs output $external $laptop
 bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-chemacs.sh
 bindsym $mod+e [class="Emacs"] focus
 
 set $firefox "Firefox"
 assign [class="Firefox-esr"] $firefox
-workspace $firefox output HDMI-1-0 eDP-1
+workspace $firefox output $external $laptop
 bindsym $mod+Control+Shift+f move container to workspace $firefox
 bindsym $mod+Shift+f exec --no-startup-id firefox
 bindsym $mod+f [class="Firefox-esr" tiling] focus
@@ -152,12 +157,10 @@ bindsym $mod+i [class="jetbrains-idea"] focus
 
 set $anki "Anki"
 assign [class="Anki"] $anki
-workspace $anki output eDP-1 HDMI-1-0
+workspace $anki output $external $laptop
 bindsym $mod+Control+Shift+a move container to workspace $anki
 bindsym $mod+Shift+a exec --no-startup-id anki
 bindsym $mod+a [class="Anki"] focus
-
-bindsym $mod+semicolon exec --no-startup-id bash $HOME/.config/i3/scratchpad_hide_visible.sh
 
 for_window [instance="Floating-Kitty"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
 bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
@@ -179,7 +182,7 @@ bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
 for_window [class="discord"] floating enable, resize set 50 ppt 85 ppt, move scratchpad, sticky enable
 for_window [class="discord"] move scratchpad, sticky enable, mark discord
 
-bindsym $mod+Shift+d exec discord
+bindsym $mod+Shift+d exec --no-startup-id discord
 bindsym $mod+d [class="discord"] scratchpad show, move position center
 
 for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, move scratchpad, sticky enable
