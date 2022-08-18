@@ -4,10 +4,8 @@
 
 #+HTML: <p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
 
-#+HTML:<p align="center"><code>i3</code> is an open source tiling window manager for X11. I use a fork of it called <code><a href="https://github.com/Airblader/i3">i3-gaps</a></code>.</p>
+#+HTML:<p align="center"><code><a href="https://i3wm.org/">i3</a></code> is an open source tiling window manager for X11. I use a fork of it called <code><a href="https://github.com/Airblader/i3">i3-gaps</a></code>.</p>
 #+STARTUP: show2levels
-
-[[https://i3wm.org/docs/userguide.html][Here]] is the user documentation.
 
 * Monitors
 #+BEGIN_SRC conf
@@ -306,7 +304,7 @@ bindsym $mod+s [class="Spotify"] scratchpad show, move position center
 ** YouTube
 Probably the pinnacle of my config...
 
-A mini floating youtube player with sizes and positions for laptop and desktop displays.
+A mini floating YouTube player with sizes and positions for laptop and desktop displays.
 *** Set URL and Title
 #+BEGIN_SRC conf
 # set to your unique youtube page. ideally a page you will never visit.
