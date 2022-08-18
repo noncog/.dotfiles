@@ -255,48 +255,48 @@ The scratchpad is an invisible workspace. I put "floating" apps into it. They ca
 
 ** Kitty
 #+BEGIN_SRC conf
-for_window [instance="Floating-Kitty"] floating enable, move scratchpad, sticky enable
-for_window [instance="Floating-Kitty"] resize set 50 ppt 50 ppt
+for_window [instance="Floating-Kitty"] floating enable, resize set 50 ppt 50 ppt, sticky enable
+for_window [instance="Floating-Kitty"] move scratchpad
 bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
 bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, move position center
 #+END_SRC
 
 ** Ranger
 #+BEGIN_SRC conf
-for_window [instance="Floating-Ranger"] floating enable, move scratchpad, sticky enable
-for_window [instance="Floating-Ranger"] resize set 50 ppt 50 ppt
+for_window [instance="Floating-Ranger"] floating enable, resize set 50 ppt 50 ppt, sticky enable
+for_window [instance="Floating-Ranger"] move scratchpad
 bindsym $mod+Shift+r exec --no-startup-id kitty --name "Floating-Ranger" -e ranger
 bindsym $mod+r [instance="Floating-Ranger"] scratchpad show, move position center
 #+END_SRC
 
 ** Vim
 #+BEGIN_SRC conf
-for_window [instance="Floating-Vim"] floating enable, move scratchpad, sticky enable
-for_window [instance="Floating-Vim"] resize set 50 ppt 50 ppt
+for_window [instance="Floating-Vim"] floating enable, resize set 50 ppt 50 ppt, sticky enable
+for_window [instance="Floating-Vim"] move scratchpad
 bindsym $mod+Shift+v exec --no-startup-id kitty --name "Floating-Vim" -e vim
 bindsym $mod+v [instance="Floating-Vim"] scratchpad show, move position center
 #+END_SRC
 
 ** Tor
 #+BEGIN_SRC conf
-for_window [class="Tor Browser"] floating enable, move scratchpad, sticky enable
-for_window [class="Tor Browser"] resize set 75 ppt 75 ppt
+for_window [class="Tor Browser"] floating enable, resize set 75 ppt 75 ppt, sticky enable
+for_window [class="Tor Browser"] move scratchpad
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
 bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
 #+END_SRC
 
 ** Discord
 #+BEGIN_SRC conf
-for_window [class="discord"] floating enable, move scratchpad, sticky enable
-for_window [class="discord"] resize set 50 ppt 85 ppt
+for_window [class="discord"] floating enable, resize set 50 ppt 85 ppt, sticky enable
+for_window [class="discord"] move scratchpad
 bindsym $mod+Shift+d exec --no-startup-id discord
 bindsym $mod+d [class="discord"] scratchpad show, move position center
 #+END_SRC
 
 ** Spotify
 #+BEGIN_SRC conf
-for_window [class="Spotify"] floating enable, move scratchpad, sticky enable
-for_window [class="Spotify"] resize set 50 ppt 60 ppt
+for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
+for_window [class="Spotify"] move scratchpad
 bindsym $mod+Shift+s exec --no-startup-id spotify
 bindsym $mod+s [class="Spotify"] scratchpad show, move position center
 #+END_SRC
@@ -342,8 +342,8 @@ bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI
 
 ** Nitrogen
 #+BEGIN_SRC conf
-for_window [class="Nitrogen"] floating enable, move scratchpad, sticky enable
-for_window [class="Nitrogen"] resize set 50 ppt 50 ppt, scratchpad show, move position center
+for_window [class="Nitrogen"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
+for_window [class="Nitrogen"] scratchpad show, move position center
 #+END_SRC 
 
 * Modes & Moded Apps
