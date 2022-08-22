@@ -8,43 +8,16 @@
 #+STARTUP: show2levels
 
 - [[#monitors][Monitors]]
-- Basic Controls
-- Settings
-- Looks
-  - Font
-  - Wallpaper
-  - Theme
-  - i3-gaps
-- Workspaces
-- Utilities
-  - Emacs Daemon
-  - Picom Daemon
-  - Network-Manager
-  - Pulse Audio Control
-  - Extreme Cooling 4 Linux
-  - Polybar
-  - Rofi
-- Startup Apps
-- Workspace Apps
-  - Emacs Client
-  - Firefox
-  - CLion
-  - Pycharm
-  - IntelliJ Idea
-  - Anki
-- Scratchpad Apps
-  - Kitty
-  - Ranger
-  - Vim
-  - Tor
-  - Discord
-  - Spotify
-  - YouTube
-  - Nitrogen
-- Modes & Moded Apps
-  - Resize Mode
-  - Window Splitting
-- Tips
+- [[#basic-controls][Basic Controls]]
+- [[#settings][Settings]]
+- [[#looks][Looks]]
+- [[#workspaces][Workspaces]]
+- [[#utilities][Utilities]]
+- [[#startup-apps][Startup Apps]]
+- [[#workspace-apps][Workspace Apps]]
+- [[#scratchpad-apps][Scratchpad Apps]]
+- [[#modes--moded-apps][Modes & Moded Apps]]
+- [[#tips][Tips]]
 
 * Monitors
 #+BEGIN_SRC conf
