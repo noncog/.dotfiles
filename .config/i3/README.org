@@ -7,6 +7,8 @@
 #+HTML:<p align="center"><code><a href="https://i3wm.org/">i3</a></code> is an open source tiling window manager for X11. I use a fork of it called <code><a href="https://github.com/Airblader/i3">i3-gaps</a></code>.</p>
 #+STARTUP: show2levels
 
+#+OPTIONS: toc:2
+
 * Monitors
 #+BEGIN_SRC conf
 set $laptop eDP-1-1
