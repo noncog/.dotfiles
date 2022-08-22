@@ -122,7 +122,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML:</ul>
 #+HTML:</li>
 
-#+HTML:<li>Floating <a href="https://github.com/noncog/.dotfiles/tree/master/.config/i3#youtube-mode">YouTube player</a>!</li>
+#+HTML:<li>Floating <a href="https://github.com/noncog/.dotfiles/tree/master/.config/i3#youtube">YouTube player</a>!</li>
 
 #+HTML:<li><code>CPU Thermometer</code> - A reactive icon, with warning colors.</li>
 
