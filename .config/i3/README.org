@@ -7,13 +7,51 @@
 #+HTML:<p align="center"><code><a href="https://i3wm.org/">i3</a></code> is an open source tiling window manager for X11. I use a fork of it called <code><a href="https://github.com/Airblader/i3">i3-gaps</a></code>.</p>
 #+STARTUP: show2levels
 
-#+OPTIONS: toc:2
+- [[#monitors][Monitors]]
+- Basic Controls
+- Settings
+- Looks
+  - Font
+  - Wallpaper
+  - Theme
+  - i3-gaps
+- Workspaces
+- Utilities
+  - Emacs Daemon
+  - Picom Daemon
+  - Network-Manager
+  - Pulse Audio Control
+  - Extreme Cooling 4 Linux
+  - Polybar
+  - Rofi
+- Startup Apps
+- Workspace Apps
+  - Emacs Client
+  - Firefox
+  - CLion
+  - Pycharm
+  - IntelliJ Idea
+  - Anki
+- Scratchpad Apps
+  - Kitty
+  - Ranger
+  - Vim
+  - Tor
+  - Discord
+  - Spotify
+  - YouTube
+  - Nitrogen
+- Modes & Moded Apps
+  - Resize Mode
+  - Window Splitting
+- Tips
 
 * Monitors
 #+BEGIN_SRC conf
 set $laptop eDP-1-1
 set $external HDMI-0
 #+END_SRC
+
 * Basic Controls
 Mostly standard, using vim binds with some improvements.
 #+BEGIN_SRC conf
