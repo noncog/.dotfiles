@@ -15,7 +15,7 @@
 ==========================================================
 #+END_SRC
 
-#+HTML:<p align="center"><a href="https://polybar.github.io/">Polybar</a> is an open source status bar.</p>
+#+HTML:<p align="center"><code><a href="https://polybar.github.io/">Polybar</a></code> is an open source status bar.</p>
 
 - [[#colors][Colors]]
 - [[#bars][Bars]]
