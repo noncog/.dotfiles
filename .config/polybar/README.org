@@ -2,7 +2,6 @@
 
 #+HTML: <p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
 
-#+HTML:<p align="center">
 #+BEGIN_SRC
 ==========================================================
 
@@ -15,9 +14,22 @@
 
 ==========================================================
 #+END_SRC
-#+HTML:</p>
 
 #+HTML:<p align="center"><a href="https://polybar.github.io/">Polybar</a> is an open source status bar.</p>
+
+- [[#colors][Colors]]
+- [[#bars][Bars]]
+- [[#modules][Modules]]
+  - [[#i3][i3]]
+  - [[#cpu][CPU]]
+  - [[#memory][Memory]]
+  - [[#temperature][Temperature]]
+  - [[#date][Date]]
+  - [[#pulse-audio][Pulse Audio]]
+  - [[#battery][Battery]]
+- [[#misc.][Misc.]]
+- [[#launcher][Launcher]]
+
 * Colors
 *** Dracula Theme
 #+BEGIN_SRC conf :tangle config
@@ -86,6 +98,7 @@ cursor-scroll = ns-resize
 #+END_SRC
 
 * Modules
+Modules are ordered in their usage from left to right.
 *** i3
 #+BEGIN_SRC conf :tangle config
 [module/i3]
@@ -151,6 +164,30 @@ format-prefix-foreground = ${colors.green}
 label = %percentage_used%%
 #+END_SRC
 
+*** Temperature
+#+BEGIN_SRC conf :tangle config
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+base-temperature = 40
+warn-temperature = 65
+interval = 3
+
+format = <ramp> <label>
+format-warn = <ramp> <label-warn>
+
+label = %temperature-c%
+label-warn =  %temperature-c%
+label-warn-foreground = ${colors.alert}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+ramp-foreground = ${colors.yellow}
+#+END_SRC
+
 *** Date
 #+BEGIN_SRC conf :tangle config
 [module/date]
@@ -200,30 +237,6 @@ animation-charging-foreground = ${colors.green}
 
 animation-discharging-0 = 
 animation-discharging-foreground = ${colors.red}
-#+END_SRC
-
-*** Temperature
-#+BEGIN_SRC conf :tangle config
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-base-temperature = 40
-warn-temperature = 65
-interval = 3
-
-format = <ramp> <label>
-format-warn = <ramp> <label-warn>
-
-label = %temperature-c%
-label-warn =  %temperature-c%
-label-warn-foreground = ${colors.alert}
-
-ramp-0 = 
-ramp-1 = 
-ramp-2 = 
-ramp-3 = 
-ramp-4 = 
-ramp-foreground = ${colors.yellow}
 #+END_SRC
 
 * Misc.
