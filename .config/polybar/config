@@ -1,48 +1,7 @@
-;==========================================================
-;
-; THIS IS AN EXAMPLE CONFIGURATION FILE!
-; IT IS NOT SUPPOSED TO WORK OUT OF THE BOX SINCE IS CONTAINS
-; SETTINGS THAT ARE SPECIFIC TO THE MACHINE WHICH WAS USED
-; TO GENERATE IT.
-; Please refer to the web documentation hosted at:
-; https://github.com/polybar/polybar#configuration
-; and
-; https://github.com/polybar/polybar/wiki/Configuration
-; if you want to automatically generate one for you.
-;
-;==========================================================
-;
-;
-;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
-;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
-;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
-;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
-;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
-;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-;
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/polybar/polybar
-;
-;   The README contains a lot of information
-;
-;==========================================================
-
 [colors]
-; Dracula Theme
-
 background = #282a36
 foreground = #f8f8f2
 
-; i3
-i3-binding = #ffb52a
-i3-urgent = #bd2c40
-i3-focused = #dd4545
-
-icon-default = #555555
-alert = #e60053
-
-; custom colors
 red = #ff5555
 green = #50fa7b
 yellow = #f1fa8c
@@ -50,6 +9,13 @@ pink = #ff79c6
 purple = #bd93f9
 blue = #6272a4
 cyan = #8be9fd
+
+icon-default = #555555
+alert = #e60053
+
+i3-binding = #ffb52a
+i3-urgent = #bd2c40
+i3-focused = #dd4545
 
 [bar/default_bar]
 
@@ -82,7 +48,7 @@ font-1 = Font Awesome 5 Brands Regular:style=Regular:pixelsize=13;2
 font-2 = Font Awesome 5 Free Regular:style=Regular:pixelsize=13;2
 font-3 = Font Awesome 5 Free Solid:style=Solid:pixelsize=13;2
 
-modules-left = i3 cpu memory temperature 
+modules-left = i3 cpu memory temperature
 modules-center = date
 modules-right = pulseaudio battery
 
@@ -109,7 +75,7 @@ ws-icon-5 = Code;
 ; Only show workspaces on the same output as the bar
 ;pin-workspaces = true
 
-; this is the binding mode settings
+; i3 binding mode settings
 label-mode-padding = 1
 label-mode-foreground = ${colors.background}
 label-mode-background = ${colors.i3-binding}
@@ -135,63 +101,19 @@ label-urgent-padding = 1
 
 [module/cpu]
 type = internal/cpu
-interval = 2
-format-prefix = " "
+
+interval = 4
+format-prefix = ""
 format-prefix-foreground = ${colors.purple}
 label = %percentage:2%%
 
 [module/memory]
 type = internal/memory
-interval = 2
+
+interval = 4
 format-prefix = " "
 format-prefix-foreground = ${colors.green}
 label = %percentage_used%%
-
-[module/date]
-type = internal/date
-interval = 5
-
-date = %A %B %d, %H:%M
-
-format-prefix = 
-format-prefix-foreground = ${colors.icon-default}
-
-label = %date%
-
-[module/pulseaudio]
-type = internal/pulseaudio
-
-format-volume = <label-volume>
-label-volume =  %percentage%
-label-volume-foreground = ${root.foreground}
-
-label-muted = 
-label-muted-foreground = #666
-
-[module/battery]
-type = internal/battery
-battery = BAT0
-adapter = AC
-full-at = 98
-
-format-charging =  <ramp-capacity> <label-charging> <animation-charging>
-
-format-discharging = <ramp-capacity> <label-discharging> <animation-discharging>
-
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.green}
-
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-foreground = ${colors.foreground}
-
-animation-charging-0 = 
-animation-charging-foreground = ${colors.green}
-
-animation-discharging-0 = 
-animation-discharging-foreground = ${colors.red}
 
 [module/temperature]
 type = internal/temperature
@@ -213,6 +135,48 @@ ramp-2 = 
 ramp-3 = 
 ramp-4 = 
 ramp-foreground = ${colors.yellow}
+
+[module/date]
+type = internal/date
+
+interval = 5
+date = %A %B %d, %H:%M
+format-prefix-foreground = ${colors.icon-default}
+label = %date%
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume = <label-volume>
+label-volume =  %percentage%
+label-volume-foreground = ${root.foreground}
+label-muted = 
+label-muted-foreground = #666
+
+[module/battery]
+type = internal/battery
+
+battery = BAT0
+adapter = AC
+full-at = 98
+
+format-charging =  <ramp-capacity> <label-charging> <animation-charging>
+format-discharging = <ramp-capacity> <label-discharging> <animation-discharging>
+
+format-full-prefix = " "
+format-full-prefix-foreground = ${colors.green}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-foreground = ${colors.foreground}
+
+animation-charging-0 = 
+animation-charging-foreground = ${colors.green}
+
+animation-discharging-0 = 
+animation-discharging-foreground = ${colors.red}
 
 [settings]
 screenchange-reload = true
