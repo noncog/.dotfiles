@@ -1,5 +1,6 @@
 #+HTML:<h1 align="center">Doom Emacs</h1>
-#+HTML:<p align="center">This is my doom... Henrik has doomed us all!</p>
+#+HTML:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
+#+HTML:<p align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Doom_%E2%80%93_Game%E2%80%99s_logo.svg"></p>
 * Default Advice
 #+BEGIN_SRC emacs-lisp
 ;; Place your private configuration here! Remember, you do not need to run 'doom
