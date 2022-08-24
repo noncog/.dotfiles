@@ -109,6 +109,29 @@ Needs updated with secure private public email.
 #+BEGIN_SRC emacs-lisp :tangle no :exports none :noweb-ref use-package-end
 )
 #+END_SRC
+** Emacs
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-emacs
+(use-package! emacs
+  :ensure nil
+  :defer
+  :config
+#+END_SRC
+
+*** Global Keybinds
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-emacs-config
+;; scroll buffer around point
+(global-set-key (kbd "M-p") #'scroll-down-line)
+(global-set-key (kbd "M-n") #'scroll-up-line)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :noweb yes :exports none
+(after! emacs
+  <<use-package-emacs>>
+    <<use-package-emacs-config>>
+    <<use-package-end>>
+  )
+#+END_SRC
+
 ** Org-Mode Related
 :PROPERTIES:
 :CUSTOM_ID: org
@@ -150,7 +173,6 @@ Needs updated with secure private public email.
 **** Appearance
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-ellipsis " ▾")                            ; set custom ellipsis
-;(setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
 ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
 (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
 #+END_SRC

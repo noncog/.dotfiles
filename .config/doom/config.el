@@ -75,6 +75,17 @@
 
 (setq display-line-numbers-type 'visual)
 
+(after! emacs
+  (use-package! emacs
+    :ensure nil
+    :defer
+    :config
+    ;; scroll buffer around point
+    (global-set-key (kbd "M-p") #'scroll-down-line)
+    (global-set-key (kbd "M-n") #'scroll-up-line)
+    )
+  )
+
 (setq org-directory "~/documents/org/")
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
 
@@ -92,7 +103,6 @@
     (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
     (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
     (setq org-ellipsis " ▾")                            ; set custom ellipsis
-    ;(setq org-use-fast-todo-selection 'expert)          ; prevent org-todo from modifying windows
     ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
     )
