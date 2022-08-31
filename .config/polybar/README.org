@@ -2,6 +2,7 @@
 
 #+HTML: <p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
 
+#+HTML:<div align="center">
 #+BEGIN_SRC
 ==========================================================
 
@@ -14,6 +15,7 @@
 
 ==========================================================
 #+END_SRC
+#+HTML:</div>
 
 #+HTML:<p align="center"><code><a href="https://polybar.github.io/">Polybar</a></code> is an open source status bar.</p>
 
