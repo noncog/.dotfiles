@@ -1,11 +1,15 @@
 #+HTML:<h1 align="center">Doom Emacs</h1>
 #+HTML:<p align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Doom_%E2%80%93_Game%E2%80%99s_logo.svg"></p>
 #+HTML:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
+#+STARTUP: show2levels
+#+BEGIN_EXAMPLE :exports none
+Last Known Getting Started
+https://github.com/doomemacs/doomemacs/blob/d217ae334392b6abf0e23424516a37b4cd8ac261/docs/getting_started.org
+#+END_EXAMPLE
 * Default Advice
-#+BEGIN_SRC emacs-lisp
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-#+END_SRC
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+BEGIN_SRC emacs-lisp
 
@@ -41,15 +45,16 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 #+END_SRC
-
-* Initial Setup
-** Enable lexical binding
+* Doom Global
+This section is for all configurations that don't need wrapped in special blocks.
+** Initial Setup
+*** Enable lexical binding
 Supposedly makes this file run slightly faster...
 #+BEGIN_SRC emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 #+END_SRC
 
-** Personal information
+*** Personal information
 Needs updated with secure private public email.
 #+BEGIN_SRC emacs-lisp
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
@@ -57,9 +62,15 @@ Needs updated with secure private public email.
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
 #+END_SRC
-** Autoload File Changes
+*** Autoload File Changes
 #+BEGIN_SRC emacs-lisp
 (global-auto-revert-mode 1)
+#+END_SRC
+*** Doom Global Keybinds
+#+BEGIN_SRC emacs-lisp
+(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+
+(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
 #+END_SRC
 * Appearance
 ** Theme
@@ -106,16 +117,39 @@ Needs updated with secure private public email.
 #+BEGIN_SRC emacs-lisp
 (setq display-line-numbers-type 'visual)
 #+END_SRC
+** Popup Window Rules
+#+BEGIN_SRC emacs-lisp
+(set-popup-rule! "^brain.org" :side 'right :width 70 :select t :quit nil)
+#+END_SRC
 * Packages
 #+BEGIN_SRC emacs-lisp :tangle no :exports none :noweb-ref use-package-end
 )
 #+END_SRC
+
 ** Emacs
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-emacs
 (use-package! emacs
-  :ensure nil
   :defer
   :config
+#+END_SRC
+
+*** Custom Brain Buffer Viewer
+#+BEGIN_SRC emacs-lisp
+;; file and a sentinel variables
+(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
+(defvar noncog/brain-visible nil)
+
+(defun noncog/toggle-brain ()
+  "A function for toggling the view of the your chosen file in a side window."
+  (interactive)
+  (if (and noncog/brain-visible (get-buffer-window (get-file-buffer noncog/brain-file)) t)
+      (let ((buffer (get-file-buffer noncog/brain-file))) ;; visible
+        (delete-window (get-buffer-window buffer))
+        (kill-buffer buffer)
+        (setq noncog/brain-visible nil))
+    (progn ;; not visible
+      (display-buffer (find-file-noselect noncog/brain-file))
+      (setq noncog/brain-visible t))))
 #+END_SRC
 
 *** Global Keybinds
@@ -123,6 +157,7 @@ Needs updated with secure private public email.
 ;; scroll buffer around point
 (global-set-key (kbd "M-p") #'scroll-down-line)
 (global-set-key (kbd "M-n") #'scroll-up-line)
+(global-set-key (kbd "C-c b") #'noncog/toggle-brain)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :noweb yes :exports none
@@ -146,32 +181,38 @@ Needs updated with secure private public email.
 *** Org
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org
 (use-package! org
-  :config
 #+END_SRC
 **** Hooks
-**** Modules
+**** Config
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+:config
+#+END_SRC
+***** Modules
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-modules (quote (org-habit)))
 #+END_SRC
-**** Habits
+***** Agenda
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+#+END_SRC
+***** Habits
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 ;(setq org-habit-show-habits-only-for-today nil)
 ;(setq org-habit-show-all-today t)
 ;(setq org-agenda-repeating-timestamp-show-all nil)
 #+END_SRC
-**** Logging
+***** Logging
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
 (setq org-log-done 'time)                           ; add completion time to DONE items.
 (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
 #+END_SRC
-**** Behavior
+***** Behavior
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-return-follows-link t)                    ; enter opens links in org
 (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
 (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
 #+END_SRC
-**** Appearance
+***** Appearance
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-ellipsis " ▾")                            ; set custom ellipsis
 ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
@@ -189,6 +230,7 @@ Needs updated with secure private public email.
 
 #+BEGIN_SRC emacs-lisp :noweb yes :exports none
 (after! org
+  <<org-custom>>
   <<use-package-org>>
     <<use-package-org-config>>
     <<use-package-end>>

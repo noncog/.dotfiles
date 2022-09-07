@@ -1,6 +1,3 @@
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -42,6 +39,10 @@
 
 (global-auto-revert-mode 1)
 
+(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+
+(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function.
@@ -75,14 +76,32 @@
 
 (setq display-line-numbers-type 'visual)
 
+(set-popup-rule! "^brain.org" :side 'right :width 70 :select t :quit nil)
+
+;; file and a sentinel variables
+(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
+(defvar noncog/brain-visible nil)
+
+(defun noncog/toggle-brain ()
+  "A function for toggling the view of the your chosen file in a side window."
+  (interactive)
+  (if (and noncog/brain-visible (get-buffer-window (get-file-buffer noncog/brain-file)) t)
+      (let ((buffer (get-file-buffer noncog/brain-file))) ;; visible
+        (delete-window (get-buffer-window buffer))
+        (kill-buffer buffer)
+        (setq noncog/brain-visible nil))
+    (progn ;; not visible
+      (display-buffer (find-file-noselect noncog/brain-file))
+      (setq noncog/brain-visible t))))
+
 (after! emacs
   (use-package! emacs
-    :ensure nil
     :defer
     :config
     ;; scroll buffer around point
     (global-set-key (kbd "M-p") #'scroll-down-line)
     (global-set-key (kbd "M-n") #'scroll-up-line)
+    (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
     )
   )
 
@@ -90,9 +109,11 @@
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
 
 (after! org
+  
   (use-package! org
     :config
     (setq org-modules (quote (org-habit)))
+    
     ;(setq org-habit-show-habits-only-for-today nil)
     ;(setq org-habit-show-all-today t)
     ;(setq org-agenda-repeating-timestamp-show-all nil)
