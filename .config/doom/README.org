@@ -62,25 +62,21 @@ Needs updated with secure private public email.
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
 #+END_SRC
+
+** Behavior
 *** Autoload File Changes
 #+BEGIN_SRC emacs-lisp
 (global-auto-revert-mode 1)
 #+END_SRC
-*** Doom Global Keybinds
-#+BEGIN_SRC emacs-lisp
-(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-
-(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
-#+END_SRC
-* Appearance
-** Theme
+** Appearance
+*** Theme
 #+BEGIN_SRC emacs-lisp
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function.
 (setq doom-theme 'doom-dracula)
 #+END_SRC
-** Font
+*** Font
 #+BEGIN_SRC emacs-lisp
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -107,21 +103,32 @@ Needs updated with secure private public email.
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 #+END_SRC
 
-** Cursor color
+*** Cursor color
 #+BEGIN_SRC emacs-lisp
 ;(set-cursor-color "#ff79c6")
 ;(evil-set-cursor-color "#ff79c6")
 ;(+evil-update-cursor-color-h)
 #+END_SRC
-** Line Numbers
+*** Line Numbers
 #+BEGIN_SRC emacs-lisp
 (setq display-line-numbers-type 'visual)
 #+END_SRC
-** Popup Window Rules
+*** Popup Window Rules
 #+BEGIN_SRC emacs-lisp
 (set-popup-rule! "^brain.org" :side 'right :width 70 :select t :quit nil)
 #+END_SRC
+*** Show Time in Modeline
+#+BEGIN_SRC emacs-lisp
+(display-time-mode 1)
+#+END_SRC
+** Doom Global Keybinds
+#+BEGIN_SRC emacs-lisp
+(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+
+(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+#+END_SRC
 * Packages
+This section modifies all configurations for packages, including Emacs itself.
 #+BEGIN_SRC emacs-lisp :tangle no :exports none :noweb-ref use-package-end
 )
 #+END_SRC
@@ -178,40 +185,48 @@ Needs updated with secure private public email.
 (setq org-directory "~/documents/org/")
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
 #+END_SRC
+
 *** Org
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org
 (use-package! org
 #+END_SRC
+
 **** Hooks
 **** Config
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 :config
 #+END_SRC
+
 ***** Modules
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-modules (quote (org-habit)))
 #+END_SRC
+
 ***** Agenda
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 #+END_SRC
+
 ***** Habits
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 ;(setq org-habit-show-habits-only-for-today nil)
 ;(setq org-habit-show-all-today t)
 ;(setq org-agenda-repeating-timestamp-show-all nil)
 #+END_SRC
+
 ***** Logging
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
 (setq org-log-done 'time)                           ; add completion time to DONE items.
 (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
 #+END_SRC
+
 ***** Behavior
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-return-follows-link t)                    ; enter opens links in org
 (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
 (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
 #+END_SRC
+
 ***** Appearance
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-ellipsis " ▾")                            ; set custom ellipsis

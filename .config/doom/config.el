@@ -39,10 +39,6 @@
 
 (global-auto-revert-mode 1)
 
-(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-
-(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
-
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function.
@@ -77,6 +73,12 @@
 (setq display-line-numbers-type 'visual)
 
 (set-popup-rule! "^brain.org" :side 'right :width 70 :select t :quit nil)
+
+(display-time-mode 1)
+
+(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+
+(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
 
 ;; file and a sentinel variables
 (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
