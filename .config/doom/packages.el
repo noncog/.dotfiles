@@ -48,3 +48,6 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+
+(package! pulsar ;; it's just hl-line mode
+  :recipe (:host gitlab :repo "protesilaos/pulsar"))

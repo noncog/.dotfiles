@@ -109,24 +109,17 @@ Needs updated with secure private public email.
 ;(evil-set-cursor-color "#ff79c6")
 ;(+evil-update-cursor-color-h)
 #+END_SRC
-*** Line Numbers
-#+BEGIN_SRC emacs-lisp
-(setq display-line-numbers-type 'visual)
-#+END_SRC
 *** Popup Window Rules
 #+BEGIN_SRC emacs-lisp
 (set-popup-rule! "^brain.org" :side 'right :width 70 :select t :quit nil)
 #+END_SRC
-*** Show Time in Modeline
-#+BEGIN_SRC emacs-lisp
-(display-time-mode 1)
-#+END_SRC
 ** Doom Global Keybinds
 #+BEGIN_SRC emacs-lisp
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
 #+END_SRC
+
 * Packages
 This section modifies all configurations for packages, including Emacs itself.
 #+BEGIN_SRC emacs-lisp :tangle no :exports none :noweb-ref use-package-end
@@ -140,23 +133,16 @@ This section modifies all configurations for packages, including Emacs itself.
   :config
 #+END_SRC
 
-*** Custom Brain Buffer Viewer
-#+BEGIN_SRC emacs-lisp
-;; file and a sentinel variables
-(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
-(defvar noncog/brain-visible nil)
+*** Behavior
+**** Scroll Margin
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-emacs-config
+(setq scroll-margin 5)
+#+END_SRC
 
-(defun noncog/toggle-brain ()
-  "A function for toggling the view of the your chosen file in a side window."
-  (interactive)
-  (if (and noncog/brain-visible (get-buffer-window (get-file-buffer noncog/brain-file)) t)
-      (let ((buffer (get-file-buffer noncog/brain-file))) ;; visible
-        (delete-window (get-buffer-window buffer))
-        (kill-buffer buffer)
-        (setq noncog/brain-visible nil))
-    (progn ;; not visible
-      (display-buffer (find-file-noselect noncog/brain-file))
-      (setq noncog/brain-visible t))))
+*** Appearance
+**** Show Time in Modeline
+#+BEGIN_SRC emacs-lisp
+(display-time-mode 1)
 #+END_SRC
 
 *** Global Keybinds
@@ -175,7 +161,7 @@ This section modifies all configurations for packages, including Emacs itself.
   )
 #+END_SRC
 
-** Org-Mode Related
+** Org Related
 :PROPERTIES:
 :CUSTOM_ID: org
 :END:
@@ -191,7 +177,6 @@ This section modifies all configurations for packages, including Emacs itself.
 (use-package! org
 #+END_SRC
 
-**** Hooks
 **** Config
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
 :config
@@ -199,11 +184,12 @@ This section modifies all configurations for packages, including Emacs itself.
 
 ***** Modules
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
-(setq org-modules (quote (org-habit)))
+(setq org-modules (quote (org-habit)))              ; enable org-habit
 #+END_SRC
 
 ***** Agenda
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+;;TODO
 #+END_SRC
 
 ***** Habits
@@ -234,30 +220,146 @@ This section modifies all configurations for packages, including Emacs itself.
 (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
 #+END_SRC
 
-*** Org-Noter
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter
-(use-package! org-noter
-  :config
-  (setq org-noter-always-create-frame nil)
-  (setq org-noter-auto-save-last-location t)
-  (setq org-noter-separate-notes-from-heading t)
+**** Custom Functions
+***** Brain Buffer Viewer
+This is my main org document that I like to have access to at any time.
+#+BEGIN_SRC emacs-lisp
+(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
+(defvar noncog/brain-visible nil)
+
+(defun noncog/toggle-brain ()
+  "A function for toggling the view of the your chosen file in a side window."
+  (interactive)
+  (if (and noncog/brain-visible (get-buffer-window (get-file-buffer noncog/brain-file)) t)
+      ;; buffer is visible
+      (let ((buffer (get-file-buffer noncog/brain-file)))
+        (delete-window (get-buffer-window buffer))
+        (kill-buffer buffer)
+        (setq noncog/brain-visible nil))
+    ;; buffer not visible
+    (progn
+      (display-buffer (find-file-noselect noncog/brain-file))
+      (setq noncog/brain-visible t))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :noweb yes :exports none
 (after! org
-  <<org-custom>>
   <<use-package-org>>
     <<use-package-org-config>>
     <<use-package-end>>
   )
+#+END_SRC
 
+*** Org-Noter
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter
+(use-package! org-noter
+#+END_SRC
+
+**** Config
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+:config
+#+END_SRC
+
+***** Frame Control
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+(setq org-noter-always-create-frame nil)
+(setq org-noter-kill-frame-at-session-end nil)
+#+END_SRC
+
+***** Appearance
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+(setq org-noter-separate-notes-from-heading t)
+#+END_SRC
+
+***** Behavior
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+(setq org-noter-auto-save-last-location t)
+#+END_SRC
+
+**** Custom Functions
+***** Better Exit Org-Noter Function
+#+BEGIN_SRC emacs-lisp
+(defun noncog/kill-org-noter-session ()
+  "Automatically closes pdfs when done noting them."
+  (interactive)
+  (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session))) (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil) (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :noweb yes :exports none
 (after! org-noter
   <<use-package-org-noter>>
+    <<use-package-org-noter-config>>
     <<use-package-end>>
   )
 #+END_SRC
+
 ** PDF-Tools
 #+BEGIN_SRC emacs-lisp
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
 #+END_SRC
+
+** Display Line Numbers
+#+BEGIN_SRC emacs-lisp
+(after! display-line-numbers
+  (setq display-line-numbers-type 'visual))
+#+END_SRC
+
+** Pulsar
+Add these:
+
+pulsar-recenter-middle.
+pulsar-reveal-entry
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar
+(use-package! pulsar
+#+END_SRC
+
+*** Config
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+:init
+#+END_SRC
+
+**** Appearance
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+(setq pulsar-face 'pulsar-magenta)
+(setq pulsar-highlight-face 'pulsar-yellow)
+#+END_SRC
+
+**** Behavior
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+(setq pulsar-pulse t)
+#+END_SRC
+
+**** Settings
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+(setq pulsar-delay 0.095)
+(setq pulsar-iterations 12)
+#+END_SRC
+
+**** Extension / Evil Support
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+;; scrolling
+(add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
+(add-to-list 'pulsar-pulse-functions 'evil-scroll-down)
+
+;; windowing
+(add-to-list 'pulsar-pulse-functions 'evil-window-left)
+(add-to-list 'pulsar-pulse-functions 'evil-window-down)
+(add-to-list 'pulsar-pulse-functions 'evil-window-up)
+(add-to-list 'pulsar-pulse-functions 'evil-window-right)
+
+(add-to-list 'pulsar-pulse-functions 'evil-window-next)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :noweb yes :exports none
+<<use-package-pulsar>>
+  <<use-package-pulsar-config>>
+  <<use-package-end>>
+#+END_SRC
+
+**** Enable
+#+BEGIN_SRC emacs-lisp
+(pulsar-global-mode 1)
+#+END_SRC
+
+

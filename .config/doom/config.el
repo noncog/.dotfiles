@@ -70,36 +70,19 @@
 ;(evil-set-cursor-color "#ff79c6")
 ;(+evil-update-cursor-color-h)
 
-(setq display-line-numbers-type 'visual)
-
 (set-popup-rule! "^brain.org" :side 'right :width 70 :select t :quit nil)
 
-(display-time-mode 1)
-
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
 
-;; file and a sentinel variables
-(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
-(defvar noncog/brain-visible nil)
-
-(defun noncog/toggle-brain ()
-  "A function for toggling the view of the your chosen file in a side window."
-  (interactive)
-  (if (and noncog/brain-visible (get-buffer-window (get-file-buffer noncog/brain-file)) t)
-      (let ((buffer (get-file-buffer noncog/brain-file))) ;; visible
-        (delete-window (get-buffer-window buffer))
-        (kill-buffer buffer)
-        (setq noncog/brain-visible nil))
-    (progn ;; not visible
-      (display-buffer (find-file-noselect noncog/brain-file))
-      (setq noncog/brain-visible t))))
+(display-time-mode 1)
 
 (after! emacs
   (use-package! emacs
     :defer
     :config
+    (setq scroll-margin 5)
     ;; scroll buffer around point
     (global-set-key (kbd "M-p") #'scroll-down-line)
     (global-set-key (kbd "M-n") #'scroll-up-line)
@@ -110,12 +93,28 @@
 (setq org-directory "~/documents/org/")
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
 
+(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
+(defvar noncog/brain-visible nil)
+
+(defun noncog/toggle-brain ()
+  "A function for toggling the view of the your chosen file in a side window."
+  (interactive)
+  (if (and noncog/brain-visible (get-buffer-window (get-file-buffer noncog/brain-file)) t)
+      ;; buffer is visible
+      (let ((buffer (get-file-buffer noncog/brain-file)))
+        (delete-window (get-buffer-window buffer))
+        (kill-buffer buffer)
+        (setq noncog/brain-visible nil))
+    ;; buffer not visible
+    (progn
+      (display-buffer (find-file-noselect noncog/brain-file))
+      (setq noncog/brain-visible t))))
+
 (after! org
-  
   (use-package! org
     :config
-    (setq org-modules (quote (org-habit)))
-    
+    (setq org-modules (quote (org-habit)))              ; enable org-habit
+    ;;TODO
     ;(setq org-habit-show-habits-only-for-today nil)
     ;(setq org-habit-show-all-today t)
     ;(setq org-agenda-repeating-timestamp-show-all nil)
@@ -131,14 +130,45 @@
     )
   )
 
+(defun noncog/kill-org-noter-session ()
+  "Automatically closes pdfs when done noting them."
+  (interactive)
+  (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session))) (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil) (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
+
 (after! org-noter
   (use-package! org-noter
     :config
     (setq org-noter-always-create-frame nil)
-    (setq org-noter-auto-save-last-location t)
+    (setq org-noter-kill-frame-at-session-end nil)
     (setq org-noter-separate-notes-from-heading t)
+    (setq org-noter-auto-save-last-location t)
     )
   )
 
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
+
+(after! display-line-numbers
+  (setq display-line-numbers-type 'visual))
+
+(use-package! pulsar
+  :init
+  (setq pulsar-face 'pulsar-magenta)
+  (setq pulsar-highlight-face 'pulsar-yellow)
+  (setq pulsar-pulse t)
+  (setq pulsar-delay 0.095)
+  (setq pulsar-iterations 12)
+  ;; scrolling
+  (add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
+  (add-to-list 'pulsar-pulse-functions 'evil-scroll-down)
+  
+  ;; windowing
+  (add-to-list 'pulsar-pulse-functions 'evil-window-left)
+  (add-to-list 'pulsar-pulse-functions 'evil-window-down)
+  (add-to-list 'pulsar-pulse-functions 'evil-window-up)
+  (add-to-list 'pulsar-pulse-functions 'evil-window-right)
+  
+  (add-to-list 'pulsar-pulse-functions 'evil-window-next)
+  )
+
+(pulsar-global-mode 1)
