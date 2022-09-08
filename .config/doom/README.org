@@ -314,11 +314,10 @@ pulsar-reveal-entry
 (use-package! pulsar
 #+END_SRC
 
-*** Config
+*** Init
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 :init
 #+END_SRC
-
 **** Appearance
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 (setq pulsar-face 'pulsar-magenta)
@@ -336,7 +335,12 @@ pulsar-reveal-entry
 (setq pulsar-iterations 12)
 #+END_SRC
 
-**** Extension / Evil Support
+*** Config
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+:config
+#+END_SRC
+**** Extension
+***** Evil Function Support
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 ;; scrolling
 (add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
@@ -351,6 +355,28 @@ pulsar-reveal-entry
 (add-to-list 'pulsar-pulse-functions 'evil-window-next)
 #+END_SRC
 
+***** Evil Scroll Support
+#+BEGIN_SRC emacs-lisp
+(defun noncog/pulsar-scroll-recenter (&rest _args)
+  (pulsar-recenter-middle))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter)
+(advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter)
+#+END_SRC
+
+***** Jump Support
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+;; consult jump - aka search buffer - SPC s s
+(add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
+(add-hook 'consult-after-jump-hook #'pulsar-reveal-entry)
+
+;; imenu jump - aka jump to symbol - SPC s i
+(add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
+(add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp :noweb yes :exports none
 <<use-package-pulsar>>
   <<use-package-pulsar-config>>
@@ -361,5 +387,4 @@ pulsar-reveal-entry
 #+BEGIN_SRC emacs-lisp
 (pulsar-global-mode 1)
 #+END_SRC
-
 

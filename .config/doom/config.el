@@ -151,6 +151,12 @@
 (after! display-line-numbers
   (setq display-line-numbers-type 'visual))
 
+(defun noncog/pulsar-scroll-recenter (&rest _args)
+  (pulsar-recenter-middle))
+
+(advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter)
+(advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter)
+
 (use-package! pulsar
   :init
   (setq pulsar-face 'pulsar-magenta)
@@ -158,6 +164,7 @@
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.095)
   (setq pulsar-iterations 12)
+  :config
   ;; scrolling
   (add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
   (add-to-list 'pulsar-pulse-functions 'evil-scroll-down)
@@ -169,6 +176,13 @@
   (add-to-list 'pulsar-pulse-functions 'evil-window-right)
   
   (add-to-list 'pulsar-pulse-functions 'evil-window-next)
+  ;; consult jump - aka search buffer - SPC s s
+  (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
+  (add-hook 'consult-after-jump-hook #'pulsar-reveal-entry)
+  
+  ;; imenu jump - aka jump to symbol - SPC s i
+  (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
+  (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
   )
 
 (pulsar-global-mode 1)
