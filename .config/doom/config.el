@@ -66,9 +66,10 @@
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 
-;(set-cursor-color "#ff79c6")
-;(evil-set-cursor-color "#ff79c6")
-;(+evil-update-cursor-color-h)
+(evil-set-cursor-color "#ff79c6")
+(+evil-update-cursor-color-h)
+
+(doom/set-frame-opacity 96)
 
 (set-popup-rule! "^brain.org" :side 'right :width 70 :select t :quit nil)
 
