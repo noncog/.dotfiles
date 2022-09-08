@@ -211,6 +211,7 @@ This section modifies all configurations for packages, including Emacs itself.
 (setq org-return-follows-link t)                    ; enter opens links in org
 (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
 (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
+(setq org-imenu-depth 10)
 #+END_SRC
 
 ***** Appearance
@@ -240,6 +241,18 @@ This is my main org document that I like to have access to at any time.
     (progn
       (display-buffer (find-file-noselect noncog/brain-file))
       (setq noncog/brain-visible t))))
+#+END_SRC
+
+***** Unfold Org Headings in Consult Search
+Fixes a bug where consult searches can't display the heading you want, only the nearest visible to it.
+#+BEGIN_SRC emacs-lisp
+(after! consult
+  (defadvice! org-show-entry-consult-a (fn &rest args)
+    :around #'consult-line
+    :around #'consult-org-heading
+    :around #'consult--grep
+    (when-let ((pos (apply fn args)))
+      (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp :noweb yes :exports none
@@ -306,10 +319,6 @@ This is my main org document that I like to have access to at any time.
 #+END_SRC
 
 ** Pulsar
-Add these:
-
-pulsar-recenter-middle.
-pulsar-reveal-entry
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar
 (use-package! pulsar
 #+END_SRC
@@ -318,6 +327,7 @@ pulsar-reveal-entry
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 :init
 #+END_SRC
+
 **** Appearance
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 (setq pulsar-face 'pulsar-magenta)
@@ -339,6 +349,7 @@ pulsar-reveal-entry
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 :config
 #+END_SRC
+
 **** Extension
 ***** Evil Function Support
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
@@ -370,7 +381,6 @@ pulsar-reveal-entry
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 ;; consult jump - aka search buffer - SPC s s
 (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
-(add-hook 'consult-after-jump-hook #'pulsar-reveal-entry)
 
 ;; imenu jump - aka jump to symbol - SPC s i
 (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
@@ -383,8 +393,7 @@ pulsar-reveal-entry
   <<use-package-end>>
 #+END_SRC
 
-**** Enable
+*** Enable
 #+BEGIN_SRC emacs-lisp
 (pulsar-global-mode 1)
 #+END_SRC
-

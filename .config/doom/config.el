@@ -110,6 +110,14 @@
       (display-buffer (find-file-noselect noncog/brain-file))
       (setq noncog/brain-visible t))))
 
+(after! consult
+  (defadvice! org-show-entry-consult-a (fn &rest args)
+    :around #'consult-line
+    :around #'consult-org-heading
+    :around #'consult--grep
+    (when-let ((pos (apply fn args)))
+      (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
+
 (after! org
   (use-package! org
     :config
@@ -124,6 +132,7 @@
     (setq org-return-follows-link t)                    ; enter opens links in org
     (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
     (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
+    (setq org-imenu-depth 10)
     (setq org-ellipsis " ▾")                            ; set custom ellipsis
     ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
@@ -178,7 +187,6 @@
   (add-to-list 'pulsar-pulse-functions 'evil-window-next)
   ;; consult jump - aka search buffer - SPC s s
   (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
-  (add-hook 'consult-after-jump-hook #'pulsar-reveal-entry)
   
   ;; imenu jump - aka jump to symbol - SPC s i
   (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
