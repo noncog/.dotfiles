@@ -122,7 +122,8 @@
 (after! org
   (use-package! org
     :config
-    (setq org-modules (quote (org-habit)))              ; enable org-habit
+    (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
+    ;(add-to-list 'org-modules 'org-tempo t)             ; enable org-tempo
     ;;TODO
     ;(setq org-habit-show-habits-only-for-today nil)
     ;(setq org-habit-show-all-today t)
@@ -137,6 +138,11 @@
     (setq org-ellipsis " ▾")                            ; set custom ellipsis
     ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
+    (setq org-structure-template-alist '(("d" . "SRC emacs-lisp :tangle no :noweb-ref")
+                                         ("e" . "EXAMPLE")
+                                         ("h" . "HTML")
+                                         ("q" . "QUOTE")
+                                         ("s" . "SRC")))
     )
   )
 

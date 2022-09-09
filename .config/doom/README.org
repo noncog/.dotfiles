@@ -1,7 +1,7 @@
 #+HTML:<h1 align="center">Doom Emacs</h1>
 #+HTML:<p align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Doom_%E2%80%93_Game%E2%80%99s_logo.svg"></p>
 #+HTML:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
-#+STARTUP: show3levels
+#+STARTUP: show2levels
 
 #+BEGIN_EXAMPLE :exports none
 Last Known Getting Started
@@ -195,7 +195,8 @@ This section modifies all configurations for packages, including Emacs itself.
 
 ***** Modules
 #+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
-(setq org-modules (quote (org-habit)))              ; enable org-habit
+(add-to-list 'org-modules 'org-habit t)             ; enable org-habit
+;(add-to-list 'org-modules 'org-tempo t)             ; enable org-tempo
 #+END_SRC
 
 ***** Agenda
@@ -230,6 +231,17 @@ This section modifies all configurations for packages, including Emacs itself.
 (setq org-ellipsis " ▾")                            ; set custom ellipsis
 ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
 (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
+#+END_SRC
+
+***** Snippets
+****** Structure Templates
+Generates keywords for org-mode with the #+BEGIN_. These are formally called greater elements.
+#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+(setq org-structure-template-alist '(("d" . "SRC emacs-lisp :tangle no :noweb-ref")
+                                     ("e" . "EXAMPLE")
+                                     ("h" . "HTML")
+                                     ("q" . "QUOTE")
+                                     ("s" . "SRC")))
 #+END_SRC
 
 **** Custom Functions
@@ -316,7 +328,6 @@ Fixes a bug where consult searches can't display the heading you want, only the 
     <<use-package-end>>
   )
 #+END_SRC
-
 ** PDF-Tools
 #+BEGIN_SRC emacs-lisp
 (after! pdf-tools
