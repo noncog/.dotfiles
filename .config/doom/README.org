@@ -1,19 +1,19 @@
-#+HTML:<h1 align="center">Doom Emacs</h1>
-#+HTML:<p align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Doom_%E2%80%93_Game%E2%80%99s_logo.svg"></p>
-#+HTML:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
-#+STARTUP: show2levels
+#+html:<h1 align="center">Doom Emacs</h1>
+#+html:<p align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Doom_%E2%80%93_Game%E2%80%99s_logo.svg"></p>
+#+html:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
+#+startup: show2levels
 
-#+BEGIN_EXAMPLE :exports none
+#+begin_example :exports none
 Last Known Getting Started
 https://github.com/doomemacs/doomemacs/blob/d217ae334392b6abf0e23424516a37b4cd8ac261/docs/getting_started.org
-#+END_EXAMPLE
+#+end_example
 
 * Default Advice
 :PROPERTIES:
 :VISIBILITY: folded
 :END:
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -46,7 +46,7 @@ https://github.com/doomemacs/doomemacs/blob/d217ae334392b6abf0e23424516a37b4cd8a
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-#+END_SRC
+#+end_src
 
 * Doom Global
 This section is for all configurations that don't need wrapped in special blocks.
@@ -121,7 +121,7 @@ Needs updated with secure private public email.
 
 *** Popup Window Rules
 #+BEGIN_SRC emacs-lisp
-(set-popup-rule! "^brain.org" :side 'right :width 70 :select t :quit nil)
+(set-popup-rule! "^brain.org" :side 'right :width 70 :modeline t :select t :quit nil)
 #+END_SRC
 
 ** Doom Global Keybinds
@@ -133,44 +133,44 @@ Needs updated with secure private public email.
 
 * Packages
 This section modifies all configurations for packages, including Emacs itself.
-#+BEGIN_SRC emacs-lisp :tangle no :exports none :noweb-ref use-package-end
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-end
 )
-#+END_SRC
+#+end_src
 
 ** Emacs
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-emacs
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs
 (use-package! emacs
   :defer
   :config
-#+END_SRC
+#+end_src
 
 *** Behavior
 **** Scroll Margin
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-emacs-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs-config
 (setq scroll-margin 5)
-#+END_SRC
+#+end_src
 
 *** Appearance
 **** Show Time in Modeline
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (display-time-mode 1)
-#+END_SRC
+#+end_src
 
 *** Global Keybinds
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-emacs-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs-config
 ;; scroll buffer around point
 (global-set-key (kbd "M-p") #'scroll-down-line)
 (global-set-key (kbd "M-n") #'scroll-up-line)
 (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp :noweb yes :exports none
+#+begin_src emacs-lisp :noweb yes :exports none
 (after! emacs
   <<use-package-emacs>>
     <<use-package-emacs-config>>
     <<use-package-end>>
   )
-#+END_SRC
+#+end_src
 
 ** Org Related
 :PROPERTIES:
@@ -178,76 +178,81 @@ This section modifies all configurations for packages, including Emacs itself.
 :END:
 *** Initialization
 **** Directories
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (setq org-directory "~/documents/org/")
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
-#+END_SRC
+#+end_src
 
 *** Org
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org
 (use-package! org
-#+END_SRC
+#+end_src
 
 **** Config
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 :config
-#+END_SRC
+#+end_src
 
 ***** Modules
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
 ;(add-to-list 'org-modules 'org-tempo t)             ; enable org-tempo
-#+END_SRC
+#+end_src
 
 ***** Agenda
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
-;;TODO
-#+END_SRC
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
+(setq org-agenda-files (quote ("~/documents/org/brain.org"
+                               "~/documents/org/university/linear-algebra-3720"
+                               "~/documents/org/university/data-structures-and-algorithms-5870"
+                               "~/documents/org/university/network-concepts-and-administration-3723"
+                               "~/documents/org/university/software-engineering-5801"
+                               "~/documents/org/university/information-assurance-3755")))
+#+end_src
 
 ***** Habits
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 ;(setq org-habit-show-habits-only-for-today nil)
 ;(setq org-habit-show-all-today t)
 ;(setq org-agenda-repeating-timestamp-show-all nil)
-#+END_SRC
+#+end_src
 
 ***** Logging
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
 (setq org-log-done 'time)                           ; add completion time to DONE items.
 (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
-#+END_SRC
+#+end_src
 
 ***** Behavior
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-return-follows-link t)                    ; enter opens links in org
 (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
 (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
 (setq org-imenu-depth 10)
-#+END_SRC
+#+end_src
 
 ***** Appearance
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-ellipsis " ▾")                            ; set custom ellipsis
 ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
 (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
-#+END_SRC
+#+end_src
 
 ***** Snippets
 ****** Structure Templates
 Generates keywords for org-mode with the #+BEGIN_. These are formally called greater elements.
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-structure-template-alist '(("d" . "SRC emacs-lisp :tangle no :noweb-ref")
                                      ("e" . "EXAMPLE")
                                      ("h" . "HTML")
                                      ("q" . "QUOTE")
                                      ("s" . "SRC")))
-#+END_SRC
+#+end_src
 
 **** Custom Functions
 ***** Brain Buffer Viewer
 This is my main org document that I like to have access to at any time.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
 (defvar noncog/brain-visible nil)
 
@@ -264,11 +269,11 @@ This is my main org document that I like to have access to at any time.
     (progn
       (display-buffer (find-file-noselect noncog/brain-file))
       (setq noncog/brain-visible t))))
-#+END_SRC
+#+end_src
 
 ***** Unfold Org Headings in Consult Search
 Fixes a bug where consult searches can't display the heading you want, only the nearest visible to it.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (after! consult
   (defadvice! org-show-entry-consult-a (fn &rest args)
     :around #'consult-line
@@ -276,105 +281,101 @@ Fixes a bug where consult searches can't display the heading you want, only the 
     :around #'consult--grep
     (when-let ((pos (apply fn args)))
       (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp :noweb yes :exports none
+#+begin_src emacs-lisp :noweb yes :exports none
 (after! org
   <<use-package-org>>
     <<use-package-org-config>>
     <<use-package-end>>
   )
-#+END_SRC
+#+end_src
 
 *** Org-Noter
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter
 (use-package! org-noter
-#+END_SRC
+#+end_src
 
 **** Config
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 :config
-#+END_SRC
+#+end_src
 
 ***** Frame Control
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (setq org-noter-always-create-frame nil)
 (setq org-noter-kill-frame-at-session-end nil)
-#+END_SRC
+#+end_src
 
 ***** Appearance
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (setq org-noter-separate-notes-from-heading t)
-#+END_SRC
+#+end_src
 
 ***** Behavior
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (setq org-noter-auto-save-last-location t)
-#+END_SRC
+#+end_src
 
 **** Custom Functions
 ***** Better Exit Org-Noter Function
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (defun noncog/kill-org-noter-session ()
   "Automatically closes pdfs when done noting them."
   (interactive)
   (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session))) (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil) (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp :noweb yes :exports none
+#+begin_src emacs-lisp :noweb yes :exports none
 (after! org-noter
   <<use-package-org-noter>>
     <<use-package-org-noter-config>>
     <<use-package-end>>
   )
-#+END_SRC
+#+end_src
+
 ** PDF-Tools
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
-#+END_SRC
+#+end_src
 
 ** Display Line Numbers
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (after! display-line-numbers
   (setq display-line-numbers-type 'visual))
-#+END_SRC
+#+end_src
 
 ** Pulsar
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar
 (use-package! pulsar
-#+END_SRC
-
-*** Init
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
-:init
-#+END_SRC
-
-**** Appearance
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
-(setq pulsar-face 'pulsar-magenta)
-(setq pulsar-highlight-face 'pulsar-yellow)
-#+END_SRC
-
-**** Behavior
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
-(setq pulsar-pulse t)
-#+END_SRC
-
-**** Settings
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
-(setq pulsar-delay 0.095)
-(setq pulsar-iterations 12)
-#+END_SRC
+#+end_src
 
 *** Config
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 :config
-#+END_SRC
+#+end_src
+
+**** Appearance
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+(setq pulsar-face 'pulsar-magenta)
+(setq pulsar-highlight-face 'pulsar-yellow)
+#+end_src
+
+**** Behavior
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+(setq pulsar-pulse t)
+#+end_src
+
+**** Settings
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+(setq pulsar-delay 0.095)
+(setq pulsar-iterations 12)
+#+end_src
 
 **** Extension
 ***** Evil Function Support
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 ;; scrolling
 (add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
 (add-to-list 'pulsar-pulse-functions 'evil-scroll-down)
@@ -386,36 +387,36 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 (add-to-list 'pulsar-pulse-functions 'evil-window-right)
 
 (add-to-list 'pulsar-pulse-functions 'evil-window-next)
-#+END_SRC
+#+end_src
 
 ***** Evil Scroll Support
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (defun noncog/pulsar-scroll-recenter (&rest _args)
   (pulsar-recenter-middle))
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter)
 (advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter)
-#+END_SRC
+#+end_src
 
 ***** Jump Support
-#+BEGIN_SRC emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 ;; consult jump - aka search buffer - SPC s s
 (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
 
 ;; imenu jump - aka jump to symbol - SPC s i
 (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
 (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp :noweb yes :exports none
+#+begin_src emacs-lisp :noweb yes :exports none
 <<use-package-pulsar>>
   <<use-package-pulsar-config>>
   <<use-package-end>>
-#+END_SRC
+#+end_src
 
 *** Enable
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (pulsar-global-mode 1)
-#+END_SRC
+#+end_src
