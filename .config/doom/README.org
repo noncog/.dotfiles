@@ -3,10 +3,9 @@
 #+html:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
 #+startup: show2levels
 
-#+begin_example :exports none
-Last Known Getting Started
+
+* Last Known Getting Started Guide
 https://github.com/doomemacs/doomemacs/blob/d217ae334392b6abf0e23424516a37b4cd8ac261/docs/getting_started.org
-#+end_example
 
 * Default Advice
 :PROPERTIES:
@@ -75,9 +74,6 @@ Needs updated with secure private public email.
 ** Appearance
 *** Theme
 #+BEGIN_SRC emacs-lisp
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function.
 (setq doom-theme 'doom-dracula)
 #+END_SRC
 
@@ -110,8 +106,8 @@ Needs updated with secure private public email.
 
 *** Cursor color
 #+BEGIN_SRC emacs-lisp
-(evil-set-cursor-color "#ff79c6")
-(+evil-update-cursor-color-h)
+(custom-set-faces!
+ `(cursor :background ,(doom-color 'magenta)))
 #+END_SRC
 
 *** Frame Opacity
@@ -121,7 +117,8 @@ Needs updated with secure private public email.
 
 *** Popup Window Rules
 #+BEGIN_SRC emacs-lisp
-(set-popup-rule! "^brain.org" :side 'right :width 70 :modeline t :select t :quit nil)
+(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
+(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline t :select t :quit nil)
 #+END_SRC
 
 ** Doom Global Keybinds
@@ -162,6 +159,8 @@ This section modifies all configurations for packages, including Emacs itself.
 (global-set-key (kbd "M-p") #'scroll-down-line)
 (global-set-key (kbd "M-n") #'scroll-up-line)
 (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
+;(global-set-key (kbd "f5") #'which-key-show-previous-page-cycle)
+;(global-set-key (kbd "f6") #'which-key-show-next-page-cycle)
 #+end_src
 
 #+begin_src emacs-lisp :noweb yes :exports none
@@ -376,38 +375,36 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 **** Extension
 ***** Evil Function Support
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
-;; scrolling
 (add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
 (add-to-list 'pulsar-pulse-functions 'evil-scroll-down)
 
-;; windowing
 (add-to-list 'pulsar-pulse-functions 'evil-window-left)
 (add-to-list 'pulsar-pulse-functions 'evil-window-down)
 (add-to-list 'pulsar-pulse-functions 'evil-window-up)
 (add-to-list 'pulsar-pulse-functions 'evil-window-right)
 
 (add-to-list 'pulsar-pulse-functions 'evil-window-next)
+(add-to-list 'pulsar-pulse-functions 'evil-window-prev)
 #+end_src
 
-***** Evil Scroll Support
+**** Recentering
+***** Custom Function
 #+begin_src emacs-lisp
 (defun noncog/pulsar-scroll-recenter (&rest _args)
   (pulsar-recenter-middle))
 #+end_src
 
-#+begin_src emacs-lisp
-(advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter)
-(advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter)
-#+end_src
-
-***** Jump Support
+***** After Jumping Recenter
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
-;; consult jump - aka search buffer - SPC s s
 (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
-
-;; imenu jump - aka jump to symbol - SPC s i
 (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
 (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
+#+end_src
+
+***** After Scrolling Recenter
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+(advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter)
+(advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter)
 #+end_src
 
 #+begin_src emacs-lisp :noweb yes :exports none

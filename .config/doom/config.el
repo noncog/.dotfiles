@@ -39,9 +39,6 @@
 
 (global-auto-revert-mode 1)
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function.
 (setq doom-theme 'doom-dracula)
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
@@ -66,12 +63,13 @@
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
 
-(evil-set-cursor-color "#ff79c6")
-(+evil-update-cursor-color-h)
+(custom-set-faces!
+ `(cursor :background ,(doom-color 'magenta)))
 
 (doom/set-frame-opacity 96)
 
-(set-popup-rule! "^brain.org" :side 'right :width 70 :select t :quit nil)
+(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
+(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline t :select t :quit nil)
 
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
@@ -88,6 +86,8 @@
     (global-set-key (kbd "M-p") #'scroll-down-line)
     (global-set-key (kbd "M-n") #'scroll-up-line)
     (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
+    ;(global-set-key (kbd "f5") #'which-key-show-previous-page-cycle)
+    ;(global-set-key (kbd "f6") #'which-key-show-next-page-cycle)
     )
   )
 
@@ -124,7 +124,12 @@
     :config
     (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
     ;(add-to-list 'org-modules 'org-tempo t)             ; enable org-tempo
-    ;;TODO
+    (setq org-agenda-files (quote ("~/documents/org/brain.org"
+                                   "~/documents/org/university/linear-algebra-3720"
+                                   "~/documents/org/university/data-structures-and-algorithms-5870"
+                                   "~/documents/org/university/network-concepts-and-administration-3723"
+                                   "~/documents/org/university/software-engineering-5801"
+                                   "~/documents/org/university/information-assurance-3755")))
     ;(setq org-habit-show-habits-only-for-today nil)
     ;(setq org-habit-show-all-today t)
     ;(setq org-agenda-repeating-timestamp-show-all nil)
@@ -170,34 +175,28 @@
 (defun noncog/pulsar-scroll-recenter (&rest _args)
   (pulsar-recenter-middle))
 
-(advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter)
-(advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter)
-
 (use-package! pulsar
-  :init
+  :config
   (setq pulsar-face 'pulsar-magenta)
   (setq pulsar-highlight-face 'pulsar-yellow)
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.095)
   (setq pulsar-iterations 12)
-  :config
-  ;; scrolling
   (add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
   (add-to-list 'pulsar-pulse-functions 'evil-scroll-down)
   
-  ;; windowing
   (add-to-list 'pulsar-pulse-functions 'evil-window-left)
   (add-to-list 'pulsar-pulse-functions 'evil-window-down)
   (add-to-list 'pulsar-pulse-functions 'evil-window-up)
   (add-to-list 'pulsar-pulse-functions 'evil-window-right)
   
   (add-to-list 'pulsar-pulse-functions 'evil-window-next)
-  ;; consult jump - aka search buffer - SPC s s
+  (add-to-list 'pulsar-pulse-functions 'evil-window-prev)
   (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
-  
-  ;; imenu jump - aka jump to symbol - SPC s i
   (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
   (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
+  (advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter)
+  (advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter)
   )
 
 (pulsar-global-mode 1)
