@@ -66,7 +66,7 @@
 (custom-set-faces!
  `(cursor :background ,(doom-color 'magenta)))
 
-(doom/set-frame-opacity 96)
+(add-to-list 'default-frame-alist '(alpha . 96)) ; [0-100]
 
 (after! time
   (display-time-mode 1))

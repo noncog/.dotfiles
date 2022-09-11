@@ -50,8 +50,6 @@ https://github.com/doomemacs/doomemacs/blob/d217ae334392b6abf0e23424516a37b4cd8a
 In this section I setup Doom, as well as some things I consider "global" but are not necessarily from Doom.
 
 Otherwise, specific packages waranting use-package blocks are located in [[#packages][Packages]] section.
-
-This section is for all configurations that don't need wrapped in special blocks.
 ** Initial Setup
 *** Enable lexical binding
 Supposedly makes this file run slightly faster...
@@ -115,7 +113,7 @@ Needs updated with secure private public email.
 
 *** Frame Opacity
 #+BEGIN_SRC emacs-lisp
-(doom/set-frame-opacity 96)
+(add-to-list 'default-frame-alist '(alpha . 96)) ; [0-100]
 #+END_SRC
 
 *** Show Time in Modeline
