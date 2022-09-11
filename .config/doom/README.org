@@ -3,7 +3,6 @@
 #+html:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
 #+startup: show2levels
 
-
 * Last Known Getting Started Guide
 https://github.com/doomemacs/doomemacs/blob/d217ae334392b6abf0e23424516a37b4cd8ac261/docs/getting_started.org
 
@@ -48,6 +47,10 @@ https://github.com/doomemacs/doomemacs/blob/d217ae334392b6abf0e23424516a37b4cd8a
 #+end_src
 
 * Doom Global
+In this section I setup Doom, as well as some things I consider "global" but are not necessarily from Doom.
+
+Otherwise, specific packages waranting use-package blocks are located in [[#packages][Packages]] section.
+
 This section is for all configurations that don't need wrapped in special blocks.
 ** Initial Setup
 *** Enable lexical binding
@@ -115,17 +118,18 @@ Needs updated with secure private public email.
 (doom/set-frame-opacity 96)
 #+END_SRC
 
-*** Popup Window Rules
-#+BEGIN_SRC emacs-lisp
-(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
-(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline t :select t :quit nil)
-#+END_SRC
+*** Show Time in Modeline
+#+begin_src emacs-lisp
+(after! time
+  (display-time-mode 1))
+#+end_src
 
 ** Doom Global Keybinds
 #+BEGIN_SRC emacs-lisp
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
 (map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
+(map! :leader :desc "My Agenda" "o a o" #'noncog/my-agenda)
 #+END_SRC
 
 * Packages
@@ -148,11 +152,6 @@ This section modifies all configurations for packages, including Emacs itself.
 #+end_src
 
 *** Appearance
-**** Show Time in Modeline
-#+begin_src emacs-lisp
-(display-time-mode 1)
-#+end_src
-
 *** Global Keybinds
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs-config
 ;; scroll buffer around point
@@ -176,10 +175,9 @@ This section modifies all configurations for packages, including Emacs itself.
 :CUSTOM_ID: org
 :END:
 *** Initialization
-**** Directories
+**** Directory
 #+begin_src emacs-lisp
 (setq org-directory "~/documents/org/")
-(setq org-noter-notes-search-path '("~/documents/org/noter"))
 #+end_src
 
 *** Org
@@ -198,7 +196,7 @@ This section modifies all configurations for packages, including Emacs itself.
 ;(add-to-list 'org-modules 'org-tempo t)             ; enable org-tempo
 #+end_src
 
-***** Agenda
+***** Agenda Files
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-agenda-files (quote ("~/documents/org/brain.org"
                                "~/documents/org/university/linear-algebra-3720"
@@ -217,7 +215,6 @@ This section modifies all configurations for packages, including Emacs itself.
 
 ***** Logging
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
-(setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
 (setq org-log-done 'time)                           ; add completion time to DONE items.
 (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
 #+end_src
@@ -228,6 +225,7 @@ This section modifies all configurations for packages, including Emacs itself.
 (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
 (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
 (setq org-imenu-depth 10)
+(setq org-use-property-inheritance t)
 #+end_src
 
 ***** Appearance
@@ -268,6 +266,9 @@ This is my main org document that I like to have access to at any time.
     (progn
       (display-buffer (find-file-noselect noncog/brain-file))
       (setq noncog/brain-visible t))))
+
+;; set it's window behavior
+(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
 #+end_src
 
 ***** Unfold Org Headings in Consult Search
@@ -282,10 +283,207 @@ Fixes a bug where consult searches can't display the heading you want, only the 
       (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
 #+end_src
 
+
 #+begin_src emacs-lisp :noweb yes :exports none
 (after! org
   <<use-package-org>>
     <<use-package-org-config>>
+    <<use-package-end>>
+  )
+#+end_src
+
+*** Org-Agenda
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda
+(use-package! org-agenda
+#+end_src
+
+**** Init
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
+:init
+#+end_src
+
+***** Popup Windowing
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
+(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 68 :modeline t :select t :quit t)
+#+end_src
+
+**** Config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
+:config
+#+end_src
+
+***** Logging
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
+(setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
+#+end_src
+
+***** Appearance
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
+(set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
+#+end_src
+
+***** Custom Agenda
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
+;; design
+;; something
+;; past due - org-scheduled-past-days
+
+;;consider adding this
+;; add numeric week or something maybe do some math for weeks of school...
+(setq org-agenda-custom-commands
+      '(
+        ("o" "My Agenda" (
+          (todo "" ( ;; important tasks no date
+                    (org-agenda-overriding-header "Important Tasks - No Date\n")
+                    (org-agenda-block-separator nil)
+                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+                    (org-agenda-time-grid nil)
+                    (org-agenda-prefix-format '((todo . "%?:c ")))
+                    (org-agenda-dim-blocked-tasks nil)
+                    ))
+         (agenda "" ( ;; today
+                     (org-agenda-overriding-header "\nToday\n")
+                     (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                     (org-agenda-block-separator nil)
+                     (org-agenda-format-date "%A, %B %-e %Y")   ; american date format
+                     (org-agenda-start-on-weekday nil)          ; start today
+                     (org-agenda-start-day nil)                 ; don't show previous days
+                     (org-agenda-span 1)                        ; only show today
+                     (org-scheduled-past-days 0)                ; don't show overdue
+                     (org-deadline-warning-days 0)              ; don't show deadlines for the future
+                     (org-agenda-time-leading-zero t)           ; unify times formatting
+                     (org-agenda-time-grid '((daily today remove-match) (800 1000 1200 1400 1600 1800 2000) "" ""))
+                     (org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+                     (org-agenda-dim-blocked-tasks nil)
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp ":STYLE:.*habit"))
+                     ))
+          (agenda ""( ;; next three days
+                     (org-agenda-overriding-header "\nNext Three Days\n")
+                     (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                     (org-agenda-block-separator nil)
+                     (org-agenda-format-date "%a %b %-e")
+                     (org-agenda-start-on-weekday nil)
+                     (org-agenda-start-day "+1d")
+                     (org-agenda-span 3)
+                     (org-scheduled-past-days 0)
+                     (org-deadline-warning-days 0)
+                     (org-agenda-time-leading-zero t)
+                     (org-agenda-time-grid '((daily weekly) () "" ""))
+                     (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                     (org-agenda-dim-blocked-tasks nil)
+                     ))
+          (agenda ""( ;; upcoming deadlines
+                     (org-agenda-overriding-header "\nUpcoming Deadlines\n")
+                     (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                     (org-agenda-block-separator nil)
+                     (org-agenda-format-date "%a %b %-e")
+                     (org-agenda-start-on-weekday nil)
+                     (org-agenda-start-day "+4d")
+                     (org-agenda-span 14)
+                     (org-scheduled-past-days 0)
+                     (org-deadline-warning-days 0)
+                     (org-agenda-time-leading-zero t)
+                     (org-agenda-time-grid nil)
+                     (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                     (org-agenda-entry-types '(:deadline))
+                     (org-agenda-show-all-dates nil)
+                     (org-agenda-dim-blocked-tasks nil)
+                     ))
+          (agenda ""( ;; past due
+                     (org-agenda-overriding-header "\nPast Due\n")
+                     (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                     (org-agenda-block-separator nil)
+                     (org-agenda-format-date "%a %b %-e")
+                     (org-agenda-start-on-weekday nil)
+                     (org-agenda-start-day "-60d")
+                     (org-agenda-span 60)
+                     (org-scheduled-past-days 60)
+                     (org-deadline-past-days 60)
+                     (org-deadline-warning-days 0)
+                     (org-agenda-time-leading-zero t)
+                     (org-agenda-time-grid nil)
+                     (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                     (org-agenda-entry-types '(:deadline :scheduled))
+                     (org-agenda-show-all-dates nil)
+                     (org-agenda-dim-blocked-tasks nil)
+                     ))
+          (agenda ""( ;; habits
+                     (org-agenda-overriding-header "\nHabits")
+                     (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                     (org-agenda-block-separator nil)
+                     (org-agenda-format-date "")
+                     (org-agenda-start-on-weekday nil)
+                     (org-agenda-start-day nil)
+                     (org-agenda-span 1)
+          ;;            (org-scheduled-past-days 0)
+          ;;            (org-deadline-warning-days 0)
+                     (org-agenda-time-grid nil)
+                     (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+          ;;            (org-agenda-show-all-dates nil)
+          ;;            (org-agenda-dim-blocked-tasks nil)
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
+                     ))
+         ))))
+
+(add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
+#+end_src
+
+**** Custom Functions
+***** My Agenda Launcher
+#+begin_src emacs-lisp
+(defun noncog/my-agenda ()
+  "My custom agenda launcher."
+  (interactive)
+  (org-agenda nil "o"))
+#+end_src
+
+***** Remote Empty Agenda Sections
+#+begin_src emacs-lisp
+(defun noncog/agenda-remove-empty ()
+  "A simple function to remove empty agenda sections."
+  (interactive)
+  (setq buffer-read-only nil)
+  (goto-char (point-min))
+  (let* ((agenda-blank-line "[[:blank:]]*$")
+         (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
+         (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
+         (start-pos (point))) ;; initializes variables and scans first line.
+    (while (not (eobp))
+      (forward-line 1)
+       (cond
+        ((when (> content-blank-line-count 1)
+          (delete-region start-pos (point))
+          (setq content-blank-line-count 0)
+          (setq start-pos (point))
+          )
+         )
+        ((not (looking-at-p agenda-blank-line))
+         (setq content-line-count (1+ content-line-count))
+         (setq start-pos (point))
+         (setq content-blank-line-count 0)
+         )
+        ((looking-at-p agenda-blank-line)
+         (setq content-blank-line-count (1+ content-blank-line-count))
+         )
+       )
+       )
+    (when (> content-blank-line-count 1)
+      (delete-region start-pos (point))
+      (setq content-blank-line-count 0)
+      )
+    )
+  (goto-char (point-min))
+  (setq buffer-read-only t)
+)
+#+end_src
+
+#+begin_src emacs-lisp :noweb yes :exports none
+(after! org-agenda
+  <<use-package-org-agenda>>
+    <<use-package-org-agenda-config>>
     <<use-package-end>>
   )
 #+end_src
@@ -298,6 +496,11 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 **** Config
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 :config
+#+end_src
+
+***** Directory
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+(setq org-noter-notes-search-path '("~/documents/org/noter"))
 #+end_src
 
 ***** Frame Control
@@ -317,7 +520,7 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 #+end_src
 
 **** Custom Functions
-***** Better Exit Org-Noter Function
+***** Better Org-Noter Exit
 #+begin_src emacs-lisp
 (defun noncog/kill-org-noter-session ()
   "Automatically closes pdfs when done noting them."

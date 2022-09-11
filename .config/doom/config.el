@@ -68,14 +68,13 @@
 
 (doom/set-frame-opacity 96)
 
-(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
-(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline t :select t :quit nil)
+(after! time
+  (display-time-mode 1))
 
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
 (map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
-
-(display-time-mode 1)
+(map! :leader :desc "My Agenda" "o a o" #'noncog/my-agenda)
 
 (after! emacs
   (use-package! emacs
@@ -92,7 +91,6 @@
   )
 
 (setq org-directory "~/documents/org/")
-(setq org-noter-notes-search-path '("~/documents/org/noter"))
 
 (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
 (defvar noncog/brain-visible nil)
@@ -110,6 +108,9 @@
     (progn
       (display-buffer (find-file-noselect noncog/brain-file))
       (setq noncog/brain-visible t))))
+
+;; set it's window behavior
+(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
 
 (after! consult
   (defadvice! org-show-entry-consult-a (fn &rest args)
@@ -133,13 +134,13 @@
     ;(setq org-habit-show-habits-only-for-today nil)
     ;(setq org-habit-show-all-today t)
     ;(setq org-agenda-repeating-timestamp-show-all nil)
-    (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
     (setq org-log-done 'time)                           ; add completion time to DONE items.
     (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
     (setq org-return-follows-link t)                    ; enter opens links in org
     (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
     (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
     (setq org-imenu-depth 10)
+    (setq org-use-property-inheritance t)
     (setq org-ellipsis " ▾")                            ; set custom ellipsis
     ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
@@ -151,6 +152,163 @@
     )
   )
 
+(defun noncog/my-agenda ()
+  "My custom agenda launcher."
+  (interactive)
+  (org-agenda nil "o"))
+
+(defun noncog/agenda-remove-empty ()
+  "A simple function to remove empty agenda sections."
+  (interactive)
+  (setq buffer-read-only nil)
+  (goto-char (point-min))
+  (let* ((agenda-blank-line "[[:blank:]]*$")
+         (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
+         (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
+         (start-pos (point))) ;; initializes variables and scans first line.
+    (while (not (eobp))
+      (forward-line 1)
+       (cond
+        ((when (> content-blank-line-count 1)
+          (delete-region start-pos (point))
+          (setq content-blank-line-count 0)
+          (setq start-pos (point))
+          )
+         )
+        ((not (looking-at-p agenda-blank-line))
+         (setq content-line-count (1+ content-line-count))
+         (setq start-pos (point))
+         (setq content-blank-line-count 0)
+         )
+        ((looking-at-p agenda-blank-line)
+         (setq content-blank-line-count (1+ content-blank-line-count))
+         )
+       )
+       )
+    (when (> content-blank-line-count 1)
+      (delete-region start-pos (point))
+      (setq content-blank-line-count 0)
+      )
+    )
+  (goto-char (point-min))
+  (setq buffer-read-only t)
+)
+
+(after! org-agenda
+  (use-package! org-agenda
+    :init
+    (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 68 :modeline t :select t :quit t)
+    :config
+    (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
+    (set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
+    ;; design
+    ;; something
+    ;; past due - org-scheduled-past-days
+    
+    ;;consider adding this
+    ;; add numeric week or something maybe do some math for weeks of school...
+    (setq org-agenda-custom-commands
+          '(
+            ("o" "My Agenda" (
+              (todo "" ( ;; important tasks no date
+                        (org-agenda-overriding-header "Important Tasks - No Date\n")
+                        (org-agenda-block-separator nil)
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+                        (org-agenda-time-grid nil)
+                        (org-agenda-prefix-format '((todo . "%?:c ")))
+                        (org-agenda-dim-blocked-tasks nil)
+                        ))
+             (agenda "" ( ;; today
+                         (org-agenda-overriding-header "\nToday\n")
+                         (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                         (org-agenda-block-separator nil)
+                         (org-agenda-format-date "%A, %B %-e %Y")   ; american date format
+                         (org-agenda-start-on-weekday nil)          ; start today
+                         (org-agenda-start-day nil)                 ; don't show previous days
+                         (org-agenda-span 1)                        ; only show today
+                         (org-scheduled-past-days 0)                ; don't show overdue
+                         (org-deadline-warning-days 0)              ; don't show deadlines for the future
+                         (org-agenda-time-leading-zero t)           ; unify times formatting
+                         (org-agenda-time-grid '((daily today remove-match) (800 1000 1200 1400 1600 1800 2000) "" ""))
+                         (org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+                         (org-agenda-dim-blocked-tasks nil)
+                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp ":STYLE:.*habit"))
+                         ))
+              (agenda ""( ;; next three days
+                         (org-agenda-overriding-header "\nNext Three Days\n")
+                         (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                         (org-agenda-block-separator nil)
+                         (org-agenda-format-date "%a %b %-e")
+                         (org-agenda-start-on-weekday nil)
+                         (org-agenda-start-day "+1d")
+                         (org-agenda-span 3)
+                         (org-scheduled-past-days 0)
+                         (org-deadline-warning-days 0)
+                         (org-agenda-time-leading-zero t)
+                         (org-agenda-time-grid '((daily weekly) () "" ""))
+                         (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                         (org-agenda-dim-blocked-tasks nil)
+                         ))
+              (agenda ""( ;; upcoming deadlines
+                         (org-agenda-overriding-header "\nUpcoming Deadlines\n")
+                         (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                         (org-agenda-block-separator nil)
+                         (org-agenda-format-date "%a %b %-e")
+                         (org-agenda-start-on-weekday nil)
+                         (org-agenda-start-day "+4d")
+                         (org-agenda-span 14)
+                         (org-scheduled-past-days 0)
+                         (org-deadline-warning-days 0)
+                         (org-agenda-time-leading-zero t)
+                         (org-agenda-time-grid nil)
+                         (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                         (org-agenda-entry-types '(:deadline))
+                         (org-agenda-show-all-dates nil)
+                         (org-agenda-dim-blocked-tasks nil)
+                         ))
+              (agenda ""( ;; past due
+                         (org-agenda-overriding-header "\nPast Due\n")
+                         (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                         (org-agenda-block-separator nil)
+                         (org-agenda-format-date "%a %b %-e")
+                         (org-agenda-start-on-weekday nil)
+                         (org-agenda-start-day "-60d")
+                         (org-agenda-span 60)
+                         (org-scheduled-past-days 60)
+                         (org-deadline-past-days 60)
+                         (org-deadline-warning-days 0)
+                         (org-agenda-time-leading-zero t)
+                         (org-agenda-time-grid nil)
+                         (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                         (org-agenda-entry-types '(:deadline :scheduled))
+                         (org-agenda-show-all-dates nil)
+                         (org-agenda-dim-blocked-tasks nil)
+                         ))
+              (agenda ""( ;; habits
+                         (org-agenda-overriding-header "\nHabits")
+                         (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                         (org-agenda-block-separator nil)
+                         (org-agenda-format-date "")
+                         (org-agenda-start-on-weekday nil)
+                         (org-agenda-start-day nil)
+                         (org-agenda-span 1)
+              ;;            (org-scheduled-past-days 0)
+              ;;            (org-deadline-warning-days 0)
+                         (org-agenda-time-grid nil)
+                         (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+              ;;            (org-agenda-show-all-dates nil)
+              ;;            (org-agenda-dim-blocked-tasks nil)
+                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
+                         ))
+             ))))
+    
+    (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
+    )
+  )
+
 (defun noncog/kill-org-noter-session ()
   "Automatically closes pdfs when done noting them."
   (interactive)
@@ -159,6 +317,7 @@
 (after! org-noter
   (use-package! org-noter
     :config
+    (setq org-noter-notes-search-path '("~/documents/org/noter"))
     (setq org-noter-always-create-frame nil)
     (setq org-noter-kill-frame-at-session-end nil)
     (setq org-noter-separate-notes-from-heading t)
