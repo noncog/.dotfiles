@@ -6,6 +6,7 @@
 
 * Doom Info
 [[https://github.com/doomemacs/doomemacs/blob/d217ae334392b6abf0e23424516a37b4cd8ac261/docs/getting_started.org][Getting Started Guide]]
+
 [[https://github.com/doomemacs/doomemacs/tree/master/modules][Modules]]
 
 #+begin_src emacs-lisp :tangle no :exports none
