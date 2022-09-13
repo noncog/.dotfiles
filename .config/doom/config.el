@@ -22,10 +22,10 @@
 (after! time
   (display-time-mode 1))
 
-(map! :leader :desc "dashboard" "d" #'+doom-dashboard/open)
-(map! :leader :desc "brain.org" "b t" #'noncog/toggle-brain)
-(map! :leader :desc "kill org noter session" "n k" #'noncog/kill-org-noter-session)
-(map! :leader :desc "my agenda" "o a o" #'noncog/my-agenda)
+(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
+(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
 
 (after! emacs
   (use-package! emacs
@@ -33,11 +33,9 @@
     :config
     (setq scroll-margin 5)
     ;; scroll buffer around point
-    (global-set-key (kbd "m-p") #'scroll-down-line)
-    (global-set-key (kbd "m-n") #'scroll-up-line)
-    (global-set-key (kbd "c-c b") #'noncog/toggle-brain)
-    ;(global-set-key (kbd "f5") #'which-key-show-previous-page-cycle)
-    ;(global-set-key (kbd "f5") #'which-key-show-next-page-cycle)
+    (global-set-key (kbd "M-p") #'scroll-down-line)
+    (global-set-key (kbd "M-n") #'scroll-up-line)
+    (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
     )
   )
 
@@ -108,38 +106,45 @@
   (org-agenda nil "o"))
 
 (defun noncog/agenda-remove-empty ()
-  "A simple function to remove empty agenda sections."
+  "A simple function to remove empty agenda sections. Scans for blank lines. Blank sections defined by having two consecutive blank lines. Not compatible with the block separator."
   (interactive)
   (setq buffer-read-only nil)
+  ;; initializes variables and scans first line.
   (goto-char (point-min))
   (let* ((agenda-blank-line "[[:blank:]]*$")
          (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
          (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
-         (start-pos (point))) ;; initializes variables and scans first line.
+         (start-pos (point)))
+    ;; step until the end of the buffer
     (while (not (eobp))
       (forward-line 1)
        (cond
+        ;; delete region if previously found two blank lines
         ((when (> content-blank-line-count 1)
           (delete-region start-pos (point))
           (setq content-blank-line-count 0)
           (setq start-pos (point))
           )
          )
+        ;; if found a non-blank line
         ((not (looking-at-p agenda-blank-line))
          (setq content-line-count (1+ content-line-count))
          (setq start-pos (point))
          (setq content-blank-line-count 0)
          )
+        ;; if found a blank line
         ((looking-at-p agenda-blank-line)
          (setq content-blank-line-count (1+ content-blank-line-count))
          )
        )
        )
+    ;; final blank line check at end of file
     (when (> content-blank-line-count 1)
       (delete-region start-pos (point))
       (setq content-blank-line-count 0)
       )
     )
+  ;; return to top and finish
   (goto-char (point-min))
   (setq buffer-read-only t)
 )
@@ -147,25 +152,15 @@
 (after! org-agenda
   (use-package! org-agenda
     :init
-    (set-popup-rule! "^*org agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
+    (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
     :config
     (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
     (set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
-    ;; todo consider adding this numeric week number
     (setq org-agenda-custom-commands
           '(
-            ("o" "my agenda" (
-              (todo "" ( ;; important tasks no date
-                        (org-agenda-overriding-header "important tasks - no date\n")
-                        (org-agenda-block-separator nil)
-                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#a\\]"))
-                        (org-agenda-block-separator nil)
-                        (org-agenda-time-grid nil)
-                        (org-agenda-prefix-format '((todo . "  %?:c ")))
-                        (org-agenda-dim-blocked-tasks nil)
-                        ))
-             (agenda "" ( ;; today
-                         (org-agenda-overriding-header "\ntoday\n")
+            ("o" "My Agenda" (
+             (agenda "" ( ;; Today
+                         (org-agenda-overriding-header "Today\n")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
                          (org-agenda-format-date "%a, %b %-e %y")   ; american date format
@@ -178,10 +173,10 @@
                          (org-agenda-time-grid '((daily today remove-match) (800 1000 1200 1400 1600 1800 2000) "" ""))
                          (org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
                          (org-agenda-dim-blocked-tasks nil)
-                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp ":style:.*habit"))
+                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp ":STYLE:.*habit"))
                          ))
-              (agenda ""( ;; next three days
-                         (org-agenda-overriding-header "\nnext three days\n")
+              (agenda ""( ;; Next Three Days
+                         (org-agenda-overriding-header "\nNext Three Days\n")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
                          (org-agenda-format-date "%a %b %-e")
@@ -196,8 +191,8 @@
                          (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                          (org-agenda-dim-blocked-tasks nil)
                          ))
-              (agenda ""( ;; upcoming deadlines
-                         (org-agenda-overriding-header "\nupcoming deadlines\n")
+              (agenda ""( ;; Upcoming Deadlines
+                         (org-agenda-overriding-header "\nUpcoming Deadlines\n")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
                          (org-agenda-format-date "%a %b %-e")
@@ -214,8 +209,8 @@
                          (org-agenda-show-all-dates nil)
                          (org-agenda-dim-blocked-tasks nil)
                          ))
-              (agenda ""( ;; past due
-                         (org-agenda-overriding-header "\npast due\n")
+              (agenda ""( ;; Past Due
+                         (org-agenda-overriding-header "\nPast Due\n")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
                          (org-agenda-format-date "%a %b %-e")
@@ -233,22 +228,28 @@
                          (org-agenda-show-all-dates nil)
                          (org-agenda-dim-blocked-tasks nil)
                          ))
-              (agenda ""( ;; habits
-                         (org-agenda-overriding-header "\nhabits")
+              (agenda ""( ;; Habits
+                         (org-agenda-overriding-header "\nHabits")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
                          (org-agenda-format-date "")
                          (org-agenda-start-on-weekday nil)
                          (org-agenda-start-day nil)
                          (org-agenda-span 1)
-              ;;            (org-scheduled-past-days 0)
-              ;;            (org-deadline-warning-days 0)
                          (org-agenda-time-grid nil)
                          (org-agenda-prefix-format '((agenda . "  %?-5t %?-7:c")))
-              ;;            (org-agenda-show-all-dates nil)
                          (org-agenda-dim-blocked-tasks nil)
-                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":style:.*habit"))
+                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
                          ))
+              (todo "" ( ;; Important Tasks No Date
+                        (org-agenda-overriding-header "\nImportant Tasks - No Date\n")
+                        (org-agenda-block-separator nil)
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+                        (org-agenda-block-separator nil)
+                        (org-agenda-time-grid nil)
+                        (org-agenda-prefix-format '((todo . "  %?:c ")))
+                        (org-agenda-dim-blocked-tasks nil)
+                        ))
              ))))
     
     (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
