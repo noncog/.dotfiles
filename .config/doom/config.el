@@ -1,40 +1,8 @@
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
+;;; $doomdir/config.el -*- lexical-binding: t; -*-
 
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
-(setq user-full-name "Jake Turner"
+;; some functionality uses this to identify you, e.g. gpg configuration, email
+;; clients, file templates and snippets. it is optional.
+(setq user-full-name "jake turner"
       user-mail-address "john@doe.com")
 
 (global-auto-revert-mode 1)
@@ -43,27 +11,8 @@
 (setq doom-dracula-brighter-modeline t)
 (setq doom-dracula-colorful-headers t)
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-;;
-
-;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'normal'))
-
-(setq doom-font (font-spec :family "Fira Code" :size 14))
-(setq doom-unicode-font (font-spec :family "Fira Code" :size 16))
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
+(setq doom-font (font-spec :family "fira code" :size 14))
+(setq doom-unicode-font (font-spec :family "fira code" :size 16))
 
 (custom-set-faces!
  `(cursor :background ,(doom-color 'magenta)))
@@ -73,10 +22,10 @@
 (after! time
   (display-time-mode 1))
 
-(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
-(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
-(map! :leader :desc "My Agenda" "o a o" #'noncog/my-agenda)
+(map! :leader :desc "dashboard" "d" #'+doom-dashboard/open)
+(map! :leader :desc "brain.org" "b t" #'noncog/toggle-brain)
+(map! :leader :desc "kill org noter session" "n k" #'noncog/kill-org-noter-session)
+(map! :leader :desc "my agenda" "o a o" #'noncog/my-agenda)
 
 (after! emacs
   (use-package! emacs
@@ -84,9 +33,9 @@
     :config
     (setq scroll-margin 5)
     ;; scroll buffer around point
-    (global-set-key (kbd "M-p") #'scroll-down-line)
-    (global-set-key (kbd "M-n") #'scroll-up-line)
-    (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
+    (global-set-key (kbd "m-p") #'scroll-down-line)
+    (global-set-key (kbd "m-n") #'scroll-up-line)
+    (global-set-key (kbd "c-c b") #'noncog/toggle-brain)
     ;(global-set-key (kbd "f5") #'which-key-show-previous-page-cycle)
     ;(global-set-key (kbd "f5") #'which-key-show-next-page-cycle)
     )
@@ -154,7 +103,7 @@
   )
 
 (defun noncog/my-agenda ()
-  "My custom agenda launcher."
+  "my custom agenda launcher."
   (interactive)
   (org-agenda nil "o"))
 
@@ -198,28 +147,28 @@
 (after! org-agenda
   (use-package! org-agenda
     :init
-    (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
+    (set-popup-rule! "^*org agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
     :config
     (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
     (set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
-    ;; TODO consider adding this numeric week number
+    ;; todo consider adding this numeric week number
     (setq org-agenda-custom-commands
           '(
-            ("o" "My Agenda" (
+            ("o" "my agenda" (
               (todo "" ( ;; important tasks no date
-                        (org-agenda-overriding-header "Important Tasks - No Date\n")
+                        (org-agenda-overriding-header "important tasks - no date\n")
                         (org-agenda-block-separator nil)
-                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#a\\]"))
                         (org-agenda-block-separator nil)
                         (org-agenda-time-grid nil)
                         (org-agenda-prefix-format '((todo . "  %?:c ")))
                         (org-agenda-dim-blocked-tasks nil)
                         ))
              (agenda "" ( ;; today
-                         (org-agenda-overriding-header "\nToday\n")
+                         (org-agenda-overriding-header "\ntoday\n")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
-                         (org-agenda-format-date "%A, %B %-e %Y")   ; american date format
+                         (org-agenda-format-date "%a, %b %-e %y")   ; american date format
                          (org-agenda-start-on-weekday nil)          ; start today
                          (org-agenda-start-day nil)                 ; don't show previous days
                          (org-agenda-span 1)                        ; only show today
@@ -229,10 +178,10 @@
                          (org-agenda-time-grid '((daily today remove-match) (800 1000 1200 1400 1600 1800 2000) "" ""))
                          (org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
                          (org-agenda-dim-blocked-tasks nil)
-                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp ":STYLE:.*habit"))
+                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp ":style:.*habit"))
                          ))
               (agenda ""( ;; next three days
-                         (org-agenda-overriding-header "\nNext Three Days\n")
+                         (org-agenda-overriding-header "\nnext three days\n")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
                          (org-agenda-format-date "%a %b %-e")
@@ -248,7 +197,7 @@
                          (org-agenda-dim-blocked-tasks nil)
                          ))
               (agenda ""( ;; upcoming deadlines
-                         (org-agenda-overriding-header "\nUpcoming Deadlines\n")
+                         (org-agenda-overriding-header "\nupcoming deadlines\n")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
                          (org-agenda-format-date "%a %b %-e")
@@ -266,7 +215,7 @@
                          (org-agenda-dim-blocked-tasks nil)
                          ))
               (agenda ""( ;; past due
-                         (org-agenda-overriding-header "\nPast Due\n")
+                         (org-agenda-overriding-header "\npast due\n")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
                          (org-agenda-format-date "%a %b %-e")
@@ -285,7 +234,7 @@
                          (org-agenda-dim-blocked-tasks nil)
                          ))
               (agenda ""( ;; habits
-                         (org-agenda-overriding-header "\nHabits")
+                         (org-agenda-overriding-header "\nhabits")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
                          (org-agenda-format-date "")
@@ -298,7 +247,7 @@
                          (org-agenda-prefix-format '((agenda . "  %?-5t %?-7:c")))
               ;;            (org-agenda-show-all-dates nil)
                          (org-agenda-dim-blocked-tasks nil)
-                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
+                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":style:.*habit"))
                          ))
              ))))
     

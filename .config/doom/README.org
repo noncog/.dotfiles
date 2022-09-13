@@ -1,6 +1,6 @@
-#+html:<h1 align="center">Doom Emacs</h1>
-#+html:<p align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Doom_%E2%80%93_Game%E2%80%99s_logo.svg"></p>
-#+html:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
+#+html:<h1 align="center">doom emacs</h1>
+#+html:<p align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/doom_%e2%80%93_game%e2%80%99s_logo.svg"></p>
+#+html:<p align="center">this is my <code><a href="https://github.com/doomemacs/doomemacs">doom</a></code>... <code><a href="https://github.com/hlissner">henrik</a></code> has doomed us all!</p>
 #+startup: show2levels
 
 * Doom Info
@@ -10,43 +10,38 @@ https://github.com/doomemacs/doomemacs/blob/d217ae334392b6abf0e23424516a37b4cd8a
 ** Module Code
 https://github.com/doomemacs/doomemacs/tree/master/modules
 
-* Default Advice
-:PROPERTIES:
-:VISIBILITY: folded
-:END:
+#+begin_src emacs-lisp :tangle no :exports none
 
-#+begin_src emacs-lisp
-
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+;; whenever you reconfigure a package, make sure to wrap your config in an
+;; `after!' block, otherwise doom's defaults may override your settings. e.g.
 ;;
-;;   (after! PACKAGE
+;;   (after! package
 ;;     (setq x y))
 ;;
-;; The exceptions to this rule:
+;; the exceptions to this rule:
 ;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
+;;   - setting file/directory variables (like `org-directory')
+;;   - setting variables which explicitly tell you to set them before their
+;;     package is loaded (see 'c-h v variable' to look up their documentation).
+;;   - setting doom variables (which start with 'doom-' or '+').
 ;;
-;; Here are some additional functions/macros that will help you configure Doom.
+;; here are some additional functions/macros that will help you configure doom.
 ;;
 ;; - `load!' for loading external *.el files relative to this one
 ;; - `use-package!' for configuring packages
 ;; - `after!' for running code after a package has loaded
 ;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
+;;   this file. emacs searches the `load-path' when you load packages with
 ;;   `require' or `use-package'.
 ;; - `map!' for binding new keys
 ;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
+;; to get information about any of these functions/macros, move the cursor over
+;; the highlighted symbol at press 'k' (non-evil users must press 'c-c c k').
+;; this will open documentation for it, including demos of how they are used.
+;; alternatively, use `c-h o' to look up a symbol (functions, variables, faces,
 ;; etc).
 ;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
+;; you can also try 'gd' (or 'c-c c d') to jump to their definition and see how
 ;; they are implemented.
 #+end_src
 
@@ -57,36 +52,36 @@ Otherwise, specific packages waranting use-package blocks are located in [[#pack
 ** Initial Setup
 *** Enable lexical binding
 Supposedly makes this file run slightly faster...
-#+BEGIN_SRC emacs-lisp
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-#+END_SRC
+#+begin_src emacs-lisp
+;;; $doomdir/config.el -*- lexical-binding: t; -*-
+#+end_src
 
 *** Personal information
 Needs updated with secure private public email.
-#+BEGIN_SRC emacs-lisp
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
-(setq user-full-name "Jake Turner"
+#+begin_src emacs-lisp
+;; some functionality uses this to identify you, e.g. gpg configuration, email
+;; clients, file templates and snippets. it is optional.
+(setq user-full-name "jake turner"
       user-mail-address "john@doe.com")
-#+END_SRC
+#+end_src
 
 ** Behavior
 *** Autoload File Changes
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (global-auto-revert-mode 1)
-#+END_SRC
+#+end_src
 
 ** Appearance
 *** Theme
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (setq doom-theme 'doom-dracula)
 (setq doom-dracula-brighter-modeline t)
 (setq doom-dracula-colorful-headers t)
-#+END_SRC
+#+end_src
 
 *** Font
-#+BEGIN_SRC emacs-lisp
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
+#+begin_src emacs-lisp :tangle no :exports none
+;; doom exposes five (optional) variables for controlling fonts in doom:
 ;;
 ;; - `doom-font' -- the primary font to use
 ;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
@@ -95,32 +90,26 @@ Needs updated with secure private public email.
 ;; - `doom-unicode-font' -- for unicode glyphs
 ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 ;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
+;; see 'c-h v doom-font' for documentation and more examples of what they
+;; accept. for example:
 ;;
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC emacs-lisp
-;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'normal'))
-
-(setq doom-font (font-spec :family "Fira Code" :size 14))
-(setq doom-unicode-font (font-spec :family "Fira Code" :size 16))
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
-#+END_SRC
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "fira code" :size 14))
+(setq doom-unicode-font (font-spec :family "fira code" :size 16))
+#+end_src
 
 *** Cursor color
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (custom-set-faces!
  `(cursor :background ,(doom-color 'magenta)))
-#+END_SRC
+#+end_src
 
 *** Frame Opacity
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
 (add-to-list 'default-frame-alist '(alpha . 96)) ; [0-100]
-#+END_SRC
+#+end_src
 
 *** Show Time in Modeline
 #+begin_src emacs-lisp
@@ -129,12 +118,12 @@ Needs updated with secure private public email.
 #+end_src
 
 ** Doom Global Keybinds
-#+BEGIN_SRC emacs-lisp
-(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
-(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
-(map! :leader :desc "My Agenda" "o a o" #'noncog/my-agenda)
-#+END_SRC
+#+begin_src emacs-lisp
+(map! :leader :desc "dashboard" "d" #'+doom-dashboard/open)
+(map! :leader :desc "brain.org" "b t" #'noncog/toggle-brain)
+(map! :leader :desc "kill org noter session" "n k" #'noncog/kill-org-noter-session)
+(map! :leader :desc "my agenda" "o a o" #'noncog/my-agenda)
+#+end_src
 
 * Packages
 This section modifies all configurations for packages, including Emacs itself.
@@ -158,9 +147,9 @@ This section modifies all configurations for packages, including Emacs itself.
 *** Global Keybinds
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs-config
 ;; scroll buffer around point
-(global-set-key (kbd "M-p") #'scroll-down-line)
-(global-set-key (kbd "M-n") #'scroll-up-line)
-(global-set-key (kbd "C-c b") #'noncog/toggle-brain)
+(global-set-key (kbd "m-p") #'scroll-down-line)
+(global-set-key (kbd "m-n") #'scroll-up-line)
+(global-set-key (kbd "c-c b") #'noncog/toggle-brain)
 ;(global-set-key (kbd "f5") #'which-key-show-previous-page-cycle)
 ;(global-set-key (kbd "f5") #'which-key-show-next-page-cycle)
 #+end_src
@@ -305,7 +294,7 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 
 ***** Popup Windowing
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
-(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
+(set-popup-rule! "^*org agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
 #+end_src
 
 **** Config
@@ -325,24 +314,24 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 
 ***** Custom Agenda
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
-;; TODO consider adding this numeric week number
+;; todo consider adding this numeric week number
 (setq org-agenda-custom-commands
       '(
-        ("o" "My Agenda" (
+        ("o" "my agenda" (
           (todo "" ( ;; important tasks no date
-                    (org-agenda-overriding-header "Important Tasks - No Date\n")
+                    (org-agenda-overriding-header "important tasks - no date\n")
                     (org-agenda-block-separator nil)
-                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+                    (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#a\\]"))
                     (org-agenda-block-separator nil)
                     (org-agenda-time-grid nil)
                     (org-agenda-prefix-format '((todo . "  %?:c ")))
                     (org-agenda-dim-blocked-tasks nil)
                     ))
          (agenda "" ( ;; today
-                     (org-agenda-overriding-header "\nToday\n")
+                     (org-agenda-overriding-header "\ntoday\n")
                      (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                      (org-agenda-block-separator nil)
-                     (org-agenda-format-date "%A, %B %-e %Y")   ; american date format
+                     (org-agenda-format-date "%a, %b %-e %y")   ; american date format
                      (org-agenda-start-on-weekday nil)          ; start today
                      (org-agenda-start-day nil)                 ; don't show previous days
                      (org-agenda-span 1)                        ; only show today
@@ -352,10 +341,10 @@ Fixes a bug where consult searches can't display the heading you want, only the 
                      (org-agenda-time-grid '((daily today remove-match) (800 1000 1200 1400 1600 1800 2000) "" ""))
                      (org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
                      (org-agenda-dim-blocked-tasks nil)
-                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp ":STYLE:.*habit"))
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'regexp ":style:.*habit"))
                      ))
           (agenda ""( ;; next three days
-                     (org-agenda-overriding-header "\nNext Three Days\n")
+                     (org-agenda-overriding-header "\nnext three days\n")
                      (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                      (org-agenda-block-separator nil)
                      (org-agenda-format-date "%a %b %-e")
@@ -371,7 +360,7 @@ Fixes a bug where consult searches can't display the heading you want, only the 
                      (org-agenda-dim-blocked-tasks nil)
                      ))
           (agenda ""( ;; upcoming deadlines
-                     (org-agenda-overriding-header "\nUpcoming Deadlines\n")
+                     (org-agenda-overriding-header "\nupcoming deadlines\n")
                      (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                      (org-agenda-block-separator nil)
                      (org-agenda-format-date "%a %b %-e")
@@ -389,7 +378,7 @@ Fixes a bug where consult searches can't display the heading you want, only the 
                      (org-agenda-dim-blocked-tasks nil)
                      ))
           (agenda ""( ;; past due
-                     (org-agenda-overriding-header "\nPast Due\n")
+                     (org-agenda-overriding-header "\npast due\n")
                      (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                      (org-agenda-block-separator nil)
                      (org-agenda-format-date "%a %b %-e")
@@ -408,7 +397,7 @@ Fixes a bug where consult searches can't display the heading you want, only the 
                      (org-agenda-dim-blocked-tasks nil)
                      ))
           (agenda ""( ;; habits
-                     (org-agenda-overriding-header "\nHabits")
+                     (org-agenda-overriding-header "\nhabits")
                      (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                      (org-agenda-block-separator nil)
                      (org-agenda-format-date "")
@@ -421,7 +410,7 @@ Fixes a bug where consult searches can't display the heading you want, only the 
                      (org-agenda-prefix-format '((agenda . "  %?-5t %?-7:c")))
           ;;            (org-agenda-show-all-dates nil)
                      (org-agenda-dim-blocked-tasks nil)
-                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
+                     (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":style:.*habit"))
                      ))
          ))))
 
@@ -432,7 +421,7 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 ***** My Agenda Launcher
 #+begin_src emacs-lisp
 (defun noncog/my-agenda ()
-  "My custom agenda launcher."
+  "my custom agenda launcher."
   (interactive)
   (org-agenda nil "o"))
 #+end_src
