@@ -40,6 +40,8 @@
 (global-auto-revert-mode 1)
 
 (setq doom-theme 'doom-dracula)
+(setq doom-dracula-brighter-modeline t)
+(setq doom-dracula-colorful-headers t)
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -86,7 +88,7 @@
     (global-set-key (kbd "M-n") #'scroll-up-line)
     (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
     ;(global-set-key (kbd "f5") #'which-key-show-previous-page-cycle)
-    ;(global-set-key (kbd "f6") #'which-key-show-next-page-cycle)
+    ;(global-set-key (kbd "f5") #'which-key-show-next-page-cycle)
     )
   )
 
@@ -124,7 +126,6 @@
   (use-package! org
     :config
     (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
-    ;(add-to-list 'org-modules 'org-tempo t)             ; enable org-tempo
     (setq org-agenda-files (quote ("~/documents/org/brain.org"
                                    "~/documents/org/university/linear-algebra-3720"
                                    "~/documents/org/university/data-structures-and-algorithms-5870"
@@ -132,7 +133,7 @@
                                    "~/documents/org/university/software-engineering-5801"
                                    "~/documents/org/university/information-assurance-3755")))
     ;(setq org-habit-show-habits-only-for-today nil)
-    ;(setq org-habit-show-all-today t)
+    (setq org-habit-show-all-today t)
     ;(setq org-agenda-repeating-timestamp-show-all nil)
     (setq org-log-done 'time)                           ; add completion time to DONE items.
     (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
@@ -197,16 +198,11 @@
 (after! org-agenda
   (use-package! org-agenda
     :init
-    (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 68 :modeline t :select t :quit t)
+    (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
     :config
     (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
     (set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
-    ;; design
-    ;; something
-    ;; past due - org-scheduled-past-days
-    
-    ;;consider adding this
-    ;; add numeric week or something maybe do some math for weeks of school...
+    ;; TODO consider adding this numeric week number
     (setq org-agenda-custom-commands
           '(
             ("o" "My Agenda" (
@@ -214,8 +210,9 @@
                         (org-agenda-overriding-header "Important Tasks - No Date\n")
                         (org-agenda-block-separator nil)
                         (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+                        (org-agenda-block-separator nil)
                         (org-agenda-time-grid nil)
-                        (org-agenda-prefix-format '((todo . "%?:c ")))
+                        (org-agenda-prefix-format '((todo . "  %?:c ")))
                         (org-agenda-dim-blocked-tasks nil)
                         ))
              (agenda "" ( ;; today
@@ -262,7 +259,7 @@
                          (org-deadline-warning-days 0)
                          (org-agenda-time-leading-zero t)
                          (org-agenda-time-grid nil)
-                         (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+                         (org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
                          (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                          (org-agenda-entry-types '(:deadline))
                          (org-agenda-show-all-dates nil)
@@ -298,9 +295,9 @@
               ;;            (org-scheduled-past-days 0)
               ;;            (org-deadline-warning-days 0)
                          (org-agenda-time-grid nil)
-                         (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+                         (org-agenda-prefix-format '((agenda . "  %?-5t %?-7:c")))
               ;;            (org-agenda-show-all-dates nil)
-              ;;            (org-agenda-dim-blocked-tasks nil)
+                         (org-agenda-dim-blocked-tasks nil)
                          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
                          ))
              ))))
@@ -331,7 +328,7 @@
 (after! display-line-numbers
   (setq display-line-numbers-type 'visual))
 
-(defun noncog/pulsar-scroll-recenter (&rest _args)
+(defun noncog/pulsar-scroll-recenter-middle (&rest _args)
   (pulsar-recenter-middle))
 
 (use-package! pulsar
@@ -351,11 +348,33 @@
   
   (add-to-list 'pulsar-pulse-functions 'evil-window-next)
   (add-to-list 'pulsar-pulse-functions 'evil-window-prev)
+  (advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter-middle)
+  (advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter-middle)
   (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
   (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
   (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
-  (advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter)
-  (advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter)
   )
 
 (pulsar-global-mode 1)
+
+(after! company
+  (use-package! company
+    :config
+    (setq company-global-modes '(not text-mode erc-mode circe-mode message-mode help-mode gud-mode vterm-mode))
+    (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
+    (set-company-backend! 'org-mode
+      '(company-capf company-files :with company-yasnippet))
+    (set-company-backend! 'sh-mode
+      '(company-shell company-files :with company-yasnippet))
+    (setq company-idle-delay 0.1)
+    (setq company-tooltip-limit 10)
+    (setq company-minimum-prefix-length 1)
+    )
+  )
+
+(after! ace-window
+  (custom-set-faces!
+    '(aw-leading-char-face
+      :foreground "white" :background "red"
+      :weight bold :height 140 :box (:width 1 :color "red")))
+  )
