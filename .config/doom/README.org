@@ -110,10 +110,15 @@ Needs updated with secure private public email.
 (add-to-list 'default-frame-alist '(alpha . 96)) ; [0-100]
 #+end_src
 
+*** Line Numbers
+#+begin_src emacs-lisp
+(after! display-line-numbers
+  (setq display-line-numbers-type 'visual))
+#+end_src
+
 *** Show Time in Modeline
 #+begin_src emacs-lisp
-(after! time
-  (display-time-mode 1))
+(display-time-mode 1)
 #+end_src
 
 ** Doom Global Keybinds
@@ -148,6 +153,7 @@ This section modifies all configurations for packages, including Emacs itself.
 ;; scroll buffer around point
 (global-set-key (kbd "M-p") #'scroll-down-line)
 (global-set-key (kbd "M-n") #'scroll-up-line)
+;; org document custom viewer
 (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
 #+end_src
 
@@ -219,7 +225,7 @@ This section modifies all configurations for packages, including Emacs itself.
 ***** Appearance
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-ellipsis " ▾")                            ; set custom ellipsis
-;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
+(setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
 (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
 #+end_src
 
@@ -307,6 +313,8 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 ***** Appearance
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
+(setq +org-habit-graph-window-ratio 0.3)
+(setq +org-habit-graph-padding 12)
 #+end_src
 
 ***** Custom Agenda
@@ -439,27 +447,19 @@ Fixes a bug where consult searches can't display the heading you want, only the 
         ((when (> content-blank-line-count 1)
           (delete-region start-pos (point))
           (setq content-blank-line-count 0)
-          (setq start-pos (point))
-          )
-         )
+          (setq start-pos (point))))
         ;; if found a non-blank line
         ((not (looking-at-p agenda-blank-line))
          (setq content-line-count (1+ content-line-count))
          (setq start-pos (point))
-         (setq content-blank-line-count 0)
-         )
+         (setq content-blank-line-count 0))
         ;; if found a blank line
         ((looking-at-p agenda-blank-line)
-         (setq content-blank-line-count (1+ content-blank-line-count))
-         )
-       )
-       )
+         (setq content-blank-line-count (1+ content-blank-line-count)))))
     ;; final blank line check at end of file
     (when (> content-blank-line-count 1)
       (delete-region start-pos (point))
-      (setq content-blank-line-count 0)
-      )
-    )
+      (setq content-blank-line-count 0)))
   ;; return to top and finish
   (goto-char (point-min))
   (setq buffer-read-only t)
@@ -510,7 +510,7 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 ***** Better Org-Noter Exit
 #+begin_src emacs-lisp
 (defun noncog/kill-org-noter-session ()
-  "Automatically closes pdfs when done noting them."
+  "Fully exits the noter-session and the pdf buffers it used, leaving the org file."
   (interactive)
   (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session))) (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil) (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
 #+end_src
@@ -527,12 +527,6 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 #+begin_src emacs-lisp
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
-#+end_src
-
-** Display Line Numbers
-#+begin_src emacs-lisp
-(after! display-line-numbers
-  (setq display-line-numbers-type 'visual))
 #+end_src
 
 ** Pulsar
@@ -662,6 +656,7 @@ Text-mode is often inherited by other modes like org-mode. I would rather be abl
 ** Ace window
 #+begin_src emacs-lisp
 (after! ace-window
+  ;; customize face used for indicators
   (custom-set-faces!
     '(aw-leading-char-face
       :foreground "white" :background "red"
@@ -669,11 +664,15 @@ Text-mode is often inherited by other modes like org-mode. I would rather be abl
   )
 #+end_src
 
+** Projectile
+#+begin_src emacs-lisp
+(after! projectile
+  (setq projectile-ignored-projects '("/opt/doom-emacs/"))
+  )
+#+end_src
+
 #+begin_example :tangle no :exports none
 TODO
-
-Projectile
-- ignore certain directories, like Doom and ~
 
 No Web
 - add the no web information to the repository.
@@ -686,20 +685,13 @@ Neotree
 - Test and see if will use
 
 Org-mode
-- org-babel-default-header-args
-- org-list-allow-alphabetical
-- org-catch-invisible-edits
 - org-image-actual-width
-- (remove-hook 'text-mode-hook #'visual-line-mode)
-- (add-hook 'text-mode-hook #'auto-fill-mode)
 
 - zero width spaces.
 
 - org-list-demote-modify-bullet
 
 - Setup capture templates, potentially using doct.
-- +org-habit-graph-window-ratio
 
 - Setup capturing into brain inbox.
-- org-src-window-setup
 #+end_example

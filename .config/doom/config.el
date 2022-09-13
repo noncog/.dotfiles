@@ -19,8 +19,10 @@
 
 (add-to-list 'default-frame-alist '(alpha . 96)) ; [0-100]
 
-(after! time
-  (display-time-mode 1))
+(after! display-line-numbers
+  (setq display-line-numbers-type 'visual))
+
+(display-time-mode 1)
 
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
@@ -35,6 +37,7 @@
     ;; scroll buffer around point
     (global-set-key (kbd "M-p") #'scroll-down-line)
     (global-set-key (kbd "M-n") #'scroll-up-line)
+    ;; org document custom viewer
     (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
     )
   )
@@ -90,7 +93,7 @@
     (setq org-imenu-depth 10)
     (setq org-use-property-inheritance t)
     (setq org-ellipsis " ▾")                            ; set custom ellipsis
-    ;(setq org-edit-src-content-indentation 0)           ; prevent adding spaces/indents to
+    (setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
     (setq org-structure-template-alist '(("d" . "SRC emacs-lisp :tangle no :noweb-ref")
                                          ("e" . "EXAMPLE")
@@ -123,27 +126,19 @@
         ((when (> content-blank-line-count 1)
           (delete-region start-pos (point))
           (setq content-blank-line-count 0)
-          (setq start-pos (point))
-          )
-         )
+          (setq start-pos (point))))
         ;; if found a non-blank line
         ((not (looking-at-p agenda-blank-line))
          (setq content-line-count (1+ content-line-count))
          (setq start-pos (point))
-         (setq content-blank-line-count 0)
-         )
+         (setq content-blank-line-count 0))
         ;; if found a blank line
         ((looking-at-p agenda-blank-line)
-         (setq content-blank-line-count (1+ content-blank-line-count))
-         )
-       )
-       )
+         (setq content-blank-line-count (1+ content-blank-line-count)))))
     ;; final blank line check at end of file
     (when (> content-blank-line-count 1)
       (delete-region start-pos (point))
-      (setq content-blank-line-count 0)
-      )
-    )
+      (setq content-blank-line-count 0)))
   ;; return to top and finish
   (goto-char (point-min))
   (setq buffer-read-only t)
@@ -156,6 +151,8 @@
     :config
     (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
     (set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
+    (setq +org-habit-graph-window-ratio 0.3)
+    (setq +org-habit-graph-padding 12)
     (setq org-agenda-custom-commands
           '(
             ("o" "My Agenda" (
@@ -257,7 +254,7 @@
   )
 
 (defun noncog/kill-org-noter-session ()
-  "Automatically closes pdfs when done noting them."
+  "Fully exits the noter-session and the pdf buffers it used, leaving the org file."
   (interactive)
   (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session))) (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil) (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
 
@@ -274,9 +271,6 @@
 
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
-
-(after! display-line-numbers
-  (setq display-line-numbers-type 'visual))
 
 (defun noncog/pulsar-scroll-recenter-middle (&rest _args)
   (pulsar-recenter-middle))
@@ -323,8 +317,13 @@
   )
 
 (after! ace-window
+  ;; customize face used for indicators
   (custom-set-faces!
     '(aw-leading-char-face
       :foreground "white" :background "red"
       :weight bold :height 140 :box (:width 1 :color "red")))
+  )
+
+(after! projectile
+  (setq projectile-ignored-projects '("/opt/doom-emacs/"))
   )
