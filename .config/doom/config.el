@@ -74,6 +74,7 @@
 
 (after! org
   (use-package! org
+    ;:init
     :config
     (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
     (setq org-agenda-files (quote ("~/documents/org/brain.org"
@@ -147,12 +148,15 @@
 (after! org-agenda
   (use-package! org-agenda
     :init
+    (setq +org-habit-graph-window-ratio 0.3)
+    (setq +org-habit-graph-padding 12)
     (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
     :config
     (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
-    (set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
-    (setq +org-habit-graph-window-ratio 0.3)
-    (setq +org-habit-graph-padding 12)
+    (custom-set-faces!
+      '(org-agenda-structure
+        :height 120 :weight bold))
+    ;(set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
     (setq org-agenda-custom-commands
           '(
             ("o" "My Agenda" (
@@ -238,6 +242,19 @@
                          (org-agenda-dim-blocked-tasks nil)
                          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
                          ))
+              ;; (todo ""( ;; Habits
+              ;;            (org-agenda-overriding-header "\nHabits Todo")
+              ;;            (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+              ;;            (org-agenda-block-separator nil)
+              ;;            (org-agenda-format-date "")
+              ;;            (org-agenda-start-on-weekday nil)
+              ;;            (org-agenda-start-day nil)
+              ;;            (org-agenda-span 1)
+              ;;            (org-agenda-time-grid nil)
+              ;;            (org-agenda-prefix-format '((agenda . "  %?-5t %?-7:c")))
+              ;;            (org-agenda-dim-blocked-tasks nil)
+              ;;            (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
+              ;;            ))
               (todo "" ( ;; Important Tasks No Date
                         (org-agenda-overriding-header "\nImportant Tasks - No Date\n")
                         (org-agenda-block-separator nil)
@@ -319,9 +336,10 @@
 (after! ace-window
   ;; customize face used for indicators
   (custom-set-faces!
-    '(aw-leading-char-face
-      :foreground "white" :background "red"
-      :weight bold :height 140 :box (:width 1 :color "red")))
+    '(aw-leading-char-face :foreground "magenta" :background "bg" :weight bold :height 180 :box (:line-width 1 :color "magenta")))
+  (setq aw-keys '(?h ?j ?k ?l ?a ?s ?d ?f))
+  (setq aw-mnibuffer-flag t)
+  (setq aw-scope 'global)
   )
 
 (after! projectile
