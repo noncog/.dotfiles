@@ -1,6 +1,7 @@
 export XDG_SESSION_TYPE="x11"
 
 xmodmap ~/.Xmodmap
+xset r rate 350
 
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
