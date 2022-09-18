@@ -14,11 +14,11 @@
 (custom-set-faces!
   '(header-line :inherit nil :height 2.0))
 
-(setq doom-font (font-spec :family "fira code" :size 14))
-(setq doom-unicode-font (font-spec :family "fira code" :size 16))
-
 (custom-set-faces!
  `(cursor :background ,(doom-color 'magenta)))
+
+(setq doom-font (font-spec :family "fira code" :size 14))
+(setq doom-unicode-font (font-spec :family "fira code" :size 16))
 
 (add-to-list 'default-frame-alist '(alpha . 96)) ; [0-100]
 
@@ -29,9 +29,13 @@
 
 (add-to-list '+evil-collection-disabled-list 'org-present)
 
+;; jump directly to the dashboard
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+;; evil style bind for my main org document viewer
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+;; custom/better org-noter exit command
 (map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
+;; custom agenda viewer
 (map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
 
 (after! emacs
@@ -39,10 +43,10 @@
     :defer
     :config
     (setq scroll-margin 5)
-    ;; scroll buffer around point
+    ;; scroll buffer
     (global-set-key (kbd "M-p") #'scroll-down-line)
     (global-set-key (kbd "M-n") #'scroll-up-line)
-    ;; org document custom viewer
+    ;; emacs style bind for my main org document viewer
     (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
     )
   )
@@ -95,30 +99,26 @@
                                    "~/documents/org/university/network-concepts-and-administration-3723"
                                    "~/documents/org/university/software-engineering-5801"
                                    "~/documents/org/university/information-assurance-3755")))
-    ;(setq org-habit-show-habits-only-for-today nil)
-    (setq org-habit-show-all-today t)
-    ;(setq org-agenda-repeating-timestamp-show-all nil)
+    (setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section
+    (setq org-habit-show-all-today t)                   ; keep habits visible even if done today
     (setq org-log-done 'time)                           ; add completion time to DONE items.
     (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
     (setq org-return-follows-link t)                    ; enter opens links in org
-    (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks list
+    (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks
     (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
-    (setq org-imenu-depth 10)
+    (setq org-imenu-depth 10)                           ; allow imenu to search deeply in org docs
     (setq org-use-property-inheritance t)
-    (setq evil-collection-calendar-want-org-bindings t)
+    (setq evil-collection-calendar-want-org-bindings t) ; add evil bindings to org's calendar
     (setq org-ellipsis " ▾")                            ; set custom ellipsis
     (setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
-    (setq org-structure-template-alist '(("d" . "SRC emacs-lisp :tangle no :noweb-ref")
-                                         ("e" . "EXAMPLE")
-                                         ("h" . "HTML")
-                                         ("q" . "QUOTE")
-                                         ("s" . "SRC")))
     )
   )
 
+(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
+
 (defun noncog/my-agenda ()
-  "my custom agenda launcher."
+  "My custom agenda launcher."
   (interactive)
   (org-agenda nil "o"))
 
@@ -163,7 +163,6 @@
     :init
     ;(setq +org-habit-graph-window-ratio 0.3)
     ;(setq +org-habit-graph-padding 12)
-    (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
     :config
     (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
     (custom-set-faces!
@@ -281,8 +280,8 @@
     (setq org-noter-notes-search-path '("~/documents/org/noter"))
     (setq org-noter-always-create-frame nil)
     (setq org-noter-kill-frame-at-session-end nil)
-    (setq org-noter-separate-notes-from-heading t)
-    (setq org-noter-auto-save-last-location t)
+    (setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes.
+    (setq org-noter-auto-save-last-location t)          ; remembers where I left off in pdfs
     )
   )
 
@@ -337,15 +336,17 @@
     (recenter-top-bottom)))
 
 (defun noncog/org-present-start ()
-    (setq-local header-line-format " ")
-    (org-display-inline-images)
-    )
+  ;; add blank space to the top of the screen
+  (setq-local header-line-format " ")
+  (org-display-inline-images)
+  )
 (add-hook! 'org-present-mode-hook #'noncog/org-present-start)
 
 (defun noncog/org-present-end ()
-    (setq-local header-line-format nil)
-    (org-remove-inline-images)
-    )
+  ;; undo all settings added in noncog/org-present-start
+  (setq-local header-line-format nil)
+  (org-remove-inline-images)
+  )
 (add-hook! 'org-present-mode-quit-hook #'noncog/org-present-end)
 
 (use-package! org-present
@@ -365,8 +366,8 @@
 
 (use-package! pulsar
   :config
-  (setq pulsar-face 'pulsar-magenta)
-  (setq pulsar-highlight-face 'pulsar-yellow)
+  (setq pulsar-face 'pulsar-magenta)                  ; used by pulsar-pulse-line
+  (setq pulsar-highlight-face 'pulsar-yellow)         ; used by pulsar-highlight-*
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.095)
   (setq pulsar-iterations 12)
@@ -414,11 +415,20 @@
   )
 
 (after! projectile
+  ;; ignore the my Doom installation directory
   (setq projectile-ignored-projects '("/opt/doom-emacs/"))
   )
 
 (use-package! visual-fill-column
   :init
-  (setq visual-fill-column-width 110)
-  (setq visual-fill-column-center-text t)
+  (setq visual-fill-column-width 110)               ; sets the text width of the centered buffer
+  (setq visual-fill-column-center-text t)           ; centers the buffer
 )
+
+(after! yasnippet
+  (use-package! yasnippet
+    :config
+    (setq yas-snippet-dirs '("~/.config/doom/snippets/"))
+    (setq yas-indent-line 'fixed)                       ; prevent yasnippet from changing my indents
+    )
+  )
