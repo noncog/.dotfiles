@@ -93,13 +93,13 @@ I use this to make org-mode not delete other windows when displaying some of it'
 *** My Org Document Viewer
 #+BEGIN_SRC emacs-lisp :tangle init.el
 ;; file and a sentinel variables
-(setq noncog/brain-file "/home/jake/documents/org/brain.org")
-(setq noncog/brain-visible nil)
+(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
+(defvar noncog/brain-visible nil)
 
 (defun noncog/toggle-brain ()
   "A function for toggling the view of the your chosen file in a side window."
   (interactive)
-  (if noncog/brain-visible
+  (if (and noncog/brain-visible (get-buffer-window (get-file-buffer noncog/brain-file)))
       (progn ;; visible
 	(delete-window (get-buffer-window (get-file-buffer noncog/brain-file)))
 	(setq noncog/brain-visible nil))
@@ -252,10 +252,10 @@ I consider one day changing modelines entirely to doom modeline, moodline, or mi
 (defun noncog/org-heading-size ()
   "Set org headings to same size - theme and face independent"
   (dolist (face '(org-level-1
-		  org-level-2
-		  org-level-3
-		  org-level-4
-		  org-level-5))
+                  org-level-2
+                  org-level-3
+                  org-level-4
+                  org-level-5))
     (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
 #+END_SRC
 

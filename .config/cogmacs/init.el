@@ -28,13 +28,13 @@
   (cl-letf (((symbol-function 'delete-other-windows) 'ignore)) (apply oldfun args)))
 
 ;; file and a sentinel variables
-(setq noncog/brain-file "/home/jake/documents/org/brain.org")
-(setq noncog/brain-visible nil)
+(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
+(defvar noncog/brain-visible nil)
 
 (defun noncog/toggle-brain ()
   "A function for toggling the view of the your chosen file in a side window."
   (interactive)
-  (if noncog/brain-visible
+  (if (and noncog/brain-visible (get-buffer-window (get-file-buffer noncog/brain-file)))
       (progn ;; visible
 	(delete-window (get-buffer-window (get-file-buffer noncog/brain-file)))
 	(setq noncog/brain-visible nil))
@@ -129,10 +129,10 @@
 (defun noncog/org-heading-size ()
   "Set org headings to same size - theme and face independent"
   (dolist (face '(org-level-1
-		  org-level-2
-		  org-level-3
-		  org-level-4
-		  org-level-5))
+                  org-level-2
+                  org-level-3
+                  org-level-4
+                  org-level-5))
     (set-face-attribute face nil :weight 'semi-bold :height 1.0)))
 
 (use-package org
