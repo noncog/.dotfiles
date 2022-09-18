@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: doom_config noweb-ref
+# key: <dc
+# --
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-$1
+$0
+#+end_src
