@@ -1,2 +1,2 @@
-(^|/)README(\.|$) -linguist-documentation
-*.org linguist-detectable=true
+*README.org -linguist-documentation
+*.org linguist-detectable
