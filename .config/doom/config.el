@@ -1,6 +1,6 @@
 ;;; $doomdir/config.el -*- lexical-binding: t; -*-
 
-;; some functionality uses this to identify you, e.g. gpg configuration, email
+;; some functions use this to identify you, e.g. gpg configuration, email
 ;; clients, file templates and snippets. it is optional.
 (setq user-full-name "jake turner"
       user-mail-address "john@doe.com")

@@ -89,7 +89,7 @@ Supposedly makes this file run slightly faster...
 *** Personal information
 Needs updated with secure private public email.
 #+begin_src emacs-lisp
-;; some functionality uses this to identify you, e.g. gpg configuration, email
+;; some functions use this to identify you, e.g. gpg configuration, email
 ;; clients, file templates and snippets. it is optional.
 (setq user-full-name "jake turner"
       user-mail-address "john@doe.com")
