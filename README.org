@@ -46,6 +46,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 #+HTML:<li>Sometimes I break this convention for the sake of aesthetics. e.g. <code>rofi > dmenu</code></li>
 #+HTML:<li>I use a minimal install of Debian and build my entire system from a TTY to a full desktop environment.</li>
 #+HTML:<li>I avoid excess. For example, I have no desktop manager, only a window manager. I am the only user of the system and anything more would be bloat.</li>
+#+HTML:<li>Order of preference: Emacs > TUI > GUI.</li>
 #+HTML:</ul>
 
 #+HTML:</p>
