@@ -120,7 +120,7 @@ bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 # custom menu launcher
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 
-
+bindsym $mod+Shift+question exec --no-startup-id screenkey
 
 exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
 exec --no-startup-id sleep 2 && firefox

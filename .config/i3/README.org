@@ -193,10 +193,11 @@ bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+END_SRC
 
-** ShowKey
+** ScreenKey
 #+begin_src conf
-
+bindsym $mod+Shift+question exec --no-startup-id screenkey
 #+end_src
+
 * Startup Apps
 #+BEGIN_SRC conf
 exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
