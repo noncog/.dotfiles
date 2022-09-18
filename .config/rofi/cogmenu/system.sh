@@ -14,12 +14,12 @@ options="$power\n$restart\n$logout"
 selection="$(echo -e "$options" | $rofi_command -p 'system' -dmenu)"
 case $selection in
     $power)
-	systemctl poweroff
-        ;;
+    systemctl poweroff
+    ;;
     $restart)
-	systemctl reboot
-        ;;
+    systemctl reboot
+    ;;
     $logout)
-	i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'
-        ;;
+    i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3?' -B 'Yes, exit i3' 'i3-msg exit'
+    ;;
 esac

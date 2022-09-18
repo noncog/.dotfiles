@@ -18,17 +18,17 @@ options="$up\n$down"
 selection="$(echo -e "$options" | $rofi_command -p 'brightness' -dmenu $1 $2)"
 case $selection in
     $up)
-	if [[ -f "$directory/brightness_change.sh" ]]; then
-	    bash "$directory/brightness_change.sh" + && bash "$directory/brightness.sh" -selected-row 0
-	else
-	    err_msg "$up file not found."
-	fi
-	;;
+    if [[ -f "$directory/brightness_change.sh" ]]; then
+        bash "$directory/brightness_change.sh" + && bash "$directory/brightness.sh" -selected-row 0
+    else
+        err_msg "$up file not found."
+    fi
+    ;;
     $down)
-	if [[ -f "$directory/brightness_change.sh" ]]; then
-	    bash "$directory/brightness_change.sh" - && bash "$directory/brightness.sh" -selected-row 1
-	else
-	    err_msg "$down file not found."
-	fi
-        ;;
+    if [[ -f "$directory/brightness_change.sh" ]]; then
+        bash "$directory/brightness_change.sh" - && bash "$directory/brightness.sh" -selected-row 1
+    else
+        err_msg "$down file not found."
+    fi
+    ;;
 esac
