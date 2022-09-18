@@ -1,4 +1,5 @@
 #+html:<h1 align="center">Doom Emacs</h1>
+#+html: <p align="center"><a href="https://www.gnu.org/software/emacs/emacs.html#Releases"><img src="https://img.shields.io/badge/Emacs-27.1-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white"></a> <a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a></p>
 #+html:<p align="center"><a href="https://github.com/Schievel1/doom-emacs-splash"><img src="https://github.com/Schievel1/doom-emacs-splash/blob/main/svg/doom/doomEmacsDracula.svg" height="300"></a></p>
 #+html: <p align="center"><a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/CC--BY--SA-161b22?style=for-the-badge&logo=Creative%20Commons&logoColor=white"></a></p>
 #+html:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
