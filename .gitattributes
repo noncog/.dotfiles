@@ -1,2 +1,5 @@
 README.org -linguist-documentation
+.config/doom/README.org -linguist-documentation
+.config/i3/README.org -linguist-documentation
+.config/polybar/README.org -linguist-documentation
 *.org linguist-detectable
