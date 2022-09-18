@@ -49,5 +49,6 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(package! pulsar ;; it's just hl-line mode
-  :recipe (:host gitlab :repo "protesilaos/pulsar"))
+(package! pulsar) ;; it's just hl-line mode
+(package! org-present) ;; a better/simplistic org mode presentation
+(package! visual-fill-column)

@@ -11,6 +11,9 @@
 (setq doom-dracula-brighter-modeline t)
 (setq doom-dracula-colorful-headers t)
 
+(custom-set-faces!
+  '(header-line :inherit nil :height 2.0))
+
 (setq doom-font (font-spec :family "fira code" :size 14))
 (setq doom-unicode-font (font-spec :family "fira code" :size 16))
 
@@ -23,6 +26,8 @@
   (setq display-line-numbers-type 'visual))
 
 (display-time-mode 1)
+
+(add-to-list '+evil-collection-disabled-list 'org-present)
 
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
@@ -72,6 +77,13 @@
     (when-let ((pos (apply fn args)))
       (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
 
+(defun noncog/org-center ()
+  ;; Center the presentation and wrap lines
+  (visual-fill-column-mode 1)
+  (visual-line-mode 1))
+
+(add-hook! 'org-mode-hook #'noncog/org-center)
+
 (after! org
   (use-package! org
     ;:init
@@ -93,6 +105,7 @@
     (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
     (setq org-imenu-depth 10)
     (setq org-use-property-inheritance t)
+    (setq evil-collection-calendar-want-org-bindings t)
     (setq org-ellipsis " ▾")                            ; set custom ellipsis
     (setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
@@ -148,8 +161,8 @@
 (after! org-agenda
   (use-package! org-agenda
     :init
-    (setq +org-habit-graph-window-ratio 0.3)
-    (setq +org-habit-graph-padding 12)
+    ;(setq +org-habit-graph-window-ratio 0.3)
+    ;(setq +org-habit-graph-padding 12)
     (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
     :config
     (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
@@ -242,19 +255,6 @@
                          (org-agenda-dim-blocked-tasks nil)
                          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
                          ))
-              ;; (todo ""( ;; Habits
-              ;;            (org-agenda-overriding-header "\nHabits Todo")
-              ;;            (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-              ;;            (org-agenda-block-separator nil)
-              ;;            (org-agenda-format-date "")
-              ;;            (org-agenda-start-on-weekday nil)
-              ;;            (org-agenda-start-day nil)
-              ;;            (org-agenda-span 1)
-              ;;            (org-agenda-time-grid nil)
-              ;;            (org-agenda-prefix-format '((agenda . "  %?-5t %?-7:c")))
-              ;;            (org-agenda-dim-blocked-tasks nil)
-              ;;            (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
-              ;;            ))
               (todo "" ( ;; Important Tasks No Date
                         (org-agenda-overriding-header "\nImportant Tasks - No Date\n")
                         (org-agenda-block-separator nil)
@@ -284,6 +284,77 @@
     (setq org-noter-separate-notes-from-heading t)
     (setq org-noter-auto-save-last-location t)
     )
+  )
+
+(defun noncog/org-present-prepare-slide (buffer-name heading)
+  ;; Show only top-level headlines
+  (org-overview)
+
+  ;; Unfold the current entry
+  (org-show-entry)
+
+  ;; Show only direct subheadings of the slide but don't expand them
+  (org-show-children))
+
+(add-hook 'org-present-after-navigate-functions 'noncog/org-present-prepare-slide)
+
+(setq recenter-positions '(top bottom))
+
+(defun noncog/org-show-next-heading-tidily ()
+  "Show next entry, keeping other entries closed."
+  (interactive)
+  (if (save-excursion (end-of-line) (outline-invisible-p))
+      (progn (org-fold-show-entry) (outline-show-children))
+  (unless (org-before-first-heading-p) (outline-next-heading))
+     ;; this is the problem, doing a next heading after this on the start fucks it up.
+    (unless (and (bolp) (org-at-heading-p))
+      ;(org-up-heading-safe)
+      ;(hide-subtree)
+      ;(error "Boundary reached")
+      (org-present-next)
+      )
+    (org-overview)
+    (org-reveal t)
+    (org-fold-show-entry)
+    (recenter-top-bottom)
+    (outline-show-children)
+    (recenter-top-bottom)))
+
+(defun noncog/org-show-previous-heading-tidily ()
+  "Show previous entry, keeping other entries closed."
+  (interactive)
+  (let ((pos (point)))
+    (outline-previous-heading)
+    (unless (and (< (point) pos) (bolp) (org-at-heading-p))
+      (goto-char pos)
+      (org-present-prev)
+      )
+    (org-overview)
+    (org-reveal t)
+    (org-fold-show-entry)
+    (recenter-top-bottom)
+    (outline-show-children)
+    (recenter-top-bottom)))
+
+(defun noncog/org-present-start ()
+    (setq-local header-line-format " ")
+    (org-display-inline-images)
+    )
+(add-hook! 'org-present-mode-hook #'noncog/org-present-start)
+
+(defun noncog/org-present-end ()
+    (setq-local header-line-format nil)
+    (org-remove-inline-images)
+    )
+(add-hook! 'org-present-mode-quit-hook #'noncog/org-present-end)
+
+(use-package! org-present
+  :config
+  (map! :map org-mode-map :localleader "m" #'org-present)
+  (map! :map org-present-mode-keymap "C-q" #'org-present-quit)
+  (map! :map org-present-mode-keymap "C-g" #'org-present-beginning)
+  (map! :map org-present-mode-keymap "C-j" #'noncog/org-show-next-heading-tidily)
+  (map! :map org-present-mode-keymap "C-k" #'noncog/org-show-previous-heading-tidily)
   )
 
 (after! pdf-tools
@@ -345,3 +416,9 @@
 (after! projectile
   (setq projectile-ignored-projects '("/opt/doom-emacs/"))
   )
+
+(use-package! visual-fill-column
+  :init
+  (setq visual-fill-column-width 110)
+  (setq visual-fill-column-center-text t)
+)

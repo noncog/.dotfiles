@@ -2,7 +2,7 @@
 #+html:<p align="center"><a href="https://github.com/Schievel1/doom-emacs-splash"><img src="https://github.com/Schievel1/doom-emacs-splash/blob/main/svg/doom/doomEmacsDracula.svg" height="300"></a></p>
 #+html: <p align="center"><a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/CC--BY--SA-161b22?style=for-the-badge&logo=Creative%20Commons&logoColor=white"></a></p>
 #+html:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
-#+startup: show2levels
+#+startup: show3levels
 
 * Doom Info
 [[https://github.com/doomemacs/doomemacs/blob/d217ae334392b6abf0e23424516a37b4cd8ac261/docs/getting_started.org][Getting Started Guide]]
@@ -10,7 +10,6 @@
 [[https://github.com/doomemacs/doomemacs/tree/master/modules][Modules]]
 
 #+begin_src emacs-lisp :tangle no :exports none
-
 ;; whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise doom's defaults may override your settings. e.g.
 ;;
@@ -76,6 +75,9 @@ Needs updated with secure private public email.
 (setq doom-theme 'doom-dracula)
 (setq doom-dracula-brighter-modeline t)
 (setq doom-dracula-colorful-headers t)
+
+(custom-set-faces!
+  '(header-line :inherit nil :height 2.0))
 #+end_src
 
 *** Font
@@ -122,6 +124,12 @@ Needs updated with secure private public email.
 #+end_src
 
 ** Doom Global Keybinds
+*** Disable Evil-Collection Modes
+#+begin_src emacs-lisp
+(add-to-list '+evil-collection-disabled-list 'org-present)
+#+end_src
+
+*** Additional Keybinds
 #+begin_src emacs-lisp
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
@@ -186,7 +194,6 @@ This section modifies all configurations for packages, including Emacs itself.
 ;:init
 #+end_src
 
-
 **** Config
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 :config
@@ -198,7 +205,6 @@ This section modifies all configurations for packages, including Emacs itself.
 #+end_src
 
 ***** Agenda
-
 ****** Files
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-agenda-files (quote ("~/documents/org/brain.org"
@@ -229,6 +235,7 @@ This section modifies all configurations for packages, including Emacs itself.
 (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
 (setq org-imenu-depth 10)
 (setq org-use-property-inheritance t)
+(setq evil-collection-calendar-want-org-bindings t)
 #+end_src
 
 ***** Appearance
@@ -248,6 +255,7 @@ Generates keywords for org-mode with the #+BEGIN_. These are formally called gre
                                      ("q" . "QUOTE")
                                      ("s" . "SRC")))
 #+end_src
+
 **** Custom Functions
 ***** Brain Buffer Viewer
 This is my main org document that I like to have access to at any time.
@@ -285,6 +293,15 @@ Fixes a bug where consult searches can't display the heading you want, only the 
       (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
 #+end_src
 
+***** Center Org Buffers
+#+begin_src emacs-lisp
+(defun noncog/org-center ()
+  ;; Center the presentation and wrap lines
+  (visual-fill-column-mode 1)
+  (visual-line-mode 1))
+
+(add-hook! 'org-mode-hook #'noncog/org-center)
+#+end_src
 
 #+begin_src emacs-lisp :noweb yes :exports none
 (after! org
@@ -305,9 +322,10 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
-(setq +org-habit-graph-window-ratio 0.3)
-(setq +org-habit-graph-padding 12)
+;(setq +org-habit-graph-window-ratio 0.3)
+;(setq +org-habit-graph-padding 12)
 #+end_src
+
 ***** Popup Windowing
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
@@ -418,19 +436,6 @@ Fixes a bug where consult searches can't display the heading you want, only the 
                      (org-agenda-dim-blocked-tasks nil)
                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
                      ))
-          ;; (todo ""( ;; Habits
-          ;;            (org-agenda-overriding-header "\nHabits Todo")
-          ;;            (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-          ;;            (org-agenda-block-separator nil)
-          ;;            (org-agenda-format-date "")
-          ;;            (org-agenda-start-on-weekday nil)
-          ;;            (org-agenda-start-day nil)
-          ;;            (org-agenda-span 1)
-          ;;            (org-agenda-time-grid nil)
-          ;;            (org-agenda-prefix-format '((agenda . "  %?-5t %?-7:c")))
-          ;;            (org-agenda-dim-blocked-tasks nil)
-          ;;            (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":STYLE:.*habit"))
-          ;;            ))
           (todo "" ( ;; Important Tasks No Date
                     (org-agenda-overriding-header "\nImportant Tasks - No Date\n")
                     (org-agenda-block-separator nil)
@@ -506,7 +511,6 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 (use-package! org-noter
 #+end_src
 
-
 **** Config
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 :config
@@ -548,6 +552,105 @@ Fixes a bug where consult searches can't display the heading you want, only the 
     <<use-package-org-noter-config>>
     <<use-package-end>>
   )
+#+end_src
+
+*** Org-Present
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-present
+(use-package! org-present
+#+end_src
+
+**** Config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-present-config
+:config
+#+end_src
+
+***** Keybinds
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-present-config
+(map! :map org-mode-map :localleader "m" #'org-present)
+(map! :map org-present-mode-keymap "C-q" #'org-present-quit)
+(map! :map org-present-mode-keymap "C-g" #'org-present-beginning)
+(map! :map org-present-mode-keymap "C-j" #'noncog/org-show-next-heading-tidily)
+(map! :map org-present-mode-keymap "C-k" #'noncog/org-show-previous-heading-tidily)
+#+end_src
+
+**** Custom Functions
+***** Fold Entries Per Top Heading
+#+begin_src emacs-lisp
+(defun noncog/org-present-prepare-slide (buffer-name heading)
+  ;; Show only top-level headlines
+  (org-overview)
+
+  ;; Unfold the current entry
+  (org-show-entry)
+
+  ;; Show only direct subheadings of the slide but don't expand them
+  (org-show-children))
+
+(add-hook 'org-present-after-navigate-functions 'noncog/org-present-prepare-slide)
+#+end_src
+
+***** Active Folding For Next Heading
+#+begin_src emacs-lisp
+(setq recenter-positions '(top bottom))
+
+(defun noncog/org-show-next-heading-tidily ()
+  "Show next entry, keeping other entries closed."
+  (interactive)
+  (if (save-excursion (end-of-line) (outline-invisible-p))
+      (progn (org-fold-show-entry) (outline-show-children))
+  (unless (org-before-first-heading-p) (outline-next-heading))
+     ;; this is the problem, doing a next heading after this on the start fucks it up.
+    (unless (and (bolp) (org-at-heading-p))
+      ;(org-up-heading-safe)
+      ;(hide-subtree)
+      ;(error "Boundary reached")
+      (org-present-next)
+      )
+    (org-overview)
+    (org-reveal t)
+    (org-fold-show-entry)
+    (recenter-top-bottom)
+    (outline-show-children)
+    (recenter-top-bottom)))
+
+(defun noncog/org-show-previous-heading-tidily ()
+  "Show previous entry, keeping other entries closed."
+  (interactive)
+  (let ((pos (point)))
+    (outline-previous-heading)
+    (unless (and (< (point) pos) (bolp) (org-at-heading-p))
+      (goto-char pos)
+      (org-present-prev)
+      )
+    (org-overview)
+    (org-reveal t)
+    (org-fold-show-entry)
+    (recenter-top-bottom)
+    (outline-show-children)
+    (recenter-top-bottom)))
+#+end_src
+
+***** Start/End Presentation Hooks
+#+begin_src emacs-lisp
+(defun noncog/org-present-start ()
+    (setq-local header-line-format " ")
+    (org-display-inline-images)
+    )
+(add-hook! 'org-present-mode-hook #'noncog/org-present-start)
+#+end_src
+
+#+begin_src emacs-lisp
+(defun noncog/org-present-end ()
+    (setq-local header-line-format nil)
+    (org-remove-inline-images)
+    )
+(add-hook! 'org-present-mode-quit-hook #'noncog/org-present-end)
+#+end_src
+
+#+begin_src emacs-lisp :noweb yes :exports none
+<<use-package-org-present>>
+  <<use-package-org-present-config>>
+  <<use-package-end>>
 #+end_src
 
 ** PDF-Tools
@@ -629,6 +732,7 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 #+begin_src emacs-lisp
 (pulsar-global-mode 1)
 #+end_src
+
 ** Company
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company
 (use-package! company
@@ -699,8 +803,19 @@ Text-mode is often inherited by other modes like org-mode. I would rather be abl
   )
 #+end_src
 
+** Visual-Fill Column
+#+begin_src emacs-lisp
+(use-package! visual-fill-column
+  :init
+  (setq visual-fill-column-width 110)
+  (setq visual-fill-column-center-text t)
+)
+#+end_src
+
 #+begin_example :tangle no :exports none
-TODO
+org-present
+Setup variable pitch fonts for org-present
+https://systemcrafters.net/emacs-tips/presentations-with-org-present/
 
 No Web
 - add the no web information to the repository.
@@ -722,4 +837,6 @@ Org-mode
 - Setup capture templates, potentially using doct.
 
 - Setup capturing into brain inbox.
+
+evil-move-beyond-eol to t
 #+end_example
