@@ -120,6 +120,8 @@ bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 # custom menu launcher
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 
+
+
 exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
 exec --no-startup-id sleep 2 && firefox
 exec --no-startup-id kitty --name Floating-Kitty
@@ -182,10 +184,10 @@ for_window [class="Tor Browser"] move scratchpad
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
 bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
 
-for_window [class="discord"] floating enable, resize set 50 ppt 85 ppt, sticky enable
+for_window [class="discord"] floating enable, sticky enable
 for_window [class="discord"] move scratchpad
 bindsym $mod+Shift+d exec --no-startup-id discord
-bindsym $mod+d [class="discord"] scratchpad show, move position center
+bindsym $mod+d [class="discord"] scratchpad show, resize set 50 ppt 85 ppt, move position center
 
 for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
 for_window [class="Spotify"] move scratchpad

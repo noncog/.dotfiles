@@ -193,6 +193,10 @@ bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+END_SRC
 
+** ShowKey
+#+begin_src conf
+
+#+end_src
 * Startup Apps
 #+BEGIN_SRC conf
 exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
@@ -300,10 +304,10 @@ bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
 
 ** Discord
 #+BEGIN_SRC conf
-for_window [class="discord"] floating enable, resize set 50 ppt 85 ppt, sticky enable
+for_window [class="discord"] floating enable, sticky enable
 for_window [class="discord"] move scratchpad
 bindsym $mod+Shift+d exec --no-startup-id discord
-bindsym $mod+d [class="discord"] scratchpad show, move position center
+bindsym $mod+d [class="discord"] scratchpad show, resize set 50 ppt 85 ppt, move position center
 #+END_SRC
 
 ** Spotify
