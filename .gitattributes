@@ -1,1 +1,2 @@
-*.org linguist-detectable=Org
+(^|/)README(\.|$) -linguist-documentation
+*.org linguist-detectable=true
