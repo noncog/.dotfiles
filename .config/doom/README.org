@@ -386,7 +386,7 @@ I want the titles of agenda sections to be slightly bigger to more easily differ
 
 ****** Popup Windowing
 Doom allows me to control my agenda windowing to popup temporarily on the right of my screen.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
 #+end_src
 

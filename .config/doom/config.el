@@ -115,8 +115,6 @@
     )
   )
 
-(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
-
 (defun noncog/my-agenda ()
   "My custom agenda launcher."
   (interactive)
@@ -169,6 +167,7 @@
       '(org-agenda-structure
         :height 120 :weight bold))
     ;(set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
+    (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
     (setq org-agenda-custom-commands
           '(
             ("o" "My Agenda" (
