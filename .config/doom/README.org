@@ -10,6 +10,9 @@ org-present
 Setup variable pitch fonts for org-present
 https://systemcrafters.net/emacs-tips/presentations-with-org-present/
 
+Yasnippet
+- rename snippets to be more clear
+
 No Web
 - add the no web information to the repository.
 
@@ -34,6 +37,13 @@ Org-mode
 - Add nicer org return or better creation of org-elements.
 
 evil-move-beyond-eol to t
+
+latex exported file viewer or just org exporter in general.
+https://github.com/tecosaur/emacs-config/blob/master/config.org#view-exported-file
+
+https://github.com/tecosaur/emacs-config/blob/master/config.org#general-settings
+(setq org-export-creator-string
+      (format "Emacs %s (Org mode %s–%s)" emacs-version (org-release)))
 #+end_example
 
 * Doom Info
@@ -252,7 +262,7 @@ According to Doom, org's directory must be set early due to it's loading process
 (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
 #+end_src
 
-***** Agenda... But the settings are from org...
+***** Agenda...
 ****** Files
 I only check these documents for my agenda items, instead of an entire directory.
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
@@ -283,7 +293,11 @@ I only check these documents for my agenda items, instead of an entire directory
 (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
 (setq org-imenu-depth 10)                           ; allow imenu to search deeply in org docs
 (setq org-use-property-inheritance t)
+;(setq org-use-fast-todo-selection 'expert)
+;(setq org-use-fast-todo-selection nil)
+(setq org-use-fast-todo-selection 'auto)
 (setq evil-collection-calendar-want-org-bindings t) ; add evil bindings to org's calendar
+(setq org-latex-src-block-backend 'engraved)
 #+end_src
 
 ***** Appearance
@@ -331,13 +345,13 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 #+end_src
 
 ***** Center Org Buffers
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (defun noncog/org-center ()
   ;; Center the presentation and wrap lines
   (visual-fill-column-mode 1)
   (visual-line-mode 1))
 
-(add-hook! 'org-mode-hook #'noncog/org-center)
+;(add-hook! 'org-mode-hook #'noncog/org-center)
 #+end_src
 
 #+begin_src emacs-lisp :noweb yes :exports none
@@ -502,7 +516,7 @@ Just a wrapper function I can bind a keybind to or call by itself to launch my a
   (org-agenda nil "o"))
 #+end_src
 
-***** Remote Empty Agenda Sections
+***** Remove Empty Agenda Sections
 If one of my agenda blocks has no information, I don't want to see it. I call this function when displaying my agenda to delete empty sections.
 #+begin_src emacs-lisp
 (defun noncog/agenda-remove-empty ()
@@ -872,6 +886,7 @@ This package adds centering to buffers!
 ** Yasnippet
 *** Information
 [[https://github.com/doomemacs/snippets][Doom Snippets]]
+
 [[https://joaotavora.github.io/yasnippet/snippet-development.html][Yasnippet Development]]
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-yasnippet
@@ -896,4 +911,10 @@ This package adds centering to buffers!
     <<use-package-end>>
   )
 #+end_src
-
+** Engrave-Faces
+#+begin_src emacs-lisp
+(use-package! engrave-faces-latex
+  :after ox-latex
+  :config
+)
+#+end_src
