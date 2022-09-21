@@ -81,7 +81,6 @@
 
 (after! org
   (use-package! org
-    ;:init
     :config
     (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
     (setq org-agenda-files (quote ("~/documents/org/brain.org"
@@ -270,12 +269,12 @@
     )
   )
 
-(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
-
 (defun noncog/kill-org-noter-session ()
   "Fully exits the noter-session and the pdf buffers it used, leaving the org file."
   (interactive)
   (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session))) (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil) (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
+
+(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
 
 (after! org-noter
   (use-package! org-noter

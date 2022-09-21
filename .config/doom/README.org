@@ -252,7 +252,7 @@ The number of lines relative to the top and bottom of the screen, at which you s
 (setq scroll-margin 5)
 #+end_src
 
-*** Global Keybinds
+*** Keybinds
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs-config
 ;; scroll buffer
@@ -282,12 +282,6 @@ According to Doom, org's directory must be set early due to it's loading process
 
 #+begin_src emacs-lisp
 (setq org-directory "~/documents/org/")
-#+end_src
-
-*** Init
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
-;:init
 #+end_src
 
 *** Config
@@ -656,7 +650,9 @@ If one of my agenda blocks has no information, I don't want to see it. I call th
   )
 #+end_src
 
-** Org-Noter
+** [[https://github.com/weirdNox/org-noter][Org-Noter]]
+
+Allows you to keep org notes that are synced to pdf files! As you scroll your pdf, your notes scroll too!
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter
 (use-package! org-noter
@@ -689,24 +685,22 @@ If one of my agenda blocks has no information, I don't want to see it. I call th
 (setq org-noter-auto-save-last-location t)          ; remembers where I left off in pdfs
 #+end_src
 
-**** Keybinds
-
-A global leader bind to exit org-noter.
-
-#+begin_src emacs-lisp
-(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
-#+end_src
-
 *** Custom Functions
 **** Better Org-Noter Exit
 
-I had issues with Doom and org-noter not closing pdf buffers and returning my windowing back to normal. This function solves that and I call it with a keybind to exit the session.
+I had issues with Doom and org-noter not closing pdf buffers and returning my windowing back to normal. This function solves that.
 
 #+begin_src emacs-lisp
 (defun noncog/kill-org-noter-session ()
   "Fully exits the noter-session and the pdf buffers it used, leaving the org file."
   (interactive)
   (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session))) (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil) (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
+#+end_src
+
+Then I define a keybind to call my org-noter kill function.
+
+#+begin_src emacs-lisp
+(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
 #+end_src
 
 #+begin_src emacs-lisp :noweb yes :exports none
@@ -857,7 +851,7 @@ I use this to add spacing to the top of org documents during presentations. By d
   <<use-package-end>>
 #+end_src
 
-** [[https://orgmode.org/manual/Org-Plot.html][Org-plot]]
+** [[https://orgmode.org/manual/Org-Plot.html][Org-Plot]]
 
 Produces 2D/3D graphs from org tables using [[http://www.gnuplot.info/][gnuplot]] and [[https://github.com/mkmcc/gnuplot-mode][gnuplot-mode]].
 
@@ -947,16 +941,18 @@ set palette defined ( 0 '%s',\
   (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
 #+end_src
 
-** PDF-Tools
+** [[https://github.com/vedang/pdf-tools][PDF-Tools]]
+
+A better meta package of tools for viewing and interacting with PDFs. This is required to use org-noter.
 
 #+begin_src emacs-lisp
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
 #+end_src
 
-** Pulsar
+** [[https://github.com/protesilaos/pulsar][Pulsar]]
 
-This wonderful package blinks the cursor line and allows recentering. I primarily use it on window switching to never lose track of the cursor/point again.
+This wonderful package blinks and highlights the current line. I primarily use it on window switching to never lose track of the cursor/point again.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar
 (use-package! pulsar
@@ -1040,7 +1036,7 @@ This wonderful package blinks the cursor line and allows recentering. I primaril
 (pulsar-global-mode 1)
 #+end_src
 
-** Company
+** [[https://company-mode.github.io/][Company]]
 
 This is the completion framework that Doom uses. It uses back-ends to retrieve and display completion candidates.
 
@@ -1054,7 +1050,7 @@ This is the completion framework that Doom uses. It uses back-ends to retrieve a
 :config
 #+end_src
 
-**** Packages
+**** Package Settings
 ***** Text-mode
 
 Text-mode is often inherited by other modes like org-mode. I would rather be able to control modes explicitly instead of use inheritance. Default inheritance pattern: text-mode > outline-mode > org-mode.
@@ -1101,7 +1097,9 @@ Text-mode is often inherited by other modes like org-mode. I would rather be abl
   )
 #+end_src
 
-** Ace window
+** [[https://github.com/abo-abo/ace-window][Ace window]]
+
+Gives us quicker window switching when other-window just won't cut it. Allows us to jump to specific windows instead of cycle our way there.
 
 #+begin_src emacs-lisp
 (after! ace-window
@@ -1114,7 +1112,9 @@ Text-mode is often inherited by other modes like org-mode. I would rather be abl
   )
 #+end_src
 
-** Projectile
+** [[https://github.com/bbatsov/projectile][Projectile]]
+
+Provides project level interaction.
 
 #+begin_src emacs-lisp
 (after! projectile
@@ -1123,7 +1123,7 @@ Text-mode is often inherited by other modes like org-mode. I would rather be abl
   )
 #+end_src
 
-** Visual-Fill Column
+** [[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill Column]]
 
 This package adds centering to buffers!
 
@@ -1135,7 +1135,7 @@ This package adds centering to buffers!
 )
 #+end_src
 
-** Yasnippet
+** [[https://github.com/joaotavora/yasnippet][Yasnippet]]
 *** Information
 
 [[https://github.com/doomemacs/snippets][Doom Snippets]]
@@ -1167,7 +1167,9 @@ This package adds centering to buffers!
   )
 #+end_src
 
-** Engrave-Faces
+** [[https://github.com/tecosaur/engrave-faces][Engrave-Faces]]
+
+Provides syntax code block highlighting and theming to our org-latex pdf exports!
 
 #+begin_src emacs-lisp
 (use-package! engrave-faces-latex

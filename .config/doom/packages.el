@@ -52,3 +52,4 @@
 (package! pulsar) ;; it's just hl-line mode
 (package! org-present) ;; a better/simplistic org mode presentation
 (package! visual-fill-column)
+(package! engrave-faces)
