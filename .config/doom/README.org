@@ -203,7 +203,7 @@ Adds transparency to Doom, allowing my wallpaper to show through. Primarily incr
 
 *** Line Numbers
 
-I use relative line numbers with Vim navigation for numbered line jumping. Visual gives the true relative line numbers for the document for more accurate jumping.
+I use relative line numbers with Vim navigation for numbered line jumping. Visual lines are what is on the screen, not the true logical lines.
 
 #+begin_src emacs-lisp
 (after! display-line-numbers
