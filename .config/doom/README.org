@@ -6,9 +6,39 @@
 #+startup: show3levels
 
 #+begin_example :tangle no :exports none
+
+fix the scrolling so that it shows images better. Currently have issues with latex preview in org buffers that are taller than the screens.
+rename doom snippets.
+setup noweb-ref use-package snippet to insert package name and use-package! call inside of it.
 org-present
 Setup variable pitch fonts for org-present
 https://systemcrafters.net/emacs-tips/presentations-with-org-present/
+
+add this note about switching the pdf compiler.
+https://github.com/tecosaur/emacs-config/blob/master/config.org#latex-export
+
+Consider using olivetti mode instead of visual fill column, since it breaks Doom's popup windowing in side windows.
+Consider showing final output in folded GitHub sections as well as a note on noweb-ref and dual output locally, short, and informative, as well as complete all available.
+teco has great latex snippets
+https://github.com/tecosaur/emacs-config/tree/master/snippets/latex-mode
+org-format-latex
+org-latex-color-format
+org-format-latex-header
+org-format-latex-options
+https://github.com/tecosaur/emacs-config/blob/master/config.org#visuals-2
+
+https://github.com/tecosaur/emacs-config/blob/master/config.org#org-plot
+setup org-plot for doom colors.
+
+Some really nice visual settings from teco.
+
+Can change org babel results keyword.
+
+Look into org-present-read-only
+Consider org-present read only and org-present hide cursor
+and org-present-startup-folded
+org-present-trim-string can remove arbitrary white space.
+Can do something with org present after nav as well.
 
 Yasnippet
 - rename snippets to be more clear
@@ -26,6 +56,8 @@ Neotree
 Org-mode
 - org-image-actual-width
 
+Add this:
+(setq org-export-headline-levels 5)
 - zero width spaces.
 
 - org-list-demote-modify-bullet
@@ -35,6 +67,8 @@ Org-mode
 - Setup capturing into brain inbox.
 
 - Add nicer org return or better creation of org-elements.
+
+For org present may need to save current view level and return to it after exit.
 
 evil-move-beyond-eol to t
 
@@ -101,7 +135,7 @@ Needs updated with secure private public email.
 #+begin_src emacs-lisp
 ;; some functions use this to identify you, e.g. gpg configuration, email
 ;; clients, file templates and snippets. it is optional.
-(setq user-full-name "jake turner"
+(setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
 #+end_src
 
@@ -230,40 +264,35 @@ The number of lines relative to the top and bottom of the screen, at which you s
   )
 #+end_src
 
-** Org Related
-:PROPERTIES:
-:CUSTOM_ID: org
-:END:
-*** Initialization
-**** Directory
+** Org
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org
+(use-package! org
+#+end_src
+
+*** Directory
 According to Doom, org's directory must be set early due to it's loading process. Therfore it's not inside the package configuration.
 #+begin_src emacs-lisp
 (setq org-directory "~/documents/org/")
 #+end_src
 
-*** Org
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org
-(use-package! org
-#+end_src
-
-**** Init
+*** Init
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 ;:init
 #+end_src
 
-**** Config
+*** Config
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 :config
 #+end_src
 
-***** Modules
+**** Modules
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
 #+end_src
 
-***** Agenda...
-****** Files
+**** Agenda
+***** Files
 I only check these documents for my agenda items, instead of an entire directory.
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-agenda-files (quote ("~/documents/org/brain.org"
@@ -274,41 +303,46 @@ I only check these documents for my agenda items, instead of an entire directory
                                "~/documents/org/university/information-assurance-3755")))
 #+end_src
 
-***** Habit Settings
+**** Habit Settings
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section
 (setq org-habit-show-all-today t)                   ; keep habits visible even if done today
 #+end_src
 
-***** Logging
+**** Logging
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-log-done 'time)                           ; add completion time to DONE items.
 (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
 #+end_src
 
-***** Behavior
+**** Behavior
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-return-follows-link t)                    ; enter opens links in org
 (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks
 (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
 (setq org-imenu-depth 10)                           ; allow imenu to search deeply in org docs
-(setq org-use-property-inheritance t)
+(setq org-use-property-inheritance t)               ; sub-headings inherit parent properties
+(setq org-use-fast-todo-selection 'auto)            ; method used for org-todo
 ;(setq org-use-fast-todo-selection 'expert)
 ;(setq org-use-fast-todo-selection nil)
-(setq org-use-fast-todo-selection 'auto)
 (setq evil-collection-calendar-want-org-bindings t) ; add evil bindings to org's calendar
-(setq org-latex-src-block-backend 'engraved)
+;; these should be moved to ox-latex
+(setq org-latex-src-block-backend 'engraved)        ; add syntax highlighting to org latex exports
+(setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
+;(setq org-babel-results-keyword "OUTPUT")           ; a possible workaround, can change this instead of results block exporting, allow to not use :exports both and instead use the result from within the code document, possibly reducing export time. Need to understand more. org babel result shows many variables to play with.
+(setq org-highlight-latex-and-related '(native script entities)) ; supposedly teco had other issues with this but I haven't found them...
 #+end_src
 
-***** Appearance
+**** Appearance
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
-(setq org-ellipsis " ▾")                            ; set custom ellipsis
+(setq org-ellipsis " ▾ ")                           ; set custom ellipsis
 (setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
 (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
+(setq org-hide-leading-stars t)                     ; remove excess heading stars
 #+end_src
 
-**** Custom Functions
-***** Brain Buffer Viewer
+*** Custom Functions
+**** Brain Buffer Viewer
 This is my main org document that I like to have access to at any time.
 #+begin_src emacs-lisp
 (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
@@ -329,10 +363,10 @@ This is my main org document that I like to have access to at any time.
       (setq noncog/brain-visible t))))
 
 ;; set it's window behavior
-(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
+(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit 'other)
 #+end_src
 
-***** Unfold Org Headings in Consult Search
+**** Unfold Org Headings in Consult Search
 Fixes a bug where consult searches can't display the heading you want, only the nearest visible to it.
 #+begin_src emacs-lisp
 (after! consult
@@ -344,10 +378,11 @@ Fixes a bug where consult searches can't display the heading you want, only the 
       (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
 #+end_src
 
-***** Center Org Buffers
-#+begin_src emacs-lisp :tangle no
+**** Center Org Buffers
+#+begin_src emacs-lisp
 (defun noncog/org-center ()
   ;; Center the presentation and wrap lines
+  (interactive)
   (visual-fill-column-mode 1)
   (visual-line-mode 1))
 
@@ -362,34 +397,34 @@ Fixes a bug where consult searches can't display the heading you want, only the 
   )
 #+end_src
 
-*** Org-Agenda
+** Org-Agenda
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda
 (use-package! org-agenda
 #+end_src
 
-**** Init
+*** Init
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 :init
 #+end_src
 
-***** Habit Graph Agenda Display
+**** Habit Graph Agenda Display
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 ;(setq +org-habit-graph-window-ratio 0.3)
 ;(setq +org-habit-graph-padding 12)
 #+end_src
 
-**** Config
+*** Config
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 :config
 #+end_src
 
-***** Logging
+**** Logging
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
 #+end_src
 
-***** Appearance
-****** Custom Faces
+**** Appearance
+***** Custom Faces
 I want the titles of agenda sections to be slightly bigger to more easily differentiate them.
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (custom-set-faces!
@@ -398,13 +433,13 @@ I want the titles of agenda sections to be slightly bigger to more easily differ
 ;(set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
 #+end_src
 
-****** Popup Windowing
+***** Popup Windowing
 Doom allows me to control my agenda windowing to popup temporarily on the right of my screen.
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
 #+end_src
 
-***** Custom Agenda
+**** Custom Agenda
 This is my custom agenda viewer. It has everything I want and nothing more. I see no need for another agenda package, consider writing your own!
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (setq org-agenda-custom-commands
@@ -506,9 +541,9 @@ This is my custom agenda viewer. It has everything I want and nothing more. I se
 (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
 #+end_src
 
-**** Custom Functions
-***** My Agenda Launcher
-Just a wrapper function I can bind a keybind to or call by itself to launch my agenda.
+*** Custom Functions
+**** My Agenda Launcher
+Just a wrapper function I can bind a keybind to or call by myself to launch my agenda.
 #+begin_src emacs-lisp
 (defun noncog/my-agenda ()
   "My custom agenda launcher."
@@ -516,7 +551,7 @@ Just a wrapper function I can bind a keybind to or call by itself to launch my a
   (org-agenda nil "o"))
 #+end_src
 
-***** Remove Empty Agenda Sections
+**** Remove Empty Agenda Sections
 If one of my agenda blocks has no information, I don't want to see it. I call this function when displaying my agenda to delete empty sections.
 #+begin_src emacs-lisp
 (defun noncog/agenda-remove-empty ()
@@ -564,40 +599,36 @@ If one of my agenda blocks has no information, I don't want to see it. I call th
   )
 #+end_src
 
-*** Org-Noter
+** Org-Noter
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter
 (use-package! org-noter
 #+end_src
 
-**** Config
+*** Config
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 :config
 #+end_src
 
-***** Directory
+**** Directory
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
 #+end_src
 
-***** Frame Control
-Prevent noter from doing odd things to my Emacs...
+**** Appearance
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+(setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes.
+;; don't touch my frames...
 (setq org-noter-always-create-frame nil)
 (setq org-noter-kill-frame-at-session-end nil)
 #+end_src
 
-***** Appearance
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
-(setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes.
-#+end_src
-
-***** Behavior
+**** Behavior
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (setq org-noter-auto-save-last-location t)          ; remembers where I left off in pdfs
 #+end_src
 
-**** Custom Functions
-***** Better Org-Noter Exit
+*** Custom Functions
+**** Better Org-Noter Exit
 I had issues with Doom and org-noter not closing pdf buffers and returning my windowing back to normal. This function solves that and I call it with a keybind to exit the session.
 #+begin_src emacs-lisp
 (defun noncog/kill-org-noter-session ()
@@ -614,17 +645,17 @@ I had issues with Doom and org-noter not closing pdf buffers and returning my wi
   )
 #+end_src
 
-*** Org-Present
+** [[https://github.com/rlister/org-present][Org-present]]
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-present
 (use-package! org-present
 #+end_src
 
-**** Config
+*** Config
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-present-config
 :config
 #+end_src
 
-***** Keybinds
+**** Keybinds
 I set my own keybinds for this mode, as the default and evil's really made no sense.
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-present-config
 (map! :map org-mode-map :localleader "m" #'org-present)
@@ -634,8 +665,8 @@ I set my own keybinds for this mode, as the default and evil's really made no se
 (map! :map org-present-mode-keymap "C-k" #'noncog/org-show-previous-heading-tidily)
 #+end_src
 
-**** Custom Functions
-***** Fold Entries Per Top Heading
+*** Custom Functions
+**** Fold Entries Per Top Heading
 This creates a tidy view of each "section" of the org presentation as I enter them.
 #+begin_src emacs-lisp
 (defun noncog/org-present-prepare-slide (buffer-name heading)
@@ -651,10 +682,12 @@ This creates a tidy view of each "section" of the org presentation as I enter th
 (add-hook 'org-present-after-navigate-functions 'noncog/org-present-prepare-slide)
 #+end_src
 
-***** Active Folding For Next Heading
+**** Active Folding For Next Heading
 The holy grail to making org-present actually usable. This should be included by default.
 
-These functions allow me to advance through the headings, folding previous ones and only showing the current heading's information tidily.
+These functions allow me to advance through the headings, folding previous ones, only showing the current heading's information tidily.
+
+TODO - add example image/gif.
 #+begin_src emacs-lisp
 (setq recenter-positions '(top bottom))
 
@@ -695,8 +728,8 @@ These functions allow me to advance through the headings, folding previous ones 
     (recenter-top-bottom)))
 #+end_src
 
-***** Start/End Presentation Hooks
-Here any formatting is done upon entering and exiting the presentation mode.
+**** Start/End Presentation Hooks
+These functions control any formatting done upon entering and exiting the presentation mode.
 #+begin_src emacs-lisp
 (defun noncog/org-present-start ()
   ;; add blank space to the top of the screen
@@ -719,6 +752,91 @@ Here any formatting is done upon entering and exiting the presentation mode.
 <<use-package-org-present>>
   <<use-package-org-present-config>>
   <<use-package-end>>
+#+end_src
+** Org-Plot
+[[https://orgmode.org/manual/Org-Plot.html][Org-plot]] produces 2D/3D graphs from org tables.
+*** Appearance
+[[https://github.com/tecosaur/emacs-config/blob/master/config.org#org-plot][Tecosaur]] provides us with a way to use our Doom theme colors for org-plot!
+#+begin_src emacs-lisp
+(defvar +org-plot-term-size '(1050 . 650)
+  "The size of the GNUPlot terminal, in the form (WIDTH . HEIGHT).")
+
+(after! org-plot
+  (defun +org-plot-generate-theme (_type)
+    "Use the current Doom theme colours to generate a GnuPlot preamble."
+    (format "
+fgt = \"textcolor rgb '%s'\" # foreground text
+fgat = \"textcolor rgb '%s'\" # foreground alt text
+fgl = \"linecolor rgb '%s'\" # foreground line
+fgal = \"linecolor rgb '%s'\" # foreground alt line
+
+# foreground colors
+set border lc rgb '%s'
+# change text colors of  tics
+set xtics @fgt
+set ytics @fgt
+# change text colors of labels
+set title @fgt
+set xlabel @fgt
+set ylabel @fgt
+# change a text color of key
+set key @fgt
+
+# line styles
+set linetype 1 lw 2 lc rgb '%s' # red
+set linetype 2 lw 2 lc rgb '%s' # blue
+set linetype 3 lw 2 lc rgb '%s' # green
+set linetype 4 lw 2 lc rgb '%s' # magenta
+set linetype 5 lw 2 lc rgb '%s' # orange
+set linetype 6 lw 2 lc rgb '%s' # yellow
+set linetype 7 lw 2 lc rgb '%s' # teal
+set linetype 8 lw 2 lc rgb '%s' # violet
+
+# border styles
+set tics out nomirror
+set border 3
+
+# palette
+set palette maxcolors 8
+set palette defined ( 0 '%s',\
+1 '%s',\
+2 '%s',\
+3 '%s',\
+4 '%s',\
+5 '%s',\
+6 '%s',\
+7 '%s' )
+"
+            (doom-color 'fg)
+            (doom-color 'fg-alt)
+            (doom-color 'fg)
+            (doom-color 'fg-alt)
+            (doom-color 'fg)
+            ;; colours
+            (doom-color 'red)
+            (doom-color 'blue)
+            (doom-color 'green)
+            (doom-color 'magenta)
+            (doom-color 'orange)
+            (doom-color 'yellow)
+            (doom-color 'teal)
+            (doom-color 'violet)
+            ;; duplicated
+            (doom-color 'red)
+            (doom-color 'blue)
+            (doom-color 'green)
+            (doom-color 'magenta)
+            (doom-color 'orange)
+            (doom-color 'yellow)
+            (doom-color 'teal)
+            (doom-color 'violet)))
+
+  (defun +org-plot-gnuplot-term-properties (_type)
+    (format "background rgb '%s' size %s,%s"
+            (doom-color 'bg) (car +org-plot-term-size) (cdr +org-plot-term-size)))
+
+  (setq org-plot/gnuplot-script-preamble #'+org-plot-generate-theme)
+  (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
 #+end_src
 
 ** PDF-Tools
@@ -803,6 +921,8 @@ This wonderful package blinks the cursor line and allows recentering. I primaril
 #+end_src
 
 ** Company
+This is the completion framework that Doom uses. It uses back-ends to retrieve and display completion candidates.
+
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company
 (use-package! company
 #+end_src
@@ -812,33 +932,32 @@ This wonderful package blinks the cursor line and allows recentering. I primaril
 :config
 #+end_src
 
-**** Global Modes
-***** Disable text-mode
-Text-mode is often inherited by other modes like org-mode. I would rather be able to control modes explicitly instead of use inheritance. Inheritance: text-mode > outline-mode > org-mode.
+**** Packages
+***** Text-mode
+Text-mode is often inherited by other modes like org-mode. I would rather be able to control modes explicitly instead of use inheritance. Default inheritance pattern: text-mode > outline-mode > org-mode.
+****** Disable text-mode Global Setup
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (setq company-global-modes '(not text-mode erc-mode circe-mode message-mode help-mode gud-mode vterm-mode))
 #+end_src
 
-**** Backend Alists
-***** Remove Defaults
+****** Remove text-mode Backend
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
 #+end_src
 
-***** Packages
-****** Org-mode
+***** Org-mode
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (set-company-backend! 'org-mode
   '(company-capf company-files :with company-yasnippet))
 #+end_src
 
-****** Sh-mode
+***** Sh-mode
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (set-company-backend! 'sh-mode
   '(company-shell company-files :with company-yasnippet))
 #+end_src
 
-**** Settings
+***** Settings
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (setq company-idle-delay 0.1)
 (setq company-tooltip-limit 10)
@@ -917,4 +1036,23 @@ This package adds centering to buffers!
   :after ox-latex
   :config
 )
+#+end_src
+** Python
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python
+(use-package! python
+#+end_src
+
+*** Config
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python-config
+:config
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python-config
+(setq python-shell-interpreter "python3")
+#+end_src
+
+#+begin_src emacs-lisp :noweb yes :exports none
+<<use-package-python>>
+  <<use-package-python-config>>
+  <<use-package-end>>
 #+end_src

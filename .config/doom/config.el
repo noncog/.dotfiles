@@ -2,7 +2,7 @@
 
 ;; some functions use this to identify you, e.g. gpg configuration, email
 ;; clients, file templates and snippets. it is optional.
-(setq user-full-name "jake turner"
+(setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
 
 (global-auto-revert-mode 1)
@@ -71,7 +71,7 @@
       (setq noncog/brain-visible t))))
 
 ;; set it's window behavior
-(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
+(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit 'other)
 
 (after! consult
   (defadvice! org-show-entry-consult-a (fn &rest args)
@@ -83,10 +83,11 @@
 
 (defun noncog/org-center ()
   ;; Center the presentation and wrap lines
+  (interactive)
   (visual-fill-column-mode 1)
   (visual-line-mode 1))
 
-(add-hook! 'org-mode-hook #'noncog/org-center)
+;(add-hook! 'org-mode-hook #'noncog/org-center)
 
 (after! org
   (use-package! org
@@ -107,11 +108,20 @@
     (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks
     (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
     (setq org-imenu-depth 10)                           ; allow imenu to search deeply in org docs
-    (setq org-use-property-inheritance t)
+    (setq org-use-property-inheritance t)               ; sub-headings inherit parent properties
+    (setq org-use-fast-todo-selection 'auto)            ; method used for org-todo
+    ;(setq org-use-fast-todo-selection 'expert)
+    ;(setq org-use-fast-todo-selection nil)
     (setq evil-collection-calendar-want-org-bindings t) ; add evil bindings to org's calendar
-    (setq org-ellipsis " ▾")                            ; set custom ellipsis
+    ;; these should be moved to ox-latex
+    (setq org-latex-src-block-backend 'engraved)        ; add syntax highlighting to org latex exports
+    (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
+    ;(setq org-babel-results-keyword "OUTPUT")           ; a possible workaround, can change this instead of results block exporting, allow to not use :exports both and instead use the result from within the code document, possibly reducing export time. Need to understand more. org babel result shows many variables to play with.
+    (setq org-highlight-latex-and-related '(native script entities)) ; supposedly teco had other issues with this but I haven't found them...
+    (setq org-ellipsis " ▾ ")                           ; set custom ellipsis
     (setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
+    (setq org-hide-leading-stars t)                     ; remove excess heading stars
     )
   )
 
@@ -277,9 +287,10 @@
   (use-package! org-noter
     :config
     (setq org-noter-notes-search-path '("~/documents/org/noter"))
+    (setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes.
+    ;; don't touch my frames...
     (setq org-noter-always-create-frame nil)
     (setq org-noter-kill-frame-at-session-end nil)
-    (setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes.
     (setq org-noter-auto-save-last-location t)          ; remembers where I left off in pdfs
     )
   )
@@ -357,6 +368,86 @@
   (map! :map org-present-mode-keymap "C-k" #'noncog/org-show-previous-heading-tidily)
   )
 
+(defvar +org-plot-term-size '(1050 . 650)
+  "The size of the GNUPlot terminal, in the form (WIDTH . HEIGHT).")
+
+(after! org-plot
+  (defun +org-plot-generate-theme (_type)
+    "Use the current Doom theme colours to generate a GnuPlot preamble."
+    (format "
+fgt = \"textcolor rgb '%s'\" # foreground text
+fgat = \"textcolor rgb '%s'\" # foreground alt text
+fgl = \"linecolor rgb '%s'\" # foreground line
+fgal = \"linecolor rgb '%s'\" # foreground alt line
+
+# foreground colors
+set border lc rgb '%s'
+# change text colors of  tics
+set xtics @fgt
+set ytics @fgt
+# change text colors of labels
+set title @fgt
+set xlabel @fgt
+set ylabel @fgt
+# change a text color of key
+set key @fgt
+
+# line styles
+set linetype 1 lw 2 lc rgb '%s' # red
+set linetype 2 lw 2 lc rgb '%s' # blue
+set linetype 3 lw 2 lc rgb '%s' # green
+set linetype 4 lw 2 lc rgb '%s' # magenta
+set linetype 5 lw 2 lc rgb '%s' # orange
+set linetype 6 lw 2 lc rgb '%s' # yellow
+set linetype 7 lw 2 lc rgb '%s' # teal
+set linetype 8 lw 2 lc rgb '%s' # violet
+
+# border styles
+set tics out nomirror
+set border 3
+
+# palette
+set palette maxcolors 8
+set palette defined ( 0 '%s',\
+1 '%s',\
+2 '%s',\
+3 '%s',\
+4 '%s',\
+5 '%s',\
+6 '%s',\
+7 '%s' )
+"
+            (doom-color 'fg)
+            (doom-color 'fg-alt)
+            (doom-color 'fg)
+            (doom-color 'fg-alt)
+            (doom-color 'fg)
+            ;; colours
+            (doom-color 'red)
+            (doom-color 'blue)
+            (doom-color 'green)
+            (doom-color 'magenta)
+            (doom-color 'orange)
+            (doom-color 'yellow)
+            (doom-color 'teal)
+            (doom-color 'violet)
+            ;; duplicated
+            (doom-color 'red)
+            (doom-color 'blue)
+            (doom-color 'green)
+            (doom-color 'magenta)
+            (doom-color 'orange)
+            (doom-color 'yellow)
+            (doom-color 'teal)
+            (doom-color 'violet)))
+
+  (defun +org-plot-gnuplot-term-properties (_type)
+    (format "background rgb '%s' size %s,%s"
+            (doom-color 'bg) (car +org-plot-term-size) (cdr +org-plot-term-size)))
+
+  (setq org-plot/gnuplot-script-preamble #'+org-plot-generate-theme)
+  (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
+
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
 
@@ -430,4 +521,14 @@
     (setq yas-snippet-dirs '("~/.config/doom/snippets/"))
     (setq yas-indent-line 'fixed)                       ; prevent yasnippet from changing my indents
     )
+  )
+
+(use-package! engrave-faces-latex
+  :after ox-latex
+  :config
+)
+
+(use-package! python
+  :config
+  (setq python-shell-interpreter "python3")
   )
