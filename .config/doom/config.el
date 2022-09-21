@@ -12,9 +12,6 @@
 (setq doom-dracula-colorful-headers t)
 
 (custom-set-faces!
-  '(header-line :inherit nil :height 2.0))
-
-(custom-set-faces!
  `(cursor :background ,(doom-color 'magenta)))
 
 (setq doom-font (font-spec :family "fira code" :size 14))
@@ -27,16 +24,7 @@
 
 (display-time-mode 1)
 
-(add-to-list '+evil-collection-disabled-list 'org-present)
-
-;; jump directly to the dashboard
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-;; evil style bind for my main org document viewer
-(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
-;; custom/better org-noter exit command
-(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
-;; custom agenda viewer
-(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
 
 (after! emacs
   (use-package! emacs
@@ -52,6 +40,8 @@
   )
 
 (setq org-directory "~/documents/org/")
+
+(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
 
 (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
 (defvar noncog/brain-visible nil)
@@ -71,7 +61,7 @@
       (setq noncog/brain-visible t))))
 
 ;; set it's window behavior
-(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit 'other)
+(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
 
 (after! consult
   (defadvice! org-show-entry-consult-a (fn &rest args)
@@ -124,6 +114,8 @@
     (setq org-hide-leading-stars t)                     ; remove excess heading stars
     )
   )
+
+(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
 
 (defun noncog/my-agenda ()
   "My custom agenda launcher."
@@ -278,6 +270,8 @@
     )
   )
 
+(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
+
 (defun noncog/kill-org-noter-session ()
   "Fully exits the noter-session and the pdf buffers it used, leaving the org file."
   (interactive)
@@ -295,6 +289,8 @@
     )
   )
 
+(add-to-list '+evil-collection-disabled-list 'org-present)
+
 (defun noncog/org-present-prepare-slide (buffer-name heading)
   ;; Show only top-level headlines
   (org-overview)
@@ -303,7 +299,8 @@
   (org-show-entry)
 
   ;; Show only direct subheadings of the slide but don't expand them
-  (org-show-children))
+  (org-show-children)
+  )
 
 (add-hook 'org-present-after-navigate-functions 'noncog/org-present-prepare-slide)
 
@@ -358,6 +355,9 @@
   (org-remove-inline-images)
   )
 (add-hook! 'org-present-mode-quit-hook #'noncog/org-present-end)
+
+(custom-set-faces!
+  '(header-line :inherit nil :height 2.0))
 
 (use-package! org-present
   :config
