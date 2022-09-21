@@ -122,12 +122,10 @@ https://github.com/tecosaur/emacs-config/blob/master/config.org#general-settings
 
 * Doom Global
 
-In this section I setup Doom, as well as some things I consider "global" but are not necessarily from Doom.
-
-Otherwise, specific packages waranting use-package blocks are located in the [[#packages][Packages]] section.
+In this section I setup Doom and "global" things. Otherwise, package specific settings are in the [[#packages][Packages]] section.
 
 ** Initial Setup
-*** Enable lexical binding
+*** Enable Lexical Binding
 
 Supposedly makes this file run slightly faster...
 
@@ -135,7 +133,7 @@ Supposedly makes this file run slightly faster...
 ;;; $doomdir/config.el -*- lexical-binding: t; -*-
 #+end_src
 
-*** Personal information
+*** Personal Information
 
 Needs updated with secure private public email.
 
@@ -164,7 +162,7 @@ I use [[https://draculatheme.com/][Dracula]] theme everywhere I can.
 (setq doom-dracula-colorful-headers t)
 #+end_src
 
-*** Cursor color
+*** Cursor Color
 
 This syntax allows me to choose any of the doom-theme colors defined in my theme as my new cursor color.
 
@@ -218,11 +216,8 @@ I use relative line numbers with Vim navigation for numbered line jumping. Visua
 (display-time-mode 1)
 #+end_src
 
-** Doom Global Keybinds
+** Keybinds
 
-Considering refactoring this section.
-
-*** Keybinds
 #+begin_src emacs-lisp
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 #+end_src
@@ -270,7 +265,7 @@ The number of lines relative to the top and bottom of the screen, at which you s
   )
 #+end_src
 
-** Org
+** [[https://orgmode.org/][Org]]
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org
 (use-package! org
