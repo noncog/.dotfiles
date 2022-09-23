@@ -7,6 +7,7 @@ rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 57 -theme $directory
 desktop=" Desktop mode"
 reloadi3=" Reload i3"
 keybindsi3=" i3 Keybinds"
+reloadxmodmap=" Reload Xmodmap"
 
 # error msg
 err_msg() {
@@ -14,7 +15,7 @@ err_msg() {
 }
 
 # variables passed to rofi
-options="$desktop\n$reloadi3\n$keybindsi3"
+options="$desktop\n$reloadi3\n$keybindsi3\n$reloadxmodmap"
 
 selection="$(echo -e "$options" | $rofi_command -p 'controls' -dmenu)"
 case $selection in
@@ -30,5 +31,8 @@ case $selection in
     ;;
     $keybindsi3)
     grep -e '^[^#]*bind' ~/.config/i3/config | rofi -p 'i3 keybinds' -dmenu
+    ;;
+    $reloadxmodmap)
+    xmodmap ~/.Xmodmap
     ;;
 esac
