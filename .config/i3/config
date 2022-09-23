@@ -122,14 +122,14 @@ bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 
 bindsym $mod+Shift+question exec --no-startup-id screenkey
 
-exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
-exec --no-startup-id sleep 2 && firefox
+exec --no-startup-id sleep 3 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
+exec --no-startup-id sleep 4 && firefox
 exec --no-startup-id kitty --name Floating-Kitty
 # restart i3 to make sure startup windows are moved to scratchpad
 exec --no-startup-id restart
 
 set $emacs "Emacs"
-assign [class="Emacs"] $emacs	
+assign [class="Emacs"] $emacs
 workspace $emacs output $external $laptop
 bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-chemacs.sh

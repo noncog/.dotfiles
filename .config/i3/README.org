@@ -200,8 +200,8 @@ bindsym $mod+Shift+question exec --no-startup-id screenkey
 
 * Startup Apps
 #+BEGIN_SRC conf
-exec --no-startup-id sleep 2 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
-exec --no-startup-id sleep 2 && firefox
+exec --no-startup-id sleep 3 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
+exec --no-startup-id sleep 4 && firefox
 exec --no-startup-id kitty --name Floating-Kitty
 # restart i3 to make sure startup windows are moved to scratchpad
 exec --no-startup-id restart
@@ -217,7 +217,7 @@ I use a particular format for how my apps are managed.
 ** Emacs Client
 #+BEGIN_SRC conf
 set $emacs "Emacs"
-assign [class="Emacs"] $emacs	
+assign [class="Emacs"] $emacs
 workspace $emacs output $external $laptop
 bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-chemacs.sh
@@ -257,6 +257,7 @@ bindsym $mod+Control+Shift+i move container to workspace $code
 bindsym $mod+Shift+i exec --no-startup-id idea
 bindsym $mod+i [class="jetbrains-idea"] focus
 #+END_SRC
+
 ** Anki
 I give this it's own workspace to not deal with floating dialog issues in a scratchpad.
 #+BEGIN_SRC conf
@@ -410,6 +411,7 @@ bindsym $mod+w mode "$split_mode"
 #+BEGIN_SRC conf
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
 #+END_SRC
+
 ** Window Information
 #+BEGIN_SRC conf
 # To find window related information use:
