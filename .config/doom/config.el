@@ -20,7 +20,7 @@
 (add-to-list 'default-frame-alist '(alpha . 96)) ; [0-100]
 
 (after! display-line-numbers
-  (setq display-line-numbers-type 'visual))
+  (setq display-line-numbers-type nil))
 
 (display-time-mode 1)
 
@@ -159,7 +159,7 @@
 
 (after! org-agenda
   (use-package! org-agenda
-    :init
+    ;:init
     ;(setq +org-habit-graph-window-ratio 0.3)
     ;(setq +org-habit-graph-padding 12)
     :config
@@ -310,12 +310,12 @@
   (interactive)
   (if (save-excursion (end-of-line) (outline-invisible-p))
       (progn (org-fold-show-entry) (outline-show-children))
-  (unless (org-before-first-heading-p) (outline-next-heading))
-     ;; this is the problem, doing a next heading after this on the start fucks it up.
+    (unless (org-before-first-heading-p) (outline-next-heading))
     (unless (and (bolp) (org-at-heading-p))
       ;(org-up-heading-safe)
       ;(hide-subtree)
       ;(error "Boundary reached")
+      ;(if (eobp) (error "end of slide") (org-present-next))
       (org-present-next)
       )
     (org-overview)
@@ -342,21 +342,35 @@
     (recenter-top-bottom)))
 
 (defun noncog/org-present-start ()
-  ;; add blank space to the top of the screen
+  (setq-local display-line-numbers nil)
   (setq-local header-line-format " ")
   (org-display-inline-images)
+  ;; add space to the top of the screen
+  ;; default inherits from the modeline, which for me, is colored
+  (custom-set-faces!
+    '(header-line :inherit nil :height 2.0))
+  (doom-big-font-mode 1)
+  ;; (setq visual-fill-column-width 110)               ; sets the text width of the centered buffer
+  ;; (setq visual-fill-column-center-text t)           ; centers the buffer
+  ;; (visual-fill-column-mode 1)
+  ;; (visual-line-mode 1)
   )
 (add-hook! 'org-present-mode-hook #'noncog/org-present-start)
 
 (defun noncog/org-present-end ()
-  ;; undo all settings added in noncog/org-present-start
+  (setq-local display-line-numbers 'visual)
   (setq-local header-line-format nil)
   (org-remove-inline-images)
+  (custom-set-faces!
+    '(header-line :height 1.0))
+  (+org/show-next-fold-level)
+  (doom-big-font-mode 0)
+  ;; (setq visual-fill-column-width 0)               ; sets the text width of the centered buffer
+  ;; (setq visual-fill-column-center-text nil)           ; centers the buffer
+  ;; (visual-fill-column-mode 0)
+  ;; (visual-line-mode 0)
   )
 (add-hook! 'org-present-mode-quit-hook #'noncog/org-present-end)
-
-(custom-set-faces!
-  '(header-line :inherit nil :height 2.0))
 
 (use-package! org-present
   :config
@@ -447,8 +461,19 @@ set palette defined ( 0 '%s',\
   (setq org-plot/gnuplot-script-preamble #'+org-plot-generate-theme)
   (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
 
+(after! ox
+  (setq org-export-headline-levels 7)
+  (setq org-export-with-creator t)
+  (setq org-export-with-email t)
+  )
+
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
+
+(use-package! engrave-faces-latex
+  :after ox-latex
+  :config
+)
 
 (defun noncog/pulsar-scroll-recenter-middle (&rest _args)
   (pulsar-recenter-middle))
@@ -508,12 +533,6 @@ set palette defined ( 0 '%s',\
   (setq projectile-ignored-projects '("/opt/doom-emacs/"))
   )
 
-(use-package! visual-fill-column
-  :init
-  (setq visual-fill-column-width 110)               ; sets the text width of the centered buffer
-  (setq visual-fill-column-center-text t)           ; centers the buffer
-)
-
 (after! yasnippet
   (use-package! yasnippet
     :config
@@ -521,11 +540,6 @@ set palette defined ( 0 '%s',\
     (setq yas-indent-line 'fixed)                       ; prevent yasnippet from changing my indents
     )
   )
-
-(use-package! engrave-faces-latex
-  :after ox-latex
-  :config
-)
 
 (use-package! python
   :config

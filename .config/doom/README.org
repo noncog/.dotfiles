@@ -6,6 +6,14 @@
 #+startup: show3levels
 
 #+begin_example :tangle no :exports none
+test if github shows tags on headings.
+
+org publish
+ox-publish
+figure out the creator and email string and inserting it into the correct location.
+
+
+Set the org directories for the agenda to be directory based instead of file based to not expose files.
 
 fix the scrolling so that it shows images better. Currently have issues with latex preview in org buffers that are taller than the screens.
 rename doom snippets.
@@ -57,7 +65,6 @@ Org-mode
 - org-image-actual-width
 
 Add this:
-(setq org-export-headline-levels 5)
 - zero width spaces.
 
 - org-list-demote-modify-bullet
@@ -201,13 +208,15 @@ Adds transparency to Doom, allowing my wallpaper to show through. Primarily incr
 (add-to-list 'default-frame-alist '(alpha . 96)) ; [0-100]
 #+end_src
 
-*** Line Numbers
+*** Disable Global Line Numbers
 
-I use relative line numbers with Vim navigation for numbered line jumping. Visual lines are what is on the screen, not the true logical lines.
+These are known to reduce performance.
+
+When I want them, I can turn them on per mode or using Doom's toggle, but I don't want them everywhere.
 
 #+begin_src emacs-lisp
 (after! display-line-numbers
-  (setq display-line-numbers-type 'visual))
+  (setq display-line-numbers-type nil))
 #+end_src
 
 *** Show Time in Modeline
@@ -431,7 +440,7 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 *** Init
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
-:init
+;:init
 #+end_src
 
 **** Habit Graph Agenda Display
@@ -766,7 +775,14 @@ The holy grail to making org-present actually usable. This should be included by
 
 These functions allow me to advance through the headings, folding previous ones, only showing the current heading's information tidily.
 
+#+begin_example :tangle no :exports none
+I am considering writing other functions to change the method of progressing through the slide. These methods affect the way in which the document must be laid out and how one progresses through it. Multiple functions will allow the user to lay out the document in a way that makes sense for their project, or generate more freedom in using the project document itself as the presentation instead of making another org document just for the presentation.
+
+I'm considering skipping headlines without a present tag.
+
 TODO - add example image/gif.
+#+end_example
+
 #+begin_src emacs-lisp
 (setq recenter-positions '(top bottom))
 
@@ -775,12 +791,12 @@ TODO - add example image/gif.
   (interactive)
   (if (save-excursion (end-of-line) (outline-invisible-p))
       (progn (org-fold-show-entry) (outline-show-children))
-  (unless (org-before-first-heading-p) (outline-next-heading))
-     ;; this is the problem, doing a next heading after this on the start fucks it up.
+    (unless (org-before-first-heading-p) (outline-next-heading))
     (unless (and (bolp) (org-at-heading-p))
       ;(org-up-heading-safe)
       ;(hide-subtree)
       ;(error "Boundary reached")
+      ;(if (eobp) (error "end of slide") (org-present-next))
       (org-present-next)
       )
     (org-overview)
@@ -813,31 +829,37 @@ These functions control any formatting done upon entering and exiting the presen
 
 #+begin_src emacs-lisp
 (defun noncog/org-present-start ()
-  ;; add blank space to the top of the screen
+  (setq-local display-line-numbers nil)
   (setq-local header-line-format " ")
   (org-display-inline-images)
+  ;; add space to the top of the screen
+  ;; default inherits from the modeline, which for me, is colored
+  (custom-set-faces!
+    '(header-line :inherit nil :height 2.0))
+  (doom-big-font-mode 1)
+  ;; (setq visual-fill-column-width 110)               ; sets the text width of the centered buffer
+  ;; (setq visual-fill-column-center-text t)           ; centers the buffer
+  ;; (visual-fill-column-mode 1)
+  ;; (visual-line-mode 1)
   )
 (add-hook! 'org-present-mode-hook #'noncog/org-present-start)
 #+end_src
 
 #+begin_src emacs-lisp
 (defun noncog/org-present-end ()
-  ;; undo all settings added in noncog/org-present-start
+  (setq-local display-line-numbers 'visual)
   (setq-local header-line-format nil)
   (org-remove-inline-images)
+  (custom-set-faces!
+    '(header-line :height 1.0))
+  (+org/show-next-fold-level)
+  (doom-big-font-mode 0)
+  ;; (setq visual-fill-column-width 0)               ; sets the text width of the centered buffer
+  ;; (setq visual-fill-column-center-text nil)           ; centers the buffer
+  ;; (visual-fill-column-mode 0)
+  ;; (visual-line-mode 0)
   )
 (add-hook! 'org-present-mode-quit-hook #'noncog/org-present-end)
-#+end_src
-
-***** Header-Line
-
-TODO set this up for org-present, not global.
-
-I use this to add spacing to the top of org documents during presentations. By default, this is inherited from the modeline, which is colored, and I need it to be transparent.
-
-#+begin_src emacs-lisp
-(custom-set-faces!
-  '(header-line :inherit nil :height 2.0))
 #+end_src
 
 #+begin_src emacs-lisp :noweb yes :exports none
@@ -936,6 +958,18 @@ set palette defined ( 0 '%s',\
   (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
 #+end_src
 
+** Ox
+
+Controls the exporting of org documents.
+
+#+begin_src emacs-lisp
+(after! ox
+  (setq org-export-headline-levels 7)
+  (setq org-export-with-creator t)
+  (setq org-export-with-email t)
+  )
+#+end_src
+
 ** [[https://github.com/vedang/pdf-tools][PDF-Tools]]
 
 A better meta package of tools for viewing and interacting with PDFs. This is required to use org-noter.
@@ -943,6 +977,17 @@ A better meta package of tools for viewing and interacting with PDFs. This is re
 #+begin_src emacs-lisp
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-page))
+#+end_src
+
+** [[https://github.com/tecosaur/engrave-faces][Engrave-Faces]]
+
+Provides syntax code block highlighting and theming to our org-latex pdf exports!
+
+#+begin_src emacs-lisp
+(use-package! engrave-faces-latex
+  :after ox-latex
+  :config
+)
 #+end_src
 
 ** [[https://github.com/protesilaos/pulsar][Pulsar]]
@@ -1092,7 +1137,7 @@ Text-mode is often inherited by other modes like org-mode. I would rather be abl
   )
 #+end_src
 
-** [[https://github.com/abo-abo/ace-window][Ace window]]
+** [[https://github.com/abo-abo/ace-window][Ace-Window]]
 
 Gives us quicker window switching when other-window just won't cut it. Allows us to jump to specific windows instead of cycle our way there.
 
@@ -1122,10 +1167,9 @@ Provides project level interaction.
 
 This package adds centering to buffers!
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package! visual-fill-column
   :init
-  (setq visual-fill-column-width 110)               ; sets the text width of the centered buffer
   (setq visual-fill-column-center-text t)           ; centers the buffer
 )
 #+end_src
@@ -1160,17 +1204,6 @@ This package adds centering to buffers!
     <<use-package-yasnippet-config>>
     <<use-package-end>>
   )
-#+end_src
-
-** [[https://github.com/tecosaur/engrave-faces][Engrave-Faces]]
-
-Provides syntax code block highlighting and theming to our org-latex pdf exports!
-
-#+begin_src emacs-lisp
-(use-package! engrave-faces-latex
-  :after ox-latex
-  :config
-)
 #+end_src
 
 ** Python
