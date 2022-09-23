@@ -28,7 +28,7 @@ vertical_offset=57
 default=" Default"
 set_default=" Set Default"
 configurations=" Configs"
-kill_emacs=" Kill Emacs"
+kill_emacs=" Kill Emacs"
 start_daemon=" Start Daemon"
 
 #=============#
