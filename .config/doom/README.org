@@ -1183,7 +1183,7 @@ This package is incompatible with Doom's popup window rules so I'm looking for a
 
 *** Behavior
 
-#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-python-config
 (setq python-shell-interpreter "python3")
 #+end_src
 
