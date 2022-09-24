@@ -31,11 +31,9 @@
     :defer
     :config
     (setq scroll-margin 5)
-    ;; scroll buffer
+    ;; scroll buffer by a line
     (global-set-key (kbd "M-p") #'scroll-down-line)
     (global-set-key (kbd "M-n") #'scroll-up-line)
-    ;; emacs style bind for my main org document viewer
-    (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
     )
   )
 
@@ -61,7 +59,10 @@
 ;; set it's window behavior
 (set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
 
+;; evil style
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+;; emacs style
+(global-set-key (kbd "C-c b") #'noncog/toggle-brain)
 
 (after! consult
   (defadvice! org-show-entry-consult-a (fn &rest args)
@@ -70,14 +71,6 @@
     :around #'consult--grep
     (when-let ((pos (apply fn args)))
       (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
-
-(defun noncog/org-center ()
-  ;; Center the presentation and wrap lines
-  (interactive)
-  (visual-fill-column-mode 1)
-  (visual-line-mode 1))
-
-;(add-hook! 'org-mode-hook #'noncog/org-center)
 
 (after! org
   (use-package! org
@@ -161,16 +154,13 @@
 
 (after! org-agenda
   (use-package! org-agenda
-    ;:init
-    ;(setq +org-habit-graph-window-ratio 0.3)
-    ;(setq +org-habit-graph-padding 12)
     :config
     (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
+    (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
     (custom-set-faces!
       '(org-agenda-structure
-        :height 120 :weight bold))
+        :height 1.3 :weight bold))
     ;(set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
-    (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
     (setq org-agenda-custom-commands
           '(
             ("o" "My Agenda" (
@@ -282,11 +272,11 @@
   (use-package! org-noter
     :config
     (setq org-noter-notes-search-path '("~/documents/org/noter"))
-    (setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes.
+    (setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes
+    (setq org-noter-auto-save-last-location t)          ; remembers where I left off in pdfs and notes
     ;; don't touch my frames...
     (setq org-noter-always-create-frame nil)
     (setq org-noter-kill-frame-at-session-end nil)
-    (setq org-noter-auto-save-last-location t)          ; remembers where I left off in pdfs
     )
   )
 
@@ -474,19 +464,20 @@ set palette defined ( 0 '%s',\
 
 (use-package! engrave-faces-latex
   :after ox-latex
-  :config
 )
 
 (defun noncog/pulsar-scroll-recenter-middle (&rest _args)
   (pulsar-recenter-middle))
 
+(pulsar-global-mode 1)
+
 (use-package! pulsar
   :config
-  (setq pulsar-face 'pulsar-magenta)                  ; used by pulsar-pulse-line
-  (setq pulsar-highlight-face 'pulsar-yellow)         ; used by pulsar-highlight-*
   (setq pulsar-pulse t)
   (setq pulsar-delay 0.095)
   (setq pulsar-iterations 12)
+  (setq pulsar-face 'pulsar-magenta)                  ; used by pulsar-pulse-line
+  (setq pulsar-highlight-face 'pulsar-yellow)         ; used by pulsar-highlight-*
   (add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
   (add-to-list 'pulsar-pulse-functions 'evil-scroll-down)
   
@@ -504,20 +495,18 @@ set palette defined ( 0 '%s',\
   (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
   )
 
-(pulsar-global-mode 1)
-
 (after! company
   (use-package! company
     :config
+    (setq company-idle-delay 0.1)
+    (setq company-tooltip-limit 10)
+    (setq company-minimum-prefix-length 1)
     (setq company-global-modes '(not text-mode erc-mode circe-mode message-mode help-mode gud-mode vterm-mode))
     (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
     (set-company-backend! 'org-mode
       '(company-capf company-files :with company-yasnippet))
     (set-company-backend! 'sh-mode
       '(company-shell company-files :with company-yasnippet))
-    (setq company-idle-delay 0.1)
-    (setq company-tooltip-limit 10)
-    (setq company-minimum-prefix-length 1)
     )
   )
 

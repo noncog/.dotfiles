@@ -241,7 +241,7 @@ This section modifies all configurations for packages, including Emacs itself.
 
 ** Emacs
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs :exports none
 (use-package! emacs
   :defer
   :config
@@ -259,11 +259,9 @@ The number of lines relative to the top and bottom of the screen, at which you s
 *** Keybinds
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs-config
-;; scroll buffer
+;; scroll buffer by a line
 (global-set-key (kbd "M-p") #'scroll-down-line)
 (global-set-key (kbd "M-n") #'scroll-up-line)
-;; emacs style bind for my main org document viewer
-(global-set-key (kbd "C-c b") #'noncog/toggle-brain)
 #+end_src
 
 #+begin_src emacs-lisp :noweb yes :exports none
@@ -276,7 +274,7 @@ The number of lines relative to the top and bottom of the screen, at which you s
 
 ** [[https://orgmode.org/][Org]]
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org :exports none
 (use-package! org
 #+end_src
 
@@ -290,7 +288,7 @@ According to Doom, org's directory must be set early due to it's loading process
 
 *** Config
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config :exports none
 :config
 #+end_src
 
@@ -300,8 +298,7 @@ According to Doom, org's directory must be set early due to it's loading process
 (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
 #+end_src
 
-**** Agenda
-***** Files
+**** Files
 
 I only check these documents for my agenda items, instead of an entire directory.
 
@@ -329,6 +326,8 @@ I only check these documents for my agenda items, instead of an entire directory
 #+end_src
 
 **** Behavior
+
+This section needs separated...
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-return-follows-link t)                    ; enter opens links in org
@@ -394,12 +393,15 @@ Now, let's use Doom's popup windowing to control the displaying of the buffer.
 And then set a keybind to call my brain viewer.
 
 #+begin_src emacs-lisp
+;; evil style
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+;; emacs style
+(global-set-key (kbd "C-c b") #'noncog/toggle-brain)
 #+end_src
 
 **** Unfold Org Headings in Consult Search
 
-Fixes a bug where consult searches can't display the heading you want, only the nearest visible to it.
+This fixes a bug where consult searches can't display the heading you want, only the nearest visible to it.
 
 #+begin_src emacs-lisp
 (after! consult
@@ -411,17 +413,6 @@ Fixes a bug where consult searches can't display the heading you want, only the 
       (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
 #+end_src
 
-**** Center Org Buffers
-
-#+begin_src emacs-lisp
-(defun noncog/org-center ()
-  ;; Center the presentation and wrap lines
-  (interactive)
-  (visual-fill-column-mode 1)
-  (visual-line-mode 1))
-
-;(add-hook! 'org-mode-hook #'noncog/org-center)
-#+end_src
 
 #+begin_src emacs-lisp :noweb yes :exports none
 (after! org
@@ -433,48 +424,22 @@ Fixes a bug where consult searches can't display the heading you want, only the 
 
 ** Org-Agenda
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda :exports none
 (use-package! org-agenda
 #+end_src
 
-*** Init
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
-;:init
-#+end_src
-
-**** Habit Graph Agenda Display
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
-;(setq +org-habit-graph-window-ratio 0.3)
-;(setq +org-habit-graph-padding 12)
-#+end_src
-
-*** Config
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config :exports none
 :config
 #+end_src
 
-**** Logging
+*** Behavior
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
 #+end_src
 
-**** Appearance
-***** Custom Faces
-
-I want the titles of agenda sections to be slightly bigger to more easily differentiate them.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
-(custom-set-faces!
-  '(org-agenda-structure
-    :height 120 :weight bold))
-;(set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
-#+end_src
-
-***** Popup Windowing
+*** Appearance
+**** Popup Windowing
 
 Doom allows me to control my agenda windowing to popup temporarily on the right of my screen.
 
@@ -482,7 +447,18 @@ Doom allows me to control my agenda windowing to popup temporarily on the right 
 (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
 #+end_src
 
-**** Custom Agenda
+**** Custom Faces
+
+I want the titles of agenda sections to be slightly bigger to more easily differentiate them.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
+(custom-set-faces!
+  '(org-agenda-structure
+    :height 1.3 :weight bold))
+;(set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
+#+end_src
+
+*** Custom Agenda
 
 This is my custom agenda viewer. It has everything I want and nothing more. I see no need for another agenda package, consider writing your own!
 
@@ -586,7 +562,7 @@ This is my custom agenda viewer. It has everything I want and nothing more. I se
 (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
 #+end_src
 
-***** Remove Empty Agenda Sections
+**** Remove Empty Agenda Sections
 
 If one of my agenda blocks has no information, I don't want to see it. I call this function when displaying my agenda to delete empty sections.
 
@@ -628,9 +604,9 @@ If one of my agenda blocks has no information, I don't want to see it. I call th
 )
 #+end_src
 
-***** Agenda Launcher
+**** Agenda Launcher
 
-I define a function to call my agenda either from the M-x or through a keybind.
+I define a function to call my agenda either from M-x or through a keybind.
 
 #+begin_src emacs-lisp
 (defun noncog/my-agenda ()
@@ -657,35 +633,33 @@ Then I define a keybind to call my agenda viewer.
 
 Allows you to keep org notes that are synced to pdf files! As you scroll your pdf, your notes scroll too!
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter :exports none
 (use-package! org-noter
 #+end_src
 
-*** Config
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config :exports none
 :config
 #+end_src
 
-**** Directory
+*** Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
 #+end_src
 
-**** Appearance
+*** Behavior
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
-(setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes.
+(setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes
+(setq org-noter-auto-save-last-location t)          ; remembers where I left off in pdfs and notes
+#+end_src
+
+*** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 ;; don't touch my frames...
 (setq org-noter-always-create-frame nil)
 (setq org-noter-kill-frame-at-session-end nil)
-#+end_src
-
-**** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
-(setq org-noter-auto-save-last-location t)          ; remembers where I left off in pdfs
 #+end_src
 
 *** Custom Functions
@@ -720,17 +694,15 @@ Is a minimal presentation tool for org-mode. It's designed around each slide bei
 
 Because it's so minimal, I do a bit of customization to make it more usable and pleasant to view.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-present
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-present :exports none
 (use-package! org-present
 #+end_src
 
-*** Config
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-present-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-present-config :exports none
 :config
 #+end_src
 
-**** Keybinds
+*** Keybinds
 
 Evil collection has a set of default binds for this mode that I disagree with, so we'll disable it.
 
@@ -982,10 +954,11 @@ A better meta package of tools for viewing and interacting with PDFs. This is re
 
 Provides syntax code block highlighting and theming to our org-latex pdf exports!
 
+We just need to load this package after ox-latex for our latex pdf exports.
+
 #+begin_src emacs-lisp
 (use-package! engrave-faces-latex
   :after ox-latex
-  :config
 )
 #+end_src
 
@@ -993,38 +966,32 @@ Provides syntax code block highlighting and theming to our org-latex pdf exports
 
 This wonderful package blinks and highlights the current line. I primarily use it on window switching to never lose track of the cursor/point again.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar :exports none
 (use-package! pulsar
 #+end_src
 
-*** Config
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config :exports none
 :config
 #+end_src
 
-**** Appearance
+*** Behavior
+
+Setup the basic pulse configuration.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
+(setq pulsar-pulse t)
+(setq pulsar-delay 0.095)
+(setq pulsar-iterations 12)
+#+end_src
+
+*** Appearance
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 (setq pulsar-face 'pulsar-magenta)                  ; used by pulsar-pulse-line
 (setq pulsar-highlight-face 'pulsar-yellow)         ; used by pulsar-highlight-*
 #+end_src
 
-**** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
-(setq pulsar-pulse t)
-#+end_src
-
-**** Settings
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
-(setq pulsar-delay 0.095)
-(setq pulsar-iterations 12)
-#+end_src
-
-**** Extension
-***** Evil Function Support
+*** Add to Evil
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 (add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
@@ -1039,34 +1006,27 @@ This wonderful package blinks and highlights the current line. I primarily use i
 (add-to-list 'pulsar-pulse-functions 'evil-window-prev)
 #+end_src
 
-***** Recentering
-****** Custom Functions
-******* Middle Recenter
+*** Recentering
+**** Middle Recenter
 
 #+begin_src emacs-lisp
 (defun noncog/pulsar-scroll-recenter-middle (&rest _args)
   (pulsar-recenter-middle))
 #+end_src
 
-****** After Scrolling Recenter Middle
+**** After Scrolling Recenter Middle
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 (advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter-middle)
 (advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter-middle)
 #+end_src
 
-****** After Jumping Recenter Top
+**** After Jumping Recenter Top
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
 (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
 (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
-#+end_src
-
-#+begin_src emacs-lisp :noweb yes :exports none
-<<use-package-pulsar>>
-  <<use-package-pulsar-config>>
-  <<use-package-end>>
 #+end_src
 
 *** Enable
@@ -1075,57 +1035,59 @@ This wonderful package blinks and highlights the current line. I primarily use i
 (pulsar-global-mode 1)
 #+end_src
 
+#+begin_src emacs-lisp :noweb yes :exports none
+<<use-package-pulsar>>
+  <<use-package-pulsar-config>>
+  <<use-package-end>>
+#+end_src
+
 ** [[https://company-mode.github.io/][Company]]
 
 This is the completion framework that Doom uses. It uses back-ends to retrieve and display completion candidates.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-company
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-company :exports none
 (use-package! company
 #+end_src
 
-*** Config
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config :exports none
 :config
 #+end_src
 
-**** Package Settings
-***** Text-mode
+*** Behavior
 
-Text-mode is often inherited by other modes like org-mode. I would rather be able to control modes explicitly instead of use inheritance. Default inheritance pattern: text-mode > outline-mode > org-mode.
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
+(setq company-idle-delay 0.1)
+(setq company-tooltip-limit 10)
+(setq company-minimum-prefix-length 1)
+#+end_src
 
-****** Disable text-mode Global Setup
+*** Package Settings
+**** Text-mode
+
+Text-mode is often inherited by other modes like org-mode. I would rather be able to control modes explicitly instead of use inheritance.
+
+I disable company for text-mode then remove it's backend from the alist.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (setq company-global-modes '(not text-mode erc-mode circe-mode message-mode help-mode gud-mode vterm-mode))
 #+end_src
 
-****** Remove text-mode Backend
-
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
 #+end_src
 
-***** Org-mode
+**** Org-mode
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (set-company-backend! 'org-mode
   '(company-capf company-files :with company-yasnippet))
 #+end_src
 
-***** Sh-mode
+**** Sh-mode
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (set-company-backend! 'sh-mode
   '(company-shell company-files :with company-yasnippet))
-#+end_src
-
-***** Settings
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
-(setq company-idle-delay 0.1)
-(setq company-tooltip-limit 10)
-(setq company-minimum-prefix-length 1)
 #+end_src
 
 #+begin_src emacs-lisp :noweb yes :exports none
@@ -1164,7 +1126,9 @@ Provides project level interaction.
 
 ** [[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill Column]]
 
-This package adds centering to buffers!
+This package adds centering to buffers, amongst other things.
+
+This package is incompatible with Doom's popup window rules so I'm looking for an alternative.
 
 #+begin_src emacs-lisp :tangle no
 (use-package! visual-fill-column
@@ -1180,20 +1144,23 @@ This package adds centering to buffers!
 
 [[https://joaotavora.github.io/yasnippet/snippet-development.html][Yasnippet Development]]
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-yasnippet
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-yasnippet :exports none
 (use-package! yasnippet
 #+end_src
 
-*** Config
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-yasnippet-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-yasnippet-config :exports none
 :config
 #+end_src
 
-**** Set User Directory
+*** Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-yasnippet-config
 (setq yas-snippet-dirs '("~/.config/doom/snippets/"))
+#+end_src
+
+*** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-yasnippet-config
 (setq yas-indent-line 'fixed)                       ; prevent yasnippet from changing my indents
 #+end_src
 
@@ -1207,15 +1174,15 @@ This package adds centering to buffers!
 
 ** Python
 
-#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python :exports none
 (use-package! python
 #+end_src
 
-*** Config
-
-#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python-config
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python-config :exports none
 :init
 #+end_src
+
+*** Behavior
 
 #+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python-config
 (setq python-shell-interpreter "python3")
