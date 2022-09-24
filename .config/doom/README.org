@@ -127,6 +127,18 @@ https://github.com/tecosaur/emacs-config/blob/master/config.org#general-settings
 ;; they are implemented.
 #+end_src
 
+* About
+
+It should be noted that I use a [[https://leanpub.com/lit-config/read][literate configuration]]. This enables me to have a single annotated file for a particular configuration which automatically writes out the actual configuration file from the .org file.
+
+*** README.org != config.el
+
+#+BEGIN_QUOTE
+*Warning:* README.org does not represent the actual elisp code because of my use of =noweb= blocks. This is done to better share the features I use, not how I write elisp. To see 'under the hood', refer to =config.el= and the raw README.org file. For example, I cleverly split up use-package! declarations into more visually appealing and better documented code blocks for viewing here on GitHub.
+#+END_QUOTE
+
+The [[https://orgmode.org/manual/Noweb-Reference-Syntax.html][org-mode manual]] documentation on this topic is extremely useful for understanding the ways you can use this.
+
 * Doom Global
 
 In this section I setup Doom and "global" things. Otherwise, package specific settings are in the [[#packages][Packages]] section.
