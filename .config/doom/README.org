@@ -278,6 +278,10 @@ The number of lines relative to the top and bottom of the screen, at which you s
 (use-package! org
 #+end_src
 
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config :exports none
+:config
+#+end_src
+
 *** Directory
 
 According to Doom, org's directory must be set early due to it's loading process. Therfore it's not inside the package configuration.
@@ -286,19 +290,14 @@ According to Doom, org's directory must be set early due to it's loading process
 (setq org-directory "~/documents/org/")
 #+end_src
 
-*** Config
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config :exports none
-:config
-#+end_src
-
-**** Modules
+*** Modules
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
 #+end_src
 
-**** Files
+*** Agenda Files
 
 I only check these documents for my agenda items, instead of an entire directory.
 
@@ -311,21 +310,21 @@ I only check these documents for my agenda items, instead of an entire directory
                                "~/documents/org/university/information-assurance-3755")))
 #+end_src
 
-**** Habit Settings
+*** Habit Settings
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section
 (setq org-habit-show-all-today t)                   ; keep habits visible even if done today
 #+end_src
 
-**** Logging
+*** Logging
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-log-done 'time)                           ; add completion time to DONE items.
 (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
 #+end_src
 
-**** Behavior
+*** Behavior
 
 This section needs separated...
 
@@ -346,7 +345,7 @@ This section needs separated...
 (setq org-highlight-latex-and-related '(native script entities)) ; supposedly teco had other issues with this but I haven't found them...
 #+end_src
 
-**** Appearance
+*** Appearance
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-ellipsis " ▾ ")                           ; set custom ellipsis
