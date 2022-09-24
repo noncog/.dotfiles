@@ -41,8 +41,6 @@
 
 (setq org-directory "~/documents/org/")
 
-(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
-
 (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
 (defvar noncog/brain-visible nil)
 
@@ -62,6 +60,8 @@
 
 ;; set it's window behavior
 (set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
+
+(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
 
 (after! consult
   (defadvice! org-show-entry-consult-a (fn &rest args)
@@ -111,15 +111,10 @@
     (setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
     (setq org-hide-leading-stars t)                     ; remove excess heading stars
+    (setq org-fontify-quote-and-verse-blocks nil)
+    (setq org-fontify-whole-heading-line nil)
     )
   )
-
-(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
-
-(defun noncog/my-agenda ()
-  "My custom agenda launcher."
-  (interactive)
-  (org-agenda nil "o"))
 
 (defun noncog/agenda-remove-empty ()
   "A simple function to remove empty agenda sections. Scans for blank lines. Blank sections defined by having two consecutive blank lines. Not compatible with the block separator."
@@ -156,6 +151,13 @@
   (goto-char (point-min))
   (setq buffer-read-only t)
 )
+
+(defun noncog/my-agenda ()
+  "My custom agenda launcher."
+  (interactive)
+  (org-agenda nil "o"))
+
+(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
 
 (after! org-agenda
   (use-package! org-agenda
@@ -542,6 +544,6 @@ set palette defined ( 0 '%s',\
   )
 
 (use-package! python
-  :config
+  :init
   (setq python-shell-interpreter "python3")
   )

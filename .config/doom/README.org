@@ -354,14 +354,8 @@ I only check these documents for my agenda items, instead of an entire directory
 (setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
 (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
 (setq org-hide-leading-stars t)                     ; remove excess heading stars
-#+end_src
-
-*** Keybinds
-
-A leader keybind to launch my main org document viewer.
-
-#+begin_src emacs-lisp
-(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+(setq org-fontify-quote-and-verse-blocks nil)
+(setq org-fontify-whole-heading-line nil)
 #+end_src
 
 *** Custom Functions
@@ -395,6 +389,12 @@ Now, let's use Doom's popup windowing to control the displaying of the buffer.
 #+begin_src emacs-lisp
 ;; set it's window behavior
 (set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
+#+end_src
+
+And then set a keybind to call my brain viewer.
+
+#+begin_src emacs-lisp
+(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
 #+end_src
 
 **** Unfold Org Headings in Consult Search
@@ -586,25 +586,7 @@ This is my custom agenda viewer. It has everything I want and nothing more. I se
 (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
 #+end_src
 
-*** Keybinds
-
-#+begin_src emacs-lisp
-(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
-#+end_src
-
-*** Custom Functions
-**** My Agenda Launcher
-
-Just a wrapper function I can bind a keybind to or call by myself to launch my agenda.
-
-#+begin_src emacs-lisp
-(defun noncog/my-agenda ()
-  "My custom agenda launcher."
-  (interactive)
-  (org-agenda nil "o"))
-#+end_src
-
-**** Remove Empty Agenda Sections
+***** Remove Empty Agenda Sections
 
 If one of my agenda blocks has no information, I don't want to see it. I call this function when displaying my agenda to delete empty sections.
 
@@ -644,6 +626,23 @@ If one of my agenda blocks has no information, I don't want to see it. I call th
   (goto-char (point-min))
   (setq buffer-read-only t)
 )
+#+end_src
+
+***** Agenda Launcher
+
+I define a function to call my agenda either from the M-x or through a keybind.
+
+#+begin_src emacs-lisp
+(defun noncog/my-agenda ()
+  "My custom agenda launcher."
+  (interactive)
+  (org-agenda nil "o"))
+#+end_src
+
+Then I define a keybind to call my agenda viewer.
+
+#+begin_src emacs-lisp
+(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
 #+end_src
 
 #+begin_src emacs-lisp :noweb yes :exports none
@@ -1215,7 +1214,7 @@ This package adds centering to buffers!
 *** Config
 
 #+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python-config
-:config
+:init
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python-config
