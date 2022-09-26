@@ -28,8 +28,8 @@ vertical_offset=57
 default=" Default"
 set_default=" Set Default"
 configurations=" Configs"
-kill_emacs=" Kill Emacs"
 start_daemon=" Start Daemon"
+kill_emacs=" Kill Emacs"
 
 #=============#
 # script-vars #  DONT CHANGE
@@ -52,10 +52,10 @@ assemble_menu() {
     else
         grep -Po '[^"]+(?=" . \()' $chemacs_directory/profiles.el
     fi
-    echo $set_default
     echo $configurations
-    echo $kill_emacs
+    echo $set_default
     echo $start_daemon
+    echo $kill_emacs
 }
 
 # checks user config file locations
@@ -150,14 +150,13 @@ else
         fi
         exit 0
     ;;
-    $kill_emacs)
-        kill_all_emacs
-        exit 0
-    ;;
-
     $start_daemon)
         # daemon is launched using the default profile
         emacs --daemon
+        exit 0
+    ;;
+    $kill_emacs)
+        kill_all_emacs
         exit 0
     ;;
     esac
