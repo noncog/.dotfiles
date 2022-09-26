@@ -1224,3 +1224,14 @@ This package is incompatible with Doom's popup window rules so I'm looking for a
   <<use-package-end>>
 #+end_src
 
+** Electric Indent
+I've been having issues with electric indent's behavior when editing shell scripts...
+
+So we disable it for that mode.
+
+#+begin_src emacs-lisp
+(defun noncog/remove-electric-indent-mode ()
+  (electric-indent-local-mode -1))
+
+(add-hook 'sh-mode-hook 'noncog/remove-electric-indent-mode)
+#+end_src

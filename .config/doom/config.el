@@ -562,3 +562,8 @@ set palette defined ( 0 '%s',\
   :init
   (setq python-shell-interpreter "python3")
   )
+
+(defun noncog/remove-electric-indent-mode ()
+  (electric-indent-local-mode -1))
+
+(add-hook 'sh-mode-hook 'noncog/remove-electric-indent-mode)
