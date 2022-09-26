@@ -552,8 +552,8 @@ set palette defined ( 0 '%s',\
   )
 
 (after! projectile
-  ;; ignore the my Doom installation directory
   (setq projectile-ignored-projects '("/opt/doom-emacs/"))
+  (map! :leader :desc "List dirty projects" "p l" #'projectile-browse-dirty-projects)
   )
 
 (after! yasnippet

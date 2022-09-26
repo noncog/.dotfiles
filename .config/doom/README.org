@@ -1156,10 +1156,21 @@ Gives us quicker window switching when other-window just won't cut it. Allows us
 
 Provides project level interaction.
 
-#+begin_src emacs-lisp
+The only real modification I make is to have it ignore my Doom installation directory.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+(setq projectile-ignored-projects '("/opt/doom-emacs/"))
+#+end_src
+
+And I had a keybind to view the projects with uncommited changes.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+(map! :leader :desc "List dirty projects" "p l" #'projectile-browse-dirty-projects)
+#+end_src
+
+#+begin_src emacs-lisp :noweb yes :exports none
 (after! projectile
-  ;; ignore the my Doom installation directory
-  (setq projectile-ignored-projects '("/opt/doom-emacs/"))
+  <<projectile-config>>
   )
 #+end_src
 
@@ -1232,3 +1243,4 @@ This package is incompatible with Doom's popup window rules so I'm looking for a
   <<use-package-python-config>>
   <<use-package-end>>
 #+end_src
+
