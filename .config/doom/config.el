@@ -7,6 +7,8 @@
 
 (global-auto-revert-mode 1)
 
+(setq scroll-margin 5)
+
 (setq doom-theme 'doom-dracula)
 (setq doom-dracula-brighter-modeline t)
 (setq doom-dracula-colorful-headers t)
@@ -25,17 +27,9 @@
 (display-time-mode 1)
 
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-
-(after! emacs
-  (use-package! emacs
-    :defer
-    :config
-    (setq scroll-margin 5)
-    ;; scroll buffer by a line
-    (global-set-key (kbd "M-p") #'scroll-down-line)
-    (global-set-key (kbd "M-n") #'scroll-up-line)
-    )
-  )
+;; scroll buffer by a line
+(global-set-key (kbd "M-p") #'scroll-down-line)
+(global-set-key (kbd "M-n") #'scroll-up-line)
 
 (setq org-directory "~/documents/org/")
 

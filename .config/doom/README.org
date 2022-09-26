@@ -158,6 +158,14 @@ Needs updated with secure private public email.
 (global-auto-revert-mode 1)
 #+end_src
 
+*** Scrolling
+
+The number of lines relative to the top and bottom of the screen, at which you should scroll the buffer. This provides room to see what is coming and prevents you from passing up your desired information.
+
+#+begin_src emacs-lisp
+(setq scroll-margin 5)
+#+end_src
+
 ** Appearance
 *** Theme
 
@@ -227,49 +235,21 @@ When I want them, I can turn them on per mode or using Doom's toggle, but I don'
 
 ** Keybinds
 
+I only set a couple of global keybinds here that have no other relevant place, like in a package's settings.
+
 #+begin_src emacs-lisp
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-#+end_src
-
-* Packages
-
-This section modifies all configurations for packages, including Emacs itself.
-
-#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-end
-)
-#+end_src
-
-** Emacs
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs :exports none
-(use-package! emacs
-  :defer
-  :config
-#+end_src
-
-*** Behavior
-**** Scroll Margin
-
-The number of lines relative to the top and bottom of the screen, at which you should scroll the buffer. This provides room to see what is coming and prevents you from passing up your desired information.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs-config
-(setq scroll-margin 5)
-#+end_src
-
-*** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-emacs-config
 ;; scroll buffer by a line
 (global-set-key (kbd "M-p") #'scroll-down-line)
 (global-set-key (kbd "M-n") #'scroll-up-line)
 #+end_src
 
-#+begin_src emacs-lisp :noweb yes :exports none
-(after! emacs
-  <<use-package-emacs>>
-    <<use-package-emacs-config>>
-    <<use-package-end>>
-  )
+* Packages
+
+This section is dedicated to configuring package specific settings.
+
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-end
+)
 #+end_src
 
 ** [[https://orgmode.org/][Org]]
