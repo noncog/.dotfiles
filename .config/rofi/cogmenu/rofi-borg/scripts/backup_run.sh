@@ -50,7 +50,6 @@ archive_name="::{hostname}-{now}"
 
 backup_directories=(
     $HOME/.individuals
-    $HOME/books
     $HOME/documents
     $HOME/pictures/archive
     $HOME/projects
