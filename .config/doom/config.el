@@ -125,7 +125,6 @@
     (setq evil-collection-calendar-want-org-bindings t) ; add evil bindings to org's calendar
     ;; these should be moved to ox-latex
     (setq org-latex-src-block-backend 'engraved)        ; add syntax highlighting to org latex exports
-    (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
     ;(setq org-babel-results-keyword "OUTPUT")           ; a possible workaround, can change this instead of results block exporting, allow to not use :exports both and instead use the result from within the code document, possibly reducing export time. Need to understand more. org babel result shows many variables to play with.
     (setq org-highlight-latex-and-related '(native script entities)) ; supposedly teco had other issues with this but I haven't found them...
     (setq org-ellipsis " ▾ ")                           ; set custom ellipsis
@@ -485,6 +484,11 @@ set palette defined ( 0 '%s',\
   (setq org-export-headline-levels 7)
   (setq org-export-with-creator t)
   (setq org-export-creator-string (concat "Doom Emacs " emacs-version " (Org mode " org-version ")" ))
+  )
+
+(use-package! ox-latex
+  :init
+  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
   )
 
 (after! pdf-tools
