@@ -19,6 +19,8 @@ i3-focused = #dd4545
 
 [bar/default_bar]
 
+monitor = HDMI-0
+monitor-fallback = eDP-1-1
 width = 100%
 height = 27
 
@@ -91,8 +93,8 @@ label-unfocused-padding = 1
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %icon%
-label-visible-background = ${self.label-focused-background}
-label-visible-padding = ${self.label-focused-padding}
+label-visible-background = ${colors.background}
+label-visible-padding = 1
 
 ; urgent = Workspace with urgency hint set
 label-urgent = %icon%
@@ -103,7 +105,7 @@ label-urgent-padding = 1
 type = internal/cpu
 
 interval = 4
-format-prefix = " "
+format-prefix = ""
 format-prefix-foreground = ${colors.purple}
 label = %percentage:2%%
 

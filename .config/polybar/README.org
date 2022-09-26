@@ -59,6 +59,8 @@ i3-focused = #dd4545
 #+BEGIN_SRC conf :tangle config
 [bar/default_bar]
 
+monitor = HDMI-0
+monitor-fallback = eDP-1-1
 width = 100%
 height = 27
 
@@ -136,8 +138,8 @@ label-unfocused-padding = 1
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %icon%
-label-visible-background = ${self.label-focused-background}
-label-visible-padding = ${self.label-focused-padding}
+label-visible-background = ${colors.background}
+label-visible-padding = 1
 
 ; urgent = Workspace with urgency hint set
 label-urgent = %icon%
@@ -269,5 +271,5 @@ killall -q polybar
 # launch default bar
 echo "---" | tee -a /tmp/polybar_default_bar.log
 polybar default_bar 2>&1 | tee -a /tmp/polybar_default_bar.log & disown
-echo "default bar launched..."
+echo "Polybar: Default bar launched..."
 #+END_SRC
