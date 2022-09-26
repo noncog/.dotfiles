@@ -9,4 +9,4 @@ killall -q polybar
 # launch default bar
 echo "---" | tee -a /tmp/polybar_default_bar.log
 polybar default_bar 2>&1 | tee -a /tmp/polybar_default_bar.log & disown
-echo "default bar launched..."
+echo "Polybar: Default bar launched..."
