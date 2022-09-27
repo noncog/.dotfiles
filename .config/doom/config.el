@@ -38,7 +38,9 @@
 (defun noncog/toggle-brain ()
   "A function for toggling the view of the your chosen file in a side window."
   (interactive)
-  (if (get-file-buffer noncog/brain-file) (progn(kill-buffer (get-file-buffer noncog/brain-file))(message "Killed Brain buffer.")) (progn(display-buffer (find-file-noselect noncog/brain-file))(message "Opened Brain buffer."))))
+  (if (get-file-buffer noncog/brain-file)
+      (progn(kill-buffer (get-file-buffer noncog/brain-file))(message "Killed Brain buffer."))
+    (progn(display-buffer (find-file-noselect noncog/brain-file))(message "Opened Brain buffer."))))
 
 ;; set it's window behavior
 (set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)

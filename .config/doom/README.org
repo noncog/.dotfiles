@@ -353,7 +353,9 @@ It opens the file if it isn't already and shows it to me. Because it's a toggle,
 (defun noncog/toggle-brain ()
   "A function for toggling the view of the your chosen file in a side window."
   (interactive)
-  (if (get-file-buffer noncog/brain-file) (progn(kill-buffer (get-file-buffer noncog/brain-file))(message "Killed Brain buffer.")) (progn(display-buffer (find-file-noselect noncog/brain-file))(message "Opened Brain buffer."))))
+  (if (get-file-buffer noncog/brain-file)
+      (progn(kill-buffer (get-file-buffer noncog/brain-file))(message "Killed Brain buffer."))
+    (progn(display-buffer (find-file-noselect noncog/brain-file))(message "Opened Brain buffer."))))
 #+end_src
 
 Now, let's use Doom's popup windowing to control the displaying of the buffer.
