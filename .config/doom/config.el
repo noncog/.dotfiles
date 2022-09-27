@@ -34,21 +34,11 @@
 (setq org-directory "~/documents/org/")
 
 (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
-(defvar noncog/brain-visible nil)
 
 (defun noncog/toggle-brain ()
   "A function for toggling the view of the your chosen file in a side window."
   (interactive)
-  (if (and noncog/brain-visible (get-buffer-window (get-file-buffer noncog/brain-file)) t)
-      ;; buffer is visible
-      (let ((buffer (get-file-buffer noncog/brain-file)))
-        (delete-window (get-buffer-window buffer))
-        (kill-buffer buffer)
-        (setq noncog/brain-visible nil))
-    ;; buffer not visible
-    (progn
-      (display-buffer (find-file-noselect noncog/brain-file))
-      (setq noncog/brain-visible t))))
+  (if (get-file-buffer noncog/brain-file) (progn(kill-buffer (get-file-buffer noncog/brain-file))(message "Killed Brain buffer.")) (progn(display-buffer (find-file-noselect noncog/brain-file))(message "Opened Brain buffer."))))
 
 ;; set it's window behavior
 (set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
@@ -108,6 +98,7 @@
     (setq org-habit-show-all-today t)                   ; keep habits visible even if done today
     (setq org-log-done 'time)                           ; add completion time to DONE items.
     (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
+    
     (setq org-return-follows-link t)                    ; enter opens links in org
     (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks
     (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
