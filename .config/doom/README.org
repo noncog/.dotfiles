@@ -286,7 +286,9 @@ I only check these documents for my agenda items, instead of an entire directory
                                "~/documents/org/university/data-structures-and-algorithms-5870"
                                "~/documents/org/university/network-concepts-and-administration-3723"
                                "~/documents/org/university/software-engineering-5801"
-                               "~/documents/org/university/information-assurance-3755")))
+                               "~/documents/org/university/information-assurance-3755"
+                               "~/projects/form-visualizer"
+                               "~/projects/immediate-sdk")))
 #+end_src
 
 *** Habit Settings
@@ -306,7 +308,10 @@ I only check these documents for my agenda items, instead of an entire directory
 *** TODO States
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
-
+;; (setq org-todo-keywords
+;;     '((sequence "TODO(t)" "IDEA(i)" "PROJ(p)" "STRT(s)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@/!)")
+;;       (sequence "[ ](T)" "[-](S)" "[?](W)" "[X](D)")
+;;       (sequence "OKAY(o)" "YES(y)" "NO(n)")))
 #+end_src
 
 *** Behavior

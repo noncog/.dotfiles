@@ -95,12 +95,17 @@
                                    "~/documents/org/university/data-structures-and-algorithms-5870"
                                    "~/documents/org/university/network-concepts-and-administration-3723"
                                    "~/documents/org/university/software-engineering-5801"
-                                   "~/documents/org/university/information-assurance-3755")))
+                                   "~/documents/org/university/information-assurance-3755"
+                                   "~/projects/form-visualizer"
+                                   "~/projects/immediate-sdk")))
     (setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section
     (setq org-habit-show-all-today t)                   ; keep habits visible even if done today
     (setq org-log-done 'time)                           ; add completion time to DONE items.
     (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
-    
+    ;; (setq org-todo-keywords
+    ;;     '((sequence "TODO(t)" "IDEA(i)" "PROJ(p)" "STRT(s)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@/!)")
+    ;;       (sequence "[ ](T)" "[-](S)" "[?](W)" "[X](D)")
+    ;;       (sequence "OKAY(o)" "YES(y)" "NO(n)")))
     (setq org-return-follows-link t)                    ; enter opens links in org
     (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks
     (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
