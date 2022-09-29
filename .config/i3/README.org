@@ -20,10 +20,10 @@
 - [[#tips][Tips]]
 
 * Monitors
-#+BEGIN_SRC conf
+#+begin_src conf
 set $laptop eDP-1-1
 set $external HDMI-0
-#+END_SRC
+#+end_src
 
 * Basic Controls
 Mostly standard controls.
@@ -157,26 +157,26 @@ bindsym $mod+Shift+q exec --no-startup-id $HOME/.config/i3/emacs-i3-integration 
 #+end_src
 
 * Settings
-#+BEGIN_SRC conf
+#+begin_src conf
 focus_wrapping no
-#+END_SRC
+#+end_src
 
 * Looks
 ** Font
 I try to use Fira Code for everything.
-#+BEGIN_SRC conf
+#+begin_src conf
 font pango:Fira Code 11
-#+END_SRC
+#+end_src
 
 ** Wallpaper
 Check out my [[https://github.com/noncog/.dotfiles/tree/master/.config/wallpapers][wallpapers directory]].
-#+BEGIN_SRC conf
+#+begin_src conf
 exec --no-startup-id nitrogen --restore 
-#+END_SRC
+#+end_src
 
 ** Theme
 I use the [[https://draculatheme.com/][Dracula theme]] everywhere I can!
-#+BEGIN_SRC conf
+#+begin_src conf
 # class                 border  bground text    indicator child_border
 client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
@@ -185,10 +185,10 @@ client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
 client.background       #F8F8F2
-#+END_SRC
+#+end_src
 
 ** i3-gaps
-#+BEGIN_SRC conf
+#+begin_src conf
 # Necessary for i3-gaps to work properly (pixel can be any value)
 for_window [class="^.*"] border pixel 2
 
@@ -202,7 +202,7 @@ smart_borders on
 # Set inner/outer gaps
 gaps inner 10
 gaps outer 0
-#+END_SRC
+#+end_src
 
 * Workspaces
 I only use 3 universal workspaces and a 'coding' workspace. Some apps get their own workspace. Some apps live in the scratchpad.
@@ -228,53 +228,53 @@ workspace $ws1 output $external $laptop
 workspace $ws2 output $external $laptop
 workspace $ws3 output $laptop $external
 workspace $code output $external $laptop
-#+END_SRC
+#+end_src
 
 * Utilities
 ** Emacs Daemon
-#+BEGIN_SRC conf
+#+begin_src conf
 exec --no-startup-id emacs --daemon
-#+END_SRC
+#+end_src
 
 ** Picom Daemon
-#+BEGIN_SRC conf
+#+begin_src conf
 exec --no-startup-id picom -b
-#+END_SRC
+#+end_src
 
 ** Network-Manager
-#+BEGIN_SRC conf
+#+begin_src conf
 exec --no-startup-id nm-applet
-#+END_SRC
+#+end_src
 
 ** Pulse Audio Control
-#+BEGIN_SRC conf
+#+begin_src conf
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-#+END_SRC
+#+end_src
 
 ** Extreme Cooling 4 Linux
-#+BEGIN_SRC conf
+#+begin_src conf
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
-#+END_SRC
+#+end_src
 
 ** Polybar
-#+BEGIN_SRC conf
+#+begin_src conf
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # note that exec_always runs every time you restart i3 not just initialization.
 # this allows polybar to be restarted with i3 restarting.
-#+END_SRC
+#+end_src
 
 ** Rofi
-#+BEGIN_SRC conf
+#+begin_src conf
 # desktop app launcher
 bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 # custom menu launcher
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
-#+END_SRC
+#+end_src
 
 ** ScreenKey
 #+begin_src conf
@@ -282,13 +282,13 @@ bindsym $mod+Shift+question exec --no-startup-id screenkey
 #+end_src
 
 * Startup Apps
-#+BEGIN_SRC conf
+#+begin_src conf
 exec --no-startup-id sleep 3 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
 exec --no-startup-id sleep 4 && firefox
 exec --no-startup-id kitty --name Floating-Kitty
 # restart i3 to make sure startup windows are moved to scratchpad
 exec --no-startup-id restart
-#+END_SRC
+#+end_src
 
 * Workspace Apps
 These apps are given their own workspaces.
@@ -298,70 +298,70 @@ I use a particular format for how my apps are managed.
 - =shift+key= = spawn
 - =control+shift+key= = move to app's workspace
 ** Emacs Client
-#+BEGIN_SRC conf
+#+begin_src conf
 set $emacs "Emacs"
 assign [class="Emacs"] $emacs
 workspace $emacs output $external $laptop
 bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-chemacs.sh
 bindsym $mod+e [class="Emacs"] focus
-#+END_SRC
+#+end_src
 
 ** Firefox
-#+BEGIN_SRC conf
+#+begin_src conf
 set $firefox "Firefox"
 assign [class="Firefox-esr"] $firefox
 workspace $firefox output $external $laptop
 bindsym $mod+Control+Shift+f move container to workspace $firefox
 bindsym $mod+Shift+f exec --no-startup-id firefox
 bindsym $mod+f [class="Firefox-esr" tiling] focus
-#+END_SRC
+#+end_src
 
 ** Clion
-#+BEGIN_SRC conf
+#+begin_src conf
 assign [class="jetbrains-clion"] $code
 bindsym $mod+Control+Shift+c move container to workspace $code
 bindsym $mod+Shift+c exec --no-startup-id clion
 bindsym $mod+c [class="jetbrains-clion"] focus
-#+END_SRC
+#+end_src
 
 ** Pycharm
-#+BEGIN_SRC conf
+#+begin_src conf
 assign [class="jetbrains-pycharm"] $code
 bindsym $mod+Control+Shift+p move container to workspace $code
 bindsym $mod+Shift+p exec --no-startup-id pycharm
 bindsym $mod+p [class="jetbrains-pycharm"] focus
-#+END_SRC
+#+end_src
 
 ** IntelliJ Idea
-#+BEGIN_SRC conf
+#+begin_src conf
 assign [class="jetbrains-idea"] $code
 bindsym $mod+Control+Shift+i move container to workspace $code
 bindsym $mod+Shift+i exec --no-startup-id idea
 bindsym $mod+i [class="jetbrains-idea"] focus
-#+END_SRC
+#+end_src
 
 ** Anki
 I give this it's own workspace to not deal with floating dialog issues in a scratchpad.
-#+BEGIN_SRC conf
+#+begin_src conf
 set $anki "Anki"
 assign [class="Anki"] $anki
 workspace $anki output $external $laptop
 bindsym $mod+Control+Shift+a move container to workspace $anki
 bindsym $mod+Shift+a exec --no-startup-id anki
 bindsym $mod+a [class="Anki"] focus
-#+END_SRC
+#+end_src
 
 * Scratchpad Apps
 The scratchpad is an invisible workspace. I put "floating" apps into it. They can only be spawned and focused/hidden.
 
 ** Kitty
-#+BEGIN_SRC conf
+#+begin_src conf
 for_window [instance="Floating-Kitty"] floating enable, resize set 50 ppt 50 ppt, sticky enable
 for_window [instance="Floating-Kitty"] move scratchpad
 bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
 bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, move position center
-#+END_SRC
+#+end_src
 
 ** Tor
 #+begin_src conf
@@ -392,55 +392,54 @@ Probably the pinnacle of my config...
 
 A mini floating YouTube player with sizes and positions for laptop and desktop displays.
 *** Set URL and Title
-#+BEGIN_SRC conf
+#+begin_src conf
 # set to your unique youtube page. ideally a page you will never visit.
 # otherwise your firefox will be turned into the youtuber player...
 set $youtube_page https://www.youtube.com/premium
 set $youtube_title "YouTube Premium - YouTube — Mozilla Firefox"
 # found using xprop
-#+END_SRC
+#+end_src
 
 *** Set Size and Location Per Monitor
-#+BEGIN_SRC conf
+#+begin_src conf
 # size
 set $yt_d_w 720
 set $yt_d_h 407
 # location
 set $yt_d_x 2910 px
 set $yt_d_y 1023 px
-#+END_SRC
+#+end_src
 
-#+BEGIN_SRC conf
+#+begin_src conf
 # size
 set $yt_l_w 636
 set $yt_l_h 360
 # location
 set $yt_l_x 1274 px
 set $yt_l_y 710 px
-#+END_SRC
+#+end_src
 
 *** Floating YouTube Player
-#+BEGIN_SRC conf
+#+begin_src conf
 for_window [title=$youtube_title] floating enable, move scratchpad, sticky enable, mark youtube
 bindsym $mod+Shift+y exec --no-startup-id firefox --new-window $youtube_page
 bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
-#+END_SRC
+#+end_src
 
 ** Nitrogen
-#+BEGIN_SRC conf
+#+begin_src conf
 for_window [class="Nitrogen"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
 for_window [class="Nitrogen"] scratchpad show, move position center
-#+END_SRC 
+#+end_src
 
 * Tips
 ** Finding Keynames (keysym)
-#+BEGIN_SRC conf
+#+begin_src conf
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
-#+END_SRC
+#+end_src
 
 ** Window Information
-#+BEGIN_SRC conf
+#+begin_src conf
 # To find window related information use:
 # xprop and xwininfo
-#+END_SRC
-
+#+end_src
