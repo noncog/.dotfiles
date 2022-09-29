@@ -16,6 +16,7 @@ items=(
     kitty="Kitty"
     chemacs="Chemacs"
     cogmacs="Cogmacs"
+    cogmenu="Cogmenu"
 )
 
 # configs for the items
@@ -28,6 +29,7 @@ configs=(
     kitty="$HOME/.config/kitty/kitty.conf"
     chemacs="$HOME/.config/chemacs/profiles.el"
     cogmacs="$HOME/.config/cogmacs/README.org"
+    cogmenu="$HOME/.config/rofi/cogmenu/cogmenu.sh"
 )
 
 #=============#
