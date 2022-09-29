@@ -70,8 +70,6 @@ TODO: This needs integrated with my rofi-chemacs default profile.
 ** Emacs or i3 Command Parser
 This bash script acts as a wrapper layer to decide whether a keyboard command should be sent to Emacs or i3.
 
-All
-
 Note - It's also possible for Emacs to send a command back to i3 after deciding if it should apply the command or if i3 should.
 
 #+begin_src sh :tangle emacs-i3-integration :shebang "#!/bin/bash"
