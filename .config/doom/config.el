@@ -31,9 +31,6 @@
 (global-set-key (kbd "M-p") #'scroll-down-line)
 (global-set-key (kbd "M-n") #'scroll-up-line)
 
-(defmacro i3-msg (&rest args)
-  `(start-process "emacs-i3-windmove" nil "i3-msg" ,@args))
-
 (eval-when-compile (require 'rx))
 
 (defun noncog/emacs-i3-integration (command)
@@ -49,16 +46,24 @@
        (intern (elt (split-string command) 2))
        (intern (elt (split-string command) 1))
        (string-to-number (elt (split-string command) 3))))
-    ("layout toggle split" (transpose-frame))
+    ;("layout toggle split" (transpose-frame))
     ("split v" (+evil/window-split-and-follow))
     ("split h" (+evil/window-vsplit-and-follow))
     ("kill" (evil-quit))
-    (_ (i3-msg command))))
+    (_ (shell-command (concat "i3-msg " (pp-to-string command))))
+
+(defun noncog/emacs-i3-direction-exists-p (dir)
+  (some (lambda (dir)
+          (let ((win (windmove-find-other-window dir)))
+            (and win (not (window-minibuffer-p win)))))
+        (pcase dir
+          ('width '(left right))
+          ('height '(up down)))))
 
 (defun noncog/emacs-i3-window-focus (dir)
   (let ((other-window (windmove-find-other-window dir)))
     (if (or (null other-window) (window-minibuffer-p other-window))
-        (i3-msg "focus" (symbol-name dir))
+        (shell-command (concat "i3-msg -s $(i3 --get-socket) focus " (symbol-name dir)))
       (windmove-do-window-select dir))))
 
 (defun noncog/emacs-i3-move-window (dir)
@@ -66,7 +71,6 @@
   (funcall (intern (concat "+evil/window-move-" (pp-to-string dir)))))
 
 (defun noncog/emacs-i3-resize-window (dir kind value)
-  (message (concat (pp-to-string dir) (pp-to-string kind) (pp-to-string value)))
   (pcase kind
     ('shrink
      (pcase dir
