@@ -9,7 +9,7 @@
 
 - [[#monitors][Monitors]]
 - [[#basic-controls][Basic Controls]]
-- [[#emacs-i3-integration][Emacs i3 Integration]]
+- [[#emacs-i3-windowing-integration][Emacs i3 Windowing Integration]]
 - [[#settings][Settings]]
 - [[#looks][Looks]]
 - [[#workspaces][Workspaces]]
@@ -47,6 +47,10 @@ bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
 # cycle through scratchpad windows
 bindsym $mod+apostrophe scratchpad show, move position center
 
+# layout controls
+bindsym $mod+Tab layout tabbed
+bindsym $mod+grave layout toggle split
+
 # fullscreen
 bindsym $mod+F11 fullscreen toggle
 
@@ -54,8 +58,7 @@ bindsym $mod+F11 fullscreen toggle
 bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
 #+end_src
 
-* Emacs i3 Integration
-
+* Emacs i3 Windowing Integration
 This section allows me to control my windowing for both Emacs and i3 using common keybinds.
 
 This was created by Pavel Korytov and can be found [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][here]].
@@ -65,6 +68,12 @@ I've changed a few functions to get it up and running. The implementation is sti
 TODO: This needs integrated with my rofi-chemacs default profile.
 
 ** Emacs or i3 Command Parser
+This bash script acts as a wrapper layer to decide whether a keyboard command should be sent to Emacs or i3.
+
+All
+
+Note - It's also possible for Emacs to send a command back to i3 after deciding if it should apply the command or if i3 should.
+
 #+begin_src sh :tangle emacs-i3-integration :shebang "#!/bin/bash"
 title="^.*Doom\sEmacs$"
 if [[ $(xdotool getactivewindow getwindowname) =~ $title ]]; then
@@ -75,7 +84,7 @@ else
 fi
 #+end_src
 
-** Focus
+** Change Window Focus
 #+begin_src conf
 bindsym $mod+h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus left
 bindsym $mod+j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus down
@@ -92,6 +101,14 @@ bindsym $mod+Shift+l exec $HOME/.config/i3/emacs-i3-integration move right
 #+end_src
 
 ** Resize
+#+begin_src sh :tangle i3-emacs-balance-windows :shebang "#!/bin/bash"
+title="^.*Doom\sEmacs$"
+if [[ $(xdotool getactivewindow getwindowname) =~ $title ]]; then
+    emacsclient -s doom -e "(balance-windows)"
+fi
+#i3_balance_workspace
+#+end_src
+
 #+begin_src conf
 set $resize_mode Resize: h, j, k, l
 mode "$resize_mode" {
@@ -121,22 +138,6 @@ mode "$resize_mode" {
 bindsym $mod+r mode "$resize_mode"
 #+end_src
 
-** Balance Windows
-#+begin_src sh :tangle i3-emacs-balance-windows :shebang "#!/bin/bash"
-title="^.*Doom\sEmacs$"
-if [[ $(xdotool getactivewindow getwindowname) =~ $title ]]; then
-    emacsclient -s doom -e "(balance-windows)"
-fi
-#i3_balance_workspace
-#+end_src
-
-** Layout Control
-#+begin_src conf
-bindsym $mod+Tab layout tabbed
-#bindsym $mod+grave exec --no-startup-id $HOME/.config/i3/emacs-i3-integration layout toggle split
-bindsym $mod+grave layout toggle split
-#+end_src
-
 ** Window Splitting
 #+begin_src conf
 bindsym $mod+v exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split h
@@ -144,7 +145,6 @@ bindsym $mod+s exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split 
 #+end_src
 
 ** Kill Windows
-
 #+begin_src conf
 bindsym $mod+Shift+q exec --no-startup-id $HOME/.config/i3/emacs-i3-integration kill
 #+end_src
