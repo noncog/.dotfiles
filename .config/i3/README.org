@@ -32,10 +32,8 @@ Mostly standard controls.
 # set mod key
 set $mod Mod4
 
-
 # drag floaters key
 floating_modifier $mod
-
 
 # focus between floating and tiling
 bindsym $mod+space focus mode_toggle
@@ -56,7 +54,7 @@ bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
 #+end_src
 
 * Emacs i3 Integration
-TODO FIX VIM, SPOTIFY, WHAT ELSE
+TODO FIX , SPOTIFY, WHAT ELSE
 
 TODO ADD INTEGRATION WITH ROFI CHEMACS CURRENT PROFILE
 
@@ -64,9 +62,7 @@ This section allows me to control my windowing for both Emacs and i3 using commo
 
 This was created by Pavel Korytov and can be found [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][here]].
 
-I simply implement it using my variable and function names.
-
-First we create a script to handle the passing of commands between i3 and Emacs.
+I've changed a few functions to get it up and running. The implementation is still in progress.
 
 ** Emacs or i3 Command Parser
 #+begin_src sh :tangle emacs-i3-integration :shebang "#!/bin/bash"
@@ -76,7 +72,7 @@ if [[ $(xdotool getactivewindow getwindowname) =~ $title ]]; then
     command="(noncog/emacs-i3-integration \"$@\")"
     emacsclient -s doom -e "$command"
 else
-    dunstify "$@"
+    #dunstify "$@"
     i3-msg $@
 fi
 #+end_src
@@ -147,14 +143,14 @@ bindsym $mod+Tab layout tabbed
 bindsym $mod+grave layout toggle split
 #+end_src
 
-** Window Splitting - WORKS
+** Window Splitting
 
 #+begin_src conf
 bindsym $mod+v exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split h
 bindsym $mod+s exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split v
 #+end_src
 
-** Kill Windows - WORKS
+** Kill Windows
 
 #+begin_src conf
 bindsym $mod+Shift+q exec --no-startup-id $HOME/.config/i3/emacs-i3-integration kill
@@ -367,46 +363,29 @@ bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
 bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, move position center
 #+END_SRC
 
-** Ranger
-TODO Change ranger or resize mode binds.
-#+BEGIN_SRC conf
-for_window [instance="Floating-Ranger"] floating enable, resize set 50 ppt 50 ppt, sticky enable
-for_window [instance="Floating-Ranger"] move scratchpad
-#bindsym $mod+Shift+r exec --no-startup-id kitty --name "Floating-Ranger" -e ranger
-#bindsym $mod+r [instance="Floating-Ranger"] scratchpad show, move position center
-#+END_SRC
-
-** Vim
-#+BEGIN_SRC conf
-for_window [instance="Floating-Vim"] floating enable, resize set 50 ppt 50 ppt, sticky enable
-for_window [instance="Floating-Vim"] move scratchpad
-#bindsym $mod+Shift+v exec --no-startup-id kitty --name "Floating-Vim" -e vim
-#bindsym $mod+v [instance="Floating-Vim"] scratchpad show, move position center
-#+END_SRC
-
 ** Tor
-#+BEGIN_SRC conf
+#+begin_src conf
 for_window [class="Tor Browser"] floating enable, resize set 75 ppt 75 ppt, sticky enable
 for_window [class="Tor Browser"] move scratchpad
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
 bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
-#+END_SRC
+#+end_src
 
 ** Discord
-#+BEGIN_SRC conf
+#+begin_src conf
 for_window [class="discord"] floating enable, sticky enable
 for_window [class="discord"] move scratchpad
 bindsym $mod+Shift+d exec --no-startup-id discord
 bindsym $mod+d [class="discord"] scratchpad show, resize set 50 ppt 85 ppt, move position center
-#+END_SRC
+#+end_src
 
 ** Spotify
-#+BEGIN_SRC conf
-for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
-for_window [class="Spotify"] move scratchpad
+#+begin_src conf
+#for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
+#for_window [class="Spotify"] move scratchpad
 #bindsym $mod+Shift+s exec --no-startup-id spotify
 #bindsym $mod+s [class="Spotify"] scratchpad show, move position center
-#+END_SRC
+#+end_src
 
 ** YouTube
 Probably the pinnacle of my config...
