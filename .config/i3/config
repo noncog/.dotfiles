@@ -4,29 +4,10 @@ set $external HDMI-0
 # set mod key
 set $mod Mod4
 
-# change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-
-# move window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
 
 # drag floaters key
 floating_modifier $mod
 
-# kill window
-bindsym $mod+Shift+q kill
-
-# window splitting moved to modes area
-
-# change window layout mode
-bindsym $mod+Tab layout tabbed
-bindsym $mod+grave layout toggle split
 
 # focus between floating and tiling
 bindsym $mod+space focus mode_toggle
@@ -44,6 +25,52 @@ bindsym $mod+F11 fullscreen toggle
 
 # emergency shutdown
 bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
+
+bindsym $mod+h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus left
+bindsym $mod+j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus down
+bindsym $mod+k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus up
+bindsym $mod+l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus right
+
+bindsym $mod+Shift+h exec $HOME/.config/i3/emacs-i3-integration move left
+bindsym $mod+Shift+j exec $HOME/.config/i3/emacs-i3-integration move down
+bindsym $mod+Shift+k exec $HOME/.config/i3/emacs-i3-integration move up
+bindsym $mod+Shift+l exec $HOME/.config/i3/emacs-i3-integration move right
+
+set $resize_mode Resize: h, j, k, l
+mode "$resize_mode" {
+    bindsym h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink width 10 px or 10 ppt
+    bindsym j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink height 10 px or 10 ppt
+    bindsym k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow height 10 px or 10 ppt
+    bindsym l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow width 10 px or 10 ppt
+
+    bindsym Shift+h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink width 100 px or 100 ppt
+    bindsym Shift+j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink height 100 px or 100 ppt
+    bindsym Shift+k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow height 100 px or 100 ppt
+    bindsym Shift+l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow width 100 px or 100 ppt
+
+    bindsym equal exec --no-startup-id $HOME/.config/i3/i3-emacs-balance-windows
+
+     # back to normal
+     bindsym $mod+Escape mode "default"
+     bindsym $mod+BackSpace mode "default"
+     bindsym $mod+Return mode "default"
+     bindsym Escape mode "default"
+     bindsym BackSpace mode "default"
+     bindsym Return mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "$resize_mode"
+
+bindsym $mod+Tab layout tabbed
+#bindsym $mod+grave exec --no-startup-id $HOME/.config/i3/emacs-i3-integration layout toggle split
+bindsym $mod+grave layout toggle split
+
+bindsym $mod+v exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split h
+bindsym $mod+s exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split v
+
+bindsym $mod+Shift+q exec --no-startup-id $HOME/.config/i3/emacs-i3-integration kill
 
 focus_wrapping no
 
@@ -171,13 +198,13 @@ bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, move position c
 
 for_window [instance="Floating-Ranger"] floating enable, resize set 50 ppt 50 ppt, sticky enable
 for_window [instance="Floating-Ranger"] move scratchpad
-bindsym $mod+Shift+r exec --no-startup-id kitty --name "Floating-Ranger" -e ranger
-bindsym $mod+r [instance="Floating-Ranger"] scratchpad show, move position center
+#bindsym $mod+Shift+r exec --no-startup-id kitty --name "Floating-Ranger" -e ranger
+#bindsym $mod+r [instance="Floating-Ranger"] scratchpad show, move position center
 
 for_window [instance="Floating-Vim"] floating enable, resize set 50 ppt 50 ppt, sticky enable
 for_window [instance="Floating-Vim"] move scratchpad
-bindsym $mod+Shift+v exec --no-startup-id kitty --name "Floating-Vim" -e vim
-bindsym $mod+v [instance="Floating-Vim"] scratchpad show, move position center
+#bindsym $mod+Shift+v exec --no-startup-id kitty --name "Floating-Vim" -e vim
+#bindsym $mod+v [instance="Floating-Vim"] scratchpad show, move position center
 
 for_window [class="Tor Browser"] floating enable, resize set 75 ppt 75 ppt, sticky enable
 for_window [class="Tor Browser"] move scratchpad
@@ -191,8 +218,8 @@ bindsym $mod+d [class="discord"] scratchpad show, resize set 50 ppt 85 ppt, move
 
 for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
 for_window [class="Spotify"] move scratchpad
-bindsym $mod+Shift+s exec --no-startup-id spotify
-bindsym $mod+s [class="Spotify"] scratchpad show, move position center
+#bindsym $mod+Shift+s exec --no-startup-id spotify
+#bindsym $mod+s [class="Spotify"] scratchpad show, move position center
 
 # set to your unique youtube page. ideally a page you will never visit.
 # otherwise your firefox will be turned into the youtuber player...
@@ -220,40 +247,6 @@ bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI
 
 for_window [class="Nitrogen"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
 for_window [class="Nitrogen"] scratchpad show, move position center
-
-set $resize_mode Resize: (-), (+), (Shift -), (Shift +)
-mode "$resize_mode" {
-     bindsym $mod+minus resize shrink width 10 px or 10 ppt
-     bindsym $mod+equal resize grow width 10 px or 10 ppt
-     bindsym $mod+Shift+minus resize shrink height 10 px or 10 ppt
-     bindsym $mod+Shift+equal resize grow height 10 px or 10 ppt
-
-     # back to normal
-     bindsym $mod+Escape mode "default"
-     bindsym $mod+BackSpace mode "default"
-     bindsym $mod+Return mode "default"
-     bindsym Escape mode "default"
-     bindsym BackSpace mode "default"
-     bindsym Return mode "default"
-}
-bindsym $mod+equal mode "$resize_mode"
-
-set $split_mode Split: (v)ertically, (s)plit horizontally
-mode "$split_mode" {
-     bindsym $mod+v split h; mode "default"
-     bindsym $mod+s split v; mode "default"
-     bindsym v split h; mode "default"
-     bindsym s split v; mode "default"
-
-     # back to normal
-     bindsym $mod+Escape mode "default"
-     bindsym $mod+BackSpace mode "default"
-     bindsym $mod+Return mode "default"
-     bindsym Escape mode "default"
-     bindsym BackSpace mode "default"
-     bindsym Return mode "default"
-}
-bindsym $mod+w mode "$split_mode"
 
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
 

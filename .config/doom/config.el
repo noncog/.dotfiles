@@ -31,6 +31,56 @@
 (global-set-key (kbd "M-p") #'scroll-down-line)
 (global-set-key (kbd "M-n") #'scroll-up-line)
 
+(defmacro i3-msg (&rest args)
+  `(start-process "emacs-i3-windmove" nil "i3-msg" ,@args))
+
+(eval-when-compile (require 'rx))
+
+(defun noncog/emacs-i3-integration (command)
+  (pcase command
+    ((rx bos "focus")
+     (noncog/emacs-i3-window-focus
+      (intern (elt (split-string command) 1))))
+    ((rx bos "move")
+     (noncog/emacs-i3-move-window
+      (intern (elt (split-string command) 1))))
+    ((rx bos "resize")
+     (noncog/emacs-i3-resize-window
+       (intern (elt (split-string command) 2))
+       (intern (elt (split-string command) 1))
+       (string-to-number (elt (split-string command) 3))))
+    ("layout toggle split" (transpose-frame))
+    ("split v" (+evil/window-split-and-follow))
+    ("split h" (+evil/window-vsplit-and-follow))
+    ("kill" (evil-quit))
+    (_ (i3-msg command))))
+
+(defun noncog/emacs-i3-window-focus (dir)
+  (let ((other-window (windmove-find-other-window dir)))
+    (if (or (null other-window) (window-minibuffer-p other-window))
+        (i3-msg "focus" (symbol-name dir))
+      (windmove-do-window-select dir))))
+
+(defun noncog/emacs-i3-move-window (dir)
+  ;(message (concat "Move window " (pp-to-string dir) "."))
+  (funcall (intern (concat "+evil/window-move-" (pp-to-string dir)))))
+
+(defun noncog/emacs-i3-resize-window (dir kind value)
+  (message (concat (pp-to-string dir) (pp-to-string kind) (pp-to-string value)))
+  (pcase kind
+    ('shrink
+     (pcase dir
+       ('width
+        (evil-window-decrease-width value))
+       ('height
+        (evil-window-decrease-height value))))
+    ('grow
+     (pcase dir
+       ('width
+        (evil-window-increase-width value))
+       ('height
+        (evil-window-increase-height value))))))
+
 (setq org-directory "~/documents/org/")
 
 (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
@@ -283,7 +333,9 @@
 (defun noncog/kill-org-noter-session ()
   "Fully exits the noter-session and the pdf buffers it used, leaving the org file."
   (interactive)
-  (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session))) (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil) (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
+  (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session)))
+        (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil)
+        (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
 
 (map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
 
@@ -512,6 +564,10 @@ set palette defined ( 0 '%s',\
   
   (add-to-list 'pulsar-pulse-functions 'evil-window-next)
   (add-to-list 'pulsar-pulse-functions 'evil-window-prev)
+  
+  ;(add-to-list 'pulsar-pulse-functions 'select-window)
+  ;(add-to-list 'pulsar-pulse-functions 'windmove-do-window-select)
+  ;(add-to-list 'pulsar-pulse-functions 'windmove-find-other-window)
   (advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter-middle)
   (advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter-middle)
   (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)

@@ -26,34 +26,16 @@ set $external HDMI-0
 #+END_SRC
 
 * Basic Controls
-Mostly standard, using vim binds with some improvements.
-#+BEGIN_SRC conf
+Mostly standard controls.
+
+#+begin_src conf
 # set mod key
 set $mod Mod4
 
-# change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
-
-# move window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
 
 # drag floaters key
 floating_modifier $mod
 
-# kill window
-bindsym $mod+Shift+q kill
-
-# window splitting moved to modes area
-
-# change window layout mode
-bindsym $mod+Tab layout tabbed
-bindsym $mod+grave layout toggle split
 
 # focus between floating and tiling
 bindsym $mod+space focus mode_toggle
@@ -71,7 +53,112 @@ bindsym $mod+F11 fullscreen toggle
 
 # emergency shutdown
 bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
-#+END_SRC
+#+end_src
+
+* Emacs i3 Integration
+TODO FIX VIM, SPOTIFY, WHAT ELSE
+
+TODO ADD INTEGRATION WITH ROFI CHEMACS CURRENT PROFILE
+
+This section allows me to control my windowing for both Emacs and i3 using common keybinds.
+
+This was created by Pavel Korytov and can be found [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][here]].
+
+I simply implement it using my variable and function names.
+
+First we create a script to handle the passing of commands between i3 and Emacs.
+
+** Emacs or i3 Command Parser
+#+begin_src sh :tangle emacs-i3-integration :shebang "#!/bin/bash"
+title="^.*Doom\sEmacs$"
+
+if [[ $(xdotool getactivewindow getwindowname) =~ $title ]]; then
+    command="(noncog/emacs-i3-integration \"$@\")"
+    emacsclient -s doom -e "$command"
+else
+    dunstify "$@"
+    i3-msg $@
+fi
+#+end_src
+
+** Focus
+
+#+begin_src conf
+bindsym $mod+h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus left
+bindsym $mod+j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus down
+bindsym $mod+k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus up
+bindsym $mod+l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus right
+#+end_src
+
+** Move
+
+#+begin_src conf
+bindsym $mod+Shift+h exec $HOME/.config/i3/emacs-i3-integration move left
+bindsym $mod+Shift+j exec $HOME/.config/i3/emacs-i3-integration move down
+bindsym $mod+Shift+k exec $HOME/.config/i3/emacs-i3-integration move up
+bindsym $mod+Shift+l exec $HOME/.config/i3/emacs-i3-integration move right
+#+end_src
+
+** Resize
+
+#+begin_src conf
+set $resize_mode Resize: h, j, k, l
+mode "$resize_mode" {
+    bindsym h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink width 10 px or 10 ppt
+    bindsym j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink height 10 px or 10 ppt
+    bindsym k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow height 10 px or 10 ppt
+    bindsym l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow width 10 px or 10 ppt
+
+    bindsym Shift+h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink width 100 px or 100 ppt
+    bindsym Shift+j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink height 100 px or 100 ppt
+    bindsym Shift+k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow height 100 px or 100 ppt
+    bindsym Shift+l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow width 100 px or 100 ppt
+
+    bindsym equal exec --no-startup-id $HOME/.config/i3/i3-emacs-balance-windows
+
+    # back to normal
+    bindsym $mod+Escape mode "default"
+    bindsym $mod+BackSpace mode "default"
+    bindsym $mod+Return mode "default"
+    bindsym Escape mode "default"
+    bindsym BackSpace mode "default"
+    bindsym Return mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "$resize_mode"
+#+end_src
+
+** Balance Windows
+#+begin_src sh :tangle i3-emacs-balance-windows :shebang "#!/bin/bash"
+title="^.*Doom\sEmacs$"
+if [[ $(xdotool getactivewindow getwindowname) =~ $title ]]; then
+    emacsclient -s doom -e "(balance-windows)"
+fi
+#i3_balance_workspace
+#+end_src
+
+** Layout Control
+
+#+begin_src conf
+bindsym $mod+Tab layout tabbed
+#bindsym $mod+grave exec --no-startup-id $HOME/.config/i3/emacs-i3-integration layout toggle split
+bindsym $mod+grave layout toggle split
+#+end_src
+
+** Window Splitting - WORKS
+
+#+begin_src conf
+bindsym $mod+v exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split h
+bindsym $mod+s exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split v
+#+end_src
+
+** Kill Windows - WORKS
+
+#+begin_src conf
+bindsym $mod+Shift+q exec --no-startup-id $HOME/.config/i3/emacs-i3-integration kill
+#+end_src
 
 * Settings
 #+BEGIN_SRC conf
@@ -123,7 +210,7 @@ gaps outer 0
 
 * Workspaces
 I only use 3 universal workspaces and a 'coding' workspace. Some apps get their own workspace. Some apps live in the scratchpad.
-#+BEGIN_SRC conf
+#+begin_src conf
 # name workspaces
 set $ws1 "1"
 set $ws2 "2"
@@ -281,19 +368,20 @@ bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, move position c
 #+END_SRC
 
 ** Ranger
+TODO Change ranger or resize mode binds.
 #+BEGIN_SRC conf
 for_window [instance="Floating-Ranger"] floating enable, resize set 50 ppt 50 ppt, sticky enable
 for_window [instance="Floating-Ranger"] move scratchpad
-bindsym $mod+Shift+r exec --no-startup-id kitty --name "Floating-Ranger" -e ranger
-bindsym $mod+r [instance="Floating-Ranger"] scratchpad show, move position center
+#bindsym $mod+Shift+r exec --no-startup-id kitty --name "Floating-Ranger" -e ranger
+#bindsym $mod+r [instance="Floating-Ranger"] scratchpad show, move position center
 #+END_SRC
 
 ** Vim
 #+BEGIN_SRC conf
 for_window [instance="Floating-Vim"] floating enable, resize set 50 ppt 50 ppt, sticky enable
 for_window [instance="Floating-Vim"] move scratchpad
-bindsym $mod+Shift+v exec --no-startup-id kitty --name "Floating-Vim" -e vim
-bindsym $mod+v [instance="Floating-Vim"] scratchpad show, move position center
+#bindsym $mod+Shift+v exec --no-startup-id kitty --name "Floating-Vim" -e vim
+#bindsym $mod+v [instance="Floating-Vim"] scratchpad show, move position center
 #+END_SRC
 
 ** Tor
@@ -316,8 +404,8 @@ bindsym $mod+d [class="discord"] scratchpad show, resize set 50 ppt 85 ppt, move
 #+BEGIN_SRC conf
 for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
 for_window [class="Spotify"] move scratchpad
-bindsym $mod+Shift+s exec --no-startup-id spotify
-bindsym $mod+s [class="Spotify"] scratchpad show, move position center
+#bindsym $mod+Shift+s exec --no-startup-id spotify
+#bindsym $mod+s [class="Spotify"] scratchpad show, move position center
 #+END_SRC
 
 ** YouTube
@@ -364,47 +452,6 @@ bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI
 for_window [class="Nitrogen"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
 for_window [class="Nitrogen"] scratchpad show, move position center
 #+END_SRC 
-
-* Modes & Moded Apps
-** Resize Mode
-#+BEGIN_SRC conf
-set $resize_mode Resize: (-), (+), (Shift -), (Shift +)
-mode "$resize_mode" {
-     bindsym $mod+minus resize shrink width 10 px or 10 ppt
-     bindsym $mod+equal resize grow width 10 px or 10 ppt
-     bindsym $mod+Shift+minus resize shrink height 10 px or 10 ppt
-     bindsym $mod+Shift+equal resize grow height 10 px or 10 ppt
-
-     # back to normal
-     bindsym $mod+Escape mode "default"
-     bindsym $mod+BackSpace mode "default"
-     bindsym $mod+Return mode "default"
-     bindsym Escape mode "default"
-     bindsym BackSpace mode "default"
-     bindsym Return mode "default"
-}
-bindsym $mod+equal mode "$resize_mode"  
-#+END_SRC
-
-** Window Splitting
-#+BEGIN_SRC conf
-set $split_mode Split: (v)ertically, (s)plit horizontally
-mode "$split_mode" {
-     bindsym $mod+v split h; mode "default"
-     bindsym $mod+s split v; mode "default"
-     bindsym v split h; mode "default"
-     bindsym s split v; mode "default"
-
-     # back to normal
-     bindsym $mod+Escape mode "default"
-     bindsym $mod+BackSpace mode "default"
-     bindsym $mod+Return mode "default"
-     bindsym Escape mode "default"
-     bindsym BackSpace mode "default"
-     bindsym Return mode "default"
-}
-bindsym $mod+w mode "$split_mode"
-#+END_SRC
 
 * Tips
 ** Finding Keynames (keysym)
