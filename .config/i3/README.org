@@ -9,6 +9,7 @@
 
 - [[#monitors][Monitors]]
 - [[#basic-controls][Basic Controls]]
+- [[#emacs-i3-integration][Emacs i3 Integration]]
 - [[#settings][Settings]]
 - [[#looks][Looks]]
 - [[#workspaces][Workspaces]]
@@ -27,7 +28,6 @@ set $external HDMI-0
 
 * Basic Controls
 Mostly standard controls.
-
 #+begin_src conf
 # set mod key
 set $mod Mod4
@@ -35,17 +35,18 @@ set $mod Mod4
 # drag floaters key
 floating_modifier $mod
 
-# focus between floating and tiling
-bindsym $mod+space focus mode_toggle
-
 # make window float
 bindsym $mod+Shift+space floating toggle
+
+# focus between floating and tiling
+bindsym $mod+space focus mode_toggle
 
 # hide scratchpad windows on focused workspace
 bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
 
 # cycle through scratchpad windows
 bindsym $mod+apostrophe scratchpad show, move position center
+
 # fullscreen
 bindsym $mod+F11 fullscreen toggle
 
@@ -54,9 +55,6 @@ bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
 #+end_src
 
 * Emacs i3 Integration
-TODO FIX , SPOTIFY, WHAT ELSE
-
-TODO ADD INTEGRATION WITH ROFI CHEMACS CURRENT PROFILE
 
 This section allows me to control my windowing for both Emacs and i3 using common keybinds.
 
@@ -64,21 +62,20 @@ This was created by Pavel Korytov and can be found [[https://sqrtminusone.xyz/po
 
 I've changed a few functions to get it up and running. The implementation is still in progress.
 
+TODO: This needs integrated with my rofi-chemacs default profile.
+
 ** Emacs or i3 Command Parser
 #+begin_src sh :tangle emacs-i3-integration :shebang "#!/bin/bash"
 title="^.*Doom\sEmacs$"
-
 if [[ $(xdotool getactivewindow getwindowname) =~ $title ]]; then
     command="(noncog/emacs-i3-integration \"$@\")"
     emacsclient -s doom -e "$command"
 else
-    #dunstify "$@"
     i3-msg $@
 fi
 #+end_src
 
 ** Focus
-
 #+begin_src conf
 bindsym $mod+h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus left
 bindsym $mod+j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus down
@@ -87,7 +84,6 @@ bindsym $mod+l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus 
 #+end_src
 
 ** Move
-
 #+begin_src conf
 bindsym $mod+Shift+h exec $HOME/.config/i3/emacs-i3-integration move left
 bindsym $mod+Shift+j exec $HOME/.config/i3/emacs-i3-integration move down
@@ -96,7 +92,6 @@ bindsym $mod+Shift+l exec $HOME/.config/i3/emacs-i3-integration move right
 #+end_src
 
 ** Resize
-
 #+begin_src conf
 set $resize_mode Resize: h, j, k, l
 mode "$resize_mode" {
@@ -136,7 +131,6 @@ fi
 #+end_src
 
 ** Layout Control
-
 #+begin_src conf
 bindsym $mod+Tab layout tabbed
 #bindsym $mod+grave exec --no-startup-id $HOME/.config/i3/emacs-i3-integration layout toggle split
@@ -144,7 +138,6 @@ bindsym $mod+grave layout toggle split
 #+end_src
 
 ** Window Splitting
-
 #+begin_src conf
 bindsym $mod+v exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split h
 bindsym $mod+s exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split v

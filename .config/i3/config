@@ -7,17 +7,18 @@ set $mod Mod4
 # drag floaters key
 floating_modifier $mod
 
-# focus between floating and tiling
-bindsym $mod+space focus mode_toggle
-
 # make window float
 bindsym $mod+Shift+space floating toggle
+
+# focus between floating and tiling
+bindsym $mod+space focus mode_toggle
 
 # hide scratchpad windows on focused workspace
 bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
 
 # cycle through scratchpad windows
 bindsym $mod+apostrophe scratchpad show, move position center
+
 # fullscreen
 bindsym $mod+F11 fullscreen toggle
 
