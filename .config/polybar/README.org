@@ -82,7 +82,7 @@ border-color = #00000000
 padding-left = 0
 padding-right = 1
 
-module-margin-left = 1
+module-margin-left = 0
 module-margin-right = 1
 
 font-0 = Fira Code SemiBold:style=SemiBold:pixelsize=10;2
@@ -153,9 +153,9 @@ label-urgent-padding = 1
 type = internal/cpu
 
 interval = 4
-format-prefix = ""
+format-prefix = " "
 format-prefix-foreground = ${colors.purple}
-label = %percentage:2%%
+label = %percentage:02%%
 #+END_SRC
 
 *** Memory
