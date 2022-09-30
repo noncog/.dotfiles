@@ -61,9 +61,9 @@
           ('height '(up down)))))
 
 (defun noncog/emacs-i3-window-focus (dir)
-  (let ((other-window (windmove-find-other-window dir)))
-    (if (or (null other-window) (window-minibuffer-p other-window))
-        (shell-command (concat "i3-msg -s $(i3 --get-socket) focus " (symbol-name dir)))
+  (let ((window-exist (windmove-find-other-window dir)))
+    (if (null window-exist)
+        (start-process-shell-command "i3-focus-window" nil "i3-msg" "-s $(i3 --get-socket)" "focus" (symbol-name dir))
       (windmove-do-window-select dir))))
 
 (defun noncog/emacs-i3-move-window (dir)
@@ -173,6 +173,8 @@
     (setq org-latex-src-block-backend 'engraved)        ; add syntax highlighting to org latex exports
     ;(setq org-babel-results-keyword "OUTPUT")           ; a possible workaround, can change this instead of results block exporting, allow to not use :exports both and instead use the result from within the code document, possibly reducing export time. Need to understand more. org babel result shows many variables to play with.
     (setq org-highlight-latex-and-related '(native script entities)) ; supposedly teco had other issues with this but I haven't found them...
+    (map! :map org-mode-map
+          :nie "M-SPC M-SPC" (cmd! (insert "\u200B")))
     (setq org-ellipsis " ▾ ")                           ; set custom ellipsis
     (setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
     (setq org-hide-emphasis-markers t)                  ; hide formatting for markup

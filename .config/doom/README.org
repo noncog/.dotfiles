@@ -285,13 +285,11 @@ I only set a couple of global keybinds here that have no other relevant place, l
 
 *** Focus Window
 
-TODO: Convert the shell command to a process and make calls to it. Or divert the output instead.
-
 #+begin_src emacs-lisp
 (defun noncog/emacs-i3-window-focus (dir)
-  (let ((other-window (windmove-find-other-window dir)))
-    (if (or (null other-window) (window-minibuffer-p other-window))
-        (shell-command (concat "i3-msg -s $(i3 --get-socket) focus " (symbol-name dir)))
+  (let ((window-exist (windmove-find-other-window dir)))
+    (if (null window-exist)
+        (start-process-shell-command "i3-focus-window" nil "i3-msg" "-s $(i3 --get-socket)" "focus" (symbol-name dir))
       (windmove-do-window-select dir))))
 #+end_src
 
@@ -413,6 +411,10 @@ This section needs separated...
 #+end_src
 
 *** Appearance
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-org-config
+(map! :map org-mode-map
+      :nie "M-SPC M-SPC" (cmd! (insert "\u200B")))
+#+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-ellipsis " ▾ ")                           ; set custom ellipsis
