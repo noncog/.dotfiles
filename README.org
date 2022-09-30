@@ -119,6 +119,8 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML:<li>Floating <a href="https://github.com/noncog/.dotfiles/tree/master/.config/i3#youtube">YouTube player</a>!</li>
 
+#+HTML:<li><code>Integrated Windowing</code> - i3 and Emacs use the same keybinds for window controls.</li>
+
 #+HTML:<li><code>CPU Thermometer</code> - A reactive icon, with warning colors.</li>
 
 #+HTML:<li><code>Xmodmap</code> - System level keyboard mapping. Caps lock bound to control!</li>
@@ -214,7 +216,210 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML:<details><summary><b>Software</b></summary><br><table align="center"><tr><td>Purpose</td><td>Software</td><td>Config</td></tr><tr><tr><td>OS</td><td><a href="https://www.debian.org/">Debian 11</a></td><td>&#xa0;</td></tr><tr><td>WM</td><td><a href="https://i3wm.org/">i3</a></td><td><a href="https://github.com/noncog/.dotfiles/tree/master/.config/i3">.config/i3</a></td></tr><tr><td>Launcher</td><td><a href="https://github.com/davatorium/rofi">Rofi</a></td><td><a href="https://github.com/noncog/.dotfiles/tree/master/.config/rofi">.config/rofi</a></td></tr><tr><td>Notifications</td><td><a href="https://dunst-project.org/">Dunst</a></td><td><a href="https://github.com/noncog/.dotfiles/tree/master/.config/dunst">.config/dunst</a></td></tr><tr><td>Status Bar</td><td><a href="https://polybar.github.io/">Polybar</a></td><td><a href="https://github.com/noncog/.dotfiles/tree/master/.config/polybar">.config/polybar</a></td></tr><tr><td>Compositor</td><td><a href="https://github.com/yshui/picom">Picom</a></td><td><a href="https://github.com/noncog/.dotfiles/tree/master/.config/picom">.config/picom</a></td></tr><tr><td>Wallpapers</td><td><a href="https://github.com/l3ib/nitrogen/">Nitrogen</a></td><td><a href="https://github.com/noncog/.dotfiles/tree/master/.config/nitrogen">.config/nitrogen</a></td></tr><tr><td>Screenshots</td><td><a href="https://github.com/resurrecting-open-source-projects/scrot">Scrot</a></td><td>&#xa0;</td></tr><tr><td>Network Menu</td><td><a href="https://wiki.gnome.org/Projects/NetworkManager">Network-Manager-Gnome</a></td><td>&#xa0;</td></tr><tr><td>Terminal</td><td><a href="https://sw.kovidgoyal.net/kitty/">Kitty</a></td><td><a href="https://github.com/noncog/.dotfiles/tree/master/.config/kitty">.config/kitty</a></td></tr><tr><td>Shell</td><td><a href="https://www.gnu.org/software/bash/">Bash</a></td><td><a href="https://github.com/noncog/.dotfiles/blob/master/.bashrc">.bashrc</a></td></tr><tr><td>Editor</td><td><a href="https://www.gnu.org/software/emacs/">Emacs</a></td><td><a href="https://github.com/noncog/.dotfiles/tree/master/.config/cogmacs">.config/cogmacs</a></td></tr><tr><td>Editor</td><td><a href="https://github.com/doomemacs/doomemacs">Doom Emacs</a></td><td><a href="https://github.com/noncog/.dotfiles/tree/master/.config/doom">.config/doom</a></td></tr><tr><td>Editor</td><td><a href="https://www.vim.org">Vim</a></td><td>&#xa0;</td></tr><tr><td>File Manager</td><td><a href="https://github.com/ranger/ranger">Ranger</a></td><td>.config/ranger</td></tr><tr><td>Ebook Reader</td><td><a href="https://pwmt.org/projects/zathura/">Zathura</a></td><td>.config/zathura</td></tr><tr><td>Image Viewer</td><td><a href="https://github.com/muennich/sxiv">SXIV</a></td><td>&#xa0;</td></tr><tr><td>Video Player</td><td><a href="https://www.videolan.org/vlc/">VLC</a></td><td>&#xa0;</td></tr></table></details>
 
-#+HTML: <details><summary><b>Keybinds</b></summary><p align="center">I try to control everything primarily with the keyboard.</p><p><br>Will be adding keybinds table soon...</p></details>
+#+html: <details><summary><b>Keybinds</b></summary><p align="center">I try to control everything primarily with the keyboard.</p>
+#+name: keybinds
+#+begin_src shell :results output table replace :exports none
+grep -oP "\bmod[a-zA-Z0-9._%+-]*" ~/.config/i3/config | sed -e 's/^\s*//' | grep -v "mode"
+#+end_src
+
+#+name: keys
+#+RESULTS: keybinds
+| mod                 |
+| mod                 |
+| mod+Shift+space     |
+| mod+space           |
+| mod+semicolon       |
+| mod+apostrophe      |
+| mod+Tab             |
+| mod+grave           |
+| mod+F11             |
+| mod+Control+Delete  |
+| mod+h               |
+| mod+j               |
+| mod+k               |
+| mod+l               |
+| mod+Shift+h         |
+| mod+Shift+j         |
+| mod+Shift+k         |
+| mod+Shift+l         |
+| mod+r               |
+| mod+v               |
+| mod+s               |
+| mod+Shift+q         |
+| mod+1               |
+| mod+2               |
+| mod+3               |
+| mod+Shift+1         |
+| mod+Shift+2         |
+| mod+Shift+3         |
+| mod+BackSpace       |
+| mod+Escape          |
+| mod+Shift+question  |
+| mod+Shift+z         |
+| mod+Control+Shift+e |
+| mod+Shift+e         |
+| mod+e               |
+| mod+Control+Shift+f |
+| mod+Shift+f         |
+| mod+f               |
+| mod+Control+Shift+c |
+| mod+Shift+c         |
+| mod+c               |
+| mod+Control+Shift+p |
+| mod+Shift+p         |
+| mod+p               |
+| mod+Control+Shift+i |
+| mod+Shift+i         |
+| mod+i               |
+| mod+Control+Shift+a |
+| mod+Shift+a         |
+| mod+a               |
+| mod+Shift+g         |
+| mod+g               |
+| mod+Shift+Return    |
+| mod+Return          |
+| mod+Shift+t         |
+| mod+t               |
+| mod+Shift+d         |
+| mod+d               |
+| mod+Shift+m         |
+| mod+m               |
+| mod+Shift+y         |
+| mod+y               |
+#+name: descriptions
+| Modifier                         |
+| Drag Floating Windows            |
+| Make Window Float                |
+| Toggle Focus Tiling/Floating     |
+| Hide Visible Scratchpad Windows  |
+| Cycle Scratchpad Windows         |
+| Tabbed Layout Mode               |
+| Split Layout Mode                |
+| Fullscreen                       |
+| Emergency Shutdown               |
+| Window Focus Left                |
+| Window Focus Down                |
+| Window Focus Up                  |
+| Window Focus Right               |
+| Move Window Left                 |
+| Move Window Down                 |
+| Move Window Up                   |
+| Move Window Right                |
+| Resize Mode                      |
+| Split Window Vertically          |
+| Split Window Horizontally        |
+| Kill Window                      |
+| Workspace 1                      |
+| Workspace 2                      |
+| Workspace 3                      |
+| Move Window to Workspace 1       |
+| Move Window to Workspace 2       |
+| Move Window to Workspace 3       |
+| Launch Rofi                      |
+| Cogmenu / System Menu            |
+| ScreenKey                        |
+| Extreme Cooling                  |
+| Move Window to Emacs Workspace   |
+| Rofi-Chemacs / Launch Emacs      |
+| Focus Emacs                      |
+| Move Window to FireFox Workspace |
+| Launch Firefox                   |
+| Focus Firefox                    |
+| Move Window to Code Workspace    |
+| Launch CLion                     |
+| Focus CLion                      |
+| Move Window to Code Workspace    |
+| Launch Pycharm                   |
+| Focus Pycharm                    |
+| Move Window to Code Workspace    |
+| Launch IntelliJ                  |
+| Focus IntelliJ                   |
+| Move Window to Anki Workspace    |
+| Launch Anki                      |
+| Focus Anki                       |
+| Launch Gimp                      |
+| Focus Gimp                       |
+| Launch Terminal                  |
+| Focus Terminal                   |
+| Launch Tor                       |
+| Focus Tor                        |
+| Launch Disord                    |
+| Focus Discord                    |
+| Launch Spotify                   |
+| Focus Spotify                    |
+| Launch YouTube Player            |
+| Focus YouTube Player             |
+
+#+name: final-binds
+#+begin_src emacs-lisp :var t1=descriptions t2=keys :colnames no :results replace :exports results
+(cl-mapcar #'append t1 t2)
+#+end_src
+#+html:<div align="center">
+#+RESULTS: final-binds
+| Modifier                         | mod                 |
+| Drag Floating Windows            | mod                 |
+| Make Window Float                | mod+Shift+space     |
+| Toggle Focus Tiling/Floating     | mod+space           |
+| Hide Visible Scratchpad Windows  | mod+semicolon       |
+| Cycle Scratchpad Windows         | mod+apostrophe      |
+| Tabbed Layout Mode               | mod+Tab             |
+| Split Layout Mode                | mod+grave           |
+| Fullscreen                       | mod+F11             |
+| Emergency Shutdown               | mod+Control+Delete  |
+| Window Focus Left                | mod+h               |
+| Window Focus Down                | mod+j               |
+| Window Focus Up                  | mod+k               |
+| Window Focus Right               | mod+l               |
+| Move Window Left                 | mod+Shift+h         |
+| Move Window Down                 | mod+Shift+j         |
+| Move Window Up                   | mod+Shift+k         |
+| Move Window Right                | mod+Shift+l         |
+| Resize Mode                      | mod+r               |
+| Split Window Vertically          | mod+v               |
+| Split Window Horizontally        | mod+s               |
+| Kill Window                      | mod+Shift+q         |
+| Workspace 1                      | mod+1               |
+| Workspace 2                      | mod+2               |
+| Workspace 3                      | mod+3               |
+| Move Window to Workspace 1       | mod+Shift+1         |
+| Move Window to Workspace 2       | mod+Shift+2         |
+| Move Window to Workspace 3       | mod+Shift+3         |
+| Launch Rofi                      | mod+BackSpace       |
+| Cogmenu / System Menu            | mod+Escape          |
+| ScreenKey                        | mod+Shift+question  |
+| Extreme Cooling                  | mod+Shift+z         |
+| Move Window to Emacs Workspace   | mod+Control+Shift+e |
+| Rofi-Chemacs / Launch Emacs      | mod+Shift+e         |
+| Focus Emacs                      | mod+e               |
+| Move Window to FireFox Workspace | mod+Control+Shift+f |
+| Launch Firefox                   | mod+Shift+f         |
+| Focus Firefox                    | mod+f               |
+| Move Window to Code Workspace    | mod+Control+Shift+c |
+| Launch CLion                     | mod+Shift+c         |
+| Focus CLion                      | mod+c               |
+| Move Window to Code Workspace    | mod+Control+Shift+p |
+| Launch Pycharm                   | mod+Shift+p         |
+| Focus Pycharm                    | mod+p               |
+| Move Window to Code Workspace    | mod+Control+Shift+i |
+| Launch IntelliJ                  | mod+Shift+i         |
+| Focus IntelliJ                   | mod+i               |
+| Move Window to Anki Workspace    | mod+Control+Shift+a |
+| Launch Anki                      | mod+Shift+a         |
+| Focus Anki                       | mod+a               |
+| Launch Gimp                      | mod+Shift+g         |
+| Focus Gimp                       | mod+g               |
+| Launch Terminal                  | mod+Shift+Return    |
+| Focus Terminal                   | mod+Return          |
+| Launch Tor                       | mod+Shift+t         |
+| Focus Tor                        | mod+t               |
+| Launch Disord                    | mod+Shift+d         |
+| Focus Discord                    | mod+d               |
+| Launch Spotify                   | mod+Shift+m         |
+| Focus Spotify                    | mod+m               |
+| Launch YouTube Player            | mod+Shift+y         |
+| Focus YouTube Player             | mod+y               |
+#+html:</div>
+#+html: </details>
 
 #+BEGIN_QUOTE
 *Disclaimer:* /This is not a community framework or distribution./ It's a private configuration and an ongoing experiment that may change without warning.
