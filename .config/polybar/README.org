@@ -110,7 +110,6 @@ type = internal/i3
 format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
-pin-workspaces = true
 
 ws-icon-0 = Firefox;
 ws-icon-1 = 1;
@@ -121,7 +120,7 @@ ws-icon-5 = Code;
 ws-icon-6 = Anki;
 
 ; Only show workspaces on the same output as the bar
-;pin-workspaces = true
+pin-workspaces = true
 
 ; i3 binding mode settings
 label-mode-padding = 1
@@ -147,6 +146,7 @@ label-urgent = %icon%
 label-urgent-background = ${colors.i3-urgent}
 label-urgent-padding = 1
 #+END_SRC
+
 *** CPU
 #+BEGIN_SRC conf :tangle config
 [module/cpu]
