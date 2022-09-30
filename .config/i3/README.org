@@ -353,6 +353,7 @@ These apps are given keybinds but no dedicated workspace.
 bindsym $mod+Shift+g exec --no-startup-id gimp
 bindsym $mod+g [title="GNU Image Manipulation Program"] focus
 #+end_src
+
 * Scratchpad Apps
 The scratchpad is an invisible workspace. I put "floating" apps into it. They can only be spawned and focused/hidden.
 
