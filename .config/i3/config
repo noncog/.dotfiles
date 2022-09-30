@@ -1,7 +1,7 @@
 set $laptop eDP-1-1
 set $external HDMI-0
 
-# set mod key
+# set Modifier key
 set $mod Mod4
 
 # drag floaters key
@@ -54,9 +54,6 @@ mode "$resize_mode" {
     bindsym equal exec --no-startup-id $HOME/.config/i3/i3-emacs-balance-windows
 
     # back to normal
-    bindsym $mod+Escape mode "default"
-    bindsym $mod+BackSpace mode "default"
-    bindsym $mod+Return mode "default"
     bindsym Escape mode "default"
     bindsym BackSpace mode "default"
     bindsym Return mode "default"
