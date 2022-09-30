@@ -50,7 +50,7 @@
     ("split v" (+evil/window-split-and-follow))
     ("split h" (+evil/window-vsplit-and-follow))
     ("kill" (evil-quit))
-    (_ (shell-command (concat "i3-msg " (pp-to-string command))))
+    (_ (shell-command (concat "i3-msg " (pp-to-string command))))))
 
 (defun noncog/emacs-i3-direction-exists-p (dir)
   (some (lambda (dir)

@@ -269,7 +269,7 @@ I only set a couple of global keybinds here that have no other relevant place, l
     ("split v" (+evil/window-split-and-follow))
     ("split h" (+evil/window-vsplit-and-follow))
     ("kill" (evil-quit))
-    (_ (shell-command (concat "i3-msg " (pp-to-string command))))
+    (_ (shell-command (concat "i3-msg " (pp-to-string command))))))
 #+end_src
 
 *** Window Checker
