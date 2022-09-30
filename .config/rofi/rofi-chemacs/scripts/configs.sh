@@ -93,7 +93,7 @@ else
         set_configs_directory
         set -- $(<"$config_directory/$profile")
         if [[ "$use_daemon" == "y" ]]; then
-            emacsclient -c -s "$1" "${configs[index]#*=}" -a emacs >/dev/null 2>/dev/null &
+            emacsclient -s "$1" "${configs[index]#*=}" -a emacs >/dev/null 2>/dev/null &
         else
             emacs "${configs[index]#*=}" &
         fi
