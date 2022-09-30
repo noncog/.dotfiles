@@ -420,6 +420,7 @@ grep -oP "\bmod[a-zA-Z0-9._%+-]*" ~/.config/i3/config | sed -e 's/^\s*//' | grep
 | Focus YouTube Player             | mod+y               |
 #+html:</div>
 #+html: </details>
+#+html:<br>
 
 #+BEGIN_QUOTE
 *Disclaimer:* /This is not a community framework or distribution./ It's a private configuration and an ongoing experiment that may change without warning.
