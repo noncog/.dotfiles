@@ -205,20 +205,19 @@ for_window [class="discord"] move scratchpad
 bindsym $mod+Shift+d exec --no-startup-id discord
 bindsym $mod+d [class="discord"] scratchpad show, resize set 50 ppt 85 ppt, move position center
 
-#for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
-#for_window [class="Spotify"] move scratchpad
-#bindsym $mod+Shift+s exec --no-startup-id spotify
-#bindsym $mod+s [class="Spotify"] scratchpad show, move position center
+for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
+for_window [class="Spotify"] move scratchpad
+bindsym $mod+Shift+m exec --no-startup-id spotify
+bindsym $mod+m [class="Spotify"] scratchpad show, move position center
 
-# set to your unique youtube page. ideally a page you will never visit.
-# otherwise your firefox will be turned into the youtuber player...
+# values found using xprop
 set $youtube_page https://www.youtube.com/premium
 set $youtube_title "YouTube Premium - YouTube — Mozilla Firefox"
-# found using xprop
 
 # size
 set $yt_d_w 720
 set $yt_d_h 407
+
 # location
 set $yt_d_x 2910 px
 set $yt_d_y 1023 px
@@ -226,12 +225,15 @@ set $yt_d_y 1023 px
 # size
 set $yt_l_w 636
 set $yt_l_h 360
+
 # location
 set $yt_l_x 1274 px
 set $yt_l_y 710 px
 
 for_window [title=$youtube_title] floating enable, move scratchpad, sticky enable, mark youtube
+
 bindsym $mod+Shift+y exec --no-startup-id firefox --new-window $youtube_page
+
 bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
 
 for_window [class="Nitrogen"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable

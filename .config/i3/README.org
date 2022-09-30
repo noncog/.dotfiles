@@ -67,7 +67,7 @@ I've changed a few functions to get it up and running. The implementation is sti
 
 TODO: This needs integrated with my rofi-chemacs default profile.
 
-** Emacs or i3 Command Parser
+*** Emacs or i3 Command Parser
 This bash script acts as a wrapper layer to decide whether a keyboard command should be sent to Emacs or i3.
 
 Note - It's also possible for Emacs to send a command back to i3 after deciding if it should apply the command or if i3 should.
@@ -82,7 +82,7 @@ else
 fi
 #+end_src
 
-** Change Window Focus
+*** Change Window Focus
 #+begin_src conf
 bindsym $mod+h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus left
 bindsym $mod+j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus down
@@ -90,7 +90,7 @@ bindsym $mod+k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus 
 bindsym $mod+l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus right
 #+end_src
 
-** Move
+*** Move
 #+begin_src conf
 bindsym $mod+Shift+h exec $HOME/.config/i3/emacs-i3-integration move left
 bindsym $mod+Shift+j exec $HOME/.config/i3/emacs-i3-integration move down
@@ -98,7 +98,7 @@ bindsym $mod+Shift+k exec $HOME/.config/i3/emacs-i3-integration move up
 bindsym $mod+Shift+l exec $HOME/.config/i3/emacs-i3-integration move right
 #+end_src
 
-** Resize
+*** Resize
 #+begin_src sh :tangle i3-emacs-balance-windows :shebang "#!/bin/bash"
 title="^.*Doom\sEmacs$"
 if [[ $(xdotool getactivewindow getwindowname) =~ $title ]]; then
@@ -136,13 +136,13 @@ mode "$resize_mode" {
 bindsym $mod+r mode "$resize_mode"
 #+end_src
 
-** Window Splitting
+*** Window Splitting
 #+begin_src conf
 bindsym $mod+v exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split h
 bindsym $mod+s exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split v
 #+end_src
 
-** Kill Windows
+*** Kill Windows
 #+begin_src conf
 bindsym $mod+Shift+q exec --no-startup-id $HOME/.config/i3/emacs-i3-integration kill
 #+end_src
@@ -153,19 +153,19 @@ focus_wrapping no
 #+end_src
 
 * Looks
-** Font
+*** Font
 I try to use Fira Code for everything.
 #+begin_src conf
 font pango:Fira Code 11
 #+end_src
 
-** Wallpaper
+*** Wallpaper
 Check out my [[https://github.com/noncog/.dotfiles/tree/master/.config/wallpapers][wallpapers directory]].
 #+begin_src conf
 exec --no-startup-id nitrogen --restore 
 #+end_src
 
-** Theme
+*** Theme
 I use the [[https://draculatheme.com/][Dracula theme]] everywhere I can!
 #+begin_src conf
 # class                 border  bground text    indicator child_border
@@ -178,7 +178,7 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 client.background       #F8F8F2
 #+end_src
 
-** i3-gaps
+*** i3-gaps
 #+begin_src conf
 # Necessary for i3-gaps to work properly (pixel can be any value)
 for_window [class="^.*"] border pixel 2
@@ -222,22 +222,22 @@ workspace $code output $external $laptop
 #+end_src
 
 * Utilities
-** Emacs Daemon
+*** Emacs Daemon
 #+begin_src conf
 exec --no-startup-id emacs --daemon
 #+end_src
 
-** Picom Daemon
+*** Picom Daemon
 #+begin_src conf
 exec --no-startup-id picom -b
 #+end_src
 
-** Network-Manager
+*** Network-Manager
 #+begin_src conf
 exec --no-startup-id nm-applet
 #+end_src
 
-** Pulse Audio Control
+*** Pulse Audio Control
 #+begin_src conf
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -246,12 +246,12 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 #+end_src
 
-** Extreme Cooling 4 Linux
+*** Extreme Cooling 4 Linux
 #+begin_src conf
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
 #+end_src
 
-** Polybar
+*** Polybar
 #+begin_src conf
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
@@ -259,7 +259,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # this allows polybar to be restarted with i3 restarting.
 #+end_src
 
-** Rofi
+*** Rofi
 #+begin_src conf
 # desktop app launcher
 bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
@@ -267,7 +267,7 @@ bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+end_src
 
-** ScreenKey
+*** ScreenKey
 #+begin_src conf
 bindsym $mod+Shift+question exec --no-startup-id screenkey
 #+end_src
@@ -288,7 +288,7 @@ I use a particular format for how my apps are managed.
 - =key= = focus
 - =shift+key= = spawn
 - =control+shift+key= = move to app's workspace
-** Emacs Client
+*** Emacs Client
 #+begin_src conf
 set $emacs "Emacs"
 assign [class="Emacs"] $emacs
@@ -298,7 +298,7 @@ bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-c
 bindsym $mod+e [class="Emacs"] focus
 #+end_src
 
-** Firefox
+*** Firefox
 #+begin_src conf
 set $firefox "Firefox"
 assign [class="Firefox-esr"] $firefox
@@ -308,7 +308,7 @@ bindsym $mod+Shift+f exec --no-startup-id firefox
 bindsym $mod+f [class="Firefox-esr" tiling] focus
 #+end_src
 
-** Clion
+*** Clion
 #+begin_src conf
 assign [class="jetbrains-clion"] $code
 bindsym $mod+Control+Shift+c move container to workspace $code
@@ -316,7 +316,7 @@ bindsym $mod+Shift+c exec --no-startup-id clion
 bindsym $mod+c [class="jetbrains-clion"] focus
 #+end_src
 
-** Pycharm
+*** Pycharm
 #+begin_src conf
 assign [class="jetbrains-pycharm"] $code
 bindsym $mod+Control+Shift+p move container to workspace $code
@@ -324,7 +324,7 @@ bindsym $mod+Shift+p exec --no-startup-id pycharm
 bindsym $mod+p [class="jetbrains-pycharm"] focus
 #+end_src
 
-** IntelliJ Idea
+*** IntelliJ Idea
 #+begin_src conf
 assign [class="jetbrains-idea"] $code
 bindsym $mod+Control+Shift+i move container to workspace $code
@@ -332,7 +332,7 @@ bindsym $mod+Shift+i exec --no-startup-id idea
 bindsym $mod+i [class="jetbrains-idea"] focus
 #+end_src
 
-** Anki
+*** Anki
 I give this it's own workspace to not deal with floating dialog issues in a scratchpad.
 #+begin_src conf
 set $anki "Anki"
@@ -346,7 +346,7 @@ bindsym $mod+a [class="Anki"] focus
 * Scratchpad Apps
 The scratchpad is an invisible workspace. I put "floating" apps into it. They can only be spawned and focused/hidden.
 
-** Kitty
+*** Kitty
 #+begin_src conf
 for_window [instance="Floating-Kitty"] floating enable, resize set 50 ppt 50 ppt, sticky enable
 for_window [instance="Floating-Kitty"] move scratchpad
@@ -354,7 +354,7 @@ bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
 bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, move position center
 #+end_src
 
-** Tor
+*** Tor
 #+begin_src conf
 for_window [class="Tor Browser"] floating enable, resize set 75 ppt 75 ppt, sticky enable
 for_window [class="Tor Browser"] move scratchpad
@@ -362,7 +362,7 @@ bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/st
 bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
 #+end_src
 
-** Discord
+*** Discord
 #+begin_src conf
 for_window [class="discord"] floating enable, sticky enable
 for_window [class="discord"] move scratchpad
@@ -370,66 +370,81 @@ bindsym $mod+Shift+d exec --no-startup-id discord
 bindsym $mod+d [class="discord"] scratchpad show, resize set 50 ppt 85 ppt, move position center
 #+end_src
 
-** Spotify
+*** Spotify
 #+begin_src conf
-#for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
-#for_window [class="Spotify"] move scratchpad
-#bindsym $mod+Shift+s exec --no-startup-id spotify
-#bindsym $mod+s [class="Spotify"] scratchpad show, move position center
+for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
+for_window [class="Spotify"] move scratchpad
+bindsym $mod+Shift+m exec --no-startup-id spotify
+bindsym $mod+m [class="Spotify"] scratchpad show, move position center
 #+end_src
 
-** YouTube
-Probably the pinnacle of my config...
+*** YouTube
+This section implements a mini floating YouTube player with sizes and positions for laptop and desktop displays.
 
-A mini floating YouTube player with sizes and positions for laptop and desktop displays.
-*** Set URL and Title
+To accomplish this, we launch an instance of Firefox using a unique YouTube URL we plan on never visiting. This allows us to tell i3 to mark this Firefox window as our YouTube player. Then, we can interact with this window as if it were a separate program, even though it's just another Firefox instance.
+
+**** Set Unique URL and Title
 #+begin_src conf
-# set to your unique youtube page. ideally a page you will never visit.
-# otherwise your firefox will be turned into the youtuber player...
+# values found using xprop
 set $youtube_page https://www.youtube.com/premium
 set $youtube_title "YouTube Premium - YouTube — Mozilla Firefox"
-# found using xprop
 #+end_src
 
-*** Set Size and Location Per Monitor
+**** Set Size and Location For Monitors
+***** Desktop/Docked
 #+begin_src conf
 # size
 set $yt_d_w 720
 set $yt_d_h 407
+
 # location
 set $yt_d_x 2910 px
 set $yt_d_y 1023 px
 #+end_src
 
+***** Laptop
 #+begin_src conf
 # size
 set $yt_l_w 636
 set $yt_l_h 360
+
 # location
 set $yt_l_x 1274 px
 set $yt_l_y 710 px
 #+end_src
 
-*** Floating YouTube Player
+**** Base Window Setup
+This is applied whenever the YouTube player is launched.
 #+begin_src conf
 for_window [title=$youtube_title] floating enable, move scratchpad, sticky enable, mark youtube
+#+end_src
+
+**** Keybinds
+***** Launch
+#+begin_src conf
 bindsym $mod+Shift+y exec --no-startup-id firefox --new-window $youtube_page
+#+end_src
+
+***** Focus
+This single bind contains an inline bash script which changes the window size and it's location depending on the monitor you're using.
+
+#+begin_src conf
 bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
 #+end_src
 
-** Nitrogen
+*** Nitrogen
 #+begin_src conf
 for_window [class="Nitrogen"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
 for_window [class="Nitrogen"] scratchpad show, move position center
 #+end_src
 
 * Tips
-** Finding Keynames (keysym)
+*** Finding Keynames (keysym)
 #+begin_src conf
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
 #+end_src
 
-** Window Information
+*** Window Information
 #+begin_src conf
 # To find window related information use:
 # xprop and xwininfo
