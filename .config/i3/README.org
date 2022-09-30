@@ -61,16 +61,10 @@ bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
 * Emacs i3 Windowing Integration
 This section allows me to control my windowing for both Emacs and i3 using common keybinds.
 
-This was created by Pavel Korytov and can be found [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][here]].
-
-I've changed a few functions to get it up and running. The implementation is still in progress.
-
-TODO: This needs integrated with my rofi-chemacs default profile.
+This was created by Pavel Korytov and can be found [[https://sqrtminusone.xyz/posts/2021-10-04-emacs-i3/][here]]. I've changed a few functions. My implementation is still in progress.
 
 *** Emacs or i3 Command Parser
 This bash script acts as a wrapper layer to decide whether a keyboard command should be sent to Emacs or i3.
-
-Note - It's also possible for Emacs to send a command back to i3 after deciding if it should apply the command or if i3 should.
 
 #+begin_src sh :tangle emacs-i3-integration :shebang "#!/bin/bash"
 title="^.*Doom\sEmacs$"
@@ -90,7 +84,7 @@ bindsym $mod+k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus 
 bindsym $mod+l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus right
 #+end_src
 
-*** Move
+*** Move Window
 #+begin_src conf
 bindsym $mod+Shift+h exec $HOME/.config/i3/emacs-i3-integration move left
 bindsym $mod+Shift+j exec $HOME/.config/i3/emacs-i3-integration move down
@@ -98,15 +92,7 @@ bindsym $mod+Shift+k exec $HOME/.config/i3/emacs-i3-integration move up
 bindsym $mod+Shift+l exec $HOME/.config/i3/emacs-i3-integration move right
 #+end_src
 
-*** Resize
-#+begin_src sh :tangle i3-emacs-balance-windows :shebang "#!/bin/bash"
-title="^.*Doom\sEmacs$"
-if [[ $(xdotool getactivewindow getwindowname) =~ $title ]]; then
-    emacsclient -s doom -e "(balance-windows)"
-fi
-#i3_balance_workspace
-#+end_src
-
+*** Resize Window
 #+begin_src conf
 set $resize_mode Resize: h, j, k, l
 mode "$resize_mode" {
@@ -134,6 +120,19 @@ mode "$resize_mode" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "$resize_mode"
+#+end_src
+
+**** Balance Windows
+Emacs has a feature to balance the window splits, i3 can't natively do this. So, we add that feature by using [[https://github.com/atreyasha/i3-balance-workspace][i3-balance-workspace]].
+
+This script, like the previous, acts as wrapper to decide whether the balance should be applied to Emacs or i3 windows.
+
+#+begin_src sh :tangle i3-emacs-balance-windows :shebang "#!/bin/bash"
+title="^.*Doom\sEmacs$"
+if [[ $(xdotool getactivewindow getwindowname) =~ $title ]]; then
+    emacsclient -s doom -e "(balance-windows)"
+fi
+$HOME/.local/bin/i3_balance_workspace
 #+end_src
 
 *** Window Splitting
