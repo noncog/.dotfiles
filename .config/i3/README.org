@@ -149,6 +149,8 @@ bindsym $mod+Shift+q exec --no-startup-id $HOME/.config/i3/emacs-i3-integration 
 * Settings
 #+begin_src conf
 focus_wrapping no
+focus_follows_mouse no
+mouse_warping output
 #+end_src
 
 * Looks
@@ -221,19 +223,27 @@ workspace $code output $external $laptop
 #+end_src
 
 * Utilities
-*** Emacs Daemon
+*** Rofi
 #+begin_src conf
-exec --no-startup-id emacs --daemon
+# desktop app launcher
+bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
+# cogmenu - custom menu launcher
+bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+end_src
 
-*** Picom Daemon
+*** Polybar
 #+begin_src conf
-exec --no-startup-id picom -b
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 #+end_src
 
-*** Network-Manager
+*** ScreenKey
 #+begin_src conf
-exec --no-startup-id nm-applet
+bindsym $mod+Shift+question exec --no-startup-id screenkey
+#+end_src
+
+*** Extreme Cooling 4 Linux
+#+begin_src conf
+bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
 #+end_src
 
 *** Pulse Audio Control
@@ -245,42 +255,37 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 #+end_src
 
-*** Extreme Cooling 4 Linux
+*** Network-Manager
 #+begin_src conf
-bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+exec --no-startup-id nm-applet
 #+end_src
 
-*** Polybar
+*** Emacs Daemon
 #+begin_src conf
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
-# note that exec_always runs every time you restart i3 not just initialization.
-# this allows polybar to be restarted with i3 restarting.
+exec --no-startup-id emacs --daemon
 #+end_src
 
-*** Rofi
+*** Picom Daemon
 #+begin_src conf
-# desktop app launcher
-bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
-# custom menu launcher
-bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
-#+end_src
-
-*** ScreenKey
-#+begin_src conf
-bindsym $mod+Shift+question exec --no-startup-id screenkey
+exec --no-startup-id picom -b
 #+end_src
 
 * Startup Apps
 #+begin_src conf
+# emacs
 exec --no-startup-id sleep 3 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
+
+# firefox
 exec --no-startup-id sleep 4 && firefox
+
+# kitty
 exec --no-startup-id kitty --name Floating-Kitty
-# restart i3 to make sure startup windows are moved to scratchpad
-exec --no-startup-id restart
+
+# restart i3 to ensure startup windows are moved to scratchpad
+exec --no-startup-id i3-msg restart
 #+end_src
 
-* Workspace Apps
+* Dedicated Workspace Apps
 These apps are given their own workspaces.
 
 I use a particular format for how my apps are managed.
@@ -341,7 +346,13 @@ bindsym $mod+Control+Shift+a move container to workspace $anki
 bindsym $mod+Shift+a exec --no-startup-id anki
 bindsym $mod+a [class="Anki"] focus
 #+end_src
-
+* General Workspace Apps
+These apps are given keybinds but no dedicated workspace.
+*** GIMP
+#+begin_src conf
+bindsym $mod+Shift+g exec --no-startup-id gimp
+bindsym $mod+g [title="GNU Image Manipulation Program"] focus
+#+end_src
 * Scratchpad Apps
 The scratchpad is an invisible workspace. I put "floating" apps into it. They can only be spawned and focused/hidden.
 
