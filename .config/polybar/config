@@ -115,7 +115,7 @@ type = internal/memory
 interval = 4
 format-prefix = " "
 format-prefix-foreground = ${colors.green}
-label = %percentage_used%%
+label = %percentage_used:02%%
 
 [module/temperature]
 type = internal/temperature
