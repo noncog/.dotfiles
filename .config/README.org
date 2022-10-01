@@ -5,7 +5,7 @@
 * FreeDesktop Directories
 [[https://www.freedesktop.org/wiki/][Free Desktop]] produces specifications for open-source graphical and desktop systems.
 
-These are often called 'XDG', an acronym for /Cross-Desktop Group/. This is the =$XDG_HOME_CONFIG= directory, where user configs should be written. Typically, this is $HOME/.config.
+These are often called 'XDG', an acronym for /Cross-Desktop Group/. This is the =$XDG_HOME_CONFIG= directory, where user configs should be saved. Typically, this is $HOME/.config.
 
 Support for XDG directories is growing and many popular softwares support multiple configuration directories including this one. Consider moving some of yours to .config.
 
