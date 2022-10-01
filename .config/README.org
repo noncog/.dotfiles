@@ -9,4 +9,4 @@ These are often called 'XDG', an acronym for /Cross-Desktop Group/. This is the 
 
 Support for XDG directories is growing and many popular softwares support multiple configuration directories including this one. Consider moving some of yours to .config.
 
-I try to put as many as I can here.
+I try to put as many as I can here. The Arch wiki has a helpful [[https://wiki.archlinux.org/title/XDG_Base_Directory][page]] about migrating configs to XDG directories.
