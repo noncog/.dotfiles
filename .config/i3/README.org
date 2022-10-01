@@ -146,7 +146,7 @@ bindsym $mod+Shift+q exec --no-startup-id $HOME/.config/i3/emacs-i3-integration 
 * Settings
 #+begin_src conf
 focus_wrapping no
-focus_follows_mouse no
+focus_follows_mouse yes
 mouse_warping output
 #+end_src
 
@@ -356,10 +356,10 @@ The scratchpad is an invisible workspace. I put "floating" apps into it. They ca
 
 *** Kitty
 #+begin_src conf
-for_window [instance="Floating-Kitty"] floating enable, resize set 50 ppt 50 ppt, sticky enable
+for_window [instance="Floating-Kitty"] floating enable, sticky enable
 for_window [instance="Floating-Kitty"] move scratchpad
 bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
-bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, move position center
+bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, resize set 50 ppt 50 ppt, move position center
 #+end_src
 
 *** Tor

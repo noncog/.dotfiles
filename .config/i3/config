@@ -69,7 +69,7 @@ bindsym $mod+s exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split 
 bindsym $mod+Shift+q exec --no-startup-id $HOME/.config/i3/emacs-i3-integration kill
 
 focus_wrapping no
-focus_follows_mouse no
+focus_follows_mouse yes
 mouse_warping output
 
 font pango:Fira Code 11
@@ -195,10 +195,10 @@ bindsym $mod+a [class="Anki"] focus
 bindsym $mod+Shift+g exec --no-startup-id gimp
 bindsym $mod+g [title="GNU Image Manipulation Program"] focus
 
-for_window [instance="Floating-Kitty"] floating enable, resize set 50 ppt 50 ppt, sticky enable
+for_window [instance="Floating-Kitty"] floating enable, sticky enable
 for_window [instance="Floating-Kitty"] move scratchpad
 bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
-bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, move position center
+bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, resize set 50 ppt 50 ppt, move position center
 
 for_window [class="Tor Browser"] floating enable, resize set 75 ppt 75 ppt, sticky enable
 for_window [class="Tor Browser"] move scratchpad
