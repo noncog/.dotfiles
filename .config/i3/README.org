@@ -228,11 +228,6 @@ bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+end_src
 
-*** Polybar
-#+begin_src conf
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-#+end_src
-
 *** ScreenKey
 #+begin_src conf
 bindsym $mod+Shift+question exec --no-startup-id screenkey
@@ -241,6 +236,16 @@ bindsym $mod+Shift+question exec --no-startup-id screenkey
 *** Extreme Cooling 4 Linux
 #+begin_src conf
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+#+end_src
+
+*** Emacs Daemon
+#+begin_src conf
+exec --no-startup-id emacs --daemon
+#+end_src
+
+*** Picom Daemon
+#+begin_src conf
+exec --no-startup-id picom -b
 #+end_src
 
 *** Pulse Audio Control
@@ -257,14 +262,9 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 exec --no-startup-id nm-applet
 #+end_src
 
-*** Emacs Daemon
+*** Polybar
 #+begin_src conf
-exec --no-startup-id emacs --daemon
-#+end_src
-
-*** Picom Daemon
-#+begin_src conf
-exec --no-startup-id picom -b
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 #+end_src
 
 * Startup Apps
@@ -277,9 +277,6 @@ exec --no-startup-id sleep 4 && firefox
 
 # kitty
 exec --no-startup-id kitty --name Floating-Kitty
-
-# restart i3 to ensure startup windows are moved to scratchpad
-exec --no-startup-id i3-msg restart
 #+end_src
 
 * Dedicated Workspace Apps

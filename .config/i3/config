@@ -126,11 +126,13 @@ bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 # cogmenu - custom menu launcher
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
 bindsym $mod+Shift+question exec --no-startup-id screenkey
 
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+
+exec --no-startup-id emacs --daemon
+
+exec --no-startup-id picom -b
 
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -140,9 +142,7 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 exec --no-startup-id nm-applet
 
-exec --no-startup-id emacs --daemon
-
-exec --no-startup-id picom -b
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # emacs
 exec --no-startup-id sleep 3 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
@@ -154,7 +154,7 @@ exec --no-startup-id sleep 4 && firefox
 exec --no-startup-id kitty --name Floating-Kitty
 
 # restart i3 to ensure startup windows are moved to scratchpad
-exec --no-startup-id i3-msg restart
+#exec --no-startup-id i3-msg restart
 
 set $emacs "Emacs"
 assign [class="Emacs"] $emacs
