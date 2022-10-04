@@ -1,9 +1,26 @@
+#+html:<h1 align="center">Kitty Config</h1>
+
+#+html:<p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
+
+#+html:<p align="center"><code><a href="https://sw.kovidgoyal.net/kitty/">Kitty</a></code> is an open source GPU accelerated terminal emulator with great speed, features, and customizability!</p>
+
+
+[[https://sw.kovidgoyal.net/kitty/conf/][Kitty Documentation]]
+
+* Font
+
+#+begin_src conf :tangle kitty.conf
 # font
 font_family      Fira Code
 bold_font        Fira Code Bold
 italic_font      auto
 bold_italic_font auto
+#+end_src
 
+* Theme
+I use the [[https://draculatheme.com/][Dracula]] theme everywhere I can!
+
+#+begin_src conf :tangle kitty.conf
 # dracula theme
 foreground            #f8f8f2
 background            #282a36
@@ -68,10 +85,20 @@ mark1_background #ff5555
 # Splits/Windows
 active_border_color #f8f8f2
 inactive_border_color #6272a4
+#+end_src
 
+* Keybinds
+** Disable
+
+#+begin_src conf :tangle kitty.conf
 # remove default keybinds
 map kitty_mod+h no_op
+#+end_src
 
+** Integrate Vim Binds
+
+#+begin_src conf :tangle kitty.conf
 # custom tab commands
 map ctrl+shift+l next_tab
 map ctrl+shift+j previous_tab
+#+end_src
