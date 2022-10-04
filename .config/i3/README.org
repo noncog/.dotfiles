@@ -349,38 +349,34 @@ bindsym $mod+g [title="GNU Image Manipulation Program"] focus
 #+end_src
 
 * Scratchpad Apps
-The scratchpad is an invisible workspace. I put "floating" apps into it. They can only be spawned and focused/hidden.
+The scratchpad is an invisible workspace. I put "floating" apps or apps that I want to keep running into it. They can only be spawned and focused/hidden.
 
 *** Kitty
 #+begin_src conf
-for_window [instance="Floating-Kitty"] floating enable, sticky enable
-for_window [instance="Floating-Kitty"] move scratchpad
-bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
-bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, resize set 50 ppt 50 ppt, move position center
+for_window [class="kitty"] move scratchpad, sticky enable
+bindsym $mod+Shift+Return exec --no-startup-id kitty
+bindsym $mod+Return [class="kitty"] scratchpad show, resize set 50 ppt 50 ppt, move position center
 #+end_src
 
 *** Tor
 #+begin_src conf
-for_window [class="Tor Browser"] floating enable, resize set 75 ppt 75 ppt, sticky enable
-for_window [class="Tor Browser"] move scratchpad
+for_window [class="Tor Browser"] move scratchpad, sticky enable
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
-bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
+bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, move position center
 #+end_src
 
 *** Discord
 #+begin_src conf
-for_window [class="discord"] floating enable, sticky enable
-for_window [class="discord"] move scratchpad
+for_window [class="discord"] move scratchpad, sticky enable
 bindsym $mod+Shift+d exec --no-startup-id discord
 bindsym $mod+d [class="discord"] scratchpad show, resize set 50 ppt 85 ppt, move position center
 #+end_src
 
 *** Spotify
 #+begin_src conf
-for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
-for_window [class="Spotify"] move scratchpad
+for_window [class="Spotify"] move scratchpad, sticky enable
 bindsym $mod+Shift+m exec --no-startup-id spotify
-bindsym $mod+m [class="Spotify"] scratchpad show, move position center
+bindsym $mod+m [class="Spotify"] scratchpad show, resize set 50 ppt 60 ppt, move position center
 #+end_src
 
 *** YouTube
@@ -421,7 +417,7 @@ set $yt_l_y 710 px
 **** Base Window Setup
 This is applied whenever the YouTube player is launched.
 #+begin_src conf
-for_window [title=$youtube_title] floating enable, move scratchpad, sticky enable, mark youtube
+for_window [title=$youtube_title] move scratchpad, sticky enable, mark youtube
 #+end_src
 
 **** Keybinds
@@ -438,9 +434,10 @@ bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI
 #+end_src
 
 *** Nitrogen
+This application has no controls associated with it. We simply controls it's windowing here.
+
 #+begin_src conf
-for_window [class="Nitrogen"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
-for_window [class="Nitrogen"] scratchpad show, move position center
+for_window [class="Nitrogen"] move scratchpad, sticky enable, scratchpad show, resize set 50 ppt 50 ppt, move position center
 #+end_src
 
 * Tips

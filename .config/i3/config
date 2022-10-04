@@ -153,9 +153,6 @@ exec --no-startup-id sleep 4 && firefox
 # kitty
 exec --no-startup-id kitty --name Floating-Kitty
 
-# restart i3 to ensure startup windows are moved to scratchpad
-#exec --no-startup-id i3-msg restart
-
 set $emacs "Emacs"
 assign [class="Emacs"] $emacs
 workspace $emacs output $external $laptop
@@ -195,25 +192,21 @@ bindsym $mod+a [class="Anki"] focus
 bindsym $mod+Shift+g exec --no-startup-id gimp
 bindsym $mod+g [title="GNU Image Manipulation Program"] focus
 
-for_window [instance="Floating-Kitty"] floating enable, sticky enable
-for_window [instance="Floating-Kitty"] move scratchpad
-bindsym $mod+Shift+Return exec --no-startup-id kitty --name "Floating-Kitty"
-bindsym $mod+Return [instance="Floating-Kitty"] scratchpad show, resize set 50 ppt 50 ppt, move position center
+for_window [class="kitty"] move scratchpad, sticky enable
+bindsym $mod+Shift+Return exec --no-startup-id kitty
+bindsym $mod+Return [class="kitty"] scratchpad show, resize set 50 ppt 50 ppt, move position center
 
-for_window [class="Tor Browser"] floating enable, resize set 75 ppt 75 ppt, sticky enable
-for_window [class="Tor Browser"] move scratchpad
+for_window [class="Tor Browser"] move scratchpad, sticky enable
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
-bindsym $mod+t [class="Tor Browser"] scratchpad show, move position center
+bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, move position center
 
-for_window [class="discord"] floating enable, sticky enable
-for_window [class="discord"] move scratchpad
+for_window [class="discord"] move scratchpad, sticky enable
 bindsym $mod+Shift+d exec --no-startup-id discord
 bindsym $mod+d [class="discord"] scratchpad show, resize set 50 ppt 85 ppt, move position center
 
-for_window [class="Spotify"] floating enable, resize set 50 ppt 60 ppt, sticky enable
-for_window [class="Spotify"] move scratchpad
+for_window [class="Spotify"] move scratchpad, sticky enable
 bindsym $mod+Shift+m exec --no-startup-id spotify
-bindsym $mod+m [class="Spotify"] scratchpad show, move position center
+bindsym $mod+m [class="Spotify"] scratchpad show, resize set 50 ppt 60 ppt, move position center
 
 # values found using xprop
 set $youtube_page https://www.youtube.com/premium
@@ -235,14 +228,13 @@ set $yt_l_h 360
 set $yt_l_x 1274 px
 set $yt_l_y 710 px
 
-for_window [title=$youtube_title] floating enable, move scratchpad, sticky enable, mark youtube
+for_window [title=$youtube_title] move scratchpad, sticky enable, mark youtube
 
 bindsym $mod+Shift+y exec --no-startup-id firefox --new-window $youtube_page
 
 bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
 
-for_window [class="Nitrogen"] floating enable, resize set 50 ppt 50 ppt, move scratchpad, sticky enable
-for_window [class="Nitrogen"] scratchpad show, move position center
+for_window [class="Nitrogen"] move scratchpad, sticky enable, scratchpad show, resize set 50 ppt 50 ppt, move position center
 
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
 
