@@ -5,7 +5,7 @@
 #+html:<p align="center"><code><a href="https://sw.kovidgoyal.net/kitty/">Kitty</a></code> is an open source GPU accelerated terminal emulator with great speed, features, and customizability!</p>
 
 
-[[https://sw.kovidgoyal.net/kitty/conf/][Kitty Documentation]]
+[[https://sw.kovidgoyal.net/kitty/conf/][Documentation]]
 
 * Font
 
@@ -88,7 +88,7 @@ inactive_border_color #6272a4
 #+end_src
 
 * Keybinds
-** Disable
+*** Disable
 
 #+begin_src conf :tangle kitty.conf
 # remove default keybinds
@@ -107,7 +107,7 @@ map kitty_mod+v no_op
 map kitty_mod+s no_op
 #+end_src
 
-** Integrate Vim Binds
+*** Integrate Vim Binds
 
 #+begin_src conf :tangle kitty.conf
 enabled_layouts splits
