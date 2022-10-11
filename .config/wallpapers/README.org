@@ -1,6 +1,6 @@
 * Noncog's Wallpaper Collection
 This is my small collection of desktop wallpapers.
-#+HTML: <p align="center"><img src="Wallpaper-Red Nebula.png"/></p>
+#+HTML: <p align="center"><img src="Wallpaper-PixelArt-Starry-Night.png"/></p>
 I host these on GitHub to be automatically installed with my [[https://github.com/noncog/debian-autosetup][debian-autosetup]] script.
 
 I use nitrogen to automatically set my wallpaper on new systems. Refer to my [[https://github.com/noncog/.dotfiles][.dotfiles]]
