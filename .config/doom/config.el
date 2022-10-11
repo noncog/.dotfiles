@@ -272,7 +272,7 @@
                          (org-agenda-dim-blocked-tasks nil)
                          ))
               (agenda ""( ;; Upcoming Deadlines
-                         (org-agenda-overriding-header "\nUpcoming Deadlines\n")
+                         (org-agenda-overriding-header "\nUpcoming Tasks\n")
                          (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
                          (org-agenda-block-separator nil)
                          (org-agenda-format-date "%a %b %-e")
@@ -285,7 +285,7 @@
                          (org-agenda-time-grid nil)
                          (org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
                          (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                         (org-agenda-entry-types '(:deadline))
+                         (org-agenda-entry-types '(:deadline :scheduled))
                          (org-agenda-show-all-dates nil)
                          (org-agenda-dim-blocked-tasks nil)
                          ))
@@ -627,3 +627,6 @@ set palette defined ( 0 '%s',\
   (electric-indent-local-mode -1))
 
 (add-hook 'sh-mode-hook 'noncog/remove-electric-indent-mode)
+
+(after! plantuml-mode
+  (setq plantuml-default-exec-mode 'jar))
