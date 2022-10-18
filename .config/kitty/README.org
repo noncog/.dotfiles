@@ -88,9 +88,17 @@ inactive_border_color #6272a4
 #+end_src
 
 * Keybinds
-*** Disable
+*** Switch Tabs
 
 #+begin_src conf :tangle kitty.conf
+# custom tab commands
+map ctrl+shift+l next_tab
+map ctrl+shift+j previous_tab
+#+end_src
+
+*** Disable
+
+#+begin_src conf :tangle no
 # remove default keybinds
 map ctrl+h no_op
 map ctrl+j no_op
@@ -109,7 +117,7 @@ map kitty_mod+s no_op
 
 *** Integrate Vim Binds
 
-#+begin_src conf :tangle kitty.conf
+#+begin_src conf :tangle no
 enabled_layouts splits
 
 map ctrl+h neighboring_window left
