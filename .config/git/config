@@ -3,3 +3,5 @@
 	email = 108415765+noncog@users.noreply.github.com
 [init]
 	defaultBranch = main
+[commit]
+	template = ~/.config/git/commit-message

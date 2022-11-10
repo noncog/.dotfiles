@@ -1,0 +1,11 @@
+
+# Types: build, chore, ci, docs, feat, fix, improvement, perf, refactor, revert, style, test.
+# Scope: A noun describing relevant section of codebase.
+# Description: Must follow the type/scope.
+#
+# BREAKING CHANGE: must be indicated
+# Footer: One blank line after body paragraph.
+#
+# References:
+#    Fixes/Closes/Resolves: #123
+#    See also: #456, #789
