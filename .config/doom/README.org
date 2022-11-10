@@ -364,7 +364,9 @@ I only check these documents for my agenda items, instead of an entire directory
                                "~/documents/org/university/software-engineering-5801"
                                "~/documents/org/university/information-assurance-3755"
                                "~/projects/form-visualizer"
-                               "~/projects/immediate-sdk")))
+                               "~/projects/immediate-sdk"
+                               "~/projects/keyboards"
+                               "~/projects/dulcius-ex-asperis")))
 #+end_src
 
 *** Habit Settings
@@ -1328,4 +1330,110 @@ So we disable it for that mode.
 #+begin_src emacs-lisp
 (after! plantuml-mode
   (setq plantuml-default-exec-mode 'jar))
+#+end_src
+** Magit
+
+Developing convetional commit/angular linting integration for Magit. Base on this [[https://www.adventuresinwhy.com/post/commit-message-linting/][this]] post.
+#+begin_src emacs-lisp
+(after! magit
+  ;; Parallels `git-commit-style-convention-checks',
+  ;; allowing the user to specify which checks they
+  ;; wish to enforce.
+  (defcustom my-git-commit-style-convention-checks '(summary-has-type
+                                                     summary-type-lowercase
+                                                     summary-has-separator
+                                                     summary-scope-lowercase
+                                                     summary-title-starts-with-capital
+                                                     summary-title-uses-imperative-verb
+                                                     summary-title-not-end-in-punctuation
+                                                     )
+    "List of checks performed by `my-git-commit-check-style-conventions'. Valid members are `summary-has-type',  `summary-type-lowercase', `summary-has-separator', `summary-scope-not-empty', `summary-scope-lowercase', `summary-title-uses-imperative-verb', `summary-title-not-end-in-punctuation'. That function is a member of `git-commit-finish-query-functions'."
+    :options '(summary-has-type
+               summarty-type-lowercase
+               summary-has-separator
+               summary-scope-lowercase
+               summary-title-starts-with-capital
+               summary-title-uses-imperative-verb
+               summary-title-not-end-in-punctuation
+               )
+    :type '(list :convert-widget custom-hood-convert-widget)
+    :group 'git-commit)
+
+  ;; Parallels `git-commit-check-style-conventions'
+  (defun my-git-commit-check-style-conventions (force)
+    "Check for violations of certain basic style conventions. For each violation ask the user if she wants to proceed anway. Option `my-git-commit-check-style-conventions' controls which conventions are checked."
+    (save-excursion
+      (goto-char (point-min))
+      (re-search-forward (git-commit-summary-regexp) nil t)
+      (let* ((summary (match-string 1))
+             (commit-type (substring summary 0 (string-match-p "[()].*)?!?:?" summary)))
+             (commit-separator-check (string-match-p "^.*[^[:blank:]]:" summary))
+             (commit-separator-location (string-match-p ":" summary))
+             (commit-scope (if (and (string-match-p "(.*)?!?:?" summary) (string-match-p "()!?:?" summary)) nil
+                             (substring summary (1+ (string-match-p "(" summary)) (string-match-p ")!?:?" summary))))
+             (commit-title (if commit-separator-check (substring summary (+ commit-separator-location 2)) "undetectable-title"))
+             (lowercase-title-first-word (downcase (substring commit-title 0 (string-match-p "[[:blank:]]" commit-title))))
+             )
+        (and (or (not (memq 'summary-type-lowercase my-git-commit-style-convention-checks))
+                 (let ((case-fold-search nil))
+                   (string-match-p "^[[:lower:]]*$" commit-type))
+                 (y-or-n-p "Commit type is not lowercase. Commit anyway?"))
+             (or (not (memq 'summary-has-type my-git-commit-style-convention-checks))
+                 (car (member commit-type (get-commit-types)))
+                 (when (y-or-n-p "Commit type is invalid. Commit anyway?")
+                   (when (y-or-n-p (format "Add `%s' to list of commit types?" commit-type))
+                     (with-temp-buffer
+                       (insert commit-type)
+                       (insert "\n")
+                       (write-region (point-min) (point-max) commit-types-file t))) t))
+             (or (not (memq 'summary-has-separator my-git-commit-style-convention-checks))
+                 (not (null commit-separator-check))
+                 (y-or-n-p "Commit title has invalid separator. Commit anyway?"))
+             (or (not (memq 'summary-scope-lowercase my-git-commit-style-convention-checks))
+                 (when commit-scope (if (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-scope)) t (y-or-n-p "Commit scope invalid. Only lowercase letters allowed. Commit anyway?")))
+                 (when (not commit-scope) (y-or-n-p "Commit scope is empty. Commit anyway?")))
+             (or (not (memq 'summary-title-starts-with-capital my-git-commit-style-convention-checks))
+                 (if (not commit-separator-check) (y-or-n-p "Title undetectable. Commit anyway?") (let ((case-fold-search nil))
+                   (string-match-p "^[[:upper:]]" commit-title)))
+                 (y-or-n-p "Commit title does not start with capital letter. Commit anyway?"))
+             (or (not (memq 'summary-title-uses-imperative-verb my-git-commit-style-convention-checks))
+                 (if (not commit-separator-check) (y-or-n-p "Imperative verb undetectable. Commit anyway?") (car (member lowercase-title-first-word (get-imperative-verbs))))
+                 (when (y-or-n-p "Commit title should use imperative verb. Does it?")
+                   (when (y-or-n-p (format "Add `%s' to list of commit types?" lowercase-title-first-word))
+                     (with-temp-buffer
+                       (insert lowercase-title-first-word)
+                       (insert "\n")
+                       (write-region (point-min) (point-max) imperative-verbs-file t))) t))
+             (or (not (memq 'summary-title-not-end-in-punctuation my-git-commit-style-convention-checks))
+                (not (string-match-p "[\\.!\\?;,:]$" commit-title))
+                (y-or-n-p "Commit title ends with punctuation. Commit anyway?"))
+             ))))
+
+  (setq commit-types-file "~/.config/doom/commit_types")
+  (defun get-commit-types ()
+    "Return a list of commit types."
+    (let ((file-path commit-types-file))
+      (with-temp-buffer
+        (insert-file-contents file-path)
+        (split-string (buffer-string) "\n" t))))
+
+  (setq imperative-verbs-file "~/.config/doom/imperative_verbs")
+  (defun get-imperative-verbs ()
+    "Return a list of commit types."
+    (let ((file-path imperative-verbs-file))
+      (with-temp-buffer
+        (insert-file-contents file-path)
+        (split-string (buffer-string) "\n" t))))
+
+  (use-package! magit
+    :custom
+    (git-commit-summary-max-length 50)
+    (git-commit-fill-column 72)
+    :config
+    (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
+    (add-to-list 'git-commit-finish-query-functions
+                 #'my-git-commit-check-style-conventions)
+    )
+  )
+
 #+end_src
