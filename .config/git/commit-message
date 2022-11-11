@@ -1,11 +1,49 @@
 
-# Types: build, chore, ci, docs, feat, fix, improvement, perf, refactor, revert, style, test.
-# Scope: A noun describing relevant section of codebase.
-# Description: Must follow the type/scope.
+#-----------------------------------------------------------------------
+# Subject/title line: type(scope) Description
+#                     50 characters max.
+#-----------------------------------------------------------------------
+# Types: Required noun describing commit type.
 #
-# BREAKING CHANGE: must be indicated
-# Footer: One blank line after body paragraph.
+# build - Changes build system or external dependencies.
+# chore - Changes external user won't see. (configs/internal task)
+# ci - Changes CI configuration files or scripts.
+# docs - Changes documentation only.
+# feat - A new feature.
+# fix - A bug fix.
+# perf - Change that improves performance.
+# refactor - Change that neither fixes a bug nor adds a feature.
+# revert - Change that corrects a commit.
+# style - Changes don't affect meaning. (white-space, formatting, etc.)
+# test - Adds test or corrects existing test.
 #
-# References:
-#    Fixes/Closes/Resolves: #123
-#    See also: #456, #789
+#-----------------------------------------------------------------------
+# Scope: Optional noun describing relevant section of codebase.
+#        Must be inside parenthesis if used.
+#-----------------------------------------------------------------------
+# Description: Required short summary of the changes.
+#              Must follow a colon after type/scope. (:)
+#              Must have capital first word. No ending punctuation.
+#-----------------------------------------------------------------------
+# Body: Optional longer description providing additional context.
+#       Must begin one blank line after subject/title.
+#       Free-form, may consist of newlines and paragraphs.
+#-----------------------------------------------------------------------
+#-----------------------------------------------------------------------
+# Footer: Optional git trailer.
+#         Must begin one blank line after body paragraph.
+#         Tokens must use - in place of white-space.
+#         May contain spaces and newlines.
+#
+# References: Links information/issues/commits/PRs.
+#             Closed issues should be listed on separate line.
+#
+# BREAKING CHANGE: Must be indicated in title or footer.
+#                  If title: Indicate using ! before colon. (!:)
+#                            Must use body to describe.
+#                  If footer: Must be uppercase text.
+#                             Must have a colon and spaced description.
+#                             Description should be lowercase.
+#-----------------------------------------------------------------------
+#
+#-----------------------------------------------------------------------

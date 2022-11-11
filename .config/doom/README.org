@@ -1334,6 +1334,7 @@ So we disable it for that mode.
 ** Magit
 
 Developing convetional commit/angular linting integration for Magit. Base on this [[https://www.adventuresinwhy.com/post/commit-message-linting/][this]] post.
+
 #+begin_src emacs-lisp
 (after! magit
   ;; Parallels `git-commit-style-convention-checks',
@@ -1366,11 +1367,10 @@ Developing convetional commit/angular linting integration for Magit. Base on thi
       (goto-char (point-min))
       (re-search-forward (git-commit-summary-regexp) nil t)
       (let* ((summary (match-string 1))
-             (commit-type (substring summary 0 (string-match-p "[()].*)?!?:?" summary)))
+             (commit-type (substring summary 0 (string-match-p "[()!:]" summary)))
              (commit-separator-check (string-match-p "^.*[^[:blank:]]:" summary))
              (commit-separator-location (string-match-p ":" summary))
-             (commit-scope (if (and (string-match-p "(.*)?!?:?" summary) (string-match-p "()!?:?" summary)) nil
-                             (substring summary (1+ (string-match-p "(" summary)) (string-match-p ")!?:?" summary))))
+             (commit-scope (if (string-match-p "(.*)[!:]" summary) (substring summary (1+ (string-match-p "(" summary)) (string-match-p ")!?:?" summary)) nil))
              (commit-title (if commit-separator-check (substring summary (+ commit-separator-location 2)) "undetectable-title"))
              (lowercase-title-first-word (downcase (substring commit-title 0 (string-match-p "[[:blank:]]" commit-title))))
              )
@@ -1390,8 +1390,8 @@ Developing convetional commit/angular linting integration for Magit. Base on thi
                  (not (null commit-separator-check))
                  (y-or-n-p "Commit title has invalid separator. Commit anyway?"))
              (or (not (memq 'summary-scope-lowercase my-git-commit-style-convention-checks))
-                 (when commit-scope (if (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-scope)) t (y-or-n-p "Commit scope invalid. Only lowercase letters allowed. Commit anyway?")))
-                 (when (not commit-scope) (y-or-n-p "Commit scope is empty. Commit anyway?")))
+                 (when (or (not commit-scope) (string-empty-p commit-scope)) (y-or-n-p "Commit scope is empty. Commit anyway?"))
+                 (when commit-scope (if (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-scope)) t (y-or-n-p "Commit scope invalid. Only lowercase letters allowed. Commit anyway?"))))
              (or (not (memq 'summary-title-starts-with-capital my-git-commit-style-convention-checks))
                  (if (not commit-separator-check) (y-or-n-p "Title undetectable. Commit anyway?") (let ((case-fold-search nil))
                    (string-match-p "^[[:upper:]]" commit-title)))
