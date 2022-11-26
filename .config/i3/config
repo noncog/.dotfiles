@@ -145,7 +145,7 @@ exec --no-startup-id nm-applet
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # emacs
-exec --no-startup-id sleep 3 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
+#exec --no-startup-id sleep 3 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
 
 # firefox
 exec --no-startup-id sleep 4 && firefox
@@ -156,23 +156,41 @@ exec --no-startup-id kitty --name Floating-Kitty
 bindsym $mod+Shift+g exec --no-startup-id gimp
 bindsym $mod+g [title="GNU Image Manipulation Program"] focus
 
+set $emacs "Emacs"
+assign [class="Emacs"] $emacs
+workspace $emacs output $external $laptop
+bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-chemacs.sh
 bindsym $mod+e [class="Emacs"] focus
-assign [class="Emacs"] $ws1
+#assign [class="Emacs"] $ws1
 
+set $firefox "Firefox"
+assign [class="Firefox-esr"] $firefox
+workspace $firefox output $external $laptop
+bindsym $mod+Control+Shift+f move container to workspace $firefox
 bindsym $mod+Shift+f exec --no-startup-id firefox
 bindsym $mod+f [class="Firefox-esr" tiling] focus
-assign [class="Firefox-esr"] $ws1
+#assign [class="Firefox-esr"] $ws1
 
+assign [class="jetbrains-clion"] $code
+bindsym $mod+Control+Shift+c move container to workspace $code
 bindsym $mod+Shift+c exec --no-startup-id clion
 bindsym $mod+c [class="jetbrains-clion"] focus
 
+assign [class="jetbrains-pycharm"] $code
+bindsym $mod+Control+Shift+p move container to workspace $code
 bindsym $mod+Shift+p exec --no-startup-id pycharm
 bindsym $mod+p [class="jetbrains-pycharm"] focus
 
+assign [class="jetbrains-idea"] $code
+bindsym $mod+Control+Shift+i move container to workspace $code
 bindsym $mod+Shift+i exec --no-startup-id idea
 bindsym $mod+i [class="jetbrains-idea"] focus
 
+set $anki "Anki"
+assign [class="Anki"] $anki
+workspace $anki output $external $laptop
+bindsym $mod+Control+Shift+a move container to workspace $anki
 bindsym $mod+Shift+a exec --no-startup-id anki
 bindsym $mod+a [class="Anki"] focus
 
