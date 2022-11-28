@@ -90,7 +90,7 @@ font-1 = Font Awesome 5 Brands Regular:style=Regular:pixelsize=13;2
 font-2 = Font Awesome 5 Free Regular:style=Regular:pixelsize=13;2
 font-3 = Font Awesome 5 Free Solid:style=Solid:pixelsize=13;2
 
-modules-left = i3 cpu memory temperature
+modules-left = i3 cpu memory temperature filesystem
 modules-center = date
 modules-right = pulseaudio battery
 
@@ -192,7 +192,32 @@ ramp-3 = 
 ramp-4 = 
 ramp-foreground = ${colors.yellow}
 #+END_SRC
+*** File System
+#+BEGIN_SRC conf :tangle config
+[module/filesystem]
+type = internal/fs
 
+; Mountpoints to display
+mount-0 = /
+
+; Seconds to sleep between updates
+; Default: 30
+interval = 20
+
+format-mounted = <label-mounted>
+label-mounted =  %percentage_used%%
+; Display fixed precision values
+; Default: false
+fixed-values = true
+
+; Spacing (number of spaces, pixels, points) between entries
+; Default: 2
+spacing = 4
+
+; Default: 90
+; New in version 3.6.0
+warn-percentage = 75
+#+END_SRC
 *** Date
 #+BEGIN_SRC conf :tangle config
 [module/date]

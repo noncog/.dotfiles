@@ -544,7 +544,7 @@ set palette defined ( 0 '%s',\
   )
 
 (after! pdf-tools
-  (setq-default pdf-view-display-size 'fit-page))
+  (setq-default pdf-view-display-size 'fit-width))
 
 (use-package! engrave-faces-latex
   :after ox-latex

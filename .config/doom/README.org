@@ -1053,7 +1053,7 @@ A better meta package of tools for viewing and interacting with PDFs. This is re
 
 #+begin_src emacs-lisp
 (after! pdf-tools
-  (setq-default pdf-view-display-size 'fit-page))
+  (setq-default pdf-view-display-size 'fit-width))
 #+end_src
 
 ** [[https://github.com/tecosaur/engrave-faces][Engrave-Faces]]
