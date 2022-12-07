@@ -341,7 +341,7 @@ This section is obviously dedicated to configuring packages.
 (use-package! org
 #+end_src
 
-*** Init
+*** :heavy_minus_sign: Init
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
 :init
@@ -388,7 +388,7 @@ And then set a keybind to call my brain viewer.
 (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
 #+end_src
 
-*** Config
+*** :heavy_minus_sign: Config
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 :config
@@ -478,7 +478,7 @@ This section needs separated...
 **** Custom
 ***** Insert Zero Width Space
 
-#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-org-config
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (map! :map org-mode-map
       :nie "M-SPC M-SPC" (cmd! (insert "\u200B")))
 #+end_src
