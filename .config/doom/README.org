@@ -344,19 +344,19 @@ This section is obviously dedicated to configuring packages.
 )
 #+end_src
 
-** Org :DESCRIPTION:LINK:
+* Org :DESCRIPTION:LINK:
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org :exports none
 (use-package! org
 #+end_src
 
-*** Init
+** Init
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
 :init
 #+end_src
 
-**** Brain Buffer Viewer :TODO:
+*** Brain Buffer Viewer :TODO:
 
 This function gives me access to my primary org document anywhere in Emacs.
 
@@ -384,29 +384,28 @@ And then set a keybind to call my brain viewer.
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain) ; evil style
 (global-set-key (kbd "C-c b") #'noncog/toggle-brain)         ; emacs style
-#+end_src​
------
+#+end_src
 
-*** Config
+** Config
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 :config
 #+end_src
 
-**** Modules
+*** Modules
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
 #+end_src
 
-**** Habits
+*** Habits
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section
 (setq org-habit-show-all-today t)                   ; keep habits visible even if done today
 #+end_src
 
-**** Agenda
+*** Agenda
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-agenda-files (quote ("~/documents/org/brain.org"
@@ -421,14 +420,14 @@ And then set a keybind to call my brain viewer.
                                "~/projects/dulcius-ex-asperis")))
 #+end_src
 
-**** Logging
+*** Logging
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-log-done 'time)                           ; add completion time to DONE items.
 (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
 #+end_src
 
-**** States
+*** States
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 ;; (setq org-todo-keywords
@@ -437,7 +436,7 @@ And then set a keybind to call my brain viewer.
 ;;       (sequence "OKAY(o)" "YES(y)" "NO(n)")))
 #+end_src
 
-**** Appearance
+*** Appearance
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-ellipsis " ▾ ")                           ; set custom ellipsis
@@ -448,7 +447,7 @@ And then set a keybind to call my brain viewer.
 (setq org-fontify-whole-heading-line nil)
 #+end_src
 
-**** LaTeX
+*** LaTeX
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-highlight-latex-and-related '(native script entities)) ; supposedly teco had other issues with this but I haven't found them...
@@ -456,8 +455,7 @@ And then set a keybind to call my brain viewer.
 (setq org-latex-src-block-backend 'engraved)        ; add syntax highlighting to org latex exports
 #+end_src
 
-**** General
-***** Behavior :TODO:
+*** Behavior :TODO:
 
 This section needs separated...
 
@@ -474,15 +472,15 @@ This section needs separated...
 ;(setq org-babel-results-keyword "OUTPUT")           ; a possible workaround, can change this instead of results block exporting, allow to not use :exports both and instead use the result from within the code document, possibly reducing export time. Need to understand more. org babel result shows many variables to play with.
 #+end_src
 
-**** Custom
-***** Insert Zero Width Space
+*** Custom
+**** Insert Zero Width Space
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (map! :map org-mode-map
       :nie "M-SPC M-SPC" (cmd! (insert "\u200B")))
 #+end_src
 
-***** View Exported Org File
+**** View Exported Org File
 
 [[https://github.com/tecosaur/emacs-config/blob/master/config.org#view-exported-file][Tecosaur]] has provided us with a function and keybind to view the recently exported org-file.
 
@@ -514,10 +512,9 @@ This section needs separated...
   "Search for output files with these extensions, in order, viewing the first that matches")
 (defvar org-view-external-file-extensions '("html")
   "File formats that should be opened externally.")
-#+end_src​
------
+#+end_src
 
-*** No Web Assembly
+** No Web Assembly
 
 #+begin_src emacs-lisp :noweb yes
 (after! org
@@ -528,19 +525,19 @@ This section needs separated...
   )
 #+end_src
 
-** Org Agenda :DESCRIPTION:LINK:
+* Org Agenda :DESCRIPTION:LINK:
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda :exports none
 (use-package! org-agenda
 #+end_src
 
-*** Init
+** Init
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-init
 :init
 #+end_src
 
-**** Agenda Launcher
+*** Agenda Launcher
 
 I define a function to call my custom agenda either from M-x or through a keybind.
 
@@ -555,23 +552,22 @@ Then I define a keybind to call my agenda viewer.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-init
 (map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
-#+end_src​
------
+#+end_src
 
-*** Config
+** Config
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 :config
 #+end_src
 
-**** Logging
+*** Logging
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
 #+end_src
 
-**** Appearance
-***** Agenda Popup Window
+*** Appearance
+**** Agenda Popup Window
 
 Doom provides pop-up windowing rules to control how select buffers are displayed.
 
@@ -579,7 +575,7 @@ Doom provides pop-up windowing rules to control how select buffers are displayed
 (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
 #+end_src
 
-***** Agenda Section Face
+**** Agenda Section Face
 
 I make the agenda section titles slightly bigger and bold to more easily visually differentiate them.
 
@@ -589,8 +585,8 @@ I make the agenda section titles slightly bigger and bold to more easily visuall
     :height 1.3 :weight bold))
 #+end_src
 
-**** Custom
-***** Agenda
+*** Custom
+**** Agenda
 
 This is my custom agenda viewer. It has everything I want and nothing more. I see no need for another agenda package, consider writing your own!
 
@@ -694,7 +690,7 @@ This is my custom agenda viewer. It has everything I want and nothing more. I se
 (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
 #+end_src
 
-***** Remove Empty Agenda Sections
+**** Remove Empty Agenda Sections
 
 If one of my agenda blocks has no information, I don't want to see it. I call this function when displaying my agenda to delete empty sections.
 
@@ -734,10 +730,9 @@ If one of my agenda blocks has no information, I don't want to see it. I call th
   (goto-char (point-min))
   (setq buffer-read-only t)
 )
-#+end_src​
------
+#+end_src
 
-*** No Web Assembly
+** No Web Assembly
 
 #+begin_src emacs-lisp :noweb yes
 (after! org-agenda
@@ -748,7 +743,7 @@ If one of my agenda blocks has no information, I don't want to see it. I call th
   )
 #+end_src
 
-** Org Noter :LINK:
+* Org Noter :LINK:
 
 Allows you to keep org notes that are synced to pdf files! As you scroll your pdf, your notes scroll too!
 
@@ -756,20 +751,20 @@ Allows you to keep org notes that are synced to pdf files! As you scroll your pd
 (use-package! org-noter
 #+end_src
 
-*** Config
+** Config
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 :config
 #+end_src
 
-**** General
-***** Noter Directory
+*** General
+**** Noter Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
 #+end_src
 
-***** Behavior :TODO:
+**** Behavior :TODO:
 
 This section needs separated...
 
@@ -778,7 +773,7 @@ This section needs separated...
 (setq org-noter-auto-save-last-location t)          ; remembers where I left off in pdfs and notes
 #+end_src
 
-**** Appearance
+*** Appearance
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 ;; don't touch my frames...
@@ -786,8 +781,8 @@ This section needs separated...
 (setq org-noter-kill-frame-at-session-end nil)
 #+end_src
 
-**** Custom
-***** Better Org-Noter Exit
+*** Custom
+**** Better Org-Noter Exit
 
 I had issues with the way Doom and org-noter close pdf buffers without returning my windowing back to normal. This function solves that.
 
@@ -806,7 +801,7 @@ Then I define a keybind to call my org-noter kill function.
 (map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
 #+end_src
 
-*** No Web Assembly
+** No Web Assembly
 
 #+begin_src emacs-lisp :noweb yes
 (after! org-noter
@@ -816,11 +811,11 @@ Then I define a keybind to call my org-noter kill function.
   )
 #+end_src
 
-** Org Plot :LINK:TODO:
+* Org Plot :LINK:TODO:
 
 Produces 2D/3D graphs from org tables using [[http://www.gnuplot.info/][gnuplot]] and [[https://github.com/mkmcc/gnuplot-mode][gnuplot-mode]].
 
-*** Appearance
+** Appearance
 
 [[https://github.com/tecosaur/emacs-config/blob/master/config.org#org-plot][Tecosaur]] provides us with a way to use our Doom theme colors for org-plot!
 
@@ -906,7 +901,7 @@ set palette defined ( 0 '%s',\
   (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
 #+end_src
 
-** Org Present :TODO:LINK:
+* Org Present :TODO:LINK:
 
 Is a minimal presentation tool for org-mode. It's designed around each slide being contained in a top-level header.
 
@@ -920,7 +915,7 @@ Because it's so minimal, I do a bit of customization to make it more usable and 
 :config
 #+end_src
 
-*** Keybinds
+** Keybinds
 
 Evil collection has a set of default binds for this mode that I disagree with, so we'll disable it.
 
@@ -938,8 +933,8 @@ Then, we set binds that make more sense for this mode.
 (map! :map org-present-mode-keymap "C-k" #'noncog/org-show-previous-heading-tidily)
 #+end_src
 
-*** Custom Functions
-**** Fold Entries Per Top Heading
+** Custom Functions
+*** Fold Entries Per Top Heading
 
 This creates a tidy view of each "section" of the org presentation as I enter them.
 
@@ -958,7 +953,7 @@ This creates a tidy view of each "section" of the org presentation as I enter th
 (add-hook 'org-present-after-navigate-functions 'noncog/org-present-prepare-slide)
 #+end_src
 
-**** Active Folding For Next Heading
+*** Active Folding For Next Heading
 
 The holy grail to making org-present actually usable. This should be included by default.
 
@@ -1012,7 +1007,7 @@ TODO - add example image/gif.
     (recenter-top-bottom)))
 #+end_src
 
-**** Start/End Presentation Hooks
+*** Start/End Presentation Hooks
 
 These functions control any formatting done upon entering and exiting the presentation mode.
 
@@ -1057,19 +1052,19 @@ These functions control any formatting done upon entering and exiting the presen
   <<use-package-end>>
 #+end_src
 
-** Ox (Org Export) :DESCRIPTION:LINK:
+* Ox (Org Export) :DESCRIPTION:LINK:
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox :exports none
 (use-package! ox
 #+end_src
 
-*** Config
+** Config
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox-config
 :config
 #+end_src
 
-**** General
+*** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox-config
 (setq org-export-headline-levels 7)
@@ -1077,7 +1072,7 @@ These functions control any formatting done upon entering and exiting the presen
 (setq org-export-creator-string (concat "Doom Emacs " emacs-version " (Org mode " org-version ")" ))
 #+end_src
 
-*** No Web Assembly
+** No Web Assembly
 
 #+begin_src emacs-lisp :noweb yes
 (after! ox
@@ -1088,13 +1083,13 @@ These functions control any formatting done upon entering and exiting the presen
 
 #+end_src
 
-** Ox Latex
+* Ox Latex
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox-latex
 (use-package! ox-latex
 #+end_src
 
-*** Init
+** Init
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox-latex-init
 :init
@@ -1104,7 +1099,7 @@ These functions control any formatting done upon entering and exiting the presen
 (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
 #+end_src
 
-*** No Web Assembly
+** No Web Assembly
 
 #+begin_src emacs-lisp :noweb yes
 <<use-package-ox-latex>>
@@ -1112,8 +1107,8 @@ These functions control any formatting done upon entering and exiting the presen
   <<use-package-end>>
 #+end_src
 
-** Consult
-*** Unfold Org Headings in Consult Search
+* Consult
+** Unfold Org Headings in Consult Search
 
 This fixes a bug where consult searches can't display the heading you want, only the nearest visible to it.
 
@@ -1129,7 +1124,7 @@ Notice that =org-fold-reveal= accepts an argument. This changes the way the org-
       (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
 #+end_src
 
-** PDF Tools
+* PDF Tools
 
 A better meta package of tools for viewing and interacting with PDFs. This is required to use org-noter.
 
@@ -1138,7 +1133,7 @@ A better meta package of tools for viewing and interacting with PDFs. This is re
   (setq-default pdf-view-display-size 'fit-width))
 #+end_src
 
-** Engrave Faces
+* Engrave Faces
 
 Provides syntax code block highlighting and theming to our org-latex pdf exports!
 
@@ -1150,7 +1145,7 @@ We just need to load this package after ox-latex for our latex pdf exports.
 )
 #+end_src
 
-** [[https://github.com/protesilaos/pulsar][Pulsar]]
+* [[https://github.com/protesilaos/pulsar][Pulsar]]
 
 This wonderful package blinks and highlights the current line. I primarily use it on window switching to never lose track of the cursor/point again.
 
@@ -1162,7 +1157,7 @@ This wonderful package blinks and highlights the current line. I primarily use i
 :config
 #+end_src
 
-*** Behavior
+** Behavior
 
 Setup the basic pulse configuration.
 
@@ -1172,14 +1167,14 @@ Setup the basic pulse configuration.
 (setq pulsar-iterations 12)
 #+end_src
 
-*** Appearance
+** Appearance
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 (setq pulsar-face 'pulsar-magenta)                  ; used by pulsar-pulse-line
 (setq pulsar-highlight-face 'pulsar-yellow)         ; used by pulsar-highlight-*
 #+end_src
 
-*** Add to Evil
+** Add to Evil
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 (add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
@@ -1235,22 +1230,22 @@ Setup the basic pulse configuration.
 ;; tab-next
 #+end_src
 
-*** Recentering
-**** Middle Recenter
+** Recentering
+*** Middle Recenter
 
 #+begin_src emacs-lisp
 (defun noncog/pulsar-scroll-recenter-middle (&rest _args)
   (pulsar-recenter-middle))
 #+end_src
 
-**** After Scrolling Recenter Middle
+*** After Scrolling Recenter Middle
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 (advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter-middle)
 (advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter-middle)
 #+end_src
 
-**** After Jumping Recenter Top
+*** After Jumping Recenter Top
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-pulsar-config
 (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
@@ -1258,7 +1253,7 @@ Setup the basic pulse configuration.
 (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
 #+end_src
 
-*** Enable
+** Enable
 
 #+begin_src emacs-lisp
 (pulsar-global-mode 1)
@@ -1270,7 +1265,7 @@ Setup the basic pulse configuration.
   <<use-package-end>>
 #+end_src
 
-** [[https://company-mode.github.io/][Company]]
+* [[https://company-mode.github.io/][Company]]
 
 This is the completion framework that Doom uses. It uses back-ends to retrieve and display completion candidates.
 
@@ -1282,7 +1277,7 @@ This is the completion framework that Doom uses. It uses back-ends to retrieve a
 :config
 #+end_src
 
-*** Behavior
+** Behavior
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (setq company-idle-delay 0.1)
@@ -1290,8 +1285,8 @@ This is the completion framework that Doom uses. It uses back-ends to retrieve a
 (setq company-minimum-prefix-length 1)
 #+end_src
 
-*** Package Settings
-**** Text-mode
+** Package Settings
+*** Text-mode
 
 Text-mode is often inherited by other modes like org-mode. I would rather be able to control modes explicitly instead of use inheritance.
 
@@ -1305,14 +1300,14 @@ I disable company for text-mode then remove it's backend from the alist.
 (setq +company-backend-alist (assq-delete-all 'text-mode +company-backend-alist))
 #+end_src
 
-**** Org-mode
+*** Org-mode
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (set-company-backend! 'org-mode
   '(company-capf company-files :with company-yasnippet))
 #+end_src
 
-**** Sh-mode
+*** Sh-mode
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-company-config
 (set-company-backend! 'sh-mode
@@ -1327,7 +1322,7 @@ I disable company for text-mode then remove it's backend from the alist.
   )
 #+end_src
 
-** Ace Window
+* Ace Window
 
 Gives us quicker window switching when other-window just won't cut it. Allows us to jump to specific windows instead of cycle our way there.
 
@@ -1342,7 +1337,7 @@ Gives us quicker window switching when other-window just won't cut it. Allows us
   )
 #+end_src
 
-** Projectile
+* Projectile
 
 Provides project level interaction.
 
@@ -1364,7 +1359,7 @@ And I had a keybind to view the projects with uncommited changes.
   )
 #+end_src
 
-** Visual Fill Column
+* Visual Fill Column
 
 This package adds centering to buffers, amongst other things.
 
@@ -1377,8 +1372,8 @@ This package is incompatible with Doom's popup window rules so I'm looking for a
 )
 #+end_src
 
-** Yasnippet
-*** Information
+* Yasnippet
+** Information
 
 [[https://github.com/doomemacs/snippets][Doom Snippets]]
 
@@ -1392,13 +1387,13 @@ This package is incompatible with Doom's popup window rules so I'm looking for a
 :config
 #+end_src
 
-*** Directory
+** Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-yasnippet-config
 (setq yas-snippet-dirs '("~/.config/doom/snippets/"))
 #+end_src
 
-*** Behavior
+** Behavior
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-yasnippet-config
 (setq yas-indent-line 'fixed)                       ; prevent yasnippet from changing my indents
@@ -1412,7 +1407,7 @@ This package is incompatible with Doom's popup window rules so I'm looking for a
   )
 #+end_src
 
-** Python
+* Python
 
 #+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-python :exports none
 (use-package! python
@@ -1422,7 +1417,7 @@ This package is incompatible with Doom's popup window rules so I'm looking for a
 :init
 #+end_src
 
-*** Behavior
+** Behavior
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-python-config
 (setq python-shell-interpreter "python3")
@@ -1434,7 +1429,7 @@ This package is incompatible with Doom's popup window rules so I'm looking for a
   <<use-package-end>>
 #+end_src
 
-** Electric Indent
+* Electric Indent
 I've been having issues with electric indent's behavior when editing shell scripts...
 
 So we disable it for that mode.
@@ -1446,14 +1441,14 @@ So we disable it for that mode.
 (add-hook 'sh-mode-hook 'noncog/remove-electric-indent-mode)
 #+end_src
 
-** PlantUML
+* PlantUML
 
 #+begin_src emacs-lisp
 (after! plantuml-mode
   (setq plantuml-default-exec-mode 'jar))
 #+end_src
 
-** Magit
+* Magit
 
 Developing convetional commit/angular linting integration for Magit. Base on this [[https://www.adventuresinwhy.com/post/commit-message-linting/][this]] post.
 
@@ -1559,7 +1554,7 @@ Developing convetional commit/angular linting integration for Magit. Base on thi
   )
 
 #+end_src
-** Prot Center Scroll
+* Prot Center Scroll
 #+begin_src emacs-lisp
 (define-minor-mode prot/scroll-center-cursor-mode
   "Toggle centred cursor scrolling behavior"
