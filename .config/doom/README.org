@@ -384,8 +384,7 @@ And then set a keybind to call my brain viewer.
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain) ; evil style
 (global-set-key (kbd "C-c b") #'noncog/toggle-brain)         ; emacs style
-#+end_src
-​
+#+end_src​
 -----
 
 *** Config
@@ -515,8 +514,7 @@ This section needs separated...
   "Search for output files with these extensions, in order, viewing the first that matches")
 (defvar org-view-external-file-extensions '("html")
   "File formats that should be opened externally.")
-#+end_src
-​
+#+end_src​
 -----
 
 *** No Web Assembly
@@ -557,8 +555,7 @@ Then I define a keybind to call my agenda viewer.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-init
 (map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
-#+end_src
-​
+#+end_src​
 -----
 
 *** Config
@@ -737,8 +734,7 @@ If one of my agenda blocks has no information, I don't want to see it. I call th
   (goto-char (point-min))
   (setq buffer-read-only t)
 )
-#+end_src
-​
+#+end_src​
 -----
 
 *** No Web Assembly
