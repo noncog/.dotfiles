@@ -128,9 +128,12 @@ It should be noted that I use a [[https://leanpub.com/lit-config/read][literate 
 
 The [[https://orgmode.org/manual/Noweb-Reference-Syntax.html][org-mode manual]] documentation on this topic is extremely useful for understanding the ways you can use this.
 
-* Doom Global
+* Doom
+
+** Modules
 
 In this section I setup Doom and "global" things. Otherwise, package specific settings are in the [[#packages][Packages]] section.
+** Packages
 
 ** Initial Setup
 *** Enable Lexical Binding
@@ -332,7 +335,7 @@ This section is obviously dedicated to configuring packages.
 )
 #+end_src
 
-** :notebook_with_decorative_cover: [[https://orgmode.org/][Org]]
+** :small_red_triangle_down: [[https://orgmode.org/][Org]]
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org :exports none
 (use-package! org
@@ -385,7 +388,6 @@ And then set a keybind to call my brain viewer.
 (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
 #+end_src
 
-
 *** Config
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
@@ -427,7 +429,7 @@ And then set a keybind to call my brain viewer.
 (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
 #+end_src
 
-**** TODO States
+**** States
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 ;; (setq org-todo-keywords
@@ -436,8 +438,7 @@ And then set a keybind to call my brain viewer.
 ;;       (sequence "OKAY(o)" "YES(y)" "NO(n)")))
 #+end_src
 
-**** Appearance Settings
-
+**** Appearance
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-ellipsis " ▾ ")                           ; set custom ellipsis
@@ -518,7 +519,7 @@ This section needs separated...
 
 *** No Web Assembly
 
-#+begin_src emacs-lisp :noweb yes :exports none
+#+begin_src emacs-lisp :noweb yes
 (after! org
   <<use-package-org>>
     <<use-package-org-init>>
@@ -527,8 +528,7 @@ This section needs separated...
   )
 #+end_src
 
-*** Custom Functions
-** :clipboard: Org-Agenda
+** :small_red_triangle_down: Org-Agenda
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda :exports none
 (use-package! org-agenda
