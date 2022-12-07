@@ -7,7 +7,10 @@
 
 (global-auto-revert-mode 1)
 
-(setq scroll-margin 5)
+(setq scroll-margin (* (frame-height) 2))
+(setq scroll-conservatively 0)
+(setq maximum-scroll-margin 0.5)
+(setq scroll-preserve-screen-position t)
 
 (setq doom-theme 'doom-dracula)
 (setq doom-dracula-brighter-modeline t)
@@ -16,13 +19,13 @@
 (custom-set-faces!
  `(cursor :background ,(doom-color 'magenta)))
 
-(setq doom-font (font-spec :family "fira code" :size 14))
-(setq doom-unicode-font (font-spec :family "fira code" :size 16))
+(setq doom-font (font-spec :family "Jetbrains Mono" :size 11))
+(setq doom-unicode-font (font-spec :family "JetBrains Mono" :size 11))
 
 (add-to-list 'default-frame-alist '(alpha . 96)) ; [0-100]
 
 (after! display-line-numbers
-  (setq display-line-numbers-type nil))
+  (setq display-line-numbers-type 'visual))
 
 (display-time-mode 1)
 
@@ -68,7 +71,7 @@
 
 (defun noncog/emacs-i3-move-window (dir)
   ;(message (concat "Move window " (pp-to-string dir) "."))
-  (funcall (intern (concat "+evil/window-move-" (pp-to-string dir)))))
+  (funcall (intern (concat "windmove-swap-states-" (pp-to-string dir)))))
 
 (defun noncog/emacs-i3-resize-window (dir kind value)
   (pcase kind
@@ -84,33 +87,6 @@
         (evil-window-increase-width value))
        ('height
         (evil-window-increase-height value))))))
-
-(setq org-directory "~/documents/org/")
-
-(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
-
-(defun noncog/toggle-brain ()
-  "A function for toggling the view of the your chosen file in a side window."
-  (interactive)
-  (if (get-file-buffer noncog/brain-file)
-      (progn(kill-buffer (get-file-buffer noncog/brain-file))(message "Killed Brain buffer."))
-    (progn(display-buffer (find-file-noselect noncog/brain-file))(message "Opened Brain buffer."))))
-
-;; set it's window behavior
-(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
-
-;; evil style
-(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
-;; emacs style
-(global-set-key (kbd "C-c b") #'noncog/toggle-brain)
-
-(after! consult
-  (defadvice! org-show-entry-consult-a (fn &rest args)
-    :around #'consult-line
-    :around #'consult-org-heading
-    :around #'consult--grep
-    (when-let ((pos (apply fn args)))
-      (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
 
 (map! :map org-mode-map
       :localleader
@@ -142,8 +118,26 @@
 
 (after! org
   (use-package! org
+    :init
+    (setq org-directory "~/documents/org/")
+    (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
+    
+    (defun noncog/toggle-brain ()
+      "A function for toggling the view of the your chosen file in a side window."
+      (interactive)
+      (if (get-file-buffer noncog/brain-file)
+          (progn(kill-buffer (get-file-buffer noncog/brain-file))(message "Killed Brain buffer."))
+        (progn(display-buffer (find-file-noselect noncog/brain-file))(message "Opened Brain buffer."))))
+    ;; set it's window behavior
+    (set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
+    ;; evil style
+    (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+    ;; emacs style
+    (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
     :config
     (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
+    (setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section
+    (setq org-habit-show-all-today t)                   ; keep habits visible even if done today
     (setq org-agenda-files (quote ("~/documents/org/brain.org"
                                    "~/documents/org/university/linear-algebra-3720"
                                    "~/documents/org/university/data-structures-and-algorithms-5870"
@@ -154,14 +148,21 @@
                                    "~/projects/immediate-sdk"
                                    "~/projects/keyboards"
                                    "~/projects/dulcius-ex-asperis")))
-    (setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section
-    (setq org-habit-show-all-today t)                   ; keep habits visible even if done today
     (setq org-log-done 'time)                           ; add completion time to DONE items.
     (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
     ;; (setq org-todo-keywords
     ;;     '((sequence "TODO(t)" "IDEA(i)" "PROJ(p)" "STRT(s)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@/!)")
     ;;       (sequence "[ ](T)" "[-](S)" "[?](W)" "[X](D)")
     ;;       (sequence "OKAY(o)" "YES(y)" "NO(n)")))
+    (setq org-ellipsis " ▾ ")                           ; set custom ellipsis
+    (setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
+    (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
+    (setq org-hide-leading-stars t)                     ; remove excess heading stars
+    (setq org-fontify-quote-and-verse-blocks nil)
+    (setq org-fontify-whole-heading-line nil)
+    (setq org-highlight-latex-and-related '(native script entities)) ; supposedly teco had other issues with this but I haven't found them...
+    ;; this should be moved to ox-latex
+    (setq org-latex-src-block-backend 'engraved)        ; add syntax highlighting to org latex exports
     (setq org-return-follows-link t)                    ; enter opens links in org
     (setq org-capture-bookmark nil)                     ; prevent org capture from adding to bookmarks
     (setq org-insert-heading-respect-content nil)       ; insert the heading at cursor, not at end
@@ -171,18 +172,9 @@
     ;(setq org-use-fast-todo-selection 'expert)
     ;(setq org-use-fast-todo-selection nil)
     (setq evil-collection-calendar-want-org-bindings t) ; add evil bindings to org's calendar
-    ;; these should be moved to ox-latex
-    (setq org-latex-src-block-backend 'engraved)        ; add syntax highlighting to org latex exports
     ;(setq org-babel-results-keyword "OUTPUT")           ; a possible workaround, can change this instead of results block exporting, allow to not use :exports both and instead use the result from within the code document, possibly reducing export time. Need to understand more. org babel result shows many variables to play with.
-    (setq org-highlight-latex-and-related '(native script entities)) ; supposedly teco had other issues with this but I haven't found them...
     (map! :map org-mode-map
           :nie "M-SPC M-SPC" (cmd! (insert "\u200B")))
-    (setq org-ellipsis " ▾ ")                           ; set custom ellipsis
-    (setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
-    (setq org-hide-emphasis-markers t)                  ; hide formatting for markup
-    (setq org-hide-leading-stars t)                     ; remove excess heading stars
-    (setq org-fontify-quote-and-verse-blocks nil)
-    (setq org-fontify-whole-heading-line nil)
     )
   )
 
@@ -532,6 +524,14 @@ set palette defined ( 0 '%s',\
   (setq org-plot/gnuplot-script-preamble #'+org-plot-generate-theme)
   (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
 
+(after! consult
+  (defadvice! org-show-entry-consult-a (fn &rest args)
+    :around #'consult-line
+    :around #'consult-org-heading
+    :around #'consult--grep
+    (when-let ((pos (apply fn args)))
+      (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
+
 (after! ox
   (setq org-export-headline-levels 7)
   (setq org-export-with-creator t)
@@ -573,9 +573,46 @@ set palette defined ( 0 '%s',\
   (add-to-list 'pulsar-pulse-functions 'evil-window-next)
   (add-to-list 'pulsar-pulse-functions 'evil-window-prev)
   
+  (add-to-list 'pulsar-pulse-functions 'evil-scroll-line-to-top)
+  (add-to-list 'pulsar-pulse-functions 'evil-scroll-line-to-bottom)
+  (add-to-list 'pulsar-pulse-functions 'evil-scroll-line-to-center)
   ;(add-to-list 'pulsar-pulse-functions 'select-window)
   ;(add-to-list 'pulsar-pulse-functions 'windmove-do-window-select)
   ;(add-to-list 'pulsar-pulse-functions 'windmove-find-other-window)
+  (add-to-list 'pulsar-pulse-functions 'recenter-top-bottom)
+  (add-to-list 'pulsar-pulse-functions 'move-to-window-line-top-bottom)
+  (add-to-list 'pulsar-pulse-functions 'reposition-window)
+  (add-to-list 'pulsar-pulse-functions 'forward-page)
+  (add-to-list 'pulsar-pulse-functions 'backward-page)
+  (add-to-list 'pulsar-pulse-functions 'scroll-up-command)
+  (add-to-list 'pulsar-pulse-functions 'scroll-down-command)
+  (add-to-list 'pulsar-pulse-functions 'org-next-visible-heading)
+  (add-to-list 'pulsar-pulse-functions 'org-previous-visible-heading)
+  (add-to-list 'pulsar-pulse-functions 'org-forward-heading-same-level)
+  (add-to-list 'pulsar-pulse-functions 'org-backward-heading-same-level)
+  (add-to-list 'pulsar-pulse-functions 'outline-backward-same-level)
+  (add-to-list 'pulsar-pulse-functions 'outline-forward-same-level)
+  (add-to-list 'pulsar-pulse-functions 'outline-next-visible-heading)
+  (add-to-list 'pulsar-pulse-functions 'outline-previous-visible-heading)
+  (add-to-list 'pulsar-pulse-functions 'outline-up-heading)
+  (add-to-list 'pulsar-pulse-functions 'windmove-swap-states-up)
+  (add-to-list 'pulsar-pulse-functions 'windmove-swap-states-down)
+  (add-to-list 'pulsar-pulse-functions 'windmove-swap-states-left)
+  (add-to-list 'pulsar-pulse-functions 'windmove-swap-states-right)
+  (add-to-list 'pulsar-pulse-functions 'windmove-do-window-select)
+  ;(add-to-list 'pulsar-pulse-functions '
+  ;(add-to-list 'pulsar-pulse-functions '
+  ;; bookmark-jump
+  ;; other-window
+  ;; delete-window
+  ;; delete-other-windows
+  ;; windmove-right
+  ;; windmove-left
+  ;; windmove-up
+  ;; windmove-down
+  ;; tab-new
+  ;; tab-close
+  ;; tab-next
   (advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter-middle)
   (advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter-middle)
   (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
@@ -731,4 +768,20 @@ set palette defined ( 0 '%s',\
     (add-to-list 'git-commit-finish-query-functions
                  #'my-git-commit-check-style-conventions)
     )
+  )
+
+(define-minor-mode prot/scroll-center-cursor-mode
+  "Toggle centred cursor scrolling behavior"
+  :init-value nil
+  :lighter " S="
+  :global nil
+  (if prot/scroll-center-cursor-mode
+      (setq-local scroll-margin (* (frame-height) 2)
+                  scroll-conservatively 0
+                  maximum-scroll-margin 0.5)
+    (dolist (local '(scroll-preserve-screen-position
+                     scroll-conservatively
+                     maximum-scroll-margin
+                     scroll-margin))
+      (kill-local-variable `,local)))
   )

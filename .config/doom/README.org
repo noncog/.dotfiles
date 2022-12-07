@@ -4,6 +4,7 @@
 #+html: <p align="center"><a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/CC--BY--SA-161b22?style=for-the-badge&logo=Creative%20Commons&logoColor=white"></a></p>
 #+html:<p align="center">This is my <code><a href="https://github.com/doomemacs/doomemacs">Doom</a></code>... <code><a href="https://github.com/hlissner">Henrik</a></code> has doomed us all!</p>
 #+startup: show3levels
+#+startup: hideblocks
 
 #+begin_example :tangle no :exports none
 test if github shows tags on headings.
@@ -160,10 +161,13 @@ Needs updated with secure private public email.
 
 *** Scrolling
 
-The number of lines relative to the top and bottom of the screen, at which you should scroll the buffer. This provides room to see what is coming and prevents you from passing up your desired information.
+The number of lines relative to the top and bottom of the screen, at which the buffer should scroll. This provides room to see what is coming and prevents you from passing up your desired information.
 
 #+begin_src emacs-lisp
-(setq scroll-margin 5)
+(setq scroll-margin (* (frame-height) 2))
+(setq scroll-conservatively 0)
+(setq maximum-scroll-margin 0.5)
+(setq scroll-preserve-screen-position t)
 #+end_src
 
 ** Appearance
@@ -204,8 +208,8 @@ This syntax allows me to choose any of the doom-theme colors defined in my theme
 #+end_src
 
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "fira code" :size 14))
-(setq doom-unicode-font (font-spec :family "fira code" :size 16))
+(setq doom-font (font-spec :family "Jetbrains Mono" :size 11))
+(setq doom-unicode-font (font-spec :family "JetBrains Mono" :size 11))
 #+end_src
 
 *** Frame Opacity
@@ -224,7 +228,7 @@ When I want them, I can turn them on per mode or using Doom's toggle, but I don'
 
 #+begin_src emacs-lisp
 (after! display-line-numbers
-  (setq display-line-numbers-type nil))
+  (setq display-line-numbers-type 'visual))
 #+end_src
 
 *** Show Time in Modeline
@@ -298,7 +302,7 @@ I only set a couple of global keybinds here that have no other relevant place, l
 #+begin_src emacs-lisp
 (defun noncog/emacs-i3-move-window (dir)
   ;(message (concat "Move window " (pp-to-string dir) "."))
-  (funcall (intern (concat "+evil/window-move-" (pp-to-string dir)))))
+  (funcall (intern (concat "windmove-swap-states-" (pp-to-string dir)))))
 #+end_src
 
 *** Resize Window
@@ -320,41 +324,88 @@ I only set a couple of global keybinds here that have no other relevant place, l
         (evil-window-increase-height value))))))
 #+end_src
 
-* Packages
+* :package: Packages
 
-This section is dedicated to configuring package specific settings.
+This section is obviously dedicated to configuring packages.
 
 #+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-end
 )
 #+end_src
 
-** [[https://orgmode.org/][Org]]
+** :notebook_with_decorative_cover: [[https://orgmode.org/][Org]]
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org :exports none
 (use-package! org
 #+end_src
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config :exports none
-:config
+*** Init
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
+:init
 #+end_src
 
-*** Directory
+**** Set Org Directory
 
-According to Doom, org's directory must be set early due to it's loading process. Therfore it's not inside the package configuration.
+According to Doom, org's directory must be set early due to it's loading process. Therfore it's not inside the use-package configuration.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
 (setq org-directory "~/documents/org/")
 #+end_src
 
-*** Modules
+**** Brain Buffer Viewer :TODO:
+
+This function gives me access to my primary org document anywhere in Emacs.
+
+It opens the file if it isn't already opened and displays it in a side window. Because it's a toggle, it also closes the window and buffer upon repeating the command.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
+(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
+
+(defun noncog/toggle-brain ()
+  "A function for toggling the view of the your chosen file in a side window."
+  (interactive)
+  (if (get-file-buffer noncog/brain-file)
+      (progn(kill-buffer (get-file-buffer noncog/brain-file))(message "Killed Brain buffer."))
+    (progn(display-buffer (find-file-noselect noncog/brain-file))(message "Opened Brain buffer."))))
+#+end_src
+
+Now, let's use Doom's popup windowing to control the displaying of the buffer.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
+;; set it's window behavior
+(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
+#+end_src
+
+And then set a keybind to call my brain viewer.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
+;; evil style
+(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
+;; emacs style
+(global-set-key (kbd "C-c b") #'noncog/toggle-brain)
+#+end_src
+
+
+*** Config
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
+:config
+#+end_src
+
+**** Modules
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
 #+end_src
 
-*** Agenda Files
+**** Habits
 
-I only check these documents for my agenda items, instead of an entire directory.
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
+(setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section
+(setq org-habit-show-all-today t)                   ; keep habits visible even if done today
+#+end_src
+
+**** Agenda
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-agenda-files (quote ("~/documents/org/brain.org"
@@ -369,21 +420,14 @@ I only check these documents for my agenda items, instead of an entire directory
                                "~/projects/dulcius-ex-asperis")))
 #+end_src
 
-*** Habit Settings
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
-(setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section
-(setq org-habit-show-all-today t)                   ; keep habits visible even if done today
-#+end_src
-
-*** Logging
+**** Logging
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 (setq org-log-done 'time)                           ; add completion time to DONE items.
 (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
 #+end_src
 
-*** TODO States
+**** TODO States
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 ;; (setq org-todo-keywords
@@ -392,7 +436,28 @@ I only check these documents for my agenda items, instead of an entire directory
 ;;       (sequence "OKAY(o)" "YES(y)" "NO(n)")))
 #+end_src
 
-*** Behavior
+**** Appearance Settings
+
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
+(setq org-ellipsis " ▾ ")                           ; set custom ellipsis
+(setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
+(setq org-hide-emphasis-markers t)                  ; hide formatting for markup
+(setq org-hide-leading-stars t)                     ; remove excess heading stars
+(setq org-fontify-quote-and-verse-blocks nil)
+(setq org-fontify-whole-heading-line nil)
+#+end_src
+
+**** LaTeX
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
+(setq org-highlight-latex-and-related '(native script entities)) ; supposedly teco had other issues with this but I haven't found them...
+;; this should be moved to ox-latex
+(setq org-latex-src-block-backend 'engraved)        ; add syntax highlighting to org latex exports
+#+end_src
+
+**** General
+***** Behavior :TODO:
 
 This section needs separated...
 
@@ -406,76 +471,18 @@ This section needs separated...
 ;(setq org-use-fast-todo-selection 'expert)
 ;(setq org-use-fast-todo-selection nil)
 (setq evil-collection-calendar-want-org-bindings t) ; add evil bindings to org's calendar
-;; these should be moved to ox-latex
-(setq org-latex-src-block-backend 'engraved)        ; add syntax highlighting to org latex exports
 ;(setq org-babel-results-keyword "OUTPUT")           ; a possible workaround, can change this instead of results block exporting, allow to not use :exports both and instead use the result from within the code document, possibly reducing export time. Need to understand more. org babel result shows many variables to play with.
-(setq org-highlight-latex-and-related '(native script entities)) ; supposedly teco had other issues with this but I haven't found them...
 #+end_src
 
-*** Appearance
+**** Custom
+***** Insert Zero Width Space
+
 #+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-org-config
 (map! :map org-mode-map
       :nie "M-SPC M-SPC" (cmd! (insert "\u200B")))
 #+end_src
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
-(setq org-ellipsis " ▾ ")                           ; set custom ellipsis
-(setq org-src-preserve-indentation t)               ; prevent adding spaces/indents
-(setq org-hide-emphasis-markers t)                  ; hide formatting for markup
-(setq org-hide-leading-stars t)                     ; remove excess heading stars
-(setq org-fontify-quote-and-verse-blocks nil)
-(setq org-fontify-whole-heading-line nil)
-#+end_src
-
-*** Custom Functions
-**** Brain Buffer Viewer
-
-This function gives me access to my main org document anywhere in Emacs.
-
-It opens the file if it isn't already and shows it to me. Because it's a toggle, it also closes the buffer upon repeating it's command.
-
-#+begin_src emacs-lisp
-(defconst noncog/brain-file "/home/jake/documents/org/brain.org")
-
-(defun noncog/toggle-brain ()
-  "A function for toggling the view of the your chosen file in a side window."
-  (interactive)
-  (if (get-file-buffer noncog/brain-file)
-      (progn(kill-buffer (get-file-buffer noncog/brain-file))(message "Killed Brain buffer."))
-    (progn(display-buffer (find-file-noselect noncog/brain-file))(message "Opened Brain buffer."))))
-#+end_src
-
-Now, let's use Doom's popup windowing to control the displaying of the buffer.
-
-#+begin_src emacs-lisp
-;; set it's window behavior
-(set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
-#+end_src
-
-And then set a keybind to call my brain viewer.
-
-#+begin_src emacs-lisp
-;; evil style
-(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
-;; emacs style
-(global-set-key (kbd "C-c b") #'noncog/toggle-brain)
-#+end_src
-
-**** Unfold Org Headings in Consult Search
-
-This fixes a bug where consult searches can't display the heading you want, only the nearest visible to it.
-
-#+begin_src emacs-lisp
-(after! consult
-  (defadvice! org-show-entry-consult-a (fn &rest args)
-    :around #'consult-line
-    :around #'consult-org-heading
-    :around #'consult--grep
-    (when-let ((pos (apply fn args)))
-      (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
-#+end_src
-
-**** View Exported Org File
+***** View Exported Org File
 
 [[https://github.com/tecosaur/emacs-config/blob/master/config.org#view-exported-file][Tecosaur]] has provided us with a function and keybind to view the recently exported org-file.
 
@@ -509,15 +516,19 @@ This fixes a bug where consult searches can't display the heading you want, only
   "File formats that should be opened externally.")
 #+end_src
 
+*** No Web Assembly
+
 #+begin_src emacs-lisp :noweb yes :exports none
 (after! org
   <<use-package-org>>
+    <<use-package-org-init>>
     <<use-package-org-config>>
     <<use-package-end>>
   )
 #+end_src
 
-** Org-Agenda
+*** Custom Functions
+** :clipboard: Org-Agenda
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda :exports none
 (use-package! org-agenda
@@ -724,7 +735,7 @@ Then I define a keybind to call my agenda viewer.
   )
 #+end_src
 
-** [[https://github.com/weirdNox/org-noter][Org-Noter]]
+** :pencil: [[https://github.com/weirdNox/org-noter][Org-Noter]]
 
 Allows you to keep org notes that are synced to pdf files! As you scroll your pdf, your notes scroll too!
 
@@ -936,7 +947,7 @@ These functions control any formatting done upon entering and exiting the presen
   <<use-package-end>>
 #+end_src
 
-** [[https://orgmode.org/manual/Org-Plot.html][Org-Plot]]
+** :chart-with-upwards-trend: [[https://orgmode.org/manual/Org-Plot.html][Org-Plot]]
 
 Produces 2D/3D graphs from org tables using [[http://www.gnuplot.info/][gnuplot]] and [[https://github.com/mkmcc/gnuplot-mode][gnuplot-mode]].
 
@@ -1026,9 +1037,27 @@ set palette defined ( 0 '%s',\
   (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
 #+end_src
 
+** Consult
+*** Unfold Org Headings in Consult Search
+
+This fixes a bug where consult searches can't display the heading you want, only the nearest visible to it.
+
+Notice that =org-fold-reveal= accepts an argument. This changes the way the org-headings around the search result are displayed.
+
+
+#+begin_src emacs-lisp
+(after! consult
+  (defadvice! org-show-entry-consult-a (fn &rest args)
+    :around #'consult-line
+    :around #'consult-org-heading
+    :around #'consult--grep
+    (when-let ((pos (apply fn args)))
+      (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
+#+end_src
+
 ** Ox
 
-Controls the exporting of org documents.
+Also known as Org Export. It controls the exporting of org documents.
 
 #+begin_src emacs-lisp
 (after! ox
@@ -1047,7 +1076,7 @@ Controls the exporting of org documents.
   )
 #+end_src
 
-** [[https://github.com/vedang/pdf-tools][PDF-Tools]]
+** :book: [[https://github.com/vedang/pdf-tools][PDF-Tools]]
 
 A better meta package of tools for viewing and interacting with PDFs. This is required to use org-noter.
 
@@ -1111,9 +1140,46 @@ Setup the basic pulse configuration.
 (add-to-list 'pulsar-pulse-functions 'evil-window-next)
 (add-to-list 'pulsar-pulse-functions 'evil-window-prev)
 
+(add-to-list 'pulsar-pulse-functions 'evil-scroll-line-to-top)
+(add-to-list 'pulsar-pulse-functions 'evil-scroll-line-to-bottom)
+(add-to-list 'pulsar-pulse-functions 'evil-scroll-line-to-center)
 ;(add-to-list 'pulsar-pulse-functions 'select-window)
 ;(add-to-list 'pulsar-pulse-functions 'windmove-do-window-select)
 ;(add-to-list 'pulsar-pulse-functions 'windmove-find-other-window)
+(add-to-list 'pulsar-pulse-functions 'recenter-top-bottom)
+(add-to-list 'pulsar-pulse-functions 'move-to-window-line-top-bottom)
+(add-to-list 'pulsar-pulse-functions 'reposition-window)
+(add-to-list 'pulsar-pulse-functions 'forward-page)
+(add-to-list 'pulsar-pulse-functions 'backward-page)
+(add-to-list 'pulsar-pulse-functions 'scroll-up-command)
+(add-to-list 'pulsar-pulse-functions 'scroll-down-command)
+(add-to-list 'pulsar-pulse-functions 'org-next-visible-heading)
+(add-to-list 'pulsar-pulse-functions 'org-previous-visible-heading)
+(add-to-list 'pulsar-pulse-functions 'org-forward-heading-same-level)
+(add-to-list 'pulsar-pulse-functions 'org-backward-heading-same-level)
+(add-to-list 'pulsar-pulse-functions 'outline-backward-same-level)
+(add-to-list 'pulsar-pulse-functions 'outline-forward-same-level)
+(add-to-list 'pulsar-pulse-functions 'outline-next-visible-heading)
+(add-to-list 'pulsar-pulse-functions 'outline-previous-visible-heading)
+(add-to-list 'pulsar-pulse-functions 'outline-up-heading)
+(add-to-list 'pulsar-pulse-functions 'windmove-swap-states-up)
+(add-to-list 'pulsar-pulse-functions 'windmove-swap-states-down)
+(add-to-list 'pulsar-pulse-functions 'windmove-swap-states-left)
+(add-to-list 'pulsar-pulse-functions 'windmove-swap-states-right)
+(add-to-list 'pulsar-pulse-functions 'windmove-do-window-select)
+;(add-to-list 'pulsar-pulse-functions '
+;(add-to-list 'pulsar-pulse-functions '
+;; bookmark-jump
+;; other-window
+;; delete-window
+;; delete-other-windows
+;; windmove-right
+;; windmove-left
+;; windmove-up
+;; windmove-down
+;; tab-new
+;; tab-close
+;; tab-next
 #+end_src
 
 *** Recentering
@@ -1326,11 +1392,14 @@ So we disable it for that mode.
 
 (add-hook 'sh-mode-hook 'noncog/remove-electric-indent-mode)
 #+end_src
+
 ** PlantUML
+
 #+begin_src emacs-lisp
 (after! plantuml-mode
   (setq plantuml-default-exec-mode 'jar))
 #+end_src
+
 ** Magit
 
 Developing convetional commit/angular linting integration for Magit. Base on this [[https://www.adventuresinwhy.com/post/commit-message-linting/][this]] post.
@@ -1436,4 +1505,22 @@ Developing convetional commit/angular linting integration for Magit. Base on thi
     )
   )
 
+#+end_src
+** Prot Center Scroll
+#+begin_src emacs-lisp
+(define-minor-mode prot/scroll-center-cursor-mode
+  "Toggle centred cursor scrolling behavior"
+  :init-value nil
+  :lighter " S="
+  :global nil
+  (if prot/scroll-center-cursor-mode
+      (setq-local scroll-margin (* (frame-height) 2)
+                  scroll-conservatively 0
+                  maximum-scroll-margin 0.5)
+    (dolist (local '(scroll-preserve-screen-position
+                     scroll-conservatively
+                     maximum-scroll-margin
+                     scroll-margin))
+      (kill-local-variable `,local)))
+  )
 #+end_src
