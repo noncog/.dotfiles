@@ -5,6 +5,8 @@
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
 
+(setq org-directory "~/documents/org/")
+
 (global-auto-revert-mode 1)
 
 (setq scroll-margin (* (frame-height) 2))
@@ -119,7 +121,6 @@
 (after! org
   (use-package! org
     :init
-    (setq org-directory "~/documents/org/")
     (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
     
     (defun noncog/toggle-brain ()
@@ -128,12 +129,9 @@
       (if (get-file-buffer noncog/brain-file)
           (progn(kill-buffer (get-file-buffer noncog/brain-file))(message "Killed Brain buffer."))
         (progn(display-buffer (find-file-noselect noncog/brain-file))(message "Opened Brain buffer."))))
-    ;; set it's window behavior
     (set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
-    ;; evil style
-    (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
-    ;; emacs style
-    (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
+    (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain) ; evil style
+    (global-set-key (kbd "C-c b") #'noncog/toggle-brain)         ; emacs style
     :config
     (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
     (setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section

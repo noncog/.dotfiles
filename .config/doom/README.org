@@ -131,6 +131,7 @@ The [[https://orgmode.org/manual/Noweb-Reference-Syntax.html][org-mode manual]] 
 * Doom
 
 ** Modules
+https://github.com/doomemacs/doomemacs/tree/master/modules
 
 In this section I setup Doom and "global" things. Otherwise, package specific settings are in the [[#packages][Packages]] section.
 ** Packages
@@ -153,6 +154,14 @@ Needs updated with secure private public email.
 ;; clients, file templates and snippets. it is optional.
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
+#+end_src
+
+*** Set Org Directory
+
+According to Doom, org's directory must be set early due to it's loading process. Therefore it's not inside the use-package configuration.
+
+#+begin_src emacs-lisp
+(setq org-directory "~/documents/org/")
 #+end_src
 
 ** Behavior
@@ -331,7 +340,7 @@ I only set a couple of global keybinds here that have no other relevant place, l
 
 This section is obviously dedicated to configuring packages.
 
-#+begin_src emacs-lisp :tangle no :exports none :noweb-ref use-package-end
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-end :exports none
 )
 #+end_src
 
@@ -345,14 +354,6 @@ This section is obviously dedicated to configuring packages.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
 :init
-#+end_src
-
-**** Org Directory
-
-According to Doom, org's directory must be set early due to it's loading process. Therfore it's not inside the use-package configuration.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
-(setq org-directory "~/documents/org/")
 #+end_src
 
 **** Brain Buffer Viewer :TODO:
@@ -375,18 +376,17 @@ It opens the file if it isn't already opened and displays it in a side window. B
 Now, let's use Doom's popup windowing to control the displaying of the buffer.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
-;; set it's window behavior
 (set-popup-rule! "^brain.org" :side 'right :vslot -1 :width 70 :modeline t :select t :quit nil)
 #+end_src
 
 And then set a keybind to call my brain viewer.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
-;; evil style
-(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain)
-;; emacs style
-(global-set-key (kbd "C-c b") #'noncog/toggle-brain)
+(map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain) ; evil style
+(global-set-key (kbd "C-c b") #'noncog/toggle-brain)         ; emacs style
 #+end_src
+
+-----
 
 *** Config
 
@@ -517,6 +517,8 @@ This section needs separated...
   "File formats that should be opened externally.")
 #+end_src
 
+-----
+
 *** No Web Assembly
 
 #+begin_src emacs-lisp :noweb yes
@@ -557,9 +559,11 @@ Then I define a keybind to call my agenda viewer.
 (map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
 #+end_src
 
+-----
+
 *** Config
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config :exports none
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 :config
 #+end_src
 
@@ -734,6 +738,8 @@ If one of my agenda blocks has no information, I don't want to see it. I call th
   (setq buffer-read-only t)
 )
 #+end_src
+
+-----
 
 *** No Web Assembly
 
