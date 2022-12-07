@@ -214,22 +214,20 @@
   (setq buffer-read-only t)
 )
 
-(defun noncog/my-agenda ()
-  "My custom agenda launcher."
-  (interactive)
-  (org-agenda nil "o"))
-
-(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
-
 (after! org-agenda
   (use-package! org-agenda
+    :init
+    (defun noncog/my-agenda ()
+      "My custom agenda launcher."
+      (interactive)
+      (org-agenda nil "o"))
+    (map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
     :config
     (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
     (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
     (custom-set-faces!
       '(org-agenda-structure
         :height 1.3 :weight bold))
-    ;(set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
     (setq org-agenda-custom-commands
           '(
             ("o" "My Agenda" (
@@ -330,15 +328,6 @@
     )
   )
 
-(defun noncog/kill-org-noter-session ()
-  "Fully exits the noter-session and the pdf buffers it used, leaving the org file."
-  (interactive)
-  (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session)))
-        (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil)
-        (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
-
-(map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
-
 (after! org-noter
   (use-package! org-noter
     :config
@@ -348,8 +337,95 @@
     ;; don't touch my frames...
     (setq org-noter-always-create-frame nil)
     (setq org-noter-kill-frame-at-session-end nil)
+    (defun noncog/kill-org-noter-session ()
+      "Fully exits the noter-session and the pdf buffers it used, leaving the org file."
+      (interactive)
+      (let ((pdf-fname (buffer-file-name (org-noter--session-doc-buffer org-noter--session)))
+            (ses-id (org-noter--session-id org-noter--session))) (set-window-dedicated-p (get-buffer-window (get-file-buffer pdf-fname)) nil)
+            (call-interactively #'org-noter-kill-session ses-id) (doom/kill-this-buffer-in-all-windows (get-file-buffer pdf-fname))))
+    (map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
     )
   )
+
+(defvar +org-plot-term-size '(1050 . 650)
+  "The size of the GNUPlot terminal, in the form (WIDTH . HEIGHT).")
+
+(after! org-plot
+  (defun +org-plot-generate-theme (_type)
+    "Use the current Doom theme colours to generate a GnuPlot preamble."
+    (format "
+fgt = \"textcolor rgb '%s'\" # foreground text
+fgat = \"textcolor rgb '%s'\" # foreground alt text
+fgl = \"linecolor rgb '%s'\" # foreground line
+fgal = \"linecolor rgb '%s'\" # foreground alt line
+
+# foreground colors
+set border lc rgb '%s'
+# change text colors of  tics
+set xtics @fgt
+set ytics @fgt
+# change text colors of labels
+set title @fgt
+set xlabel @fgt
+set ylabel @fgt
+# change a text color of key
+set key @fgt
+
+# line styles
+set linetype 1 lw 2 lc rgb '%s' # red
+set linetype 2 lw 2 lc rgb '%s' # blue
+set linetype 3 lw 2 lc rgb '%s' # green
+set linetype 4 lw 2 lc rgb '%s' # magenta
+set linetype 5 lw 2 lc rgb '%s' # orange
+set linetype 6 lw 2 lc rgb '%s' # yellow
+set linetype 7 lw 2 lc rgb '%s' # teal
+set linetype 8 lw 2 lc rgb '%s' # violet
+
+# border styles
+set tics out nomirror
+set border 3
+
+# palette
+set palette maxcolors 8
+set palette defined ( 0 '%s',\
+1 '%s',\
+2 '%s',\
+3 '%s',\
+4 '%s',\
+5 '%s',\
+6 '%s',\
+7 '%s' )
+"
+            (doom-color 'fg)
+            (doom-color 'fg-alt)
+            (doom-color 'fg)
+            (doom-color 'fg-alt)
+            (doom-color 'fg)
+            ;; colours
+            (doom-color 'red)
+            (doom-color 'blue)
+            (doom-color 'green)
+            (doom-color 'magenta)
+            (doom-color 'orange)
+            (doom-color 'yellow)
+            (doom-color 'teal)
+            (doom-color 'violet)
+            ;; duplicated
+            (doom-color 'red)
+            (doom-color 'blue)
+            (doom-color 'green)
+            (doom-color 'magenta)
+            (doom-color 'orange)
+            (doom-color 'yellow)
+            (doom-color 'teal)
+            (doom-color 'violet)))
+
+  (defun +org-plot-gnuplot-term-properties (_type)
+    (format "background rgb '%s' size %s,%s"
+            (doom-color 'bg) (car +org-plot-term-size) (cdr +org-plot-term-size)))
+
+  (setq org-plot/gnuplot-script-preamble #'+org-plot-generate-theme)
+  (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
 
 (add-to-list '+evil-collection-disabled-list 'org-present)
 
@@ -444,85 +520,19 @@
   (map! :map org-present-mode-keymap "C-k" #'noncog/org-show-previous-heading-tidily)
   )
 
-(defvar +org-plot-term-size '(1050 . 650)
-  "The size of the GNUPlot terminal, in the form (WIDTH . HEIGHT).")
+(after! ox
+  (use-package! ox
+    :config
+    (setq org-export-headline-levels 7)
+    (setq org-export-with-creator t)
+    (setq org-export-creator-string (concat "Doom Emacs " emacs-version " (Org mode " org-version ")" ))
+    )
+  )
 
-(after! org-plot
-  (defun +org-plot-generate-theme (_type)
-    "Use the current Doom theme colours to generate a GnuPlot preamble."
-    (format "
-fgt = \"textcolor rgb '%s'\" # foreground text
-fgat = \"textcolor rgb '%s'\" # foreground alt text
-fgl = \"linecolor rgb '%s'\" # foreground line
-fgal = \"linecolor rgb '%s'\" # foreground alt line
-
-# foreground colors
-set border lc rgb '%s'
-# change text colors of  tics
-set xtics @fgt
-set ytics @fgt
-# change text colors of labels
-set title @fgt
-set xlabel @fgt
-set ylabel @fgt
-# change a text color of key
-set key @fgt
-
-# line styles
-set linetype 1 lw 2 lc rgb '%s' # red
-set linetype 2 lw 2 lc rgb '%s' # blue
-set linetype 3 lw 2 lc rgb '%s' # green
-set linetype 4 lw 2 lc rgb '%s' # magenta
-set linetype 5 lw 2 lc rgb '%s' # orange
-set linetype 6 lw 2 lc rgb '%s' # yellow
-set linetype 7 lw 2 lc rgb '%s' # teal
-set linetype 8 lw 2 lc rgb '%s' # violet
-
-# border styles
-set tics out nomirror
-set border 3
-
-# palette
-set palette maxcolors 8
-set palette defined ( 0 '%s',\
-1 '%s',\
-2 '%s',\
-3 '%s',\
-4 '%s',\
-5 '%s',\
-6 '%s',\
-7 '%s' )
-"
-            (doom-color 'fg)
-            (doom-color 'fg-alt)
-            (doom-color 'fg)
-            (doom-color 'fg-alt)
-            (doom-color 'fg)
-            ;; colours
-            (doom-color 'red)
-            (doom-color 'blue)
-            (doom-color 'green)
-            (doom-color 'magenta)
-            (doom-color 'orange)
-            (doom-color 'yellow)
-            (doom-color 'teal)
-            (doom-color 'violet)
-            ;; duplicated
-            (doom-color 'red)
-            (doom-color 'blue)
-            (doom-color 'green)
-            (doom-color 'magenta)
-            (doom-color 'orange)
-            (doom-color 'yellow)
-            (doom-color 'teal)
-            (doom-color 'violet)))
-
-  (defun +org-plot-gnuplot-term-properties (_type)
-    (format "background rgb '%s' size %s,%s"
-            (doom-color 'bg) (car +org-plot-term-size) (cdr +org-plot-term-size)))
-
-  (setq org-plot/gnuplot-script-preamble #'+org-plot-generate-theme)
-  (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
+(use-package! ox-latex
+  :init
+  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
+  )
 
 (after! consult
   (defadvice! org-show-entry-consult-a (fn &rest args)
@@ -531,17 +541,6 @@ set palette defined ( 0 '%s',\
     :around #'consult--grep
     (when-let ((pos (apply fn args)))
       (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
-
-(after! ox
-  (setq org-export-headline-levels 7)
-  (setq org-export-with-creator t)
-  (setq org-export-creator-string (concat "Doom Emacs " emacs-version " (Org mode " org-version ")" ))
-  )
-
-(use-package! ox-latex
-  :init
-  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
-  )
 
 (after! pdf-tools
   (setq-default pdf-view-display-size 'fit-width))

@@ -335,19 +335,19 @@ This section is obviously dedicated to configuring packages.
 )
 #+end_src
 
-** :small_red_triangle_down: [[https://orgmode.org/][Org]]
+** Org :DESCRIPTION:LINK:
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org :exports none
 (use-package! org
 #+end_src
 
-*** :heavy_minus_sign: Init
+*** Init
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-init
 :init
 #+end_src
 
-**** Set Org Directory
+**** Org Directory
 
 According to Doom, org's directory must be set early due to it's loading process. Therfore it's not inside the use-package configuration.
 
@@ -388,7 +388,7 @@ And then set a keybind to call my brain viewer.
 (global-set-key (kbd "C-c b") #'noncog/toggle-brain)
 #+end_src
 
-*** :heavy_minus_sign: Config
+*** Config
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-config
 :config
@@ -528,43 +528,68 @@ This section needs separated...
   )
 #+end_src
 
-** :small_red_triangle_down: Org-Agenda
+** Org Agenda :DESCRIPTION:LINK:
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda :exports none
 (use-package! org-agenda
 #+end_src
 
+*** Init
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-init
+:init
+#+end_src
+
+**** Agenda Launcher
+
+I define a function to call my custom agenda either from M-x or through a keybind.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-init
+(defun noncog/my-agenda ()
+  "My custom agenda launcher."
+  (interactive)
+  (org-agenda nil "o"))
+#+end_src
+
+Then I define a keybind to call my agenda viewer.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-init
+(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
+#+end_src
+
+*** Config
+
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config :exports none
 :config
 #+end_src
 
-*** Behavior
+**** Logging
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (setq org-agenda-start-with-log-mode t)             ; show 'completed' done items in agenda
 #+end_src
 
-*** Appearance
-**** Popup Windowing
+**** Appearance
+***** Agenda Popup Window
 
-Doom allows me to control my agenda windowing to popup temporarily on the right of my screen.
+Doom provides pop-up windowing rules to control how select buffers are displayed.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 67 :modeline nil :select t :quit t)
 #+end_src
 
-**** Custom Faces
+***** Agenda Section Face
 
-I want the titles of agenda sections to be slightly bigger to more easily differentiate them.
+I make the agenda section titles slightly bigger and bold to more easily visually differentiate them.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-agenda-config
 (custom-set-faces!
   '(org-agenda-structure
     :height 1.3 :weight bold))
-;(set-face-attribute 'org-agenda-structure nil :height 120 :weight 'bold)
 #+end_src
 
-*** Custom Agenda
+**** Custom
+***** Agenda
 
 This is my custom agenda viewer. It has everything I want and nothing more. I see no need for another agenda package, consider writing your own!
 
@@ -668,7 +693,7 @@ This is my custom agenda viewer. It has everything I want and nothing more. I se
 (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
 #+end_src
 
-**** Remove Empty Agenda Sections
+***** Remove Empty Agenda Sections
 
 If one of my agenda blocks has no information, I don't want to see it. I call this function when displaying my agenda to delete empty sections.
 
@@ -710,57 +735,48 @@ If one of my agenda blocks has no information, I don't want to see it. I call th
 )
 #+end_src
 
-**** Agenda Launcher
+*** No Web Assembly
 
-I define a function to call my agenda either from M-x or through a keybind.
-
-#+begin_src emacs-lisp
-(defun noncog/my-agenda ()
-  "My custom agenda launcher."
-  (interactive)
-  (org-agenda nil "o"))
-#+end_src
-
-Then I define a keybind to call my agenda viewer.
-
-#+begin_src emacs-lisp
-(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
-#+end_src
-
-#+begin_src emacs-lisp :noweb yes :exports none
+#+begin_src emacs-lisp :noweb yes
 (after! org-agenda
   <<use-package-org-agenda>>
+    <<use-package-org-agenda-init>>
     <<use-package-org-agenda-config>>
     <<use-package-end>>
   )
 #+end_src
 
-** :pencil: [[https://github.com/weirdNox/org-noter][Org-Noter]]
+** Org Noter :LINK:
 
 Allows you to keep org notes that are synced to pdf files! As you scroll your pdf, your notes scroll too!
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter :exports none
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter
 (use-package! org-noter
 #+end_src
 
-#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config :exports none
+*** Config
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 :config
 #+end_src
 
-*** Directory
+**** General
+***** Noter Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (setq org-noter-notes-search-path '("~/documents/org/noter"))
 #+end_src
 
-*** Behavior
+***** Behavior :TODO:
+
+This section needs separated...
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes
 (setq org-noter-auto-save-last-location t)          ; remembers where I left off in pdfs and notes
 #+end_src
 
-*** Appearance
+**** Appearance
 
 #+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 ;; don't touch my frames...
@@ -768,12 +784,12 @@ Allows you to keep org notes that are synced to pdf files! As you scroll your pd
 (setq org-noter-kill-frame-at-session-end nil)
 #+end_src
 
-*** Custom Functions
-**** Better Org-Noter Exit
+**** Custom
+***** Better Org-Noter Exit
 
-I had issues with Doom and org-noter not closing pdf buffers and returning my windowing back to normal. This function solves that.
+I had issues with the way Doom and org-noter close pdf buffers without returning my windowing back to normal. This function solves that.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (defun noncog/kill-org-noter-session ()
   "Fully exits the noter-session and the pdf buffers it used, leaving the org file."
   (interactive)
@@ -784,11 +800,13 @@ I had issues with Doom and org-noter not closing pdf buffers and returning my wi
 
 Then I define a keybind to call my org-noter kill function.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-org-noter-config
 (map! :leader :desc "Kill org noter session" "n k" #'noncog/kill-org-noter-session)
 #+end_src
 
-#+begin_src emacs-lisp :noweb yes :exports none
+*** No Web Assembly
+
+#+begin_src emacs-lisp :noweb yes
 (after! org-noter
   <<use-package-org-noter>>
     <<use-package-org-noter-config>>
@@ -796,7 +814,97 @@ Then I define a keybind to call my org-noter kill function.
   )
 #+end_src
 
-** [[https://github.com/rlister/org-present][Org-Present]]
+** Org Plot :LINK:TODO:
+
+Produces 2D/3D graphs from org tables using [[http://www.gnuplot.info/][gnuplot]] and [[https://github.com/mkmcc/gnuplot-mode][gnuplot-mode]].
+
+*** Appearance
+
+[[https://github.com/tecosaur/emacs-config/blob/master/config.org#org-plot][Tecosaur]] provides us with a way to use our Doom theme colors for org-plot!
+
+#+begin_src emacs-lisp
+(defvar +org-plot-term-size '(1050 . 650)
+  "The size of the GNUPlot terminal, in the form (WIDTH . HEIGHT).")
+
+(after! org-plot
+  (defun +org-plot-generate-theme (_type)
+    "Use the current Doom theme colours to generate a GnuPlot preamble."
+    (format "
+fgt = \"textcolor rgb '%s'\" # foreground text
+fgat = \"textcolor rgb '%s'\" # foreground alt text
+fgl = \"linecolor rgb '%s'\" # foreground line
+fgal = \"linecolor rgb '%s'\" # foreground alt line
+
+# foreground colors
+set border lc rgb '%s'
+# change text colors of  tics
+set xtics @fgt
+set ytics @fgt
+# change text colors of labels
+set title @fgt
+set xlabel @fgt
+set ylabel @fgt
+# change a text color of key
+set key @fgt
+
+# line styles
+set linetype 1 lw 2 lc rgb '%s' # red
+set linetype 2 lw 2 lc rgb '%s' # blue
+set linetype 3 lw 2 lc rgb '%s' # green
+set linetype 4 lw 2 lc rgb '%s' # magenta
+set linetype 5 lw 2 lc rgb '%s' # orange
+set linetype 6 lw 2 lc rgb '%s' # yellow
+set linetype 7 lw 2 lc rgb '%s' # teal
+set linetype 8 lw 2 lc rgb '%s' # violet
+
+# border styles
+set tics out nomirror
+set border 3
+
+# palette
+set palette maxcolors 8
+set palette defined ( 0 '%s',\
+1 '%s',\
+2 '%s',\
+3 '%s',\
+4 '%s',\
+5 '%s',\
+6 '%s',\
+7 '%s' )
+"
+            (doom-color 'fg)
+            (doom-color 'fg-alt)
+            (doom-color 'fg)
+            (doom-color 'fg-alt)
+            (doom-color 'fg)
+            ;; colours
+            (doom-color 'red)
+            (doom-color 'blue)
+            (doom-color 'green)
+            (doom-color 'magenta)
+            (doom-color 'orange)
+            (doom-color 'yellow)
+            (doom-color 'teal)
+            (doom-color 'violet)
+            ;; duplicated
+            (doom-color 'red)
+            (doom-color 'blue)
+            (doom-color 'green)
+            (doom-color 'magenta)
+            (doom-color 'orange)
+            (doom-color 'yellow)
+            (doom-color 'teal)
+            (doom-color 'violet)))
+
+  (defun +org-plot-gnuplot-term-properties (_type)
+    (format "background rgb '%s' size %s,%s"
+            (doom-color 'bg) (car +org-plot-term-size) (cdr +org-plot-term-size)))
+
+  (setq org-plot/gnuplot-script-preamble #'+org-plot-generate-theme)
+  (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
+#+end_src
+
+** Org Present :TODO:LINK:
 
 Is a minimal presentation tool for org-mode. It's designed around each slide being contained in a top-level header.
 
@@ -947,94 +1055,59 @@ These functions control any formatting done upon entering and exiting the presen
   <<use-package-end>>
 #+end_src
 
-** :chart-with-upwards-trend: [[https://orgmode.org/manual/Org-Plot.html][Org-Plot]]
+** Ox (Org Export) :DESCRIPTION:LINK:
 
-Produces 2D/3D graphs from org tables using [[http://www.gnuplot.info/][gnuplot]] and [[https://github.com/mkmcc/gnuplot-mode][gnuplot-mode]].
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox :exports none
+(use-package! ox
+#+end_src
 
-*** Appearance
+*** Config
 
-[[https://github.com/tecosaur/emacs-config/blob/master/config.org#org-plot][Tecosaur]] provides us with a way to use our Doom theme colors for org-plot!
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox-config
+:config
+#+end_src
 
-#+begin_src emacs-lisp
-(defvar +org-plot-term-size '(1050 . 650)
-  "The size of the GNUPlot terminal, in the form (WIDTH . HEIGHT).")
+**** General
 
-(after! org-plot
-  (defun +org-plot-generate-theme (_type)
-    "Use the current Doom theme colours to generate a GnuPlot preamble."
-    (format "
-fgt = \"textcolor rgb '%s'\" # foreground text
-fgat = \"textcolor rgb '%s'\" # foreground alt text
-fgl = \"linecolor rgb '%s'\" # foreground line
-fgal = \"linecolor rgb '%s'\" # foreground alt line
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox-config
+(setq org-export-headline-levels 7)
+(setq org-export-with-creator t)
+(setq org-export-creator-string (concat "Doom Emacs " emacs-version " (Org mode " org-version ")" ))
+#+end_src
 
-# foreground colors
-set border lc rgb '%s'
-# change text colors of  tics
-set xtics @fgt
-set ytics @fgt
-# change text colors of labels
-set title @fgt
-set xlabel @fgt
-set ylabel @fgt
-# change a text color of key
-set key @fgt
+*** No Web Assembly
 
-# line styles
-set linetype 1 lw 2 lc rgb '%s' # red
-set linetype 2 lw 2 lc rgb '%s' # blue
-set linetype 3 lw 2 lc rgb '%s' # green
-set linetype 4 lw 2 lc rgb '%s' # magenta
-set linetype 5 lw 2 lc rgb '%s' # orange
-set linetype 6 lw 2 lc rgb '%s' # yellow
-set linetype 7 lw 2 lc rgb '%s' # teal
-set linetype 8 lw 2 lc rgb '%s' # violet
+#+begin_src emacs-lisp :noweb yes
+(after! ox
+  <<use-package-ox>>
+    <<use-package-ox-config>>
+    <<use-package-end>>
+  )
 
-# border styles
-set tics out nomirror
-set border 3
+#+end_src
 
-# palette
-set palette maxcolors 8
-set palette defined ( 0 '%s',\
-1 '%s',\
-2 '%s',\
-3 '%s',\
-4 '%s',\
-5 '%s',\
-6 '%s',\
-7 '%s' )
-"
-            (doom-color 'fg)
-            (doom-color 'fg-alt)
-            (doom-color 'fg)
-            (doom-color 'fg-alt)
-            (doom-color 'fg)
-            ;; colours
-            (doom-color 'red)
-            (doom-color 'blue)
-            (doom-color 'green)
-            (doom-color 'magenta)
-            (doom-color 'orange)
-            (doom-color 'yellow)
-            (doom-color 'teal)
-            (doom-color 'violet)
-            ;; duplicated
-            (doom-color 'red)
-            (doom-color 'blue)
-            (doom-color 'green)
-            (doom-color 'magenta)
-            (doom-color 'orange)
-            (doom-color 'yellow)
-            (doom-color 'teal)
-            (doom-color 'violet)))
+** Ox Latex
 
-  (defun +org-plot-gnuplot-term-properties (_type)
-    (format "background rgb '%s' size %s,%s"
-            (doom-color 'bg) (car +org-plot-term-size) (cdr +org-plot-term-size)))
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox-latex
+(use-package! ox-latex
+#+end_src
 
-  (setq org-plot/gnuplot-script-preamble #'+org-plot-generate-theme)
-  (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
+*** Init
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox-latex-init
+:init
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref use-package-ox-latex-init
+(setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
+#+end_src
+
+*** No Web Assembly
+
+#+begin_src emacs-lisp :noweb yes
+<<use-package-ox-latex>>
+  <<use-package-ox-latex-init>>
+  <<use-package-end>>
 #+end_src
 
 ** Consult
@@ -1043,7 +1116,6 @@ set palette defined ( 0 '%s',\
 This fixes a bug where consult searches can't display the heading you want, only the nearest visible to it.
 
 Notice that =org-fold-reveal= accepts an argument. This changes the way the org-headings around the search result are displayed.
-
 
 #+begin_src emacs-lisp
 (after! consult
@@ -1055,28 +1127,7 @@ Notice that =org-fold-reveal= accepts an argument. This changes the way the org-
       (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
 #+end_src
 
-** Ox
-
-Also known as Org Export. It controls the exporting of org documents.
-
-#+begin_src emacs-lisp
-(after! ox
-  (setq org-export-headline-levels 7)
-  (setq org-export-with-creator t)
-  (setq org-export-creator-string (concat "Doom Emacs " emacs-version " (Org mode " org-version ")" ))
-  )
-#+end_src
-
-** Ox-Latex
-
-#+begin_src emacs-lisp
-(use-package! ox-latex
-  :init
-  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
-  )
-#+end_src
-
-** :book: [[https://github.com/vedang/pdf-tools][PDF-Tools]]
+** PDF Tools
 
 A better meta package of tools for viewing and interacting with PDFs. This is required to use org-noter.
 
@@ -1085,7 +1136,7 @@ A better meta package of tools for viewing and interacting with PDFs. This is re
   (setq-default pdf-view-display-size 'fit-width))
 #+end_src
 
-** [[https://github.com/tecosaur/engrave-faces][Engrave-Faces]]
+** Engrave Faces
 
 Provides syntax code block highlighting and theming to our org-latex pdf exports!
 
@@ -1274,7 +1325,7 @@ I disable company for text-mode then remove it's backend from the alist.
   )
 #+end_src
 
-** [[https://github.com/abo-abo/ace-window][Ace-Window]]
+** Ace Window
 
 Gives us quicker window switching when other-window just won't cut it. Allows us to jump to specific windows instead of cycle our way there.
 
@@ -1289,7 +1340,7 @@ Gives us quicker window switching when other-window just won't cut it. Allows us
   )
 #+end_src
 
-** [[https://github.com/bbatsov/projectile][Projectile]]
+** Projectile
 
 Provides project level interaction.
 
@@ -1311,7 +1362,7 @@ And I had a keybind to view the projects with uncommited changes.
   )
 #+end_src
 
-** [[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill Column]]
+** Visual Fill Column
 
 This package adds centering to buffers, amongst other things.
 
@@ -1324,7 +1375,7 @@ This package is incompatible with Doom's popup window rules so I'm looking for a
 )
 #+end_src
 
-** [[https://github.com/joaotavora/yasnippet][Yasnippet]]
+** Yasnippet
 *** Information
 
 [[https://github.com/doomemacs/snippets][Doom Snippets]]
