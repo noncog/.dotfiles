@@ -78,7 +78,7 @@ This system follows my philosophy of how a system should be built, maintained, a
 
 #+HTML:<ul>
 #+HTML:<li>I automate the installation and versioning of my system software, setup, and dotfiles using my <a href="https://github.com/noncog/debian-autosetup">debian-autosetup</a> script.</li>
-#+HTML:<li>My configurations are version controlled and managed through GitHub using a <code>git -bare repository.</code></li>
+#+HTML:<li>My configurations are version controlled and managed through GitHub using a <code>git -bare repository</code>.</li>
 #+HTML:<li>This allows my configuration files to be easily versioned from and automatically installed to their appropriate location, just by cloning this repository! This means <ins>no copying/moving or symlinks</ins>.</li>
 #+HTML:</ul>
 #+HTML:<br>To understand my system or setup your own dotfiles managed with git -bare see <code>More Information</code> below!
