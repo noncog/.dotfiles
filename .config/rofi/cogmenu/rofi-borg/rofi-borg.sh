@@ -7,7 +7,7 @@
 directory="$HOME/.config/rofi/cogmenu/rofi-borg"      # directory of rofi-borg
 # recommend $HOME/.config/rofi/rofi-borg
 
-downloads="$HOME/downloads/borg-download" # downloads directory
+downloads="$HOME/Downloads/borg-download" # downloads directory
 prompt_message="Borg"                     # rofi prompt message left of entry field
 log_count=7                               # amount of logs want to keep
 # never set log_count to 0, rofi-borg requires logging to function and not freeze your pc

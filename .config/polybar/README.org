@@ -38,6 +38,8 @@
 [colors]
 background = #282a36
 foreground = #f8f8f2
+unfocused-one = #44475a
+unfocused-two = #666
 
 red = #ff5555
 green = #50fa7b
@@ -85,10 +87,11 @@ padding-right = 1
 module-margin-left = 0
 module-margin-right = 1
 
-font-0 = Fira Code SemiBold:style=SemiBold:pixelsize=10;2
-font-1 = Font Awesome 5 Brands Regular:style=Regular:pixelsize=13;2
-font-2 = Font Awesome 5 Free Regular:style=Regular:pixelsize=13;2
-font-3 = Font Awesome 5 Free Solid:style=Solid:pixelsize=13;2
+font-0 = JetBrains Mono Medium:style=Medium:pixelsize=10;2
+font-1 = Font Awesome 5 Brands Regular:style=Regular:pixelsize=12;2
+font-2 = Font Awesome 5 Free Regular:style=Regular:pixelsize=12;2
+font-3 = Font Awesome 5 Free Solid:style=Solid:pixelsize=12;2
+font-4 = Fira Code SemiBold:style=SemiBold:pixelsize=10;2
 
 modules-left = i3 cpu memory temperature filesystem
 modules-center = date
@@ -108,16 +111,18 @@ Modules are ordered in their usage from left to right.
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
+strip-wsnumbers = true
 index-sort = true
 wrapping-scroll = false
 
-ws-icon-0 = Firefox;
-ws-icon-1 = 1;
-ws-icon-2 = 2;
-ws-icon-3 = 3;
-ws-icon-4 = Emacs;
-ws-icon-5 = Code;
-ws-icon-6 = Anki;
+ws-icon-0 = 1:Emacs;
+ws-icon-1 = 2:Firefox;
+ws-icon-2 = 3:Code;
+ws-icon-3 = 4:Gimp;
+ws-icon-4 = 5:Anki;
+ws-icon-5 = 6:1;
+ws-icon-6 = 7:2;
+ws-icon-7 = 8:3;
 
 ; Only show workspaces on the same output as the bar
 pin-workspaces = true
@@ -134,6 +139,7 @@ label-focused-padding = 1
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %icon%
+label-unfocused-foreground = ${colors.unfocused-one}
 label-unfocused-padding = 1
 
 ; visible = Active workspace on unfocused monitor
@@ -192,6 +198,7 @@ ramp-3 = 
 ramp-4 = 
 ramp-foreground = ${colors.yellow}
 #+END_SRC
+
 *** File System
 #+BEGIN_SRC conf :tangle config
 [module/filesystem]
@@ -202,21 +209,20 @@ mount-0 = /
 
 ; Seconds to sleep between updates
 ; Default: 30
-interval = 20
+interval = 30
 
+;format-mounted-foreground = ${colors.pink}
 format-mounted = <label-mounted>
-label-mounted =  %percentage_used%%
+format-mounted-prefix = " "
+format-mounted-prefix-foreground = ${colors.pink}
+label-mounted =  %percentage_used%%
+
 ; Display fixed precision values
-; Default: false
 fixed-values = true
 
 ; Spacing (number of spaces, pixels, points) between entries
-; Default: 2
 spacing = 4
 
-; Default: 90
-; New in version 3.6.0
-warn-percentage = 75
 #+END_SRC
 *** Date
 #+BEGIN_SRC conf :tangle config
@@ -224,7 +230,7 @@ warn-percentage = 75
 type = internal/date
 
 interval = 5
-date = %A %B %d, %H:%M
+date = %A, %B %d
 format-prefix-foreground = ${colors.icon-default}
 label = %date%
 #+END_SRC
@@ -238,7 +244,11 @@ format-volume = <label-volume>
 label-volume =  %percentage%
 label-volume-foreground = ${root.foreground}
 label-muted = 
-label-muted-foreground = #666
+label-muted-foreground = ${colors.unfocused-one}
+
+interval = 5
+
+click-right = pavucontrol
 #+END_SRC
 
 *** Battery

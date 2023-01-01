@@ -12,7 +12,7 @@ chemacs_directory="$HOME/.config/chemacs"
 directory="$HOME/.config/rofi/rofi-chemacs"
 
 # set which command you want to use to launch, emacs or emacsclient and it's daemon.
-use_daemon="y"
+use_daemon="n"
 
 # can optionally change the prompt message rofi shows
 prompt_message="Emacs"
@@ -119,11 +119,7 @@ else
     ;;
     $set_default)
         # set correct user config directory
-        if [[ -f "$HOME/.emacs-profile" ]]; then
-            config_directory=$HOME
-        else
-            config_directory=$chemacs_directory
-        fi
+        set_configs_directory
         # select new default profile from correct config file
         new_default="$(grep -Po '[^"]+(?=" . \()' $config_directory/profiles.el |  $rofi_command -no-click-to-exit -p "Default" -dmenu)"
         # check if selection was empty/canceled
@@ -133,7 +129,7 @@ else
             # stop emacs
             kill_all_emacs
             # set new default
-            echo $new_default > "$config_directory/.emacs-profile"
+            echo $new_default > "$config_directory/$profile"
         fi
         # relaunch daemon if using it, with new default profile
         if [[ "$use_daemon" == "y" ]]; then

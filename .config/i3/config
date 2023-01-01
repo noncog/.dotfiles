@@ -1,10 +1,7 @@
 set $laptop eDP-1-1
 set $external HDMI-0
 
-# set Modifier key
 set $mod Mod4
-
-# drag floaters key
 floating_modifier $mod
 
 # make window float
@@ -19,7 +16,7 @@ bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
 # cycle through scratchpad windows
 bindsym $mod+apostrophe scratchpad show, move position center
 
-# layout controls
+# layouts
 bindsym $mod+Tab layout tabbed
 bindsym $mod+grave layout toggle split
 
@@ -29,44 +26,36 @@ bindsym $mod+F11 fullscreen toggle
 # emergency shutdown
 bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
 
-bindsym $mod+h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus left
-bindsym $mod+j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus down
-bindsym $mod+k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus up
-bindsym $mod+l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
-bindsym $mod+Shift+h exec $HOME/.config/i3/emacs-i3-integration move left
-bindsym $mod+Shift+j exec $HOME/.config/i3/emacs-i3-integration move down
-bindsym $mod+Shift+k exec $HOME/.config/i3/emacs-i3-integration move up
-bindsym $mod+Shift+l exec $HOME/.config/i3/emacs-i3-integration move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
-set $resize_mode Resize: h, j, k, l
-mode "$resize_mode" {
-    bindsym h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink width 10 px or 10 ppt
-    bindsym j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink height 10 px or 10 ppt
-    bindsym k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow height 10 px or 10 ppt
-    bindsym l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow width 10 px or 10 ppt
+# horizontally
+bindsym $mod+minus resize shrink width 10 px or 10 ppt
+bindsym $mod+equal resize grow width 10 px or 10 ppt
 
-    bindsym Shift+h exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink width 100 px or 100 ppt
-    bindsym Shift+j exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize shrink height 100 px or 100 ppt
-    bindsym Shift+k exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow height 100 px or 100 ppt
-    bindsym Shift+l exec --no-startup-id $HOME/.config/i3/emacs-i3-integration resize grow width 100 px or 100 ppt
+bindsym $mod+Control+minus resize shrink width 10 px or 10 ppt
+bindsym $mod+Control+equal resize grow width 10 px or 10 ppt
 
-    bindsym equal exec --no-startup-id $HOME/.config/i3/i3-emacs-balance-windows
+# vertically
+bindsym $mod+Shift+minus resize shrink height 10 px or 10 ppt
+bindsym $mod+Shift+equal resize grow height 10 px or 10 ppt
 
-    # back to normal
-    bindsym Escape mode "default"
-    bindsym BackSpace mode "default"
-    bindsym Return mode "default"
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
-bindsym $mod+r mode "$resize_mode"
+bindsym $mod+Control+Shift+minus resize shrink height 10 px or 10 ppt
+bindsym $mod+Control+Shift+equal resize grow height 10 px or 10 ppt
 
-bindsym $mod+v exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split h
-bindsym $mod+s exec --no-startup-id $HOME/.config/i3/emacs-i3-integration split v
+#bindsym $mod+Control+equal exec --no-startup-id $HOME/.local/bin/i3_balance_workspace
 
-bindsym $mod+Shift+q exec --no-startup-id $HOME/.config/i3/emacs-i3-integration kill
+bindsym $mod+Shift+q kill
+
+bindsym $mod+v split h
+bindsym $mod+s split v
 
 focus_wrapping no
 focus_follows_mouse no
@@ -100,10 +89,14 @@ gaps inner 10
 gaps outer 0
 
 # name workspaces
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $code "Code"
+set $emacs "1:Emacs"
+set $firefox "2:Firefox"
+set $code "3:Code"
+set $gimp "4:Gimp"
+set $anki "5:Anki"
+set $ws1 "6:1"
+set $ws2 "7:2"
+set $ws3 "8:3"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -111,100 +104,68 @@ bindsym $mod+2 workspace number $ws2
 bindsym $mod+3 workspace number $ws3
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Control+Shift+e move container to workspace $emacs
+bindsym $mod+Control+Shift+f move container to workspace $firefox
+bindsym $mod+Control+Shift+c move container to workspace $code
+bindsym $mod+Control+Shift+g move container to workspace $gimp
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
 
 # assign workspaces to monitors
+workspace $emacs output $external $laptop
+workspace $firefox output $external $laptop
+workspace $code output $external $laptop
+workspace $gimp output $external $laptop
+workspace $anki output $external $laptop
 workspace $ws1 output $external $laptop
 workspace $ws2 output $external $laptop
 workspace $ws3 output $laptop $external
-workspace $code output $external $laptop
 
-# desktop app launcher
-bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
-# cogmenu - custom menu launcher
-bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
+for_window [title="GNU Image Manipulation Program"] mark gimp
 
-bindsym $mod+Shift+question exec --no-startup-id screenkey
-
-bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
-
-exec --no-startup-id emacs --daemon
-
-exec --no-startup-id picom -b
-
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-
-exec --no-startup-id nm-applet
-
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
-# emacs
-#exec --no-startup-id sleep 3 && profile=$(cat $HOME/.config/chemacs/profile) && emacsclient -c -s $profile &
-
-# firefox
-exec --no-startup-id sleep 4 && firefox
-
-# kitty
-exec --no-startup-id kitty --name Floating-Kitty
-
+assign [con_mark=gimp] $gimp
 bindsym $mod+Shift+g exec --no-startup-id gimp
-bindsym $mod+g [title="GNU Image Manipulation Program"] focus
+bindsym $mod+g [con_mark=gimp] focus
 
-set $emacs "Emacs"
 assign [class="Emacs"] $emacs
-workspace $emacs output $external $laptop
-bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-chemacs.sh
 bindsym $mod+e [class="Emacs"] focus
-#assign [class="Emacs"] $ws1
 
-set $firefox "Firefox"
 assign [class="Firefox-esr"] $firefox
-workspace $firefox output $external $laptop
-bindsym $mod+Control+Shift+f move container to workspace $firefox
 bindsym $mod+Shift+f exec --no-startup-id firefox
 bindsym $mod+f [class="Firefox-esr" tiling] focus
-#assign [class="Firefox-esr"] $ws1
 
 assign [class="jetbrains-clion"] $code
-bindsym $mod+Control+Shift+c move container to workspace $code
-bindsym $mod+Shift+c exec --no-startup-id clion
 bindsym $mod+c [class="jetbrains-clion"] focus
 
 assign [class="jetbrains-pycharm"] $code
-bindsym $mod+Control+Shift+p move container to workspace $code
-bindsym $mod+Shift+p exec --no-startup-id pycharm
 bindsym $mod+p [class="jetbrains-pycharm"] focus
 
 assign [class="jetbrains-idea"] $code
-bindsym $mod+Control+Shift+i move container to workspace $code
-bindsym $mod+Shift+i exec --no-startup-id idea
 bindsym $mod+i [class="jetbrains-idea"] focus
 
-set $anki "Anki"
 assign [class="Anki"] $anki
-workspace $anki output $external $laptop
-bindsym $mod+Control+Shift+a move container to workspace $anki
 bindsym $mod+Shift+a exec --no-startup-id anki
 bindsym $mod+a [class="Anki"] focus
 
+set $kitty-size resize set 50 ppt 50 ppt, move position center
 for_window [class="kitty"] move scratchpad, sticky enable
 bindsym $mod+Shift+Return exec --no-startup-id kitty
-bindsym $mod+Return [class="kitty"] scratchpad show, resize set 50 ppt 50 ppt, move position center
+bindsym $mod+Control+Return [class="kitty" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
+bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $kitty-size; [class="kitty" floating] scratchpad show, $kitty-size
 
 for_window [class="Tor Browser"] move scratchpad, sticky enable
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
 bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, move position center
+# only close if opened
+bindsym $mod+o [class="Tor Browser" workspace="__focused__"] scratchpad show, resize set 75 ppt 75 ppt, move position center
 
+set $discord-size resize set 50 ppt 85 ppt, move position center
 for_window [class="discord"] move scratchpad, sticky enable
 bindsym $mod+Shift+d exec --no-startup-id discord
-bindsym $mod+d [class="discord"] scratchpad show, resize set 50 ppt 85 ppt, move position center
+bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
+bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
 
 for_window [class="Spotify"] move scratchpad, sticky enable
 bindsym $mod+Shift+m exec --no-startup-id spotify
@@ -234,9 +195,41 @@ for_window [title=$youtube_title] move scratchpad, sticky enable, mark youtube
 
 bindsym $mod+Shift+y exec --no-startup-id firefox --new-window $youtube_page
 
-bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
+bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; [con_mark=youtube floating] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; [con_mark=youtube floating] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
+
+bindsym $mod+Control+y [con_mark=youtube tiling] move scratchpad, scratchpad show; [con_mark=youtube floating] scratchpad show, floating toggle
 
 for_window [class="Nitrogen"] move scratchpad, sticky enable, scratchpad show, resize set 50 ppt 50 ppt, move position center
+
+# desktop app launcher
+bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
+# cogmenu - custom menu launcher
+bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
+
+bindsym $mod+Shift+question exec --no-startup-id screenkey
+
+bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+
+exec --no-startup-id picom -b
+
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+exec --no-startup-id nm-applet
+
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# emacs
+exec --no-startup-id sleep 3 && emacs
+
+# firefox
+exec --no-startup-id sleep 4 && firefox
+
+# kitty
+exec --no-startup-id kitty --name Floating-Kitty
 
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
 

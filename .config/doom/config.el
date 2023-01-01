@@ -21,13 +21,13 @@
 (custom-set-faces!
  `(cursor :background ,(doom-color 'magenta)))
 
-(setq doom-font (font-spec :family "Jetbrains Mono" :size 11))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 11))
 (setq doom-unicode-font (font-spec :family "JetBrains Mono" :size 11))
 
-(add-to-list 'default-frame-alist '(alpha . 96)) ; [0-100]
+(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
 
 (after! display-line-numbers
-  (setq display-line-numbers-type 'visual))
+  (setq display-line-numbers-type nil))
 
 (display-time-mode 1)
 
@@ -35,60 +35,6 @@
 ;; scroll buffer by a line
 (global-set-key (kbd "M-p") #'scroll-down-line)
 (global-set-key (kbd "M-n") #'scroll-up-line)
-
-(eval-when-compile (require 'rx))
-
-(defun noncog/emacs-i3-integration (command)
-  (pcase command
-    ((rx bos "focus")
-     (noncog/emacs-i3-window-focus
-      (intern (elt (split-string command) 1))))
-    ((rx bos "move")
-     (noncog/emacs-i3-move-window
-      (intern (elt (split-string command) 1))))
-    ((rx bos "resize")
-     (noncog/emacs-i3-resize-window
-       (intern (elt (split-string command) 2))
-       (intern (elt (split-string command) 1))
-       (string-to-number (elt (split-string command) 3))))
-    ;("layout toggle split" (transpose-frame))
-    ("split v" (+evil/window-split-and-follow))
-    ("split h" (+evil/window-vsplit-and-follow))
-    ("kill" (evil-quit))
-    (_ (shell-command (concat "i3-msg " (pp-to-string command))))))
-
-(defun noncog/emacs-i3-direction-exists-p (dir)
-  (some (lambda (dir)
-          (let ((win (windmove-find-other-window dir)))
-            (and win (not (window-minibuffer-p win)))))
-        (pcase dir
-          ('width '(left right))
-          ('height '(up down)))))
-
-(defun noncog/emacs-i3-window-focus (dir)
-  (let ((window-exist (windmove-find-other-window dir)))
-    (if (null window-exist)
-        (start-process-shell-command "i3-focus-window" nil "i3-msg" "-s $(i3 --get-socket)" "focus" (symbol-name dir))
-      (windmove-do-window-select dir))))
-
-(defun noncog/emacs-i3-move-window (dir)
-  ;(message (concat "Move window " (pp-to-string dir) "."))
-  (funcall (intern (concat "windmove-swap-states-" (pp-to-string dir)))))
-
-(defun noncog/emacs-i3-resize-window (dir kind value)
-  (pcase kind
-    ('shrink
-     (pcase dir
-       ('width
-        (evil-window-decrease-width value))
-       ('height
-        (evil-window-decrease-height value))))
-    ('grow
-     (pcase dir
-       ('width
-        (evil-window-increase-width value))
-       ('height
-        (evil-window-increase-height value))))))
 
 (map! :map org-mode-map
       :localleader
@@ -121,8 +67,7 @@
 (after! org
   (use-package! org
     :init
-    (defconst noncog/brain-file "/home/jake/documents/org/brain.org")
-    
+    (defconst noncog/brain-file "/home/jake/Documents/org/brain.org")
     (defun noncog/toggle-brain ()
       "A function for toggling the view of the your chosen file in a side window."
       (interactive)
@@ -136,16 +81,7 @@
     (add-to-list 'org-modules 'org-habit t)             ; enable org-habit
     (setq org-habit-show-habits-only-for-today t)       ; ensure habits only shown in one section
     (setq org-habit-show-all-today t)                   ; keep habits visible even if done today
-    (setq org-agenda-files (quote ("~/documents/org/brain.org"
-                                   "~/documents/org/university/linear-algebra-3720"
-                                   "~/documents/org/university/data-structures-and-algorithms-5870"
-                                   "~/documents/org/university/network-concepts-and-administration-3723"
-                                   "~/documents/org/university/software-engineering-5801"
-                                   "~/documents/org/university/information-assurance-3755"
-                                   "~/projects/form-visualizer"
-                                   "~/projects/immediate-sdk"
-                                   "~/projects/keyboards"
-                                   "~/projects/dulcius-ex-asperis")))
+    (setq org-agenda-files (quote ("~/documents/org/brain.org")))
     (setq org-log-done 'time)                           ; add completion time to DONE items.
     (setq org-log-into-drawer t)                        ; puts log times into a drawer to hide them
     ;; (setq org-todo-keywords
@@ -177,7 +113,9 @@
   )
 
 (defun noncog/agenda-remove-empty ()
-  "A simple function to remove empty agenda sections. Scans for blank lines. Blank sections defined by having two consecutive blank lines. Not compatible with the block separator."
+  "A simple function to remove empty agenda sections. Scans for blank lines.
+   Blank sections defined by having two consecutive blank lines.
+   Not compatible with the block separator."
   (interactive)
   (setq buffer-read-only nil)
   ;; initializes variables and scans first line.
@@ -425,7 +363,23 @@ set palette defined ( 0 '%s',\
   (setq org-plot/gnuplot-script-preamble #'+org-plot-generate-theme)
   (setq org-plot/gnuplot-term-extra #'+org-plot-gnuplot-term-properties))
 
-(add-to-list '+evil-collection-disabled-list 'org-present)
+(after! ox
+  (use-package! ox
+    :config
+    (setq org-export-headline-levels 7)
+    (setq org-export-with-creator t)
+    (setq org-export-creator-string (concat "Doom Emacs " emacs-version " (Org mode " org-version ")" ))
+    )
+  )
+
+(use-package! ox-latex
+  :init
+  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
+  )
+
+(use-package! engrave-faces-latex
+  :after ox-latex
+)
 
 (defun noncog/org-present-prepare-slide (buffer-name heading)
   ;; Show only top-level headlines
@@ -518,104 +472,27 @@ set palette defined ( 0 '%s',\
   (map! :map org-present-mode-keymap "C-k" #'noncog/org-show-previous-heading-tidily)
   )
 
-(after! ox
-  (use-package! ox
+(after! consult
+  (use-package! consult
     :config
-    (setq org-export-headline-levels 7)
-    (setq org-export-with-creator t)
-    (setq org-export-creator-string (concat "Doom Emacs " emacs-version " (Org mode " org-version ")" ))
+    (defadvice! org-show-entry-consult-a (fn &rest args)
+      :around #'consult-line
+      :around #'consult-org-heading
+      :around #'consult--grep
+      (when-let ((pos (apply fn args)))
+        (and (derived-mode-p 'org-mode) (org-fold-reveal '(4)))))
     )
   )
 
-(use-package! ox-latex
-  :init
-  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
-  )
-
-(after! consult
-  (defadvice! org-show-entry-consult-a (fn &rest args)
-    :around #'consult-line
-    :around #'consult-org-heading
-    :around #'consult--grep
-    (when-let ((pos (apply fn args)))
-      (and (derived-mode-p 'org-mode) (org-fold-reveal '(4))))))
-
 (after! pdf-tools
-  (setq-default pdf-view-display-size 'fit-width))
-
-(use-package! engrave-faces-latex
-  :after ox-latex
-)
+  (use-package! pdf-tools
+    :config
+    (setq pdf-view-display-size 'fit-width)
+    )
+    )
 
 (defun noncog/pulsar-scroll-recenter-middle (&rest _args)
   (pulsar-recenter-middle))
-
-(pulsar-global-mode 1)
-
-(use-package! pulsar
-  :config
-  (setq pulsar-pulse t)
-  (setq pulsar-delay 0.095)
-  (setq pulsar-iterations 12)
-  (setq pulsar-face 'pulsar-magenta)                  ; used by pulsar-pulse-line
-  (setq pulsar-highlight-face 'pulsar-yellow)         ; used by pulsar-highlight-*
-  (add-to-list 'pulsar-pulse-functions 'evil-scroll-up)
-  (add-to-list 'pulsar-pulse-functions 'evil-scroll-down)
-  
-  (add-to-list 'pulsar-pulse-functions 'evil-window-left)
-  (add-to-list 'pulsar-pulse-functions 'evil-window-down)
-  (add-to-list 'pulsar-pulse-functions 'evil-window-up)
-  (add-to-list 'pulsar-pulse-functions 'evil-window-right)
-  
-  (add-to-list 'pulsar-pulse-functions 'evil-window-next)
-  (add-to-list 'pulsar-pulse-functions 'evil-window-prev)
-  
-  (add-to-list 'pulsar-pulse-functions 'evil-scroll-line-to-top)
-  (add-to-list 'pulsar-pulse-functions 'evil-scroll-line-to-bottom)
-  (add-to-list 'pulsar-pulse-functions 'evil-scroll-line-to-center)
-  ;(add-to-list 'pulsar-pulse-functions 'select-window)
-  ;(add-to-list 'pulsar-pulse-functions 'windmove-do-window-select)
-  ;(add-to-list 'pulsar-pulse-functions 'windmove-find-other-window)
-  (add-to-list 'pulsar-pulse-functions 'recenter-top-bottom)
-  (add-to-list 'pulsar-pulse-functions 'move-to-window-line-top-bottom)
-  (add-to-list 'pulsar-pulse-functions 'reposition-window)
-  (add-to-list 'pulsar-pulse-functions 'forward-page)
-  (add-to-list 'pulsar-pulse-functions 'backward-page)
-  (add-to-list 'pulsar-pulse-functions 'scroll-up-command)
-  (add-to-list 'pulsar-pulse-functions 'scroll-down-command)
-  (add-to-list 'pulsar-pulse-functions 'org-next-visible-heading)
-  (add-to-list 'pulsar-pulse-functions 'org-previous-visible-heading)
-  (add-to-list 'pulsar-pulse-functions 'org-forward-heading-same-level)
-  (add-to-list 'pulsar-pulse-functions 'org-backward-heading-same-level)
-  (add-to-list 'pulsar-pulse-functions 'outline-backward-same-level)
-  (add-to-list 'pulsar-pulse-functions 'outline-forward-same-level)
-  (add-to-list 'pulsar-pulse-functions 'outline-next-visible-heading)
-  (add-to-list 'pulsar-pulse-functions 'outline-previous-visible-heading)
-  (add-to-list 'pulsar-pulse-functions 'outline-up-heading)
-  (add-to-list 'pulsar-pulse-functions 'windmove-swap-states-up)
-  (add-to-list 'pulsar-pulse-functions 'windmove-swap-states-down)
-  (add-to-list 'pulsar-pulse-functions 'windmove-swap-states-left)
-  (add-to-list 'pulsar-pulse-functions 'windmove-swap-states-right)
-  (add-to-list 'pulsar-pulse-functions 'windmove-do-window-select)
-  ;(add-to-list 'pulsar-pulse-functions '
-  ;(add-to-list 'pulsar-pulse-functions '
-  ;; bookmark-jump
-  ;; other-window
-  ;; delete-window
-  ;; delete-other-windows
-  ;; windmove-right
-  ;; windmove-left
-  ;; windmove-up
-  ;; windmove-down
-  ;; tab-new
-  ;; tab-close
-  ;; tab-next
-  (advice-add 'evil-scroll-up :after #'noncog/pulsar-scroll-recenter-middle)
-  (advice-add 'evil-scroll-down :after #'noncog/pulsar-scroll-recenter-middle)
-  (add-hook 'consult-after-jump-hook #'pulsar-recenter-top)
-  (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
-  (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry)
-  )
 
 (after! company
   (use-package! company
@@ -659,10 +536,7 @@ set palette defined ( 0 '%s',\
   (setq python-shell-interpreter "python3")
   )
 
-(defun noncog/remove-electric-indent-mode ()
-  (electric-indent-local-mode -1))
-
-(add-hook 'sh-mode-hook 'noncog/remove-electric-indent-mode)
+(add-hook 'sh-mode-hook (lambda() (electric-indent-mode -1)))
 
 (after! plantuml-mode
   (setq plantuml-default-exec-mode 'jar))

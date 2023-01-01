@@ -11,8 +11,8 @@
 
 #+begin_src conf :tangle kitty.conf
 # font
-font_family      Fira Code
-bold_font        Fira Code Bold
+font_family      JetBrains Mono
+bold_font        auto
 italic_font      auto
 bold_italic_font auto
 #+end_src
@@ -88,50 +88,40 @@ inactive_border_color #6272a4
 #+end_src
 
 * Keybinds
-*** Switch Tabs
-
-#+begin_src conf :tangle kitty.conf
-# custom tab commands
-map ctrl+shift+l next_tab
-map ctrl+shift+j previous_tab
-#+end_src
-
 *** Disable
 
-#+begin_src conf :tangle no
+#+begin_src conf :tangle kitty.conf
 # remove default keybinds
+map ctrl+d no_op
+map ctrl+u no_op
+
+map kitty_mod+d no_op
+map kitty_mod+u no_op
+
+map ctrl+u scroll_page_up
+map ctrl+d scroll_page_down
+
 map ctrl+h no_op
 map ctrl+j no_op
 map ctrl+k no_op
 map ctrl+l no_op
-map ctrl+v no_op
-map ctrl+s no_op
+
+map ctrl+i no_op
 
 map kitty_mod+h no_op
 map kitty_mod+j no_op
 map kitty_mod+k no_op
 map kitty_mod+l no_op
-map kitty_mod+v no_op
-map kitty_mod+s no_op
-#+end_src
 
-*** Integrate Vim Binds
+map kitty_mod+i no_op
 
-#+begin_src conf :tangle no
-enabled_layouts splits
+map kitty_mod+t no_op
+map kitty_mod+enter no_op
 
-map ctrl+h neighboring_window left
-map ctrl+j neighboring_window down
-map ctrl+k neighboring_window up
-map ctrl+l neighboring_window right
-map ctrl+shift+h move_window left
-map ctrl+shift+j move_window down
-map ctrl+shift+k move_window up
-map ctrl+shift+l move_window right
-map ctrl+shift+v launch --location=vsplit
-map ctrl+shift+s launch --location=hsplit
+map kitty_mod+h previous_tab
+map kitty_mod+j scroll_line_down
+map kitty_mod+k scroll_line_up
+map kitty_mod+l next_tab
 
-# custom tab commands
-#map ctrl+shift+l next_tab
-#map ctrl+shift+j previous_tab
+map kitty_mod+enter new_tab
 #+end_src

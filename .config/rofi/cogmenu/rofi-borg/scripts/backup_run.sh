@@ -50,10 +50,10 @@ archive_name="::{hostname}-{now}"
 
 backup_directories=(
     $HOME/.individuals
-    $HOME/documents
-    $HOME/pictures/archive
-    $HOME/projects
-    $HOME/videos/archive
+    $HOME/Documents
+    $HOME/Pictures/archive
+    $HOME/Projects
+    $HOME/Videos/archive
 )
 
 # function to copy individual files to individuals directory for borg-backup.
