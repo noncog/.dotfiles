@@ -1,0 +1,3 @@
+# Ignore ssh private keys.
+# GitHub
+**/.ssh/id_ed25519
