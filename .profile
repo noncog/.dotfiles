@@ -12,7 +12,7 @@
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+        . "$HOME/.bashrc"
     fi
 fi
 
@@ -26,13 +26,19 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-export PATH=$PATH:/opt/doomemacs/bin
-export TERMINAL=/usr/bin/kitty
+# Add Doom to $PATH.
+PATH="$PATH:$HOME/.config/emacs/bin"
 
-export EMACS_SOCKET_NAME=$(cat $HOME/.config/chemacs/profile)
+# Set Doom environment variables.
+export DOOMDIR="$HOME/.config/doom"
+export EMACSDIR="$HOME/.config/emacs"
+
+# Set Emacs as system editor.
 export EDITOR=emacs
 export VISUAL=$EDITOR
 
+# Set terminal.
+export TERMINAL=/usr/bin/kitty
 
-# Added by Toolbox App
+# Add Jetbrains Toolbox to $PATH.
 export PATH="$PATH:/home/jake/.local/share/JetBrains/Toolbox/scripts"
