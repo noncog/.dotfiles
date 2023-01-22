@@ -14,6 +14,7 @@
 <p><code>This repository holds my system configuration files. Take what you like or use as is!</code></p>
 
 <p>For a tutorial on managing your dotfiles with git -bare see <code>More Information</code>!</p>
+</div>
 #+end_html
 
 * Overview
