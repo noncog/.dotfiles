@@ -1,9 +1,20 @@
-#+HTML: <h1 align="center"><i>~/.dotfiles</i></h1>
-#+HTML: <p align="center"><a href="https://www.debian.org/"><img src="https://img.shields.io/badge/Debian-11-critical?style=flat-square&logo=Debian&logoColor=white" /></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a> <a href="https://github.com/noncog/.dotfiles/blob/master/LICENSE"><img src="https://img.shields.io/github/license/noncog/.dotfiles?color=blue&style=flat-square" /></a></p>
+#+html:<div align="center"><i>
+* ~/.dotfiles
 
-#+HTML: <p align="center"><img src=".system_demo.png"/></p>
-#+HTML: <p align="center"><code>This repository holds my system configuration files. Take what you like or use as is!</code></p>
-#+HTML: <p align="center">For a tutorial on managing your dotfiles with git -bare see <code>More Information</code>!</p>
+#+begin_html
+</i><p>
+<a href="https://www.debian.org/"><img src="https://img.shields.io/badge/Debian-11-critical?style=flat-square&logo=Debian&logoColor=white" /></a>
+<a href="https://www.apple.com/macos/ventura/"><img src="https://img.shields.io/badge/macOS-Ventura-lightgrey?style=flat-square&logo=Apple&logoColor=white" /></a>
+<a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a>
+<a href="https://github.com/noncog/.dotfiles/blob/master/LICENSE"><img src="https://img.shields.io/github/license/noncog/.dotfiles?color=blue&style=flat-square" /></a>
+</p>
+
+<p><img src=".system_demo.png"/></p>
+
+<p><code>This repository holds my system configuration files. Take what you like or use as is!</code></p>
+
+<p>For a tutorial on managing your dotfiles with git -bare see <code>More Information</code>!</p>
+#+end_html
 
 * Overview
 This system follows my philosophy of how a system should be built, maintained, and interacted with.
@@ -455,24 +466,24 @@ A word of advice:
 - You do not need a .gitignore, so long as you never add .dotfiles to your .dotfiles.
 **** Initial Setup
 Create a bare repository and an alias command to control it. Then hide all untracked files.
-#+BEGIN_SRC
+#+BEGIN_SRC sh
 git init --bare $HOME/.dotfiles
 echo "alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'" >> $HOME/.bashrc
 dotfiles config --local status.showUntrackedFiles no
 #+END_SRC
 **** Adding Files
-#+BEGIN_SRC
+#+BEGIN_SRC sh
 dotfiles add .bashrc
 dotfiles commit -m "Added .bashrc"
 #+END_SRC
 **** First Push / Remote Setup
-#+BEGIN_SRC
+#+BEGIN_SRC sh
 dotfiles remote add origin <your dotfiles repo> 
 dotfiles push -u origin master
 #+END_SRC
 **** Commands
 After everything is setup, you can use all git commands with the dotfiles alias.
-#+BEGIN_SRC
+#+BEGIN_SRC sh
 # common commands
 dotfiles push
 dotfiles status
@@ -485,7 +496,7 @@ I reccomend you let the cloning be done by =debian-autosetup=.
 
 If you want to know how it's done though...
 ***** Simple Clone
-#+BEGIN_SRC
+#+BEGIN_SRC sh
 git clone --bare <your dotfiles repo> $HOME/.dotfiles
   
 # alias only in this shell instance
@@ -502,7 +513,7 @@ If this is the case, you can manually solve conflicts or use the following autom
 - *WARNING*: This will backup your dotfiles and replace them.
 - =NOTE= This is the same script used in debian-autosetup.
 ***** Automated Cloning Script
-#+BEGIN_SRC
+#+BEGIN_SRC sh
 # clone dotfiles
 git clone --bare <your dotfiles repo> $HOME/.dotfiles
 
@@ -521,7 +532,7 @@ xargs -I{} mv {} .dotfiles-backup/{}
 **** Recommendations For GitHub Users
 Use the private noreply email provided by GitHub to prevent leaking your personal email in git commits.
 - Provided by GitHub [[https://github.com/settings/email][here]].
-#+BEGIN_SRC
+#+BEGIN_SRC sh
 - set on the command line using:
 git config --global user.email <noreply-email>
 - check it was set using:
@@ -529,7 +540,7 @@ git config --global user.email
 #+END_SRC
 Use personal access tokens or ssh keys when commiting from the command line.
 - Access tokens provided by GitHub [[https://github.com/settings/tokens][here]].
-#+BEGIN_SRC
+#+BEGIN_SRC sh
 - generate a token for repository changes.
 - save it locally to your system, it will not be accessible again.
 - enter the token when prompted for your password during a push.
