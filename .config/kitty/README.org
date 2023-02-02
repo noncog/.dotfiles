@@ -7,6 +7,14 @@
 
 [[https://sw.kovidgoyal.net/kitty/conf/][Documentation]]
 
+* Settings
+
+#+begin_src conf :tangle kitty.conf
+#hide_window_decorations yes
+#macos_hide_from_tasks yes
+#allow_remote_control yes
+#+end_src
+
 * Font
 
 #+begin_src conf :tangle kitty.conf
