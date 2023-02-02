@@ -49,7 +49,16 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(package! pulsar) ;; it's just hl-line mode
-(package! org-present) ;; a better/simplistic org mode presentation
-(package! visual-fill-column)
-(package! engrave-faces)
+(package! engrave-faces                             ; Adds theming to source block exports.
+  :recipe (:host github :repo "tecosaur/engrave-faces")
+  :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
+(package! org-modern                                ; Adds modern look to Org.
+  :pin "c9c0c5135a66382f55681bc84f3a2658a7c8ac76")
+(package! org-appear                                ; Makes invisible Org elements appear!
+  :recipe (:host github :repo "awth13/org-appear")
+  :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
+(package! org-fragtog                               ; Toggles LaTeX previews like org-appear.
+  :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
+;; (package! org-super-agenda
+;;   :recipe (:host github :repo "alphapapa/org-super-agenda")
+;;   :pin "")
