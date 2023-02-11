@@ -1,9 +1,9 @@
-#+HTML:<h1 align="center">Polybar</h1>
+#+html:<h1 align="center">Polybar</h1>
 
-#+HTML: <p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
+#+html: <p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
 
-#+HTML:<div align="center">
-#+BEGIN_SRC
+#+html:<div align="center">
+#+begin_src
 ==========================================================
 
    ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
@@ -14,10 +14,10 @@
    ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
 
 ==========================================================
-#+END_SRC
-#+HTML:</div>
+#+end_src
+#+html:</div>
 
-#+HTML:<p align="center"><code><a href="https://polybar.github.io/">Polybar</a></code> is an open source status bar.</p>
+#+html:<p align="center"><code><a href="https://polybar.github.io/">Polybar</a></code> is an open source status bar.</p>
 
 - [[#colors][Colors]]
 - [[#bars][Bars]]
@@ -34,7 +34,8 @@
 
 * Colors
 *** Dracula Theme
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [colors]
 background = #282a36
 foreground = #f8f8f2
@@ -55,10 +56,12 @@ alert = #e60053
 i3-binding = #ffb52a
 i3-urgent = #bd2c40
 i3-focused = #dd4545
-#+END_SRC
+#+end_src
+
 * Bars
 *** Default
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [bar/default_bar]
 
 monitor = HDMI-0
@@ -87,11 +90,11 @@ padding-right = 1
 module-margin-left = 0
 module-margin-right = 1
 
-font-0 = JetBrains Mono Medium:style=Medium:pixelsize=10;2
+font-0 = Fira Code SemiBold:style=SemiBold:pixelsize=10;2
 font-1 = Font Awesome 5 Brands Regular:style=Regular:pixelsize=12;2
 font-2 = Font Awesome 5 Free Regular:style=Regular:pixelsize=12;2
 font-3 = Font Awesome 5 Free Solid:style=Solid:pixelsize=12;2
-font-4 = Fira Code SemiBold:style=SemiBold:pixelsize=10;2
+font-4 = JetBrains Mono Medium:style=Medium:pixelsize=10;2
 
 modules-left = i3 cpu memory temperature filesystem
 modules-center = date
@@ -102,12 +105,15 @@ tray-padding = 2
 
 cursor-click = pointer
 cursor-scroll = ns-resize
-#+END_SRC
+#+end_src
 
 * Modules
+
 Modules are ordered in their usage from left to right.
+
 *** i3
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
@@ -119,10 +125,11 @@ ws-icon-0 = 1:Emacs;
 ws-icon-1 = 2:Firefox;
 ws-icon-2 = 3:Code;
 ws-icon-3 = 4:Gimp;
-ws-icon-4 = 5:Anki;
-ws-icon-5 = 6:1;
-ws-icon-6 = 7:2;
-ws-icon-7 = 8:3;
+ws-icon-4 = 5:Blender;
+ws-icon-5 = 6:Anki;
+ws-icon-6 = 7:1;
+ws-icon-7 = 8:2;
+ws-icon-8 = 9:3;
 
 ; Only show workspaces on the same output as the bar
 pin-workspaces = true
@@ -151,10 +158,11 @@ label-visible-padding = 1
 label-urgent = %icon%
 label-urgent-background = ${colors.i3-urgent}
 label-urgent-padding = 1
-#+END_SRC
+#+end_src
 
 *** CPU
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [module/cpu]
 type = internal/cpu
 
@@ -162,10 +170,11 @@ interval = 4
 format-prefix = " "
 format-prefix-foreground = ${colors.purple}
 label = %percentage:02%%
-#+END_SRC
+#+end_src
 
 *** Memory
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [module/memory]
 type = internal/memory
 
@@ -173,10 +182,11 @@ interval = 4
 format-prefix = " "
 format-prefix-foreground = ${colors.green}
 label = %percentage_used:02%%
-#+END_SRC
+#+end_src
 
 *** Temperature
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [module/temperature]
 type = internal/temperature
 thermal-zone = 0
@@ -197,10 +207,11 @@ ramp-2 = 
 ramp-3 = 
 ramp-4 = 
 ramp-foreground = ${colors.yellow}
-#+END_SRC
+#+end_src
 
 *** File System
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [module/filesystem]
 type = internal/fs
 
@@ -223,9 +234,11 @@ fixed-values = true
 ; Spacing (number of spaces, pixels, points) between entries
 spacing = 4
 
-#+END_SRC
+#+end_src
+
 *** Date
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [module/date]
 type = internal/date
 
@@ -233,10 +246,11 @@ interval = 5
 date = %A, %B %d
 format-prefix-foreground = ${colors.icon-default}
 label = %date%
-#+END_SRC
+#+end_src
 
 *** Pulse Audio
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [module/pulseaudio]
 type = internal/pulseaudio
 
@@ -249,10 +263,11 @@ label-muted-foreground = ${colors.unfocused-one}
 interval = 5
 
 click-right = pavucontrol
-#+END_SRC
+#+end_src
 
 *** Battery
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [module/battery]
 type = internal/battery
 
@@ -277,25 +292,28 @@ animation-charging-foreground = ${colors.green}
 
 animation-discharging-0 = 
 animation-discharging-foreground = ${colors.red}
-#+END_SRC
+#+end_src
 
 * Misc.
 *** Settings
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [settings]
 screenchange-reload = true
-#+END_SRC
+#+end_src
 
 *** WM
-#+BEGIN_SRC conf :tangle config
+
+#+begin_src conf :tangle config
 [global/wm]
 margin-top = 5
 margin-bottom = 5
-#+END_SRC
+#+end_src
 
 * Launcher
 *** Default
-#+BEGIN_SRC sh :tangle launch.sh :shebang "#!/bin/bash"
+
+#+begin_src sh :tangle launch.sh :shebang "#!/bin/bash"
 
 # Terminate already running bar instances
 
@@ -308,4 +326,4 @@ killall -q polybar
 echo "---" | tee -a /tmp/polybar_default_bar.log
 polybar default_bar 2>&1 | tee -a /tmp/polybar_default_bar.log & disown
 echo "Polybar: Default bar launched..."
-#+END_SRC
+#+end_src

@@ -47,11 +47,11 @@ padding-right = 1
 module-margin-left = 0
 module-margin-right = 1
 
-font-0 = JetBrains Mono Medium:style=Medium:pixelsize=10;2
+font-0 = Fira Code SemiBold:style=SemiBold:pixelsize=10;2
 font-1 = Font Awesome 5 Brands Regular:style=Regular:pixelsize=12;2
 font-2 = Font Awesome 5 Free Regular:style=Regular:pixelsize=12;2
 font-3 = Font Awesome 5 Free Solid:style=Solid:pixelsize=12;2
-font-4 = Fira Code SemiBold:style=SemiBold:pixelsize=10;2
+font-4 = JetBrains Mono Medium:style=Medium:pixelsize=10;2
 
 modules-left = i3 cpu memory temperature filesystem
 modules-center = date
@@ -74,10 +74,11 @@ ws-icon-0 = 1:Emacs;
 ws-icon-1 = 2:Firefox;
 ws-icon-2 = 3:Code;
 ws-icon-3 = 4:Gimp;
-ws-icon-4 = 5:Anki;
-ws-icon-5 = 6:1;
-ws-icon-6 = 7:2;
-ws-icon-7 = 8:3;
+ws-icon-4 = 5:Blender;
+ws-icon-5 = 6:Anki;
+ws-icon-6 = 7:1;
+ws-icon-7 = 8:2;
+ws-icon-8 = 9:3;
 
 ; Only show workspaces on the same output as the bar
 pin-workspaces = true
