@@ -19,6 +19,7 @@
 - [[#tips][Tips]]
 
 * Monitors
+
 #+begin_src conf
 set $laptop eDP-1-1
 set $external HDMI-0
