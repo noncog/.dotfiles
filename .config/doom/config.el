@@ -20,6 +20,8 @@
 
 (setq evil-want-fine-undo t)
 
+;(server-start)
+
 (setq doom-theme 'doom-dracula)
 
 (setq doom-dracula-brighter-modeline t)
@@ -198,7 +200,6 @@ found, using `org-view-output-file-extensions'."
           org-fold-core-style 'overlays                 ; Used to hide IDs in Org Roam backlinks buffer.
           ;org-extend-today-until 25
           evil-collection-calendar-want-org-bindings t) ; Add evil bindings to org's calendar. Much needed.
-    (setq org-startup-with-latex-preview nil)
     (setq org-highlight-latex-and-related '(native script entities))
     (setq org-ellipsis " ▾ "                            ; Set custom ellipsis for folded headings.
           org-startup-with-inline-images t              ; Show images at startup.

@@ -114,6 +114,12 @@ By default, all changes from insert made are considered one. Enable a more granu
 (setq evil-want-fine-undo t)
 #+end_src
 
+*** Start Server
+
+#+begin_src emacs-lisp
+;(server-start)
+#+end_src
+
 ** Appearance
 *** Theme
 
@@ -526,7 +532,7 @@ Some general behavior settings that improve org for my tastes.
 
 This shows the rendered LaTeX within the org buffer.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+#+begin_src emacs-lisp :tangle no :noweb-ref org-disabled
 (setq org-startup-with-latex-preview nil)
 #+end_src
 
@@ -1550,7 +1556,7 @@ These are commonly enforced commit length standards.
 
 Currently not modifying the backends. This may change...
 
-** No Web Assembly
+** No Web Assembly :noexport:
 
 #+begin_src emacs-lisp :noweb no-export
 (after! company
