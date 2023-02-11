@@ -1108,9 +1108,8 @@ Don't use Org Roam if the directory isn't present to avoid errors.
 
 See [[file:config.el][config.el]] to understand how this works. Thanks Teco.
 
-#+begin_src emacs-lisp :tangle no
-;(if (file-exists-p "~/Documents/org/roam/") "no" "packages.el")
-;(package! org-roam :disable t)
+#+begin_src emacs-lisp :noweb-ref none :tangle (if (file-exists-p "~/Desktop/TEC/Organisation/Roam/") "no" "packages.el")
+(package! org-roam :disable t)
 #+end_src
 
 ** Config
