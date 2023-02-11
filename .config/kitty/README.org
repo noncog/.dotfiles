@@ -9,9 +9,12 @@
 
 * Settings
 
+** Mac Settings
+
 #+begin_src conf :tangle kitty.conf
-#hide_window_decorations yes
-#macos_hide_from_tasks yes
+hide_window_decorations no
+macos_hide_from_tasks no
+macos_quit_when_last_window_closed yes
 #allow_remote_control yes
 #+end_src
 
@@ -23,9 +26,12 @@ font_family      JetBrains Mono
 bold_font        auto
 italic_font      auto
 bold_italic_font auto
+
+font_size 14.0
 #+end_src
 
 * Theme
+
 I use the [[https://draculatheme.com/][Dracula]] theme everywhere I can!
 
 #+begin_src conf :tangle kitty.conf
@@ -97,39 +103,85 @@ inactive_border_color #6272a4
 
 * Keybinds
 *** Disable
+**** Remove All Defaults
+
+I prefer to build my own workflow.
 
 #+begin_src conf :tangle kitty.conf
-# remove default keybinds
-map ctrl+d no_op
-map ctrl+u no_op
+clear_all_shortcuts yes
+#+end_src
 
-map kitty_mod+d no_op
-map kitty_mod+u no_op
+*** Enable
 
-map ctrl+u scroll_page_up
-map ctrl+d scroll_page_down
+All keybinds are enabled for Linux and macOS.
 
-map ctrl+h no_op
-map ctrl+j no_op
-map ctrl+k no_op
-map ctrl+l no_op
+**** Clipboard Copy and Paste
 
-map ctrl+i no_op
+#+begin_src conf :tangle kitty.conf
+# copy
+map kitty_mod+c copy_to_clipboard
+map cmd+shift+c copy_to_clipboard
+#+end_src
 
-map kitty_mod+h no_op
-map kitty_mod+j no_op
-map kitty_mod+k no_op
-map kitty_mod+l no_op
+#+begin_src conf :tangle kitty.conf
+# paste
+map kitty_mod+v paste_from_clipboard
+map cmd+shift+v paste_from_clipboard
+#+end_src
 
-map kitty_mod+i no_op
+**** Vim Based Movement
 
-map kitty_mod+t no_op
-map kitty_mod+enter no_op
+#+begin_src conf :tangle kitty.conf
+# scrolling
+map kitty_mod+u scroll_page_up
+map kitty_mod+d scroll_page_down
 
+map cmd+shift+u scroll_page_up
+map cmd+shift+d scroll_page_down
+#+end_src
+
+#+begin_src conf :tangle kitty.conf
+# new tab
+map kitty_mod+enter new_tab
+map cmd+shift+enter new_tab
+#+end_src
+
+#+begin_src conf :tangle kitty.conf
+# tab navigation
 map kitty_mod+h previous_tab
 map kitty_mod+j scroll_line_down
 map kitty_mod+k scroll_line_up
 map kitty_mod+l next_tab
 
-map kitty_mod+enter new_tab
+map cmd+shift+h previous_tab
+map cmd+shift+j scroll_line_down
+map cmd+shift+k scroll_line_up
+map cmd+shift+l next_tab
+#+end_src
+
+#+begin_src conf :tangle kitty.conf
+# move tabs
+map kitty_mod+alt+h move_tab_backward
+map kitty_mod+alt+l move_tab_forward
+
+map cmd+shift+ctrl+h move_tab_backward
+map cmd+shift+ctrl+l move_tab_forward
+#+end_src
+
+#+begin_src conf :tangle kitty.conf
+# close tabs
+map kitty_mod+w close_window
+map cmd+shift+w close_window
+#+end_src
+
+**** Change Font Size
+
+#+begin_src conf :tangle kitty.conf
+# increase
+map kitty_mod+equal change_font_size all +2.0
+map cmd+shift+equal change_font_size all +2.0
+
+# decrease
+map kitty_mod+minus change_font_size all -2.0
+map cmd+shift+minus change_font_size all -2.0
 #+end_src
