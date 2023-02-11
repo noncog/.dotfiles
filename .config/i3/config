@@ -23,7 +23,6 @@ bindsym $mod+grave layout toggle split
 # fullscreen
 bindsym $mod+F11 fullscreen toggle
 
-# emergency shutdown
 bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
 
 bindsym $mod+h focus left
@@ -37,18 +36,12 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 # horizontally
-bindsym $mod+minus resize shrink width 10 px or 10 ppt
-bindsym $mod+equal resize grow width 10 px or 10 ppt
-
-bindsym $mod+Control+minus resize shrink width 10 px or 10 ppt
-bindsym $mod+Control+equal resize grow width 10 px or 10 ppt
+bindsym $mod+minus resize shrink width 40 px or 40 ppt
+bindsym $mod+equal resize grow width 40 px or 40 ppt
 
 # vertically
-bindsym $mod+Shift+minus resize shrink height 10 px or 10 ppt
-bindsym $mod+Shift+equal resize grow height 10 px or 10 ppt
-
-bindsym $mod+Control+Shift+minus resize shrink height 10 px or 10 ppt
-bindsym $mod+Control+Shift+equal resize grow height 10 px or 10 ppt
+bindsym $mod+Shift+minus resize shrink height 40 px or 40 ppt
+bindsym $mod+Shift+equal resize grow height 40 px or 40 ppt
 
 #bindsym $mod+Control+equal exec --no-startup-id $HOME/.local/bin/i3_balance_workspace
 
@@ -93,10 +86,11 @@ set $emacs "1:Emacs"
 set $firefox "2:Firefox"
 set $code "3:Code"
 set $gimp "4:Gimp"
-set $anki "5:Anki"
-set $ws1 "6:1"
-set $ws2 "7:2"
-set $ws3 "8:3"
+set $blender "5:Blender"
+set $anki "6:Anki"
+set $ws1 "7:1"
+set $ws2 "8:2"
+set $ws3 "9:3"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -122,19 +116,21 @@ workspace $ws1 output $external $laptop
 workspace $ws2 output $external $laptop
 workspace $ws3 output $laptop $external
 
-for_window [title="GNU Image Manipulation Program"] mark gimp
-
-assign [con_mark=gimp] $gimp
+assign [class="Gimp"] $gimp
 bindsym $mod+Shift+g exec --no-startup-id gimp
-bindsym $mod+g [con_mark=gimp] focus
+bindsym $mod+g [class="Gimp"] focus
 
 assign [class="Emacs"] $emacs
-bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-chemacs.sh
+bindsym $mod+Shift+e exec --no-startup-id emacs
 bindsym $mod+e [class="Emacs"] focus
 
 assign [class="Firefox-esr"] $firefox
 bindsym $mod+Shift+f exec --no-startup-id firefox
 bindsym $mod+f [class="Firefox-esr" tiling] focus
+
+assign [class="Blender"] $blender
+bindsym $mod+Shift+b exec --no-startup-id blender
+bindsym $mod+b [class="Blender" tiling] focus
 
 assign [class="jetbrains-clion"] $code
 bindsym $mod+c [class="jetbrains-clion"] focus

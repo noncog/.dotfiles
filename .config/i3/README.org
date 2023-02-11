@@ -34,6 +34,7 @@ floating_modifier $mod
 #+end_src
 
 *** Floating Window Controls
+
 #+begin_src conf
 # make window float
 bindsym $mod+Shift+space floating toggle
@@ -49,6 +50,7 @@ bindsym $mod+apostrophe scratchpad show, move position center
 #+end_src
 
 *** Layout Controls
+
 #+begin_src conf
 # layouts
 bindsym $mod+Tab layout tabbed
@@ -59,12 +61,13 @@ bindsym $mod+F11 fullscreen toggle
 #+end_src
 
 *** Emergency Kill
+
 #+begin_src conf
-# emergency shutdown
 bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
 #+end_src
 
 *** Focus Window
+
 #+begin_src conf
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -73,6 +76,7 @@ bindsym $mod+l focus right
 #+end_src
 
 *** Move Window
+
 #+begin_src conf
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
@@ -81,23 +85,19 @@ bindsym $mod+Shift+l move right
 #+end_src
 
 *** Resize Window
+
 #+begin_src conf
 # horizontally
-bindsym $mod+minus resize shrink width 10 px or 10 ppt
-bindsym $mod+equal resize grow width 10 px or 10 ppt
-
-bindsym $mod+Control+minus resize shrink width 10 px or 10 ppt
-bindsym $mod+Control+equal resize grow width 10 px or 10 ppt
+bindsym $mod+minus resize shrink width 40 px or 40 ppt
+bindsym $mod+equal resize grow width 40 px or 40 ppt
 
 # vertically
-bindsym $mod+Shift+minus resize shrink height 10 px or 10 ppt
-bindsym $mod+Shift+equal resize grow height 10 px or 10 ppt
-
-bindsym $mod+Control+Shift+minus resize shrink height 10 px or 10 ppt
-bindsym $mod+Control+Shift+equal resize grow height 10 px or 10 ppt
+bindsym $mod+Shift+minus resize shrink height 40 px or 40 ppt
+bindsym $mod+Shift+equal resize grow height 40 px or 40 ppt
 #+end_src
 
 **** Balance Windows
+
 i3 can't natively do this. So, we add that feature by using [[https://github.com/atreyasha/i3-balance-workspace][i3-balance-workspace]].
 
 #+begin_src conf
@@ -105,17 +105,20 @@ i3 can't natively do this. So, we add that feature by using [[https://github.com
 #+end_src
 
 *** Kill Windows
+
 #+begin_src conf
 bindsym $mod+Shift+q kill
 #+end_src
 
 *** Window Splitting
+
 #+begin_src conf
 bindsym $mod+v split h
 bindsym $mod+s split v
 #+end_src
 
 * Settings
+
 #+begin_src conf
 focus_wrapping no
 focus_follows_mouse no
@@ -124,18 +127,23 @@ mouse_warping output
 
 * Looks
 *** Font
+
 I try to use Fira Code for everything.
+
 #+begin_src conf
 font pango:Fira Code 11
 #+end_src
 
 *** Wallpaper
+
 Check out my [[https://github.com/noncog/.dotfiles/tree/master/.config/wallpapers][wallpapers directory]].
+
 #+begin_src conf
-exec --no-startup-id nitrogen --restore 
+exec --no-startup-id nitrogen --restore
 #+end_src
 
 *** Theme
+
 I use the [[https://draculatheme.com/][Dracula]] theme everywhere I can!
 
 #+begin_src conf
@@ -150,6 +158,7 @@ client.background       #F8F8F2
 #+end_src
 
 *** i3-gaps
+
 #+begin_src conf
 # Necessary for i3-gaps to work properly (pixel can be any value)
 for_window [class="^.*"] border pixel 3
@@ -167,17 +176,20 @@ gaps outer 0
 #+end_src
 
 * Workspaces
+
 Some apps get their own workspace. Some apps live in the scratchpad.
+
 #+begin_src conf
 # name workspaces
 set $emacs "1:Emacs"
 set $firefox "2:Firefox"
 set $code "3:Code"
 set $gimp "4:Gimp"
-set $anki "5:Anki"
-set $ws1 "6:1"
-set $ws2 "7:2"
-set $ws3 "8:3"
+set $blender "5:Blender"
+set $anki "6:Anki"
+set $ws1 "7:1"
+set $ws2 "8:2"
+set $ws3 "9:3"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -205,49 +217,64 @@ workspace $ws3 output $laptop $external
 #+end_src
 
 * Workspace Apps
-These apps are given keybinds but no dedicated workspace.
-*** GIMP
-#+begin_src conf
-for_window [title="GNU Image Manipulation Program"] mark gimp
 
-assign [con_mark=gimp] $gimp
+These apps are given keybinds but no dedicated workspace.
+
+*** GIMP
+
+#+begin_src conf
+assign [class="Gimp"] $gimp
 bindsym $mod+Shift+g exec --no-startup-id gimp
-bindsym $mod+g [con_mark=gimp] focus
+bindsym $mod+g [class="Gimp"] focus
 #+end_src
 
 *** Emacs Client
+
 #+begin_src conf
 assign [class="Emacs"] $emacs
-bindsym $mod+Shift+e exec --no-startup-id $HOME/.config/rofi/rofi-chemacs/rofi-chemacs.sh
+bindsym $mod+Shift+e exec --no-startup-id emacs
 bindsym $mod+e [class="Emacs"] focus
 #+end_src
 
 *** Firefox
+
 #+begin_src conf
 assign [class="Firefox-esr"] $firefox
 bindsym $mod+Shift+f exec --no-startup-id firefox
 bindsym $mod+f [class="Firefox-esr" tiling] focus
 #+end_src
 
+*** Blender
+
+#+begin_src conf
+assign [class="Blender"] $blender
+bindsym $mod+Shift+b exec --no-startup-id blender
+bindsym $mod+b [class="Blender" tiling] focus
+#+end_src
+
 *** Clion
+
 #+begin_src conf
 assign [class="jetbrains-clion"] $code
 bindsym $mod+c [class="jetbrains-clion"] focus
 #+end_src
 
 *** Pycharm
+
 #+begin_src conf
 assign [class="jetbrains-pycharm"] $code
 bindsym $mod+p [class="jetbrains-pycharm"] focus
 #+end_src
 
 *** IntelliJ Idea
+
 #+begin_src conf
 assign [class="jetbrains-idea"] $code
 bindsym $mod+i [class="jetbrains-idea"] focus
 #+end_src
 
 *** Anki
+
 I give this it's own workspace to not deal with floating dialog issues in a scratchpad.
 
 #+begin_src conf
@@ -257,9 +284,11 @@ bindsym $mod+a [class="Anki"] focus
 #+end_src
 
 * Scratchpad Apps
+
 The scratchpad is an invisible workspace. I put "floating" apps or apps that I want to keep running into it. They can only be spawned and focused/hidden.
 
 *** Kitty
+
 #+begin_src conf
 set $kitty-size resize set 50 ppt 50 ppt, move position center
 for_window [class="kitty"] move scratchpad, sticky enable
@@ -269,6 +298,7 @@ bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $ki
 #+end_src
 
 *** Tor
+
 #+begin_src conf
 for_window [class="Tor Browser"] move scratchpad, sticky enable
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
@@ -278,6 +308,7 @@ bindsym $mod+o [class="Tor Browser" workspace="__focused__"] scratchpad show, re
 #+end_src
 
 *** Discord
+
 #+begin_src conf
 set $discord-size resize set 50 ppt 85 ppt, move position center
 for_window [class="discord"] move scratchpad, sticky enable
@@ -287,6 +318,7 @@ bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $disco
 #+end_src
 
 *** Spotify
+
 #+begin_src conf
 for_window [class="Spotify"] move scratchpad, sticky enable
 bindsym $mod+Shift+m exec --no-startup-id spotify
@@ -294,11 +326,13 @@ bindsym $mod+m [class="Spotify"] scratchpad show, resize set 50 ppt 60 ppt, move
 #+end_src
 
 *** YouTube
+
 This section implements a mini floating YouTube player with sizes and positions for laptop and desktop displays.
 
 To accomplish this, we launch an instance of Firefox using a unique YouTube URL we plan on never visiting. This allows us to tell i3 to mark this Firefox window as our YouTube player. Then, we can interact with this window as if it were a separate program, even though it's just another Firefox instance.
 
 **** Set Unique URL and Title
+
 #+begin_src conf
 # values found using xprop
 set $youtube_page https://www.youtube.com/premium
@@ -307,6 +341,7 @@ set $youtube_title "YouTube Premium - YouTube — Mozilla Firefox"
 
 **** Set Size and Location For Monitors
 ***** Desktop/Docked
+
 #+begin_src conf
 # size
 set $yt_d_w 720
@@ -318,6 +353,7 @@ set $yt_d_y 1023 px
 #+end_src
 
 ***** Laptop
+
 #+begin_src conf
 # size
 set $yt_l_w 636
@@ -329,18 +365,22 @@ set $yt_l_y 710 px
 #+end_src
 
 **** Base Window Setup
+
 This is applied whenever the YouTube player is launched.
+
 #+begin_src conf
 for_window [title=$youtube_title] move scratchpad, sticky enable, mark youtube
 #+end_src
 
 **** Keybinds
 ***** Launch
+
 #+begin_src conf
 bindsym $mod+Shift+y exec --no-startup-id firefox --new-window $youtube_page
 #+end_src
 
 ***** Focus
+
 This single bind contains an inline bash script which changes the window size and it's location depending on the monitor you're using.
 
 It also contains logic for the ability to show the YouTube window as a tiling window. For code without this feature find an older commit.
@@ -350,12 +390,15 @@ bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI
 #+end_src
 
 ***** Tiling Focus
+
 This bind moves the floating YouTube player into a tiling window on the current workspace.
+
 #+begin_src conf
 bindsym $mod+Control+y [con_mark=youtube tiling] move scratchpad, scratchpad show; [con_mark=youtube floating] scratchpad show, floating toggle
 #+end_src
 
 *** Nitrogen
+
 This application has no controls associated with it. We simply controls it's windowing here.
 
 #+begin_src conf
@@ -364,6 +407,7 @@ for_window [class="Nitrogen"] move scratchpad, sticky enable, scratchpad show, r
 
 * Utilities
 *** Rofi
+
 #+begin_src conf
 # desktop app launcher
 bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
@@ -372,21 +416,25 @@ bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+end_src
 
 *** ScreenKey
+
 #+begin_src conf
 bindsym $mod+Shift+question exec --no-startup-id screenkey
 #+end_src
 
 *** Extreme Cooling 4 Linux
+
 #+begin_src conf
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
 #+end_src
 
 *** Picom Daemon
+
 #+begin_src conf
 exec --no-startup-id picom -b
 #+end_src
 
 *** Pulse Audio Control
+
 #+begin_src conf
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -396,16 +444,19 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 #+end_src
 
 *** Network-Manager
+
 #+begin_src conf
 exec --no-startup-id nm-applet
 #+end_src
 
 *** Polybar
+
 #+begin_src conf
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 #+end_src
 
 * Startup Apps
+
 #+begin_src conf
 # emacs
 exec --no-startup-id sleep 3 && emacs
@@ -418,12 +469,15 @@ exec --no-startup-id kitty --name Floating-Kitty
 #+end_src
 
 * Tips
+
 *** Finding Keynames (keysym)
+
 #+begin_src conf
 # To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
 #+end_src
 
 *** Window Information
+
 #+begin_src conf
 # To find window related information use:
 # xprop and xwininfo
