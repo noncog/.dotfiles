@@ -1,0 +1,134 @@
+#+startup: show2levels
+
+#+html:<div align="center">
+* SKHD
+
+#+begin_html
+<a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a>
+<a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white"></a>
+
+<p><code><a href="https://github.com/koekeishiya/skhd">SKHD</a></code> is the simple hotkey daemon for macOS. It allows you to customize your keybinds using a simple configuration file.</p>
+
+</div>
+#+end_html
+
+* Yabai Controls
+
+I use Vim based movement binds with Yabai. These keybinds mirror my Linux configuration using i3 as much as possible.
+
+** Windowing
+*** Focus Window
+
+#+begin_src conf :tangle skhdrc
+alt - h : yabai -m window --focus west
+alt - j : yabai -m window --focus south
+alt - k : yabai -m window --focus north
+alt - l : yabai -m window --focus east
+#+end_src
+
+*** Move Window
+
+#+begin_src conf :tangle skhdrc
+shift + alt - h : yabai -m window --swap west
+shift + alt - j : yabai -m window --swap south
+shift + alt - k : yabai -m window --swap north
+shift + alt - l : yabai -m window --swap east
+#+end_src
+
+*** Warp Window
+
+#+begin_src conf :tangle skhdrc
+shift + alt + cmd - h : yabai -m window --warp west
+shift + alt + cmd - j : yabai -m window --warp south
+shift + alt + cmd - k : yabai -m window --warp north
+shift + alt + cmd - l : yabai -m window --warp east
+#+end_src
+
+*** Fullscreen
+
+#+begin_src conf :tangle skhdrc
+alt - f11 : yabai -m window --toggle zoom-fullscreen
+#+end_src
+
+*** Balance Windows
+
+#+begin_src conf :tangle skhdrc
+alt - 0x18 : yabai -m space --balance
+#+end_src
+
+*** Kill Window
+
+#+begin_src conf :tangle skhdrc
+shift + alt - q : yabai -m window --close
+#+end_src
+
+** General Workspaces
+
+#+begin_src conf :tangle skhdrc
+alt - 1 : yabai -m space --focus 11
+alt - 2 : yabai -m space --focus 12
+alt - 3 : yabai -m space --focus 13
+#+end_src
+
+** Workspace Apps
+
+*** Emacs
+
+#+begin_src conf :tangle skhdrc
+cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
+shift + alt - e : open -n -a "Emacs"
+alt - e : yabai -m space --focus 1
+#+end_src
+
+*** Safari
+
+#+begin_src conf :tangle skhdrc
+cmd + shift + alt - f : yabai -m window --space 2; yabai -m space --focus 2
+shift + alt - f : open -n -a "Safari"
+alt - f : yabai -m space --focus 2
+#+end_src
+
+*** Clion
+
+#+begin_src conf :tangle skhdrc
+cmd + shift + alt - c : yabai -m window --space 3; yabai -m space --focus 3
+shift + alt - c : open -n -a "CLion"
+alt - c : yabai -m space --focus 3
+#+end_src
+
+*** Gimp
+
+#+begin_src conf :tangle skhdrc
+cmd + shift + alt - g : yabai -m window --space 4; yabai -m space --focus 4
+alt - g : yabai -m space --focus 4
+#+end_src
+
+*** Blender
+
+#+begin_src conf :tangle skhdrc
+cmd + shift + alt - b : yabai -m window --space 5; yabai -m space --focus 5
+alt - b : yabai -m space --focus 5
+#+end_src
+
+*** Anki
+
+#+begin_src conf :tangle skhdrc
+cmd + shift + alt - a : yabai -m window --space 6; yabai -m space --focus 6
+alt - a : yabai -m space --focus 6
+#+end_src
+
+*** Tor
+
+#+begin_src conf :tangle skhdrc
+cmd + shift + alt - t : yabai -m window --space 7; yabai -m space --focus 7
+shift + alt - t : open -n -a "Tor Browser"
+alt - t : yabai -m space --focus 7
+#+end_src
+
+*** Kitty
+
+#+begin_src conf :tangle skhdrc
+cmd + shift + alt - return : yabai -m window --space 8; yabai -m space --focus 8
+alt - return : yabai -m space --focus 8
+shift + alt - return : open -n -a "kitty"
+#+end_src
