@@ -6,7 +6,7 @@
 <a href="https://www.debian.org/"><img src="https://img.shields.io/badge/Debian-11-critical?style=flat-square&logo=Debian&logoColor=white" /></a>
 <a href="https://www.apple.com/macos/ventura/"><img src="https://img.shields.io/badge/macOS-Ventura-lightgrey?style=flat-square&logo=Apple&logoColor=white" /></a>
 <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a>
-<a href="https://github.com/noncog/.dotfiles/blob/master/LICENSE"><img src="https://img.shields.io/github/license/noncog/.dotfiles?color=blue&style=flat-square" /></a>
+<a href="https://github.com/noncog/.dotfiles/blob/main/LICENSE"><img src="https://img.shields.io/github/license/noncog/.dotfiles?color=blue&style=flat-square" /></a>
 </p>
 
 <p><img src=".system_demo.png"/></p>
