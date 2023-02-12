@@ -18,9 +18,15 @@
 
 The following is required to enable scripting additions at startup.
 
-#+begin_src sh :tangle yabairc :shebang "#!/bin/env sh"
+#+begin_src sh :tangle yabairc :shebang "#!/usr/bin/env sh"
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
+#+end_src
+
+*** Debugging
+
+#+begin_src sh :tangle yabairc
+yabai -m config debug_output on
 #+end_src
 
 ** Settings
