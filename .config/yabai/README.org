@@ -1,0 +1,105 @@
+#+startup: show2levels
+
+#+html:<div align="center">
+* Yabai
+
+#+begin_html
+<a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a>
+<a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white"></a>
+
+<p><code><a href="https://github.com/koekeishiya/yabai">Yabai</a></code> is an open source tiling window manager for macOS.</p>
+
+</div>
+#+end_html
+
+** Startup
+
+*** Load Scripting Additions
+
+The following is required to enable scripting additions at startup.
+
+#+begin_src sh :tangle yabairc :shebang "#!/bin/env sh"
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+#+end_src
+
+** Settings
+*** List of Options :noexport:
+
+#+begin_src sh :tangle no
+# active_window_border_color  0xff775759   \ # Color of the border of focused window.
+# active_window_opacity       1.0          \ # Opacity of the focused window.
+# auto_balance                off          \ # Balance the window tree upon change so all windows occupy same area.
+# bottom_padding              12           \
+# focus_follows_mouse         off          \ # Auto focus window under mouse.
+# insert_feedback_color       0xffd75f5f   \ # Color of the window --insert message selection.
+# layout                      bsp          \
+# left_padding                12           \
+# mouse_action1               move         \ # Action performed when pressing mouse_modifier + button1.
+# mouse_action2               resize       \ # Action performed when pressing mouse_modifier + button2.
+# mouse_drop_action           swap         \ # Action performed when bsp-managed window is dropped in the center another managed window.
+# mouse_follows_focus         off          \ # When focus window, put mouse at center.
+# mouse_modifier              fn           \ # Keyboard modifier used for moving and resizing windows.
+# normal_window_border_color  0xff555555   \ # Color of the unfocused window.
+# normal_window_opacity       0.90         \ # Opacity of an unfocused window.
+# right_padding               12           \
+# split_ratio                 0.50         \ # Specify size distribution when window is split.
+# split_type                  auto         \ # Specify how a window should be split. [vertical|horizontal|auto]
+# top_padding                 12           \
+# window_animation_duration   0.0          \ # Duration of window frame animation. If 0.0 change in dimension not animated. Requires screen recording permissions.
+# window_animation_frame_rate 120          \ # Frame rate of window frame animation. Expressed in FPS.
+# window_border               off          \ # Draw a border for windows.
+# window_border_blur          off          \ # Blur border allowing it to act as a backdrop for transparent windows.
+# window_border_hidpi         on           \ # Draw border in high resolution mode. Uses significantly more memory.
+# window_border_radius        12           \ # Radius of window border.
+# window_border_width         4            \ # Width of window borders. If given width is odd, will be incremented by 1.
+# window_gap                  06           \
+# window_opacity              off          \ # Enable opacity for windows.
+# window_opacity_duration     0.0          \ # Duration of transition between active / normal opacity.
+# window_origin_display       default      \ # Specify display new windows are managed in.
+# window_placement            second_child \ # Specify if managed window becomes 1st or 2nd leaf-node.
+# window_shadow               on           \ # Draw shadows for windows.
+# window_topmost              off          \ # Make floating windows stay on top.
+# window_zoom_persist         on           \ # Windows keep zoom-state through layout changes.
+# debug_output                off          \ # Enable output of debug info to stdout.
+# external_bar                off          \ # Specify padding for external bar.
+#+end_src
+
+*** Default Layout
+
+#+begin_src sh :tangle yabairc
+yabai -m config layout bsp
+#+end_src
+
+** Looks
+*** Gaps
+
+#+begin_src sh :tangle yabairc
+yabai -m config top_padding    10
+yabai -m config bottom_padding 10
+yabai -m config left_padding   10
+yabai -m config right_padding  10
+yabai -m config window_gap     10
+#+end_src
+
+** Workspace Apps
+*** Ignore List
+
+These apps won't be tiled.
+
+#+begin_src sh :tangle yabairc
+yabai -m rule --add app="^System Settings$" manage=off
+#+end_src
+
+*** Assign Apps to Spaces
+
+#+begin_src sh :tangle yabairc
+yabai -m rule --add app="^Emacs$" space=^1
+yabai -m rule --add app="^Safari$" space=^2
+yabai -m rule --add app="^(CLion|PyCharm)$" space=^3
+yabai -m rule --add app="^Gimp$" space=^4
+yabai -m rule --add app="^Blender$" space=^5
+yabai -m rule --add app="^Anki$" space=^6
+yabai -m rule --add app="^Tor Browser$" space=^7
+yabai -m rule --add app="kitty" space=^8
+#+end_src
