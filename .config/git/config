@@ -5,3 +5,5 @@
 	defaultBranch = main
 [commit]
 	template = ~/.config/git/commit-message
+[pull]
+	ff = only
