@@ -20,21 +20,21 @@ selection="$(echo -e "$options" | $rofi_command -p 'scrot' -dmenu)"
 case $selection in
     $screen)
 	if [[ -f /usr/bin/scrot ]]; then
-	    sleep 1; scrot -d 1 $HOME/pictures/screenshots/screen-%b%d::%H%M%S.png
+	    sleep 1; scrot -d 1 $HOME/Pictures/screenshots/screen-%b%d::%H%M%S.png
 	else
 	    err_msg "Scrot -d failed."
 	fi
 	;;
     $area)
 	if [[ -f /usr/bin/scrot ]]; then
-	    scrot -s $HOME/pictures/screenshots/area-%b%d::%H%M%S.png
+	    scrot -s $HOME/Pictures/screenshots/area-%b%d::%H%M%S.png
 	else
 	    err_msg "Scrot -s failed."
 	fi
 	;;
     $window)
 	if [[ -f /usr/bin/scrot ]]; then
-	    sleep 1; scrot -u $HOME/pictures/screenshots/window-%b%d::%H%M%S.png
+	    sleep 1; scrot -u $HOME/Pictures/screenshots/window-%b%d::%H%M%S.png
 	else
 	    err_msg "Scrot -u failed."
 	fi
