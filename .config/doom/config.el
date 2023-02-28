@@ -441,9 +441,6 @@ found, using `org-view-output-file-extensions'."
 (use-package! engrave-faces-html
   :after ox-html)
 
-(use-package! org-fragtog
-  :hook (org-mode . org-fragtog-mode))
-
 ;; (use-package! org-modern
 ;;   :hook (org-mode . org-modern-mode)
 ;;   :config

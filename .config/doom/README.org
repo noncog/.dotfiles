@@ -602,6 +602,7 @@ found, using `org-view-output-file-extensions'."
 #+end_src
 
 *** Insert Zero Width Spaces
+
 #+begin_src emacs-lisp
 (map! :map org-mode-map
       :nie "M-SPC M-SPC" (cmd! (insert "\u200B")))
@@ -1023,7 +1024,7 @@ It provides theming and syntax highlighting in code blocks for our org-latex pdf
 
 No configuration, just enable it.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode))
 #+end_src
@@ -1564,4 +1565,3 @@ Currently not modifying the backends. This may change...
     <<company-config>>
     ))
 #+end_src
-
