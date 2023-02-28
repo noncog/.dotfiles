@@ -13,6 +13,8 @@ yabai -m config right_padding  10
 yabai -m config window_gap     10
 
 yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Open Cycle Time$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
 
 yabai -m rule --add app="^Emacs$" space=^1
 yabai -m rule --add app="^Safari$" space=^2
@@ -22,3 +24,4 @@ yabai -m rule --add app="^Blender$" space=^5
 yabai -m rule --add app="^Anki$" space=^6
 yabai -m rule --add app="^Tor Browser$" space=^7
 yabai -m rule --add app="kitty" space=^8
+yabai -m rule --add app="^Discord" space=^9

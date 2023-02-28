@@ -51,3 +51,7 @@ alt - t : yabai -m space --focus 7
 cmd + shift + alt - return : yabai -m window --space 8; yabai -m space --focus 8
 alt - return : yabai -m space --focus 8
 shift + alt - return : open -n -a "kitty"
+
+cmd + shift + alt - d : yabai -m window --space 9; yabai -m space --focus 9
+alt - d : yabai -m space --focus 9
+shift + alt - d : open -n -a "Discord"
