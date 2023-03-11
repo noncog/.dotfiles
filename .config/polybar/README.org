@@ -1,8 +1,12 @@
-#+html:<h1 align="center">Polybar</h1>
-
-#+html: <p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
-
 #+html:<div align="center">
+* Polybar
+
+#+begin_html
+<p>
+<a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a>
+</p>
+#+end_html
+
 #+begin_src
 ==========================================================
 
@@ -15,9 +19,10 @@
 
 ==========================================================
 #+end_src
-#+html:</div>
 
-#+html:<p align="center"><code><a href="https://polybar.github.io/">Polybar</a></code> is an open source status bar.</p>
+#+html:<p><code><a href="https://polybar.github.io/">Polybar</a></code> is an open source status bar.</p>
+
+#+html:</div>
 
 - [[#colors][Colors]]
 - [[#bars][Bars]]
@@ -32,7 +37,7 @@
 - [[#misc.][Misc.]]
 - [[#launcher][Launcher]]
 
-* Colors
+** Colors
 *** Dracula Theme
 
 #+begin_src conf :tangle config
@@ -58,7 +63,7 @@ i3-urgent = #bd2c40
 i3-focused = #dd4545
 #+end_src
 
-* Bars
+** Bars
 *** Default
 
 #+begin_src conf :tangle config
@@ -107,7 +112,7 @@ cursor-click = pointer
 cursor-scroll = ns-resize
 #+end_src
 
-* Modules
+** Modules
 
 Modules are ordered in their usage from left to right.
 
@@ -294,7 +299,7 @@ animation-discharging-0 = 
 animation-discharging-foreground = ${colors.red}
 #+end_src
 
-* Misc.
+** Misc.
 *** Settings
 
 #+begin_src conf :tangle config
@@ -310,7 +315,7 @@ margin-top = 5
 margin-bottom = 5
 #+end_src
 
-* Launcher
+** Launcher
 *** Default
 
 #+begin_src sh :tangle launch.sh :shebang "#!/bin/bash"
