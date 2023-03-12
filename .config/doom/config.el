@@ -28,11 +28,11 @@
 
 (setq doom-dracula-colorful-headers t)
 
-;; (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
-;;      doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
-;;      doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
-;;      doom-unicode-font (font-spec :family "JuliaMono")
-;;      doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light))
+(setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
+     doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
+     doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
+     doom-unicode-font (font-spec :family "JuliaMono")
+     doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light))
 
 ;(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
 
