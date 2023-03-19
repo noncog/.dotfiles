@@ -179,7 +179,7 @@ map cmd+shift+minus change_font_size all -2.0
 hide_window_decorations no
 macos_hide_from_tasks no
 macos_quit_when_last_window_closed yes
-macos_option_as_alt yes
+macos_option_as_alt no
 #allow_remote_control yes
 #+end_src
 
