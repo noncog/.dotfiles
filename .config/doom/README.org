@@ -1595,3 +1595,27 @@ Currently not modifying the backends. This may change...
     <<company-config>>
     ))
 #+end_src
+
+* Vterm
+
+[[https://github.com/akermu/emacs-libvterm][Vterm]] is the most capable Emacs terminal emulator with unrivaled performance and compatibility.
+
+** Fix =C-backspace=
+
+I love this keybind, more things should use it. Including vterm...
+
+Thanks [[https://github.com/elken/doom#fix-c-backspace][Elken]]!
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
+(define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
+#+end_src
+
+** No Web Assembly :noexport:
+
+#+begin_src emacs-lisp :noweb no-export
+(after! vterm
+  (use-package! vterm
+    :config
+    <<vterm-config>>
+    ))
+#+end_src
