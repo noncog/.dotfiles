@@ -1186,16 +1186,21 @@ I use the same convention for project location on each OS I use.
 #+end_src
 
 *** Set Ignored Directories
+
+TODO: I need to find a fix for these, neither work correctly. I believe that it has something to do with unexpanded directory names and regular expressions.
+
 **** Doom
 
 #+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-(add-to-list 'projectile-globally-ignored-directories "~/.config/emacs")
+;; (add-to-list 'projectile-globally-ignored-directories "~/.config/emacs")
+;; (add-to-list 'projectile-ignored-projects "~/.config/emacs")
 #+end_src
 
 **** Homebrew
 
 #+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-(add-to-list 'projectile-globally-ignored-directories "/opt/homebrew")
+;; (add-to-list 'projectile-globally-ignored-directories "/opt/homebrew")
+;; (add-to-list 'projectile-ignored-projects "/opt/homebrew")
 #+end_src
 
 *** Auto Discover Projects

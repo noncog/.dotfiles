@@ -511,8 +511,10 @@ found, using `org-view-output-file-extensions'."
     (projectile-mode . projectile-remove-ignored)
     :config
     (setq projectile-project-search-path '("~/Projects"))
-    (add-to-list 'projectile-globally-ignored-directories "~/.config/emacs")
-    (add-to-list 'projectile-globally-ignored-directories "/opt/homebrew")
+    ;; (add-to-list 'projectile-globally-ignored-directories "~/.config/emacs")
+    ;; (add-to-list 'projectile-ignored-projects "~/.config/emacs")
+    ;; (add-to-list 'projectile-globally-ignored-directories "/opt/homebrew")
+    ;; (add-to-list 'projectile-ignored-projects "/opt/homebrew")
     (setq projectile-auto-discover t)
     (map! :map project-prefix-map
           :leader
@@ -633,6 +635,23 @@ found, using `org-view-output-file-extensions'."
     (git-commit-summary-max-length 50)                  ; Maximum title (summary) length.
     (git-commit-fill-column 72)                         ; Description column limit.
     :config
+    (defun my/magit-process-environment (env)
+      "Detect and set git -bare repo env vars when in tracked dotfile directories."
+      (let* ((default (file-name-as-directory (expand-file-name default-directory)))
+             (git-dir (expand-file-name "~/.dotfiles/"))
+             (work-tree (expand-file-name "~/"))
+             (dotfile-dirs
+              (-map (apply-partially 'concat work-tree)
+                    (-uniq (-keep #'file-name-directory (split-string (shell-command-to-string
+                    (format "/usr/bin/git --git-dir=%s --work-tree=%s ls-tree --full-tree --name-only -r HEAD"
+                            git-dir work-tree))))))))
+        (push work-tree dotfile-dirs)
+        (when (member default dotfile-dirs)
+          (push (format "GIT_WORK_TREE=%s" work-tree) env)
+          (push (format "GIT_DIR=%s" git-dir) env)))
+      env)
+    (advice-add 'magit-process-environment
+                :filter-return #'my/magit-process-environment)
     (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
     (add-to-list 'git-commit-finish-query-functions
                  #'my-git-commit-check-style-conventions)
@@ -644,4 +663,10 @@ found, using `org-view-output-file-extensions'."
     (setq company-idle-delay 0.3
           company-tooltip-limit 10
           company-minimum-prefix-length 1)
+    ))
+
+(after! vterm
+  (use-package! vterm
+    :config
+    (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
     ))
