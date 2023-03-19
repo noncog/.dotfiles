@@ -1324,6 +1324,35 @@ Found [[https://github.com/vedang/pdf-tools/issues/173#issuecomment-1341882242][
 
 [[https://magit.vc][Magit]] is a powerful Git user interface for Emacs.
 
+** Dotfiles Git Bare Repository Support
+
+Out of the box Magit doesn't support bare repositories, which are commonly used to manage dotfiles. I've extended an old method of loading the corresponding Git environment variables when relevant directories are open. This method works everywhere and seamlessly integrates managing my dotfiles into Magit. It could easily be extended to support multiple bare repositories as well.
+
+It simply gets a list of all your dotfiles from the repository and whenever you're in their releveant directory it modifies the Magit/Git environment variable to support the bare repository whenever you need it.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(defun my/magit-process-environment (env)
+  "Detect and set git -bare repo env vars when in tracked dotfile directories."
+  (let* ((default (file-name-as-directory (expand-file-name default-directory)))
+         (git-dir (expand-file-name "~/.dotfiles/"))
+         (work-tree (expand-file-name "~/"))
+         (dotfile-dirs
+          (-map (apply-partially 'concat work-tree)
+                (-uniq (-keep #'file-name-directory (split-string (shell-command-to-string
+                (format "/usr/bin/git --git-dir=%s --work-tree=%s ls-tree --full-tree --name-only -r HEAD"
+                        git-dir work-tree))))))))
+    (push work-tree dotfile-dirs)
+    (when (member default dotfile-dirs)
+      (push (format "GIT_WORK_TREE=%s" work-tree) env)
+      (push (format "GIT_DIR=%s" git-dir) env)))
+  env)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(advice-add 'magit-process-environment
+            :filter-return #'my/magit-process-environment)
+#+end_src
+
 ** Commit Linter
 
 I've developed a custom Git commit linter based on [[https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format][Angular]] and [[https://www.conventionalcommits.org/][Conventional Commits]].
