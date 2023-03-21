@@ -609,6 +609,25 @@ found, using `org-view-output-file-extensions'."
       :nie "M-SPC M-SPC" (cmd! (insert "\u200B")))
 #+end_src
 
+*** Fix Org Capture Random Breakage
+
+Testing out this [[https://github.com/doomemacs/doomemacs/issues/5714][fix]].
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
+  :around #'+org--restart-mode-h
+  (let ((old-org-capture-current-plist (and (bound-and-true-p org-capture-mode)
+                                            (bound-and-true-p org-capture-current-plist))))
+    (apply fn args)
+    (when old-org-capture-current-plist
+      (setq-local org-capture-current-plist old-org-capture-current-plist)
+      (org-capture-mode +1))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
+#+end_src
+
 ** No Web Assembly :noexport:
 
 #+begin_src emacs-lisp :noweb no-export

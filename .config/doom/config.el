@@ -209,6 +209,15 @@ found, using `org-view-output-file-extensions'."
           org-pretty-entities t                         ; Show entities like sub/superscript as UTF8.
           org-hidden-keywords nil                       ; Considering using to hide certain keywords with org-appear and org-modern.
           org-src-preserve-indentation t)               ; Prevents changes to whitespace in source blocks.
+    (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
+      :around #'+org--restart-mode-h
+      (let ((old-org-capture-current-plist (and (bound-and-true-p org-capture-mode)
+                                                (bound-and-true-p org-capture-current-plist))))
+        (apply fn args)
+        (when old-org-capture-current-plist
+          (setq-local org-capture-current-plist old-org-capture-current-plist)
+          (org-capture-mode +1))))
+    (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
     ))
 
 (after! org-agenda
