@@ -7,3 +7,7 @@
 	template = ~/.config/git/commit-message
 [pull]
 	ff = only
+[diff "lisp"]
+  xfuncname = "^(\\(.*)$"
+[diff "org"]
+  xfuncname = "^(\\*+ +.*)$"
