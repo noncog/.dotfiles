@@ -112,3 +112,11 @@ yabai -m rule --add app="^Tor Browser$" space=^7
 yabai -m rule --add app="kitty" space=^8
 yabai -m rule --add app="^Discord" space=^9
 #+end_src
+
+*** Name Spaces
+
+#+begin_src sh :tangle yabairc
+# yabai -m space 1 --label "Emacs"
+# yabai -m space 2 --label "Safari"
+# yabai -m space 8 --label "Kitty"
+#+end_src

@@ -25,3 +25,7 @@ yabai -m rule --add app="^Anki$" space=^6
 yabai -m rule --add app="^Tor Browser$" space=^7
 yabai -m rule --add app="kitty" space=^8
 yabai -m rule --add app="^Discord" space=^9
+
+# yabai -m space 1 --label "Emacs"
+# yabai -m space 2 --label "Safari"
+# yabai -m space 8 --label "Kitty"

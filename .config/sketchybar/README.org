@@ -155,36 +155,11 @@ sketchybar --default updates=when_shown \
 #+end_src
 
 ** Bar
-*** Icons
-*** Spaces
-
-#+begin_src sh :tangle no :noweb-ref bar
-##### Adding Mission Control Space Indicators #####
-# Now we add some mission control spaces:
-# https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
-# to indicate active and available mission control spaces
-
-SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
-
-for i in "${!SPACE_ICONS[@]}"
-do
-  sid=$(($i+1))
-  sketchybar --add space space.$sid left                                 \
-             --set space.$sid associated_space=$sid                      \
-                              icon=${SPACE_ICONS[i]}                     \
-                              background.color=0x44ffffff                \
-                              background.corner_radius=5                 \
-                              background.height=20                       \
-                              background.drawing=off                     \
-                              label.drawing=off                          \
-                              script="$PLUGIN_DIR/space.sh"              \
-                              click_script="yabai -m space --focus $sid"
-done
-#+end_src
-
 *** Left
 
 #+begin_src sh :tangle no :noweb-ref bar
+source "$PLUGIN_DIR/spaces/item.sh"
+
 sketchybar --add item space_separator left                         \
            --set space_separator icon=                            \
                                  padding_left=10                   \
@@ -197,7 +172,20 @@ sketchybar --add item space_separator left                         \
            --subscribe front_app front_app_switched
 #+end_src
 
+*** Center
+
+#+begin_src sh :tangle no :noweb-ref bar
+# none yet
+#+end_src
+
 *** Right
+
+#+begin_src sh :tangle no :noweb-ref bar
+source "$PLUGIN_DIR/date/item.sh"
+source "$PLUGIN_DIR/wifi/item.sh"
+#+end_src
+
+*** Old Config
 
 #+begin_src sh :tangle no :noweb-ref bar
 # Some items refresh on a fixed cycle, e.g. the clock runs its script once
@@ -206,24 +194,24 @@ sketchybar --add item space_separator left                         \
 # volume is registered. More info about the event system can be found here:
 # https://felixkratz.github.io/SketchyBar/config/events
 
-sketchybar --add item clock right                              \
-           --set clock   update_freq=10                        \
-                         icon=                                \
-                         script="$PLUGIN_DIR/clock.sh"         \
-                                                               \
-           --add item wifi right                               \
-           --set wifi    script="$PLUGIN_DIR/wifi.sh"          \
-                         icon=直                               \
-           --subscribe wifi wifi_change                        \
-                                                               \
-           --add item volume right                             \
-           --set volume  script="$PLUGIN_DIR/volume.sh"        \
-           --subscribe volume volume_change                    \
-                                                               \
-           --add item battery right                            \
-           --set battery script="$PLUGIN_DIR/battery.sh"       \
-                         update_freq=120                       \
-           --subscribe battery system_woke power_source_change
+# sketchybar --add item clock right                              \
+#            --set clock   update_freq=10                        \
+#                          icon=                                \
+#                          script="$PLUGIN_DIR/clock.sh"         \
+#                                                                \
+#            --add item wifi right                               \
+#            --set wifi    script="$PLUGIN_DIR/wifi.sh"          \
+#                          icon=直                               \
+#            --subscribe wifi wifi_change                        \
+#                                                                \
+#            --add item volume right                             \
+#            --set volume  script="$PLUGIN_DIR/volume.sh"        \
+#            --subscribe volume volume_change                    \
+#                                                                \
+#            --add item battery right                            \
+#            --set battery script="$PLUGIN_DIR/battery.sh"       \
+#                          update_freq=120                       \
+#            --subscribe battery system_woke power_source_change
 #+end_src
 
 ** Colors
@@ -332,17 +320,9 @@ fi
 #+end_src
 
 ** Plugins
-*** Directory
 
 #+begin_src sh :tangle no :noweb-ref plugins
 PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
-#+end_src
-
-** Items
-*** Directory
-
-#+begin_src sh :tangle no :noweb-ref plugins
-ITEMS_DIR="$HOME/.config/sketchybar/items"
 #+end_src
 
 ** Helpers
@@ -379,6 +359,3 @@ sketchybar --update
 
 <<finalize>>
 #+end_src
-
-* TODO :noexport:
-- Color variables.
