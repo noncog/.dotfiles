@@ -62,5 +62,3 @@
 ;; (package! org-super-agenda
 ;;   :recipe (:host github :repo "alphapapa/org-super-agenda")
 ;;   :pin "")
-
-(package! org-roam :disable t)
