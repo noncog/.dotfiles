@@ -17,7 +17,7 @@ yabai -m rule --add app="^Open Cycle Time$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 
 yabai -m rule --add app="^Emacs$" space=^1
-yabai -m rule --add app="^Safari$" space=^2
+yabai -m rule --add app="^Firefox$" space=^2
 yabai -m rule --add app="^(CLion|PyCharm)$" space=^3
 yabai -m rule --add app="^Gimp$" space=^4
 yabai -m rule --add app="^Blender$" space=^5
@@ -29,3 +29,7 @@ yabai -m rule --add app="^Discord" space=^9
 # yabai -m space 1 --label "Emacs"
 # yabai -m space 2 --label "Safari"
 # yabai -m space 8 --label "Kitty"
+
+#--add event=<EVENT> action=<ACTION> [label=<LABEL>] [app[!]=<REGEX>] [title[!]=<REGEX>] [active=yes|no]
+
+yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'"

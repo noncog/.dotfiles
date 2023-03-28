@@ -28,7 +28,7 @@ shift + alt - e : open -n -a "Emacs"
 alt - e : yabai -m space --focus 1
 
 cmd + shift + alt - f : yabai -m window --space 2; yabai -m space --focus 2
-shift + alt - f : open -n -a "Safari"
+shift + alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1; firefox -profile "$HOME/.config/firefox/noncog"
 alt - f : yabai -m space --focus 2
 
 cmd + shift + alt - c : yabai -m window --space 3; yabai -m space --focus 3
