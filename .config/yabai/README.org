@@ -130,5 +130,5 @@ yabai -m rule --add app="^Discord" space=^9
 Quit Firefox when window is destroyed.
 
 #+begin_src sh :tangle yabairc
-yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'"
+yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'" active=yes
 #+end_src
