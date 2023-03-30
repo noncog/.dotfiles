@@ -8,9 +8,13 @@ export XDG_CONFIG_HOME="$HOME/.config"
 PATH="$PATH:$HOME/.config/emacs/bin"
 
 # Set Doom environment variables.
+export EMACS="emacsclient -c -a emacs"
 export DOOMDIR="$HOME/.config/doom"
 export EMACSDIR="$HOME/.config/emacs"
 
 # Set Emacs as system editor.
-export EDITOR=emacs
-export VISUAL=emacs
+export EDITOR="emacsclient -c -a emacs"
+export VISUAL="emacsclient -c -a emacs"
+
+# Add GNU grep to system instead of BSD grep.
+PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
