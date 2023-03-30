@@ -89,7 +89,7 @@ PADDING=4
 FONT="Hack Nerd Font"
 #FONT_LABEL=
 #FONT_ICON=
-THEME=1 # 1 = Dracula, 2 = Catppuccin Frappe, 3 = Catppuccin Mocha
+THEME=2 # 1 = Dracula, 2 = Catppuccin Frappe, 3 = Catppuccin Mocha
 #BAR_TYPE=1 # 1 = , 2 =
 bar_defaults=(
     color=$BAR_COLOR
