@@ -13,7 +13,6 @@
 #+end_html
 
 ** Startup
-
 *** Load Scripting Additions
 
 The following is required to enable scripting additions at startup.
@@ -121,14 +120,20 @@ yabai -m rule --add app="^Discord" space=^9
 # yabai -m space 8 --label "Kitty"
 #+end_src
 
-*** Signals
+** Signals
 
-#+begin_src sh :tangle yabairc
-#--add event=<EVENT> action=<ACTION> [label=<LABEL>] [app[!]=<REGEX>] [title[!]=<REGEX>] [active=yes|no]
-#+end_src
+*** Quit Programs When Last Window Destroyed
 
-Quit Firefox when window is destroyed.
+This type of signal can be used to automatically detect when a program no longer has windows and should be quit. This is a "feature" of macOS that I have always disliked. Let's fix it.
 
 #+begin_src sh :tangle yabairc
 yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'" active=yes
+#+end_src
+
+*** Automatically Resize SketchyBar
+
+Whenever the screen resolution changes, restart sketchybar, which has a helper script to detect the new menu bar height.
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=display_resized action="brew services restart sketchybar"
 #+end_src

@@ -30,6 +30,6 @@ yabai -m rule --add app="^Discord" space=^9
 # yabai -m space 2 --label "Safari"
 # yabai -m space 8 --label "Kitty"
 
-#--add event=<EVENT> action=<ACTION> [label=<LABEL>] [app[!]=<REGEX>] [title[!]=<REGEX>] [active=yes|no]
-
 yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'" active=yes
+
+yabai -m signal --add event=display_resized action="brew services restart sketchybar"
