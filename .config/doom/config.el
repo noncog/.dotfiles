@@ -679,3 +679,9 @@ found, using `org-view-output-file-extensions'."
     :config
     (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
     ))
+
+;; Add an extra line to work around bug in which-key imprecise
+(after! which-key
+  (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
+  (advice-add 'which-key--show-popup :around #'add-which-key-line)
+  )

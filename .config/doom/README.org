@@ -1643,3 +1643,20 @@ Thanks [[https://github.com/elken/doom#fix-c-backspace][Elken]]!
     <<vterm-config>>
     ))
 #+end_src
+
+* Which-Key
+
+[[https://github.com/justbur/emacs-which-key][Which-Key]] is a minor-mode for Emacs that displays keybinds for your currently unfinished inputs.
+
+
+** Fix Height issue
+
+I was having an issue using =emacsclient= where which-key was being cut off below the modeline. A simple solution (found [[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][here]]) is to add spaces below the keybinds. Realistically this doesn't work everywhere but it's good enough for now.
+
+#+begin_src emacs-lisp
+;; Add an extra line to work around bug in which-key imprecise
+(after! which-key
+  (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
+  (advice-add 'which-key--show-popup :around #'add-which-key-line)
+  )
+#+end_src
