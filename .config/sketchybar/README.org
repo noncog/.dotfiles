@@ -57,7 +57,7 @@ FONT="Hack Nerd Font"
 This custom variable controls the theme of the bar.
 
 #+begin_src sh :tangle no :noweb-ref defaults
-THEME=1 # 1 = Dracula, 2 = Catppuccin Frappe, 3 = Catppuccin Mocha
+THEME=2 # 1 = Dracula, 2 = Catppuccin Frappe, 3 = Catppuccin Mocha
 #+end_src
 
 **** Bar Type

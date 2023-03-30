@@ -23,6 +23,7 @@ do
             background.height=20                       \
             background.drawing=off                     \
             label.drawing=off                          \
+            icon.highlight_color=$RED                  \
             script="$PLUGIN_DIR/spaces/space.sh"       \
             click_script="yabai -m space --focus $space_match"
     else
