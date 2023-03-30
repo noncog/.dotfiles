@@ -1,0 +1,9 @@
+user_pref("places.history.enabled", false);
+user_pref("browser.urlbar.shortcuts.bookmarks", false);
+user_pref("browser.urlbar.shortcuts.history", false);
+user_pref("extensions.pocket.enabled", false);
+user_pref("extensions.formautofill.addresses.enabled", false);
+user_pref("browser.urlbar.suggest.bookmark", false);
+user_pref("browser.urlbar.suggest.engines", false);
+user_pref("browser.urlbar.suggest.history", false);
+user_pref("browser.urlbar.suggest.openpage", false);
