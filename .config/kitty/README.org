@@ -175,13 +175,6 @@ map cmd+shift+minus change_font_size all -2.0
 
 * Mac Specific Settings
 
-#+begin_src conf :tangle kitty.conf
-hide_window_decorations no
-macos_hide_from_tasks no
-macos_quit_when_last_window_closed yes
-macos_option_as_alt no
-#allow_remote_control yes
-#+end_src
 
 ** Fix ZSH Line Editor Controls
 
@@ -196,6 +189,16 @@ include ${KITTY_OS}.conf
 #+end_src
 
 This allows me to apply these fixes only on macOS.
+
+*** General Settings
+
+#+begin_src conf :tangle macos.conf
+hide_window_decorations titlebar-only
+macos_hide_from_tasks no
+macos_quit_when_last_window_closed yes
+macos_option_as_alt no
+#allow_remote_control yes
+#+end_src
 
 *** "Control" Keybinds
 
