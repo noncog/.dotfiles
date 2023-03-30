@@ -451,27 +451,27 @@ found, using `org-view-output-file-extensions'."
 (use-package! engrave-faces-html
   :after ox-html)
 
-;; (use-package! org-modern
-;;   :hook (org-mode . org-modern-mode)
-;;   :config
-;;   (setq org-modern-hide-stars nil                     ; Let Org handle hiding the stars. Caused issue.
-;;         org-modern-table-vertical 1                   ; Use thinner lines than default.
-;;         org-modern-table-horizontal 0.2               ; Unify line thickness with vertical line.
-;;         org-modern-progress nil                       ; Use default progress face.
-;;         org-modern-priority nil                       ; Use default priority face.
-;;         org-modern-todo-faces                         ; Inherit Doom's Org faces.
-;;         '(("TODO" :inverse-video t :inherit org-todo)
-;;           ("PROJ" :inverse-video t :inherit +org-todo-project)
-;;           ("STRT" :inverse-video t :inherit +org-todo-active)
-;;           ("[-]"  :inverse-video t :inherit +org-todo-active)
-;;           ("HOLD" :inverse-video t :inherit +org-todo-onhold)
-;;           ("WAIT" :inverse-video t :inherit +org-todo-onhold)
-;;           ("[?]"  :inverse-video t :inherit +org-todo-onhold)
-;;           ("KILL" :inverse-video t :inherit +org-todo-cancel)
-;;           ("NO"   :inverse-video t :inherit +org-todo-cancel))
-;;         org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
-;;         org-modern-horizontal-rule (make-string 36 ?─))
-;;   )
+(use-package! org-modern
+  :hook (org-mode . org-modern-mode)
+  :config
+  (setq org-modern-hide-stars nil                     ; Let Org handle hiding the stars. Caused issue.
+        org-modern-table-vertical 1                   ; Use thinner lines than default.
+        org-modern-table-horizontal 0.2               ; Unify line thickness with vertical line.
+        org-modern-progress nil                       ; Use default progress face.
+        org-modern-priority nil                       ; Use default priority face.
+        org-modern-todo-faces                         ; Inherit Doom's Org faces.
+        '(("TODO" :inverse-video t :inherit org-todo)
+          ("PROJ" :inverse-video t :inherit +org-todo-project)
+          ("STRT" :inverse-video t :inherit +org-todo-active)
+          ("[-]"  :inverse-video t :inherit +org-todo-active)
+          ("HOLD" :inverse-video t :inherit +org-todo-onhold)
+          ("WAIT" :inverse-video t :inherit +org-todo-onhold)
+          ("[?]"  :inverse-video t :inherit +org-todo-onhold)
+          ("KILL" :inverse-video t :inherit +org-todo-cancel)
+          ("NO"   :inverse-video t :inherit +org-todo-cancel))
+        org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
+        org-modern-horizontal-rule (make-string 36 ?─))
+  )
 
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)

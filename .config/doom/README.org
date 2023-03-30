@@ -1078,11 +1078,11 @@ No configuration, just enable it.
 ** No Web Assembly :noexport:
 
 #+begin_src emacs-lisp :noweb no-export
-;; (use-package! org-modern
-;;   :hook (org-mode . org-modern-mode)
-;;   :config
-;;   <<org-modern-config>>
-;;   )
+(use-package! org-modern
+  :hook (org-mode . org-modern-mode)
+  :config
+  <<org-modern-config>>
+  )
 #+end_src
 
 * Org Appear
