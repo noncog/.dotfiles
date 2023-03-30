@@ -2,7 +2,6 @@
 launchctl unload -F /System/Library/LaunchAgents/com.apple.OSDUIHelper.plist >/dev/null 2>&1 &
 
 PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
-#ITEMS_DIR="$HOME/.config/sketchybar/items"
 
 BLACK=0xff000000
 WHITE=0xffffffff
@@ -86,32 +85,6 @@ else
     #HIGHLIGHT_COLOR=
 fi
 
-#source "$PLUGIN_DIR/weather/item.sh"
-# Some items refresh on a fixed cycle, e.g. the clock runs its script once
-# every 10s. Other items respond to events they subscribe to, e.g. the
-# volume.sh script is only executed once an actual change in system audio
-# volume is registered. More info about the event system can be found here:
-# https://felixkratz.github.io/SketchyBar/config/events
-
-# sketchybar --add item clock right                              \
-#            --set clock   update_freq=10                        \
-#                          icon=                                \
-#                          script="$PLUGIN_DIR/clock.sh"         \
-#                                                                \
-# sketchybar
-#            --add item wifi right                              \
-#            --set wifi    script="$PLUGIN_DIR/wifi/script.sh"  \
-#                          icon=直                               \
-#            --subscribe wifi wifi_change
-#                                                                \
-#            --add item volume right                             \
-#            --set volume  script="$PLUGIN_DIR/volume.sh"        \
-#            --subscribe volume volume_change                    \
-#                                                                \
-#            --add item battery right                            \
-#            --set battery script="$PLUGIN_DIR/battery.sh"       \
-#                          update_freq=120                       \
-#            --subscribe battery system_woke power_source_change
 PADDING=4
 FONT="Hack Nerd Font"
 #FONT_LABEL=
@@ -175,60 +148,8 @@ sketchybar --default updates=when_shown \
     "${background_defaults[@]}" \
     "${popup_defaults[@]}"
 
-##### Adding Mission Control Space Indicators #####
-# Now we add some mission control spaces:
-# https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
-# to indicate active and available mission control spaces
+source "$PLUGIN_DIR/spaces/item.sh"
 
-# SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
-
-# for i in "${!SPACE_ICONS[@]}"
-# do
-#   sid=$(($i+1))
-#   sketchybar --add space space.$sid left                                 \
-#              --set space.$sid associated_space=$sid                      \
-#                               icon=${SPACE_ICONS[i]}                     \
-#                               background.color=0x44ffffff                \
-#                               background.corner_radius=5                 \
-#                               background.height=20                       \
-#                               background.drawing=off                     \
-#                               label.drawing=off                          \
-#                               script="$PLUGIN_DIR/spaces/space.sh"       \
-#                               click_script="yabai -m space --focus $sid"
-# done
-
-space_icons=(
-    Emacs=""
-    Safari=""
-    kitty=""
-    Anki="4"
-)
-
-#spaces_query="$(yabai -m query --spaces)"
-spaces_query="$(yabai -m query --windows)"
-for icon in "${space_icons[@]}"
-do
-    #space_match=$(echo "$spaces_query" | jq 'map(select(."label" == "'"${icon%=*}"'"))[0].index')
-    space_match=$(echo "$spaces_query" | jq 'map(select(."app" == "'"${icon%=*}"'"))[0].space')
-
-    if [[ ! "$space_match" == null ]]; then
-        sketchybar --add space "${icon%=*}" left \
-            --set "${icon%=*}" associated_space="$space_match" \
-            icon="${icon#*=}" \
-            background.color=0x44ffffff                \
-            background.corner_radius=5                 \
-            background.height=20                       \
-            background.drawing=off                     \
-            label.drawing=off                          \
-            script="$PLUGIN_DIR/spaces/space.sh"       \
-            click_script="yabai -m space --focus $space_match"
-    else
-        echo "found icon: $icon at: $space_match"
-    fi
-done
-
-source "$PLUGIN_DIR/date/item.sh"
-source "$PLUGIN_DIR/wifi/item.sh"
 sketchybar --add item space_separator left                         \
            --set space_separator icon=                            \
                                  padding_left=10                   \
@@ -239,6 +160,9 @@ sketchybar --add item space_separator left                         \
            --set front_app       script="$PLUGIN_DIR/front_app.sh" \
                                  icon.drawing=off                  \
            --subscribe front_app front_app_switched
+# none yet
+source "$PLUGIN_DIR/date/item.sh"
+source "$PLUGIN_DIR/wifi/item.sh"
 # Some items refresh on a fixed cycle, e.g. the clock runs its script once
 # every 10s. Other items respond to events they subscribe to, e.g. the
 # volume.sh script is only executed once an actual change in system audio
