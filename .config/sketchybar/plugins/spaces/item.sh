@@ -2,7 +2,7 @@
 
 space_icons=(
     Emacs=""
-    Safari=""
+    Firefox=""
     kitty=""
     Anki="4"
 )
