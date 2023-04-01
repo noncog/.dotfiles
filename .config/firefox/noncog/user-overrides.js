@@ -7,3 +7,4 @@ user_pref("browser.urlbar.suggest.bookmark", false);
 user_pref("browser.urlbar.suggest.engines", false);
 user_pref("browser.urlbar.suggest.history", false);
 user_pref("browser.urlbar.suggest.openpage", false);
+user_pref("full-screen-api.ignore-widgets", true);
