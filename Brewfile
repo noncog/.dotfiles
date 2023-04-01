@@ -36,7 +36,7 @@ brew "ripgrep"
 brew "shellcheck"
 brew "showkey"
 brew "zshdb"
-brew "d12frosted/emacs-plus/emacs-plus@28", args: ["with-mailutils", "with-modern-doom3-icon", "with-native-comp", "with-no-frame-refocus", "with-no-titlebar", "with-xwidgets"]
+brew "d12frosted/emacs-plus/emacs-plus@28", args: ["with-mailutils", "with-modern-doom3-icon", "with-native-comp", "with-no-frame-refocus", "with-no-titlebar-and-round-corners", "with-xwidgets"]
 brew "felixkratz/formulae/sketchybar"
 brew "koekeishiya/formulae/skhd"
 brew "koekeishiya/formulae/yabai"
