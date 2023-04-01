@@ -685,3 +685,6 @@ found, using `org-view-output-file-extensions'."
   (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
   (advice-add 'which-key--show-popup :around #'add-which-key-line)
   )
+
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override nil))

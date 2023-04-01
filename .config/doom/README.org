@@ -1648,7 +1648,6 @@ Thanks [[https://github.com/elken/doom#fix-c-backspace][Elken]]!
 
 [[https://github.com/justbur/emacs-which-key][Which-Key]] is a minor-mode for Emacs that displays keybinds for your currently unfinished inputs.
 
-
 ** Fix Height issue
 
 I was having an issue using =emacsclient= where which-key was being cut off below the modeline. A simple solution (found [[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][here]]) is to add spaces below the keybinds. Realistically this doesn't work everywhere but it's good enough for now.
@@ -1659,4 +1658,17 @@ I was having an issue using =emacsclient= where which-key was being cut off belo
   (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
   (advice-add 'which-key--show-popup :around #'add-which-key-line)
   )
+#+end_src
+
+* Persp-Mode
+
+[[https://github.com/Bad-ptr/persp-mode.el][Persp-Mode]] is used by Doom to manage workspaces across frames.
+
+** Disable Features
+
+By default, when using emacsclient, Doom creates a new workspace for each emacsclient window. I don't want this, so we'll disable it.
+
+#+begin_src emacs-lisp
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override nil))
 #+end_src
