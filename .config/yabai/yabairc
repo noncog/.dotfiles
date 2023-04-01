@@ -36,3 +36,5 @@ yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -
 yabai -m signal --add event=display_resized action="brew services restart sketchybar"
 
 yabai -m signal --add event=window_destroyed app="^Emacs$" action="yabai -m display --focus 1" active=yes
+
+yabai -m signal --add event=window_created app="^Emacs$" action=" yabai -m display --focus 1"

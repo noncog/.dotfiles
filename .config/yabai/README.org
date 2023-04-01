@@ -139,10 +139,16 @@ Whenever the screen resolution changes, restart sketchybar, which has a helper s
 yabai -m signal --add event=display_resized action="brew services restart sketchybar"
 #+end_src
 
-*** Focus Emacs Windows After Closing Another
+*** Fix Emacs Window Focus
 
 This is an issue that arises for me using =emacsclient= and a patch from emacs-plus: =--with-no-frame-refocus=. This fix automatically refocuses an Emacs window in the space after I close one. The reason I'm using this patch is to prevent the default behavior where Emacs will focus another frame if you close one. This is intended for use with emacs-everywhere and org-protocol.
 
 #+begin_src sh :tangle yabairc
 yabai -m signal --add event=window_destroyed app="^Emacs$" action="yabai -m display --focus 1" active=yes
+#+end_src
+
+This fix ensures the newly created Emacs window gains the focus.
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_created app="^Emacs$" action=" yabai -m display --focus 1"
 #+end_src
