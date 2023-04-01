@@ -4,11 +4,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Set XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# Add Doom to $PATH.
-PATH="$PATH:$HOME/.config/emacs/bin"
+# Add Doom wrapper scrpt to $PATH.
+PATH="$PATH:$HOME/.config/doom/wrapper"
 
 # Set Doom environment variables.
-export EMACS="emacsclient -c -a emacs"
 export DOOMDIR="$HOME/.config/doom"
 export EMACSDIR="$HOME/.config/emacs"
 
