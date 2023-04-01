@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+if [ "$1" == "sync" ]; then
+    case "$OSTYPE" in
+        linux*)
+            echo "it's linux... TODO add service restarting support"
+            ;;
+        darwin*)
+            emacs_service="$(brew services list | grep "^emacs" | awk '{print $1}')"
+            brew services stop "$emacs_service"
+            "$HOME"/.config/emacs/bin/doom sync
+            brew services start "$emacs_service"
+            ;;
+        *)
+            echo "OS not supported"
+            ;;
+    esac
+else
+    "$HOME"/.config/emacs/bin/doom "$1"
+fi
