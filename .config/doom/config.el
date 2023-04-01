@@ -473,6 +473,10 @@ found, using `org-view-output-file-extensions'."
         org-modern-horizontal-rule (make-string 36 ?─))
   )
 
+(use-package! org-modern-indent
+  :config ; add late to hook
+  (add-hook 'org-mode-hook #'org-modern-indent-mode 1))
+
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
   :config

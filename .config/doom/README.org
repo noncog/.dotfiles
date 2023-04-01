@@ -307,6 +307,9 @@ I put the additional packages here instead of in their package configurations so
 ;; (package! org-super-agenda
 ;;   :recipe (:host github :repo "alphapapa/org-super-agenda")
 ;;   :pin "")
+(package! org-modern-indent                         ; Adds back fringe on source blocks but with indentation.
+  :recipe (:host github :repo "jdtsmith/org-modern-indent")
+  :pin "c5a50f302dc1053d5b498e0ea2bc0ee233e8e1b8")
 #+end_src
 
 ** TODO Package Configuration in Doom
@@ -1083,6 +1086,14 @@ No configuration, just enable it.
   :config
   <<org-modern-config>>
   )
+#+end_src
+
+* Org Modern Indent
+
+#+begin_src emacs-lisp
+(use-package! org-modern-indent
+  :config ; add late to hook
+  (add-hook 'org-mode-hook #'org-modern-indent-mode 1))
 #+end_src
 
 * Org Appear

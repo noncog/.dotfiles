@@ -62,3 +62,6 @@
 ;; (package! org-super-agenda
 ;;   :recipe (:host github :repo "alphapapa/org-super-agenda")
 ;;   :pin "")
+(package! org-modern-indent                         ; Adds back fringe on source blocks but with indentation.
+  :recipe (:host github :repo "jdtsmith/org-modern-indent")
+  :pin "c5a50f302dc1053d5b498e0ea2bc0ee233e8e1b8")
