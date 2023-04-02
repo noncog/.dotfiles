@@ -1215,30 +1215,6 @@ I use the same convention for project location on each OS I use.
 (setq projectile-project-search-path '("~/Projects"))
 #+end_src
 
-*** Set Ignored Directories
-
-TODO: I need to find a fix for these, neither work correctly. I believe that it has something to do with unexpanded directory names and regular expressions.
-
-**** Doom
-
-#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-;; (add-to-list 'projectile-globally-ignored-directories "~/.config/emacs")
-;; (add-to-list 'projectile-ignored-projects "~/.config/emacs")
-#+end_src
-
-**** Homebrew
-
-#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-;; (add-to-list 'projectile-globally-ignored-directories "/opt/homebrew")
-;; (add-to-list 'projectile-ignored-projects "/opt/homebrew")
-#+end_src
-
-*** Auto Discover Projects
-
-#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-(setq projectile-auto-discover t)
-#+end_src
-
 *** List Uncommitted Projects
 
 I add a keybind to quickly view which projects have uncommitted changes.
@@ -1248,15 +1224,6 @@ I add a keybind to quickly view which projects have uncommitted changes.
       :leader
       :desc "List dirty projects"
       "p l" #'projectile-browse-dirty-projects)
-#+end_src
-
-** Hook
-*** Remove Ignored
-
-I have to force Projectile to constantly remove ignored files and directories when entering and leaving. Otherwise, it won't ignore what it should.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref projectile-hook
-(projectile-mode . projectile-remove-ignored)
 #+end_src
 
 ** No Web Assembly :noexport:
