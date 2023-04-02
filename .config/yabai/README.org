@@ -169,3 +169,9 @@ This fix effectively reloads the Emacs space whenever Doom's big font mode resiz
 #+begin_src sh :tangle yabairc
 yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m space 1 --balance" active=yes
 #+end_src
+
+This fix refocuses Emacs after a finder window is closed.
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m display --focus 1" active=no
+#+end_src

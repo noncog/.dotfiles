@@ -47,3 +47,5 @@ yabai -m signal --add event=window_destroyed app="^Emacs$" action="yabai -m disp
 yabai -m signal --add event=window_created app="^Emacs$" action="yabai -m display --focus 1"
 
 yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m space 1 --balance" active=yes
+
+yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m display --focus 1" active=no
