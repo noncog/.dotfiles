@@ -402,7 +402,7 @@ First, I define a constant to set the file to be shown.
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-init
-(set-popup-rule! "^gtd.org" :side 'right :vslot -1 :width 60 :modeline t :select t :quit nil)
+;;(set-popup-rule! "^gtd.org" :side 'right :vslot -1 :width 60 :modeline t :select t :quit nil)
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-init
