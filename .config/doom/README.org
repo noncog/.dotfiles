@@ -1027,7 +1027,7 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
 
 [[https://github.com/tecosaur/engrave-faces][Engrave Faces]] is a generic exporter that passes a fontified buffer to a backend to be exported to a particular format.
 
-It provides theming and syntax highlighting in code blocks for our org-latex pdf exports!
+It provides theming and syntax highlighting in code blocks for our org-mode html and latex exports!
 
 #+begin_src emacs-lisp
 (use-package! engrave-faces-latex
