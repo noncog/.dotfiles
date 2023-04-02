@@ -298,7 +298,7 @@ I put the additional packages here instead of in their package configurations so
   :recipe (:host github :repo "tecosaur/engrave-faces")
   :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
 (package! org-modern                                ; Adds modern look to Org.
-  :pin "c9c0c5135a66382f55681bc84f3a2658a7c8ac76")
+  :pin "b614ad31d72c49f9eb29d3836995fd7fb0d1fd4a")
 (package! org-appear                                ; Makes invisible Org elements appear!
   :recipe (:host github :repo "awth13/org-appear")
   :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
