@@ -150,5 +150,11 @@ yabai -m signal --add event=window_destroyed app="^Emacs$" action="yabai -m disp
 This fix ensures the newly created Emacs window gains the focus.
 
 #+begin_src sh :tangle yabairc
-yabai -m signal --add event=window_created app="^Emacs$" action=" yabai -m display --focus 1"
+yabai -m signal --add event=window_created app="^Emacs$" action="yabai -m display --focus 1"
+#+end_src
+
+This fix effectively reloads the Emacs space whenever Doom's big font mode resizes the frame when using emacsclient.
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m space 1 --balance" active=yes
 #+end_src
