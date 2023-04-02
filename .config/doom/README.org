@@ -1075,7 +1075,8 @@ No configuration, just enable it.
         ("KILL" :inverse-video t :inherit +org-todo-cancel)
         ("NO"   :inverse-video t :inherit +org-todo-cancel))
       org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
-      org-modern-horizontal-rule (make-string 36 ?─))
+      org-modern-horizontal-rule (make-string 80 ?─)
+      )
 #+end_src
 
 ** No Web Assembly :noexport:
