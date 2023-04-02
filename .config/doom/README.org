@@ -1683,3 +1683,19 @@ By default, when using emacsclient, Doom creates a new workspace for each emacsc
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override nil))
 #+end_src
+
+* Visual Fill Column
+
+[[https://codeberg.org/joostkremers/visual-fill-column][visual-fill-column]] is an Emacs minor mode that enables word wrapping at a column and centering the buffer content.
+
+I use this to center org-mode buffers primarily. In Doom, I get this package by enabling the zen module, which is totally compatible with using visual-fill-column in this way.
+
+#+begin_src emacs-lisp
+(defun noncog/org-mode-visual-fill ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package! visual-fill-column
+  :hook (org-mode . noncog/org-mode-visual-fill))
+#+end_src

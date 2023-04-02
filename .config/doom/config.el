@@ -692,3 +692,11 @@ found, using `org-view-output-file-extensions'."
 
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override nil))
+
+(defun noncog/org-mode-visual-fill ()
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package! visual-fill-column
+  :hook (org-mode . noncog/org-mode-visual-fill))
