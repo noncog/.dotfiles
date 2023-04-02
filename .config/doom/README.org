@@ -238,7 +238,30 @@ I configure how Mac's modifier keys should be interpreted by Emacs.
 
 This section is for adding external packages to Doom. This is tangled to [[file:packages.el][packages.el]].
 
-I put the additional packages here instead of in their package configurations so I can easily see and manage the packages I've added to Doom.
+I put the additional packages here instead of in their package configurations so I can easily find and manage the packages that I add.
+
+#+begin_src emacs-lisp :tangle packages.el
+; Adds theming to source block exports.
+(package! engrave-faces
+  :recipe (:host github :repo "tecosaur/engrave-faces")
+  :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
+; Adds modern look to Org.
+(package! org-modern
+  :pin "b614ad31d72c49f9eb29d3836995fd7fb0d1fd4a")
+; Adds source block fringe but with indentation, unlike org-modern.
+(package! org-modern-indent
+  :recipe (:host github :repo "jdtsmith/org-modern-indent")
+  :pin "c5a50f302dc1053d5b498e0ea2bc0ee233e8e1b8")
+; Makes invisible Org elements appear!
+(package! org-appear
+  :recipe (:host github :repo "awth13/org-appear")
+  :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
+; Toggles LaTeX previews like org-appear.
+(package! org-fragtog
+  :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
+#+end_src
+
+** Adding Packages to Doom :noexport:
 
 #+begin_src emacs-lisp :tangle packages.el :exports none
 ;; -*- no-byte-compile: t; -*-
@@ -293,30 +316,11 @@ I put the additional packages here instead of in their package configurations so
 ;(unpin! t)
 #+end_src
 
-#+begin_src emacs-lisp :tangle packages.el
-(package! engrave-faces                             ; Adds theming to source block exports.
-  :recipe (:host github :repo "tecosaur/engrave-faces")
-  :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
-(package! org-modern                                ; Adds modern look to Org.
-  :pin "b614ad31d72c49f9eb29d3836995fd7fb0d1fd4a")
-(package! org-appear                                ; Makes invisible Org elements appear!
-  :recipe (:host github :repo "awth13/org-appear")
-  :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
-(package! org-fragtog                               ; Toggles LaTeX previews like org-appear.
-  :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
-;; (package! org-super-agenda
-;;   :recipe (:host github :repo "alphapapa/org-super-agenda")
-;;   :pin "")
-(package! org-modern-indent                         ; Adds back fringe on source blocks but with indentation.
-  :recipe (:host github :repo "jdtsmith/org-modern-indent")
-  :pin "c5a50f302dc1053d5b498e0ea2bc0ee233e8e1b8")
-#+end_src
-
-** TODO Package Configuration in Doom
+** Package Configuration in Doom :noexport:
 
 This is how Doom recommends we configure our packages:
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :exports none
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -350,7 +354,7 @@ This is how Doom recommends we configure our packages:
 ;; they are implemented.
 #+end_src
 
-** TODO On Use-Package
+** On Use-Package :noexport:
 
 [[https://github.com/jwiegley/use-package][Use-Package]] provides a set of macros to load and configure packages. With that in mind, the macros it provides need to be used correctly. Here are a few tips.
 
@@ -369,10 +373,9 @@ This is how Doom recommends we configure our packages:
 - :bind -
 - :bind-keymap -
 
-** TODO On Doom Macros and Variables
+** On Doom Macros and Variables :noexport:
 
 Doom also provides us with a set of macros
-
 * Org
 
 [[https://orgmode.org/][Org Mode]] describes itself as, "a GNU Emacs major mode for keeping notes, authoring documents, computational notebooks, literate programming, maintaining to-do lists, planning projects, and more — in a fast and effective plain text system."

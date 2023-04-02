@@ -1,3 +1,22 @@
+; Adds theming to source block exports.
+(package! engrave-faces
+  :recipe (:host github :repo "tecosaur/engrave-faces")
+  :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
+; Adds modern look to Org.
+(package! org-modern
+  :pin "b614ad31d72c49f9eb29d3836995fd7fb0d1fd4a")
+; Adds source block fringe but with indentation, unlike org-modern.
+(package! org-modern-indent
+  :recipe (:host github :repo "jdtsmith/org-modern-indent")
+  :pin "c5a50f302dc1053d5b498e0ea2bc0ee233e8e1b8")
+; Makes invisible Org elements appear!
+(package! org-appear
+  :recipe (:host github :repo "awth13/org-appear")
+  :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
+; Toggles LaTeX previews like org-appear.
+(package! org-fragtog
+  :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
+
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
@@ -48,20 +67,3 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
-
-(package! engrave-faces                             ; Adds theming to source block exports.
-  :recipe (:host github :repo "tecosaur/engrave-faces")
-  :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
-(package! org-modern                                ; Adds modern look to Org.
-  :pin "b614ad31d72c49f9eb29d3836995fd7fb0d1fd4a")
-(package! org-appear                                ; Makes invisible Org elements appear!
-  :recipe (:host github :repo "awth13/org-appear")
-  :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
-(package! org-fragtog                               ; Toggles LaTeX previews like org-appear.
-  :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
-;; (package! org-super-agenda
-;;   :recipe (:host github :repo "alphapapa/org-super-agenda")
-;;   :pin "")
-(package! org-modern-indent                         ; Adds back fringe on source blocks but with indentation.
-  :recipe (:host github :repo "jdtsmith/org-modern-indent")
-  :pin "c5a50f302dc1053d5b498e0ea2bc0ee233e8e1b8")
