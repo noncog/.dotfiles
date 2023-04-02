@@ -130,7 +130,7 @@ found, using `org-view-output-file-extensions'."
       (if (get-file-buffer noncog/gtd-file)
           (progn(kill-buffer (get-file-buffer noncog/gtd-file))(message "Killed GTD buffer."))
         (progn(display-buffer (find-file-noselect noncog/gtd-file))(message "Opened GTD buffer."))))
-    (set-popup-rule! "^gtd.org" :side 'right :vslot -1 :width 60 :modeline t :select t :quit nil)
+    ;;(set-popup-rule! "^gtd.org" :side 'right :vslot -1 :width 60 :modeline t :select t :quit nil)
     (map! :leader :desc "Open gtd.org" "o g" #'noncog/toggle-gtd) ; evil style
     :config
     (setq org-agenda-files (list
@@ -521,8 +521,6 @@ found, using `org-view-output-file-extensions'."
 
 (after! projectile
   (use-package! projectile
-    :hook
-    
     :config
     (setq projectile-project-search-path '("~/Projects"))
     (map! :map project-prefix-map

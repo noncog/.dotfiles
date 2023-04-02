@@ -1232,8 +1232,6 @@ I add a keybind to quickly view which projects have uncommitted changes.
 #+begin_src emacs-lisp :noweb no-export
 (after! projectile
   (use-package! projectile
-    :hook
-    <<projectile-hook>>
     :config
     <<projectile-config>>
     ))
