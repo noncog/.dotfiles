@@ -470,7 +470,8 @@ found, using `org-view-output-file-extensions'."
           ("KILL" :inverse-video t :inherit +org-todo-cancel)
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
         org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
-        org-modern-horizontal-rule (make-string 36 ?─))
+        org-modern-horizontal-rule (make-string 80 ?─)
+        )
   )
 
 (use-package! org-modern-indent
@@ -521,14 +522,9 @@ found, using `org-view-output-file-extensions'."
 (after! projectile
   (use-package! projectile
     :hook
-    (projectile-mode . projectile-remove-ignored)
+    
     :config
     (setq projectile-project-search-path '("~/Projects"))
-    ;; (add-to-list 'projectile-globally-ignored-directories "~/.config/emacs")
-    ;; (add-to-list 'projectile-ignored-projects "~/.config/emacs")
-    ;; (add-to-list 'projectile-globally-ignored-directories "/opt/homebrew")
-    ;; (add-to-list 'projectile-ignored-projects "/opt/homebrew")
-    (setq projectile-auto-discover t)
     (map! :map project-prefix-map
           :leader
           :desc "List dirty projects"
