@@ -566,8 +566,7 @@ found, using `org-view-output-file-extensions'."
 
 (after! yasnippet
   (use-package! yasnippet
-    ;(setq yas-indent-line 'fixed)
-    ;(setq yas-triggers-in-field t)
+    (setq yas-triggers-in-field t)
     ))
 
 (after! magit

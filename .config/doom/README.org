@@ -1376,11 +1376,10 @@ Found [[https://github.com/vedang/pdf-tools/issues/173#issuecomment-1341882242][
 - [[https://github.com/doomemacs/snippets][Doom Snippets]]
 
 ** Config
-*** TODO Behavior
+*** Enable Nested Snippets
 
 #+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
-;(setq yas-indent-line 'fixed)
-;(setq yas-triggers-in-field t)
+(setq yas-triggers-in-field t)
 #+end_src
 
 ** No Web Assembly :noexport:
