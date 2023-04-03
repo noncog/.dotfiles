@@ -644,14 +644,14 @@ found, using `org-view-output-file-extensions'."
              (or (not (memq 'summary-title-not-end-in-punctuation my-git-commit-style-convention-checks))
                 (not (string-match-p "[\\.!\\?;,:]$" commit-title))
                 (y-or-n-p "Commit title ends with punctuation. Commit anyway?"))))))
-  (setq commit-types-file "~/.config/git/commit-types")
+  (setq commit-types-file "~/.config/git/commit/commit-types")
   (defun get-commit-types ()
     "Return a list of commit types."
     (let ((file-path commit-types-file))
       (with-temp-buffer
         (insert-file-contents file-path)
         (split-string (buffer-string) "\n" t))))
-  (setq imperative-verbs-file "~/.config/git/imperative-verbs")
+  (setq imperative-verbs-file "~/.config/git/commit/imperative-verbs")
   (defun get-imperative-verbs ()
     "Return a list of imperative verbs."
     (let ((file-path imperative-verbs-file))

@@ -4,7 +4,7 @@
 [init]
 	defaultBranch = main
 [commit]
-	template = ~/.config/git/commit-message
+	template = ~/.config/git/commit/commit-message
 [pull]
 	ff = only
 [diff "lisp"]
