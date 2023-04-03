@@ -1354,7 +1354,7 @@ Downloads the jar file if it's not on the system.
 Found [[https://github.com/vedang/pdf-tools/issues/173#issuecomment-1341882242][here]].
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pdf-tools-config
-(add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode)
+(when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
 #+end_src
 
 ** No Web Assembly :noexport:
@@ -1387,6 +1387,7 @@ Found [[https://github.com/vedang/pdf-tools/issues/173#issuecomment-1341882242][
 #+begin_src emacs-lisp :noweb no-export
 (after! yasnippet
   (use-package! yasnippet
+    :config
     <<yasnippet-config>>
     ))
 #+end_src

@@ -561,11 +561,12 @@ found, using `org-view-output-file-extensions'."
 (after! pdf-tools
   (use-package! pdf-tools
     :config
-    (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode)
+    (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
     ))
 
 (after! yasnippet
   (use-package! yasnippet
+    :config
     (setq yas-triggers-in-field t)
     ))
 
