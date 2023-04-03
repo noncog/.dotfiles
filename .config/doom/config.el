@@ -3,7 +3,7 @@
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
 
-(setq org-directory "~/Documents/org/")
+(setq org-directory "~/Projects/exocortex/")
 
 (global-auto-revert-mode 1)
 
@@ -181,13 +181,9 @@ found, using `org-view-output-file-extensions'."
             ("PROJ" . +org-todo-project)
             ("KILL" . +org-todo-cancel)))
     (setq org-capture-templates
-          `(("i" "Inbox")
-            ("it" "Task" entry
-             (file+headline "gtd/inbox.org" "Inbox")
-             "* TODO %?\n%i\n" :prepend t)
-            ("in" "Note" entry
-             (file+headline "gtd/inbox.org" "Inbox")
-             "* NOTE %?\n%i\n" :prepend t)
+          `(("i" "Inbox" entry
+             (file+headline "inbox.org" "Inbox")
+             "* %?\n%i\n" :prepend t)
             ))
     (map! :leader :desc "Org capture" "x" #'org-capture)
     (setq org-return-follows-link t                     ; Pressing enter opens links.
@@ -492,24 +488,49 @@ found, using `org-view-output-file-extensions'."
 (after! org-roam
   (use-package! org-roam
     :init
-    (setq org-roam-directory "~/Documents/org/")
+    (setq org-roam-directory (file-truename "~/Projects/exocortex"))
+    (setq org-roam-db-location (file-truename "~/Projects/exocortex/exocortex.db"))
+    (setq org-attach-id-dir (file-truename "~/Projects/exocortex/attachments"))
+    (setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
+    (setq org-roam-graph-exclude-matcher '("inbox.org"))
     :config
     (org-roam-db-autosync-mode)
     (setq org-roam-capture-templates
-          '(("d" "default" plain "%?" :target
-             (file+head "reference/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
-             :immediate-finish t
-             :unnarrowed t)
-            ("r" "reference" plain "%?" :target
-             (file+head "references/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
-             :immediate-finish t
-             :unnarrowed t)
-            ("t" "topic" plain "%?" :target
-             (file+head "topics/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
+          '(("d" "default" plain
+             "%?"
+             :target
+             (file+head "nodes/${slug}.org"
+                        "#+title: ${title}\n#+filetags: :draft:\n")
              :immediate-finish t
              :unnarrowed t)
             ))
+    ;; TODO: set org-roam-dailies-capture-templates
+    (defun noncog/org-roam-is-draft-p (node)
+      "Is this org-roam node a draft?"
+      (member "draft" (org-roam-node-tags node))
+      )
+    (defun noncog/org-roam-random-draft ()
+      "Get a random node with the draft tag. "
+      (interactive)
+      (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
+    (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
     ))
+
+(use-package! org-roam-ui
+  :after org-roam ;; or :after org
+  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         a hookable mode anymore, you're advised to pick something yourself
+  ;;         if you don't care about startup time, use
+  ;;  :hook (after-init . org-roam-ui-mode)  :config
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start nil))
+
+(map! :leader :desc "Roam-UI graph" "n r g" #'org-roam-ui-open)
+
+(map! :leader :desc "Roam-UI graph here" "n r G" #'org-roam-ui-open)
 
 (after! org-noter
   (use-package! org-noter

@@ -65,7 +65,7 @@ Some functions use this information to identify you. This can include gpg, email
 According to Doom, org's directory must be set early due to it's loading process. Therefore it's not inside the use-package configuration for org-mode.
 
 #+begin_src emacs-lisp
-(setq org-directory "~/Documents/org/")
+(setq org-directory "~/Projects/exocortex/")
 #+end_src
 
 ** Behavior
@@ -259,6 +259,10 @@ I put the additional packages here instead of in their package configurations so
 ; Toggles LaTeX previews like org-appear.
 (package! org-fragtog
   :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
+; Enable org-roam-ui NOTE: Requires latest org-roam
+(unpin! org-roam)
+(package! org-roam-ui
+  :recipe (:host github :repo "org-roam/org-roam-ui"))
 #+end_src
 
 ** Adding Packages to Doom :noexport:
@@ -498,13 +502,9 @@ I have excess keywords on purpose and will likely remove/simplify them when I fi
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-capture-templates
-      `(("i" "Inbox")
-        ("it" "Task" entry
-         (file+headline "gtd/inbox.org" "Inbox")
-         "* TODO %?\n%i\n" :prepend t)
-        ("in" "Note" entry
-         (file+headline "gtd/inbox.org" "Inbox")
-         "* NOTE %?\n%i\n" :prepend t)
+      `(("i" "Inbox" entry
+         (file+headline "inbox.org" "Inbox")
+         "* %?\n%i\n" :prepend t)
         ))
 #+end_src
 
@@ -1135,7 +1135,7 @@ No configuration, just enable it.
 *** Set Roam Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
-(setq org-roam-directory "~/Documents/org/")
+(setq org-roam-directory (file-truename "~/Projects/exocortex"))
 #+end_src
 
 *** Disable If No Roam Directory
@@ -1144,8 +1144,29 @@ Don't use Org Roam if the directory isn't present to avoid errors.
 
 See [[file:config.el][config.el]] to understand how this works. Thanks Teco.
 
-#+begin_src emacs-lisp :tangle (if (file-exists-p "~/Documents/org/") "no" "packages.el")
+#+begin_src emacs-lisp :tangle (if (file-exists-p "~/Projects/exocortex") "no" "packages.el")
 (package! org-roam :disable t)
+#+end_src
+
+*** Set Database Location
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
+(setq org-roam-db-location (file-truename "~/Projects/exocortex/exocortex.db"))
+#+end_src
+
+*** Set Attachments Directory
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
+(setq org-attach-id-dir (file-truename "~/Projects/exocortex/attachments"))
+#+end_src
+
+*** Exclude Directories
+
+Currently not excluding any. This is a place holder for when I do.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
+(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
+(setq org-roam-graph-exclude-matcher '("inbox.org"))
 #+end_src
 
 ** Config
@@ -1155,23 +1176,42 @@ See [[file:config.el][config.el]] to understand how this works. Thanks Teco.
 (org-roam-db-autosync-mode)
 #+end_src
 
-*** Set Capture Templates
+*** Capture Templates
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
 (setq org-roam-capture-templates
-      '(("d" "default" plain "%?" :target
-         (file+head "reference/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
-         :immediate-finish t
-         :unnarrowed t)
-        ("r" "reference" plain "%?" :target
-         (file+head "references/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
-         :immediate-finish t
-         :unnarrowed t)
-        ("t" "topic" plain "%?" :target
-         (file+head "topics/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
+      '(("d" "default" plain
+         "%?"
+         :target
+         (file+head "nodes/${slug}.org"
+                    "#+title: ${title}\n#+filetags: :draft:\n")
          :immediate-finish t
          :unnarrowed t)
         ))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; TODO: set org-roam-dailies-capture-templates
+#+end_src
+
+*** Find Random Draft Nodes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defun noncog/org-roam-is-draft-p (node)
+  "Is this org-roam node a draft?"
+  (member "draft" (org-roam-node-tags node))
+  )
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defun noncog/org-roam-random-draft ()
+  "Get a random node with the draft tag. "
+  (interactive)
+  (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
 #+end_src
 
 ** No Web Assembly :noexport:
@@ -1184,6 +1224,34 @@ See [[file:config.el][config.el]] to understand how this works. Thanks Teco.
     :config
     <<org-roam-config>>
     ))
+#+end_src
+
+* Org Roam UI
+
+[[https://github.com/org-roam/org-roam-ui][org-roam-ui]] is a frontend for exploring and interacting with your org-roam notes.
+
+#+begin_src emacs-lisp
+(use-package! org-roam-ui
+  :after org-roam ;; or :after org
+  ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+  ;;         a hookable mode anymore, you're advised to pick something yourself
+  ;;         if you don't care about startup time, use
+  ;;  :hook (after-init . org-roam-ui-mode)  :config
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start nil))
+#+end_src
+
+** Replace Graph Keybinds with Roam-UI
+
+#+begin_src emacs-lisp
+(map! :leader :desc "Roam-UI graph" "n r g" #'org-roam-ui-open)
+#+end_src
+
+#+begin_src emacs-lisp
+(map! :leader :desc "Roam-UI graph here" "n r G" #'org-roam-ui-open)
 #+end_src
 
 * Org Noter

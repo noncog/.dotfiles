@@ -16,6 +16,10 @@
 ; Toggles LaTeX previews like org-appear.
 (package! org-fragtog
   :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
+; Enable org-roam-ui NOTE: Requires latest org-roam
+(unpin! org-roam)
+(package! org-roam-ui
+  :recipe (:host github :repo "org-roam/org-roam-ui"))
 
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
