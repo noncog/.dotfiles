@@ -1656,7 +1656,19 @@ These are commonly enforced commit length standards.
 
 *** Backend Settings
 
-Currently not modifying the backends. This may change...
+**** Org-mode
+
+#+begin_src emacs-lisp :tangle no :noweb-ref company-config
+(set-company-backend! 'org-mode
+  '(company-capf company-files :with company-yasnippet))
+#+end_src
+
+**** Sh-mode
+
+#+begin_src emacs-lisp :tangle no :noweb-ref company-config
+(set-company-backend! 'sh-mode
+  '(company-shell company-files :with company-yasnippet))
+#+end_src
 
 ** No Web Assembly :noexport:
 

@@ -691,6 +691,10 @@ found, using `org-view-output-file-extensions'."
     (setq company-idle-delay 0.3
           company-tooltip-limit 10
           company-minimum-prefix-length 1)
+    (set-company-backend! 'org-mode
+      '(company-capf company-files :with company-yasnippet))
+    (set-company-backend! 'sh-mode
+      '(company-shell company-files :with company-yasnippet))
     ))
 
 (after! vterm
