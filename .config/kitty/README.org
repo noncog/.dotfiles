@@ -253,7 +253,7 @@ map ctrl+? send_text all \x1b?
 map ctrl+_ send_text all \x1b_
 #+end_src
 
-#+begin_src conf :tangle kitty.conf
+#+begin_src conf :tangle macos.conf
 map ctrl+a send_text all \x1ba
 map ctrl+b send_text all \x1bb
 map ctrl+c send_text all \x1bc
