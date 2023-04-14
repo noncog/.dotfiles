@@ -20,10 +20,22 @@ I use Vim based movement binds with Yabai. These keybinds mirror my Linux config
 *** Focus Window
 
 #+begin_src conf :tangle skhdrc
-alt - h : yabai -m window --focus west
-alt - j : yabai -m window --focus south
-alt - k : yabai -m window --focus north
-alt - l : yabai -m window --focus east
+alt - h [
+  ,*      : yabai -m window --focus west
+  "Emacs" ~
+]
+alt - j  [
+  ,*      : yabai -m window --focus south
+  "Emacs" ~
+]
+alt - k  [
+  ,*      : yabai -m window --focus north
+  "Emacs" ~
+]
+alt - l  [
+  ,*      : yabai -m window --focus east
+  "Emacs" ~
+]
 #+end_src
 
 *** Move Window
@@ -53,13 +65,19 @@ alt - f11 : yabai -m window --toggle zoom-fullscreen
 *** Balance Windows
 
 #+begin_src conf :tangle skhdrc
-alt - 0x18 : yabai -m space --balance
+alt - 0x18  [
+  ,*      : yabai -m space --balance
+  "Emacs" ~
+]
 #+end_src
 
 *** Kill Window
 
 #+begin_src conf :tangle skhdrc
-shift + alt - q : yabai -m window --close
+shift + alt - q  [
+  ,*      : yabai -m window --close
+  "Emacs" ~
+]
 #+end_src
 
 ** General Workspaces

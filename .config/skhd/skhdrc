@@ -1,7 +1,19 @@
-alt - h : yabai -m window --focus west
-alt - j : yabai -m window --focus south
-alt - k : yabai -m window --focus north
-alt - l : yabai -m window --focus east
+alt - h [
+  *      : yabai -m window --focus west
+  "Emacs" ~
+]
+alt - j  [
+  *      : yabai -m window --focus south
+  "Emacs" ~
+]
+alt - k  [
+  *      : yabai -m window --focus north
+  "Emacs" ~
+]
+alt - l  [
+  *      : yabai -m window --focus east
+  "Emacs" ~
+]
 
 shift + alt - h : yabai -m window --swap west
 shift + alt - j : yabai -m window --swap south
@@ -15,9 +27,17 @@ shift + alt + cmd - l : yabai -m window --warp east
 
 alt - f11 : yabai -m window --toggle zoom-fullscreen
 
-alt - 0x18 : yabai -m space --balance
+#alt - 0x18 : yabai -m space --balance
 
-shift + alt - q : yabai -m window --close
+alt - 0x18  [
+  *      : yabai -m space --balance
+  "Emacs" ~
+]
+
+shift + alt - q  [
+  *      : yabai -m window --close
+  "Emacs" ~
+]
 
 alt - 1 : yabai -m space --focus 11
 alt - 2 : yabai -m space --focus 12
