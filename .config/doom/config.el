@@ -59,37 +59,49 @@
 (map! :leader :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer) ;Switch the scratch buffer and org-capture default keybind.
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain) ; evil style
 
-(defun yabai-move-on-error (direction move-fn)
+(defun wm-move-on-error (direction move-fn)
+  (pcase system-type
+    (gnu/linux
+     (condition-case nil (funcall move-fn)
+       (user-error (start-process "wm" nil "i3-msg" "focus" direction))))
+     (darwin
+      (condition-case nil (funcall move-fn)
+        (user-error (start-process "wm" nil "yabai -m window --focus" direction))))))
+
+(defun wm-window-left ()
   (interactive)
-  (condition-case nil
-      (funcall move-fn)
-    (user-error (start-process "yabai" nil "yabai" "-m" "window" "--focus" direction))))
+  (let ((direction (pcase system-type (gnu/linux "left") (darwin "west"))))
+    (yabai-move-on-error direction #'windmove-left)))
 
-(defun yabai-window-left ()
+(defun wm-window-right ()
   (interactive)
-  (yabai-move-on-error "west" #'windmove-left))
+  (let ((direction (pcase system-type (gnu/linux "right") (darwin "east"))))
+    (yabai-move-on-error direction #'windmove-right)))
 
-(defun yabai-window-right ()
+(defun wm-window-up ()
   (interactive)
-  (yabai-move-on-error "east" #'windmove-right))
+  (let ((direction (pcase system-type (gnu/linux "up") (darwin "north"))))
+    (yabai-move-on-error direction #'windmove-up)))
 
-(defun yabai-window-up ()
+(defun wm-window-down ()
   (interactive)
-  (yabai-move-on-error "north" #'windmove-up))
+  (let ((direction (pcase system-type (gnu/linux "down") (darwin "south"))))
+    (yabai-move-on-error direction #'windmove-down)))
 
-(defun yabai-window-down ()
-  (interactive)
-  (yabai-move-on-error "south" #'windmove-down))
+(when IS-MAC
+  (map! "s-h" #'yabai-window-left)
+  (map! "s-j" #'yabai-window-down)
+  (map! "s-k" #'yabai-window-up)
+  (map! "s-l" #'yabai-window-right)
+  (map! "s-=" #'balance-windows)
+  (map! "s-Q" #'evil-quit))
 
-;; NOTE: Will need to be modified to detect OS and be extended for i3.
-(map! "s-h" #'yabai-window-left)
-(map! "s-j" #'yabai-window-down)
-(map! "s-k" #'yabai-window-up)
-(map! "s-l" #'yabai-window-right)
-
-(map! "s-Q" #'evil-quit)
-
-(map! "s-=" #'balance-windows)
+(when IS-LINUX
+  (map! "s-h" #'i3-window-left)
+  (map! "s-j" #'i3-window-down)
+  (map! "s-k" #'i3-window-up)
+  (map! "s-l" #'i3-window-right)
+  (map! "s-S-q" #'evil-quit))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
