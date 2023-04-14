@@ -545,21 +545,59 @@ found, using `org-view-output-file-extensions'."
     (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
     ))
 
+(set-popup-rule! "^*xwidget" :ignore t :side 'left :width 120 :vslot 1 :quit t :select t :modeline nil)
+
+(defcustom org-roam-ui-use-webkit t
+  "Use embedded webkit to preview.
+This requires GNU/Emacs version >= 26 and built with the `--with-xwidgets`
+option."
+  :type 'boolean
+  :group 'roam)
+
+(defun org-roam-ui-browser (url)
+  "Use browser specified by user to load URL.
+Use default browser if nil."
+  (if org-roam-ui-url-browser
+      (let ((browse-url-generic-program org-roam-ui-url-browser)
+            (browse-url-generic-args roam-url-args))
+        (ignore browse-url-generic-program)
+        (ignore browse-url-generic-args)
+        (browse-url-generic url))
+    (browse-url url)))
+
+(defun org-roam-ui-open-url (url)
+  "Ask the browser to load URL.
+Use default browser unless `xwidget' is available."
+  (if (and org-roam-ui-use-webkit
+           (featurep 'xwidget-internal))
+      (progn
+        (save-window-excursion (xwidget-webkit-browse-url url))
+        (let ((buf (xwidget-buffer (xwidget-webkit-current-session))))
+          (when (buffer-live-p buf) (and (eq buf (current-buffer)) (quit-window)))
+          (display-buffer buf)))
+            (let (display-buffer-alist) (org-roam-ui-browser url))))
+
+;;;###autoload
+(define-minor-mode org-roam-ui-open-in-browser
+  "open org-roam-ui in the browser"
+ :lighter "roam"
+ (org-roam-ui-open-url "http://127.0.0.1:35901"))
+
 (use-package! org-roam-ui
-  :after org-roam ;; or :after org
+  ;;:after org-roam ;; or :after org
   ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
   ;;         a hookable mode anymore, you're advised to pick something yourself
   ;;         if you don't care about startup time, use
-  ;;  :hook (after-init . org-roam-ui-mode)  :config
+  :hook (after-init . org-roam-ui-mode)
   :config
   (setq org-roam-ui-sync-theme t
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
         org-roam-ui-open-on-start nil))
 
-(map! :leader :desc "Roam-UI graph" "n r g" #'org-roam-ui-open)
+(map! :leader :desc "Roam-UI graph" "n r g" #'org-roam-ui-open-in-browser)
 
-(map! :leader :desc "Roam-UI graph here" "n r G" #'org-roam-ui-open)
+;(map! :leader :desc "Roam-UI graph here" "n r G" #'org-roam-ui-open)
 
 (after! org-noter
   (use-package! org-noter
