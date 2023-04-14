@@ -28,27 +28,58 @@
 
 (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
      doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
-     ;doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
-     ;doom-unicode-font (font-spec :family "JuliaMono")
-     ;doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light))
-     )
+     doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
+     doom-unicode-font (font-spec :family "JuliaMono")
+     doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light))
 
 ;(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
 
 (setq display-line-numbers-type 'visual)
-
-(display-time-mode 1)
 
 (setq-default x-stretch-cursor t)
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (when IS-MAC (setq mac-command-modifier 'control    ; Maps Control -> Command (macOS)
-                    mac-control-modifier 'meta))    ; Maps Alt (Meta) -> Control (macOS)
+                    mac-control-modifier 'meta      ; Maps Alt (Meta) -> Control (macOS)
+                    mac-option-modifier 'super
+                    ))
 
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 (map! :leader :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer) ;Switch the scratch buffer and org-capture default keybind.
 (map! :leader :desc "Brain.org" "b t" #'noncog/toggle-brain) ; evil style
+
+(defun yabai-move-on-error (direction move-fn)
+  (interactive)
+  (condition-case nil
+      (funcall move-fn)
+    (user-error (start-process "yabai" nil "yabai" "-m" "window" "--focus" direction))))
+
+(defun yabai-window-left ()
+  (interactive)
+  (yabai-move-on-error "west" #'windmove-left))
+
+(defun yabai-window-right ()
+  (interactive)
+  (yabai-move-on-error "east" #'windmove-right))
+
+(defun yabai-window-up ()
+  (interactive)
+  (yabai-move-on-error "north" #'windmove-up))
+
+(defun yabai-window-down ()
+  (interactive)
+  (yabai-move-on-error "south" #'windmove-down))
+
+;; NOTE: Will need to be modified to detect OS and be extended for i3.
+(map! "s-h" #'yabai-window-left)
+(map! "s-j" #'yabai-window-down)
+(map! "s-k" #'yabai-window-up)
+(map! "s-l" #'yabai-window-right)
+
+(map! "s-Q" #'evil-quit)
+
+(map! "s-=" #'balance-windows)
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
