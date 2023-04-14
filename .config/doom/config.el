@@ -163,19 +163,21 @@ found, using `org-view-output-file-extensions'."
     (map! :leader :desc "Open gtd.org" "o g" #'noncog/toggle-gtd) ; evil style
     :config
     (setq org-agenda-files (list
-                            "gtd/inbox.org"
-                            "gtd/gtd.org"
-                            "gtd/calendar.org"
-                            "personal/habits.org"))
+                            "~/Projects/exocortex/nodes/calendar.org"
+                            ;"gtd/inbox.org"
+                            ;"gtd/gtd.org"
+                            ;"personal/habits.org"
+                            ))
     (add-to-list 'org-modules 'org-habit t)             ; Enables org-habit in modules.
     (setq org-habit-show-habits-only-for-today t        ; Ensure habits only shown in one section.
           org-habit-show-all-today t)                   ; Keep habits visible even if done today.
     (setq org-log-done 'time                            ; Add completion time to DONE items.
           org-log-into-drawer t)                        ; Puts log times into a drawer to hide them.
     (setq org-refile-targets
-          '(("gtd.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-            ("calendar.org" :maxlevel . 3)
-            ("someday.org" :maxlevel . 2)))
+          '(;("gtd.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+            ("~/Projects/exocortex/nodes/calendar.org" :maxlevel . 3)
+            ;("someday.org" :maxlevel . 2)
+            ))
     ;; consider adding org-roam directory as the need arises.
     (setq org-todo-keywords
           '((sequence      ; For headings.
@@ -231,7 +233,7 @@ found, using `org-view-output-file-extensions'."
           org-startup-with-inline-images t              ; Show images at startup.
           org-hide-leading-stars t                      ; Remove excess heading stars.
           org-hide-emphasis-markers t                   ; Hide formatting for emphasis markup. See org-appear.
-          org-pretty-entities t                         ; Show entities like sub/superscript as UTF8.
+          org-pretty-entities nil                       ; Show entities like sub/superscript as UTF8.
           org-hidden-keywords nil                       ; Considering using to hide certain keywords with org-appear and org-modern.
           org-src-preserve-indentation t)               ; Prevents changes to whitespace in source blocks.
     (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
@@ -508,7 +510,7 @@ found, using `org-view-output-file-extensions'."
   :config
   (setq org-appear-autoemphasis t                   ; Show emphasis markup.
         org-appear-autosubmarkers t                 ; Show sub/superscript
-        org-appear-autoentities t                   ; Show LaTeX like Org pretty entities.
+        org-appear-autoentities nil                 ; Show LaTeX like Org pretty entities.
         org-appear-autolinks nil                    ; Shows Org links.
         org-appear-autokeywords nil                 ; Shows hidden Org keywords.
         org-appear-inside-latex nil)                ; Show LaTeX code. Use Fragtog instead.
@@ -520,7 +522,7 @@ found, using `org-view-output-file-extensions'."
     (setq org-roam-directory (file-truename "~/Projects/exocortex"))
     (setq org-roam-db-location (file-truename "~/Projects/exocortex/exocortex.db"))
     (setq org-attach-id-dir (file-truename "~/Projects/exocortex/attachments"))
-    (setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
+    ;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
     (setq org-roam-graph-exclude-matcher '("inbox.org"))
     :config
     (org-roam-db-autosync-mode)
@@ -605,6 +607,8 @@ Use default browser unless `xwidget' is available."
     (setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes.
     (setq org-noter-always-create-frame nil)            ; Don't create a new frame for the session.
     (setq org-noter-kill-frame-at-session-end nil)            ; Don't kill any frames since we don't create any.
+    ;;(setq org-noter-notes-window-location 'other-frame)
+    ;;(setq org-noter-notes-search-path '(""))
     ))
 
 (after! projectile

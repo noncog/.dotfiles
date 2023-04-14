@@ -464,10 +464,11 @@ By default, this value is set to =org-directory=, but if you require control ove
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-agenda-files (list
-                        "gtd/inbox.org"
-                        "gtd/gtd.org"
-                        "gtd/calendar.org"
-                        "personal/habits.org"))
+                        "~/Projects/exocortex/nodes/calendar.org"
+                        ;"gtd/inbox.org"
+                        ;"gtd/gtd.org"
+                        ;"personal/habits.org"
+                        ))
 #+end_src
 
 *** Enable Habits Module
@@ -494,9 +495,10 @@ By default, this value is set to =org-directory=, but if you require control ove
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-refile-targets
-      '(("gtd.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
-        ("calendar.org" :maxlevel . 3)
-        ("someday.org" :maxlevel . 2)))
+      '(;("gtd.org" :regexp . "\\(?:\\(?:Note\\|Task\\)s\\)")
+        ("~/Projects/exocortex/nodes/calendar.org" :maxlevel . 3)
+        ;("someday.org" :maxlevel . 2)
+        ))
 ;; consider adding org-roam directory as the need arises.
 #+end_src
 
@@ -608,7 +610,7 @@ We can override this background color using the following snippet.
       org-startup-with-inline-images t              ; Show images at startup.
       org-hide-leading-stars t                      ; Remove excess heading stars.
       org-hide-emphasis-markers t                   ; Hide formatting for emphasis markup. See org-appear.
-      org-pretty-entities t                         ; Show entities like sub/superscript as UTF8.
+      org-pretty-entities nil                       ; Show entities like sub/superscript as UTF8.
       org-hidden-keywords nil                       ; Considering using to hide certain keywords with org-appear and org-modern.
       org-src-preserve-indentation t)               ; Prevents changes to whitespace in source blocks.
 #+end_src
@@ -1151,7 +1153,7 @@ No configuration, just enable it.
 #+begin_src emacs-lisp :tangle no :noweb-ref org-appear-config
 (setq org-appear-autoemphasis t                   ; Show emphasis markup.
       org-appear-autosubmarkers t                 ; Show sub/superscript
-      org-appear-autoentities t                   ; Show LaTeX like Org pretty entities.
+      org-appear-autoentities nil                 ; Show LaTeX like Org pretty entities.
       org-appear-autolinks nil                    ; Shows Org links.
       org-appear-autokeywords nil                 ; Shows hidden Org keywords.
       org-appear-inside-latex nil)                ; Show LaTeX code. Use Fragtog instead.
@@ -1206,7 +1208,7 @@ See [[file:config.el][config.el]] to understand how this works. Thanks Teco.
 Currently not excluding any. This is a place holder for when I do.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
-(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
+;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
 (setq org-roam-graph-exclude-matcher '("inbox.org"))
 #+end_src
 
@@ -1350,6 +1352,8 @@ Use default browser unless `xwidget' is available."
 (setq org-noter-separate-notes-from-heading t)      ; Adds a blank line between headings and notes.
 (setq org-noter-always-create-frame nil)            ; Don't create a new frame for the session.
 (setq org-noter-kill-frame-at-session-end nil)            ; Don't kill any frames since we don't create any.
+;;(setq org-noter-notes-window-location 'other-frame)
+;;(setq org-noter-notes-search-path '(""))
 #+end_src
 
 ** No Web Assembly :noexport:
