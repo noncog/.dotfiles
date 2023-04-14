@@ -172,20 +172,28 @@ This is an issue that arises for me using =emacsclient= and a patch from emacs-p
 yabai -m signal --add event=window_destroyed app="^Emacs$" action="yabai -m display --focus 1" active=yes
 #+end_src
 
-This fix ensures the newly created Emacs window gains the focus.
+Always focus a newly created Emacs window.
 
 #+begin_src sh :tangle yabairc
-yabai -m signal --add event=window_created app="^Emacs$" action="yabai -m display --focus 1"
+yabai -m signal --add event=window_created app="^Emacs$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
 #+end_src
 
 This fix effectively reloads the Emacs space whenever Doom's big font mode resizes the frame when using emacsclient.
 
 #+begin_src sh :tangle yabairc
-yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m space 1 --balance" active=yes
+yabai -m signal --add event=window_resized app="^Emacs$" action="$HOME/.config/yabai/scripts/balance_space_with_window.sh \$YABAI_WINDOW_ID" active=yes
 #+end_src
 
-This fix refocuses Emacs after a finder window is closed.
+Refocuses Emacs after a Finder window is closed.
 
 #+begin_src sh :tangle yabairc
 yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m display --focus 1" active=no
+#+end_src
+
+*** Fix Firefox Window Focus
+
+Always focus a newly created Firefox window.
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_created app="^Firefox$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
 #+end_src
