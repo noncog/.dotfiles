@@ -186,12 +186,6 @@ I use relative visual line numbers to move around. This has a performance cost b
 (setq display-line-numbers-type 'visual)
 #+end_src
 
-*** Show Time in Modeline
-
-#+begin_src emacs-lisp
-(display-time-mode 1)
-#+end_src
-
 *** Stretch Cursor
 
 Draw block cursor as wide as the glyph under it.
