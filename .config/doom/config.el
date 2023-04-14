@@ -71,36 +71,36 @@
 (defun wm-window-left ()
   (interactive)
   (let ((direction (pcase system-type (gnu/linux "left") (darwin "west"))))
-    (yabai-move-on-error direction #'windmove-left)))
+    (wm-move-on-error direction #'windmove-left)))
 
 (defun wm-window-right ()
   (interactive)
   (let ((direction (pcase system-type (gnu/linux "right") (darwin "east"))))
-    (yabai-move-on-error direction #'windmove-right)))
+    (wm-move-on-error direction #'windmove-right)))
 
 (defun wm-window-up ()
   (interactive)
   (let ((direction (pcase system-type (gnu/linux "up") (darwin "north"))))
-    (yabai-move-on-error direction #'windmove-up)))
+    (wm-move-on-error direction #'windmove-up)))
 
 (defun wm-window-down ()
   (interactive)
   (let ((direction (pcase system-type (gnu/linux "down") (darwin "south"))))
-    (yabai-move-on-error direction #'windmove-down)))
+    (wm-move-on-error direction #'windmove-down)))
 
 (when IS-MAC
-  (map! "s-h" #'yabai-window-left)
-  (map! "s-j" #'yabai-window-down)
-  (map! "s-k" #'yabai-window-up)
-  (map! "s-l" #'yabai-window-right)
+  (map! "s-h" #'wm-window-left)
+  (map! "s-j" #'wm-window-down)
+  (map! "s-k" #'wm-window-up)
+  (map! "s-l" #'wm-window-right)
   (map! "s-=" #'balance-windows)
   (map! "s-Q" #'evil-quit))
 
 (when IS-LINUX
-  (map! "s-h" #'i3-window-left)
-  (map! "s-j" #'i3-window-down)
-  (map! "s-k" #'i3-window-up)
-  (map! "s-l" #'i3-window-right)
+  (map! "s-h" #'wm-window-left)
+  (map! "s-j" #'wm-window-down)
+  (map! "s-k" #'wm-window-up)
+  (map! "s-l" #'wm-window-right)
   (map! "s-S-q" #'evil-quit))
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
