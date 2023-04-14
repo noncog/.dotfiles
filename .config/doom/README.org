@@ -290,6 +290,13 @@ This works for i3 and Yabai. TODO: Documentation.
   (map! "s-S-q" #'evil-quit))
 #+end_src
 
+#+begin_src emacs-lisp
+(map! :leader "w h" #'wm-window-left)
+(map! :leader "w j" #'wm-window-down)
+(map! :leader "w k" #'wm-window-up)
+(map! :leader "w l" #'wm-window-right)
+#+end_src
+
 * Packages
 
 This section is for adding external packages to Doom. This is tangled to [[file:packages.el][packages.el]].

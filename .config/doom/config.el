@@ -103,6 +103,11 @@
   (map! "s-l" #'wm-window-right)
   (map! "s-S-q" #'evil-quit))
 
+(map! :leader "w h" #'wm-window-left)
+(map! :leader "w j" #'wm-window-down)
+(map! :leader "w k" #'wm-window-up)
+(map! :leader "w l" #'wm-window-right)
+
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
