@@ -6,3 +6,6 @@ compinit
 
 # Enable 'line editor'/readline keybinds
 bindkey -e # TODO: Fix keys
+
+# Aliases
+alias emacs="emacsclient -c"
