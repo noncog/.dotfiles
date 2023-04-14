@@ -76,6 +76,14 @@ yabai -m config debug_output on
 yabai -m config layout bsp
 #+end_src
 
+*** Floating Windows
+
+Keep floating windows on top.
+
+#+begin_src sh :tangle yabairc
+yabai -m config window_topmost on
+#+end_src
+
 ** Looks
 *** Gaps
 
@@ -98,6 +106,12 @@ yabai -m config window_border_hidpi         off
 yabai -m config window_border_width         2
 #+end_src
 
+*** Window Shadows
+
+#+begin_src sh :tangle yabairc
+yabai -m config window_shadow on
+#+end_src
+
 ** Workspace Apps
 *** Ignore List
 
@@ -107,7 +121,7 @@ These apps won't be tiled.
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Open Cycle Time$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
-yabai -m rule --add app="^Barrier$" manage=off
+yabai -m rule --add app="^Barrier$" manage=off sticky=on
 #+end_src
 
 *** Assign Apps to Spaces

@@ -6,6 +6,8 @@ yabai -m config debug_output on
 
 yabai -m config layout bsp
 
+yabai -m config window_topmost on
+
 yabai -m config top_padding    10
 yabai -m config bottom_padding 10
 yabai -m config left_padding   10
@@ -19,10 +21,12 @@ yabai -m config window_border_blur          off
 yabai -m config window_border_hidpi         off
 yabai -m config window_border_width         2
 
+yabai -m config window_shadow on
+
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Open Cycle Time$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
-yabai -m rule --add app="^Barrier$" manage=off
+yabai -m rule --add app="^Barrier$" manage=off sticky=on
 
 yabai -m rule --add app="^Emacs$" space=^1
 yabai -m rule --add app="^Firefox$" space=^2
