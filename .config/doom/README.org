@@ -240,34 +240,33 @@ This works for i3 and Yabai. TODO: Documentation.
 
 #+begin_src emacs-lisp
 (defun wm-move-on-error (direction move-fn)
-  (pcase system-type
-    (gnu/linux
+    (when IS-LINUX
      (condition-case nil (funcall move-fn)
        (user-error (start-process "wm" nil "i3-msg" "focus" direction))))
-     (darwin
+     (when IS-MAC
       (condition-case nil (funcall move-fn)
-        (user-error (start-process "wm" nil "yabai -m window --focus" direction))))))
+        (user-error (start-process "wm" nil "yabai" "-m" "window" "--focus" direction)))))
 #+end_src
 
 #+begin_src emacs-lisp
 (defun wm-window-left ()
   (interactive)
-  (let ((direction (pcase system-type (gnu/linux "left") (darwin "west"))))
+  (let ((direction (cond (IS-LINUX "left") (IS-MAC "west"))))
     (wm-move-on-error direction #'windmove-left)))
 
 (defun wm-window-right ()
   (interactive)
-  (let ((direction (pcase system-type (gnu/linux "right") (darwin "east"))))
+  (let ((direction (cond (IS-LINUX "right") (IS-MAC "east"))))
     (wm-move-on-error direction #'windmove-right)))
 
 (defun wm-window-up ()
   (interactive)
-  (let ((direction (pcase system-type (gnu/linux "up") (darwin "north"))))
+  (let ((direction (cond (IS-LINUX "up") (IS-MAC "north"))))
     (wm-move-on-error direction #'windmove-up)))
 
 (defun wm-window-down ()
   (interactive)
-  (let ((direction (pcase system-type (gnu/linux "down") (darwin "south"))))
+  (let ((direction (cond (IS-LINUX "down") (IS-MAC "south"))))
     (wm-move-on-error direction #'windmove-down)))
 #+end_src
 
