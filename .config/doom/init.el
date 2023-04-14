@@ -70,8 +70,10 @@
        snippets            ; my elves. They type so I don't have to
        ;;word-wrap         ; soft wrapping with language-aware indent
 
-       :emacs
-       (dired +icons)      ; making dired pretty [functional]
+       :emacs              ; making dired pretty [functional]
+       (dired
+        +icons
+        +ranger)
        electric            ; smarter, keyword-based electric-indent
        (ibuffer +icons)    ; interactive buffer management
        undo                ; persistent, smarter undo for your inevitable mistakes
