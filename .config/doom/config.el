@@ -20,8 +20,6 @@
 
 (setq evil-want-fine-undo t)
 
-;(server-start)
-
 (setq doom-theme 'doom-dracula)
 
 (setq doom-dracula-brighter-modeline t)

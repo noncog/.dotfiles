@@ -114,12 +114,6 @@ By default, all changes from insert made are considered one. Enable a more granu
 (setq evil-want-fine-undo t)
 #+end_src
 
-*** Start Server
-
-#+begin_src emacs-lisp
-;(server-start)
-#+end_src
-
 ** Appearance
 *** Theme
 
