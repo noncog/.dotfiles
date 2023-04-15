@@ -1,7 +1,8 @@
 #+html:<div align="center">
 * Doom Emacs
-#+tags: export noexport #+export_select_tags: export #+export_exclude_tags: exclude
-noexport
+#+tags: export noexport
+#+export_select_tags: export
+#+export_exclude_tags: exclude noexport
 
 #+options: todo:nil
 
