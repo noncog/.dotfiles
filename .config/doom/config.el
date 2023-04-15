@@ -816,3 +816,24 @@ Use default browser unless `xwidget' is available."
 
 (use-package! visual-fill-column
   :hook (org-mode . noncog/org-mode-visual-fill))
+
+(after! treemacs
+  (setq doom-themes-treemacs-theme "doom-colors")
+  ;;(setq treemacs-indent-guide-style 'block)
+  )
+
+(map! :after vertico
+      :map vertico-map
+      "C-d" #'scroll-up-command)
+
+(map! :after vertico
+      :map vertico-map
+      "C-u" #'scroll-down-command)
+
+(after! doom-modeline
+  (setq doom-modeline-height 35)
+  (setq doom-modeline-major-mode-icon t)
+  (setq doom-modeline-persp-name t)
+  (setq doom-modeline-display-default-persp-name t)
+  (setq doom-modeline-persp-icon t)
+  )

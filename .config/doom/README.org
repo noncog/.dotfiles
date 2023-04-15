@@ -1862,3 +1862,49 @@ I use this to center org-mode buffers primarily. In Doom, I get this package by 
 (use-package! visual-fill-column
   :hook (org-mode . noncog/org-mode-visual-fill))
 #+end_src
+
+* TODO Treemacs
+:LOGBOOK:
+- State "TODO"       from              [2023-04-14 Fri 15:01]
+:END:
+
+#+begin_src emacs-lisp
+(after! treemacs
+  (setq doom-themes-treemacs-theme "doom-colors")
+  ;;(setq treemacs-indent-guide-style 'block)
+  )
+#+end_src
+
+* TODO Vertico
+:LOGBOOK:
+- State "TODO"       from              [2023-04-14 Fri 15:01]
+:END:
+
+Add "regular" style scrolling keybinds to Vertico for the minibuffer.
+
+#+begin_src emacs-lisp
+(map! :after vertico
+      :map vertico-map
+      "C-d" #'scroll-up-command)
+#+end_src
+
+#+begin_src emacs-lisp
+(map! :after vertico
+      :map vertico-map
+      "C-u" #'scroll-down-command)
+#+end_src
+
+* TODO Doom-modeline
+:LOGBOOK:
+- State "TODO"       from              [2023-04-14 Fri 15:24]
+:END:
+
+#+begin_src emacs-lisp
+(after! doom-modeline
+  (setq doom-modeline-height 35)
+  (setq doom-modeline-major-mode-icon t)
+  (setq doom-modeline-persp-name t)
+  (setq doom-modeline-display-default-persp-name t)
+  (setq doom-modeline-persp-icon t)
+  )
+#+end_src
