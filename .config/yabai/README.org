@@ -128,7 +128,9 @@ yabai -m rule --add app="^Barrier$" manage=off sticky=on
 
 #+begin_src sh :tangle yabairc
 yabai -m rule --add app="^Emacs$" space=^1
+yabai -m rule --add app="^LibreWolf$" space=^2
 yabai -m rule --add app="^Firefox$" space=^2
+yabai -m rule --add app="^Safari$" space=^2
 yabai -m rule --add app="^(CLion|PyCharm)$" space=^3
 yabai -m rule --add app="^Gimp$" space=^4
 yabai -m rule --add app="^Blender$" space=^5
@@ -154,6 +156,10 @@ This type of signal can be used to automatically detect when a program no longer
 
 #+begin_src sh :tangle yabairc
 yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'" active=yes
+#+end_src
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_destroyed app="^LibreWolf$" action="osascript -e 'quit app \"LibreWolf\"'" active=yes
 #+end_src
 
 *** Automatically Resize SketchyBar
@@ -196,4 +202,8 @@ Always focus a newly created Firefox window.
 
 #+begin_src sh :tangle yabairc
 yabai -m signal --add event=window_created app="^Firefox$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
+#+end_src
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_created app="^LibreWolf$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
 #+end_src

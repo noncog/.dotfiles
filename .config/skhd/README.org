@@ -98,11 +98,11 @@ shift + alt - e : emacsclient -c
 alt - e : yabai -m space --focus 1
 #+end_src
 
-*** Firefox
+*** LibreWolf (Firefox)
 
 #+begin_src conf :tangle skhdrc
 cmd + shift + alt - f : yabai -m window --space 2; yabai -m space --focus 2
-shift + alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1; firefox -profile "$HOME/.config/firefox/noncog"
+shift + alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1; /opt/homebrew/bin/librewolf -profile $HOME/.config/firefox/noncog
 alt - f : yabai -m space --focus 2
 #+end_src
 

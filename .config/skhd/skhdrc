@@ -27,8 +27,6 @@ shift + alt + cmd - l : yabai -m window --warp east
 
 alt - f11 : yabai -m window --toggle zoom-fullscreen
 
-#alt - 0x18 : yabai -m space --balance
-
 alt - 0x18  [
   *      : yabai -m space --balance
   "Emacs" ~
@@ -48,7 +46,8 @@ shift + alt - e : emacsclient -c
 alt - e : yabai -m space --focus 1
 
 cmd + shift + alt - f : yabai -m window --space 2; yabai -m space --focus 2
-shift + alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1; firefox -profile "$HOME/.config/firefox/noncog"
+shift + alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1; /opt/homebrew/bin/librewolf -profile $HOME/.config/firefox/noncog
+#shift + alt - f : bash $HOME/.config/firefox/launch-ff.sh
 alt - f : yabai -m space --focus 2
 
 cmd + shift + alt - c : yabai -m window --space 3; yabai -m space --focus 3
