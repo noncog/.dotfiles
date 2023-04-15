@@ -195,16 +195,14 @@ I use the [[https://draculatheme.com/][Dracula]] theme everywhere I can.
 )
 #+end_src
 
-*** TODO Frame Opacity
+*** Frame Opacity
 
 I add transparency to Doom's window to allow my wallpaper to show through it. This increases the visual appeal of presentations and screen sharing.
 
 This effect probably requires a compositor on Linux. I use [[https://github.com/yshui/picom][Picom]].
 
-I'm currently contemplating the removal of this effect as I find it somewhat distracting.
-
 #+begin_src emacs-lisp
-;(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
+(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
 #+end_src
 
 *** Display Line Numbers

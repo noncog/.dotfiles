@@ -55,7 +55,7 @@
         )
 )
 
-;(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
+(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
 
 (setq display-line-numbers-type 'visual)
 
