@@ -1923,3 +1923,12 @@ Add "regular" style scrolling keybinds to Vertico for the minibuffer.
   (setq doom-modeline-persp-icon t)
   )
 #+end_src
+
+* TODO Nav-flash
+:LOGBOOK:
+- State "TODO"       from              [2023-04-15 Sat 15:40]
+:END:
+
+#+begin_src emacs-lisp
+(setq nav-flash-delay 0.75)
+#+end_src

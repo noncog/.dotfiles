@@ -850,3 +850,5 @@ Use default browser unless `xwidget' is available."
   (setq doom-modeline-display-default-persp-name t)
   (setq doom-modeline-persp-icon t)
   )
+
+(setq nav-flash-delay 0.75)
