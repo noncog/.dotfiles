@@ -75,18 +75,35 @@ According to Doom, org's directory must be set early due to it's loading process
 (global-auto-revert-mode 1)
 #+end_src
 
-*** TODO Scrolling
-TODO: Setup pixel scroll
-TODO: Setup scroll recentering
-TODO: Setup recentering after jumping...
-TODO: Setup scroll margin...
+*** Scrolling and Jumping
 
 #+begin_src emacs-lisp
-;;(advice-add 'evil-scroll-page-up :after #'evil-scroll-line-to-center)
-;;(setq scroll-margin (* (frame-height) 2))
-;;(setq scroll-conservatively 0)
-;;(setq maximum-scroll-margin 0.5)
-;;(setq scroll-preserve-screen-position t)
+(map! "M-p" #'scroll-down-line)
+(map! "M-n" #'scroll-up-line)
+#+end_src
+
+#+begin_src emacs-lisp
+(define-minor-mode centered-point-mode
+  "Alaways center the cursor in the middle of the screen."
+  :lighter "..."
+  (cond (centered-point-mode (add-hook 'post-command-hook 'line-change))
+    (t (remove-hook 'post-command-hook 'line-change))))
+
+(defun line-change ()
+  (recenter))
+#+end_src
+
+#+begin_src emacs-lisp
+;(advice-add #'evil-scroll-up :after #'doom-recenter-a)
+;(advice-add #'evil-scroll-down :after #'doom-recenter-a)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq-default evil-scroll-count 5)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq next-screen-context-lines 1)
 #+end_src
 
 *** Focus Window After Splitting

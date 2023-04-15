@@ -7,11 +7,24 @@
 
 (global-auto-revert-mode 1)
 
-;;(advice-add 'evil-scroll-page-up :after #'evil-scroll-line-to-center)
-;;(setq scroll-margin (* (frame-height) 2))
-;;(setq scroll-conservatively 0)
-;;(setq maximum-scroll-margin 0.5)
-;;(setq scroll-preserve-screen-position t)
+(map! "M-p" #'scroll-down-line)
+(map! "M-n" #'scroll-up-line)
+
+(define-minor-mode centered-point-mode
+  "Alaways center the cursor in the middle of the screen."
+  :lighter "..."
+  (cond (centered-point-mode (add-hook 'post-command-hook 'line-change))
+    (t (remove-hook 'post-command-hook 'line-change))))
+
+(defun line-change ()
+  (recenter))
+
+;(advice-add #'evil-scroll-up :after #'doom-recenter-a)
+;(advice-add #'evil-scroll-down :after #'doom-recenter-a)
+
+(setq-default evil-scroll-count 5)
+
+(setq next-screen-context-lines 1)
 
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
