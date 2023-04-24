@@ -54,11 +54,14 @@
   - [[#behavior-5][Behavior]]
   - [[#keybinds-4][Keybinds]]
 - [[#org-modern][Org Modern]]
+  - [[#package-1][Package]]
   - [[#appearance-4][Appearance]]
 - [[#org-modern-indent][Org Modern Indent]]
 - [[#org-appear][Org Appear]]
+  - [[#package-2][Package]]
   - [[#appearance-5][Appearance]]
 - [[#org-fragtog][Org Fragtog]]
+  - [[#package-3][Package]]
 - [[#ox-org-export][Ox (Org Export)]]
   - [[#appearance-6][Appearance]]
   - [[#behavior-6][Behavior]]
@@ -67,6 +70,7 @@
   - [[#appearance-7][Appearance]]
   - [[#behavior-7][Behavior]]
 - [[#engrave-faces][Engrave Faces]]
+  - [[#package-4][Package]]
 - [[#org-noter][Org Noter]]
   - [[#behavior-8][Behavior]]
 - [[#toc-org][TOC Org]]
@@ -111,6 +115,16 @@
 
 * Doom
 ** Resources
+*** Doom User Configs
+- [[https://github.com/chrisbarrett/.emacs.d/blob/master/config.org][Chris Barrett]]
+- [[https://github.com/tecosaur/emacs-config][Tecosaur]]
+- [[https://github.com/zzamboni/dot-doom/blob/master/doom.org][Zzamboni]]
+- [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Nguyen Duc Hieu]]
+
+*** Emacs User Configs
+- [[https://github.com/daviwil/dotfiles/tree/guix-home][David Wilson]]
+- [[https://github.com/rougier/dotemacs/blob/master/dotemacs.org][Nicolas P. Rougier]]
+
 ** Doom Configs
 
 Doom Emacs uses three config files:
@@ -190,7 +204,7 @@ Doom Emacs uses three config files:
 ;(unpin! t)
 #+end_src
 
-#+begin_src emacs-lisp :tangle config.el :exports none
+#+begin_src emacs-lisp :exports none
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here!
@@ -734,10 +748,8 @@ I have excess keywords and will likely simplify them when I decide their best us
 
 *** LaTeX Previews
 
-Show rendered LaTeX within the org buffer.
-
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
-(setq org-startup-with-latex-preview nil)
+(setq org-startup-with-latex-preview nil)    ; Show rendered LaTeX in the buffers.
 #+end_src
 
 *** LaTeX Syntax Highlighting
@@ -1128,9 +1140,7 @@ I'm currently only using one template that sends all captured headings to an inb
 ** Keybinds
 *** Switch Doom's Default Capture Binds
 
-I switch Doom's default scratch buffer and org-capture keybinds.
-
-With this, I can quickly capture something with =SPC x=.
+I switch Doom's default scratch buffer and org-capture keybinds. With this, I can quickly capture something with =SPC x=.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
 (map! :leader :desc "Org capture" "x" #'org-capture
@@ -1361,6 +1371,8 @@ Don't open the graph using a browser since we use Emacs.
 [[https://github.com/minad/org-modern][Org Modern]] implements a “modern” style for your Org buffers using font locking and text properties.
 #+end_quote
 
+** Package
+
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-modern
   :pin "b614ad31d72c49f9eb29d3836995fd7fb0d1fd4a")
@@ -1396,8 +1408,7 @@ These settings will need sorted into their own headings eventually.
         ("KILL" :inverse-video t :inherit +org-todo-cancel)
         ("NO"   :inverse-video t :inherit +org-todo-cancel))
       org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
-      org-modern-horizontal-rule (make-string 80 ?─)
-      )
+      org-modern-horizontal-rule (make-string 80 ?─))
 #+end_src
 
 * Org Modern Indent
@@ -1423,6 +1434,8 @@ These settings will need sorted into their own headings eventually.
 #+begin_quote
 [[https://github.com/awth13/org-appear][Org Appear]] makes invisible Org elements like emphasis markers magically appear.
 #+end_quote
+
+** Package
 
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-appear
@@ -1455,6 +1468,8 @@ These settings will need sorted into their own headings eventually.
 #+begin_quote
 [[https://github.com/io12/org-fragtog][Org Fragtog]] toggles LaTeX fragments as the cursor enters and exits them. It's org-appear for LaTeX!
 #+end_quote
+
+** Package
 
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-fragtog
@@ -1592,6 +1607,8 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
 #+begin_quote
 [[https://github.com/tecosaur/engrave-faces][Engrave Faces]] is a generic exporter that passes a fontified buffer to an org backend to be exported to a particular format. It provides theming and syntax highlighting in code blocks for our org-mode html and latex exports!
 #+end_quote
+
+** Package
 
 #+begin_src emacs-lisp :tangle packages.el
 (package! engrave-faces
@@ -1782,10 +1799,8 @@ Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#is
 
 #+begin_src emacs-lisp :exports none :noweb no-export
 (after! yasnippet
-  (use-package! yasnippet
-    :config
-    <<yasnippet-config>>
-    ))
+  <<yasnippet-config>>
+  )
 #+end_src
 
 ** Resources
@@ -2086,10 +2101,8 @@ These are commonly enforced commit length standards.
 
 #+begin_src emacs-lisp :exports none :noweb no-export
 (after! vterm
-  (use-package! vterm
-    :config
-    <<vterm-config>>
-    ))
+  <<vterm-config>>
+  )
 #+end_src
 
 ** Keybinds
@@ -2141,7 +2154,7 @@ I was having an issue using =emacsclient= where which-key was being cut off belo
 
 #+begin_src emacs-lisp :exports none :noweb no-export
 (after! persp-mode
-  <<pers-config>>
+  <<persp-config>>
   )
 #+end_src
 
@@ -2214,19 +2227,13 @@ I use this to center org-mode buffers primarily. In Doom, I get this package by 
 #+end_src
 
 ** Keybinds
-*** Add Scroll Keys to Minibuffer
+*** Add Emacs Style Scroll Keys to Minibuffer
+
 Add "regular" style scrolling keybinds to Vertico for the minibuffer.
 
-#+begin_src emacs-lisp
-(map! :after vertico
-      :map vertico-map
-      "C-d" #'scroll-up-command)
-#+end_src
-
-#+begin_src emacs-lisp
-(map! :after vertico
-      :map vertico-map
-      "C-u" #'scroll-down-command)
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+(map! :map vertico-map "C-u" #'scroll-down-command
+      :map vertico-map "C-d" #'scroll-up-command)
 #+end_src
 
 * Doom Modeline
@@ -2243,7 +2250,7 @@ Add "regular" style scrolling keybinds to Vertico for the minibuffer.
 
 ** Appearance
 *** General
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
 (setq doom-modeline-height 35)
 (setq doom-modeline-major-mode-icon t)
 (setq doom-modeline-persp-name t)

@@ -1,3 +1,40 @@
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+;; Place your private configuration here!
+
+;; sync' after modifying this file!
+;; Whenever you reconfigure a package, make sure to wrap your config in an
+;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+;;
+;;   (after! PACKAGE
+;;     (setq x y))
+;;
+;; The exceptions to this rule:
+;;
+;;   - Setting file/directory variables (like `org-directory')
+;;   - Setting variables which explicitly tell you to set them before their
+;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
+;;   - Setting doom variables (which start with 'doom-' or '+').
+;;
+;; Here are some additional functions/macros that will help you configure Doom.
+;;
+;; - `load!' for loading external *.el files relative to this one
+;; - `use-package!' for configuring packages
+;; - `after!' for running code after a package has loaded
+;; - `add-load-path!' for adding directories to the `load-path', relative to
+;;   this file. Emacs searches the `load-path' when you load packages with
+;;   `require' or `use-package'.
+;; - `map!' for binding new keys
+;;
+;; To get information about any of these functions/macros, move the cursor over
+;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
+;; This will open documentation for it, including demos of how they are used.
+;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
+;; etc).
+;;
+;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
+;; they are implemented.
+
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
 
@@ -133,7 +170,7 @@
   (setq org-ellipsis " ▾ "                     ; Use a custom ellipsis for folded headings.
         org-hide-leading-stars t               ; Remove excess heading stars.
         org-hidden-keywords nil)               ; Can use to hide certain keywords.
-  (setq org-startup-with-latex-preview nil)
+  (setq org-startup-with-latex-preview nil)    ; Show rendered LaTeX in the buffers.
   (setq org-highlight-latex-and-related '(native script entities))
   (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
   (setq org-image-actual-width '(0.9)           ; Use an in-buffer width closer to export's
@@ -468,8 +505,7 @@ Use default browser unless `xwidget' is available."
           ("KILL" :inverse-video t :inherit +org-todo-cancel)
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
         org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
-        org-modern-horizontal-rule (make-string 80 ?─)
-        )
+        org-modern-horizontal-rule (make-string 80 ?─))
   )
 
 (use-package! org-modern-indent
@@ -595,10 +631,8 @@ found, using `org-view-output-file-extensions'."
   )
 
 (after! yasnippet
-  (use-package! yasnippet
-    :config
-    (setq yas-triggers-in-field t)
-    ))
+  (setq yas-triggers-in-field t)
+  )
 
 (after! magit
   (defcustom my-git-commit-style-convention-checks '(summary-has-type
@@ -723,10 +757,8 @@ found, using `org-view-output-file-extensions'."
   )
 
 (after! vterm
-  (use-package! vterm
-    :config
-    (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
-    ))
+  (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
+  )
 
 ;; Add an extra line to work around bug in which-key imprecise
 (after! which-key
@@ -742,7 +774,7 @@ found, using `org-view-output-file-extensions'."
    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1"))))
 
 (after! persp-mode
-  
+  (setq persp-emacsclient-init-frame-behaviour-override nil)
   )
 
 (defun noncog/org-mode-visual-fill ()
@@ -759,25 +791,17 @@ found, using `org-view-output-file-extensions'."
 
 (after! vertico
   (setq vertico-sort-function #'vertico-sort-alpha)
+  (map! :map vertico-map "C-u" #'scroll-down-command
+        :map vertico-map "C-d" #'scroll-up-command)
   )
-
-(map! :after vertico
-      :map vertico-map
-      "C-d" #'scroll-up-command)
-
-(map! :after vertico
-      :map vertico-map
-      "C-u" #'scroll-down-command)
 
 (after! doom-modeline
-  
+  (setq doom-modeline-height 35)
+  (setq doom-modeline-major-mode-icon t)
+  (setq doom-modeline-persp-name t)
+  (setq doom-modeline-display-default-persp-name t)
+  (setq doom-modeline-persp-icon t)
   )
-
-(setq doom-modeline-height 35)
-(setq doom-modeline-major-mode-icon t)
-(setq doom-modeline-persp-name t)
-(setq doom-modeline-display-default-persp-name t)
-(setq doom-modeline-persp-icon t)
 
 (after! nav-flash
   (setq nav-flash-delay 0.75)
