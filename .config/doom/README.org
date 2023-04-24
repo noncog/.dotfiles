@@ -28,36 +28,81 @@
   - [[#appearance][Appearance]]
   - [[#behavior][Behavior]]
   - [[#keybinds][Keybinds]]
-- [[#packages][Packages]]
-  - [[#org][Org]]
-  - [[#org-agenda][Org Agenda]]
-  - [[#org-capture][Org Capture]]
-  - [[#org-roam][Org Roam]]
-  - [[#org-roam-ui][Org Roam UI]]
-  - [[#org-modern][Org Modern]]
-  - [[#org-modern-indent][Org Modern Indent]]
-  - [[#org-appear][Org Appear]]
-  - [[#org-fragtog][Org Fragtog]]
-  - [[#ox-org-export][Ox (Org Export)]]
-  - [[#ox-latex][Ox Latex]]
-  - [[#engrave-faces][Engrave Faces]]
-  - [[#org-noter][Org Noter]]
-  - [[#projectile][Projectile]]
-  - [[#plantuml][PlantUML]]
-  - [[#pdf-tools][PDF Tools]]
-  - [[#yasnippet][Yasnippet]]
-  - [[#magit][Magit]]
-  - [[#company][Company]]
-  - [[#vterm][Vterm]]
-  - [[#which-key][Which-Key]]
-  - [[#persp-mode][Persp-Mode]]
-  - [[#visual-fill-column][Visual Fill Column]]
-  - [[#treemacs][Treemacs]]
-  - [[#vertico][Vertico]]
-  - [[#doom-modeline][Doom Modeline]]
-  - [[#nav-flash][Nav-flash]]
-  - [[#doom-dashboard][Doom Dashboard]]
-  - [[#lsp-clangd][Lsp-Clangd]]
+- [[#org][Org]]
+  - [[#variables-1][Variables]]
+  - [[#appearance-1][Appearance]]
+  - [[#behavior-1][Behavior]]
+- [[#org-agenda][Org Agenda]]
+  - [[#variables-2][Variables]]
+  - [[#appearance-2][Appearance]]
+  - [[#behavior-2][Behavior]]
+  - [[#keybinds-1][Keybinds]]
+  - [[#fixes-and-helpers][Fixes and Helpers]]
+- [[#org-capture][Org Capture]]
+  - [[#variables-3][Variables]]
+  - [[#behavior-3][Behavior]]
+  - [[#keybinds-2][Keybinds]]
+  - [[#fixes][Fixes]]
+- [[#org-roam][Org Roam]]
+  - [[#variables-4][Variables]]
+  - [[#behavior-4][Behavior]]
+  - [[#keybinds-3][Keybinds]]
+- [[#org-roam-ui][Org Roam UI]]
+  - [[#appearance-3][Appearance]]
+  - [[#behavior-5][Behavior]]
+  - [[#keybinds-4][Keybinds]]
+- [[#org-modern][Org Modern]]
+  - [[#appearance-4][Appearance]]
+- [[#org-modern-indent][Org Modern Indent]]
+- [[#org-appear][Org Appear]]
+  - [[#appearance-5][Appearance]]
+- [[#org-fragtog][Org Fragtog]]
+- [[#ox-org-export][Ox (Org Export)]]
+  - [[#appearance-6][Appearance]]
+  - [[#behavior-6][Behavior]]
+  - [[#keybinds-5][Keybinds]]
+- [[#ox-latex][Ox Latex]]
+  - [[#appearance-7][Appearance]]
+  - [[#behavior-7][Behavior]]
+- [[#engrave-faces][Engrave Faces]]
+- [[#org-noter][Org Noter]]
+  - [[#behavior-8][Behavior]]
+- [[#projectile][Projectile]]
+  - [[#variables-5][Variables]]
+  - [[#behavior-9][Behavior]]
+  - [[#keybinds-6][Keybinds]]
+- [[#plantuml][PlantUML]]
+  - [[#behavior-10][Behavior]]
+- [[#pdf-tools][PDF Tools]]
+  - [[#fixes-1][Fixes]]
+- [[#yasnippet][Yasnippet]]
+  - [[#resources-1][Resources]]
+  - [[#behavior-11][Behavior]]
+- [[#magit][Magit]]
+  - [[#behavior-12][Behavior]]
+- [[#company][Company]]
+  - [[#behavior-13][Behavior]]
+- [[#vterm][Vterm]]
+  - [[#keybinds-7][Keybinds]]
+- [[#which-key][Which-Key]]
+  - [[#fixes-2][Fixes]]
+- [[#persp-mode][Persp-Mode]]
+  - [[#fixes-3][Fixes]]
+- [[#visual-fill-column][Visual Fill Column]]
+  - [[#behavior-14][Behavior]]
+- [[#treemacs][Treemacs]]
+  - [[#appearance-8][Appearance]]
+- [[#vertico][Vertico]]
+  - [[#behavior-15][Behavior]]
+  - [[#keybinds-8][Keybinds]]
+- [[#doom-modeline][Doom Modeline]]
+  - [[#appearance-9][Appearance]]
+- [[#nav-flash][Nav-flash]]
+  - [[#appearance-10][Appearance]]
+- [[#doom-dashboard][Doom Dashboard]]
+  - [[#keybinds-9][Keybinds]]
+- [[#lsp-clangd][Lsp-Clangd]]
+  - [[#behavior-16][Behavior]]
 
 * Doom
 ** Resources
@@ -181,6 +226,7 @@ Doom Emacs uses three config files:
 
 ** Doom Modules
 
+#+html:<details><summary>Module List</summary>
 #+begin_src emacs-lisp :tangle init.el
 (setq +literate-config-file "~/.config/doom/README.org")
 
@@ -374,6 +420,7 @@ Doom Emacs uses three config files:
        literate
        (default +bindings +smartparens))
 #+end_src
+#+html:</details>
 
 ** Variables
 *** TODO Personal Information
@@ -399,9 +446,12 @@ I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experi
 - Doom Horizon
 - Doom Material
 - Doom Oceanic Next
+- Doom Xcode
 
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-oceanic-next)
+(setq doom-theme 'doom-dracula
+      doom-dracula-brighter-modeline t
+      doom-dracula-colorful-headers t)
 #+end_src
 
 *** Font
@@ -600,35 +650,34 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
                     mac-option-modifier 'super)) ; Maps Option -> Super
 #+end_src
 
-* Packages
-** Org
+* Org
 
 #+begin_quote
 [[https://orgmode.org/][Org Mode]] describes itself as, "a GNU Emacs major mode for keeping notes, authoring documents, computational notebooks, literate programming, maintaining to-do lists, planning projects, and more — in a fast and effective plain text system."
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 <<pre-org>>
 (after! org
   <<org-config>>
   )
 #+end_src
 
-*** Variables
-**** Org Directory
+** Variables
+*** Org Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pre-org
 (setq org-directory "~/Projects/exocortex/")
 #+end_src
 
-**** Refile Targets
+*** Refile Targets
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pre-org
 (setq org-refile-targets
       '(("~/Projects/exocortex/nodes/calendar.org" :maxlevel . 3)))
 #+end_src
 
-**** Keywords
+*** Keywords
 
 I have excess keywords and will likely simplify them when I decide their best use.
 
@@ -667,8 +716,8 @@ I have excess keywords and will likely simplify them when I decide their best us
         ("KILL" . +org-todo-cancel)))
 #+end_src
 
-*** Appearance
-**** General
+** Appearance
+*** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-hide-emphasis-markers t     ; Hide syntax for emphasis markup. See org-appear.
@@ -676,7 +725,7 @@ I have excess keywords and will likely simplify them when I decide their best us
       org-src-preserve-indentation t) ; Prevents changes to whitespace in source blocks.
 #+end_src
 
-**** Headings
+*** Headings
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-ellipsis " ▾ "              ; Use a custom ellipsis for folded headings.
@@ -684,7 +733,7 @@ I have excess keywords and will likely simplify them when I decide their best us
       org-hidden-keywords nil)        ; Can use to hide certain keywords.
 #+end_src
 
-**** LaTeX Previews
+*** LaTeX Previews
 
 Show rendered LaTeX within the org buffer.
 
@@ -692,7 +741,7 @@ Show rendered LaTeX within the org buffer.
 (setq org-startup-with-latex-preview nil)
 #+end_src
 
-**** LaTeX Syntax Highlighting
+*** LaTeX Syntax Highlighting
 
 Add syntax highlighting to LaTeX in orgmode buffers. [[https://github.com/tecosaur/emacs-config/blob/master/config.org#prettier-highlighting][Source]].
 
@@ -706,15 +755,15 @@ Unfortunately, when using =native= highlighting the =org-block= face is used as 
 (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
 #+end_src
 
-**** Images
+*** Images
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-image-actual-width '(0.9)           ; Use an in-buffer width closer to export's
       org-startup-with-inline-images t)       ; Show images at startup.
 #+end_src
 
-*** Behavior
-**** General
+** Behavior
+*** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-imenu-depth 10                     ; Allow imenu to search deeply in org docs.
@@ -724,7 +773,7 @@ Unfortunately, when using =native= highlighting the =org-block= face is used as 
       org-use-fast-todo-selection 'auto)     ; Method to select TODO heading keywords.
 #+end_src
 
-**** Logging
+*** Logging
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-log-done 'time                     ; Add completion time to DONE items.
@@ -732,19 +781,19 @@ Unfortunately, when using =native= highlighting the =org-block= face is used as 
       org-log-states-order-reversed nil)     ; Log state changes chronologically.
 #+end_src
 
-**** Lists
+*** Lists
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-list-allow-alphabetical t)         ; Enable use of alphabet as list bullets.
 #+end_src
 
-**** Links
+*** Links
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-return-follows-link t)             ; Pressing enter opens links.
 #+end_src
 
-**** Calendar
+*** Calendar
 
 Enable Evil bindings in org's calendar.
 
@@ -752,7 +801,7 @@ Enable Evil bindings in org's calendar.
 (setq evil-collection-calendar-want-org-bindings t)
 #+end_src
 
-**** Habits
+*** Habits
 
 The =org-habit= module enables repeated task tracking in the agenda!
 
@@ -760,29 +809,29 @@ The =org-habit= module enables repeated task tracking in the agenda!
 (add-to-list 'org-modules 'org-habit t)
 #+end_src
 
-** Org Agenda
+* Org Agenda
 
 #+begin_quote
 Org Agenda collects, creates, and displays an overview of actionable tasks your org files.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 <<pre-org-agenda>>
 (after! org-agenda
   <<org-agenda-config>>
   )
 #+end_src
 
-*** Variables
-**** Agenda Files
+** Variables
+*** Agenda Files
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pre-org-agenda
 (setq org-agenda-files (list
                         "~/Projects/exocortex/nodes/calendar.org"))
 #+end_src
 
-*** Appearance
-**** Habits
+** Appearance
+*** Habits
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
 (setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
@@ -799,7 +848,7 @@ Org Agenda collects, creates, and displays an overview of actionable tasks your 
 ;(setq org-habit-show-done-always-green)
 #+end_src
 
-**** Section Title Face
+*** Section Title Face
 
 Make agenda section titles slightly more bold.
 
@@ -809,7 +858,7 @@ Make agenda section titles slightly more bold.
     :height 1.3 :weight bold))
 #+end_src
 
-**** Remove Empty Agenda Sections
+*** Remove Empty Agenda Sections
 
 If one of my agenda blocks has no information, I don't want to see it.
 
@@ -857,7 +906,7 @@ Not compatible with the block separator."
 (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
 #+end_src
 
-**** Agenda Popup Window
+*** Agenda Popup Window
 
 I use Doom's popup window rules to create a dedicated agenda window on the right side.
 
@@ -871,13 +920,13 @@ I use a custom width variable to ensure the formatting as I can't trust auto-ali
 (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width noncog/agenda-width :modeline nil :select t :quit t)
 #+end_src
 
-**** Tags Column
+*** Tags Column
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
 (setq org-agenda-tags-column (+ 10 (* -1 noncog/agenda-width)))
 #+end_src
 
-**** My Custom Agenda
+*** My Custom Agenda
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
 (setq org-agenda-custom-commands
@@ -1005,15 +1054,15 @@ I use a custom width variable to ensure the formatting as I can't trust auto-ali
          ))))
 #+end_src
 
-*** Behavior
-**** Logging
+** Behavior
+*** Logging
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
 (setq org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
 #+end_src
 
-*** Keybinds
-**** My Custom Agenda Launcher
+** Keybinds
+*** My Custom Agenda Launcher
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (defun noncog/my-agenda ()
@@ -1026,8 +1075,8 @@ I use a custom width variable to ensure the formatting as I can't trust auto-ali
 (map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
 #+end_src
 
-*** Fixes and Helpers
-**** Tag Finding Helper Functions
+** Fixes and Helpers
+*** Tag Finding Helper Functions
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (defun noncog/skip-tag (tag)
@@ -1048,20 +1097,20 @@ I use a custom width variable to ensure the formatting as I can't trust auto-ali
       subtree-end))) ; tag not found, continue after end of subtree
 #+end_src
 
-** Org Capture
+* Org Capture
 
 #+begin_quote
 Org Capture lets you quickly insert into your org documents.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! org-capture
   <<org-capture-config>>
   )
 #+end_src
 
-*** Variables
-**** Capture Templates
+** Variables
+*** Capture Templates
 
 I'm currently only using one template that sends all captured headings to an inbox. This increases speed by capturing now and organizing later.
 
@@ -1072,15 +1121,15 @@ I'm currently only using one template that sends all captured headings to an inb
          "* %?\n%i\n" :prepend t)))
 #+end_src
 
-*** Behavior
-**** Don't Add to Bookmarks
+** Behavior
+*** Don't Add to Bookmarks
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
 (setq org-capture-bookmark nil)
 #+end_src
 
-*** Keybinds
-**** Switch Doom's Default Capture Binds
+** Keybinds
+*** Switch Doom's Default Capture Binds
 
 I switch Doom's default scratch buffer and org-capture keybinds.
 
@@ -1091,8 +1140,8 @@ With this, I can quickly capture something with =SPC x=.
       :leader :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer)
 #+end_src
 
-*** Fixes
-**** Fix Org Capture Window Breaking
+** Fixes
+*** Fix Org Capture Window Breaking
 
 Sometimes the capture window breaks when the agenda or agenda files are already open. This fix reloads org-mode during captures. [[https://github.com/doomemacs/doomemacs/issues/5714][Source]]
 
@@ -1112,13 +1161,13 @@ Sometimes the capture window breaks when the agenda or agenda files are already 
 (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
 #+end_src
 
-** Org Roam
+* Org Roam
 
 #+begin_quote
 [[https://github.com/org-roam/org-roam][Org Roam]] is a plain-text knowledge management system. It provides a solution for non-hierarchical note-taking and linking.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 <<pre-org-roam>>
 (use-package! org-roam
   :config
@@ -1126,26 +1175,26 @@ Sometimes the capture window breaks when the agenda or agenda files are already 
   )
 #+end_src
 
-*** Variables
-**** Roam Directory
+** Variables
+*** Roam Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
 (setq org-roam-directory (file-truename "~/Projects/exocortex"))
 #+end_src
 
-**** Database Location
+*** Database Location
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
 (setq org-roam-db-location (file-truename "~/Projects/exocortex/exocortex.db"))
 #+end_src
 
-**** Attachments Directory
+*** Attachments Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
 (setq org-attach-id-dir (file-truename "~/Projects/exocortex/attachments"))
 #+end_src
 
-**** Exclude Directories
+*** Exclude Directories
 
 Currently not excluding any. This is a place holder for when I do.
 
@@ -1153,8 +1202,8 @@ Currently not excluding any. This is a place holder for when I do.
 ;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
 #+end_src
 
-*** Behavior
-**** Disable If No Roam Directory
+** Behavior
+*** Disable If No Roam Directory
 
 Don't use Org Roam if the directory isn't present to avoid errors.
 
@@ -1164,7 +1213,7 @@ See [[file:config.el][config.el]] to understand how this works. Thanks Teco.
 (package! org-roam :disable t)
 #+end_src
 
-**** Capture Templates
+*** Capture Templates
 
 Currently just using the default captures template. This area still needs a lot of work. I need to decide how to use roam-capture and org-capture.
 
@@ -1179,14 +1228,14 @@ Currently just using the default captures template. This area still needs a lot 
          :unnarrowed t)))
 #+end_src
 
-**** Enable Autosync
+*** Enable Autosync
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
 (org-roam-db-autosync-mode)
 #+end_src
 
-*** Keybinds
-**** Find Random Draft Nodes
+** Keybinds
+*** Find Random Draft Nodes
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
 (defun noncog/org-roam-is-draft-p (node)
@@ -1205,7 +1254,7 @@ Currently just using the default captures template. This area still needs a lot 
 (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
 #+end_src
 
-** Org Roam UI
+* Org Roam UI
 
 #+begin_quote
 [[https://github.com/org-roam/org-roam-ui][org-roam-ui]] is a frontend for exploring and interacting with your org-roam notes.
@@ -1217,7 +1266,7 @@ Currently just using the default captures template. This area still needs a lot 
   :recipe (:host github :repo "org-roam/org-roam-ui"))
 #+end_src
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (use-package! websocket
     :after org-roam)
 
@@ -1229,28 +1278,28 @@ Currently just using the default captures template. This area still needs a lot 
   )
 #+end_src
 
-*** Appearance
-**** Theme
+** Appearance
+*** Theme
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
 (setq org-roam-ui-sync-theme t)
 #+end_src
 
-**** Window
+*** Window
 
 #+begin_src emacs-lisp
 (set-popup-rule! "^*xwidget" :ignore t :side 'left :width 120 :vslot 1 :quit t :select t :modeline nil)
 #+end_src
 
-*** Behavior
-**** General
+** Behavior
+*** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
 (setq org-roam-ui-follow t
       org-roam-ui-update-on-save t)
 #+end_src
 
-**** Use Xwidgets Instead of Browsers
+*** Use Xwidgets Instead of Browsers
 
 These functions enables you to open the graph within Emacs instead of an external browser. [[https://github.com/org-roam/org-roam-ui/issues/52#issuecomment-912246556][Source]]
 
@@ -1300,14 +1349,14 @@ Don't open the graph using a browser since we use Emacs.
 (setq org-roam-ui-open-on-start nil)
 #+end_src
 
-*** Keybinds
-**** Replace Doom's Default Org Roam Graph Keybinds
+** Keybinds
+*** Replace Doom's Default Org Roam Graph Keybinds
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
 (map! :leader :desc "Roam-UI graph" "n r g" #'org-roam-ui-open-in-browser)
 #+end_src
 
-** Org Modern
+* Org Modern
 
 #+begin_quote
 [[https://github.com/minad/org-modern][Org Modern]] implements a “modern” style for your Org buffers using font locking and text properties.
@@ -1318,7 +1367,7 @@ Don't open the graph using a browser since we use Emacs.
   :pin "b614ad31d72c49f9eb29d3836995fd7fb0d1fd4a")
 #+end_src
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (use-package! org-modern
   :hook (org-mode . org-modern-mode)
   :config
@@ -1326,8 +1375,8 @@ Don't open the graph using a browser since we use Emacs.
   )
 #+end_src
 
-*** Appearance
-**** General
+** Appearance
+*** General
 
 These settings will need sorted into their own headings eventually.
 
@@ -1352,7 +1401,7 @@ These settings will need sorted into their own headings eventually.
       )
 #+end_src
 
-** TODO Org Modern Indent
+* Org Modern Indent
 
 #+begin_quote
 [[https://github.com/jdtsmith/org-modern-indent][Org-modern-indent]] adds back the source block "bracket" to org-modern, which is normally broken by the use of indentation.
@@ -1370,7 +1419,7 @@ These settings will need sorted into their own headings eventually.
   (add-hook 'org-mode-hook #'org-modern-indent-mode 1))
 #+end_src
 
-** Org Appear
+* Org Appear
 
 #+begin_quote
 [[https://github.com/awth13/org-appear][Org Appear]] makes invisible Org elements like emphasis markers magically appear.
@@ -1382,7 +1431,7 @@ These settings will need sorted into their own headings eventually.
   :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
 #+end_src
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
   :config
@@ -1390,8 +1439,8 @@ These settings will need sorted into their own headings eventually.
   )
 #+end_src
 
-*** Appearance
-**** General
+** Appearance
+*** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-appear-config
 (setq org-appear-autoemphasis t              ; Show emphasis markup.
@@ -1402,7 +1451,7 @@ These settings will need sorted into their own headings eventually.
       org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
 #+end_src
 
-** Org Fragtog
+* Org Fragtog
 
 #+begin_quote
 [[https://github.com/io12/org-fragtog][Org Fragtog]] toggles LaTeX fragments as the cursor enters and exits them. It's org-appear for LaTeX!
@@ -1418,19 +1467,19 @@ These settings will need sorted into their own headings eventually.
   :hook (org-mode . org-fragtog-mode))
 #+end_src
 
-** Ox (Org Export)
+* Ox (Org Export)
 
 #+begin_quote
 This built-in library implements a generic export engine for Org. It uses different backends to change the translation of org documents into various other formats.
 #+end_quote
 
-#+begin_src emacs-lisp :exports onne
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! ox
   <<ox-config>>)
 #+end_src
 
-*** Appearance
-**** Creator String
+** Appearance
+*** Creator String
 
 I like to include this on my LaTeX exports to allude to the tools that I like to use.
 
@@ -1439,8 +1488,8 @@ I like to include this on my LaTeX exports to allude to the tools that I like to
       org-export-creator-string (format "Doom Emacs %s (Org mode %s)" emacs-version org-version))
 #+end_src
 
-*** Behavior
-**** Ignore Headings but Keep Content in Exports
+** Behavior
+*** Ignore Headings but Keep Content in Exports
 
 This setting allows you to use the =:ignore:= tag to remove a heading from an export but keep its contents.
 
@@ -1449,7 +1498,7 @@ This setting allows you to use the =:ignore:= tag to remove a heading from an ex
 (ox-extras-activate '(ignore-headlines))
 #+end_src
 
-**** Export Depth
+*** Export Depth
 
 By default only the first three headings, including titles are exported. Five levels of depth seems like a reasonable value for LaTeX and HTML exports. Tecosaur reasoned that HTML5 has six heading levels but Org exports start at the second, leaving us with just five to use. It should also challenge/prevent me from overly nesting information.
 
@@ -1457,8 +1506,8 @@ By default only the first three headings, including titles are exported. Five le
 (setq org-export-headline-levels 5)
 #+end_src
 
-*** Keybinds
-**** View Exported Org File
+** Keybinds
+*** View Exported Org File
 
 [[https://github.com/tecosaur/emacs-config/blob/master/config.org#view-exported-file][Tecosaur]] created a function and keybind to view the recently exported org-file.
 
@@ -1494,19 +1543,19 @@ found, using `org-view-output-file-extensions'."
   "File formats that should be opened externally.")
 #+end_src
 
-** Ox Latex
+* Ox Latex
 
 This built-in library is the LaTeX backend for the Org Export Engine.
 
-#+begin_src emacs-lisp :noweb no-export
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! ox-latex
   <<ox-latex-init>>
   <<ox-latex-config>>
   )
 #+end_src
 
-*** Appearance
-**** Set Source Block Backend
+** Appearance
+*** Set Source Block Backend
 
 This adds theming and syntax highlighting to our source blocks in latex exports.
 
@@ -1514,7 +1563,7 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
 (setq org-latex-src-block-backend 'engraved)
 #+end_src
 
-**** Custom Document Class
+*** Custom Document Class
 
 #+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
 (add-to-list 'org-latex-classes
@@ -1530,14 +1579,14 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 #+end_src
 
-*** Behavior
-**** Set PDF Process
+** Behavior
+*** Set PDF Process
 
 #+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
 (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
 #+end_src
 
-** Engrave Faces
+* Engrave Faces
 
 #+begin_quote
 [[https://github.com/tecosaur/engrave-faces][Engrave Faces]] is a generic exporter that passes a fontified buffer to an org backend to be exported to a particular format. It provides theming and syntax highlighting in code blocks for our org-mode html and latex exports!
@@ -1559,46 +1608,46 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
   :after ox-html)
 #+end_src
 
-** Org Noter
+* Org Noter
 
 #+begin_quote
 [[https://github.com/weirdNox/org-noter][Org Noter]] creates org notes that are kept in sync with PDF pages as you scroll.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! org-noter
   <<org-noter-config>>
   )
 #+end_src
 
-*** Behavior
-**** Frame
+** Behavior
+*** Frame
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-noter-config
 (setq org-noter-always-create-frame nil        ; Don't create a new frame for the session.
       org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
 #+end_src
 
-**** Notes
+*** Notes
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-noter-config
 (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
 #+end_src
 
-** Projectile
+* Projectile
 
 #+begin_quote
 [[https://github.com/bbatsov/projectile][Projectile]] is a project interaction library for Emacs. It provides easy project management and navigation.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! projectile
   <<projectile-config>>
   )
 #+end_src
 
-*** Variables
-**** Projects Directory
+** Variables
+*** Projects Directory
 
 I use the same convention for project location on each OS I use.
 
@@ -1606,8 +1655,8 @@ I use the same convention for project location on each OS I use.
 (setq projectile-project-search-path '("~/Projects"))
 #+end_src
 
-*** Behavior
-**** Compile C++ CMake Project in Vterm
+** Behavior
+*** Compile C++ CMake Project in Vterm
 
 This is a quick and dirty setup I did to get a dumb C++ project going. I need to actually setup my compile commands.
 
@@ -1641,8 +1690,8 @@ This is a quick and dirty setup I did to get a dumb C++ project going. I need to
 (set-popup-rule! "^*vterm minimax*" :size #'+mypopup-resize :quit #'+mypopup-kill :autosave 'ignore)
 #+end_src
 
-*** Keybinds
-**** List Uncommitted Projects
+** Keybinds
+*** List Uncommitted Projects
 
 I add a keybind to quickly view which projects have uncommitted changes.
 
@@ -1653,20 +1702,20 @@ I add a keybind to quickly view which projects have uncommitted changes.
       "p l" #'projectile-browse-dirty-projects)
 #+end_src
 
-** PlantUML
+* PlantUML
 
 #+begin_quote
 [[https://plantuml.com][PlantUML]] is a component that allows you to quickly write several types of UML diagrams using its language. This integrates well with org mode for generating UML diagrams from source blocks.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! plantuml-mode
   <<plantuml-mode-config>>
   )
 #+end_src
 
-*** Behavior
-**** Execution Mode
+** Behavior
+*** Execution Mode
 
 I use a local jar executable instead of contacting the website.
 
@@ -1674,7 +1723,7 @@ I use a local jar executable instead of contacting the website.
 (setq plantuml-default-exec-mode 'jar)
 #+end_src
 
-**** Ensure Local Installation
+*** Ensure Local Installation
 
 Downloads the jar file if it's not on the system.
 
@@ -1683,21 +1732,21 @@ Downloads the jar file if it's not on the system.
   (plantuml-download-jar))
 #+end_src
 
-** PDF Tools
+* PDF Tools
 
 #+begin_quote
 [[https://github.com/vedang/pdf-tools][PDF Tools]] is a replacement PDF viewer for the default, DocView, in Emacs. It's required for =org-noter=.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! pdf-tools
   <<pdf-tools-config>>
   (pdf-tools-install)
   )
 #+end_src
 
-*** Fixes
-**** Prevent Crash on macOS Ventura
+** Fixes
+*** Prevent Crash on macOS Ventura
 
 Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#issuecomment-1341882242][Source]]
 
@@ -1705,14 +1754,14 @@ Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#is
 (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
 #+end_src
 
-** Yasnippet
+* Yasnippet
 
 #+begin_quote
 [[https://github.com/joaotavora/yasnippet][Yasnippet]] is a template system for Emacs. It allows you to type an abbreviation and automatically expand it.
 #+end_quote
 
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! yasnippet
   (use-package! yasnippet
     :config
@@ -1720,32 +1769,32 @@ Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#is
     ))
 #+end_src
 
-*** Resources
+** Resources
 - [[https://joaotavora.github.io/yasnippet/index.html][Yasnippet Documentation]]
 - [[https://github.com/doomemacs/snippets][Doom Snippets]]
 
-*** Behavior
-**** Enable Nested Snippets
+** Behavior
+*** Enable Nested Snippets
 
 #+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
 (setq yas-triggers-in-field t)
 #+end_src
 
-** Magit
+* Magit
 
 #+begin_quote
 [[https://magit.vc][Magit]] is a powerful user Emacs interface for Git.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! magit
   <<magit-linter>>
   <<magit-config>>
   )
 #+end_src
 
-*** Behavior
-**** Dotfiles Git Bare Repository Support
+** Behavior
+*** Dotfiles Git Bare Repository Support
 
 Out of the box Magit doesn't support bare repositories, which are commonly used to manage dotfiles. I've extended an old method of loading the corresponding Git environment variables when relevant directories are open. This method works everywhere and seamlessly integrates managing my dotfiles into Magit. It could easily be extended to support multiple bare repositories as well.
 
@@ -1774,13 +1823,13 @@ It simply gets a list of all your dotfiles from the repository and whenever you'
             :filter-return #'my/magit-process-environment)
 #+end_src
 
-**** Commit Linter
+*** Commit Linter
 
 I've developed a custom Git commit linter based on [[https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format][Angular]] and [[https://www.conventionalcommits.org/][Conventional Commits]].
 
 The code is based on this [[https://www.adventuresinwhy.com/post/commit-message-linting/][this]] post but highly modified to conform to my chosen conventions.
 
-***** Define Convention Checks
+**** Define Convention Checks
 
 This option paralells =git-commit-style-convention-checks= from Magit.
 
@@ -1812,7 +1861,7 @@ That function is a member of `git-commit-finish-query-functions'."
   :group 'git-commit)
 #+end_src
 
-***** Define Convention Checker
+**** Define Convention Checker
 
 This function parallels =git-commit-check-style-conventions= from Magit.
 
@@ -1869,7 +1918,7 @@ conventions are checked."
               (y-or-n-p "Commit title ends with punctuation. Commit anyway?"))))))
 #+end_src
 
-***** Commit Types File Loader
+**** Commit Types File Loader
 
 #+begin_src emacs-lisp :tangle no :noweb-ref magit-linter
 (setq commit-types-file "~/.config/git/commit/commit-types")
@@ -1884,7 +1933,7 @@ conventions are checked."
       (split-string (buffer-string) "\n" t))))
 #+end_src
 
-***** Imperative Verbs File Loader
+**** Imperative Verbs File Loader
 
 #+begin_src emacs-lisp :tangle no :noweb-ref magit-linter
 (setq imperative-verbs-file "~/.config/git/commit/imperative-verbs")
@@ -1899,7 +1948,7 @@ conventions are checked."
       (split-string (buffer-string) "\n" t))))
 #+end_src
 
-***** Commit Template
+**** Commit Template
 
 I add the following template to my Git commit message to remind me of the Conventional Commits standard. This is not meant to be exhaustive, only a reminder.
 
@@ -1958,7 +2007,7 @@ And I enable it in my Git config using this.
     template = ~/.config/git/commit-message
 #+end_example
 
-***** Set Max Lengths
+**** Set Max Lengths
 
 These are commonly enforced commit length standards.
 
@@ -1967,7 +2016,7 @@ These are commonly enforced commit length standards.
 (setq git-commit-fill-column 72)                         ; Description column limit.
 #+end_src
 
-***** Hook Commit Linter
+**** Hook Commit Linter
 
 #+begin_src emacs-lisp :tangle no :noweb-ref magit-config
 (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
@@ -1975,20 +2024,20 @@ These are commonly enforced commit length standards.
              #'my-git-commit-check-style-conventions)
 #+end_src
 
-** Company
+* Company
 
 #+begin_quote
 [[http://company-mode.github.io][Company]] (complete anything) is a text completion framework for Emacs. It uses backends and frontends to retrieve and display completion candidates.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! company
   <<company-config>>
   )
 #+end_src
 
-*** Behavior
-**** General
+** Behavior
+*** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref company-config
 (setq company-idle-delay 0.3
@@ -1996,27 +2045,27 @@ These are commonly enforced commit length standards.
       company-minimum-prefix-length 1)
 #+end_src
 
-**** Org-mode Backend
+*** Org-mode Backend
 
 #+begin_src emacs-lisp :tangle no :noweb-ref company-config
 (set-company-backend! 'org-mode
   '(company-capf company-files :with company-yasnippet))
 #+end_src
 
-**** Sh-mode Backend
+*** Sh-mode Backend
 
 #+begin_src emacs-lisp :tangle no :noweb-ref company-config
 (set-company-backend! 'sh-mode
   '(company-shell company-files :with company-yasnippet))
 #+end_src
 
-** Vterm
+* Vterm
 
 #+begin_quote
 [[https://github.com/akermu/emacs-libvterm][Vterm]] is the most capable Emacs terminal emulator with unrivaled performance and compatibility.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! vterm
   (use-package! vterm
     :config
@@ -2024,8 +2073,8 @@ These are commonly enforced commit length standards.
     ))
 #+end_src
 
-*** Keybinds
-**** Fix =C-backspace=
+** Keybinds
+*** Fix =C-backspace=
 
 I love this keybind, more things should use it. Including vterm...
 
@@ -2035,14 +2084,14 @@ Thanks [[https://github.com/elken/doom#fix-c-backspace][Elken]]!
 (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
 #+end_src
 
-** Which-Key
+* Which-Key
 
 #+begin_quote
 [[https://github.com/justbur/emacs-which-key][Which-Key]] is a minor-mode for Emacs that displays keybinds for your currently unfinished inputs.
 #+end_quote
 
-*** Fixes
-**** Fix Height issue
+** Fixes
+*** Fix Height issue
 
 I was having an issue using =emacsclient= where which-key was being cut off below the modeline. A simple solution (found [[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][here]]) is to add spaces below the keybinds. Realistically this doesn't work everywhere but it's good enough for now.
 
@@ -2053,7 +2102,8 @@ I was having an issue using =emacsclient= where which-key was being cut off belo
   (advice-add 'which-key--show-popup :around #'add-which-key-line)
   )
 #+end_src
-**** Remove Evil Prefixes
+
+*** Remove Evil Prefixes
 
 #+begin_src emacs-lisp
 (setq which-key-allow-multiple-replacements t)
@@ -2063,20 +2113,21 @@ I was having an issue using =emacsclient= where which-key was being cut off belo
    '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1"))))
 #+end_src
-** Persp-Mode
+
+* Persp-Mode
 
 #+begin_quote
 [[https://github.com/Bad-ptr/persp-mode.el][Persp-Mode]] is used by Doom to manage workspaces across frames.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! persp-mode
   <<pers-config>>
   )
 #+end_src
 
-*** Fixes
-**** Prevent New Workspaces on New Frames
+** Fixes
+*** Prevent New Workspaces on New Frames
 
 By default, when using emacsclient, Doom creates a new workspace for each emacsclient window. I don't want this, so we'll disable it.
 
@@ -2084,7 +2135,7 @@ By default, when using emacsclient, Doom creates a new workspace for each emacsc
 (setq persp-emacsclient-init-frame-behaviour-override nil)
 #+end_src
 
-** Visual Fill Column
+* Visual Fill Column
 
 #+begin_quote
 [[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill-Column]] is an Emacs minor mode that enables word wrapping at a column and centering the buffer content.
@@ -2092,8 +2143,8 @@ By default, when using emacsclient, Doom creates a new workspace for each emacsc
 
 I use this to center org-mode buffers primarily. In Doom, I get this package by enabling the zen module.
 
-*** Behavior
-**** Center Org
+** Behavior
+*** Center Org
 
 #+begin_src emacs-lisp
 (defun noncog/org-mode-visual-fill ()
@@ -2105,46 +2156,46 @@ I use this to center org-mode buffers primarily. In Doom, I get this package by 
   :hook (org-mode . noncog/org-mode-visual-fill))
 #+end_src
 
-** Treemacs
+* Treemacs
 
 #+begin_quote
 [[https://github.com/Alexander-Miller/treemacs][Treemacs]] is a file and project explorer in a tree sidebar similar to Neotree and Nerdtree for Vim.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! treemacs
-  <<treemacs-config
+  <<treemacs-config>>
   )
 #+end_src
 
-*** Appearance
-**** Use Doom's Theme Colors
+** Appearance
+*** Use Doom's Theme Colors
 
 #+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
 (setq doom-themes-treemacs-theme "doom-colors")
 #+end_src
 
-** Vertico
+* Vertico
 
 #+begin_quote
 [[https://github.com/minad/vertico][Vertico]] provides a performant and compatible vertical completion UI for Emacs.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! vertico
   <<vertico-config>>
   )
 #+end_src
 
-*** Behavior
-**** Alphabetical Sort Order
+** Behavior
+*** Alphabetical Sort Order
 
 #+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
 (setq vertico-sort-function #'vertico-sort-alpha)
 #+end_src
 
-*** Keybinds
-**** Add Scroll Keys to Minibuffer
+** Keybinds
+*** Add Scroll Keys to Minibuffer
 Add "regular" style scrolling keybinds to Vertico for the minibuffer.
 
 #+begin_src emacs-lisp
@@ -2159,20 +2210,20 @@ Add "regular" style scrolling keybinds to Vertico for the minibuffer.
       "C-u" #'scroll-down-command)
 #+end_src
 
-** Doom Modeline
+* Doom Modeline
 
 #+begin_quote
 [[https://github.com/seagle0128/doom-modeline][Doom-Modeline]] is a fancy and fast mode-line inspired by minimalism design.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! doom-modeline
   <<doom-modeline-config>>
   )
 #+end_src
 
-*** Appearance
-**** General
+** Appearance
+*** General
 #+begin_src emacs-lisp
 (setq doom-modeline-height 35)
 (setq doom-modeline-major-mode-icon t)
@@ -2181,58 +2232,58 @@ Add "regular" style scrolling keybinds to Vertico for the minibuffer.
 (setq doom-modeline-persp-icon t)
 #+end_src
 
-** Nav-flash
+* Nav-flash
 
 #+begin_quote
 [[https://github.com/rolandwalker/nav-flash][Nav-flash]] briefly highlights the currently in Emacs.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! nav-flash
   <<nav-flash-config>>
   )
 #+end_src
 
-*** Appearance
-**** Set Flash Length
+** Appearance
+*** Set Flash Length
 
 #+begin_src emacs-lisp :tangle no :noweb-ref nav-flash-config
 (setq nav-flash-delay 0.75)
 #+end_src
 
-** Doom Dashboard
+* Doom Dashboard
 
 #+begin_quote
 Doom-Dashboard adds a customizable dashboard as the default buffer.
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! doom-dashboard
   <<doom-dashboard-config>>
   )
 #+end_src
 
-*** Keybinds
-**** Open the Dashboard
+** Keybinds
+*** Open the Dashboard
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-dashboard-config
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 #+end_src
 
-** Lsp-Clangd
+* Lsp-Clangd
 
 #+begin_quote
 
 #+end_quote
 
-#+begin_src emacs-lisp :exports none
+#+begin_src emacs-lisp :exports none :noweb no-export
 (after! lsp-clangd
   <<lsp-clangd-config>>
   )
 #+end_src
 
-*** Behavior
-**** Set Clangd Args
+** Behavior
+*** Set Clangd Args
 
 #+begin_src emacs-lisp :tangle no :noweb-ref lsp-clangd-config
 (setq lsp-clients-clangd-args
