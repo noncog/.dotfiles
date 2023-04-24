@@ -1,4 +1,7 @@
-#+startup: show2levels
+#+tags: export noexport
+#+export_exclude_tags: exclude noexport
+
+#+startup: show2levels hideblocks
 
 #+html:<div align="center">
 * Yabai
@@ -109,7 +112,7 @@ yabai -m config window_border_width         2
 *** Window Shadows
 
 #+begin_src sh :tangle yabairc
-yabai -m config window_shadow on
+yabai -m config window_shadow off
 #+end_src
 
 ** Workspace Apps
@@ -207,3 +210,5 @@ yabai -m signal --add event=window_created app="^Firefox$" action="yabai -m wind
 #+begin_src sh :tangle yabairc
 yabai -m signal --add event=window_created app="^LibreWolf$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
 #+end_src
+
+[[shell:brew services restart yabai][Restart Yabai]]

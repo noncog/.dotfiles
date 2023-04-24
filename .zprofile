@@ -17,3 +17,6 @@ export VISUAL="emacsclient -c -a emacs"
 
 # Add GNU grep to system instead of BSD grep.
 PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
+
+# Add Clangd/Llvm for LSP mode.
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"

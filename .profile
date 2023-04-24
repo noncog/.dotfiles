@@ -35,7 +35,7 @@ export EMACSDIR="$HOME/.config/emacs"
 
 # Set Emacs as system editor.
 export EDITOR=emacs
-export VISUAL=$EDITOR
+export VISUAL=emacs
 
 # Set terminal.
 export TERMINAL=/usr/bin/kitty
