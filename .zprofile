@@ -1,10 +1,12 @@
 # Set PATH, MANPATH, etc., for Homebrew.
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ -f /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
 # Set XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# Add Doom wrapper scrpt to $PATH.
+# Add Doom wrapper script to $PATH.
 PATH="$PATH:$HOME/.config/doom/wrapper"
 
 # Set Doom environment variables.
