@@ -97,27 +97,27 @@
 (after! org
   (setq org-todo-keywords
         '((sequence
-           "TODO(t!)"    ; A task that needs doing & is ready to do.
-           "NEXT(n!)"    ; A task that needs doing & is ready to do.
-           "STRT(s!)"    ; A task that is in progress.
-           "WAIT(w@/!)"  ; Something external is holding up this task.
-           "HOLD(h@/!)"  ; This task is paused/on hold because of me.
-           "PROJ(p!)"    ; A project, which usually contains other tasks.
-           "IDEA(i!)"    ; An unconfirmed and unapproved task or notion.
-           "NOTE(N!)"    ; A fleeting note, in person, idea, link, anything.
-           "APPT(a!)"    ; An appointment.
-           "MEET(m!)"    ; A meeting.
-           "READ(r!)"    ; Something to read.
-           "LINK(l!)"    ; A link I want to note.
-           "|"           ; Marker signifying remaining are a "completed" states.
-           "DONE(d!)"    ; Task successfully completed.
-           "KILL(k@/!)") ; Task was cancelled, aborted or is no longer applicable.
-          (sequence      ; For nesting headings like lists.
-           "[ ](T)"      ; A task that needs doing.
-           "[-](S!)"     ; Task is in progress.
-           "[?](W@/!)"   ; Task is being held up or paused.
+           "TODO(t!)"                          ; Task that needs doing & is ready to do.
+           "NEXT(n!)"                          ; Task that needs doing & is ready to do.
+           "STRT(s!)"                          ; Task that is in progress.
+           "WAIT(w@/!)"                        ; Something external is holding this up.
+           "HOLD(h@/!)"                        ; Task is paused because of me.
+           "PROJ(p!)"                          ; A project, which contains other tasks.
+           "IDEA(i!)"                          ; An unconfirmed task or notion.
+           "NOTE(N!)"                          ; A fleeting note, in person, idea, or link.
+           "APPT(a!)"                          ; An appointment.
+           "MEET(m!)"                          ; A meeting.
+           "READ(r!)"                          ; Something to read.
+           "LINK(l!)"                          ; A link I want to note.
            "|"
-           "[X](D)"))    ; Task was completed.
+           "DONE(d!)"                          ; Task successfully completed.
+           "KILL(k@/!)")                       ; Task cancelled or not applicable.
+          (sequence                            ; For nesting headings like lists.
+           "[ ](T)"                            ; A task that needs doing.
+           "[-](S!)"                           ; Task is in progress.
+           "[?](W@/!)"                         ; Task is being held up or paused.
+           "|"
+           "[X](D)"))                          ; Task was completed.
         org-todo-keyword-faces
         '(("[-]"  . +org-todo-active)
           ("STRT" . +org-todo-active)
@@ -127,12 +127,12 @@
           ("HOLD" . +org-todo-onhold)
           ("PROJ" . +org-todo-project)
           ("KILL" . +org-todo-cancel)))
-  (setq org-hide-emphasis-markers t     ; Hide syntax for emphasis markup. See org-appear.
-        org-pretty-entities nil         ; Show entities like sub/superscript as UTF8.
-        org-src-preserve-indentation t) ; Prevents changes to whitespace in source blocks.
-  (setq org-ellipsis " ▾ "              ; Use a custom ellipsis for folded headings.
-        org-hide-leading-stars t        ; Remove excess heading stars.
-        org-hidden-keywords nil)        ; Can use to hide certain keywords.
+  (setq org-hide-emphasis-markers t            ; Hide syntax for emphasis. (Use org-appear)
+        org-pretty-entities nil                ; Show sub/superscript as UTF8.
+        org-src-preserve-indentation t)        ; Don't change whitespace in source blocks.
+  (setq org-ellipsis " ▾ "                     ; Use a custom ellipsis for folded headings.
+        org-hide-leading-stars t               ; Remove excess heading stars.
+        org-hidden-keywords nil)               ; Can use to hide certain keywords.
   (setq org-startup-with-latex-preview nil)
   (setq org-highlight-latex-and-related '(native script entities))
   (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
@@ -148,8 +148,8 @@
         org-log-states-order-reversed nil)     ; Log state changes chronologically.
   (setq org-list-allow-alphabetical t)         ; Enable use of alphabet as list bullets.
   (setq org-return-follows-link t)             ; Pressing enter opens links.
+  (add-to-list 'org-modules 'org-habit t)      ; Enable repeated task tracking/graphing!
   (setq evil-collection-calendar-want-org-bindings t)
-  (add-to-list 'org-modules 'org-habit t)
   (defun noncog/my-agenda ()
     "My custom agenda launcher."
     (interactive)
@@ -554,6 +554,10 @@ found, using `org-view-output-file-extensions'."
   (setq org-noter-always-create-frame nil        ; Don't create a new frame for the session.
         org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
   (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
+  )
+
+(after! toc-org
+  (setq org-toc-default-depth 2)
   )
 
 (after! projectile
