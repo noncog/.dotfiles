@@ -49,7 +49,7 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(unpin! org-roam) ; NOTE: Requires latest org-roam.
+(unpin! org-roam) ; NOTE: org-roam-ui requires latest org-roam.
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui"))
 
@@ -70,3 +70,7 @@
 (package! engrave-faces
   :recipe (:host github :repo "tecosaur/engrave-faces")
   :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
+
+(package! beacon
+  :recipe (:host github :repo "Malabarba/beacon")
+  :pin "85261a928ae0ec3b41e639f05291ffd6bf7c231c")
