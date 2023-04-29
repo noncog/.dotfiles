@@ -159,9 +159,8 @@
 
 Doom Emacs uses three config files:
 
-- =init.el= - Defines which of Doom's modules are loaded.
-- =packages.el= - Defines which external pacakges are loaded.
-- =config.el= - The user's custom configuration.
+=init.el=
+#+html:<details><summary>Defines which of Doom's modules are loaded.</summary>
 
 #+begin_src emacs-lisp :tangle init.el
 ;;; init.el -*- lexical-binding: t; -*-
@@ -180,6 +179,10 @@ Doom Emacs uses three config files:
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 #+end_src
+#+html:</details>
+
+=packages.el=
+#+html:<details><summary>Defines which external pacakges are loaded.</summary>
 
 #+begin_src emacs-lisp :tangle packages.el
 ;; -*- no-byte-compile: t; -*-
@@ -233,6 +236,10 @@ Doom Emacs uses three config files:
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 #+end_src
+#+html:</details>
+
+=config.el=
+#+html:<details><summary>The user's custom configuration.</summary>
 
 #+begin_src emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
@@ -272,6 +279,7 @@ Doom Emacs uses three config files:
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 #+end_src
+#+html:</details>
 
 ** Doom Modules
 
