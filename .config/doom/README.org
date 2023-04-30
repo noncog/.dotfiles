@@ -1,8 +1,11 @@
 #+tags: export noexport
 #+export_select_tags: export
 #+export_exclude_tags: exclude noexport
-#+options: todo:nil
-#+startup: show2levels
+
+* Banner :noexport:
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 
 #+begin_html
 <div align="center">
@@ -139,6 +142,9 @@
 #+END_QUOTE
 
 * Doom
+:PROPERTIES:
+:VISIBILITY: children
+:END:
 ** Resources
 *** Doom User Configs
 - [[https://github.com/tecosaur/emacs-config][Tecosaur]]
@@ -2458,6 +2464,7 @@ These are commonly enforced commit length standards.
 #+begin_quote
 [[https://github.com/akermu/emacs-libvterm][Vterm]] is the most capable Emacs terminal emulator with unrivaled performance and compatibility.
 #+end_quote
+
 ** Package
 *** Configuration
 
@@ -2572,7 +2579,6 @@ I use this to center org-mode buffers primarily. In Doom, I get this package by 
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 #+end_src
-
 
 * Treemacs
 :PROPERTIES:
