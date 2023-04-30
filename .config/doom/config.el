@@ -120,19 +120,23 @@
     (wm-focus-on-error direction #'windmove-down)))
 
 (when IS-MAC
-  (map! "s-h" #'wm-window-left)
-  (map! "s-j" #'wm-window-down)
-  (map! "s-k" #'wm-window-up)
-  (map! "s-l" #'wm-window-right)
-  (map! "s-=" #'balance-windows)
-  (map! "s-Q" #'evil-quit))
+  (map! "s-h" #'wm-window-left
+        "s-j" #'wm-window-down
+        "s-k" #'wm-window-up
+        "s-l" #'wm-window-right
+        "s-=" #'balance-windows
+        "s-v" #'evil-window-vsplit
+        "s-s" #'evil-window-split
+        "s-Q" #'evil-quit))
 
 (when IS-LINUX
-  (map! "s-h" #'wm-window-left)
-  (map! "s-j" #'wm-window-down)
-  (map! "s-k" #'wm-window-up)
-  (map! "s-l" #'wm-window-right)
-  (map! "s-Q" #'evil-quit))
+  (map! "s-h" #'wm-window-left
+        "s-j" #'wm-window-down
+        "s-k" #'wm-window-up
+        "s-l" #'wm-window-right
+        ;; add workspace balancing python script.
+        ;; add window splitting.
+        "s-Q" #'evil-quit))
 
 (map! :leader "w h" #'wm-window-left)
 (map! :leader "w j" #'wm-window-down)

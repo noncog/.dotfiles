@@ -80,6 +80,18 @@ shift + alt - q  [
 ]
 #+end_src
 
+*** Split Windows
+
+#+begin_src conf :tangle skhdrc
+alt - s  [
+  ,*      : yabai -m window --toggle split
+  "Emacs" ~
+]
+alt - v  [
+  ,*      : yabai -m window --toggle split
+  "Emacs" ~
+]
+#+end_src
 ** General Workspaces
 
 #+begin_src conf :tangle skhdrc

@@ -15,6 +15,11 @@
 </div>
 #+end_html
 
+** Controls
+These controls allow me to execute shell commands from within org-mode.
+
+[[shell:brew services restart yabai][Restart Yabai]]
+
 ** Startup
 *** Load Scripting Additions
 
@@ -211,4 +216,3 @@ yabai -m signal --add event=window_created app="^Firefox$" action="yabai -m wind
 yabai -m signal --add event=window_created app="^LibreWolf$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
 #+end_src
 
-[[shell:brew services restart yabai][Restart Yabai]]
