@@ -2,7 +2,7 @@
 #+export_select_tags: export
 #+export_exclude_tags: exclude noexport
 
-* Banner :noexport:
+* Banner :ignore:
 :PROPERTIES:
 :VISIBILITY: folded
 :END:
@@ -25,6 +25,7 @@
 :VISIBILITY: folded
 :END:
 #+BEGIN_QUOTE
+- [[#banner][Banner]]
 - [[#doom][Doom]]
   - [[#resources][Resources]]
   - [[#doom-configs][Doom Configs]]
