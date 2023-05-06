@@ -107,31 +107,33 @@
   - [[#package-20][Package]]
   - [[#keybinds-7][Keybinds]]
 - [[#which-key][Which-Key]]
+  - [[#package-21][Package]]
   - [[#fixes-2][Fixes]]
 - [[#persp-mode][Persp-Mode]]
-  - [[#package-21][Package]]
+  - [[#package-22][Package]]
   - [[#fixes-3][Fixes]]
 - [[#visual-fill-column][Visual Fill Column]]
-  - [[#package-22][Package]]
-  - [[#behavior-15][Behavior]]
-- [[#treemacs][Treemacs]]
   - [[#package-23][Package]]
-  - [[#appearance-8][Appearance]]
-- [[#vertico][Vertico]]
+  - [[#helpers-1][Helpers]]
+- [[#treemacs][Treemacs]]
   - [[#package-24][Package]]
+  - [[#appearance-8][Appearance]]
+  - [[#behavior-15][Behavior]]
+- [[#vertico][Vertico]]
+  - [[#package-25][Package]]
   - [[#behavior-16][Behavior]]
   - [[#keybinds-8][Keybinds]]
 - [[#doom-modeline][Doom Modeline]]
-  - [[#package-25][Package]]
+  - [[#package-26][Package]]
   - [[#appearance-9][Appearance]]
 - [[#doom-dashboard][Doom Dashboard]]
-  - [[#package-26][Package]]
+  - [[#package-27][Package]]
   - [[#keybinds-9][Keybinds]]
 - [[#lsp-clangd][LSP-Clangd]]
-  - [[#package-27][Package]]
+  - [[#package-28][Package]]
   - [[#behavior-17][Behavior]]
 - [[#beacon][Beacon]]
-  - [[#package-28][Package]]
+  - [[#package-29][Package]]
   - [[#appearance-10][Appearance]]
   - [[#behavior-18][Behavior]]
 #+END_QUOTE
@@ -141,6 +143,9 @@
 :VISIBILITY: children
 :END:
 ** Resources
+
+Emacs and Doom Emacs (Linux in general) configuration is somewhat of an art. Here are a few user configurations to learn from.
+
 *** Doom User Configs
 - [[https://github.com/tecosaur/emacs-config][Tecosaur]]
 - [[https://github.com/zzamboni/dot-doom/blob/master/doom.org][Zzamboni]]
@@ -158,7 +163,7 @@
 
 ** Doom Configs
 
-Doom Emacs uses three config files:
+Doom only uses three config files. I keep their headers here.
 
 =init.el=
 #+html:<details><summary>Defines which of Doom's modules are loaded.</summary>
@@ -500,16 +505,26 @@ I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experi
 - Doom Iosvkem
 - Doom Dracula
 - Doom Palenight
+- Doom Henna
 - Doom Ayu-Mirage and Doom Ayu-Dark
+- Doom Material Dark
+- Doom Molokai
+- Doom Monokai
+- Doom Old Hope
 - Doom Horizon
+- Doom 1337
 - Doom Material
 - Doom Oceanic Next
 - Doom Xcode
 
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-dracula
-      doom-dracula-brighter-modeline t
-      doom-dracula-colorful-headers t)
+(setq doom-theme 'doom-Iosvkem)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+;(setq doom-theme 'doom-dracula
+;      doom-dracula-brighter-modeline t
+;      doom-dracula-colorful-headers t)
 #+end_src
 
 *** Font
@@ -748,6 +763,11 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
 #+end_src
 
 ** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+;; Variables
+#+end_src
+
 *** Org Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pre-org
@@ -794,11 +814,16 @@ I have excess keywords and will likely simplify them when I decide their best us
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+;; Appearance
+#+end_src
+
 *** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-hide-emphasis-markers t            ; Hide syntax for emphasis. (Use org-appear)
-      org-pretty-entities nil                ; Show sub/superscript as UTF8.
+      org-pretty-entities t                  ; Show sub/superscript as UTF8.
       org-src-preserve-indentation t)        ; Don't change whitespace in source blocks.
 #+end_src
 
@@ -839,6 +864,11 @@ Unfortunately, when using =native= highlighting the =org-block= face is used as 
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+;; Behavior
+#+end_src
+
 *** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
@@ -908,6 +938,11 @@ Org Agenda collects, creates, and displays an overview of actionable tasks your 
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+;; Appearance
+#+end_src
+
 *** Habits
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
@@ -1132,6 +1167,11 @@ I use a custom width variable to ensure the formatting as I can't trust auto-ali
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+;; Behavior
+#+end_src
+
 *** Logging
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
@@ -1297,6 +1337,11 @@ If nil it defaults to `split-string-default-separators', normally
 #+end_src
 
 ** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+;; Keybinds
+#+end_src
+
 *** My Custom Agenda Launcher
 
 #+begin_src emacs-lisp :tangle no :noweb-ref post-org-agenda
@@ -1311,6 +1356,11 @@ If nil it defaults to `split-string-default-separators', normally
 #+end_src
 
 ** Helpers
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+;; Helpers
+#+end_src
+
 *** Find and Skip Tags
 
 #+begin_src emacs-lisp :tangle no :noweb-ref post-org-agenda
@@ -1353,6 +1403,11 @@ Org Capture lets you quickly insert into your org documents.
 #+end_src
 
 ** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+;; Variables
+#+end_src
+
 *** Capture Templates
 
 I'm currently only using one template that sends all captured headings to an inbox. This increases speed by capturing now and organizing later.
@@ -1365,6 +1420,11 @@ I'm currently only using one template that sends all captured headings to an inb
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+;; Behavior
+#+end_src
+
 *** Don't Add to Bookmarks
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
@@ -1372,6 +1432,11 @@ I'm currently only using one template that sends all captured headings to an inb
 #+end_src
 
 ** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+;; Keybinds
+#+end_src
+
 *** Switch Doom's Default Capture Binds
 
 I switch Doom's default scratch buffer and org-capture keybinds. With this, I can quickly capture something with =SPC x=.
@@ -1382,6 +1447,11 @@ I switch Doom's default scratch buffer and org-capture keybinds. With this, I ca
 #+end_src
 
 ** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+;; Fixes
+#+end_src
+
 *** Fix Org Capture Window Breaking
 
 Sometimes the capture window breaks when the agenda or agenda files are already open. This fix reloads org-mode during captures. [[https://github.com/doomemacs/doomemacs/issues/5714][Source]]
@@ -1425,6 +1495,11 @@ Sometimes the capture window breaks when the agenda or agenda files are already 
 #+end_src
 
 ** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; Variables
+#+end_src
+
 *** Roam Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
@@ -1452,6 +1527,11 @@ Currently not excluding any. This is a place holder for when I do.
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; Behavior
+#+end_src
+
 *** Disable If No Roam Directory
 
 Don't use Org Roam if the directory isn't present to avoid errors.
@@ -1483,6 +1563,11 @@ Currently just using the default captures template. This area still needs a lot 
 #+end_src
 
 ** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; Keybinds
+#+end_src
+
 *** Find Random Draft Nodes
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
@@ -1536,6 +1621,11 @@ Currently just using the default captures template. This area still needs a lot 
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;; Appearance
+#+end_src
+
 *** Theme
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
@@ -1549,6 +1639,11 @@ Currently just using the default captures template. This area still needs a lot 
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;; Behavior
+#+end_src
+
 *** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
@@ -1611,6 +1706,11 @@ Use default browser unless `xwidget' is available."
 #+end_src
 
 ** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;; Keybinds
+#+end_src
+
 *** Replace Doom's Default Org Roam Graph Keybinds
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
@@ -1644,6 +1744,11 @@ Use default browser unless `xwidget' is available."
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-modern-config
+;; Appearance
+#+end_src
+
 *** General
 
 These settings will need sorted into their own headings eventually.
@@ -1721,12 +1826,17 @@ These settings will need sorted into their own headings eventually.
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-appear-config
+;; Appearance
+#+end_src
+
 *** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-appear-config
 (setq org-appear-autoemphasis t              ; Show emphasis markup.
       org-appear-autosubmarkers t            ; Show sub/superscript
-      org-appear-autoentities nil            ; Show LaTeX like Org pretty entities.
+      org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
       org-appear-autolinks nil               ; Shows Org links.
       org-appear-autokeywords nil            ; Shows hidden Org keywords.
       org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
@@ -1776,6 +1886,11 @@ Ox (Org Export) implements a generic export engine for Org. It uses different ba
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+;; Appearance
+#+end_src
+
 *** Creator String
 
 I like to include this on my LaTeX exports to allude to the tools that I like to use.
@@ -1786,6 +1901,11 @@ I like to include this on my LaTeX exports to allude to the tools that I like to
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+;; Behavior
+#+end_src
+
 *** Ignore Headings but Keep Content in Exports
 
 This setting allows you to use the =:ignore:= tag to remove a heading from an export but keep its contents.
@@ -1804,6 +1924,11 @@ By default only the first three headings, including titles are exported. Five le
 #+end_src
 
 ** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+;; Keybinds
+#+end_src
+
 *** View Exported Org File
 
 [[https://github.com/tecosaur/emacs-config/blob/master/config.org#view-exported-file][Tecosaur]] created a function and keybind to view the recently exported org-file.
@@ -1863,6 +1988,11 @@ Ox Latex is the LaTeX backend for the Org Export Engine.
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
+;; Appearance
+#+end_src
+
 *** Set Source Block Backend
 
 This adds theming and syntax highlighting to our source blocks in latex exports.
@@ -1888,6 +2018,11 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
+;; Behavior
+#+end_src
+
 *** Set PDF Process
 
 #+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
@@ -1944,6 +2079,11 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-noter-config
+;; Behavior
+#+end_src
+
 *** Frame
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-noter-config
@@ -1978,7 +2118,13 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref toc-org-config
+;; Behavior
+#+end_src
+
 *** Set Default Depth
+
 #+begin_src emacs-lisp :tangle no :noweb-ref toc-org-config
 (setq org-toc-default-depth 2)
 #+end_src
@@ -2006,6 +2152,11 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
 #+end_src
 
 ** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+;; Variables
+#+end_src
+
 *** Projects Directory
 
 I use the same convention for project location on each OS I use.
@@ -2015,6 +2166,11 @@ I use the same convention for project location on each OS I use.
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+;; Behavior
+#+end_src
+
 *** Compile C++ CMake Project in Vterm
 
 This is a quick and dirty setup I did to get a dumb C++ project going. I need to actually setup my compile commands.
@@ -2050,6 +2206,11 @@ This is a quick and dirty setup I did to get a dumb C++ project going. I need to
 #+end_src
 
 ** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+;; Keybinds
+#+end_src
+
 *** List Uncommitted Projects
 
 I add a keybind to quickly view which projects have uncommitted changes.
@@ -2082,6 +2243,11 @@ I add a keybind to quickly view which projects have uncommitted changes.
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref plantuml-mode-config
+;; Behavior
+#+end_src
+
 *** Execution Mode
 
 I use a local jar executable instead of contacting the website.
@@ -2121,6 +2287,11 @@ Downloads the jar file if it's not on the system.
 #+end_src
 
 ** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref pdf-tools-config
+;; Fixes
+#+end_src
+
 *** Prevent Crash on macOS Ventura
 
 Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#issuecomment-1341882242][Source]]
@@ -2154,6 +2325,11 @@ Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#is
 - [[https://github.com/doomemacs/snippets][Doom Snippets]]
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
+;; Behavior
+#+end_src
+
 *** Enable Nested Snippets
 
 #+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
@@ -2182,6 +2358,11 @@ Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#is
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+;; Behavior
+#+end_src
+
 *** Dotfiles Git Bare Repository Support
 
 Out of the box Magit doesn't support bare repositories, which are commonly used to manage dotfiles. I've extended an old method of loading the corresponding Git environment variables when relevant directories are open. This method works everywhere and seamlessly integrates managing my dotfiles into Magit. It could easily be extended to support multiple bare repositories as well.
@@ -2205,6 +2386,9 @@ It simply gets a list of all your dotfiles from the repository and whenever you'
       (push (format "GIT_DIR=%s" git-dir) env)))
   env)
 #+end_src
+
+#+RESULTS:
+: my/magit-process-environment
 
 #+begin_src emacs-lisp :tangle no :noweb-ref magit-config
 (advice-add 'magit-process-environment
@@ -2433,6 +2617,11 @@ These are commonly enforced commit length standards.
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref company-config
+;; Behavior
+#+end_src
+
 *** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref company-config
@@ -2476,6 +2665,11 @@ These are commonly enforced commit length standards.
 #+end_src
 
 ** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
+;; Keybinds
+#+end_src
+
 *** Fix =C-backspace=
 
 I love this keybind, more things should use it. Including vterm...
@@ -2495,28 +2689,41 @@ Thanks [[https://github.com/elken/doom#fix-c-backspace][Elken]]!
 [[https://github.com/justbur/emacs-which-key][Which-Key]] is a minor-mode for Emacs that displays keybinds for your currently unfinished inputs.
 #+end_quote
 
+** Package
+*** Configuration
+
+#+begin_src emacs-lisp :noweb yes
+(use-package! which-key
+  :defer t
+  :config
+  <<which-key-config>>
+  )
+#+end_src
+
 ** Fixes
-*** Fix Height issue
+
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
+;; Fixes
+#+end_src
+
+*** Fix Height Issue
 
 I was having an issue using =emacsclient= where which-key was being cut off below the modeline. A simple solution (found [[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][here]]) is to add spaces below the keybinds. Realistically this doesn't work everywhere but it's good enough for now.
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
 ;; Add an extra line to work around bug in which-key imprecise
-(after! which-key
-  (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
-  (advice-add 'which-key--show-popup :around #'add-which-key-line)
-  )
+(defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
+(advice-add 'which-key--show-popup :around #'add-which-key-line)
 #+end_src
 
 *** Remove Evil Prefixes
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
 (setq which-key-allow-multiple-replacements t)
-(after! which-key
-  (pushnew!
-   which-key-replacement-alist
-   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
-   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1"))))
+(pushnew!
+ which-key-replacement-alist
+ '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
+ '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
 #+end_src
 
 * Persp-Mode
@@ -2540,6 +2747,11 @@ I was having an issue using =emacsclient= where which-key was being cut off belo
 #+end_src
 
 ** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref persp-config
+;; Fixes
+#+end_src
+
 *** Prevent New Workspaces on New Frames
 
 By default, when using emacsclient, Doom creates a new workspace for each emacsclient window. I don't want this, so we'll disable it.
@@ -2567,7 +2779,12 @@ I use this to center org-mode buffers primarily. In Doom, I get this package by 
   :hook (org-mode . noncog/center-org-mode-visual-fill))
 #+end_src
 
-** Behavior
+** Helpers
+
+#+begin_src emacs-lisp
+;; Helpers
+#+end_src
+
 *** Center Org
 
 #+begin_src emacs-lisp
@@ -2600,10 +2817,44 @@ I use this to center org-mode buffers primarily. In Doom, I get this package by 
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+;; Appearance
+#+end_src
+
 *** Use Doom's Theme Colors
 
 #+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
 (setq doom-themes-treemacs-theme "doom-colors")
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+;; Behavior
+#+end_src
+
+*** Enable Follow Mode
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+(treemacs-follow-mode 1)
+(treemacs-tag-follow-mode 1)
+#+end_src
+
+*** Reduce Follow Delay
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+(setq treemacs-file-follow-delay 0.2
+      treemacs-tag-follow-delay 0.3)
+#+end_src
+
+*** Recenter After Following
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+;; (setq treemacs-recenter-after-tag-follow 'always
+;;       treemacs-recenter-after-file-follow 'always
+;;       treemacs-recenter-distance 0.9
+;;       treemacs-follow-recenter-distance 0.9)
 #+end_src
 
 * Vertico
@@ -2627,13 +2878,23 @@ I use this to center org-mode buffers primarily. In Doom, I get this package by 
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+;; Behavior
+#+end_src
+
 *** Alphabetical Sort Order
 
 #+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
-(setq vertico-sort-function #'vertico-sort-alpha)
+(setq vertico-sort-function #'vertico-sort-history-alpha)
 #+end_src
 
 ** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+;; Keybinds
+#+end_src
+
 *** Add Emacs Style Scroll Keys to Minibuffer
 
 Add "regular" style scrolling keybinds to Vertico for the minibuffer.
@@ -2664,6 +2925,11 @@ Add "regular" style scrolling keybinds to Vertico for the minibuffer.
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
+;; Appearance
+#+end_src
+
 *** General
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
@@ -2695,6 +2961,11 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 #+end_src
 
 ** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-dashboard-config
+;; Keybinds
+#+end_src
+
 *** Open the Dashboard
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-dashboard-config
@@ -2722,6 +2993,11 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref lsp-clangd-config
+;; Behavior
+#+end_src
+
 *** Set Clangd Args
 
 #+begin_src emacs-lisp :tangle no :noweb-ref lsp-clangd-config
@@ -2763,6 +3039,11 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref beacon-init
+;; Appearance
+#+end_src
+
 *** Color
 
 #+begin_src emacs-lisp :tangle no :noweb-ref beacon-init
@@ -2770,10 +3051,23 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref beacon-init
+;; Behavior
+#+end_src
+
 *** Size and Duration
 
 #+begin_src emacs-lisp :tangle no :noweb-ref beacon-init
 (setq beacon-size 40
       beacon-blink-duration 0.3
       beacon-blink-delay 0.5)
+#+end_src
+
+*** When To Blink
+
+#+begin_src emacs-lisp :tangle no :noweb-ref beacon-init
+(setq beacon-blink-when-buffer-changes t
+      beacon-blink-when-window-scrolls nil
+      beacon-blink-when-focused t)
 #+end_src

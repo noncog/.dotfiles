@@ -38,9 +38,7 @@
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
 
-(setq doom-theme 'doom-dracula
-      doom-dracula-brighter-modeline t
-      doom-dracula-colorful-headers t)
+(setq doom-theme 'doom-Iosvkem)
 
 (when IS-MAC
   (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
@@ -152,6 +150,7 @@
 (use-package! org
   :defer t
   :config
+  ;; Variables
   (setq org-todo-keywords
         '((sequence
            "TODO(t!)"                          ; Task that needs doing & is ready to do.
@@ -184,8 +183,9 @@
           ("HOLD" . +org-todo-onhold)
           ("PROJ" . +org-todo-project)
           ("KILL" . +org-todo-cancel)))
+  ;; Appearance
   (setq org-hide-emphasis-markers t            ; Hide syntax for emphasis. (Use org-appear)
-        org-pretty-entities nil                ; Show sub/superscript as UTF8.
+        org-pretty-entities t                  ; Show sub/superscript as UTF8.
         org-src-preserve-indentation t)        ; Don't change whitespace in source blocks.
   (setq org-ellipsis " ▾ "                     ; Use a custom ellipsis for folded headings.
         org-hide-leading-stars t               ; Remove excess heading stars.
@@ -194,6 +194,7 @@
   (setq org-highlight-latex-and-related '(native script entities))
   (setq org-image-actual-width '(0.9)          ; Use an in-buffer width closer to export's
         org-startup-with-inline-images t)      ; Show images at startup.
+  ;; Behavior
   (setq org-imenu-depth 10                     ; Allow imenu to search deeply in org docs.
         org-fold-core-style 'overlays          ; Bugfix: Hide IDs in org-roam backlinks.
         org-use-property-inheritance t         ; Sub-headings inherit parent properties.
@@ -216,6 +217,7 @@
 (use-package! org-agenda
   :defer t
   :config
+  ;; Appearance
   (setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
         org-habit-show-all-today t)            ; Keep habits visible even if done.
   ;(setq +org-habit-min-width)
@@ -354,7 +356,10 @@
              ))
            ))))
   (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit t)
+  ;; Behavior
   (setq org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
+  ;; Keybinds
+  ;; Helpers
   )
 
 (defun noncog/agenda-remove-empty ()
@@ -566,13 +571,17 @@ If nil it defaults to `split-string-default-separators', normally
 (use-package! org-capture
   :defer t
   :config
+  ;; Variables
   (setq org-capture-templates
         `(("i" "Inbox" entry
            (file+headline "inbox.org" "Inbox")
            "* %?\n%i\n" :prepend t)))
+  ;; Behavior
   (setq org-capture-bookmark nil)
+  ;; Keybinds
   (map! :leader :desc "Org capture" "x" #'org-capture
         :leader :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer)
+  ;; Fixes
   (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
     :around #'+org--restart-mode-h
     (let ((old-org-capture-current-plist
@@ -593,6 +602,8 @@ If nil it defaults to `split-string-default-separators', normally
 (use-package! org-roam
   :defer t
   :config
+  ;; Variables
+  ;; Behavior
   (setq org-roam-capture-templates
         '(("n" "node" plain
            "%?"
@@ -601,6 +612,7 @@ If nil it defaults to `split-string-default-separators', normally
            :immediate-finish t
            :unnarrowed t)))
   (org-roam-db-autosync-mode)
+  ;; Keybinds
   (defun noncog/org-roam-is-draft-p (node)
     "Is this org-roam node a draft?"
     (member "draft" (org-roam-node-tags node)))
@@ -618,11 +630,14 @@ If nil it defaults to `split-string-default-separators', normally
   :after org-roam
   :hook (org-roam . org-roam-ui-mode)
   :config
+  ;; Appearance
   (setq org-roam-ui-sync-theme t)
+  ;; Behavior
   (setq org-roam-ui-follow t
         org-roam-ui-update-on-save t)
   (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)
   (setq org-roam-ui-open-on-start nil)
+  ;; Keybinds
   (map! :leader :desc "Roam-UI graph" "n r g" #'org-roam-ui-open-in-browser)
   )
 
@@ -667,6 +682,7 @@ Use default browser unless `xwidget' is available."
 (use-package! org-modern
   :hook (org-mode . org-modern-mode)
   :config
+  ;; Appearance
   (setq org-modern-hide-stars nil              ; Let Org handle hiding the stars.
         org-modern-table-vertical 1            ; Use thinner lines than default.
         org-modern-table-horizontal 0.2        ; Unify line thickness with vertical line.
@@ -693,9 +709,10 @@ Use default browser unless `xwidget' is available."
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
   :config
+  ;; Appearance
   (setq org-appear-autoemphasis t              ; Show emphasis markup.
         org-appear-autosubmarkers t            ; Show sub/superscript
-        org-appear-autoentities nil            ; Show LaTeX like Org pretty entities.
+        org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
         org-appear-autolinks nil               ; Shows Org links.
         org-appear-autokeywords nil            ; Shows hidden Org keywords.
         org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
@@ -707,11 +724,14 @@ Use default browser unless `xwidget' is available."
 (use-package! ox
   :defer t
   :config
+  ;; Appearance
   (setq org-export-with-creator t
         org-export-creator-string (format "Doom Emacs %s (Org mode %s)" emacs-version org-version))
+  ;; Behavior
   (require 'ox-extra)
   (ox-extras-activate '(ignore-headlines))
   (setq org-export-headline-levels 5)
+  ;; Keybinds
   )
 
 (defun org-view-output-file (&optional org-file-path)
@@ -747,6 +767,7 @@ found, using `org-view-output-file-extensions'."
 (use-package! ox-latex
   :defer t
   :config
+  ;; Appearance
   (setq org-latex-src-block-backend 'engraved)
   (add-to-list 'org-latex-classes
                '("notes"
@@ -759,6 +780,7 @@ found, using `org-view-output-file-extensions'."
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  ;; Behavior
   (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
   )
 
@@ -771,6 +793,7 @@ found, using `org-view-output-file-extensions'."
 (use-package! org-noter
   :defer t
   :config
+  ;; Behavior
   (setq org-noter-always-create-frame nil        ; Don't create a new frame for the session.
         org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
   (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
@@ -779,19 +802,23 @@ found, using `org-view-output-file-extensions'."
 (use-package! toc-org
   :defer t
   :config
+  ;; Behavior
   (setq org-toc-default-depth 2)
   )
 
 (use-package! projectile
   :defer t
   :config
+  ;; Variables
   (setq projectile-project-search-path '("~/Projects"))
+  ;; Behavior
   (defun +my/compile-in-vterm ()
     "Run `compile-command' in vterm in current project's root directory"
     (interactive)
     (projectile-run-vterm)
     (vterm-send-string "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build --config Release && ./build/intelligent-motion")
     (vterm-send-return))
+  ;; Keybinds
   )
 
 (defun +mypopup-kill (some-popup-window)
@@ -811,6 +838,7 @@ found, using `org-view-output-file-extensions'."
 (use-package! plantuml-mode
   :defer t
   :config
+  ;; Behavior
   (setq plantuml-default-exec-mode 'jar)
   (unless (file-exists-p plantuml-jar-path)
     (plantuml-download-jar))
@@ -819,6 +847,7 @@ found, using `org-view-output-file-extensions'."
 (use-package! pdf-tools
   :defer t
   :config
+  ;; Fixes
   (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
   )
   (pdf-tools-install)
@@ -826,6 +855,7 @@ found, using `org-view-output-file-extensions'."
 (use-package! yasnippet
   :defer t
   :config
+  ;; Behavior
   (setq yas-triggers-in-field t)
   )
 
@@ -919,6 +949,7 @@ found, using `org-view-output-file-extensions'."
       (with-temp-buffer
         (insert-file-contents file-path)
         (split-string (buffer-string) "\n" t))))
+  ;; Behavior
   (defun my/magit-process-environment (env)
     "Detect and set git -bare repo env vars when in tracked dotfile directories."
     (let* ((default (file-name-as-directory (expand-file-name default-directory)))
@@ -946,6 +977,7 @@ found, using `org-view-output-file-extensions'."
 (use-package! company
   :defer t
   :config
+  ;; Behavior
   (setq company-idle-delay 0.3
         company-tooltip-limit 10
         company-minimum-prefix-length 1)
@@ -958,30 +990,35 @@ found, using `org-view-output-file-extensions'."
 (use-package! vterm
   :defer t
   :config
+  ;; Keybinds
   (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
   )
 
-;; Add an extra line to work around bug in which-key imprecise
-(after! which-key
+(use-package! which-key
+  :defer t
+  :config
+  ;; Fixes
+  ;; Add an extra line to work around bug in which-key imprecise
   (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
   (advice-add 'which-key--show-popup :around #'add-which-key-line)
-  )
-
-(setq which-key-allow-multiple-replacements t)
-(after! which-key
+  (setq which-key-allow-multiple-replacements t)
   (pushnew!
    which-key-replacement-alist
    '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
-   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1"))))
+   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
+  )
 
 (use-package! persp-mode
   :defer t
   :config
+  ;; Fixes
   (setq persp-emacsclient-init-frame-behaviour-override nil)
   )
 
 (use-package! visual-fill-column
   :hook (org-mode . noncog/center-org-mode-visual-fill))
+
+;; Helpers
 
 (defun noncog/center-org-mode-visual-fill ()
   "A function used to center org mode..."
@@ -993,13 +1030,25 @@ found, using `org-view-output-file-extensions'."
 (use-package! treemacs
   :defer t
   :config
+  ;; Appearance
   (setq doom-themes-treemacs-theme "doom-colors")
+  ;; Behavior
+  (treemacs-follow-mode 1)
+  (treemacs-tag-follow-mode 1)
+  (setq treemacs-file-follow-delay 0.2
+        treemacs-tag-follow-delay 0.3)
+  ;; (setq treemacs-recenter-after-tag-follow 'always
+  ;;       treemacs-recenter-after-file-follow 'always
+  ;;       treemacs-recenter-distance 0.9
+  ;;       treemacs-follow-recenter-distance 0.9)
   )
 
 (use-package! vertico
   :defer t
   :config
-  (setq vertico-sort-function #'vertico-sort-alpha)
+  ;; Behavior
+  (setq vertico-sort-function #'vertico-sort-history-alpha)
+  ;; Keybinds
   (map! :map vertico-map "C-u" #'scroll-down-command
         :map vertico-map "C-d" #'scroll-up-command)
   )
@@ -1007,6 +1056,7 @@ found, using `org-view-output-file-extensions'."
 (use-package! doom-modeline
   :defer t
   :config
+  ;; Appearance
   (setq doom-modeline-height 35
         doom-modeline-major-mode-icon t
         doom-modeline-persp-name t
@@ -1017,12 +1067,14 @@ found, using `org-view-output-file-extensions'."
 (use-package! doom-dashboard
   :defer t
   :config
+  ;; Keybinds
   (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
   )
 
 (use-package! lsp-clangd
   :defer t
   :config
+  ;; Behavior
   (setq lsp-clients-clangd-args
         '("-j=3"
           "--background-index"
@@ -1035,9 +1087,14 @@ found, using `org-view-output-file-extensions'."
 
 (use-package! beacon
   :init
+  ;; Appearance
   (setq beacon-color "#61bfff")
+  ;; Behavior
   (setq beacon-size 40
         beacon-blink-duration 0.3
         beacon-blink-delay 0.5)
+  (setq beacon-blink-when-buffer-changes t
+        beacon-blink-when-window-scrolls nil
+        beacon-blink-when-focused t)
   )
 (beacon-mode 1)
