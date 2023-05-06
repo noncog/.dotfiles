@@ -86,6 +86,8 @@
 
 (setq evil-want-fine-undo t)
 
+(setq evil-kill-on-visual-paste nil)
+
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
 
@@ -144,6 +146,186 @@
 (when IS-MAC (setq mac-command-modifier 'control ; Maps Command -> Control
                     mac-control-modifier 'meta   ; Maps Control -> Alt (Meta)
                     mac-option-modifier 'super)) ; Maps Option -> Super
+
+(use-package! beacon
+  :init
+  ;; Appearance
+  (setq beacon-color "#61bfff")
+  ;; Behavior
+  (setq beacon-size 40
+        beacon-blink-duration 0.3
+        beacon-blink-delay 0.5)
+  (setq beacon-blink-when-buffer-changes t
+        beacon-blink-when-window-scrolls nil
+        beacon-blink-when-focused t)
+  )
+(beacon-mode 1)
+
+(use-package! company
+  :defer t
+  :config
+  ;; Behavior
+  (setq company-idle-delay 0.3
+        company-tooltip-limit 10
+        company-minimum-prefix-length 1)
+  (set-company-backend! 'org-mode
+    '(company-capf company-files :with company-yasnippet))
+  (set-company-backend! 'sh-mode
+    '(company-shell company-files :with company-yasnippet))
+  )
+
+(use-package! doom-dashboard
+  :defer t
+  :config
+  ;; Keybinds
+  (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+  )
+
+(use-package! doom-modeline
+  :defer t
+  :config
+  ;; Appearance
+  (setq doom-modeline-height 35
+        doom-modeline-major-mode-icon t
+        doom-modeline-persp-name t
+        doom-modeline-display-default-persp-name t
+        doom-modeline-persp-icon t)
+  )
+
+(use-package! engrave-faces-latex
+  :after ox-latex)
+
+(use-package! engrave-faces-html
+  :after ox-html)
+
+(use-package! lsp-clangd
+  :defer t
+  :config
+  ;; Behavior
+  (setq lsp-clients-clangd-args
+        '("-j=3"
+          "--background-index"
+          "--clang-tidy"
+          "--completion-style=detailed"
+          "--header-insertion=never"
+          "--header-insertion-decorators=0"))
+  (set-lsp-priority! 'clangd 2)
+  )
+
+(use-package! magit
+  :defer t
+  :config
+  ;; Behavior
+  (defun my/magit-process-environment (env)
+    "Detect and set git -bare repo env vars when in tracked dotfile directories."
+    (let* ((default (file-name-as-directory (expand-file-name default-directory)))
+           (git-dir (expand-file-name "~/.dotfiles/"))
+           (work-tree (expand-file-name "~/"))
+           (dotfile-dirs
+            (-map (apply-partially 'concat work-tree)
+                  (-uniq (-keep #'file-name-directory (split-string (shell-command-to-string
+                  (format "/usr/bin/git --git-dir=%s --work-tree=%s ls-tree --full-tree --name-only -r HEAD"
+                          git-dir work-tree))))))))
+      (push work-tree dotfile-dirs)
+      (when (member default dotfile-dirs)
+        (push (format "GIT_WORK_TREE=%s" work-tree) env)
+        (push (format "GIT_DIR=%s" git-dir) env)))
+    env)
+  (advice-add 'magit-process-environment
+              :filter-return #'my/magit-process-environment)
+  (defcustom my-git-commit-style-convention-checks '(summary-has-type
+                                                     summary-type-lowercase
+                                                     summary-has-separator
+                                                     summary-scope-lowercase
+                                                     summary-title-starts-with-lowercase
+                                                     summary-title-uses-imperative-verb
+                                                     summary-title-not-end-in-punctuation)
+    "List of checks performed by `my-git-commit-check-style-conventions'.
+  Valid members are `summary-has-type',  `summary-type-lowercase',
+  `summary-has-separator', `summary-scope-lowercase',
+  `summary-title-starts-with-lowercase', `summary-title-uses-imperative-verb', and
+  `summary-title-not-end-in-punctuation'.
+  That function is a member of `git-commit-finish-query-functions'."
+    :options '(summary-has-type
+               summarty-type-lowercase
+               summary-has-separator
+               summary-scope-lowercase
+               summary-title-starts-with-lowercase
+               summary-title-uses-imperative-verb
+               summary-title-not-end-in-punctuation
+               )
+    :type '(list :convert-widget custom-hook-convert-widget)
+    :group 'git-commit)
+  (defun my-git-commit-check-style-conventions (&optional force) ; TODO check using force
+    "Check for violations of certain basic style conventions.
+  
+  For each violation ask the user if she wants to proceed anyway.
+  Option `my-git-commit-check-style-conventions' controls which
+  conventions are checked."
+    (save-excursion
+      (goto-char (point-min))
+      (re-search-forward (git-commit-summary-regexp) nil t)
+      (let* ((summary (match-string 1))
+             (commit-type (substring summary 0 (string-match-p "[()!:]" summary)))
+             (commit-separator-check (string-match-p "^.*[^[:blank:]]:" summary))
+             (commit-separator-location (string-match-p ":" summary))
+             (commit-scope (if (string-match-p "(.*)[!:]" summary) (substring summary (1+ (string-match-p "(" summary)) (string-match-p ")!?:?" summary)) nil))
+             (commit-title (if commit-separator-check (substring summary (+ commit-separator-location 2)) "undetectable-title"))
+             (lowercase-title-first-word (downcase (substring commit-title 0 (string-match-p "[[:blank:]]" commit-title)))))
+        (and (or (not (memq 'summary-type-lowercase my-git-commit-style-convention-checks))
+                 (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-type))
+                 (y-or-n-p "Commit type is not lowercase. Commit anyway?"))
+             (or (not (memq 'summary-has-type my-git-commit-style-convention-checks))
+                 (car (member commit-type (get-commit-types)))
+                 (when (y-or-n-p "Commit type is invalid. Commit anyway?")
+                   (when (y-or-n-p (format "Add `%s' to list of commit types?" commit-type))
+                     (with-temp-buffer
+                       (insert commit-type)
+                       (insert "\n")
+                       (write-region (point-min) (point-max) commit-types-file t))) t))
+             (or (not (memq 'summary-has-separator my-git-commit-style-convention-checks))
+                 (not (null commit-separator-check))
+                 (y-or-n-p "Commit title has invalid separator. Commit anyway?"))
+             (or (not (memq 'summary-scope-lowercase my-git-commit-style-convention-checks))
+                 (when (or (not commit-scope) (string-empty-p commit-scope)) (y-or-n-p "Commit scope is empty. Commit anyway?"))
+                 (when commit-scope (if (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-scope)) t
+                                      (y-or-n-p "Commit scope invalid. Only lowercase letters allowed. Commit anyway?"))))
+             (or (not (memq 'summary-title-starts-with-lowercase my-git-commit-style-convention-checks))
+                 (if (not commit-separator-check) (y-or-n-p "Title undetectable. Commit anyway?") (let ((case-fold-search nil))
+                   (string-match-p "^[[:lower:]]" commit-title)))
+                 (y-or-n-p "Commit title does not start with lowercase letter. Commit anyway?"))
+             (or (not (memq 'summary-title-uses-imperative-verb my-git-commit-style-convention-checks))
+                 (if (not commit-separator-check) (y-or-n-p "Imperative verb undetectable. Commit anyway?")
+                   (car (member lowercase-title-first-word (get-imperative-verbs))))
+                 (when (y-or-n-p "Commit title should use imperative verb. Does it?")
+                   (when (y-or-n-p (format "Add `%s' to list of commit types?" lowercase-title-first-word))
+                     (with-temp-buffer
+                       (insert lowercase-title-first-word)
+                       (insert "\n")
+                       (write-region (point-min) (point-max) imperative-verbs-file t))) t))
+             (or (not (memq 'summary-title-not-end-in-punctuation my-git-commit-style-convention-checks))
+                (not (string-match-p "[\\.!\\?;,:]$" commit-title))
+                (y-or-n-p "Commit title ends with punctuation. Commit anyway?"))))))
+  (setq commit-types-file "~/.config/git/commit/commit-types")
+  (defun get-commit-types ()
+    "Return a list of commit types."
+    (let ((file-path commit-types-file))
+      (with-temp-buffer
+        (insert-file-contents file-path)
+        (split-string (buffer-string) "\n" t))))
+  (setq imperative-verbs-file "~/.config/git/commit/imperative-verbs")
+  (defun get-imperative-verbs ()
+    "Return a list of imperative verbs."
+    (let ((file-path imperative-verbs-file))
+      (with-temp-buffer
+        (insert-file-contents file-path)
+        (split-string (buffer-string) "\n" t))))
+  (setq git-commit-summary-max-length 50)                  ; Maximum title (summary) length.
+  (setq git-commit-fill-column 72)                         ; Description column limit.
+  (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
+  (add-to-list 'git-commit-finish-query-functions
+               #'my-git-commit-check-style-conventions)
+  )
 
 (setq org-directory "~/Projects/brain/")
 
@@ -358,8 +540,6 @@
   (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit t)
   ;; Behavior
   (setq org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
-  ;; Keybinds
-  ;; Helpers
   )
 
 (defun noncog/agenda-remove-empty ()
@@ -550,10 +730,12 @@ If nil it defaults to `split-string-default-separators', normally
                                (point-max) t)
         (replace-match ""))))
   )
+;; Keybinds
 (defun noncog/my-agenda ()
   "My custom agenda launcher."
   (interactive)
   (org-agenda nil "o"))
+;; Helpers
 (defun noncog/skip-tag (tag)
   "Skip trees with this tag."
   (let* ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
@@ -567,6 +749,18 @@ If nil it defaults to `split-string-default-separators', normally
     (if (re-search-forward (concat ":" tag ":") subtree-end t)
         nil          ; tag found, do not skip
       subtree-end))) ; tag not found, continue after end of subtree
+
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  ;; Appearance
+  (setq org-appear-autoemphasis t              ; Show emphasis markup.
+        org-appear-autosubmarkers t            ; Show sub/superscript
+        org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
+        org-appear-autolinks nil               ; Shows Org links.
+        org-appear-autokeywords nil            ; Shows hidden Org keywords.
+        org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
+  )
 
 (use-package! org-capture
   :defer t
@@ -592,6 +786,45 @@ If nil it defaults to `split-string-default-separators', normally
         (setq-local org-capture-current-plist old-org-capture-current-plist)
         (org-capture-mode +1))))
   (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
+  )
+
+(use-package! org-fragtog
+  :hook (org-mode . org-fragtog-mode))
+
+(use-package! org-modern
+  :hook (org-mode . org-modern-mode)
+  :config
+  ;; Appearance
+  (setq org-modern-hide-stars nil              ; Let Org handle hiding the stars.
+        org-modern-table-vertical 1            ; Use thinner lines than default.
+        org-modern-table-horizontal 0.2        ; Unify line thickness with vertical line.
+        org-modern-progress nil                ; Use default progress face.
+        org-modern-priority nil                ; Use default priority face.
+        org-modern-todo-faces                  ; Inherit Doom's Org faces.
+        '(("TODO" :inverse-video t :inherit org-todo)
+          ("PROJ" :inverse-video t :inherit +org-todo-project)
+          ("STRT" :inverse-video t :inherit +org-todo-active)
+          ("[-]"  :inverse-video t :inherit +org-todo-active)
+          ("HOLD" :inverse-video t :inherit +org-todo-onhold)
+          ("WAIT" :inverse-video t :inherit +org-todo-onhold)
+          ("[?]"  :inverse-video t :inherit +org-todo-onhold)
+          ("KILL" :inverse-video t :inherit +org-todo-cancel)
+          ("NO"   :inverse-video t :inherit +org-todo-cancel))
+        org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
+        org-modern-horizontal-rule (make-string 80 ?─))
+  )
+
+(use-package! org-modern-indent
+  :config ; add late to hook
+  (add-hook 'org-mode-hook #'org-modern-indent-mode 1))
+
+(use-package! org-noter
+  :defer t
+  :config
+  ;; Behavior
+  (setq org-noter-always-create-frame nil        ; Don't create a new frame for the session.
+        org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
+  (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
   )
 
 (setq org-roam-directory (file-truename "~/Projects/brain"))
@@ -679,48 +912,6 @@ Use default browser unless `xwidget' is available."
  :lighter "roam"
  (org-roam-ui-open-url "http://127.0.0.1:35901"))
 
-(use-package! org-modern
-  :hook (org-mode . org-modern-mode)
-  :config
-  ;; Appearance
-  (setq org-modern-hide-stars nil              ; Let Org handle hiding the stars.
-        org-modern-table-vertical 1            ; Use thinner lines than default.
-        org-modern-table-horizontal 0.2        ; Unify line thickness with vertical line.
-        org-modern-progress nil                ; Use default progress face.
-        org-modern-priority nil                ; Use default priority face.
-        org-modern-todo-faces                  ; Inherit Doom's Org faces.
-        '(("TODO" :inverse-video t :inherit org-todo)
-          ("PROJ" :inverse-video t :inherit +org-todo-project)
-          ("STRT" :inverse-video t :inherit +org-todo-active)
-          ("[-]"  :inverse-video t :inherit +org-todo-active)
-          ("HOLD" :inverse-video t :inherit +org-todo-onhold)
-          ("WAIT" :inverse-video t :inherit +org-todo-onhold)
-          ("[?]"  :inverse-video t :inherit +org-todo-onhold)
-          ("KILL" :inverse-video t :inherit +org-todo-cancel)
-          ("NO"   :inverse-video t :inherit +org-todo-cancel))
-        org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
-        org-modern-horizontal-rule (make-string 80 ?─))
-  )
-
-(use-package! org-modern-indent
-  :config ; add late to hook
-  (add-hook 'org-mode-hook #'org-modern-indent-mode 1))
-
-(use-package! org-appear
-  :hook (org-mode . org-appear-mode)
-  :config
-  ;; Appearance
-  (setq org-appear-autoemphasis t              ; Show emphasis markup.
-        org-appear-autosubmarkers t            ; Show sub/superscript
-        org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
-        org-appear-autolinks nil               ; Shows Org links.
-        org-appear-autokeywords nil            ; Shows hidden Org keywords.
-        org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
-  )
-
-(use-package! org-fragtog
-  :hook (org-mode . org-fragtog-mode))
-
 (use-package! ox
   :defer t
   :config
@@ -784,26 +975,28 @@ found, using `org-view-output-file-extensions'."
   (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
   )
 
-(use-package! engrave-faces-latex
-  :after ox-latex)
-
-(use-package! engrave-faces-html
-  :after ox-html)
-
-(use-package! org-noter
+(use-package! pdf-tools
   :defer t
   :config
-  ;; Behavior
-  (setq org-noter-always-create-frame nil        ; Don't create a new frame for the session.
-        org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
-  (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
+  ;; Fixes
+  (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
+  )
+  (pdf-tools-install)
+
+(use-package! persp-mode
+  :defer t
+  :config
+  ;; Fixes
+  (setq persp-emacsclient-init-frame-behaviour-override nil)
   )
 
-(use-package! toc-org
+(use-package! plantuml-mode
   :defer t
   :config
   ;; Behavior
-  (setq org-toc-default-depth 2)
+  (setq plantuml-default-exec-mode 'jar)
+  (unless (file-exists-p plantuml-jar-path)
+    (plantuml-download-jar))
   )
 
 (use-package! projectile
@@ -835,197 +1028,12 @@ found, using `org-view-output-file-extensions'."
       :desc "List dirty projects"
       "p l" #'projectile-browse-dirty-projects)
 
-(use-package! plantuml-mode
+(use-package! toc-org
   :defer t
   :config
   ;; Behavior
-  (setq plantuml-default-exec-mode 'jar)
-  (unless (file-exists-p plantuml-jar-path)
-    (plantuml-download-jar))
+  (setq org-toc-default-depth 2)
   )
-
-(use-package! pdf-tools
-  :defer t
-  :config
-  ;; Fixes
-  (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
-  )
-  (pdf-tools-install)
-
-(use-package! yasnippet
-  :defer t
-  :config
-  ;; Behavior
-  (setq yas-triggers-in-field t)
-  )
-
-(use-package! magit
-  :defer t
-  :config
-  (defcustom my-git-commit-style-convention-checks '(summary-has-type
-                                                     summary-type-lowercase
-                                                     summary-has-separator
-                                                     summary-scope-lowercase
-                                                     summary-title-starts-with-lowercase
-                                                     summary-title-uses-imperative-verb
-                                                     summary-title-not-end-in-punctuation)
-    "List of checks performed by `my-git-commit-check-style-conventions'.
-  Valid members are `summary-has-type',  `summary-type-lowercase',
-  `summary-has-separator', `summary-scope-lowercase',
-  `summary-title-starts-with-lowercase', `summary-title-uses-imperative-verb', and
-  `summary-title-not-end-in-punctuation'.
-  That function is a member of `git-commit-finish-query-functions'."
-    :options '(summary-has-type
-               summarty-type-lowercase
-               summary-has-separator
-               summary-scope-lowercase
-               summary-title-starts-with-lowercase
-               summary-title-uses-imperative-verb
-               summary-title-not-end-in-punctuation
-               )
-    :type '(list :convert-widget custom-hook-convert-widget)
-    :group 'git-commit)
-  (defun my-git-commit-check-style-conventions (&optional force) ; TODO check using force
-    "Check for violations of certain basic style conventions.
-  
-  For each violation ask the user if she wants to proceed anyway.
-  Option `my-git-commit-check-style-conventions' controls which
-  conventions are checked."
-    (save-excursion
-      (goto-char (point-min))
-      (re-search-forward (git-commit-summary-regexp) nil t)
-      (let* ((summary (match-string 1))
-             (commit-type (substring summary 0 (string-match-p "[()!:]" summary)))
-             (commit-separator-check (string-match-p "^.*[^[:blank:]]:" summary))
-             (commit-separator-location (string-match-p ":" summary))
-             (commit-scope (if (string-match-p "(.*)[!:]" summary) (substring summary (1+ (string-match-p "(" summary)) (string-match-p ")!?:?" summary)) nil))
-             (commit-title (if commit-separator-check (substring summary (+ commit-separator-location 2)) "undetectable-title"))
-             (lowercase-title-first-word (downcase (substring commit-title 0 (string-match-p "[[:blank:]]" commit-title)))))
-        (and (or (not (memq 'summary-type-lowercase my-git-commit-style-convention-checks))
-                 (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-type))
-                 (y-or-n-p "Commit type is not lowercase. Commit anyway?"))
-             (or (not (memq 'summary-has-type my-git-commit-style-convention-checks))
-                 (car (member commit-type (get-commit-types)))
-                 (when (y-or-n-p "Commit type is invalid. Commit anyway?")
-                   (when (y-or-n-p (format "Add `%s' to list of commit types?" commit-type))
-                     (with-temp-buffer
-                       (insert commit-type)
-                       (insert "\n")
-                       (write-region (point-min) (point-max) commit-types-file t))) t))
-             (or (not (memq 'summary-has-separator my-git-commit-style-convention-checks))
-                 (not (null commit-separator-check))
-                 (y-or-n-p "Commit title has invalid separator. Commit anyway?"))
-             (or (not (memq 'summary-scope-lowercase my-git-commit-style-convention-checks))
-                 (when (or (not commit-scope) (string-empty-p commit-scope)) (y-or-n-p "Commit scope is empty. Commit anyway?"))
-                 (when commit-scope (if (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-scope)) t
-                                      (y-or-n-p "Commit scope invalid. Only lowercase letters allowed. Commit anyway?"))))
-             (or (not (memq 'summary-title-starts-with-lowercase my-git-commit-style-convention-checks))
-                 (if (not commit-separator-check) (y-or-n-p "Title undetectable. Commit anyway?") (let ((case-fold-search nil))
-                   (string-match-p "^[[:lower:]]" commit-title)))
-                 (y-or-n-p "Commit title does not start with lowercase letter. Commit anyway?"))
-             (or (not (memq 'summary-title-uses-imperative-verb my-git-commit-style-convention-checks))
-                 (if (not commit-separator-check) (y-or-n-p "Imperative verb undetectable. Commit anyway?")
-                   (car (member lowercase-title-first-word (get-imperative-verbs))))
-                 (when (y-or-n-p "Commit title should use imperative verb. Does it?")
-                   (when (y-or-n-p (format "Add `%s' to list of commit types?" lowercase-title-first-word))
-                     (with-temp-buffer
-                       (insert lowercase-title-first-word)
-                       (insert "\n")
-                       (write-region (point-min) (point-max) imperative-verbs-file t))) t))
-             (or (not (memq 'summary-title-not-end-in-punctuation my-git-commit-style-convention-checks))
-                (not (string-match-p "[\\.!\\?;,:]$" commit-title))
-                (y-or-n-p "Commit title ends with punctuation. Commit anyway?"))))))
-  (setq commit-types-file "~/.config/git/commit/commit-types")
-  (defun get-commit-types ()
-    "Return a list of commit types."
-    (let ((file-path commit-types-file))
-      (with-temp-buffer
-        (insert-file-contents file-path)
-        (split-string (buffer-string) "\n" t))))
-  (setq imperative-verbs-file "~/.config/git/commit/imperative-verbs")
-  (defun get-imperative-verbs ()
-    "Return a list of imperative verbs."
-    (let ((file-path imperative-verbs-file))
-      (with-temp-buffer
-        (insert-file-contents file-path)
-        (split-string (buffer-string) "\n" t))))
-  ;; Behavior
-  (defun my/magit-process-environment (env)
-    "Detect and set git -bare repo env vars when in tracked dotfile directories."
-    (let* ((default (file-name-as-directory (expand-file-name default-directory)))
-           (git-dir (expand-file-name "~/.dotfiles/"))
-           (work-tree (expand-file-name "~/"))
-           (dotfile-dirs
-            (-map (apply-partially 'concat work-tree)
-                  (-uniq (-keep #'file-name-directory (split-string (shell-command-to-string
-                  (format "/usr/bin/git --git-dir=%s --work-tree=%s ls-tree --full-tree --name-only -r HEAD"
-                          git-dir work-tree))))))))
-      (push work-tree dotfile-dirs)
-      (when (member default dotfile-dirs)
-        (push (format "GIT_WORK_TREE=%s" work-tree) env)
-        (push (format "GIT_DIR=%s" git-dir) env)))
-    env)
-  (advice-add 'magit-process-environment
-              :filter-return #'my/magit-process-environment)
-  (setq git-commit-summary-max-length 50)                  ; Maximum title (summary) length.
-  (setq git-commit-fill-column 72)                         ; Description column limit.
-  (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
-  (add-to-list 'git-commit-finish-query-functions
-               #'my-git-commit-check-style-conventions)
-  )
-
-(use-package! company
-  :defer t
-  :config
-  ;; Behavior
-  (setq company-idle-delay 0.3
-        company-tooltip-limit 10
-        company-minimum-prefix-length 1)
-  (set-company-backend! 'org-mode
-    '(company-capf company-files :with company-yasnippet))
-  (set-company-backend! 'sh-mode
-    '(company-shell company-files :with company-yasnippet))
-  )
-
-(use-package! vterm
-  :defer t
-  :config
-  ;; Keybinds
-  (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
-  )
-
-(use-package! which-key
-  :defer t
-  :config
-  ;; Fixes
-  ;; Add an extra line to work around bug in which-key imprecise
-  (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
-  (advice-add 'which-key--show-popup :around #'add-which-key-line)
-  (setq which-key-allow-multiple-replacements t)
-  (pushnew!
-   which-key-replacement-alist
-   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
-   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
-  )
-
-(use-package! persp-mode
-  :defer t
-  :config
-  ;; Fixes
-  (setq persp-emacsclient-init-frame-behaviour-override nil)
-  )
-
-(use-package! visual-fill-column
-  :hook (org-mode . noncog/center-org-mode-visual-fill))
-
-;; Helpers
-
-(defun noncog/center-org-mode-visual-fill ()
-  "A function used to center org mode..."
-  (interactive)
-  (setq visual-fill-column-width 140
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
 
 (use-package! treemacs
   :defer t
@@ -1053,48 +1061,42 @@ found, using `org-view-output-file-extensions'."
         :map vertico-map "C-d" #'scroll-up-command)
   )
 
-(use-package! doom-modeline
-  :defer t
-  :config
-  ;; Appearance
-  (setq doom-modeline-height 35
-        doom-modeline-major-mode-icon t
-        doom-modeline-persp-name t
-        doom-modeline-display-default-persp-name t
-        doom-modeline-persp-icon t)
-  )
+;; (use-package! visual-fill-column
+;;   :hook (org-mode . noncog/center-org-mode-visual-fill))
 
-(use-package! doom-dashboard
+;; Helpers
+
+(defun noncog/center-org-mode-visual-fill ()
+  "A function used to center org mode..."
+  (interactive)
+  (setq visual-fill-column-width 140
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package! vterm
   :defer t
   :config
   ;; Keybinds
-  (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+  (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
   )
 
-(use-package! lsp-clangd
+(use-package! which-key
+  :defer t
+  :config
+  ;; Fixes
+  ;; Add an extra line to work around bug in which-key imprecise
+  (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
+  (advice-add 'which-key--show-popup :around #'add-which-key-line)
+  (setq which-key-allow-multiple-replacements t)
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
+   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
+  )
+
+(use-package! yasnippet
   :defer t
   :config
   ;; Behavior
-  (setq lsp-clients-clangd-args
-        '("-j=3"
-          "--background-index"
-          "--clang-tidy"
-          "--completion-style=detailed"
-          "--header-insertion=never"
-          "--header-insertion-decorators=0"))
-  (set-lsp-priority! 'clangd 2)
+  (setq yas-triggers-in-field t)
   )
-
-(use-package! beacon
-  :init
-  ;; Appearance
-  (setq beacon-color "#61bfff")
-  ;; Behavior
-  (setq beacon-size 40
-        beacon-blink-duration 0.3
-        beacon-blink-delay 0.5)
-  (setq beacon-blink-when-buffer-changes t
-        beacon-blink-when-window-scrolls nil
-        beacon-blink-when-focused t)
-  )
-(beacon-mode 1)
