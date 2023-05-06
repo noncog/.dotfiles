@@ -952,8 +952,8 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 #+end_src
 #+html:</details>
 
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! engrave-faces-latex
   :after ox-latex)
@@ -963,6 +963,7 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 (use-package! engrave-faces-html
   :after ox-html)
 #+end_src
+#+html:</details>
 
 * LSP-Clangd
 :PROPERTIES:
@@ -974,8 +975,8 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! lsp-clangd
   :defer t
@@ -983,6 +984,7 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
   <<lsp-clangd-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Behavior
 
@@ -1013,8 +1015,8 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! magit
   :defer t
@@ -1022,6 +1024,7 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
   <<magit-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Behavior
 
@@ -1272,8 +1275,8 @@ These are commonly enforced commit length standards.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 <<pre-org>>
 
@@ -1285,6 +1288,7 @@ These are commonly enforced commit length standards.
 
 <<post-org>>
 #+end_src
+#+html:</details>
 
 ** Variables
 
@@ -1447,8 +1451,8 @@ Org Agenda collects, creates, and displays an overview of actionable tasks your 
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 <<pre-org-agenda>>
 
@@ -1460,6 +1464,7 @@ Org Agenda collects, creates, and displays an overview of actionable tasks your 
 
 <<post-org-agenda>>
 #+end_src
+#+html:</details>
 
 ** Appearance
 
@@ -1917,14 +1922,15 @@ If nil it defaults to `split-string-default-separators', normally
 
 ** Package
 
+#+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear")
   :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
 #+end_src
+#+html:</details>
 
-*** Configuration
-
+#+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
@@ -1932,6 +1938,7 @@ If nil it defaults to `split-string-default-separators', normally
   <<org-appear-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Appearance
 
@@ -1960,8 +1967,8 @@ Org Capture lets you quickly insert into your org documents.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! org-capture
   :defer t
@@ -1969,6 +1976,7 @@ Org Capture lets you quickly insert into your org documents.
   <<org-capture-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Variables
 
@@ -2051,17 +2059,19 @@ Sometimes the capture window breaks when the agenda or agenda files are already 
 
 ** Package
 
+#+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-fragtog
   :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
 #+end_src
+#+html:</details>
 
-*** Configuration
-
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode))
 #+end_src
+#+html:</details>
 
 * Org Modern
 :PROPERTIES:
@@ -2074,13 +2084,14 @@ Sometimes the capture window breaks when the agenda or agenda files are already 
 
 ** Package
 
+#+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-modern
   :pin "b614ad31d72c49f9eb29d3836995fd7fb0d1fd4a")
 #+end_src
+#+html:</details>
 
-*** Configuration
-
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! org-modern
   :hook (org-mode . org-modern-mode)
@@ -2088,6 +2099,7 @@ Sometimes the capture window breaks when the agenda or agenda files are already 
   <<org-modern-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Appearance
 
@@ -2130,19 +2142,21 @@ These settings will need sorted into their own headings eventually.
 
 ** Package
 
+#+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-modern-indent
   :recipe (:host github :repo "jdtsmith/org-modern-indent")
   :pin "c5a50f302dc1053d5b498e0ea2bc0ee233e8e1b8")
 #+end_src
+#+html:</details>
 
-*** Configuration
-
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! org-modern-indent
   :config ; add late to hook
   (add-hook 'org-mode-hook #'org-modern-indent-mode 1))
 #+end_src
+#+html:</details>
 
 * Org Noter
 :PROPERTIES:
@@ -2154,8 +2168,8 @@ These settings will need sorted into their own headings eventually.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! org-noter
   :defer t
@@ -2163,6 +2177,7 @@ These settings will need sorted into their own headings eventually.
   <<org-noter-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Behavior
 
@@ -2193,8 +2208,8 @@ These settings will need sorted into their own headings eventually.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 <<pre-org-roam>>
 
@@ -2204,6 +2219,7 @@ These settings will need sorted into their own headings eventually.
   <<org-roam-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Variables
 
@@ -2309,14 +2325,15 @@ Currently just using the default captures template. This area still needs a lot 
 
 ** Package
 
+#+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle packages.el
 (unpin! org-roam) ; NOTE: org-roam-ui requires latest org-roam.
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui"))
 #+end_src
+#+html:</details>
 
-*** Configuration
-
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! websocket
     :after org-roam)
@@ -2330,6 +2347,7 @@ Currently just using the default captures template. This area still needs a lot 
   <<org-roam-ui-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Appearance
 
@@ -2438,8 +2456,8 @@ Ox (Org Export) implements a generic export engine for Org. It uses different ba
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! ox
   :defer t
@@ -2447,6 +2465,7 @@ Ox (Org Export) implements a generic export engine for Org. It uses different ba
   <<ox-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Appearance
 
@@ -2540,8 +2559,8 @@ Ox Latex is the LaTeX backend for the Org Export Engine.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! ox-latex
   :defer t
@@ -2549,6 +2568,7 @@ Ox Latex is the LaTeX backend for the Org Export Engine.
   <<ox-latex-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Appearance
 
@@ -2602,8 +2622,8 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! pdf-tools
   :defer t
@@ -2612,6 +2632,7 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
   )
   (pdf-tools-install)
 #+end_src
+#+html:</details>
 
 ** Fixes
 
@@ -2637,8 +2658,8 @@ Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#is
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! persp-mode
   :defer t
@@ -2646,6 +2667,7 @@ Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#is
   <<persp-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Fixes
 
@@ -2671,8 +2693,8 @@ By default, when using emacsclient, Doom creates a new workspace for each emacsc
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! plantuml-mode
   :defer t
@@ -2680,6 +2702,7 @@ By default, when using emacsclient, Doom creates a new workspace for each emacsc
   <<plantuml-mode-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Behavior
 
@@ -2714,8 +2737,8 @@ Downloads the jar file if it's not on the system.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! projectile
   :defer t
@@ -2725,6 +2748,7 @@ Downloads the jar file if it's not on the system.
 
 <<post-projectile>>
 #+end_src
+#+html:</details>
 
 ** Variables
 
@@ -2807,8 +2831,8 @@ I add a keybind to quickly view which projects have uncommitted changes.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! toc-org
   :defer t
@@ -2816,6 +2840,7 @@ I add a keybind to quickly view which projects have uncommitted changes.
   <<toc-org-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Behavior
 
@@ -2839,8 +2864,8 @@ I add a keybind to quickly view which projects have uncommitted changes.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! treemacs
   :defer t
@@ -2848,6 +2873,7 @@ I add a keybind to quickly view which projects have uncommitted changes.
   <<treemacs-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Appearance
 
@@ -2900,8 +2926,8 @@ I add a keybind to quickly view which projects have uncommitted changes.
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! vertico
   :defer t
@@ -2909,6 +2935,7 @@ I add a keybind to quickly view which projects have uncommitted changes.
   <<vertico-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Behavior
 
@@ -2949,12 +2976,13 @@ Add "regular" style scrolling keybinds to Vertico for the minibuffer.
 I use this to center org-mode buffers primarily. In Doom, I get this package by enabling the wordwrap or zen module.
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
-;; (use-package! visual-fill-column
-;;   :hook (org-mode . noncog/center-org-mode-visual-fill))
+(use-package! visual-fill-column
+  :hook (org-mode . noncog/center-org-mode-visual-fill))
 #+end_src
+#+html:</details>
 
 ** Helpers
 
@@ -2983,8 +3011,8 @@ I use this to center org-mode buffers primarily. In Doom, I get this package by 
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! vterm
   :defer t
@@ -2992,6 +3020,7 @@ I use this to center org-mode buffers primarily. In Doom, I get this package by 
   <<vterm-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Keybinds
 
@@ -3019,8 +3048,8 @@ Thanks [[https://github.com/elken/doom#fix-c-backspace][Elken]]!
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! which-key
   :defer t
@@ -3028,6 +3057,7 @@ Thanks [[https://github.com/elken/doom#fix-c-backspace][Elken]]!
   <<which-key-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Fixes
 
@@ -3065,8 +3095,8 @@ I was having an issue using =emacsclient= where which-key was being cut off belo
 #+end_quote
 
 ** Package
-*** Configuration
 
+#+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
 (use-package! yasnippet
   :defer t
@@ -3074,6 +3104,7 @@ I was having an issue using =emacsclient= where which-key was being cut off belo
   <<yasnippet-config>>
   )
 #+end_src
+#+html:</details>
 
 ** Resources
 - [[https://joaotavora.github.io/yasnippet/index.html][Yasnippet Documentation]]

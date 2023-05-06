@@ -1061,8 +1061,8 @@ found, using `org-view-output-file-extensions'."
         :map vertico-map "C-d" #'scroll-up-command)
   )
 
-;; (use-package! visual-fill-column
-;;   :hook (org-mode . noncog/center-org-mode-visual-fill))
+(use-package! visual-fill-column
+  :hook (org-mode . noncog/center-org-mode-visual-fill))
 
 ;; Helpers
 
