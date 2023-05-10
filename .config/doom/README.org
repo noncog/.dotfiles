@@ -19,6 +19,8 @@
 :CUSTOM_ID: table-of-contents
 :VISIBILITY: folded
 :END:
+
+#+html:<details><summary>Table of Contents</summary>
 #+BEGIN_QUOTE
 - [[#doom][Doom]]
   - [[#resources][Resources]]
@@ -32,111 +34,112 @@
   - [[#package][Package]]
   - [[#appearance-1][Appearance]]
   - [[#behavior-1][Behavior]]
-- [[#company][Company]]
-  - [[#package-1][Package]]
-  - [[#behavior-2][Behavior]]
 - [[#doom-dashboard][Doom Dashboard]]
-  - [[#package-2][Package]]
+  - [[#package-1][Package]]
   - [[#keybinds-1][Keybinds]]
 - [[#doom-modeline][Doom Modeline]]
-  - [[#package-3][Package]]
+  - [[#package-2][Package]]
   - [[#appearance-2][Appearance]]
-- [[#engrave-faces][Engrave Faces]]
+- [[#which-key][Which-Key]]
+  - [[#package-3][Package]]
+  - [[#fixes][Fixes]]
+- [[#persp-mode][Persp-Mode]]
   - [[#package-4][Package]]
-- [[#lsp-clangd][LSP-Clangd]]
+  - [[#fixes-1][Fixes]]
+- [[#company][Company]]
   - [[#package-5][Package]]
+  - [[#behavior-2][Behavior]]
+- [[#lsp-clangd][LSP-Clangd]]
+  - [[#package-6][Package]]
   - [[#behavior-3][Behavior]]
 - [[#magit][Magit]]
-  - [[#package-6][Package]]
-  - [[#behavior-4][Behavior]]
-- [[#org][Org]]
   - [[#package-7][Package]]
-  - [[#variables-1][Variables]]
-  - [[#appearance-3][Appearance]]
-  - [[#behavior-5][Behavior]]
-- [[#org-agenda][Org Agenda]]
+  - [[#behavior-4][Behavior]]
+- [[#projectile][Projectile]]
   - [[#package-8][Package]]
-  - [[#appearance-4][Appearance]]
-  - [[#behavior-6][Behavior]]
+  - [[#variables-1][Variables]]
+  - [[#behavior-5][Behavior]]
   - [[#keybinds-2][Keybinds]]
-  - [[#helpers][Helpers]]
-- [[#org-appear][Org Appear]]
+- [[#treemacs][Treemacs]]
   - [[#package-9][Package]]
-  - [[#appearance-5][Appearance]]
-- [[#org-capture][Org Capture]]
+  - [[#appearance-3][Appearance]]
+  - [[#behavior-6][Behavior]]
+- [[#vertico][Vertico]]
   - [[#package-10][Package]]
-  - [[#variables-2][Variables]]
   - [[#behavior-7][Behavior]]
   - [[#keybinds-3][Keybinds]]
-  - [[#fixes][Fixes]]
-- [[#org-fragtog][Org Fragtog]]
+- [[#visual-fill-column][Visual Fill Column]]
   - [[#package-11][Package]]
-- [[#org-modern][Org Modern]]
+  - [[#helpers][Helpers]]
+- [[#vterm][Vterm]]
   - [[#package-12][Package]]
-  - [[#appearance-6][Appearance]]
-- [[#org-modern-indent][Org Modern Indent]]
-  - [[#package-13][Package]]
-- [[#org-noter][Org Noter]]
-  - [[#package-14][Package]]
-  - [[#behavior-8][Behavior]]
-- [[#org-roam][Org Roam]]
-  - [[#package-15][Package]]
-  - [[#variables-3][Variables]]
-  - [[#behavior-9][Behavior]]
   - [[#keybinds-4][Keybinds]]
-- [[#org-roam-ui][Org Roam UI]]
-  - [[#package-16][Package]]
-  - [[#appearance-7][Appearance]]
+- [[#yasnippet][Yasnippet]]
+  - [[#package-13][Package]]
+  - [[#resources-1][Resources]]
+  - [[#behavior-8][Behavior]]
+- [[#org][Org]]
+  - [[#package-14][Package]]
+  - [[#variables-2][Variables]]
+  - [[#appearance-4][Appearance]]
+  - [[#behavior-9][Behavior]]
+- [[#org-agenda][Org Agenda]]
+  - [[#package-15][Package]]
+  - [[#appearance-5][Appearance]]
   - [[#behavior-10][Behavior]]
   - [[#keybinds-5][Keybinds]]
-- [[#ox-org-export][Ox (Org Export)]]
+  - [[#helpers-1][Helpers]]
+- [[#org-appear][Org Appear]]
+  - [[#package-16][Package]]
+  - [[#appearance-6][Appearance]]
+- [[#org-capture][Org Capture]]
   - [[#package-17][Package]]
-  - [[#appearance-8][Appearance]]
+  - [[#variables-3][Variables]]
   - [[#behavior-11][Behavior]]
   - [[#keybinds-6][Keybinds]]
-- [[#ox-latex][Ox Latex]]
-  - [[#package-18][Package]]
-  - [[#appearance-9][Appearance]]
-  - [[#behavior-12][Behavior]]
-- [[#pdf-tools][PDF Tools]]
-  - [[#package-19][Package]]
-  - [[#fixes-1][Fixes]]
-- [[#persp-mode][Persp-Mode]]
-  - [[#package-20][Package]]
   - [[#fixes-2][Fixes]]
-- [[#plantuml][PlantUML]]
-  - [[#package-21][Package]]
-  - [[#behavior-13][Behavior]]
-- [[#projectile][Projectile]]
-  - [[#package-22][Package]]
-  - [[#variables-4][Variables]]
-  - [[#behavior-14][Behavior]]
-  - [[#keybinds-7][Keybinds]]
+- [[#org-fragtog][Org Fragtog]]
+  - [[#package-18][Package]]
+- [[#org-modern][Org Modern]]
+  - [[#package-19][Package]]
+  - [[#appearance-7][Appearance]]
+- [[#org-modern-indent][Org Modern Indent]]
+  - [[#package-20][Package]]
 - [[#toc-org][TOC Org]]
+  - [[#package-21][Package]]
+  - [[#behavior-12][Behavior]]
+- [[#org-noter][Org Noter]]
+  - [[#package-22][Package]]
+  - [[#behavior-13][Behavior]]
+- [[#pdf-tools][PDF Tools]]
   - [[#package-23][Package]]
-  - [[#behavior-15][Behavior]]
-- [[#treemacs][Treemacs]]
+  - [[#fixes-3][Fixes]]
+- [[#plantuml][PlantUML]]
   - [[#package-24][Package]]
-  - [[#appearance-10][Appearance]]
-  - [[#behavior-16][Behavior]]
-- [[#vertico][Vertico]]
+  - [[#behavior-14][Behavior]]
+- [[#ox-org-export][Ox (Org Export)]]
   - [[#package-25][Package]]
+  - [[#appearance-8][Appearance]]
+  - [[#behavior-15][Behavior]]
+  - [[#keybinds-7][Keybinds]]
+- [[#ox-latex][Ox Latex]]
+  - [[#package-26][Package]]
+  - [[#appearance-9][Appearance]]
+  - [[#behavior-16][Behavior]]
+- [[#engrave-faces][Engrave Faces]]
+  - [[#package-27][Package]]
+- [[#org-roam][Org Roam]]
+  - [[#package-28][Package]]
+  - [[#variables-4][Variables]]
   - [[#behavior-17][Behavior]]
   - [[#keybinds-8][Keybinds]]
-- [[#visual-fill-column][Visual Fill Column]]
-  - [[#package-26][Package]]
-  - [[#helpers-1][Helpers]]
-- [[#vterm][Vterm]]
-  - [[#package-27][Package]]
-  - [[#keybinds-9][Keybinds]]
-- [[#which-key][Which-Key]]
-  - [[#package-28][Package]]
-  - [[#fixes-3][Fixes]]
-- [[#yasnippet][Yasnippet]]
+- [[#org-roam-ui][Org Roam UI]]
   - [[#package-29][Package]]
-  - [[#resources-1][Resources]]
+  - [[#appearance-10][Appearance]]
   - [[#behavior-18][Behavior]]
+  - [[#keybinds-9][Keybinds]]
 #+END_QUOTE
+#+html:</details>
 
 * Doom
 :PROPERTIES:
@@ -391,7 +394,7 @@ Doom only uses three config files. I keep their headers here.
        ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
-       tree-sitter         ; syntax and parsing, sitting in a tree...
+       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
@@ -811,55 +814,7 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
 #+begin_src emacs-lisp :tangle no :noweb-ref beacon-init
 (setq beacon-blink-when-buffer-changes t
       beacon-blink-when-window-scrolls nil
-      beacon-blink-when-focused t)
-#+end_src
-* Company
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[http://company-mode.github.io][Company]] (complete anything) is a text completion framework for Emacs. It uses backends and frontends to retrieve and display completion candidates.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! company
-  :defer t
-  :config
-  <<company-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref company-config
-;; Behavior
-#+end_src
-
-*** General
-
-#+begin_src emacs-lisp :tangle no :noweb-ref company-config
-(setq company-idle-delay 0.3
-      company-tooltip-limit 10
-      company-minimum-prefix-length 1)
-#+end_src
-
-*** Org-mode Backend
-
-#+begin_src emacs-lisp :tangle no :noweb-ref company-config
-(set-company-backend! 'org-mode
-  '(company-capf company-files :with company-yasnippet))
-#+end_src
-
-*** Sh-mode Backend
-
-#+begin_src emacs-lisp :tangle no :noweb-ref company-config
-(set-company-backend! 'sh-mode
-  '(company-shell company-files :with company-yasnippet))
+      beacon-blink-when-focused nil)
 #+end_src
 
 * Doom Dashboard
@@ -932,37 +887,136 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
       doom-modeline-persp-icon t)
 #+end_src
 
-* Engrave Faces
+* Which-Key
 :PROPERTIES:
 :VISIBILITY: children
 :END:
 
 #+begin_quote
-[[https://github.com/tecosaur/engrave-faces][Engrave Faces]] is a generic exporter that passes a fontified buffer to an org backend to be exported to a particular format. It provides theming and syntax highlighting in code blocks for our org-mode html and latex exports!
+[[https://github.com/justbur/emacs-which-key][Which-Key]] is a minor-mode for Emacs that displays keybinds for your currently unfinished inputs.
 #+end_quote
 
 ** Package
 
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle packages.el
-(package! engrave-faces
-  :recipe (:host github :repo "tecosaur/engrave-faces")
-  :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! which-key
+  :defer t
+  :config
+  <<which-key-config>>
+  )
 #+end_src
 #+html:</details>
 
+** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
+;; Fixes
+#+end_src
+
+*** Fix Height Issue
+
+I was having an issue using =emacsclient= where which-key was being cut off below the modeline. A simple solution (found [[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][here]]) is to add spaces below the keybinds. Realistically this doesn't work everywhere but it's good enough for now.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
+;; Add an extra line to work around bug in which-key imprecise
+(defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
+(advice-add 'which-key--show-popup :around #'add-which-key-line)
+#+end_src
+
+*** Remove Evil Prefixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
+(setq which-key-allow-multiple-replacements t)
+(pushnew!
+ which-key-replacement-alist
+ '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
+ '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
+#+end_src
+
+* Persp-Mode
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/Bad-ptr/persp-mode.el][Persp-Mode]] is used by Doom to manage workspaces across frames.
+#+end_quote
+
+** Package
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
-(use-package! engrave-faces-latex
-  :after ox-latex)
-#+end_src
-
-#+begin_src emacs-lisp :noweb yes
-(use-package! engrave-faces-html
-  :after ox-html)
+(use-package! persp-mode
+  :defer t
+  :config
+  <<persp-config>>
+  )
 #+end_src
 #+html:</details>
+
+** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref persp-config
+;; Fixes
+#+end_src
+
+*** Prevent New Workspaces on New Frames
+
+By default, when using emacsclient, Doom creates a new workspace for each emacsclient window. I don't want this, so we'll disable it.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref persp-config
+(setq persp-emacsclient-init-frame-behaviour-override nil)
+#+end_src
+
+* Company
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[http://company-mode.github.io][Company]] (complete anything) is a text completion framework for Emacs. It uses backends and frontends to retrieve and display completion candidates.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! company
+  :defer t
+  :config
+  <<company-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref company-config
+;; Behavior
+#+end_src
+
+*** General
+
+#+begin_src emacs-lisp :tangle no :noweb-ref company-config
+(setq company-idle-delay 0.3
+      company-tooltip-limit 10
+      company-minimum-prefix-length 1)
+#+end_src
+
+*** Org-mode Backend
+
+#+begin_src emacs-lisp :tangle no :noweb-ref company-config
+(set-company-backend! 'org-mode
+  '(company-capf company-files :with company-yasnippet))
+#+end_src
+
+*** Sh-mode Backend
+
+#+begin_src emacs-lisp :tangle no :noweb-ref company-config
+(set-company-backend! 'sh-mode
+  '(company-shell company-files :with company-yasnippet))
+#+end_src
 
 * LSP-Clangd
 :PROPERTIES:
@@ -1054,9 +1108,6 @@ It simply gets a list of all your dotfiles from the repository and whenever you'
       (push (format "GIT_DIR=%s" git-dir) env)))
   env)
 #+end_src
-
-#+RESULTS:
-: my/magit-process-environment
 
 #+begin_src emacs-lisp :tangle no :noweb-ref magit-config
 (advice-add 'magit-process-environment
@@ -1262,6 +1313,321 @@ These are commonly enforced commit length standards.
 (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
 (add-to-list 'git-commit-finish-query-functions
              #'my-git-commit-check-style-conventions)
+#+end_src
+
+* Projectile
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/bbatsov/projectile][Projectile]] is a project interaction library for Emacs. It provides easy project management and navigation.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! projectile
+  :defer t
+  :config
+  <<projectile-config>>
+  )
+
+<<post-projectile>>
+#+end_src
+#+html:</details>
+
+** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+;; Variables
+#+end_src
+
+*** Projects Directory
+
+I use the same convention for project location on each OS I use.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+(setq projectile-project-search-path '("~/Projects"))
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+;; Behavior
+#+end_src
+
+*** Compile C++ CMake Project in Vterm
+
+This is a quick and dirty setup I did to get a dumb C++ project going. I need to actually setup my compile commands.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+(defun +my/compile-in-vterm ()
+  "Run `compile-command' in vterm in current project's root directory"
+  (interactive)
+  (projectile-run-vterm)
+  (vterm-send-string "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build --config Release && ./build/intelligent-motion")
+  (vterm-send-return))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref post-projectile
+(defun +mypopup-kill (some-popup-window)
+  (progn (+popup--kill-buffer (window-buffer some-popup-window) 0.1)) t)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref post-projectile
+(defun +mypopup-resize (some-popup-window)
+  (fit-window-to-buffer some-popup-window nil 19 nil nil t))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref post-projectile
+(map! :map project-prefix-map
+      :leader
+      :desc "Run project in vterm"
+      "p v" #'+my/compile-in-vterm)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref post-projectile
+(set-popup-rule! "^*vterm intelligent-motion*" :size #'+mypopup-resize :quit #'+mypopup-kill :autosave 'ignore)
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+;; Keybinds
+#+end_src
+
+*** List Uncommitted Projects
+
+I add a keybind to quickly view which projects have uncommitted changes.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref post-projectile
+(map! :map project-prefix-map
+      :leader
+      :desc "List dirty projects"
+      "p l" #'projectile-browse-dirty-projects)
+#+end_src
+
+* Treemacs
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/Alexander-Miller/treemacs][Treemacs]] is a file and project explorer in a tree sidebar similar to Neotree and Nerdtree for Vim.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! treemacs
+  :defer t
+  :config
+  <<treemacs-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+;; Appearance
+#+end_src
+
+*** Use Doom's Theme Colors
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+(setq doom-themes-treemacs-theme "doom-colors")
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+;; Behavior
+#+end_src
+
+*** Enable Follow Mode
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+(treemacs-follow-mode 1)
+(treemacs-tag-follow-mode 1)
+#+end_src
+
+*** Reduce Follow Delay
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+(setq treemacs-file-follow-delay 0.2
+      treemacs-tag-follow-delay 0.3)
+#+end_src
+
+*** Recenter After Following
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
+;; (setq treemacs-recenter-after-tag-follow 'always
+;;       treemacs-recenter-after-file-follow 'always
+;;       treemacs-recenter-distance 0.9
+;;       treemacs-follow-recenter-distance 0.9)
+#+end_src
+
+* Vertico
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/minad/vertico][Vertico]] provides a performant and compatible vertical completion UI for Emacs.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! vertico
+  :defer t
+  :config
+  <<vertico-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+;; Behavior
+#+end_src
+
+*** Alphabetical Sort Order
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+(setq vertico-sort-function #'vertico-sort-history-alpha)
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+;; Keybinds
+#+end_src
+
+*** Add Emacs Style Scroll Keys to Minibuffer
+
+Add "regular" style scrolling keybinds to Vertico for the minibuffer.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+(map! :map vertico-map "C-u" #'scroll-down-command
+      :map vertico-map "C-d" #'scroll-up-command)
+#+end_src
+
+* Visual Fill Column
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill-Column]] is an Emacs minor mode that enables word wrapping at a column and centering the buffer content.
+#+end_quote
+
+I use this to center org-mode buffers primarily. In Doom, I get this package by enabling the wordwrap or zen module.
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! visual-fill-column
+  :hook (org-mode . noncog/center-org-mode-visual-fill))
+#+end_src
+#+html:</details>
+
+** Helpers
+
+#+begin_src emacs-lisp
+;; Helpers
+#+end_src
+
+*** Center Org
+
+#+begin_src emacs-lisp
+(defun noncog/center-org-mode-visual-fill ()
+  "A function used to center org mode..."
+  (interactive)
+  (setq visual-fill-column-width 140
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+#+end_src
+
+* Vterm
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/akermu/emacs-libvterm][Vterm]] is the most capable Emacs terminal emulator with unrivaled performance and compatibility.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! vterm
+  :defer t
+  :config
+  <<vterm-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
+;; Keybinds
+#+end_src
+
+*** Fix =C-backspace=
+
+I love this keybind, more things should use it. Including vterm...
+
+Thanks [[https://github.com/elken/doom#fix-c-backspace][Elken]]!
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
+(define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
+#+end_src
+
+* Yasnippet
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/joaotavora/yasnippet][Yasnippet]] is a template system for Emacs. It allows you to type an abbreviation and automatically expand it.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! yasnippet
+  :defer t
+  :config
+  <<yasnippet-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Resources
+- [[https://joaotavora.github.io/yasnippet/index.html][Yasnippet Documentation]]
+- [[https://github.com/doomemacs/snippets][Doom Snippets]]
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
+;; Behavior
+#+end_src
+
+*** Enable Nested Snippets
+
+#+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
+(setq yas-triggers-in-field t)
 #+end_src
 
 * Org
@@ -1991,7 +2357,10 @@ I'm currently only using one template that sends all captured headings to an inb
 (setq org-capture-templates
       `(("i" "Inbox" entry
          (file+headline "inbox.org" "Inbox")
-         "* %?\n%i\n" :prepend t)))
+         "* %?\n%i\n" :prepend t)
+        ("l" "Link" entry
+         (file+headline "inbox.org" "Inbox")
+         "* LINK %?\n%i\n" :prepend t)))
 #+end_src
 
 ** Behavior
@@ -2157,6 +2526,111 @@ These settings will need sorted into their own headings eventually.
 #+end_src
 #+html:</details>
 
+* TOC Org
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/snosov1/toc-org][TOC-Org]] creates an up-to-date table of contents in an Org file, useful primarily for READMEs on GitHub.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! toc-org
+  :defer t
+  :config
+  <<toc-org-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref toc-org-config
+;; Behavior
+#+end_src
+
+*** Set Default Depth
+
+#+begin_src emacs-lisp :tangle no :noweb-ref toc-org-config
+(setq org-toc-default-depth 2)
+#+end_src
+
+*** Add Code Folding to Quoted TOC
+
+When I use GitHub for literate documentation, I want to add the HTML =details= tag around the table of content to create a hidden table of contents that the user can expand if they wish to. This is done by creating and advising a function that replaces the string used in the quoted table of contents to include the details tag.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref toc-org-config
+(defadvice! my/+toc-org-insert-toc-folded (&optional dry-run)
+  "An advised function to extend 'toc-org-insert-toc to add html details tags."
+  :override #'toc-org-insert-toc
+  (interactive)
+  (let ((dry-run nil))
+  (save-excursion
+    (goto-char (point-min))
+    (let* ((case-fold-search t)
+           (markdown-syntax-p (derived-mode-p 'markdown-mode))
+           (heading-symbol-regexp (if markdown-syntax-p "^#" "^\\*")))
+      ;; find the first heading with the :TOC: tag
+      (when (re-search-forward (concat heading-symbol-regexp toc-org-toc-org-regexp) (point-max) t)
+        (let* ((tag (match-string 2))
+               (depth (if tag
+                          (- (aref tag 1) ?0) ;; is there a better way to convert char to number?
+                        toc-org-max-depth))
+               (hrefify-tag (if (and tag (>= (length tag) 4))
+                                (downcase (substring tag 3))
+                              toc-org-hrefify-default))
+               (hrefify-string (concat "toc-org-hrefify-" hrefify-tag))
+               (hrefify (intern-soft hrefify-string))
+               (put-quote (save-match-data (string-match toc-org-quote-tag-regexp (match-string 0))))
+               (toc-prefix (if put-quote (if markdown-syntax-p "```\n" "#+html:<details><summary>Table of Contents</summary>\n#+BEGIN_QUOTE\n")  ""))
+               (toc-suffix (if put-quote (if markdown-syntax-p "```\n" "#+END_QUOTE\n#+html:</details>\n") "")))
+          (if hrefify
+              (let ((new-toc
+                     (concat toc-prefix
+                             (toc-org-hrefify-toc
+                              (toc-org-flush-subheadings (toc-org-raw-toc markdown-syntax-p) depth)
+                              hrefify
+                              markdown-syntax-p
+                              (when toc-org-hrefify-hash
+                                (clrhash toc-org-hrefify-hash)))
+                             toc-suffix)))
+                (unless dry-run
+                  (newline (forward-line 1))
+
+                  ;; skip drawers
+                  (let ((end
+                         (save-excursion ;; limit to next heading
+                           (search-forward-regexp heading-symbol-regexp (point-max) 'skip))))
+                    (while (re-search-forward toc-org-drawer-regexp end t)
+                      (skip-chars-forward "[:space:]")))
+                  (beginning-of-line)
+
+                  ;; insert newline if TOC is currently empty
+                  (when (looking-at heading-symbol-regexp)
+                    (open-line 1))
+
+                  ;; find TOC boundaries
+                  (let ((beg (point))
+                        (end
+                         (save-excursion
+                           (when (search-forward-regexp heading-symbol-regexp (point-max) 'skip)
+                             (forward-line -1))
+                           (end-of-line)
+                           (point))))
+                    ;; update the TOC, but only if it's actually different
+                    ;; from the current one
+                    (unless (equal
+                             (buffer-substring-no-properties beg end)
+                             new-toc)
+                      (delete-region beg end)
+                      (insert new-toc)))))
+            (message (concat "Hrefify function " hrefify-string " is not found")))))))))
+#+end_src
+
 * Org Noter
 :PROPERTIES:
 :VISIBILITY: children
@@ -2196,6 +2670,284 @@ These settings will need sorted into their own headings eventually.
 #+begin_src emacs-lisp :tangle no :noweb-ref org-noter-config
 (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
 #+end_src
+
+* PDF Tools
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/vedang/pdf-tools][PDF Tools]] is a replacement PDF viewer for the default, DocView, in Emacs. It's required for =org-noter=.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! pdf-tools
+  :defer t
+  :config
+  <<pdf-tools-config>>
+  )
+  (pdf-tools-install)
+#+end_src
+#+html:</details>
+
+** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref pdf-tools-config
+;; Fixes
+#+end_src
+
+*** Prevent Crash on macOS Ventura
+
+Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#issuecomment-1341882242][Source]]
+
+#+begin_src emacs-lisp :tangle no :noweb-ref pdf-tools-config
+(when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
+#+end_src
+
+* PlantUML
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://plantuml.com][PlantUML]] is a component that allows you to quickly write several types of UML diagrams using its language. This integrates well with org mode for generating UML diagrams from source blocks.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! plantuml-mode
+  :defer t
+  :config
+  <<plantuml-mode-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref plantuml-mode-config
+;; Behavior
+#+end_src
+
+*** Execution Mode
+
+I use a local jar executable instead of contacting the website.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref plantuml-mode-config
+(setq plantuml-default-exec-mode 'jar)
+#+end_src
+
+*** Ensure Local Installation
+
+Downloads the jar file if it's not on the system.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref plantuml-mode-config
+(unless (file-exists-p plantuml-jar-path)
+  (plantuml-download-jar))
+#+end_src
+
+* Ox (Org Export)
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+Ox (Org Export) implements a generic export engine for Org. It uses different backends to change the translation of org documents into various other formats.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! ox
+  :defer t
+  :config
+  <<ox-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+;; Appearance
+#+end_src
+
+*** Creator String
+
+I like to include this on my LaTeX exports to allude to the tools that I like to use.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+(setq org-export-with-creator t
+      org-export-creator-string (format "Doom Emacs %s (Org mode %s)" emacs-version org-version))
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+;; Behavior
+#+end_src
+
+*** Ignore Headings but Keep Content in Exports
+
+This setting allows you to use the =:ignore:= tag to remove a heading from an export but keep its contents.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+(require 'ox-extra)
+(ox-extras-activate '(ignore-headlines))
+#+end_src
+
+*** Export Depth
+
+By default only the first three headings, including titles are exported. Five levels of depth seems like a reasonable value for LaTeX and HTML exports. Tecosaur reasoned that HTML5 has six heading levels but Org exports start at the second, leaving us with just five to use. It should also challenge/prevent me from overly nesting information.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+(setq org-export-headline-levels 5)
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+;; Keybinds
+#+end_src
+
+*** View Exported Org File
+
+[[https://github.com/tecosaur/emacs-config/blob/master/config.org#view-exported-file][Tecosaur]] created a function and keybind to view the recently exported org-file.
+
+#+begin_src emacs-lisp
+(defun org-view-output-file (&optional org-file-path)
+  "Visit buffer open on the first output file (if any),
+found, using `org-view-output-file-extensions'."
+  (interactive)
+  (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
+         (dir (file-name-directory org-file-path))
+         (basename (file-name-base org-file-path))
+         (output-file nil))
+    (dolist (ext org-view-output-file-extensions)
+      (unless output-file
+        (when (file-exists-p
+               (concat dir basename "." ext))
+          (setq output-file (concat dir basename "." ext)))))
+    (if output-file
+        (if (member (file-name-extension output-file) org-view-external-file-extensions)
+            (browse-url-xdg-open output-file)
+          (pop-to-buffer (or (find-buffer-visiting output-file)
+                             (find-file-noselect output-file))))
+      (message "No exported file found"))))
+
+(defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
+  "Find output files with these extensions, in order, viewing the first match.")
+(defvar org-view-external-file-extensions '("html")
+  "File formats that should be opened externally.")
+#+end_src
+
+#+begin_src emacs-lisp
+(map! :map org-mode-map
+      :localleader
+      :desc "View exported file"
+      "v" #'org-view-output-file)
+#+end_src
+
+* Ox Latex
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+Ox Latex is the LaTeX backend for the Org Export Engine.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! ox-latex
+  :defer t
+  :config
+  <<ox-latex-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
+;; Appearance
+#+end_src
+
+*** Set Source Block Backend
+
+This adds theming and syntax highlighting to our source blocks in latex exports.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
+(setq org-latex-src-block-backend 'engraved)
+#+end_src
+
+*** Custom Document Class
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
+(add-to-list 'org-latex-classes
+             '("notes"
+               "\\documentclass{article}
+                [NO-DEFAULT-PACKAGES]
+                [PACKAGES]
+                [EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
+;; Behavior
+#+end_src
+
+*** Set PDF Process
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
+(setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
+#+end_src
+
+* Engrave Faces
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/tecosaur/engrave-faces][Engrave Faces]] is a generic exporter that passes a fontified buffer to an org backend to be exported to a particular format. It provides theming and syntax highlighting in code blocks for our org-mode html and latex exports!
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle packages.el
+(package! engrave-faces
+  :recipe (:host github :repo "tecosaur/engrave-faces")
+  :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
+#+end_src
+#+html:</details>
+
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! engrave-faces-latex
+  :after ox-latex)
+#+end_src
+
+#+begin_src emacs-lisp :noweb yes
+(use-package! engrave-faces-html
+  :after ox-html)
+#+end_src
+#+html:</details>
 
 * Org Roam
 :PROPERTIES:
@@ -2445,678 +3197,3 @@ Use default browser unless `xwidget' is available."
 (map! :leader :desc "Roam-UI graph" "n r g" #'org-roam-ui-open-in-browser)
 #+end_src
 
-* Ox (Org Export)
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-Ox (Org Export) implements a generic export engine for Org. It uses different backends to change the translation of org documents into various other formats.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! ox
-  :defer t
-  :config
-  <<ox-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
-;; Appearance
-#+end_src
-
-*** Creator String
-
-I like to include this on my LaTeX exports to allude to the tools that I like to use.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
-(setq org-export-with-creator t
-      org-export-creator-string (format "Doom Emacs %s (Org mode %s)" emacs-version org-version))
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
-;; Behavior
-#+end_src
-
-*** Ignore Headings but Keep Content in Exports
-
-This setting allows you to use the =:ignore:= tag to remove a heading from an export but keep its contents.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
-(require 'ox-extra)
-(ox-extras-activate '(ignore-headlines))
-#+end_src
-
-*** Export Depth
-
-By default only the first three headings, including titles are exported. Five levels of depth seems like a reasonable value for LaTeX and HTML exports. Tecosaur reasoned that HTML5 has six heading levels but Org exports start at the second, leaving us with just five to use. It should also challenge/prevent me from overly nesting information.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
-(setq org-export-headline-levels 5)
-#+end_src
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
-;; Keybinds
-#+end_src
-
-*** View Exported Org File
-
-[[https://github.com/tecosaur/emacs-config/blob/master/config.org#view-exported-file][Tecosaur]] created a function and keybind to view the recently exported org-file.
-
-#+begin_src emacs-lisp
-(defun org-view-output-file (&optional org-file-path)
-  "Visit buffer open on the first output file (if any),
-found, using `org-view-output-file-extensions'."
-  (interactive)
-  (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
-         (dir (file-name-directory org-file-path))
-         (basename (file-name-base org-file-path))
-         (output-file nil))
-    (dolist (ext org-view-output-file-extensions)
-      (unless output-file
-        (when (file-exists-p
-               (concat dir basename "." ext))
-          (setq output-file (concat dir basename "." ext)))))
-    (if output-file
-        (if (member (file-name-extension output-file) org-view-external-file-extensions)
-            (browse-url-xdg-open output-file)
-          (pop-to-buffer (or (find-buffer-visiting output-file)
-                             (find-file-noselect output-file))))
-      (message "No exported file found"))))
-
-(defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
-  "Find output files with these extensions, in order, viewing the first match.")
-(defvar org-view-external-file-extensions '("html")
-  "File formats that should be opened externally.")
-#+end_src
-
-#+begin_src emacs-lisp
-(map! :map org-mode-map
-      :localleader
-      :desc "View exported file"
-      "v" #'org-view-output-file)
-#+end_src
-
-* Ox Latex
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-Ox Latex is the LaTeX backend for the Org Export Engine.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! ox-latex
-  :defer t
-  :config
-  <<ox-latex-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
-;; Appearance
-#+end_src
-
-*** Set Source Block Backend
-
-This adds theming and syntax highlighting to our source blocks in latex exports.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
-(setq org-latex-src-block-backend 'engraved)
-#+end_src
-
-*** Custom Document Class
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
-(add-to-list 'org-latex-classes
-             '("notes"
-               "\\documentclass{article}
-                [NO-DEFAULT-PACKAGES]
-                [PACKAGES]
-                [EXTRA]"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
-;; Behavior
-#+end_src
-
-*** Set PDF Process
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
-(setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
-#+end_src
-
-* PDF Tools
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/vedang/pdf-tools][PDF Tools]] is a replacement PDF viewer for the default, DocView, in Emacs. It's required for =org-noter=.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! pdf-tools
-  :defer t
-  :config
-  <<pdf-tools-config>>
-  )
-  (pdf-tools-install)
-#+end_src
-#+html:</details>
-
-** Fixes
-
-#+begin_src emacs-lisp :tangle no :noweb-ref pdf-tools-config
-;; Fixes
-#+end_src
-
-*** Prevent Crash on macOS Ventura
-
-Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#issuecomment-1341882242][Source]]
-
-#+begin_src emacs-lisp :tangle no :noweb-ref pdf-tools-config
-(when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
-#+end_src
-
-* Persp-Mode
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/Bad-ptr/persp-mode.el][Persp-Mode]] is used by Doom to manage workspaces across frames.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! persp-mode
-  :defer t
-  :config
-  <<persp-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Fixes
-
-#+begin_src emacs-lisp :tangle no :noweb-ref persp-config
-;; Fixes
-#+end_src
-
-*** Prevent New Workspaces on New Frames
-
-By default, when using emacsclient, Doom creates a new workspace for each emacsclient window. I don't want this, so we'll disable it.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref persp-config
-(setq persp-emacsclient-init-frame-behaviour-override nil)
-#+end_src
-
-* PlantUML
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://plantuml.com][PlantUML]] is a component that allows you to quickly write several types of UML diagrams using its language. This integrates well with org mode for generating UML diagrams from source blocks.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! plantuml-mode
-  :defer t
-  :config
-  <<plantuml-mode-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref plantuml-mode-config
-;; Behavior
-#+end_src
-
-*** Execution Mode
-
-I use a local jar executable instead of contacting the website.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref plantuml-mode-config
-(setq plantuml-default-exec-mode 'jar)
-#+end_src
-
-*** Ensure Local Installation
-
-Downloads the jar file if it's not on the system.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref plantuml-mode-config
-(unless (file-exists-p plantuml-jar-path)
-  (plantuml-download-jar))
-#+end_src
-
-* Projectile
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/bbatsov/projectile][Projectile]] is a project interaction library for Emacs. It provides easy project management and navigation.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! projectile
-  :defer t
-  :config
-  <<projectile-config>>
-  )
-
-<<post-projectile>>
-#+end_src
-#+html:</details>
-
-** Variables
-
-#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-;; Variables
-#+end_src
-
-*** Projects Directory
-
-I use the same convention for project location on each OS I use.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-(setq projectile-project-search-path '("~/Projects"))
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-;; Behavior
-#+end_src
-
-*** Compile C++ CMake Project in Vterm
-
-This is a quick and dirty setup I did to get a dumb C++ project going. I need to actually setup my compile commands.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-(defun +my/compile-in-vterm ()
-  "Run `compile-command' in vterm in current project's root directory"
-  (interactive)
-  (projectile-run-vterm)
-  (vterm-send-string "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build --config Release && ./build/intelligent-motion")
-  (vterm-send-return))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref post-projectile
-(defun +mypopup-kill (some-popup-window)
-  (progn (+popup--kill-buffer (window-buffer some-popup-window) 0.1)) t)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref post-projectile
-(defun +mypopup-resize (some-popup-window)
-  (fit-window-to-buffer some-popup-window nil 19 nil nil t))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref post-projectile
-(map! :map project-prefix-map
-      :leader
-      :desc "Run project in vterm"
-      "p v" #'+my/compile-in-vterm)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref post-projectile
-(set-popup-rule! "^*vterm intelligent-motion*" :size #'+mypopup-resize :quit #'+mypopup-kill :autosave 'ignore)
-#+end_src
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-;; Keybinds
-#+end_src
-
-*** List Uncommitted Projects
-
-I add a keybind to quickly view which projects have uncommitted changes.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref post-projectile
-(map! :map project-prefix-map
-      :leader
-      :desc "List dirty projects"
-      "p l" #'projectile-browse-dirty-projects)
-#+end_src
-
-* TOC Org
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/snosov1/toc-org][TOC-Org]] creates an up-to-date table of contents in an Org file, useful primarily for READMEs on GitHub.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! toc-org
-  :defer t
-  :config
-  <<toc-org-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref toc-org-config
-;; Behavior
-#+end_src
-
-*** Set Default Depth
-
-#+begin_src emacs-lisp :tangle no :noweb-ref toc-org-config
-(setq org-toc-default-depth 2)
-#+end_src
-
-* Treemacs
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/Alexander-Miller/treemacs][Treemacs]] is a file and project explorer in a tree sidebar similar to Neotree and Nerdtree for Vim.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! treemacs
-  :defer t
-  :config
-  <<treemacs-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-;; Appearance
-#+end_src
-
-*** Use Doom's Theme Colors
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-(setq doom-themes-treemacs-theme "doom-colors")
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-;; Behavior
-#+end_src
-
-*** Enable Follow Mode
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-(treemacs-follow-mode 1)
-(treemacs-tag-follow-mode 1)
-#+end_src
-
-*** Reduce Follow Delay
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-(setq treemacs-file-follow-delay 0.2
-      treemacs-tag-follow-delay 0.3)
-#+end_src
-
-*** Recenter After Following
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-;; (setq treemacs-recenter-after-tag-follow 'always
-;;       treemacs-recenter-after-file-follow 'always
-;;       treemacs-recenter-distance 0.9
-;;       treemacs-follow-recenter-distance 0.9)
-#+end_src
-
-* Vertico
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/minad/vertico][Vertico]] provides a performant and compatible vertical completion UI for Emacs.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! vertico
-  :defer t
-  :config
-  <<vertico-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
-;; Behavior
-#+end_src
-
-*** Alphabetical Sort Order
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
-(setq vertico-sort-function #'vertico-sort-history-alpha)
-#+end_src
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
-;; Keybinds
-#+end_src
-
-*** Add Emacs Style Scroll Keys to Minibuffer
-
-Add "regular" style scrolling keybinds to Vertico for the minibuffer.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
-(map! :map vertico-map "C-u" #'scroll-down-command
-      :map vertico-map "C-d" #'scroll-up-command)
-#+end_src
-
-* Visual Fill Column
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill-Column]] is an Emacs minor mode that enables word wrapping at a column and centering the buffer content.
-#+end_quote
-
-I use this to center org-mode buffers primarily. In Doom, I get this package by enabling the wordwrap or zen module.
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! visual-fill-column
-  :hook (org-mode . noncog/center-org-mode-visual-fill))
-#+end_src
-#+html:</details>
-
-** Helpers
-
-#+begin_src emacs-lisp
-;; Helpers
-#+end_src
-
-*** Center Org
-
-#+begin_src emacs-lisp
-(defun noncog/center-org-mode-visual-fill ()
-  "A function used to center org mode..."
-  (interactive)
-  (setq visual-fill-column-width 140
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-#+end_src
-
-* Vterm
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/akermu/emacs-libvterm][Vterm]] is the most capable Emacs terminal emulator with unrivaled performance and compatibility.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! vterm
-  :defer t
-  :config
-  <<vterm-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
-;; Keybinds
-#+end_src
-
-*** Fix =C-backspace=
-
-I love this keybind, more things should use it. Including vterm...
-
-Thanks [[https://github.com/elken/doom#fix-c-backspace][Elken]]!
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
-(define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
-#+end_src
-
-* Which-Key
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/justbur/emacs-which-key][Which-Key]] is a minor-mode for Emacs that displays keybinds for your currently unfinished inputs.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! which-key
-  :defer t
-  :config
-  <<which-key-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Fixes
-
-#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
-;; Fixes
-#+end_src
-
-*** Fix Height Issue
-
-I was having an issue using =emacsclient= where which-key was being cut off below the modeline. A simple solution (found [[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][here]]) is to add spaces below the keybinds. Realistically this doesn't work everywhere but it's good enough for now.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
-;; Add an extra line to work around bug in which-key imprecise
-(defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
-(advice-add 'which-key--show-popup :around #'add-which-key-line)
-#+end_src
-
-*** Remove Evil Prefixes
-
-#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
-(setq which-key-allow-multiple-replacements t)
-(pushnew!
- which-key-replacement-alist
- '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
- '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
-#+end_src
-
-* Yasnippet
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/joaotavora/yasnippet][Yasnippet]] is a template system for Emacs. It allows you to type an abbreviation and automatically expand it.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! yasnippet
-  :defer t
-  :config
-  <<yasnippet-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Resources
-- [[https://joaotavora.github.io/yasnippet/index.html][Yasnippet Documentation]]
-- [[https://github.com/doomemacs/snippets][Doom Snippets]]
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
-;; Behavior
-#+end_src
-
-*** Enable Nested Snippets
-
-#+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
-(setq yas-triggers-in-field t)
-#+end_src

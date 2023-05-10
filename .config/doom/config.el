@@ -157,22 +157,9 @@
         beacon-blink-delay 0.5)
   (setq beacon-blink-when-buffer-changes t
         beacon-blink-when-window-scrolls nil
-        beacon-blink-when-focused t)
+        beacon-blink-when-focused nil)
   )
 (beacon-mode 1)
-
-(use-package! company
-  :defer t
-  :config
-  ;; Behavior
-  (setq company-idle-delay 0.3
-        company-tooltip-limit 10
-        company-minimum-prefix-length 1)
-  (set-company-backend! 'org-mode
-    '(company-capf company-files :with company-yasnippet))
-  (set-company-backend! 'sh-mode
-    '(company-shell company-files :with company-yasnippet))
-  )
 
 (use-package! doom-dashboard
   :defer t
@@ -192,11 +179,39 @@
         doom-modeline-persp-icon t)
   )
 
-(use-package! engrave-faces-latex
-  :after ox-latex)
+(use-package! which-key
+  :defer t
+  :config
+  ;; Fixes
+  ;; Add an extra line to work around bug in which-key imprecise
+  (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
+  (advice-add 'which-key--show-popup :around #'add-which-key-line)
+  (setq which-key-allow-multiple-replacements t)
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
+   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
+  )
 
-(use-package! engrave-faces-html
-  :after ox-html)
+(use-package! persp-mode
+  :defer t
+  :config
+  ;; Fixes
+  (setq persp-emacsclient-init-frame-behaviour-override nil)
+  )
+
+(use-package! company
+  :defer t
+  :config
+  ;; Behavior
+  (setq company-idle-delay 0.3
+        company-tooltip-limit 10
+        company-minimum-prefix-length 1)
+  (set-company-backend! 'org-mode
+    '(company-capf company-files :with company-yasnippet))
+  (set-company-backend! 'sh-mode
+    '(company-shell company-files :with company-yasnippet))
+  )
 
 (use-package! lsp-clangd
   :defer t
@@ -325,6 +340,87 @@
   (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
   (add-to-list 'git-commit-finish-query-functions
                #'my-git-commit-check-style-conventions)
+  )
+
+(use-package! projectile
+  :defer t
+  :config
+  ;; Variables
+  (setq projectile-project-search-path '("~/Projects"))
+  ;; Behavior
+  (defun +my/compile-in-vterm ()
+    "Run `compile-command' in vterm in current project's root directory"
+    (interactive)
+    (projectile-run-vterm)
+    (vterm-send-string "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build --config Release && ./build/intelligent-motion")
+    (vterm-send-return))
+  ;; Keybinds
+  )
+
+(defun +mypopup-kill (some-popup-window)
+  (progn (+popup--kill-buffer (window-buffer some-popup-window) 0.1)) t)
+(defun +mypopup-resize (some-popup-window)
+  (fit-window-to-buffer some-popup-window nil 19 nil nil t))
+(map! :map project-prefix-map
+      :leader
+      :desc "Run project in vterm"
+      "p v" #'+my/compile-in-vterm)
+(set-popup-rule! "^*vterm intelligent-motion*" :size #'+mypopup-resize :quit #'+mypopup-kill :autosave 'ignore)
+(map! :map project-prefix-map
+      :leader
+      :desc "List dirty projects"
+      "p l" #'projectile-browse-dirty-projects)
+
+(use-package! treemacs
+  :defer t
+  :config
+  ;; Appearance
+  (setq doom-themes-treemacs-theme "doom-colors")
+  ;; Behavior
+  (treemacs-follow-mode 1)
+  (treemacs-tag-follow-mode 1)
+  (setq treemacs-file-follow-delay 0.2
+        treemacs-tag-follow-delay 0.3)
+  ;; (setq treemacs-recenter-after-tag-follow 'always
+  ;;       treemacs-recenter-after-file-follow 'always
+  ;;       treemacs-recenter-distance 0.9
+  ;;       treemacs-follow-recenter-distance 0.9)
+  )
+
+(use-package! vertico
+  :defer t
+  :config
+  ;; Behavior
+  (setq vertico-sort-function #'vertico-sort-history-alpha)
+  ;; Keybinds
+  (map! :map vertico-map "C-u" #'scroll-down-command
+        :map vertico-map "C-d" #'scroll-up-command)
+  )
+
+(use-package! visual-fill-column
+  :hook (org-mode . noncog/center-org-mode-visual-fill))
+
+;; Helpers
+
+(defun noncog/center-org-mode-visual-fill ()
+  "A function used to center org mode..."
+  (interactive)
+  (setq visual-fill-column-width 140
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
+
+(use-package! vterm
+  :defer t
+  :config
+  ;; Keybinds
+  (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
+  )
+
+(use-package! yasnippet
+  :defer t
+  :config
+  ;; Behavior
+  (setq yas-triggers-in-field t)
   )
 
 (setq org-directory "~/Projects/brain/")
@@ -769,7 +865,10 @@ If nil it defaults to `split-string-default-separators', normally
   (setq org-capture-templates
         `(("i" "Inbox" entry
            (file+headline "inbox.org" "Inbox")
-           "* %?\n%i\n" :prepend t)))
+           "* %?\n%i\n" :prepend t)
+          ("l" "Link" entry
+           (file+headline "inbox.org" "Inbox")
+           "* LINK %?\n%i\n" :prepend t)))
   ;; Behavior
   (setq org-capture-bookmark nil)
   ;; Keybinds
@@ -818,6 +917,78 @@ If nil it defaults to `split-string-default-separators', normally
   :config ; add late to hook
   (add-hook 'org-mode-hook #'org-modern-indent-mode 1))
 
+(use-package! toc-org
+  :defer t
+  :config
+  ;; Behavior
+  (setq org-toc-default-depth 2)
+  (defadvice! my/+toc-org-insert-toc-folded (&optional dry-run)
+    "An advised function to extend 'toc-org-insert-toc to add html details tags."
+    :override #'toc-org-insert-toc
+    (interactive)
+    (let ((dry-run nil))
+    (save-excursion
+      (goto-char (point-min))
+      (let* ((case-fold-search t)
+             (markdown-syntax-p (derived-mode-p 'markdown-mode))
+             (heading-symbol-regexp (if markdown-syntax-p "^#" "^\\*")))
+        ;; find the first heading with the :TOC: tag
+        (when (re-search-forward (concat heading-symbol-regexp toc-org-toc-org-regexp) (point-max) t)
+          (let* ((tag (match-string 2))
+                 (depth (if tag
+                            (- (aref tag 1) ?0) ;; is there a better way to convert char to number?
+                          toc-org-max-depth))
+                 (hrefify-tag (if (and tag (>= (length tag) 4))
+                                  (downcase (substring tag 3))
+                                toc-org-hrefify-default))
+                 (hrefify-string (concat "toc-org-hrefify-" hrefify-tag))
+                 (hrefify (intern-soft hrefify-string))
+                 (put-quote (save-match-data (string-match toc-org-quote-tag-regexp (match-string 0))))
+                 (toc-prefix (if put-quote (if markdown-syntax-p "```\n" "#+html:<details><summary>Table of Contents</summary>\n#+BEGIN_QUOTE\n")  ""))
+                 (toc-suffix (if put-quote (if markdown-syntax-p "```\n" "#+END_QUOTE\n#+html:</details>\n") "")))
+            (if hrefify
+                (let ((new-toc
+                       (concat toc-prefix
+                               (toc-org-hrefify-toc
+                                (toc-org-flush-subheadings (toc-org-raw-toc markdown-syntax-p) depth)
+                                hrefify
+                                markdown-syntax-p
+                                (when toc-org-hrefify-hash
+                                  (clrhash toc-org-hrefify-hash)))
+                               toc-suffix)))
+                  (unless dry-run
+                    (newline (forward-line 1))
+  
+                    ;; skip drawers
+                    (let ((end
+                           (save-excursion ;; limit to next heading
+                             (search-forward-regexp heading-symbol-regexp (point-max) 'skip))))
+                      (while (re-search-forward toc-org-drawer-regexp end t)
+                        (skip-chars-forward "[:space:]")))
+                    (beginning-of-line)
+  
+                    ;; insert newline if TOC is currently empty
+                    (when (looking-at heading-symbol-regexp)
+                      (open-line 1))
+  
+                    ;; find TOC boundaries
+                    (let ((beg (point))
+                          (end
+                           (save-excursion
+                             (when (search-forward-regexp heading-symbol-regexp (point-max) 'skip)
+                               (forward-line -1))
+                             (end-of-line)
+                             (point))))
+                      ;; update the TOC, but only if it's actually different
+                      ;; from the current one
+                      (unless (equal
+                               (buffer-substring-no-properties beg end)
+                               new-toc)
+                        (delete-region beg end)
+                        (insert new-toc)))))
+              (message (concat "Hrefify function " hrefify-string " is not found")))))))))
+  )
+
 (use-package! org-noter
   :defer t
   :config
@@ -826,6 +997,92 @@ If nil it defaults to `split-string-default-separators', normally
         org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
   (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
   )
+
+(use-package! pdf-tools
+  :defer t
+  :config
+  ;; Fixes
+  (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
+  )
+  (pdf-tools-install)
+
+(use-package! plantuml-mode
+  :defer t
+  :config
+  ;; Behavior
+  (setq plantuml-default-exec-mode 'jar)
+  (unless (file-exists-p plantuml-jar-path)
+    (plantuml-download-jar))
+  )
+
+(use-package! ox
+  :defer t
+  :config
+  ;; Appearance
+  (setq org-export-with-creator t
+        org-export-creator-string (format "Doom Emacs %s (Org mode %s)" emacs-version org-version))
+  ;; Behavior
+  (require 'ox-extra)
+  (ox-extras-activate '(ignore-headlines))
+  (setq org-export-headline-levels 5)
+  ;; Keybinds
+  )
+
+(defun org-view-output-file (&optional org-file-path)
+  "Visit buffer open on the first output file (if any),
+found, using `org-view-output-file-extensions'."
+  (interactive)
+  (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
+         (dir (file-name-directory org-file-path))
+         (basename (file-name-base org-file-path))
+         (output-file nil))
+    (dolist (ext org-view-output-file-extensions)
+      (unless output-file
+        (when (file-exists-p
+               (concat dir basename "." ext))
+          (setq output-file (concat dir basename "." ext)))))
+    (if output-file
+        (if (member (file-name-extension output-file) org-view-external-file-extensions)
+            (browse-url-xdg-open output-file)
+          (pop-to-buffer (or (find-buffer-visiting output-file)
+                             (find-file-noselect output-file))))
+      (message "No exported file found"))))
+
+(defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
+  "Find output files with these extensions, in order, viewing the first match.")
+(defvar org-view-external-file-extensions '("html")
+  "File formats that should be opened externally.")
+
+(map! :map org-mode-map
+      :localleader
+      :desc "View exported file"
+      "v" #'org-view-output-file)
+
+(use-package! ox-latex
+  :defer t
+  :config
+  ;; Appearance
+  (setq org-latex-src-block-backend 'engraved)
+  (add-to-list 'org-latex-classes
+               '("notes"
+                 "\\documentclass{article}
+                  [NO-DEFAULT-PACKAGES]
+                  [PACKAGES]
+                  [EXTRA]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  ;; Behavior
+  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
+  )
+
+(use-package! engrave-faces-latex
+  :after ox-latex)
+
+(use-package! engrave-faces-html
+  :after ox-html)
 
 (setq org-roam-directory (file-truename "~/Projects/brain"))
 (setq org-roam-db-location (file-truename "~/Projects/brain/brain.db"))
@@ -911,192 +1168,3 @@ Use default browser unless `xwidget' is available."
   "open org-roam-ui in the browser"
  :lighter "roam"
  (org-roam-ui-open-url "http://127.0.0.1:35901"))
-
-(use-package! ox
-  :defer t
-  :config
-  ;; Appearance
-  (setq org-export-with-creator t
-        org-export-creator-string (format "Doom Emacs %s (Org mode %s)" emacs-version org-version))
-  ;; Behavior
-  (require 'ox-extra)
-  (ox-extras-activate '(ignore-headlines))
-  (setq org-export-headline-levels 5)
-  ;; Keybinds
-  )
-
-(defun org-view-output-file (&optional org-file-path)
-  "Visit buffer open on the first output file (if any),
-found, using `org-view-output-file-extensions'."
-  (interactive)
-  (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
-         (dir (file-name-directory org-file-path))
-         (basename (file-name-base org-file-path))
-         (output-file nil))
-    (dolist (ext org-view-output-file-extensions)
-      (unless output-file
-        (when (file-exists-p
-               (concat dir basename "." ext))
-          (setq output-file (concat dir basename "." ext)))))
-    (if output-file
-        (if (member (file-name-extension output-file) org-view-external-file-extensions)
-            (browse-url-xdg-open output-file)
-          (pop-to-buffer (or (find-buffer-visiting output-file)
-                             (find-file-noselect output-file))))
-      (message "No exported file found"))))
-
-(defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
-  "Find output files with these extensions, in order, viewing the first match.")
-(defvar org-view-external-file-extensions '("html")
-  "File formats that should be opened externally.")
-
-(map! :map org-mode-map
-      :localleader
-      :desc "View exported file"
-      "v" #'org-view-output-file)
-
-(use-package! ox-latex
-  :defer t
-  :config
-  ;; Appearance
-  (setq org-latex-src-block-backend 'engraved)
-  (add-to-list 'org-latex-classes
-               '("notes"
-                 "\\documentclass{article}
-                  [NO-DEFAULT-PACKAGES]
-                  [PACKAGES]
-                  [EXTRA]"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  ;; Behavior
-  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
-  )
-
-(use-package! pdf-tools
-  :defer t
-  :config
-  ;; Fixes
-  (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
-  )
-  (pdf-tools-install)
-
-(use-package! persp-mode
-  :defer t
-  :config
-  ;; Fixes
-  (setq persp-emacsclient-init-frame-behaviour-override nil)
-  )
-
-(use-package! plantuml-mode
-  :defer t
-  :config
-  ;; Behavior
-  (setq plantuml-default-exec-mode 'jar)
-  (unless (file-exists-p plantuml-jar-path)
-    (plantuml-download-jar))
-  )
-
-(use-package! projectile
-  :defer t
-  :config
-  ;; Variables
-  (setq projectile-project-search-path '("~/Projects"))
-  ;; Behavior
-  (defun +my/compile-in-vterm ()
-    "Run `compile-command' in vterm in current project's root directory"
-    (interactive)
-    (projectile-run-vterm)
-    (vterm-send-string "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build --config Release && ./build/intelligent-motion")
-    (vterm-send-return))
-  ;; Keybinds
-  )
-
-(defun +mypopup-kill (some-popup-window)
-  (progn (+popup--kill-buffer (window-buffer some-popup-window) 0.1)) t)
-(defun +mypopup-resize (some-popup-window)
-  (fit-window-to-buffer some-popup-window nil 19 nil nil t))
-(map! :map project-prefix-map
-      :leader
-      :desc "Run project in vterm"
-      "p v" #'+my/compile-in-vterm)
-(set-popup-rule! "^*vterm intelligent-motion*" :size #'+mypopup-resize :quit #'+mypopup-kill :autosave 'ignore)
-(map! :map project-prefix-map
-      :leader
-      :desc "List dirty projects"
-      "p l" #'projectile-browse-dirty-projects)
-
-(use-package! toc-org
-  :defer t
-  :config
-  ;; Behavior
-  (setq org-toc-default-depth 2)
-  )
-
-(use-package! treemacs
-  :defer t
-  :config
-  ;; Appearance
-  (setq doom-themes-treemacs-theme "doom-colors")
-  ;; Behavior
-  (treemacs-follow-mode 1)
-  (treemacs-tag-follow-mode 1)
-  (setq treemacs-file-follow-delay 0.2
-        treemacs-tag-follow-delay 0.3)
-  ;; (setq treemacs-recenter-after-tag-follow 'always
-  ;;       treemacs-recenter-after-file-follow 'always
-  ;;       treemacs-recenter-distance 0.9
-  ;;       treemacs-follow-recenter-distance 0.9)
-  )
-
-(use-package! vertico
-  :defer t
-  :config
-  ;; Behavior
-  (setq vertico-sort-function #'vertico-sort-history-alpha)
-  ;; Keybinds
-  (map! :map vertico-map "C-u" #'scroll-down-command
-        :map vertico-map "C-d" #'scroll-up-command)
-  )
-
-(use-package! visual-fill-column
-  :hook (org-mode . noncog/center-org-mode-visual-fill))
-
-;; Helpers
-
-(defun noncog/center-org-mode-visual-fill ()
-  "A function used to center org mode..."
-  (interactive)
-  (setq visual-fill-column-width 140
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
-(use-package! vterm
-  :defer t
-  :config
-  ;; Keybinds
-  (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
-  )
-
-(use-package! which-key
-  :defer t
-  :config
-  ;; Fixes
-  ;; Add an extra line to work around bug in which-key imprecise
-  (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
-  (advice-add 'which-key--show-popup :around #'add-which-key-line)
-  (setq which-key-allow-multiple-replacements t)
-  (pushnew!
-   which-key-replacement-alist
-   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
-   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
-  )
-
-(use-package! yasnippet
-  :defer t
-  :config
-  ;; Behavior
-  (setq yas-triggers-in-field t)
-  )
