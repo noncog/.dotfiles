@@ -155,7 +155,7 @@ bindsym $mod+o [class="Tor Browser" workspace="__focused__"] scratchpad show, re
 
 set $discord-size resize set 50 ppt 85 ppt, move position center
 for_window [class="discord"] move scratchpad, sticky enable
-bindsym $mod+Shift+d exec --no-startup-id discord
+bindsym $mod+Shift+d exec "--no-startup-id __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia discord"
 bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
 bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
 
