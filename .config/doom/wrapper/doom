@@ -3,7 +3,9 @@
 if [ "$1" == "sync" ]; then
     case "$OSTYPE" in
         linux*)
-            echo "it's linux... TODO add service restarting support"
+            emacsclient -e "(kill-emacs)"
+            "$HOME"/.config/emacs/bin/doom sync
+            emacs --daemon
             ;;
         darwin*)
             emacs_service="$(brew services list | grep "^emacs" | awk '{print $1}')"

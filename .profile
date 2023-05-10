@@ -26,8 +26,8 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Add Doom to $PATH.
-PATH="$PATH:$HOME/.config/emacs/bin"
+# Add Doom wrapper script to $PATH.
+PATH="$PATH:$HOME/.config/doom/wrapper"
 
 # Set Doom environment variables.
 export DOOMDIR="$HOME/.config/doom"
