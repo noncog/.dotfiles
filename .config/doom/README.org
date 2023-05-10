@@ -178,7 +178,9 @@ Doom only uses three config files. I keep their headers here.
 
 *** Init.el
 
+#+begin_quote
 Defines which of Doom’s modules are loaded.
+#+end_quote
 
 #+html:<details><summary>Header</summary>
 #+begin_src emacs-lisp :tangle init.el
@@ -398,7 +400,9 @@ Defines which of Doom’s modules are loaded.
 
 *** Packages.el
 
+#+begin_quote
 Defines which external pacakges are loaded.
+#+end_quote
 
 #+html:<details><summary>Header</summary>
 #+begin_src emacs-lisp :tangle packages.el
@@ -457,7 +461,9 @@ Defines which external pacakges are loaded.
 
 *** Config.el
 
+#+begin_quote
 Defines the user's custom configuration.
+#+end_quote
 
 #+html:<details><summary>Header</summary>
 #+begin_src emacs-lisp
