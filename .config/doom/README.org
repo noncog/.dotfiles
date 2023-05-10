@@ -1,4 +1,3 @@
-#+title: Doom
 #+tags: export noexport
 #+export_select_tags: export
 #+export_exclude_tags: exclude noexport
