@@ -153,7 +153,6 @@ Emacs and Doom Emacs (Linux in general) configuration is somewhat of an art. Her
 - [[https://github.com/tecosaur/emacs-config][Tecosaur]]
 - [[https://github.com/zzamboni/dot-doom/blob/master/doom.org][Zzamboni]]
 - [[https://github.com/elken/doom][Elken]]
-- [[https://github.com/chrisbarrett/.emacs.d/blob/master/config.org][Chris Barrett]]
 - [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Nguyen Duc Hieu]]
 - [[https://github.com/slano-ls/Doom-Emacs-Config][Saihaj Law]]
 - [[https://github.com/hlissner/.doom.d/tree/master][Henrik Lissner]]
@@ -163,6 +162,7 @@ Emacs and Doom Emacs (Linux in general) configuration is somewhat of an art. Her
 - [[https://github.com/rougier/dotemacs/blob/master/dotemacs.org][Nicolas P. Rougier]]
 - [[https://github.com/jimeh/.emacs.d][Emacs Siren]]
 - [[https://github.com/howardabrams/hamacs][Howard Abrams]]
+- [[https://github.com/chrisbarrett/.emacs.d/blob/master/config.org][Chris Barrett]]
 
 ** Doom Configs
 
