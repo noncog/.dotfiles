@@ -235,38 +235,36 @@ bindsym $mod+l [con_id="__focused__" class="^(?!Emacs)"] focus right
 
 
 mode "emacs" {
-    #bindsym $mod+Control+Shift+t mode "default"
+# youtube
+bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; [con_mark=youtube floating] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; [con_mark=youtube floating] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
 
-    # youtube
-    bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; [con_mark=youtube floating] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; [con_mark=youtube floating] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
+# spotify
+bindsym $mod+m [class="Spotify"] scratchpad show, resize set 50 ppt 60 ppt, move position center
 
-    # spotify
-    bindsym $mod+m [class="Spotify"] scratchpad show, resize set 50 ppt 60 ppt, move position center
+# discord
+bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
 
-    # discord
-    bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
+# tor
+bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, move position center
 
-    # tor
-    bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, move position center
-
-    # kitty
-    bindsym $mod+Control+Return [class="kitty" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
-    bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $kitty-size; [class="kitty" floating] scratchpad show, $kitty-size
-    # anki
-    bindsym $mod+a [class="Anki"] focus
-    # gimp
-    bindsym $mod+g [class="Gimp"] focus
-    # firefox
-    bindsym $mod+f [class="Firefox-esr" tiling] focus
-    # blender
-    bindsym $mod+b [class="Blender" tiling] focus
-    # clion
-    bindsym $mod+c [class="jetbrains-clion"] focus
-    # pycharm
-    bindsym $mod+p [class="jetbrains-pycharm"] focus
-    # intellij
-    bindsym $mod+i [class="jetbrains-idea"] focus
-    # move windows
+# kitty
+bindsym $mod+Control+Return [class="kitty" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
+bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $kitty-size; [class="kitty" floating] scratchpad show, $kitty-size
+# anki
+bindsym $mod+a [class="Anki"] focus
+# gimp
+bindsym $mod+g [class="Gimp"] focus
+# firefox
+bindsym $mod+f [class="Firefox-esr" tiling] focus
+# blender
+bindsym $mod+b [class="Blender" tiling] focus
+# clion
+bindsym $mod+c [class="jetbrains-clion"] focus
+# pycharm
+bindsym $mod+p [class="jetbrains-pycharm"] focus
+# intellij
+bindsym $mod+i [class="jetbrains-idea"] focus
+# move windows
 
 bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+Control+Shift+f move container to workspace $firefox

@@ -487,7 +487,6 @@ bindsym $mod+j [con_id="__focused__" class="^(?!Emacs)"] focus down
 bindsym $mod+k [con_id="__focused__" class="^(?!Emacs)"] focus up
 bindsym $mod+l [con_id="__focused__" class="^(?!Emacs)"] focus right
 
-
 mode "emacs" {
 # youtube
 bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; [con_mark=youtube floating] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; [con_mark=youtube floating] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
