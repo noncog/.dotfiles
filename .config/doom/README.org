@@ -1015,6 +1015,8 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
+<<pre-doom-dashboard>>
+
 (use-package! doom-dashboard
   :defer t
   :config
@@ -1031,7 +1033,7 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 
 *** Open the Dashboard
 
-#+begin_src emacs-lisp :tangle no :noweb-ref doom-dashboard-config
+#+begin_src emacs-lisp :tangle no :noweb-ref pre-doom-dashboard
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 #+end_src
 

@@ -222,11 +222,12 @@
         )
   )
 
+(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+
 (use-package! doom-dashboard
   :defer t
   :config
   ;; Keybinds
-  (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
   )
 
 (use-package! persp-mode
