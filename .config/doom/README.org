@@ -150,8 +150,6 @@
 
 This section is for "global" or top-level configuration. Outside of this section, each section is dedicated to specific package configuration.
 
-This section is for "global" or top-level configuration. Outside of this section, each section is dedicated to specific package configuration.
-
 ** Resources
 :PROPERTIES:
 :VISIBILITY: children
