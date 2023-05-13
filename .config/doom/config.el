@@ -63,6 +63,43 @@
 
 (setq display-line-numbers-type 'visual)
 
+(setq evil-want-fine-undo t)
+
+(global-subword-mode 1)
+
+(defun noncog/evil-previous-visual-line (&optional count)
+  "Repeat evil-previous-visual-line COUNT times."
+  (interactive "P")
+  (let ((total (or count 1))
+        (counter 0))
+    (while (< counter total)
+      (evil-previous-visual-line)
+      (setq counter (+ counter 1)))))
+
+(defun noncog/evil-next-visual-line (&optional count)
+  "Repeat evil-next-visual-line COUNT times."
+  (interactive "P")
+  (let ((total (or count 1))
+        (counter 0))
+    (while (< counter total)
+      (evil-next-visual-line)
+      (setq counter (+ counter 1)))))
+
+(define-key evil-motion-state-map "j" 'noncog/evil-next-visual-line)
+(define-key evil-motion-state-map "k" 'noncog/evil-previous-visual-line)
+
+(define-key evil-normal-state-map "j" 'noncog/evil-next-visual-line)
+(define-key evil-normal-state-map "k" 'noncog/evil-previous-visual-line)
+
+;; TODO: Add evil-visual-state-map binds.
+
+(setq evil-kill-on-visual-paste nil)
+
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
+
+(global-auto-revert-mode 1)
+
 (define-minor-mode prot/scroll-center-cursor-mode
   "Toggle centred cursor scrolling behavior"
   :init-value nil
@@ -79,17 +116,6 @@
       (kill-local-variable `,local))))
 
 (setq-default evil-scroll-count 5)
-
-(global-auto-revert-mode 1)
-
-(global-subword-mode 1)
-
-(setq evil-want-fine-undo t)
-
-(setq evil-kill-on-visual-paste nil)
-
-(setq evil-split-window-below t
-      evil-vsplit-window-right t)
 
 (defun wm-focus-on-error (direction move-fn)
     (when IS-LINUX
@@ -161,24 +187,6 @@
   )
 (beacon-mode 1)
 
-(use-package! doom-dashboard
-  :defer t
-  :config
-  ;; Keybinds
-  (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-  )
-
-(use-package! doom-modeline
-  :defer t
-  :config
-  ;; Appearance
-  (setq doom-modeline-height 35
-        doom-modeline-major-mode-icon t
-        doom-modeline-persp-name t
-        doom-modeline-display-default-persp-name t
-        doom-modeline-persp-icon t)
-  )
-
 (use-package! which-key
   :defer t
   :config
@@ -193,11 +201,49 @@
    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
   )
 
+(use-package! doom-modeline
+  :defer t
+  :config
+  ;; Appearance
+  (setq doom-modeline-height 35
+        doom-modeline-major-mode-icon (display-graphic-p)
+        doom-modeline-major-mode-color-icon (display-graphic-p)
+        auto-revert-check-vc-info t
+        doom-modeline-vcs-max-length 60
+        ;doom-modeline-github t
+        ;doom-modeline-github-interval 60
+        ;doom-modeline-buffer-file-name-style 'relative-to-project
+        doom-modeline-display-default-persp-name t
+        doom-modeline-persp-name t
+        doom-modeline-persp-icon t
+      ;;   (doom-modeline-def-modeline 'main
+      ;;     '(bar modals workspace-name window-number persp-name buffer-position selection-info buffer-info matches remote-host debug vcs matches)
+      ;; '(github mu4e grip gnus checker misc-info repl lsp " "))
+        )
+  )
+
+(use-package! doom-dashboard
+  :defer t
+  :config
+  ;; Keybinds
+  (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+  )
+
 (use-package! persp-mode
   :defer t
   :config
   ;; Fixes
   (setq persp-emacsclient-init-frame-behaviour-override nil)
+  )
+
+(use-package! vertico
+  :defer t
+  :config
+  ;; Behavior
+  (setq vertico-sort-function #'vertico-sort-history-alpha)
+  ;; Keybinds
+  (map! :map vertico-map "C-u" #'scroll-down-command
+        :map vertico-map "C-d" #'scroll-up-command)
   )
 
 (use-package! company
@@ -213,24 +259,65 @@
     '(company-shell company-files :with company-yasnippet))
   )
 
-(use-package! lsp-clangd
+(use-package! yasnippet
   :defer t
   :config
   ;; Behavior
-  (setq lsp-clients-clangd-args
-        '("-j=3"
-          "--background-index"
-          "--clang-tidy"
-          "--completion-style=detailed"
-          "--header-insertion=never"
-          "--header-insertion-decorators=0"))
-  (set-lsp-priority! 'clangd 2)
+  (setq yas-triggers-in-field t)
+  )
+
+(setq projectile-project-search-path '("~/Projects"))
+
+(use-package! projectile
+  :defer t
+  :config
+  ;; Variables
+  ;; Behavior
+  (defun +my/compile-in-vterm ()
+    "Run `compile-command' in vterm in current project's root directory"
+    (interactive)
+    (projectile-run-vterm)
+    (vterm-send-string "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build --config Release && ./build/intelligent-motion")
+    (vterm-send-return))
+  ;; Keybinds
+  )
+
+(defun +mypopup-kill (some-popup-window)
+  (progn (+popup--kill-buffer (window-buffer some-popup-window) 0.1)) t)
+(defun +mypopup-resize (some-popup-window)
+  (fit-window-to-buffer some-popup-window nil 19 nil nil t))
+(map! :map project-prefix-map
+      :leader
+      :desc "Run project in vterm"
+      "p v" #'+my/compile-in-vterm)
+(set-popup-rule! "^*vterm intelligent-motion*" :size #'+mypopup-resize :quit #'+mypopup-kill :autosave 'ignore)
+(map! :map project-prefix-map
+      :leader
+      :desc "List dirty projects"
+      "p l" #'projectile-browse-dirty-projects)
+
+(use-package! treemacs
+  :defer t
+  :config
+  ;; Appearance
+  (setq doom-themes-treemacs-theme "doom-colors")
+  ;; Behavior
+  (treemacs-follow-mode 1)
+  (treemacs-tag-follow-mode 1)
+  (setq treemacs-file-follow-delay 0.2
+        treemacs-tag-follow-delay 0.3)
+  ;; (setq treemacs-recenter-after-tag-follow 'always
+  ;;       treemacs-recenter-after-file-follow 'always
+  ;;       treemacs-recenter-distance 0.9
+  ;;       treemacs-follow-recenter-distance 0.9)
   )
 
 (use-package! magit
   :defer t
   :config
   ;; Behavior
+  (setq magit-repository-directories
+        '(("~/Projects" . 1)))
   (defun my/magit-process-environment (env)
     "Detect and set git -bare repo env vars when in tracked dotfile directories."
     (let* ((default (file-name-as-directory (expand-file-name default-directory)))
@@ -267,8 +354,7 @@
                summary-scope-lowercase
                summary-title-starts-with-lowercase
                summary-title-uses-imperative-verb
-               summary-title-not-end-in-punctuation
-               )
+               summary-title-not-end-in-punctuation)
     :type '(list :convert-widget custom-hook-convert-widget)
     :group 'git-commit)
   (defun my-git-commit-check-style-conventions (&optional force) ; TODO check using force
@@ -342,73 +428,6 @@
                #'my-git-commit-check-style-conventions)
   )
 
-(use-package! projectile
-  :defer t
-  :config
-  ;; Variables
-  (setq projectile-project-search-path '("~/Projects"))
-  ;; Behavior
-  (defun +my/compile-in-vterm ()
-    "Run `compile-command' in vterm in current project's root directory"
-    (interactive)
-    (projectile-run-vterm)
-    (vterm-send-string "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build --config Release && ./build/intelligent-motion")
-    (vterm-send-return))
-  ;; Keybinds
-  )
-
-(defun +mypopup-kill (some-popup-window)
-  (progn (+popup--kill-buffer (window-buffer some-popup-window) 0.1)) t)
-(defun +mypopup-resize (some-popup-window)
-  (fit-window-to-buffer some-popup-window nil 19 nil nil t))
-(map! :map project-prefix-map
-      :leader
-      :desc "Run project in vterm"
-      "p v" #'+my/compile-in-vterm)
-(set-popup-rule! "^*vterm intelligent-motion*" :size #'+mypopup-resize :quit #'+mypopup-kill :autosave 'ignore)
-(map! :map project-prefix-map
-      :leader
-      :desc "List dirty projects"
-      "p l" #'projectile-browse-dirty-projects)
-
-(use-package! treemacs
-  :defer t
-  :config
-  ;; Appearance
-  (setq doom-themes-treemacs-theme "doom-colors")
-  ;; Behavior
-  (treemacs-follow-mode 1)
-  (treemacs-tag-follow-mode 1)
-  (setq treemacs-file-follow-delay 0.2
-        treemacs-tag-follow-delay 0.3)
-  ;; (setq treemacs-recenter-after-tag-follow 'always
-  ;;       treemacs-recenter-after-file-follow 'always
-  ;;       treemacs-recenter-distance 0.9
-  ;;       treemacs-follow-recenter-distance 0.9)
-  )
-
-(use-package! vertico
-  :defer t
-  :config
-  ;; Behavior
-  (setq vertico-sort-function #'vertico-sort-history-alpha)
-  ;; Keybinds
-  (map! :map vertico-map "C-u" #'scroll-down-command
-        :map vertico-map "C-d" #'scroll-up-command)
-  )
-
-(use-package! visual-fill-column
-  :hook (org-mode . noncog/center-org-mode-visual-fill))
-
-;; Helpers
-
-(defun noncog/center-org-mode-visual-fill ()
-  "A function used to center org mode..."
-  (interactive)
-  (setq visual-fill-column-width 140
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
-
 (use-package! vterm
   :defer t
   :config
@@ -416,12 +435,11 @@
   (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
   )
 
-(use-package! yasnippet
-  :defer t
-  :config
-  ;; Behavior
-  (setq yas-triggers-in-field t)
-  )
+(use-package! visual-fill-column
+  :custom
+  (visual-fill-column-width 120)
+  (visual-fill-column-center-text t)
+  :hook (org-mode . visual-fill-column-mode))
 
 (setq org-directory "~/Projects/brain/")
 
@@ -474,7 +492,6 @@
         org-startup-with-inline-images t)      ; Show images at startup.
   ;; Behavior
   (setq org-imenu-depth 10                     ; Allow imenu to search deeply in org docs.
-        org-fold-core-style 'overlays          ; Bugfix: Hide IDs in org-roam backlinks.
         org-use-property-inheritance t         ; Sub-headings inherit parent properties.
         org-insert-heading-respect-content nil ; Insert heading here, not at end of list.
         org-use-fast-todo-selection 'auto)     ; Method to select TODO heading keywords.
@@ -485,6 +502,8 @@
   (setq org-return-follows-link t)             ; Pressing enter opens links.
   (add-to-list 'org-modules 'org-habit t)      ; Enable repeated task tracking/graphing!
   (setq evil-collection-calendar-want-org-bindings t)
+  ;; Fixes
+  (setq org-fold-core-style 'overlays)         ; Bugfix: Hide IDs in org-roam backlinks.
   )
 
 (require 'org-src)
@@ -846,18 +865,6 @@ If nil it defaults to `split-string-default-separators', normally
         nil          ; tag found, do not skip
       subtree-end))) ; tag not found, continue after end of subtree
 
-(use-package! org-appear
-  :hook (org-mode . org-appear-mode)
-  :config
-  ;; Appearance
-  (setq org-appear-autoemphasis t              ; Show emphasis markup.
-        org-appear-autosubmarkers t            ; Show sub/superscript
-        org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
-        org-appear-autolinks nil               ; Shows Org links.
-        org-appear-autokeywords nil            ; Shows hidden Org keywords.
-        org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
-  )
-
 (use-package! org-capture
   :defer t
   :config
@@ -885,6 +892,158 @@ If nil it defaults to `split-string-default-separators', normally
         (setq-local org-capture-current-plist old-org-capture-current-plist)
         (org-capture-mode +1))))
   (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
+  )
+
+(setq org-roam-directory (file-truename "~/Projects/brain"))
+(setq org-roam-db-location (file-truename "~/Projects/brain/brain.db"))
+(setq org-attach-id-dir (file-truename "~/Projects/brain/.attachments"))
+;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
+
+(use-package! org-roam
+  :defer t
+  :config
+  ;; Variables
+  ;; Behavior
+  ;(setq +org-roam-auto-backlinks-buffer t)
+  (setq org-roam-capture-templates
+        '(("n" "node" plain
+           "%?"
+           :target
+           (file+head "nodes/${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
+           :immediate-finish t
+           :unnarrowed t)))
+  (org-roam-db-autosync-mode)
+  ;; Keybinds
+  (defun noncog/org-roam-is-draft-p (node)
+    "Is this org-roam node a draft?"
+    (member "draft" (org-roam-node-tags node)))
+  (defun noncog/org-roam-random-draft ()
+    "Get a random node with the draft tag. "
+    (interactive)
+    (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
+  (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
+  )
+
+(use-package! websocket
+    :after org-roam)
+
+(map! :leader "n r g" #'org-roam-ui-open)
+
+(use-package! org-roam-ui
+  ;:defer t
+  :after org-roam
+  ;; :hook ((org-roam . org-roam-ui-mode)
+  ;;        (org-roam-ui-mode . #'org-roam-ui-always-sync-theme))
+  :hook (org-roam . org-roam-ui-mode)
+  ;:defines org-roam-ui-port
+  :init
+  ;; (defun my/org-roam-ui-open ()
+  ;;   "Ensure `org-roam-ui' is running, then open the `org-roam-ui' webpage."
+  ;;   (interactive)
+  ;;   (funcall org-roam-ui-browser-function
+  ;;                   (format "http://localhost:%d" org-roam-ui-port))
+  ;;   (progn (unless org-roam-ui-mode (org-roam-ui-mode)) (org-roam-ui-sync-theme)))
+  :config
+  ;; Appearance
+  (setq org-roam-ui-sync-theme t)
+  ;; Behavior
+  (setq org-roam-ui-follow t
+        org-roam-ui-update-on-save t)
+  (setq org-roam-ui-open-on-start nil
+        org-roam-ui-browser-function #'+lookup-xwidget-webkit-open-url-fn)
+  (defun +org-roam-ui-popup-kill (roam-ui-popup-buffer)
+    (progn (+popup--kill-buffer roam-ui-popup-buffer 0.1) (org-roam-ui-mode -1)))
+  (setq display-buffer-mark-dedicated t)
+  (set-popup-rule! "^\\*xwidget" :side 'right :ttl #'+org-roam-ui-popup-kill :slot -1 :width 0.33 :height 0.5 :quit 'current :select nil :modeline nil)
+  ;; (set-popup-rule! (regexp-quote org-roam-buffer) ; persistent org-roam buffer
+  ;;      :side 'right :width 0.33 :height 0.5 :ttl nil :modeline nil :quit nil :slot 1)
+  ;; (set-popup-rule! "^\\*org-roam: " ; node dedicated org-roam buffer
+  ;;      :side 'right :width 0.33 :height 0.5 :ttl nil :modeline nil :quit nil :slot 2)
+  (defadvice! my/+org-roam-ui--on-msg-open-node (data)
+    "Open a node CAREFULLY when receiving DATA from the websocket."
+    :override #'org-roam-ui--on-msg-open-node
+    (let* ((id (alist-get 'id data))
+           (node (org-roam-node-from-id id))
+           (pos (org-roam-node-point node))
+           (buf (find-file-noselect (org-roam-node-file node))))
+      (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
+      (unless (window-live-p org-roam-ui--window)
+        (if-let ((windows (cl-set-difference (doom-visible-windows) (list (minibuffer-window))))
+                 (newest-window (car (seq-sort-by #'window-use-time #'> windows))))
+            (setq org-roam-ui--window newest-window)
+          (setq org-roam-ui--window newest-window)))
+      (set-window-buffer org-roam-ui--window buf)
+      (select-window org-roam-ui--window)
+      (goto-char pos)
+      (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
+                                          ;jqq(add-hook! 'org-roam-ui-mode-hook :append (org-roam-ui-always-sync-theme))
+                                          ;(add-hook! 'org-roam-ui-mode-hook :append (org-roam-ui-always-sync-theme))
+                                          ;(add-hook 'org-roam-ui-mode-hook #'org-roam-ui-always-sync-theme)
+                                          ;(add-hook! 'org-roam-ui-mode-hook :append (when org-roam-ui-mode (org-roam-ui-sync-theme)))
+  ;; (after! org-roam-ui
+  ;;   (defun org-roam-ui-always-sync-theme ()
+  ;;     (if org-roam-ui-mode (org-roam-ui-sync-theme) nil)
+  ;;     )
+  ;;   (defadvice! my/+org-roam-ui-sync-theme ()
+  ;;     "Always sync the theme after opening the org-roam-ui graph."
+  ;;     :after #'org-roam-ui-open
+  ;;     (org-roam-ui-always-sync-theme)))
+  
+  ;; (defadvice! my/+org-roam-ui-sync-theme (fn &rest args)
+  ;;   "Always sync the theme after opening the org-roam-ui graph."
+  ;;   :around #'org-roam-ui-open
+  ;;   (prog1 (apply fn args) (when (and (org-roam-ui-mode () org-roam-ui-sync-theme)))
+                                          ;(org-roam-ui-sync-theme)
+  
+  ;; (defadvice! org-roam-ui-always-sync-theme ()
+  ;;   "Always sync the theme after opening the org-roam-ui graph."
+  ;;   :after #'org-roam-ui-open
+  ;;   (defer-until! (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (org-roam-ui-sync-theme)))
+  ;; (defun org-roam-ui-always-sync-theme ()
+  ;;   "Always sync the theme..."
+  ;;   (interactive)
+  ;;   ;;(when (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (org-roam-ui-sync-theme))
+  ;;   )
+  
+  
+  (defadvice! +org-roam-ui-always-sync-theme ()
+    "Always sync da theme..."
+    :after #'org-roam-ui-open
+  
+    (while (when (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme)))))))
+    ;(org-roam-ui-always-sync-theme)
+    ;;(when (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (org-roam-ui-sync-theme))
+    )
+  ;(add-hook! 'org-roam-ui-mode-hook #'org-roam-ui-always-sync-theme)
+    ;; (let)
+    ;; (while )
+    ;; (while (if-let ((windows (window-list))
+    ;;          (roam-ui-window
+    ;;           (seq-filter (lambda (window)
+    ;;                         (string-prefix-p "*xwidget" (buffer-name (window-buffer window)))) windows)))
+    ;;            (when (and org-roam-ui-mode roam-ui-window) t) nil)))
+  
+  ;; (defadvice! org-roam-ui-always-sync-theme ()
+  ;;   "Always sync the theme after opening the org-roam-ui graph."
+  ;;   :after #'org-roam-ui-open
+  ;;   (while (if-let ((windows (window-list))
+  ;;            (roam-ui-window
+  ;;             (seq-filter (lambda (window)
+  ;;                           (string-prefix-p "*xwidget" (buffer-name (window-buffer window)))) windows)))
+  ;;              (when (and org-roam-ui-mode roam-ui-window) t) nil)))
+  ;; Keybinds
+  )
+
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  ;; Appearance
+  (setq org-appear-autoemphasis t              ; Show emphasis markup.
+        org-appear-autosubmarkers t            ; Show sub/superscript
+        org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
+        org-appear-autolinks nil               ; Shows Org links.
+        org-appear-autokeywords nil            ; Shows hidden Org keywords.
+        org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
   )
 
 (use-package! org-fragtog
@@ -1084,87 +1243,16 @@ found, using `org-view-output-file-extensions'."
 (use-package! engrave-faces-html
   :after ox-html)
 
-(setq org-roam-directory (file-truename "~/Projects/brain"))
-(setq org-roam-db-location (file-truename "~/Projects/brain/brain.db"))
-(setq org-attach-id-dir (file-truename "~/Projects/brain/.attachments"))
-;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
-
-(use-package! org-roam
+(use-package! lsp-clangd
   :defer t
   :config
-  ;; Variables
   ;; Behavior
-  (setq org-roam-capture-templates
-        '(("n" "node" plain
-           "%?"
-           :target
-           (file+head "nodes/${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
-           :immediate-finish t
-           :unnarrowed t)))
-  (org-roam-db-autosync-mode)
-  ;; Keybinds
-  (defun noncog/org-roam-is-draft-p (node)
-    "Is this org-roam node a draft?"
-    (member "draft" (org-roam-node-tags node)))
-  (defun noncog/org-roam-random-draft ()
-    "Get a random node with the draft tag. "
-    (interactive)
-    (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
-  (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
+  (setq lsp-clients-clangd-args
+        '("-j=3"
+          "--background-index"
+          "--clang-tidy"
+          "--completion-style=detailed"
+          "--header-insertion=never"
+          "--header-insertion-decorators=0"))
+  (set-lsp-priority! 'clangd 2)
   )
-
-(use-package! websocket
-    :after org-roam)
-
-(use-package! org-roam-ui
-  :after org-roam
-  :hook (org-roam . org-roam-ui-mode)
-  :config
-  ;; Appearance
-  (setq org-roam-ui-sync-theme t)
-  ;; Behavior
-  (setq org-roam-ui-follow t
-        org-roam-ui-update-on-save t)
-  (setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)
-  (setq org-roam-ui-open-on-start nil)
-  ;; Keybinds
-  (map! :leader :desc "Roam-UI graph" "n r g" #'org-roam-ui-open-in-browser)
-  )
-
-(set-popup-rule! "^*xwidget webkit: ORUI *" :ignore t :side 'left :width 120 :vslot 1 :quit t :select t :modeline nil)
-
-(defcustom org-roam-ui-use-webkit t
-  "Use embedded webkit to preview.
-This requires GNU/Emacs version >= 26 and built with the `--with-xwidgets`
-option."
-  :type 'boolean
-  :group 'roam)
-
-(defun org-roam-ui-browser (url)
-  "Use browser specified by user to load URL.
-Use default browser if nil."
-  (if org-roam-ui-url-browser
-      (let ((browse-url-generic-program org-roam-ui-url-browser)
-            (browse-url-generic-args roam-url-args))
-        (ignore browse-url-generic-program)
-        (ignore browse-url-generic-args)
-        (browse-url-generic url))
-    (browse-url url)))
-
-(defun org-roam-ui-open-url (url)
-  "Ask the browser to load URL.
-Use default browser unless `xwidget' is available."
-  (if (and org-roam-ui-use-webkit
-           (featurep 'xwidget-internal))
-      (progn
-        (save-window-excursion (xwidget-webkit-browse-url url))
-        (let ((buf (xwidget-buffer (xwidget-webkit-current-session))))
-          (when (buffer-live-p buf) (and (eq buf (current-buffer)) (quit-window)))
-          (display-buffer buf)))
-            (let (display-buffer-alist) (org-roam-ui-browser url))))
-
-;;;###autoload
-(define-minor-mode org-roam-ui-open-in-browser
-  "open org-roam-ui in the browser"
- :lighter "roam"
- (org-roam-ui-open-url "http://127.0.0.1:35901"))

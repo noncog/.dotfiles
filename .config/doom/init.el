@@ -14,6 +14,7 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+(setq evil-respect-visual-line-mode t)
 (setq +literate-config-file "~/.config/doom/README.org")
 
 (doom! :input
@@ -27,7 +28,7 @@
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
-       vertico             ; the search engine of the future
+       (vertico +icons)    ; the search engine of the future
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -68,7 +69,7 @@
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
        snippets            ; my elves. They type so I don't have to
-       ;;word-wrap           ; soft wrapping with language-aware indent
+       word-wrap           ; soft wrapping with language-aware indent
 
        :emacs              ; making dired pretty [functional]
        (dired

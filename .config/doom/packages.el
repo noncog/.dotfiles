@@ -53,6 +53,10 @@
   :recipe (:host github :repo "Malabarba/beacon")
   :pin "85261a928ae0ec3b41e639f05291ffd6bf7c231c")
 
+(unpin! org-roam) ; NOTE: org-roam-ui requires latest org-roam.
+(package! org-roam-ui
+  :recipe (:host github :repo "org-roam/org-roam-ui"))
+
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear")
   :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
@@ -70,7 +74,3 @@
 (package! engrave-faces
   :recipe (:host github :repo "tecosaur/engrave-faces")
   :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
-
-(unpin! org-roam) ; NOTE: org-roam-ui requires latest org-roam.
-(package! org-roam-ui
-  :recipe (:host github :repo "org-roam/org-roam-ui"))

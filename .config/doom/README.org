@@ -4,12 +4,15 @@
 
 #+begin_html
 <div align="center">
+<!-- Shields -->
 <p><a href="https://www.gnu.org/software/emacs/emacs.html#Releases"><img src="https://img.shields.io/badge/Emacs-27.1+-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white"></a> <a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a></p>
 
+<!-- Doom Logo -->
 <p><a href="https://github.com/Schievel1/doom-emacs-splash"><img src="https://github.com/Schievel1/doom-emacs-splash/blob/main/svg/doom/doomEmacsDracula.svg" height="300"></a></p>
 
 <p><a href="https://creativecommons.org/licenses/by-sa/4.0/"><img src="https://img.shields.io/badge/CC--BY--SA-161b22?style=for-the-badge&logo=Creative%20Commons&logoColor=white"></a></p>
 
+<!-- Description -->
 <p><code>This is my <a href="https://github.com/doomemacs/doomemacs">Doom</a> <a href="https://www.gnu.org/software/emacs/">Emacs</a> configuration.</code></p>
 </div>
 #+end_html
@@ -33,110 +36,110 @@
   - [[#package][Package]]
   - [[#appearance-1][Appearance]]
   - [[#behavior-1][Behavior]]
-- [[#doom-dashboard][Doom Dashboard]]
+- [[#which-key][Which-Key]]
   - [[#package-1][Package]]
-  - [[#keybinds-1][Keybinds]]
+  - [[#fixes][Fixes]]
 - [[#doom-modeline][Doom Modeline]]
   - [[#package-2][Package]]
   - [[#appearance-2][Appearance]]
-- [[#which-key][Which-Key]]
+- [[#doom-dashboard][Doom Dashboard]]
   - [[#package-3][Package]]
-  - [[#fixes][Fixes]]
+  - [[#keybinds-1][Keybinds]]
 - [[#persp-mode][Persp-Mode]]
   - [[#package-4][Package]]
   - [[#fixes-1][Fixes]]
-- [[#company][Company]]
+- [[#vertico][Vertico]]
   - [[#package-5][Package]]
   - [[#behavior-2][Behavior]]
-- [[#lsp-clangd][LSP-Clangd]]
+  - [[#keybinds-2][Keybinds]]
+- [[#company][Company]]
   - [[#package-6][Package]]
   - [[#behavior-3][Behavior]]
-- [[#magit][Magit]]
+- [[#yasnippet][Yasnippet]]
   - [[#package-7][Package]]
+  - [[#resources-1][Resources]]
   - [[#behavior-4][Behavior]]
 - [[#projectile][Projectile]]
   - [[#package-8][Package]]
   - [[#variables-1][Variables]]
   - [[#behavior-5][Behavior]]
-  - [[#keybinds-2][Keybinds]]
+  - [[#keybinds-3][Keybinds]]
 - [[#treemacs][Treemacs]]
   - [[#package-9][Package]]
   - [[#appearance-3][Appearance]]
   - [[#behavior-6][Behavior]]
-- [[#vertico][Vertico]]
+- [[#magit][Magit]]
   - [[#package-10][Package]]
   - [[#behavior-7][Behavior]]
-  - [[#keybinds-3][Keybinds]]
-- [[#visual-fill-column][Visual Fill Column]]
-  - [[#package-11][Package]]
-  - [[#helpers][Helpers]]
 - [[#vterm][Vterm]]
-  - [[#package-12][Package]]
+  - [[#package-11][Package]]
   - [[#keybinds-4][Keybinds]]
-- [[#yasnippet][Yasnippet]]
-  - [[#package-13][Package]]
-  - [[#resources-1][Resources]]
-  - [[#behavior-8][Behavior]]
+- [[#visual-fill-column][Visual Fill Column]]
+  - [[#package-12][Package]]
 - [[#org][Org]]
-  - [[#package-14][Package]]
+  - [[#package-13][Package]]
   - [[#variables-2][Variables]]
   - [[#appearance-4][Appearance]]
-  - [[#behavior-9][Behavior]]
-- [[#org-agenda][Org Agenda]]
-  - [[#package-15][Package]]
-  - [[#appearance-5][Appearance]]
-  - [[#behavior-10][Behavior]]
-  - [[#keybinds-5][Keybinds]]
-  - [[#helpers-1][Helpers]]
-- [[#org-appear][Org Appear]]
-  - [[#package-16][Package]]
-  - [[#appearance-6][Appearance]]
-- [[#org-capture][Org Capture]]
-  - [[#package-17][Package]]
-  - [[#variables-3][Variables]]
-  - [[#behavior-11][Behavior]]
-  - [[#keybinds-6][Keybinds]]
+  - [[#behavior-8][Behavior]]
   - [[#fixes-2][Fixes]]
-- [[#org-fragtog][Org Fragtog]]
-  - [[#package-18][Package]]
-- [[#org-modern][Org Modern]]
-  - [[#package-19][Package]]
-  - [[#appearance-7][Appearance]]
-- [[#org-modern-indent][Org Modern Indent]]
-  - [[#package-20][Package]]
-- [[#toc-org][TOC Org]]
-  - [[#package-21][Package]]
+- [[#org-agenda][Org Agenda]]
+  - [[#package-14][Package]]
+  - [[#appearance-5][Appearance]]
+  - [[#behavior-9][Behavior]]
+  - [[#keybinds-5][Keybinds]]
+  - [[#helpers][Helpers]]
+- [[#org-capture][Org Capture]]
+  - [[#package-15][Package]]
+  - [[#variables-3][Variables]]
+  - [[#behavior-10][Behavior]]
+  - [[#keybinds-6][Keybinds]]
+  - [[#fixes-3][Fixes]]
+- [[#org-roam][Org Roam]]
+  - [[#package-16][Package]]
+  - [[#variables-4][Variables]]
+  - [[#behavior-11][Behavior]]
+  - [[#keybinds-7][Keybinds]]
+- [[#org-roam-ui][Org Roam UI]]
+  - [[#package-17][Package]]
+  - [[#appearance-6][Appearance]]
   - [[#behavior-12][Behavior]]
-- [[#org-noter][Org Noter]]
+  - [[#keybinds-8][Keybinds]]
+- [[#org-appear][Org Appear]]
+  - [[#package-18][Package]]
+  - [[#appearance-7][Appearance]]
+- [[#org-fragtog][Org Fragtog]]
+  - [[#package-19][Package]]
+- [[#org-modern][Org Modern]]
+  - [[#package-20][Package]]
+  - [[#appearance-8][Appearance]]
+- [[#org-modern-indent][Org Modern Indent]]
+  - [[#package-21][Package]]
+- [[#toc-org][TOC Org]]
   - [[#package-22][Package]]
   - [[#behavior-13][Behavior]]
-- [[#pdf-tools][PDF Tools]]
+- [[#org-noter][Org Noter]]
   - [[#package-23][Package]]
-  - [[#fixes-3][Fixes]]
-- [[#plantuml][PlantUML]]
-  - [[#package-24][Package]]
   - [[#behavior-14][Behavior]]
-- [[#ox-org-export][Ox (Org Export)]]
+- [[#pdf-tools][PDF Tools]]
+  - [[#package-24][Package]]
+  - [[#fixes-4][Fixes]]
+- [[#plantuml][PlantUML]]
   - [[#package-25][Package]]
-  - [[#appearance-8][Appearance]]
   - [[#behavior-15][Behavior]]
-  - [[#keybinds-7][Keybinds]]
-- [[#ox-latex][Ox Latex]]
+- [[#ox-org-export][Ox (Org Export)]]
   - [[#package-26][Package]]
   - [[#appearance-9][Appearance]]
   - [[#behavior-16][Behavior]]
-- [[#engrave-faces][Engrave Faces]]
-  - [[#package-27][Package]]
-- [[#org-roam][Org Roam]]
-  - [[#package-28][Package]]
-  - [[#variables-4][Variables]]
-  - [[#behavior-17][Behavior]]
-  - [[#keybinds-8][Keybinds]]
-- [[#org-roam-ui][Org Roam UI]]
-  - [[#package-29][Package]]
-  - [[#appearance-10][Appearance]]
-  - [[#behavior-18][Behavior]]
   - [[#keybinds-9][Keybinds]]
+- [[#ox-latex][Ox Latex]]
+  - [[#package-27][Package]]
+  - [[#appearance-10][Appearance]]
+  - [[#behavior-17][Behavior]]
+- [[#engrave-faces][Engrave Faces]]
+  - [[#package-28][Package]]
+- [[#lsp-clangd][LSP-Clangd]]
+  - [[#package-29][Package]]
+  - [[#behavior-18][Behavior]]
 #+END_QUOTE
 #+html:</details>
 
@@ -144,6 +147,8 @@
 :PROPERTIES:
 :VISIBILITY: children
 :END:
+
+This section is for "global" or top-level configuration. Outside of this section, each section is dedicated to specific package configuration.
 
 This section is for "global" or top-level configuration. Outside of this section, each section is dedicated to specific package configuration.
 
@@ -161,6 +166,7 @@ Doom and Emacs (Linux in general) configuration is somewhat of an art. Here are 
 - [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Nguyen Duc Hieu]]
 - [[https://github.com/slano-ls/Doom-Emacs-Config][Saihaj Law]]
 - [[https://github.com/hlissner/.doom.d/tree/master][Henrik Lissner]]
+- [[https://github.com/tefkah/doom-emacs-config][Tefkah]]
 
 *** Emacs User Configs
 - [[https://github.com/daviwil/dotfiles/tree/guix-home][David Wilson]]
@@ -182,8 +188,18 @@ Doom only uses three config files. I keep their headers here.
 Defines which of Doom’s modules are loaded.
 #+end_quote
 
+#+html:<details><summary>No Web Assembly</summary>
+#+begin_src emacs-lisp :tangle "init.el" :noweb tangle
+<<init-header>>
+
+<<early-init>>
+
+<<modules>>
+#+end_src
+#+html:</details>
+
 #+html:<details><summary>Header</summary>
-#+begin_src emacs-lisp :tangle init.el
+#+begin_src emacs-lisp :tangle no :noweb-ref init-header
 ;;; init.el -*- lexical-binding: t; -*-
 
 ;; This file controls what Doom modules are enabled and what order they load
@@ -202,10 +218,9 @@ Defines which of Doom’s modules are loaded.
 #+end_src
 #+html:</details>
 
-#+html:<details><summary>Module List</summary>
-#+begin_src emacs-lisp :tangle init.el
-(setq +literate-config-file "~/.config/doom/README.org")
 
+#+html:<details><summary>Module List</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref modules
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
        ;;chinese
@@ -217,7 +232,7 @@ Defines which of Doom’s modules are loaded.
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
-       vertico             ; the search engine of the future
+       (vertico +icons)    ; the search engine of the future
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -258,7 +273,7 @@ Defines which of Doom’s modules are loaded.
        ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
        snippets            ; my elves. They type so I don't have to
-       ;;word-wrap           ; soft wrapping with language-aware indent
+       word-wrap           ; soft wrapping with language-aware indent
 
        :emacs              ; making dired pretty [functional]
        (dired
@@ -607,6 +622,105 @@ I use relative visual line numbers to move around.
 #+end_src
 
 ** Behavior
+*** Enable Evil Fine Undo
+
+By default, all changes made while using insert mode are considered one. This setting enables a more granular undo scheme.
+
+#+begin_src emacs-lisp
+(setq evil-want-fine-undo t)
+#+end_src
+
+*** Enable Subword Mode
+
+Allows iterating through CamelCase words.
+
+#+begin_src emacs-lisp
+(global-subword-mode 1)
+#+end_src
+
+*** Enable Evil Visual Line Movement
+
+Allow lines that wrap around the edge of the screen (visual lines) to count as "physical" lines. Enables you to use =j= and =k= to move up and down through wrapped lines.
+
+First, enable the following in =init.el=:
+
+#+begin_src emacs-lisp :tangle no :noweb-ref early-init
+(setq evil-respect-visual-line-mode t)
+#+end_src
+
+**** Fix Evil's Visual Line Over/Undershooting
+
+There's a long standing issue between =visual lines= and =Evil=. When using a prefix argument (line count) with Evil's next/previous visual line, often it will over or under shoot the desired line. As far as I have researched, there is no next/previous line commands that just work.
+
+To solve this, I created two commands to repeatedly run Evil's visual line commands instead of letting those commands repeat themselves. This works perfectly to solve the issue and I always reach my desired line.
+
+#+begin_src emacs-lisp
+(defun noncog/evil-previous-visual-line (&optional count)
+  "Repeat evil-previous-visual-line COUNT times."
+  (interactive "P")
+  (let ((total (or count 1))
+        (counter 0))
+    (while (< counter total)
+      (evil-previous-visual-line)
+      (setq counter (+ counter 1)))))
+#+end_src
+
+#+begin_src emacs-lisp
+(defun noncog/evil-next-visual-line (&optional count)
+  "Repeat evil-next-visual-line COUNT times."
+  (interactive "P")
+  (let ((total (or count 1))
+        (counter 0))
+    (while (< counter total)
+      (evil-next-visual-line)
+      (setq counter (+ counter 1)))))
+#+end_src
+
+#+begin_src emacs-lisp
+(define-key evil-motion-state-map "j" 'noncog/evil-next-visual-line)
+(define-key evil-motion-state-map "k" 'noncog/evil-previous-visual-line)
+#+end_src
+
+#+begin_src emacs-lisp
+(define-key evil-normal-state-map "j" 'noncog/evil-next-visual-line)
+(define-key evil-normal-state-map "k" 'noncog/evil-previous-visual-line)
+#+end_src
+
+#+begin_src emacs-lisp
+;; TODO: Add evil-visual-state-map binds.
+#+end_src
+
+*** Prevent Pasting From Adding to Kill Ring
+
+Whenever you overwrite text in visual mode, prevent adding that text to the kill ring. This enables you to paste the same thing multiple times without losing it.
+
+#+begin_src emacs-lisp
+(setq evil-kill-on-visual-paste nil)
+#+end_src
+
+*** Focus Windows After Splitting
+
+These settings causes the newly created split windows to gain focus.
+
+#+begin_src emacs-lisp
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
+#+end_src
+
+*** Autoload File Changes
+
+#+begin_src emacs-lisp
+(global-auto-revert-mode 1)
+#+end_src
+
+*** Change Literate Config Name
+
+I change my Org literate config file name from =config.org= to =README.org= in =init.el= for displaying it on GitHub.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref early-init
+(setq +literate-config-file "~/.config/doom/README.org")
+#+end_src
+
 *** Scrolling
 
 This is an area of contention for me. Eventually I would like to overhaul this behavior entirely.
@@ -633,46 +747,6 @@ This is an area of contention for me. Eventually I would like to overhaul this b
 #+begin_src emacs-lisp
 (setq-default evil-scroll-count 5)
 #+end_src
-
-*** Autoload File Changes
-
-#+begin_src emacs-lisp
-(global-auto-revert-mode 1)
-#+end_src
-
-*** Enable Subword Mode
-
-Allows iterating through CamelCase words.
-
-#+begin_src emacs-lisp
-(global-subword-mode 1)
-#+end_src
-
-*** Enable Evil Fine Undo
-
-By default, all changes made while using insert mode are considered one. This setting enables a more granular undo scheme.
-
-#+begin_src emacs-lisp
-(setq evil-want-fine-undo t)
-#+end_src
-
-*** Prevent Pasting From Adding to Kill Ring
-
-Whenever you overwrite text in visual mode, prevent adding that text to the kill ring. This enables you to paste the same thing multiple times without losing it.
-
-#+begin_src emacs-lisp
-(setq evil-kill-on-visual-paste nil)
-#+end_src
-
-*** Focus Windows After Splitting
-
-These settings causes the newly created split windows to gain focus.
-
-#+begin_src emacs-lisp
-(setq evil-split-window-below t
-      evil-vsplit-window-right t)
-#+end_src
-
 *** Window Manager Integration
 
 I love tiling window managers. I currently use [[https://i3wm.org][i3]] on Linux and [[https://github.com/koekeishiya/yabai][Yabai]] on macOS. These configs allow me to seamlessly use some of their windowing controls inside of Emacs.
@@ -775,7 +849,7 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
 :END:
 
 #+begin_quote
-[[https://github.com/Malabarba/beacon][Beacon]] is a minor mode that highlights the current line after jumping around.
+[[https://github.com/Malabarba/beacon][Beacon]] is a minor mode that highlights the current line after jumping around. Never lose your cursor (point) again!
 #+end_quote
 
 ** Package
@@ -832,37 +906,53 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
       beacon-blink-when-focused nil)
 #+end_src
 
-* Doom Dashboard
+* Which-Key
 :PROPERTIES:
 :VISIBILITY: children
 :END:
 
 #+begin_quote
-Doom-Dashboard adds a customizable dashboard as the default buffer.
+[[https://github.com/justbur/emacs-which-key][Which-Key]] is a minor-mode for Emacs that displays keybinds for your currently unfinished inputs.
 #+end_quote
 
 ** Package
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
-(use-package! doom-dashboard
+(use-package! which-key
   :defer t
   :config
-  <<doom-dashboard-config>>
+  <<which-key-config>>
   )
 #+end_src
 #+html:</details>
 
-** Keybinds
+** Fixes
 
-#+begin_src emacs-lisp :tangle no :noweb-ref doom-dashboard-config
-;; Keybinds
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
+;; Fixes
 #+end_src
 
-*** Open the Dashboard
+*** Fix Height Issue
 
-#+begin_src emacs-lisp :tangle no :noweb-ref doom-dashboard-config
-(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
+I was having an issue using =emacsclient= where which-key was being cut off below the modeline. A simple solution ([[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][source]]) is to add spaces below the keybinds. Realistically, this doesn't work everywhere but it's good enough for now.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
+;; Add an extra line to work around bug in which-key imprecise
+(defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
+(advice-add 'which-key--show-popup :around #'add-which-key-line)
+#+end_src
+
+*** Remove Evil Prefixes
+
+Replace long evil function names with a unicode symbol.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
+(setq which-key-allow-multiple-replacements t)
+(pushnew!
+ which-key-replacement-alist
+ '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
+ '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
 #+end_src
 
 * Doom Modeline
@@ -896,57 +986,53 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
 (setq doom-modeline-height 35
-      doom-modeline-major-mode-icon t
-      doom-modeline-persp-name t
+      doom-modeline-major-mode-icon (display-graphic-p)
+      doom-modeline-major-mode-color-icon (display-graphic-p)
+      auto-revert-check-vc-info t
+      doom-modeline-vcs-max-length 60
+      ;doom-modeline-github t
+      ;doom-modeline-github-interval 60
+      ;doom-modeline-buffer-file-name-style 'relative-to-project
       doom-modeline-display-default-persp-name t
-      doom-modeline-persp-icon t)
+      doom-modeline-persp-name t
+      doom-modeline-persp-icon t
+    ;;   (doom-modeline-def-modeline 'main
+    ;;     '(bar modals workspace-name window-number persp-name buffer-position selection-info buffer-info matches remote-host debug vcs matches)
+    ;; '(github mu4e grip gnus checker misc-info repl lsp " "))
+      )
 #+end_src
 
-* Which-Key
+* Doom Dashboard
 :PROPERTIES:
 :VISIBILITY: children
 :END:
 
 #+begin_quote
-[[https://github.com/justbur/emacs-which-key][Which-Key]] is a minor-mode for Emacs that displays keybinds for your currently unfinished inputs.
+Doom-Dashboard adds a customizable dashboard as the default buffer.
 #+end_quote
 
 ** Package
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
-(use-package! which-key
+(use-package! doom-dashboard
   :defer t
   :config
-  <<which-key-config>>
+  <<doom-dashboard-config>>
   )
 #+end_src
 #+html:</details>
 
-** Fixes
+** Keybinds
 
-#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
-;; Fixes
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-dashboard-config
+;; Keybinds
 #+end_src
 
-*** Fix Height Issue
+*** Open the Dashboard
 
-I was having an issue using =emacsclient= where which-key was being cut off below the modeline. A simple solution (found [[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][here]]) is to add spaces below the keybinds. Realistically this doesn't work everywhere but it's good enough for now.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
-;; Add an extra line to work around bug in which-key imprecise
-(defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
-(advice-add 'which-key--show-popup :around #'add-which-key-line)
-#+end_src
-
-*** Remove Evil Prefixes
-
-#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
-(setq which-key-allow-multiple-replacements t)
-(pushnew!
- which-key-replacement-alist
- '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
- '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-dashboard-config
+(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 #+end_src
 
 * Persp-Mode
@@ -978,10 +1064,58 @@ I was having an issue using =emacsclient= where which-key was being cut off belo
 
 *** Prevent New Workspaces on New Frames
 
-By default, when using emacsclient, Doom creates a new workspace for each emacsclient window. I don't want this, so we'll disable it.
+By default, when using =emacsclient=, Doom creates a new workspace for each client frame. I don't want this clutter, I'll make a workspace if I need one.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref persp-config
 (setq persp-emacsclient-init-frame-behaviour-override nil)
+#+end_src
+
+* Vertico
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/minad/vertico][Vertico]] provides a performant and compatible vertical completion UI for Emacs. It's mostly used for completions in the minibuffer.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! vertico
+  :defer t
+  :config
+  <<vertico-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+;; Behavior
+#+end_src
+
+*** Alphabetical Sort Order
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+(setq vertico-sort-function #'vertico-sort-history-alpha)
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+;; Keybinds
+#+end_src
+
+*** Add Emacs Style Scroll Keys to Minibuffer
+
+Add "regular" style scrolling keybinds to Vertico for the minibuffer.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+(map! :map vertico-map "C-u" #'scroll-down-command
+      :map vertico-map "C-d" #'scroll-up-command)
 #+end_src
 
 * Company
@@ -990,7 +1124,7 @@ By default, when using emacsclient, Doom creates a new workspace for each emacsc
 :END:
 
 #+begin_quote
-[[http://company-mode.github.io][Company]] (complete anything) is a text completion framework for Emacs. It uses backends and frontends to retrieve and display completion candidates.
+[[http://company-mode.github.io][Company]] (complete anything) is a text completion framework for Emacs. It uses frontends and backends to retrieve and display completion candidates. It's mostly used for in-buffer completions.
 #+end_quote
 
 ** Package
@@ -1033,301 +1167,41 @@ By default, when using emacsclient, Doom creates a new workspace for each emacsc
   '(company-shell company-files :with company-yasnippet))
 #+end_src
 
-* LSP-Clangd
+* Yasnippet
 :PROPERTIES:
 :VISIBILITY: children
 :END:
 
 #+begin_quote
-
+[[https://github.com/joaotavora/yasnippet][Yasnippet]] is a template system for Emacs. It allows you to type an abbreviation and automatically expand it.
 #+end_quote
 
 ** Package
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
-(use-package! lsp-clangd
+(use-package! yasnippet
   :defer t
   :config
-  <<lsp-clangd-config>>
+  <<yasnippet-config>>
   )
 #+end_src
 #+html:</details>
 
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref lsp-clangd-config
-;; Behavior
-#+end_src
-
-*** Set Clangd Args
-
-#+begin_src emacs-lisp :tangle no :noweb-ref lsp-clangd-config
-(setq lsp-clients-clangd-args
-      '("-j=3"
-        "--background-index"
-        "--clang-tidy"
-        "--completion-style=detailed"
-        "--header-insertion=never"
-        "--header-insertion-decorators=0"))
-(set-lsp-priority! 'clangd 2)
-#+end_src
-
-* Magit
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://magit.vc][Magit]] is a powerful Git interface for Emacs. "It fills the glaring gap between the Git command-line interface and various GUIs, letting you perform trivial as well as elaborate version control tasks with just a couple of mnemonic key presses."
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! magit
-  :defer t
-  :config
-  <<magit-config>>
-  )
-#+end_src
-#+html:</details>
+** Resources
+- [[https://joaotavora.github.io/yasnippet/index.html][Yasnippet Documentation]]
+- [[https://github.com/doomemacs/snippets][Doom Snippets]]
 
 ** Behavior
 
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+#+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
 ;; Behavior
 #+end_src
 
-*** Dotfiles Git Bare Repository Support
+*** Enable Nested Snippets
 
-Out of the box Magit doesn't support bare repositories, which are commonly used to manage dotfiles. I've extended an old method of loading the corresponding Git environment variables when relevant directories are open. This method works everywhere and seamlessly integrates managing my dotfiles into Magit. It could easily be extended to support multiple bare repositories as well.
-
-It simply gets a list of all your dotfiles from the repository and whenever you're in their releveant directory it modifies the Magit/Git environment variable to support the bare repository whenever you need it.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(defun my/magit-process-environment (env)
-  "Detect and set git -bare repo env vars when in tracked dotfile directories."
-  (let* ((default (file-name-as-directory (expand-file-name default-directory)))
-         (git-dir (expand-file-name "~/.dotfiles/"))
-         (work-tree (expand-file-name "~/"))
-         (dotfile-dirs
-          (-map (apply-partially 'concat work-tree)
-                (-uniq (-keep #'file-name-directory (split-string (shell-command-to-string
-                (format "/usr/bin/git --git-dir=%s --work-tree=%s ls-tree --full-tree --name-only -r HEAD"
-                        git-dir work-tree))))))))
-    (push work-tree dotfile-dirs)
-    (when (member default dotfile-dirs)
-      (push (format "GIT_WORK_TREE=%s" work-tree) env)
-      (push (format "GIT_DIR=%s" git-dir) env)))
-  env)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(advice-add 'magit-process-environment
-            :filter-return #'my/magit-process-environment)
-#+end_src
-
-*** Commit Linter
-
-I've developed a custom Git commit linter based on [[https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format][Angular]] and [[https://www.conventionalcommits.org/][Conventional Commits]].
-
-The code is based on this [[https://www.adventuresinwhy.com/post/commit-message-linting/][this]] post but highly modified to conform to my chosen conventions.
-
-**** Define Convention Checks
-
-This option paralells =git-commit-style-convention-checks= from Magit.
-
-This is a custom list of checks that allows the user to specify which will be performed by our checker.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(defcustom my-git-commit-style-convention-checks '(summary-has-type
-                                                   summary-type-lowercase
-                                                   summary-has-separator
-                                                   summary-scope-lowercase
-                                                   summary-title-starts-with-lowercase
-                                                   summary-title-uses-imperative-verb
-                                                   summary-title-not-end-in-punctuation)
-  "List of checks performed by `my-git-commit-check-style-conventions'.
-Valid members are `summary-has-type',  `summary-type-lowercase',
-`summary-has-separator', `summary-scope-lowercase',
-`summary-title-starts-with-lowercase', `summary-title-uses-imperative-verb', and
-`summary-title-not-end-in-punctuation'.
-That function is a member of `git-commit-finish-query-functions'."
-  :options '(summary-has-type
-             summarty-type-lowercase
-             summary-has-separator
-             summary-scope-lowercase
-             summary-title-starts-with-lowercase
-             summary-title-uses-imperative-verb
-             summary-title-not-end-in-punctuation
-             )
-  :type '(list :convert-widget custom-hook-convert-widget)
-  :group 'git-commit)
-#+end_src
-
-**** Define Convention Checker
-
-This function parallels =git-commit-check-style-conventions= from Magit.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(defun my-git-commit-check-style-conventions (&optional force) ; TODO check using force
-  "Check for violations of certain basic style conventions.
-
-For each violation ask the user if she wants to proceed anyway.
-Option `my-git-commit-check-style-conventions' controls which
-conventions are checked."
-  (save-excursion
-    (goto-char (point-min))
-    (re-search-forward (git-commit-summary-regexp) nil t)
-    (let* ((summary (match-string 1))
-           (commit-type (substring summary 0 (string-match-p "[()!:]" summary)))
-           (commit-separator-check (string-match-p "^.*[^[:blank:]]:" summary))
-           (commit-separator-location (string-match-p ":" summary))
-           (commit-scope (if (string-match-p "(.*)[!:]" summary) (substring summary (1+ (string-match-p "(" summary)) (string-match-p ")!?:?" summary)) nil))
-           (commit-title (if commit-separator-check (substring summary (+ commit-separator-location 2)) "undetectable-title"))
-           (lowercase-title-first-word (downcase (substring commit-title 0 (string-match-p "[[:blank:]]" commit-title)))))
-      (and (or (not (memq 'summary-type-lowercase my-git-commit-style-convention-checks))
-               (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-type))
-               (y-or-n-p "Commit type is not lowercase. Commit anyway?"))
-           (or (not (memq 'summary-has-type my-git-commit-style-convention-checks))
-               (car (member commit-type (get-commit-types)))
-               (when (y-or-n-p "Commit type is invalid. Commit anyway?")
-                 (when (y-or-n-p (format "Add `%s' to list of commit types?" commit-type))
-                   (with-temp-buffer
-                     (insert commit-type)
-                     (insert "\n")
-                     (write-region (point-min) (point-max) commit-types-file t))) t))
-           (or (not (memq 'summary-has-separator my-git-commit-style-convention-checks))
-               (not (null commit-separator-check))
-               (y-or-n-p "Commit title has invalid separator. Commit anyway?"))
-           (or (not (memq 'summary-scope-lowercase my-git-commit-style-convention-checks))
-               (when (or (not commit-scope) (string-empty-p commit-scope)) (y-or-n-p "Commit scope is empty. Commit anyway?"))
-               (when commit-scope (if (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-scope)) t
-                                    (y-or-n-p "Commit scope invalid. Only lowercase letters allowed. Commit anyway?"))))
-           (or (not (memq 'summary-title-starts-with-lowercase my-git-commit-style-convention-checks))
-               (if (not commit-separator-check) (y-or-n-p "Title undetectable. Commit anyway?") (let ((case-fold-search nil))
-                 (string-match-p "^[[:lower:]]" commit-title)))
-               (y-or-n-p "Commit title does not start with lowercase letter. Commit anyway?"))
-           (or (not (memq 'summary-title-uses-imperative-verb my-git-commit-style-convention-checks))
-               (if (not commit-separator-check) (y-or-n-p "Imperative verb undetectable. Commit anyway?")
-                 (car (member lowercase-title-first-word (get-imperative-verbs))))
-               (when (y-or-n-p "Commit title should use imperative verb. Does it?")
-                 (when (y-or-n-p (format "Add `%s' to list of commit types?" lowercase-title-first-word))
-                   (with-temp-buffer
-                     (insert lowercase-title-first-word)
-                     (insert "\n")
-                     (write-region (point-min) (point-max) imperative-verbs-file t))) t))
-           (or (not (memq 'summary-title-not-end-in-punctuation my-git-commit-style-convention-checks))
-              (not (string-match-p "[\\.!\\?;,:]$" commit-title))
-              (y-or-n-p "Commit title ends with punctuation. Commit anyway?"))))))
-#+end_src
-
-**** Commit Types File Loader
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(setq commit-types-file "~/.config/git/commit/commit-types")
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(defun get-commit-types ()
-  "Return a list of commit types."
-  (let ((file-path commit-types-file))
-    (with-temp-buffer
-      (insert-file-contents file-path)
-      (split-string (buffer-string) "\n" t))))
-#+end_src
-
-**** Imperative Verbs File Loader
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(setq imperative-verbs-file "~/.config/git/commit/imperative-verbs")
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(defun get-imperative-verbs ()
-  "Return a list of imperative verbs."
-  (let ((file-path imperative-verbs-file))
-    (with-temp-buffer
-      (insert-file-contents file-path)
-      (split-string (buffer-string) "\n" t))))
-#+end_src
-
-**** Commit Template
-
-I add the following template to my Git commit message to remind me of the Conventional Commits standard. This is not meant to be exhaustive, only a reminder.
-
-#+begin_example
-
-#------------------------------------------------------------------------
-# Subject line: type(scope): description
-#------------------------------------------------------------------------
-# Types: Required noun describing commit type.
-#
-#    build - Changes build system or external dependencies.
-#    chore - Changes external user won't see. (configs/internal task)
-#       ci - Changes CI configuration files or scripts.
-#     docs - Changes documentation only.
-#     feat - A new feature.
-#      fix - A bug fix.
-#     perf - Change that improves performance.
-# refactor - Change that neither fixes a bug nor adds a feature.
-#   revert - Change that corrects a commit.
-#    style - Changes don't affect meaning. (white-space, format, etc.)
-#     test - Adds test or corrects existing test.
-#
-#------------------------------------------------------------------------
-# Scope:       Optional noun describing relevant section of codebase.
-#              Must be inside parenthesis if used.
-#------------------------------------------------------------------------
-# Description: Required short summary of the changes.
-#              Must follow a colon after type or scope.
-#              No ending punctuation.
-#------------------------------------------------------------------------
-# Body:        Optional longer description providing additional context.
-#              Must begin one blank line after subject/title.
-#              Free-form, may consist of newlines and paragraphs.
-#------------------------------------------------------------------------
-# Footer:      Optional git trailer.
-#              Must begin one blank line after body paragraph.
-#              Tokens must use '-' in place of white-space.
-#              May contain spaces and newlines.
-#
-# References:  Links information/issues/commits/PRs.
-#              Closed issues should be listed on separate line.
-#
-# BREAKING CHANGE: Must be indicated in title or footer.
-#                  If title: Indicate using ! before colon. (!:)
-#                            Must use body to describe.
-#                  If footer: Must be uppercase text.
-#                             Must have a colon and spaced description.
-#                             Description should be lowercase.
-#------------------------------------------------------------------------
-#+end_example
-
-And I enable it in my Git config using this.
-
-#+begin_example
-[commit]
-    template = ~/.config/git/commit-message
-#+end_example
-
-**** Set Max Lengths
-
-These are commonly enforced commit length standards.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(setq git-commit-summary-max-length 50)                  ; Maximum title (summary) length.
-(setq git-commit-fill-column 72)                         ; Description column limit.
-#+end_src
-
-**** Hook Commit Linter
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(add-hook 'after-save-hook 'magit-after-save-refresh-status t)
-(add-to-list 'git-commit-finish-query-functions
-             #'my-git-commit-check-style-conventions)
+#+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
+(setq yas-triggers-in-field t)
 #+end_src
 
 * Projectile
@@ -1343,6 +1217,8 @@ These are commonly enforced commit length standards.
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
+<<pre-projectile>>
+
 (use-package! projectile
   :defer t
   :config
@@ -1363,7 +1239,7 @@ These are commonly enforced commit length standards.
 
 I use the same convention for project location on each OS I use.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
+#+begin_src emacs-lisp :tangle no :noweb-ref pre-projectile
 (setq projectile-project-search-path '("~/Projects"))
 #+end_src
 
@@ -1451,7 +1327,7 @@ I add a keybind to quickly view which projects have uncommitted changes.
 ;; Appearance
 #+end_src
 
-*** Use Doom's Theme Colors
+*** Enable Doom Themes Colors
 
 #+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
 (setq doom-themes-treemacs-theme "doom-colors")
@@ -1486,89 +1362,268 @@ I add a keybind to quickly view which projects have uncommitted changes.
 ;;       treemacs-follow-recenter-distance 0.9)
 #+end_src
 
-* Vertico
+* Magit
 :PROPERTIES:
 :VISIBILITY: children
 :END:
 
 #+begin_quote
-[[https://github.com/minad/vertico][Vertico]] provides a performant and compatible vertical completion UI for Emacs.
+[[https://magit.vc][Magit]] is a powerful Git interface for Emacs. "It fills the glaring gap between the Git command-line interface and various GUIs, letting you perform trivial as well as elaborate version control tasks with just a couple of mnemonic key presses."
 #+end_quote
 
 ** Package
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
-(use-package! vertico
+(use-package! magit
   :defer t
   :config
-  <<vertico-config>>
+  <<magit-config>>
   )
 #+end_src
 #+html:</details>
 
 ** Behavior
 
-#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
 ;; Behavior
 #+end_src
 
-*** Alphabetical Sort Order
+*** Define Repositories Directory
 
-#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
-(setq vertico-sort-function #'vertico-sort-history-alpha)
+Defining this directory enables =magit-status= to search for a repository when not inside of one already. It also enables =magit-list-repositories= through the keybind =SPC g l r=.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(setq magit-repository-directories
+      '(("~/Projects" . 1)))
 #+end_src
 
-** Keybinds
+*** Dotfiles Git Bare Repository Support
 
-#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
-;; Keybinds
+Out of the box Magit doesn't support =--bare= repositories, which are commonly used to manage dotfiles. I've extended an old method of loading the corresponding Git environment variables when relevant directories are open. It simply gets a list of all your dotfiles from the repository and whenever you're in their releveant directory it modifies the Magit/Git environment variable to support the bare repository whenever you need it.
+
+This method works everywhere and seamlessly integrates managing my dotfiles into Magit. It could easily be extended to support multiple bare repositories as well.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(defun my/magit-process-environment (env)
+  "Detect and set git -bare repo env vars when in tracked dotfile directories."
+  (let* ((default (file-name-as-directory (expand-file-name default-directory)))
+         (git-dir (expand-file-name "~/.dotfiles/"))
+         (work-tree (expand-file-name "~/"))
+         (dotfile-dirs
+          (-map (apply-partially 'concat work-tree)
+                (-uniq (-keep #'file-name-directory (split-string (shell-command-to-string
+                (format "/usr/bin/git --git-dir=%s --work-tree=%s ls-tree --full-tree --name-only -r HEAD"
+                        git-dir work-tree))))))))
+    (push work-tree dotfile-dirs)
+    (when (member default dotfile-dirs)
+      (push (format "GIT_WORK_TREE=%s" work-tree) env)
+      (push (format "GIT_DIR=%s" git-dir) env)))
+  env)
 #+end_src
 
-*** Add Emacs Style Scroll Keys to Minibuffer
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(advice-add 'magit-process-environment
+            :filter-return #'my/magit-process-environment)
+#+end_src
+*** Commit Linter
 
-Add "regular" style scrolling keybinds to Vertico for the minibuffer.
+I've developed a custom Git commit linter based on [[https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format][Angular]] and [[https://www.conventionalcommits.org/][Conventional Commits]]. The code is based on this [[https://www.adventuresinwhy.com/post/commit-message-linting/][this]] post but highly modified to conform to my chosen conventions.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
-(map! :map vertico-map "C-u" #'scroll-down-command
-      :map vertico-map "C-d" #'scroll-up-command)
+**** Define Convention Checks
+
+This option parallels =git-commit-style-convention-checks= from Magit. This is a custom list of checks that allows the user to specify which will be performed by our checker. It's currently set to check all of my conventions.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(defcustom my-git-commit-style-convention-checks '(summary-has-type
+                                                   summary-type-lowercase
+                                                   summary-has-separator
+                                                   summary-scope-lowercase
+                                                   summary-title-starts-with-lowercase
+                                                   summary-title-uses-imperative-verb
+                                                   summary-title-not-end-in-punctuation)
+  "List of checks performed by `my-git-commit-check-style-conventions'.
+Valid members are `summary-has-type',  `summary-type-lowercase',
+`summary-has-separator', `summary-scope-lowercase',
+`summary-title-starts-with-lowercase', `summary-title-uses-imperative-verb', and
+`summary-title-not-end-in-punctuation'.
+That function is a member of `git-commit-finish-query-functions'."
+  :options '(summary-has-type
+             summarty-type-lowercase
+             summary-has-separator
+             summary-scope-lowercase
+             summary-title-starts-with-lowercase
+             summary-title-uses-imperative-verb
+             summary-title-not-end-in-punctuation)
+  :type '(list :convert-widget custom-hook-convert-widget)
+  :group 'git-commit)
 #+end_src
 
-* Visual Fill Column
-:PROPERTIES:
-:VISIBILITY: children
-:END:
+**** Define Convention Checker
 
-#+begin_quote
-[[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill-Column]] is an Emacs minor mode that enables word wrapping at a column and centering the buffer content.
-#+end_quote
+This function parallels =git-commit-check-style-conventions= from Magit. It checks each convention present in the list defined above.
 
-I use this to center org-mode buffers primarily. In Doom, I get this package by enabling the wordwrap or zen module.
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(defun my-git-commit-check-style-conventions (&optional force) ; TODO check using force
+  "Check for violations of certain basic style conventions.
 
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! visual-fill-column
-  :hook (org-mode . noncog/center-org-mode-visual-fill))
+For each violation ask the user if she wants to proceed anyway.
+Option `my-git-commit-check-style-conventions' controls which
+conventions are checked."
+  (save-excursion
+    (goto-char (point-min))
+    (re-search-forward (git-commit-summary-regexp) nil t)
+    (let* ((summary (match-string 1))
+           (commit-type (substring summary 0 (string-match-p "[()!:]" summary)))
+           (commit-separator-check (string-match-p "^.*[^[:blank:]]:" summary))
+           (commit-separator-location (string-match-p ":" summary))
+           (commit-scope (if (string-match-p "(.*)[!:]" summary) (substring summary (1+ (string-match-p "(" summary)) (string-match-p ")!?:?" summary)) nil))
+           (commit-title (if commit-separator-check (substring summary (+ commit-separator-location 2)) "undetectable-title"))
+           (lowercase-title-first-word (downcase (substring commit-title 0 (string-match-p "[[:blank:]]" commit-title)))))
+      (and (or (not (memq 'summary-type-lowercase my-git-commit-style-convention-checks))
+               (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-type))
+               (y-or-n-p "Commit type is not lowercase. Commit anyway?"))
+           (or (not (memq 'summary-has-type my-git-commit-style-convention-checks))
+               (car (member commit-type (get-commit-types)))
+               (when (y-or-n-p "Commit type is invalid. Commit anyway?")
+                 (when (y-or-n-p (format "Add `%s' to list of commit types?" commit-type))
+                   (with-temp-buffer
+                     (insert commit-type)
+                     (insert "\n")
+                     (write-region (point-min) (point-max) commit-types-file t))) t))
+           (or (not (memq 'summary-has-separator my-git-commit-style-convention-checks))
+               (not (null commit-separator-check))
+               (y-or-n-p "Commit title has invalid separator. Commit anyway?"))
+           (or (not (memq 'summary-scope-lowercase my-git-commit-style-convention-checks))
+               (when (or (not commit-scope) (string-empty-p commit-scope)) (y-or-n-p "Commit scope is empty. Commit anyway?"))
+               (when commit-scope (if (let ((case-fold-search nil)) (string-match-p "^[[:lower:]]*$" commit-scope)) t
+                                    (y-or-n-p "Commit scope invalid. Only lowercase letters allowed. Commit anyway?"))))
+           (or (not (memq 'summary-title-starts-with-lowercase my-git-commit-style-convention-checks))
+               (if (not commit-separator-check) (y-or-n-p "Title undetectable. Commit anyway?") (let ((case-fold-search nil))
+                 (string-match-p "^[[:lower:]]" commit-title)))
+               (y-or-n-p "Commit title does not start with lowercase letter. Commit anyway?"))
+           (or (not (memq 'summary-title-uses-imperative-verb my-git-commit-style-convention-checks))
+               (if (not commit-separator-check) (y-or-n-p "Imperative verb undetectable. Commit anyway?")
+                 (car (member lowercase-title-first-word (get-imperative-verbs))))
+               (when (y-or-n-p "Commit title should use imperative verb. Does it?")
+                 (when (y-or-n-p (format "Add `%s' to list of commit types?" lowercase-title-first-word))
+                   (with-temp-buffer
+                     (insert lowercase-title-first-word)
+                     (insert "\n")
+                     (write-region (point-min) (point-max) imperative-verbs-file t))) t))
+           (or (not (memq 'summary-title-not-end-in-punctuation my-git-commit-style-convention-checks))
+              (not (string-match-p "[\\.!\\?;,:]$" commit-title))
+              (y-or-n-p "Commit title ends with punctuation. Commit anyway?"))))))
 #+end_src
-#+html:</details>
 
-** Helpers
+**** Commit Types File Loader
 
-#+begin_src emacs-lisp
-;; Helpers
+To check for compliance with my conventions, two lists must be kept to compare words in the commit summary message against. Those are: the commit types and imperative verbs lists.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(setq commit-types-file "~/.config/git/commit/commit-types")
 #+end_src
 
-*** Center Org
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(defun get-commit-types ()
+  "Return a list of commit types."
+  (let ((file-path commit-types-file))
+    (with-temp-buffer
+      (insert-file-contents file-path)
+      (split-string (buffer-string) "\n" t))))
+#+end_src
 
-#+begin_src emacs-lisp
-(defun noncog/center-org-mode-visual-fill ()
-  "A function used to center org mode..."
-  (interactive)
-  (setq visual-fill-column-width 140
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
+**** Imperative Verbs File Loader
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(setq imperative-verbs-file "~/.config/git/commit/imperative-verbs")
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(defun get-imperative-verbs ()
+  "Return a list of imperative verbs."
+  (let ((file-path imperative-verbs-file))
+    (with-temp-buffer
+      (insert-file-contents file-path)
+      (split-string (buffer-string) "\n" t))))
+#+end_src
+
+**** Commit Template
+
+I add the following template to my Git commit message to remind me of my commits standard. This is not meant to be exhaustive, only a detailed reminder.
+
+#+begin_example
+
+#------------------------------------------------------------------------
+# Subject line: type(scope): description
+#------------------------------------------------------------------------
+# Types: Required noun describing commit type.
+#
+#    build - Changes build system or external dependencies.
+#    chore - Changes external user won't see. (configs/internal task)
+#       ci - Changes CI configuration files or scripts.
+#     docs - Changes documentation only.
+#     feat - A new feature.
+#      fix - A bug fix.
+#     perf - Change that improves performance.
+# refactor - Change that neither fixes a bug nor adds a feature.
+#   revert - Change that corrects a commit.
+#    style - Changes don't affect meaning. (white-space, format, etc.)
+#     test - Adds test or corrects existing test.
+#
+#------------------------------------------------------------------------
+# Scope:       Optional noun describing relevant section of codebase.
+#              Must be inside parenthesis if used.
+#------------------------------------------------------------------------
+# Description: Required short summary of the changes.
+#              Must follow a colon after type or scope.
+#              No ending punctuation.
+#------------------------------------------------------------------------
+# Body:        Optional longer description providing additional context.
+#              Must begin one blank line after subject/title.
+#              Free-form, may consist of newlines and paragraphs.
+#------------------------------------------------------------------------
+# Footer:      Optional git trailer.
+#              Must begin one blank line after body paragraph.
+#              Tokens must use '-' in place of white-space.
+#              May contain spaces and newlines.
+#
+# References:  Links information/issues/commits/PRs.
+#              Closed issues should be listed on separate line.
+#
+# BREAKING CHANGE: Must be indicated in title or footer.
+#                  If title: Indicate using ! before colon. (!:)
+#                            Must use body to describe.
+#                  If footer: Must be uppercase text.
+#                             Must have a colon and spaced description.
+#                             Description should be lowercase.
+#------------------------------------------------------------------------
+#+end_example
+
+And I enable it in my Git config using this.
+
+#+begin_example
+[commit]
+    template = ~/.config/git/commit-message
+#+end_example
+
+**** Set Max Lengths
+
+These are commonly enforced commit message length standards and the last of my standard's requirements.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(setq git-commit-summary-max-length 50)                  ; Maximum title (summary) length.
+(setq git-commit-fill-column 72)                         ; Description column limit.
+#+end_src
+
+**** Hook Commit Linter
+
+And finally, the custom standards checker is hooked into Magit's finish commit function.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(add-hook 'after-save-hook 'magit-after-save-refresh-status t)
+(add-to-list 'git-commit-finish-query-functions
+             #'my-git-commit-check-style-conventions)
 #+end_src
 
 * Vterm
@@ -1600,50 +1655,34 @@ I use this to center org-mode buffers primarily. In Doom, I get this package by 
 
 *** Fix =C-backspace=
 
-I love this keybind, more things should use it. Including vterm...
-
-Thanks [[https://github.com/elken/doom#fix-c-backspace][Elken]]!
+I love this keybind, more things should use it. Including vterm... [[https://github.com/elken/doom#fix-c-backspace][Source]]
 
 #+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
 (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
 #+end_src
 
-* Yasnippet
+* Visual Fill Column
 :PROPERTIES:
 :VISIBILITY: children
 :END:
 
 #+begin_quote
-[[https://github.com/joaotavora/yasnippet][Yasnippet]] is a template system for Emacs. It allows you to type an abbreviation and automatically expand it.
+[[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill-Column]] is an Emacs minor mode that enables word wrapping at a column and centering the buffer content.
 #+end_quote
+
+I use this to center buffers (org-mode) primarily. I get this package by enabling the =wordwrap= module.
 
 ** Package
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
-(use-package! yasnippet
-  :defer t
-  :config
-  <<yasnippet-config>>
-  )
+(use-package! visual-fill-column
+  :custom
+  (visual-fill-column-width 120)
+  (visual-fill-column-center-text t)
+  :hook (org-mode . visual-fill-column-mode))
 #+end_src
 #+html:</details>
-
-** Resources
-- [[https://joaotavora.github.io/yasnippet/index.html][Yasnippet Documentation]]
-- [[https://github.com/doomemacs/snippets][Doom Snippets]]
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
-;; Behavior
-#+end_src
-
-*** Enable Nested Snippets
-
-#+begin_src emacs-lisp :tangle no :noweb-ref yasnippet-config
-(setq yas-triggers-in-field t)
-#+end_src
 
 * Org
 :PROPERTIES:
@@ -1781,7 +1820,6 @@ Unfortunately, when using =native= highlighting the =org-block= face is used as 
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-imenu-depth 10                     ; Allow imenu to search deeply in org docs.
-      org-fold-core-style 'overlays          ; Bugfix: Hide IDs in org-roam backlinks.
       org-use-property-inheritance t         ; Sub-headings inherit parent properties.
       org-insert-heading-respect-content nil ; Insert heading here, not at end of list.
       org-use-fast-todo-selection 'auto)     ; Method to select TODO heading keywords.
@@ -1819,6 +1857,19 @@ Enable Evil bindings in org's calendar.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq evil-collection-calendar-want-org-bindings t)
+#+end_src
+** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+;; Fixes
+#+end_src
+
+*** Use Overlays for Folds
+
+Org recently updated their folding style to text-properties from overlays. For now, this breaks org-roam on Doom Emacs. So, we use the old style.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(setq org-fold-core-style 'overlays)         ; Bugfix: Hide IDs in org-roam backlinks.
 #+end_src
 
 * Org Agenda
@@ -2291,52 +2342,6 @@ If nil it defaults to `split-string-default-separators', normally
       subtree-end))) ; tag not found, continue after end of subtree
 #+end_src
 
-* Org Appear
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/awth13/org-appear][Org Appear]] makes invisible Org elements like emphasis markers magically appear.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle packages.el
-(package! org-appear
-  :recipe (:host github :repo "awth13/org-appear")
-  :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
-#+end_src
-#+html:</details>
-
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! org-appear
-  :hook (org-mode . org-appear-mode)
-  :config
-  <<org-appear-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-appear-config
-;; Appearance
-#+end_src
-
-*** General
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-appear-config
-(setq org-appear-autoemphasis t              ; Show emphasis markup.
-      org-appear-autosubmarkers t            ; Show sub/superscript
-      org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
-      org-appear-autolinks nil               ; Shows Org links.
-      org-appear-autokeywords nil            ; Shows hidden Org keywords.
-      org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
-#+end_src
-
 * Org Capture
 :PROPERTIES:
 :VISIBILITY: children
@@ -2429,6 +2434,386 @@ Sometimes the capture window breaks when the agenda or agenda files are already 
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
 (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
+#+end_src
+
+* Org Roam
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/org-roam/org-roam][Org Roam]] is a plain-text knowledge management system. It provides a solution for non-hierarchical note-taking and linking.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+<<pre-org-roam>>
+
+(use-package! org-roam
+  :defer t
+  :config
+  <<org-roam-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; Variables
+#+end_src
+
+*** Roam Directory
+
+#+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
+(setq org-roam-directory (file-truename "~/Projects/brain"))
+#+end_src
+
+*** Database Location
+
+#+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
+(setq org-roam-db-location (file-truename "~/Projects/brain/brain.db"))
+#+end_src
+
+*** Attachments Directory
+
+#+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
+(setq org-attach-id-dir (file-truename "~/Projects/brain/.attachments"))
+#+end_src
+
+*** Exclude Directories
+
+Currently not excluding any. This is a place holder for when I do.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
+;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; Behavior
+#+end_src
+
+*** Disable If No Roam Directory
+
+Don't use Org Roam if the directory isn't present to avoid errors.
+
+See [[file:config.el][config.el]] to understand how this works. Thanks Teco.
+
+#+begin_src emacs-lisp :tangle (if (file-exists-p "~/Projects/brain") "no" "packages.el")
+(package! org-roam :disable t)
+#+end_src
+
+*** Always Open the Backlinks Buffer
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;(setq +org-roam-auto-backlinks-buffer t)
+#+end_src
+
+*** Capture Templates
+
+Currently just using the default captures template. This area still needs a lot of work. I need to decide how to use roam-capture and org-capture.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(setq org-roam-capture-templates
+      '(("n" "node" plain
+         "%?"
+         :target
+         (file+head "nodes/${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
+         :immediate-finish t
+         :unnarrowed t)))
+#+end_src
+
+*** Enable Autosync
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(org-roam-db-autosync-mode)
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; Keybinds
+#+end_src
+
+*** Find Random Draft Nodes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defun noncog/org-roam-is-draft-p (node)
+  "Is this org-roam node a draft?"
+  (member "draft" (org-roam-node-tags node)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defun noncog/org-roam-random-draft ()
+  "Get a random node with the draft tag. "
+  (interactive)
+  (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
+#+end_src
+
+* Org Roam UI
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/org-roam/org-roam-ui][org-roam-ui]] is a frontend for exploring and interacting with your org-roam notes.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle packages.el
+(unpin! org-roam) ; NOTE: org-roam-ui requires latest org-roam.
+(package! org-roam-ui
+  :recipe (:host github :repo "org-roam/org-roam-ui"))
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! websocket
+    :after org-roam)
+#+end_src
+
+#+begin_src emacs-lisp :noweb yes
+<<pre-org-roam-ui>>
+
+(use-package! org-roam-ui
+  ;:defer t
+  :after org-roam
+  ;; :hook ((org-roam . org-roam-ui-mode)
+  ;;        (org-roam-ui-mode . #'org-roam-ui-always-sync-theme))
+  :hook (org-roam . org-roam-ui-mode)
+  ;:defines org-roam-ui-port
+  :init
+  <<org-roam-ui-init>>
+  :config
+  <<org-roam-ui-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;; Appearance
+#+end_src
+
+*** Enable Doom Themes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+(setq org-roam-ui-sync-theme t)
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;; Behavior
+#+end_src
+
+*** General
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+(setq org-roam-ui-follow t
+      org-roam-ui-update-on-save t)
+#+end_src
+
+*** Use Xwidgets Instead of Browsers
+
+The following enables org-roam-ui to open within Emacs using xwidgets instead of using a browser.
+
+Prevent from opening the default graph on start and replace the browser function with an xwidgets function.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+(setq org-roam-ui-open-on-start nil
+      org-roam-ui-browser-function #'+lookup-xwidget-webkit-open-url-fn)
+#+end_src
+
+Add a function to kill the xwidgets buffer and exit org-roam-ui-mode when we close the graph window.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+(defun +org-roam-ui-popup-kill (roam-ui-popup-buffer)
+  (progn (+popup--kill-buffer roam-ui-popup-buffer 0.1) (org-roam-ui-mode -1)))
+#+end_src
+
+Set the window's popup rules. This configuration opens the graph above the backlinks buffer splitting the vertical height equally.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+(setq display-buffer-mark-dedicated t)
+(set-popup-rule! "^\\*xwidget" :side 'right :ttl #'+org-roam-ui-popup-kill :slot -1 :width 0.33 :height 0.5 :quit 'current :select nil :modeline nil)
+#+end_src
+
+Additionally, you can take control of roam's poppup rules for further customization.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;; (set-popup-rule! (regexp-quote org-roam-buffer) ; persistent org-roam buffer
+;;      :side 'right :width 0.33 :height 0.5 :ttl nil :modeline nil :quit nil :slot 1)
+;; (set-popup-rule! "^\\*org-roam: " ; node dedicated org-roam buffer
+;;      :side 'right :width 0.33 :height 0.5 :ttl nil :modeline nil :quit nil :slot 2)
+#+end_src
+
+*** Don't Open Nodes in Side Windows
+
+By default org-roam-ui attempts to open nodes by splitting the newest window. This won't work with side windows. So, a function is needed to more carefully choose a window to split. I simply force it to open the node in the latest regular window.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+(defadvice! my/+org-roam-ui--on-msg-open-node (data)
+  "Open a node CAREFULLY when receiving DATA from the websocket."
+  :override #'org-roam-ui--on-msg-open-node
+  (let* ((id (alist-get 'id data))
+         (node (org-roam-node-from-id id))
+         (pos (org-roam-node-point node))
+         (buf (find-file-noselect (org-roam-node-file node))))
+    (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
+    (unless (window-live-p org-roam-ui--window)
+      (if-let ((windows (cl-set-difference (doom-visible-windows) (list (minibuffer-window))))
+               (newest-window (car (seq-sort-by #'window-use-time #'> windows))))
+          (setq org-roam-ui--window newest-window)
+        (setq org-roam-ui--window newest-window)))
+    (set-window-buffer org-roam-ui--window buf)
+    (select-window org-roam-ui--window)
+    (goto-char pos)
+    (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
+#+end_src
+
+*** Ensure Doom Theme Colors Always
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+                                        ;jqq(add-hook! 'org-roam-ui-mode-hook :append (org-roam-ui-always-sync-theme))
+                                        ;(add-hook! 'org-roam-ui-mode-hook :append (org-roam-ui-always-sync-theme))
+                                        ;(add-hook 'org-roam-ui-mode-hook #'org-roam-ui-always-sync-theme)
+                                        ;(add-hook! 'org-roam-ui-mode-hook :append (when org-roam-ui-mode (org-roam-ui-sync-theme)))
+;; (after! org-roam-ui
+;;   (defun org-roam-ui-always-sync-theme ()
+;;     (if org-roam-ui-mode (org-roam-ui-sync-theme) nil)
+;;     )
+;;   (defadvice! my/+org-roam-ui-sync-theme ()
+;;     "Always sync the theme after opening the org-roam-ui graph."
+;;     :after #'org-roam-ui-open
+;;     (org-roam-ui-always-sync-theme)))
+
+;; (defadvice! my/+org-roam-ui-sync-theme (fn &rest args)
+;;   "Always sync the theme after opening the org-roam-ui graph."
+;;   :around #'org-roam-ui-open
+;;   (prog1 (apply fn args) (when (and (org-roam-ui-mode () org-roam-ui-sync-theme)))
+                                        ;(org-roam-ui-sync-theme)
+
+;; (defadvice! org-roam-ui-always-sync-theme ()
+;;   "Always sync the theme after opening the org-roam-ui graph."
+;;   :after #'org-roam-ui-open
+;;   (defer-until! (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (org-roam-ui-sync-theme)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;; (defun org-roam-ui-always-sync-theme ()
+;;   "Always sync the theme..."
+;;   (interactive)
+;;   ;;(when (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (org-roam-ui-sync-theme))
+;;   )
+
+
+(defadvice! +org-roam-ui-always-sync-theme ()
+  "Always sync da theme..."
+  :after #'org-roam-ui-open
+
+  (while (when (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme)))))))
+  ;(org-roam-ui-always-sync-theme)
+  ;;(when (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (org-roam-ui-sync-theme))
+  )
+;(add-hook! 'org-roam-ui-mode-hook #'org-roam-ui-always-sync-theme)
+  ;; (let)
+  ;; (while )
+  ;; (while (if-let ((windows (window-list))
+  ;;          (roam-ui-window
+  ;;           (seq-filter (lambda (window)
+  ;;                         (string-prefix-p "*xwidget" (buffer-name (window-buffer window)))) windows)))
+  ;;            (when (and org-roam-ui-mode roam-ui-window) t) nil)))
+
+;; (defadvice! org-roam-ui-always-sync-theme ()
+;;   "Always sync the theme after opening the org-roam-ui graph."
+;;   :after #'org-roam-ui-open
+;;   (while (if-let ((windows (window-list))
+;;            (roam-ui-window
+;;             (seq-filter (lambda (window)
+;;                           (string-prefix-p "*xwidget" (buffer-name (window-buffer window)))) windows)))
+;;              (when (and org-roam-ui-mode roam-ui-window) t) nil)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-init
+;; (defun my/org-roam-ui-open ()
+;;   "Ensure `org-roam-ui' is running, then open the `org-roam-ui' webpage."
+;;   (interactive)
+;;   (funcall org-roam-ui-browser-function
+;;                   (format "http://localhost:%d" org-roam-ui-port))
+;;   (progn (unless org-roam-ui-mode (org-roam-ui-mode)) (org-roam-ui-sync-theme)))
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;; Keybinds
+#+end_src
+
+*** Replace Doom's Default Org Roam Graph Keybind
+
+Use the org-roam-ui and xwidget popup window instead.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam-ui
+(map! :leader "n r g" #'org-roam-ui-open)
+#+end_src
+
+* Org Appear
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/awth13/org-appear][Org Appear]] makes invisible Org elements like emphasis markers magically appear.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-appear
+  :recipe (:host github :repo "awth13/org-appear")
+  :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :noweb yes
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  <<org-appear-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-appear-config
+;; Appearance
+#+end_src
+
+*** General
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-appear-config
+(setq org-appear-autoemphasis t              ; Show emphasis markup.
+      org-appear-autosubmarkers t            ; Show sub/superscript
+      org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
+      org-appear-autolinks nil               ; Shows Org links.
+      org-appear-autokeywords nil            ; Shows hidden Org keywords.
+      org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
 #+end_src
 
 * Org Fragtog
@@ -2964,251 +3349,42 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
 #+end_src
 #+html:</details>
 
-* Org Roam
+* LSP-Clangd
 :PROPERTIES:
 :VISIBILITY: children
 :END:
 
 #+begin_quote
-[[https://github.com/org-roam/org-roam][Org Roam]] is a plain-text knowledge management system. It provides a solution for non-hierarchical note-taking and linking.
+
 #+end_quote
 
 ** Package
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :noweb yes
-<<pre-org-roam>>
-
-(use-package! org-roam
+(use-package! lsp-clangd
   :defer t
   :config
-  <<org-roam-config>>
+  <<lsp-clangd-config>>
   )
 #+end_src
 #+html:</details>
 
-** Variables
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-;; Variables
-#+end_src
-
-*** Roam Directory
-
-#+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
-(setq org-roam-directory (file-truename "~/Projects/brain"))
-#+end_src
-
-*** Database Location
-
-#+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
-(setq org-roam-db-location (file-truename "~/Projects/brain/brain.db"))
-#+end_src
-
-*** Attachments Directory
-
-#+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
-(setq org-attach-id-dir (file-truename "~/Projects/brain/.attachments"))
-#+end_src
-
-*** Exclude Directories
-
-Currently not excluding any. This is a place holder for when I do.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref pre-org-roam
-;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
-#+end_src
-
 ** Behavior
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+#+begin_src emacs-lisp :tangle no :noweb-ref lsp-clangd-config
 ;; Behavior
 #+end_src
 
-*** Disable If No Roam Directory
+*** Set Clangd Args
 
-Don't use Org Roam if the directory isn't present to avoid errors.
-
-See [[file:config.el][config.el]] to understand how this works. Thanks Teco.
-
-#+begin_src emacs-lisp :tangle (if (file-exists-p "~/Projects/brain") "no" "packages.el")
-(package! org-roam :disable t)
+#+begin_src emacs-lisp :tangle no :noweb-ref lsp-clangd-config
+(setq lsp-clients-clangd-args
+      '("-j=3"
+        "--background-index"
+        "--clang-tidy"
+        "--completion-style=detailed"
+        "--header-insertion=never"
+        "--header-insertion-decorators=0"))
+(set-lsp-priority! 'clangd 2)
 #+end_src
-
-*** Capture Templates
-
-Currently just using the default captures template. This area still needs a lot of work. I need to decide how to use roam-capture and org-capture.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(setq org-roam-capture-templates
-      '(("n" "node" plain
-         "%?"
-         :target
-         (file+head "nodes/${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
-         :immediate-finish t
-         :unnarrowed t)))
-#+end_src
-
-*** Enable Autosync
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(org-roam-db-autosync-mode)
-#+end_src
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-;; Keybinds
-#+end_src
-
-*** Find Random Draft Nodes
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(defun noncog/org-roam-is-draft-p (node)
-  "Is this org-roam node a draft?"
-  (member "draft" (org-roam-node-tags node)))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(defun noncog/org-roam-random-draft ()
-  "Get a random node with the draft tag. "
-  (interactive)
-  (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
-#+end_src
-
-* Org Roam UI
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/org-roam/org-roam-ui][org-roam-ui]] is a frontend for exploring and interacting with your org-roam notes.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle packages.el
-(unpin! org-roam) ; NOTE: org-roam-ui requires latest org-roam.
-(package! org-roam-ui
-  :recipe (:host github :repo "org-roam/org-roam-ui"))
-#+end_src
-#+html:</details>
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :noweb yes
-(use-package! websocket
-    :after org-roam)
-#+end_src
-
-#+begin_src emacs-lisp :noweb yes
-(use-package! org-roam-ui
-  :after org-roam
-  :hook (org-roam . org-roam-ui-mode)
-  :config
-  <<org-roam-ui-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-;; Appearance
-#+end_src
-
-*** Theme
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(setq org-roam-ui-sync-theme t)
-#+end_src
-
-*** Window
-
-#+begin_src emacs-lisp
-(set-popup-rule! "^*xwidget webkit: ORUI *" :ignore t :side 'left :width 120 :vslot 1 :quit t :select t :modeline nil)
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-;; Behavior
-#+end_src
-
-*** General
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(setq org-roam-ui-follow t
-      org-roam-ui-update-on-save t)
-#+end_src
-
-*** Use Xwidgets Instead of Browsers
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(setq org-roam-ui-browser-function #'xwidget-webkit-browse-url)
-#+end_src
-
-Don't open the graph using a browser since we use Emacs.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(setq org-roam-ui-open-on-start nil)
-#+end_src
-
-These functions enables you to open the graph within Emacs instead of an external browser. [[https://github.com/org-roam/org-roam-ui/issues/52#issuecomment-912246556][Source]]
-
-#+begin_src emacs-lisp
-(defcustom org-roam-ui-use-webkit t
-  "Use embedded webkit to preview.
-This requires GNU/Emacs version >= 26 and built with the `--with-xwidgets`
-option."
-  :type 'boolean
-  :group 'roam)
-
-(defun org-roam-ui-browser (url)
-  "Use browser specified by user to load URL.
-Use default browser if nil."
-  (if org-roam-ui-url-browser
-      (let ((browse-url-generic-program org-roam-ui-url-browser)
-            (browse-url-generic-args roam-url-args))
-        (ignore browse-url-generic-program)
-        (ignore browse-url-generic-args)
-        (browse-url-generic url))
-    (browse-url url)))
-
-(defun org-roam-ui-open-url (url)
-  "Ask the browser to load URL.
-Use default browser unless `xwidget' is available."
-  (if (and org-roam-ui-use-webkit
-           (featurep 'xwidget-internal))
-      (progn
-        (save-window-excursion (xwidget-webkit-browse-url url))
-        (let ((buf (xwidget-buffer (xwidget-webkit-current-session))))
-          (when (buffer-live-p buf) (and (eq buf (current-buffer)) (quit-window)))
-          (display-buffer buf)))
-            (let (display-buffer-alist) (org-roam-ui-browser url))))
-#+end_src
-
-#+begin_src emacs-lisp
-;;;###autoload
-(define-minor-mode org-roam-ui-open-in-browser
-  "open org-roam-ui in the browser"
- :lighter "roam"
- (org-roam-ui-open-url "http://127.0.0.1:35901"))
-#+end_src
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-;; Keybinds
-#+end_src
-
-*** Replace Doom's Default Org Roam Graph Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(map! :leader :desc "Roam-UI graph" "n r g" #'org-roam-ui-open-in-browser)
-#+end_src
-
