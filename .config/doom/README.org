@@ -593,7 +593,11 @@ I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experi
 #+html:</details>
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
-(setq doom-theme 'doom-Iosvkem)
+(setq doom-theme 'doom-vibrant)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config
+;(setq doom-theme 'doom-Iosvkem)
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
