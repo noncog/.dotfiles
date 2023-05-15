@@ -1903,40 +1903,23 @@ I use this to center buffers (org-mode) primarily. I get this package by enablin
 
 *** Keywords
 
-I have excess keywords and will likely simplify them when I decide their best use.
-
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-todo-keywords
       '((sequence
-         "TODO(t!)"                          ; Task that needs doing & is ready to do.
-         "NEXT(n!)"                          ; Task that needs doing & is ready to do.
-         "STRT(s!)"                          ; Task that is in progress.
-         "WAIT(w@/!)"                        ; Something external is holding this up.
-         "HOLD(h@/!)"                        ; Task is paused because of me.
-         "PROJ(p!)"                          ; A project, which contains other tasks.
-         "IDEA(i!)"                          ; An unconfirmed task or notion.
-         "NOTE(N!)"                          ; A fleeting note, in person, idea, or link.
-         "APPT(a!)"                          ; An appointment.
-         "MEET(m!)"                          ; A meeting.
-         "READ(r!)"                          ; Something to read.
-         "LINK(l!)"                          ; A link I want to note.
+         "TODO(t!)"     ; Task that needs doing & is ready to do.
+         "NEXT(N!)"     ; Task that needs doing & is ready to do.
+         "WAIT(w@/!)"   ; Something is holding this up.
+         "NOTE(n!)"     ; A fleeting note, in person, idea, or link.
+         "LINK(l!)"     ; A link I want to note.
+         "APPT(a!)"     ; An appointment.
          "|"
-         "DONE(d!)"                          ; Task successfully completed.
-         "KILL(k@/!)")                       ; Task cancelled or not applicable.
-        (sequence                            ; For nesting headings like lists.
-         "[ ](T)"                            ; A task that needs doing.
-         "[-](S!)"                           ; Task is in progress.
-         "[?](W@/!)"                         ; Task is being held up or paused.
-         "|"
-         "[X](D)"))                          ; Task was completed.
+         "DONE(d!)"     ; Task successfully completed.
+         "KILL(k@/!)")) ; Task cancelled or not applicable.
       org-todo-keyword-faces
-      '(("[-]"  . +org-todo-active)
-        ("STRT" . +org-todo-active)
-        ("NOTE" . +org-todo-active)
-        ("[?]"  . +org-todo-onhold)
+      '(("PROJ" . +org-todo-project)
+        ("NEXT" . +org-todo-active)
         ("WAIT" . +org-todo-onhold)
-        ("HOLD" . +org-todo-onhold)
-        ("PROJ" . +org-todo-project)
+        ("NOTE" . +org-todo-active)
         ("KILL" . +org-todo-cancel)))
 #+end_src
 
