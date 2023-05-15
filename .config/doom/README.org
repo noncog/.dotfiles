@@ -541,7 +541,17 @@ Define an identity for use with GPG, email, and file templates/snippets.
       user-mail-address "john@doe.com")
 #+end_src
 
+*** Change Literate Config Name
+
+I change my Org literate config file name from =config.org= to =README.org= in =init.el= for displaying it on GitHub.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref early-init
+(setq +literate-config-file "~/.config/doom/README.org")
+#+end_src
+
 *** Lookup Providers
+
+I don't use most of the default providers (Google) so I set my own.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
 (setq +lookup-provider-url-alist
@@ -649,14 +659,6 @@ I use relative visual line numbers to move around.
 #+end_src
 
 ** Behavior
-*** Change Literate Config Name
-
-I change my Org literate config file name from =config.org= to =README.org= in =init.el= for displaying it on GitHub.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref early-init
-(setq +literate-config-file "~/.config/doom/README.org")
-#+end_src
-
 *** Enable Evil Fine Undo
 
 By default, all changes made while using insert mode are considered one. This setting enables a more granular undo scheme.
