@@ -740,9 +740,7 @@ Whenever you overwrite text in visual mode, prevent adding that text to the kill
 (setq evil-kill-on-visual-paste nil)
 #+end_src
 
-*** Focus Windows After Splitting
-
-These settings causes the newly created split windows to gain focus.
+*** Focus New Windows After Splitting
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
 (setq evil-split-window-below t
@@ -1188,7 +1186,7 @@ Doom typically sets your Dashboard directory to latest of the recent file list. 
 ;; Fixes
 #+end_src
 
-*** Prevent New Workspaces on New Frames
+*** Prevent New Workspaces in New Frames
 
 By default, when using =emacsclient=, Doom creates a new workspace for each client frame. I don't want this clutter, I'll make a workspace if I need one.
 
@@ -1280,8 +1278,8 @@ This adds all of the following:
 - Replace recent files' date string with last used time.
 - Colored file attributes.
 - Removes user group info.
-  
-[[https://github.com/tecosaur/emacs-config/blob/master/config.org#marginalia][Source]]
+
+([[https://github.com/tecosaur/emacs-config/blob/master/config.org#marginalia][Source]])
 
 #+begin_src emacs-lisp :tangle no :noweb-ref marginalia-config
 (defadvice! +marginalia--anotate-local-file-colorful (cand)
@@ -1846,7 +1844,7 @@ And finally, the custom standards checker is hooked into Magit's finish commit f
 
 *** Fix =C-backspace=
 
-I love this keybind, more things should use it. Including vterm... [[https://github.com/elken/doom#fix-c-backspace][Source]]
+I love this keybind, more things should use it. Including vterm... ([[https://github.com/elken/doom#fix-c-backspace][Source]])
 
 #+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
 (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
@@ -1957,15 +1955,17 @@ I use this to center buffers (org-mode) primarily. I get this package by enablin
       org-hidden-keywords nil)               ; Can use to hide certain keywords.
 #+end_src
 
-*** LaTeX Previews
+*** LaTeX
+
+**** Previews
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-startup-with-latex-preview nil)    ; Show rendered LaTeX in the buffers.
 #+end_src
 
-*** LaTeX Syntax Highlighting
+**** Syntax Highlighting
 
-Add syntax highlighting to LaTeX in orgmode buffers. [[https://github.com/tecosaur/emacs-config/blob/master/config.org#prettier-highlighting][Source]].
+Add syntax highlighting to LaTeX in orgmode buffers. ([[https://github.com/tecosaur/emacs-config/blob/master/config.org#prettier-highlighting][Source]])
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-highlight-latex-and-related '(native script entities))
@@ -2317,7 +2317,7 @@ I use a custom width variable to ensure the formatting as I can't trust auto-ali
 
 *** Integrate Org-Roam into Agenda Files
 
-By using org-roam, we may have thousands of files to search to display tasks in the agenda. To combat this, we can dynamically update the =org-agenda-files= variable to check for org-roam files that contain certain tags. I'm using the =task= and =schedule= tags. Org-roam files are automatically marked =task= long as it has a TODO heading. Files with =schedule= tags are assigned manually. [[https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html][Source1]], [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Source2]]
+By using org-roam, we may have thousands of files to search to display tasks in the agenda. To combat this, we can dynamically update the =org-agenda-files= variable to check for org-roam files that contain certain tags. I'm using the =task= and =schedule= tags. Org-roam files are automatically marked =task= long as it has a TODO heading. Files with =schedule= tags are assigned manually. ([[https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html][Source1]], [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Source2]])
 
 #+begin_src emacs-lisp :tangle no :noweb-ref post-org-agenda
 (after! (org-agenda org-roam)
@@ -2593,9 +2593,9 @@ I switch Doom's default scratch buffer and org-capture keybinds. With this, I ca
 ;; Fixes
 #+end_src
 
-*** Fix Org Capture Window Breaking
+*** Prevent Breaking Org Capture Window
 
-Sometimes the capture window breaks when the agenda or agenda files are already open. This fix reloads org-mode during captures. [[https://github.com/doomemacs/doomemacs/issues/5714][Source]]
+Sometimes the capture window breaks when the agenda or agenda files are already open. This fix reloads org-mode during captures. ([[https://github.com/doomemacs/doomemacs/issues/5714][Source]])
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
 (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
@@ -3216,7 +3216,7 @@ When I use GitHub for literate documentation, I want to add the HTML =details= t
 
 *** Prevent Crash on macOS Ventura
 
-Apparently this is required. [[https://github.com/vedang/pdf-tools/issues/173#issuecomment-1341882242][Source]]
+Apparently this is required. ([[https://github.com/vedang/pdf-tools/issues/173#issuecomment-1341882242][Source]])
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pdf-tools-config
 (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
