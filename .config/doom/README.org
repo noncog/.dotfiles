@@ -1438,6 +1438,12 @@ I use the same convention for project location on each OS I use.
 (setq projectile-project-search-path '("~/Projects"))
 #+end_src
 
+*** Ignored Directories
+
+#+begin_src emacs-lisp :tangle no :noweb-ref pre-projectile
+(setq doom-projectile-cache-blacklist '("~" "/tmp" "/" "~/.config/emacs" "/opt/homebrew"))
+#+end_src
+
 ** Behavior
 
 #+begin_src emacs-lisp :tangle no :noweb-ref projectile-config :exports none
