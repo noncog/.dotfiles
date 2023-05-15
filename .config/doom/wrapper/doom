@@ -20,5 +20,5 @@ if [ "$1" == "sync" ]; then
 else
     "$HOME"/.config/emacs/bin/doom "$1"
 fi
-sleep 7
+sleep 4
 emacsclient -c &
