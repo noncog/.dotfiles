@@ -966,15 +966,27 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
 #+end_src
 #+html:</details>
 
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config :exports none
+;; Behavior
+#+end_src
+
+*** Reduce Idle Delay
+
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
+(setq which-key-idle-delay 0.5)
+#+end_src
+
 ** Fixes
 
 #+begin_src emacs-lisp :tangle no :noweb-ref which-key-config :exports none
 ;; Fixes
 #+end_src
 
-*** Fix Height Issue
+*** Add Window Height
 
-I was having an issue using =emacsclient= where which-key was being cut off below the modeline. A simple solution is to add spaces below the keybinds. Realistically, this doesn't work everywhere but it's good enough for now. [[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][Source]]
+I was having an issue using =emacsclient= where which-key was being cut off below the modeline. A simple solution is to add spaces below the keybinds. Realistically, this doesn't work everywhere but it's good enough for now. ([[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][Source]])
 
 #+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
 (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
