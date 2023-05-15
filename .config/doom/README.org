@@ -693,47 +693,23 @@ First, enable the following in =init.el=:
 
 **** Fix Evil's Visual Line Over/Undershooting
 
-There's a long standing issue between =visual lines= and =Evil=. When using a prefix argument (line count) with Evil's next/previous visual line, often it will over or under shoot the desired line. As far as I have researched, there is no next/previous line commands that just work.
+There's a long standing issue between =visual lines= and =Evil=. When using a prefix argument (line count) with Evil's next/previous visual line, often it will over or under shoot the desired line. As far as I have researched, there is no next/previous line commands that just works.
 
-To solve this, I created two commands to repeatedly run Evil's visual line commands instead of letting those commands repeat themselves. This works perfectly to solve the issue and I always reach my desired line.
+To solve this, I created a function that handles repeating the desired function instead of letting it repeat itself. And then I use it to advise evil's visual line commands. This works perfectly to solve the issue and I always reach my desired line.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
-(defun noncog/evil-previous-visual-line (&optional count)
-  "Repeat evil-previous-visual-line COUNT times."
-  (interactive "P")
+(defun noncog/repeat-function-count (fn &optional count)
+  "Repeat given function COUNT times."
   (let ((total (or count 1))
         (counter 0))
     (while (< counter total)
-      (evil-previous-visual-line)
+      (funcall fn)
       (setq counter (+ counter 1)))))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
-(defun noncog/evil-next-visual-line (&optional count)
-  "Repeat evil-next-visual-line COUNT times."
-  (interactive "P")
-  (let ((total (or count 1))
-        (counter 0))
-    (while (< counter total)
-      (evil-next-visual-line)
-      (setq counter (+ counter 1)))))
-#+end_src
-
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config
-(define-key evil-normal-state-map "j" 'noncog/evil-next-visual-line)
-(define-key evil-normal-state-map "k" 'noncog/evil-previous-visual-line)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config
-;; TODO: Add evil-visual-state-map binds.
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config
-;; TODO: Add evil-visual-state-map binds.
-;; (define-key evil-motion-state-map "j" 'noncog/evil-next-visual-line)
-;; (define-key evil-motion-state-map "k" 'noncog/evil-previous-visual-line)
-;; NOTE: Issues arose with Treemacs and visual highlighting I think...
+(advice-add 'evil-previous-visual-line :around #'noncog/repeat-function-count)
+(advice-add 'evil-next-visual-line :around #'noncog/repeat-function-count)
 #+end_src
 
 *** Prevent Pasting From Adding to Kill Ring
