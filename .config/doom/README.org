@@ -1029,7 +1029,7 @@ I was having an issue using =emacsclient= where which-key was being cut off belo
 ;; Keybinds
 #+end_src
 
-*** Add
+*** Cycle Through Visited Help Pages
 
 Doom lacks the ability to move through previously viewed pages in the helpful buffer. So, we can add them using winner mode. These keybinds fit well with the rest and make sense logically.
 
