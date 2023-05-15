@@ -1,52 +1,29 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here!
-
-;; sync' after modifying this file!
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
-
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
-
+(setq +lookup-provider-url-alist
+      '(("DuckDuckGo" +lookup--online-backend-duckduckgo "https://duckduckgo.com/?q=%s")
+        ("Github" "https://github.com/search?ref=simplesearch&q=%s")
+        ("Youtube" "https://youtube.com/results?aq=f&oq=&search_query=%s")
+        ("Wikipedia" "https://wikipedia.org/search-redirect.php?language=en&go=Go&search=%s")
+        ("StackOverflow" "https://stackoverflow.com/search?q=%s")
+        ("Doom Issues" "https://github.com/hlissner/doom-emacs/issues?q=is%%3Aissue+%s")
+        ("Internet archive" "https://web.archive.org/web/*/%s")
+        ("Project Gutenberg" "http://www.gutenberg.org/ebooks/search/?query=%s")
+        ("MDN" "https://developer.mozilla.org/en-US/search?q=%s")
+        ("Arch Wiki" "https://wiki.archlinux.org/index.php?search=%s&title=Special%3ASearch&wprov=acrw1")
+        ("AUR" "https://aur.archlinux.org/packages?O=0&K=%s")))
 (setq doom-theme 'doom-Iosvkem)
-
+;(setq doom-theme 'doom-dracula
+;      doom-dracula-brighter-modeline t
+;      doom-dracula-colorful-headers t)
 (when IS-MAC
   (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
         doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
         doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
         doom-unicode-font (font-spec :family "JuliaMono")
         doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light)))
-
 (when IS-LINUX
   (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
         doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
@@ -54,19 +31,12 @@
         ;;doom-unicode-font (font-spec :family "JuliaMono")
         ;;doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light)
         ))
-
 (setq-default x-stretch-cursor t)
-
 (add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
-
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-
 (setq display-line-numbers-type 'visual)
-
 (setq evil-want-fine-undo t)
-
 (global-subword-mode 1)
-
 (defun noncog/evil-previous-visual-line (&optional count)
   "Repeat evil-previous-visual-line COUNT times."
   (interactive "P")
@@ -75,7 +45,6 @@
     (while (< counter total)
       (evil-previous-visual-line)
       (setq counter (+ counter 1)))))
-
 (defun noncog/evil-next-visual-line (&optional count)
   "Repeat evil-next-visual-line COUNT times."
   (interactive "P")
@@ -84,22 +53,17 @@
     (while (< counter total)
       (evil-next-visual-line)
       (setq counter (+ counter 1)))))
-
-(define-key evil-motion-state-map "j" 'noncog/evil-next-visual-line)
-(define-key evil-motion-state-map "k" 'noncog/evil-previous-visual-line)
-
 (define-key evil-normal-state-map "j" 'noncog/evil-next-visual-line)
 (define-key evil-normal-state-map "k" 'noncog/evil-previous-visual-line)
-
 ;; TODO: Add evil-visual-state-map binds.
-
+;; TODO: Add evil-visual-state-map binds.
+;; (define-key evil-motion-state-map "j" 'noncog/evil-next-visual-line)
+;; (define-key evil-motion-state-map "k" 'noncog/evil-previous-visual-line)
+;; NOTE: Issues arose with Treemacs and visual highlighting I think...
 (setq evil-kill-on-visual-paste nil)
-
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
-
 (global-auto-revert-mode 1)
-
 (define-minor-mode prot/scroll-center-cursor-mode
   "Toggle centred cursor scrolling behavior"
   :init-value nil
@@ -114,9 +78,7 @@
                      maximum-scroll-margin
                      scroll-margin))
       (kill-local-variable `,local))))
-
 (setq-default evil-scroll-count 5)
-
 (defun wm-focus-on-error (direction move-fn)
     (when IS-LINUX
      (condition-case nil (funcall move-fn)
@@ -124,7 +86,6 @@
      (when IS-MAC
       (condition-case nil (funcall move-fn)
         (user-error (start-process "wm" nil "yabai" "-m" "window" "--focus" direction)))))
-
 (defun wm-window-left ()
   (interactive)
   (let ((direction (cond (IS-LINUX "left") (IS-MAC "west"))))
@@ -144,7 +105,6 @@
   (interactive)
   (let ((direction (cond (IS-LINUX "down") (IS-MAC "south"))))
     (wm-focus-on-error direction #'windmove-down)))
-
 (when IS-MAC
   (map! "s-h" #'wm-window-left
         "s-j" #'wm-window-down
@@ -154,7 +114,6 @@
         "s-v" #'evil-window-vsplit
         "s-s" #'evil-window-split
         "s-Q" #'evil-quit))
-
 (when IS-LINUX
   (map! "s-h" #'wm-window-left
         "s-j" #'wm-window-down
@@ -163,35 +122,30 @@
         ;; add workspace balancing python script.
         ;; add window splitting.
         "s-Q" #'evil-quit))
-
 (map! :leader "w h" #'wm-window-left)
 (map! :leader "w j" #'wm-window-down)
 (map! :leader "w k" #'wm-window-up)
 (map! :leader "w l" #'wm-window-right)
-
 (when IS-MAC (setq mac-command-modifier 'control ; Maps Command -> Control
                     mac-control-modifier 'meta   ; Maps Control -> Alt (Meta)
                     mac-option-modifier 'super)) ; Maps Option -> Super
-
 (use-package! beacon
   :init
   ;; Appearance
   (setq beacon-color "#61bfff")
-  ;; Behavior
   (setq beacon-size 40
         beacon-blink-duration 0.3
         beacon-blink-delay 0.5)
+  ;; Behavior
   (setq beacon-blink-when-buffer-changes t
         beacon-blink-when-window-scrolls nil
         beacon-blink-when-focused nil)
   )
 (beacon-mode 1)
-
 (use-package! which-key
   :defer t
   :config
   ;; Fixes
-  ;; Add an extra line to work around bug in which-key imprecise
   (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
   (advice-add 'which-key--show-popup :around #'add-which-key-line)
   (setq which-key-allow-multiple-replacements t)
@@ -199,8 +153,13 @@
    which-key-replacement-alist
    '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . " \\1"))
    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . " \\1")))
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`org-agenda-\\(.*\\)") . (nil . " \\1")))
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`treemacs-\\(.*\\)") . (nil . " \\1")))
   )
-
 (use-package! doom-modeline
   :defer t
   :config
@@ -221,22 +180,23 @@
       ;; '(github mu4e grip gnus checker misc-info repl lsp " "))
         )
   )
-
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
+(setq +doom-dashboard-pwd-policy "~")
 (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
 
 (use-package! doom-dashboard
   :defer t
   :config
+  ;; Appearance
+  ;; Behavior
   ;; Keybinds
   )
-
 (use-package! persp-mode
   :defer t
   :config
   ;; Fixes
   (setq persp-emacsclient-init-frame-behaviour-override nil)
   )
-
 (use-package! vertico
   :defer t
   :config
@@ -246,7 +206,39 @@
   (map! :map vertico-map "C-u" #'scroll-down-command
         :map vertico-map "C-d" #'scroll-up-command)
   )
-
+(use-package! marginalia
+  :defer t
+  :config
+  ;; Appearance
+  (defadvice! +marginalia--anotate-local-file-colorful (cand)
+    "Just a more colourful version of `marginalia--anotate-local-file'."
+    :override #'marginalia--annotate-local-file
+    (when-let (attrs (file-attributes (substitute-in-file-name
+                                       (marginalia--full-candidate cand))
+                                      'integer))
+      (marginalia--fields
+       ((marginalia--file-owner attrs)
+        :width 12 :face 'marginalia-file-owner)
+       ((marginalia--file-modes attrs))
+       ((+marginalia-file-size-colorful (file-attribute-size attrs))
+        :width 7)
+       ((+marginalia--time-colorful (file-attribute-modification-time attrs))
+        :width 12))))
+  (defun +marginalia--time-colorful (time)
+    (let* ((seconds (float-time (time-subtract (current-time) time)))
+           (color (doom-blend
+                   (face-attribute 'marginalia-date :foreground nil t)
+                   (face-attribute 'marginalia-documentation :foreground nil t)
+                   (/ 1.0 (log (+ 3 (/ (+ 1 seconds) 345600.0)))))))
+      ;; 1 - log(3 + 1/(days + 1)) % grey
+      (propertize (marginalia--time time) 'face (list :foreground color))))
+  (defun +marginalia-file-size-colorful (size)
+    (let* ((size-index (/ (log10 (+ 1 size)) 7.0))
+           (color (if (< size-index 10000000) ; 10m
+                      (doom-blend 'orange 'green size-index)
+                    (doom-blend 'red 'orange (- size-index 1)))))
+      (propertize (file-size-human-readable size) 'face (list :foreground color))))
+  )
 (use-package! company
   :defer t
   :config
@@ -259,43 +251,30 @@
   (set-company-backend! 'sh-mode
     '(company-shell company-files :with company-yasnippet))
   )
-
 (use-package! yasnippet
   :defer t
   :config
   ;; Behavior
   (setq yas-triggers-in-field t)
   )
-
 (setq projectile-project-search-path '("~/Projects"))
+(setq projectile-auto-discover nil)
 
 (use-package! projectile
   :defer t
   :config
   ;; Variables
   ;; Behavior
-  (defun +my/compile-in-vterm ()
-    "Run `compile-command' in vterm in current project's root directory"
-    (interactive)
-    (projectile-run-vterm)
-    (vterm-send-string "cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build --config Release && ./build/intelligent-motion")
-    (vterm-send-return))
   ;; Keybinds
   )
 
-(defun +mypopup-kill (some-popup-window)
-  (progn (+popup--kill-buffer (window-buffer some-popup-window) 0.1)) t)
-(defun +mypopup-resize (some-popup-window)
-  (fit-window-to-buffer some-popup-window nil 19 nil nil t))
-(map! :map project-prefix-map
-      :leader
-      :desc "Run project in vterm"
-      "p v" #'+my/compile-in-vterm)
-(set-popup-rule! "^*vterm intelligent-motion*" :size #'+mypopup-resize :quit #'+mypopup-kill :autosave 'ignore)
 (map! :map project-prefix-map
       :leader
       :desc "List dirty projects"
       "p l" #'projectile-browse-dirty-projects)
+(setq imenu-auto-rescan t)
+;(setq imenu-use-markers nil)
+;(setq treemacs-imenu-scope 'current-project)
 
 (use-package! treemacs
   :defer t
@@ -303,15 +282,40 @@
   ;; Appearance
   (setq doom-themes-treemacs-theme "doom-colors")
   ;; Behavior
-  (treemacs-follow-mode 1)
   (treemacs-tag-follow-mode 1)
+  (setq treemacs-tag-follow-cleanup t)
+        ;treemacs-project-follow-cleanup
+        ;;treemacs-workspace-switch-cleanup
+  
   (setq treemacs-file-follow-delay 0.2
-        treemacs-tag-follow-delay 0.3)
+        treemacs-tag-follow-delay 0.4
+        treemacs-file-event-delay 2000)
   ;; (setq treemacs-recenter-after-tag-follow 'always
   ;;       treemacs-recenter-after-file-follow 'always
   ;;       treemacs-recenter-distance 0.9
   ;;       treemacs-follow-recenter-distance 0.9)
+  ;; (add-hook 'org-mode-hook
+  ;;            (lambda ()
+  ;;               (set (make-local-variable imenu-generic-expression)
+  ;;                    '((nil "^\\(?:[*\f]+\\).*$" 0)))))
+  
+  (setq treemacs-project-follow-into-home t)
   )
+;(setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-topleft-v1)
+(defadvice! my/magit-display-buffer-fullframe-status-topleft-v1 (buffer)
+  "Override Doom's default +magit-display-buffer-fn to use built-in behavior."
+  :override #'+magit-display-buffer-fn
+  ;; The following is a direct copy of magit-display-buffer-fullframe-status-topleft-v1
+  (display-buffer
+   buffer
+   (cond ((eq (with-current-buffer buffer major-mode)
+              'magit-status-mode)
+          '(magit--display-buffer-fullframe))
+         ((with-current-buffer buffer
+            (derived-mode-p 'magit-diff-mode 'magit-process-mode))
+          '(magit--display-buffer-topleft))
+         (t
+          '(display-buffer-same-window)))))
 
 (use-package! magit
   :defer t
@@ -428,24 +432,22 @@
   (add-to-list 'git-commit-finish-query-functions
                #'my-git-commit-check-style-conventions)
   )
-
 (use-package! vterm
   :defer t
   :config
   ;; Keybinds
   (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
   )
-
 (use-package! visual-fill-column
   :custom
   (visual-fill-column-width 120)
   (visual-fill-column-center-text t)
   :hook (org-mode . visual-fill-column-mode))
-
 (setq org-directory "~/Projects/brain/")
 
 (use-package! org
   :defer t
+  ;:hook
   :config
   ;; Variables
   (setq org-todo-keywords
@@ -505,11 +507,38 @@
   (setq evil-collection-calendar-want-org-bindings t)
   ;; Fixes
   (setq org-fold-core-style 'overlays)         ; Bugfix: Hide IDs in org-roam backlinks.
+  (defun org-view-output-file (&optional org-file-path)
+    "Visit buffer open on the first output file (if any),
+  found, using `org-view-output-file-extensions'."
+    (interactive)
+    (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
+           (dir (file-name-directory org-file-path))
+           (basename (file-name-base org-file-path))
+           (output-file nil))
+      (dolist (ext org-view-output-file-extensions)
+        (unless output-file
+          (when (file-exists-p
+                 (concat dir basename "." ext))
+            (setq output-file (concat dir basename "." ext)))))
+      (if output-file
+          (if (member (file-name-extension output-file) org-view-external-file-extensions)
+              (browse-url-xdg-open output-file)
+            (pop-to-buffer (or (find-buffer-visiting output-file)
+                               (find-file-noselect output-file))))
+        (message "No exported file found"))))
+  
+  (defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
+    "Find output files with these extensions, in order, viewing the first match.")
+  (defvar org-view-external-file-extensions '("html")
+    "File formats that should be opened externally.")
+  (map! :map org-mode-map
+        :localleader
+        :desc "View exported file"
+        "v" #'org-view-output-file)
   )
 
 (require 'org-src)
 (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
-
 (map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
 
 (use-package! org-agenda
@@ -653,7 +682,8 @@
              ;(org-agenda-todo-keyword-format "%-4s")
              ))
            ))))
-  (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit t)
+  ;;(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit t)
+  (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit 'current)
   ;; Behavior
   (setq org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
   )
@@ -865,7 +895,6 @@ If nil it defaults to `split-string-default-separators', normally
     (if (re-search-forward (concat ":" tag ":") subtree-end t)
         nil          ; tag found, do not skip
       subtree-end))) ; tag not found, continue after end of subtree
-
 (use-package! org-capture
   :defer t
   :config
@@ -894,7 +923,6 @@ If nil it defaults to `split-string-default-separators', normally
         (org-capture-mode +1))))
   (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
   )
-
 (setq org-roam-directory (file-truename "~/Projects/brain"))
 (setq org-roam-db-location (file-truename "~/Projects/brain/brain.db"))
 (setq org-attach-id-dir (file-truename "~/Projects/brain/.attachments"))
@@ -924,26 +952,15 @@ If nil it defaults to `split-string-default-separators', normally
     (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
   (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
   )
-
 (use-package! websocket
     :after org-roam)
-
 (map! :leader "n r g" #'org-roam-ui-open)
 
 (use-package! org-roam-ui
-  ;:defer t
   :after org-roam
-  ;; :hook ((org-roam . org-roam-ui-mode)
-  ;;        (org-roam-ui-mode . #'org-roam-ui-always-sync-theme))
   :hook (org-roam . org-roam-ui-mode)
-  ;:defines org-roam-ui-port
   :init
-  ;; (defun my/org-roam-ui-open ()
-  ;;   "Ensure `org-roam-ui' is running, then open the `org-roam-ui' webpage."
-  ;;   (interactive)
-  ;;   (funcall org-roam-ui-browser-function
-  ;;                   (format "http://localhost:%d" org-roam-ui-port))
-  ;;   (progn (unless org-roam-ui-mode (org-roam-ui-mode)) (org-roam-ui-sync-theme)))
+  
   :config
   ;; Appearance
   (setq org-roam-ui-sync-theme t)
@@ -977,64 +994,13 @@ If nil it defaults to `split-string-default-separators', normally
       (select-window org-roam-ui--window)
       (goto-char pos)
       (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
-                                          ;jqq(add-hook! 'org-roam-ui-mode-hook :append (org-roam-ui-always-sync-theme))
-                                          ;(add-hook! 'org-roam-ui-mode-hook :append (org-roam-ui-always-sync-theme))
-                                          ;(add-hook 'org-roam-ui-mode-hook #'org-roam-ui-always-sync-theme)
-                                          ;(add-hook! 'org-roam-ui-mode-hook :append (when org-roam-ui-mode (org-roam-ui-sync-theme)))
-  ;; (after! org-roam-ui
-  ;;   (defun org-roam-ui-always-sync-theme ()
-  ;;     (if org-roam-ui-mode (org-roam-ui-sync-theme) nil)
-  ;;     )
-  ;;   (defadvice! my/+org-roam-ui-sync-theme ()
-  ;;     "Always sync the theme after opening the org-roam-ui graph."
-  ;;     :after #'org-roam-ui-open
-  ;;     (org-roam-ui-always-sync-theme)))
-  
-  ;; (defadvice! my/+org-roam-ui-sync-theme (fn &rest args)
-  ;;   "Always sync the theme after opening the org-roam-ui graph."
-  ;;   :around #'org-roam-ui-open
-  ;;   (prog1 (apply fn args) (when (and (org-roam-ui-mode () org-roam-ui-sync-theme)))
-                                          ;(org-roam-ui-sync-theme)
-  
-  ;; (defadvice! org-roam-ui-always-sync-theme ()
-  ;;   "Always sync the theme after opening the org-roam-ui graph."
-  ;;   :after #'org-roam-ui-open
-  ;;   (defer-until! (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (org-roam-ui-sync-theme)))
-  ;; (defun org-roam-ui-always-sync-theme ()
-  ;;   "Always sync the theme..."
-  ;;   (interactive)
-  ;;   ;;(when (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (org-roam-ui-sync-theme))
-  ;;   )
-  
-  
   (defadvice! +org-roam-ui-always-sync-theme ()
     "Always sync da theme..."
     :after #'org-roam-ui-open
-  
-    (while (when (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme)))))))
-    ;(org-roam-ui-always-sync-theme)
-    ;;(when (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *")) (org-roam-ui-sync-theme))
+    (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme)))))))
     )
-  ;(add-hook! 'org-roam-ui-mode-hook #'org-roam-ui-always-sync-theme)
-    ;; (let)
-    ;; (while )
-    ;; (while (if-let ((windows (window-list))
-    ;;          (roam-ui-window
-    ;;           (seq-filter (lambda (window)
-    ;;                         (string-prefix-p "*xwidget" (buffer-name (window-buffer window)))) windows)))
-    ;;            (when (and org-roam-ui-mode roam-ui-window) t) nil)))
-  
-  ;; (defadvice! org-roam-ui-always-sync-theme ()
-  ;;   "Always sync the theme after opening the org-roam-ui graph."
-  ;;   :after #'org-roam-ui-open
-  ;;   (while (if-let ((windows (window-list))
-  ;;            (roam-ui-window
-  ;;             (seq-filter (lambda (window)
-  ;;                           (string-prefix-p "*xwidget" (buffer-name (window-buffer window)))) windows)))
-  ;;              (when (and org-roam-ui-mode roam-ui-window) t) nil)))
   ;; Keybinds
   )
-
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
   :config
@@ -1046,10 +1012,8 @@ If nil it defaults to `split-string-default-separators', normally
         org-appear-autokeywords nil            ; Shows hidden Org keywords.
         org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
   )
-
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode))
-
 (use-package! org-modern
   :hook (org-mode . org-modern-mode)
   :config
@@ -1072,11 +1036,9 @@ If nil it defaults to `split-string-default-separators', normally
         org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
         org-modern-horizontal-rule (make-string 80 ?─))
   )
-
 (use-package! org-modern-indent
   :config ; add late to hook
   (add-hook 'org-mode-hook #'org-modern-indent-mode 1))
-
 (use-package! toc-org
   :defer t
   :config
@@ -1148,7 +1110,6 @@ If nil it defaults to `split-string-default-separators', normally
                         (insert new-toc)))))
               (message (concat "Hrefify function " hrefify-string " is not found")))))))))
   )
-
 (use-package! org-noter
   :defer t
   :config
@@ -1157,15 +1118,13 @@ If nil it defaults to `split-string-default-separators', normally
         org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
   (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
   )
-
 (use-package! pdf-tools
   :defer t
   :config
   ;; Fixes
   (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
   )
-  (pdf-tools-install)
-
+  (pdf-tools-install t)
 (use-package! plantuml-mode
   :defer t
   :config
@@ -1174,7 +1133,6 @@ If nil it defaults to `split-string-default-separators', normally
   (unless (file-exists-p plantuml-jar-path)
     (plantuml-download-jar))
   )
-
 (use-package! ox
   :defer t
   :config
@@ -1187,37 +1145,6 @@ If nil it defaults to `split-string-default-separators', normally
   (setq org-export-headline-levels 5)
   ;; Keybinds
   )
-
-(defun org-view-output-file (&optional org-file-path)
-  "Visit buffer open on the first output file (if any),
-found, using `org-view-output-file-extensions'."
-  (interactive)
-  (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
-         (dir (file-name-directory org-file-path))
-         (basename (file-name-base org-file-path))
-         (output-file nil))
-    (dolist (ext org-view-output-file-extensions)
-      (unless output-file
-        (when (file-exists-p
-               (concat dir basename "." ext))
-          (setq output-file (concat dir basename "." ext)))))
-    (if output-file
-        (if (member (file-name-extension output-file) org-view-external-file-extensions)
-            (browse-url-xdg-open output-file)
-          (pop-to-buffer (or (find-buffer-visiting output-file)
-                             (find-file-noselect output-file))))
-      (message "No exported file found"))))
-
-(defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
-  "Find output files with these extensions, in order, viewing the first match.")
-(defvar org-view-external-file-extensions '("html")
-  "File formats that should be opened externally.")
-
-(map! :map org-mode-map
-      :localleader
-      :desc "View exported file"
-      "v" #'org-view-output-file)
-
 (use-package! ox-latex
   :defer t
   :config
@@ -1237,13 +1164,10 @@ found, using `org-view-output-file-extensions'."
   ;; Behavior
   (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
   )
-
 (use-package! engrave-faces-latex
   :after ox-latex)
-
 (use-package! engrave-faces-html
   :after ox-html)
-
 (use-package! lsp-clangd
   :defer t
   :config
