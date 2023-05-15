@@ -14,7 +14,8 @@
         ("MDN" "https://developer.mozilla.org/en-US/search?q=%s")
         ("Arch Wiki" "https://wiki.archlinux.org/index.php?search=%s&title=Special%3ASearch&wprov=acrw1")
         ("AUR" "https://aur.archlinux.org/packages?O=0&K=%s")))
-(setq doom-theme 'doom-Iosvkem)
+(setq doom-theme 'doom-vibrant)
+;(setq doom-theme 'doom-Iosvkem)
 ;(setq doom-theme 'doom-dracula
 ;      doom-dracula-brighter-modeline t
 ;      doom-dracula-colorful-headers t)
@@ -32,38 +33,25 @@
         ;;doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light)
         ))
 (setq-default x-stretch-cursor t)
-(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
+;(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (setq display-line-numbers-type 'visual)
 (setq evil-want-fine-undo t)
 (global-subword-mode 1)
-(defun noncog/evil-previous-visual-line (&optional count)
-  "Repeat evil-previous-visual-line COUNT times."
-  (interactive "P")
+(defun noncog/repeat-function-count (fn &optional count)
+  "Repeat given function COUNT times."
   (let ((total (or count 1))
         (counter 0))
     (while (< counter total)
-      (evil-previous-visual-line)
+      (funcall fn)
       (setq counter (+ counter 1)))))
-(defun noncog/evil-next-visual-line (&optional count)
-  "Repeat evil-next-visual-line COUNT times."
-  (interactive "P")
-  (let ((total (or count 1))
-        (counter 0))
-    (while (< counter total)
-      (evil-next-visual-line)
-      (setq counter (+ counter 1)))))
-(define-key evil-normal-state-map "j" 'noncog/evil-next-visual-line)
-(define-key evil-normal-state-map "k" 'noncog/evil-previous-visual-line)
-;; TODO: Add evil-visual-state-map binds.
-;; TODO: Add evil-visual-state-map binds.
-;; (define-key evil-motion-state-map "j" 'noncog/evil-next-visual-line)
-;; (define-key evil-motion-state-map "k" 'noncog/evil-previous-visual-line)
-;; NOTE: Issues arose with Treemacs and visual highlighting I think...
+(advice-add 'evil-previous-visual-line :around #'noncog/repeat-function-count)
+(advice-add 'evil-next-visual-line :around #'noncog/repeat-function-count)
 (setq evil-kill-on-visual-paste nil)
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
 (global-auto-revert-mode 1)
+;(setq-default evil-scroll-count 5)
 (define-minor-mode prot/scroll-center-cursor-mode
   "Toggle centred cursor scrolling behavior"
   :init-value nil
@@ -78,7 +66,6 @@
                      maximum-scroll-margin
                      scroll-margin))
       (kill-local-variable `,local))))
-(setq-default evil-scroll-count 5)
 (defun wm-focus-on-error (direction move-fn)
     (when IS-LINUX
      (condition-case nil (funcall move-fn)
@@ -145,6 +132,8 @@
 (use-package! which-key
   :defer t
   :config
+  ;; Behavior
+  (setq which-key-idle-delay 0.5)
   ;; Fixes
   (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
   (advice-add 'which-key--show-popup :around #'add-which-key-line)
@@ -261,6 +250,7 @@
   (setq yas-triggers-in-field t)
   )
 (setq projectile-project-search-path '("~/Projects"))
+(setq doom-projectile-cache-blacklist '("~" "/tmp" "/" "~/.config/emacs" "/opt/homebrew"))
 (setq projectile-auto-discover nil)
 
 (use-package! projectile
@@ -275,9 +265,7 @@
       :leader
       :desc "List dirty projects"
       "p l" #'projectile-browse-dirty-projects)
-(setq imenu-auto-rescan t)
-;(setq imenu-use-markers nil)
-;(setq treemacs-imenu-scope 'current-project)
+
 
 (use-package! treemacs
   :defer t
