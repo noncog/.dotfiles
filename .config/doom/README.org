@@ -1129,6 +1129,8 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 ;; Appearance
 #+end_src
 
+*** Remove Footer
+
 #+begin_src emacs-lisp :tangle no :noweb-ref pre-doom-dashboard
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
 #+end_src
@@ -1138,6 +1140,10 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-dashboard-config :exports none
 ;; Behavior
 #+end_src
+
+*** Default to =$HOME=
+
+Doom typically sets your Dashboard directory to latest of the recent file list. It's supposed to be convenient for when you accidentally close all buffers but want to resume work on a project. This rarely happens, and the for the rest of the time, this behavior is inconvenient. Let's remove it.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref pre-doom-dashboard
 (setq +doom-dashboard-pwd-policy "~")
