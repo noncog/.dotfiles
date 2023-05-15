@@ -529,6 +529,8 @@ All other sections are dedicated to individul package configuration.
 - [[https://github.com/novoid/dot-emacs/blob/master/config.org][Novoid]]
 - [[https://github.com/ianyepan/.wsl-emacs.d][Ian Y.E. Pan]]
 
+#+html:</details>
+
 ** Variables
 *** TODO Personal Information
 
