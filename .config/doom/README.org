@@ -757,6 +757,14 @@ Whenever you overwrite text in visual mode, prevent adding that text to the kill
 
 This is an area of contention for me. Eventually I would like to overhaul this behavior entirely.
 
+**** Set Scroll Amount
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config
+;(setq-default evil-scroll-count 5)
+#+end_src
+
+**** Center Scroll Mode
+
 #+begin_src emacs-lisp :tangle no :noweb-ref config
 (define-minor-mode prot/scroll-center-cursor-mode
   "Toggle centred cursor scrolling behavior"
@@ -774,11 +782,6 @@ This is an area of contention for me. Eventually I would like to overhaul this b
       (kill-local-variable `,local))))
 #+end_src
 
-**** Set Scroll Amount
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config
-(setq-default evil-scroll-count 5)
-#+end_src
 *** Window Manager Integration
 
 I love tiling window managers. I currently use [[https://i3wm.org][i3]] on Linux and [[https://github.com/koekeishiya/yabai][Yabai]] on macOS. These configs allow me to seamlessly use some of their windowing controls inside of Emacs.
