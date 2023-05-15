@@ -640,8 +640,10 @@ I add transparency to Doom's window to allow my wallpaper to show through it.
 
 On Linux, this effect probably requires a compositor. I use [[https://github.com/yshui/picom][Picom]].
 
+Currently disabled as I find it somewhat distracting with my tiny little brain. 
+
 #+begin_src emacs-lisp :tangle no :noweb-ref config
-(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
+;(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
 #+end_src
 
 **** Start Maximized
