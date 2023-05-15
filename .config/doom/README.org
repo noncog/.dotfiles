@@ -1461,63 +1461,19 @@ I add a keybind to quickly view which projects have uncommitted changes.
 
 *** Enable Follow Mode
 
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-(treemacs-tag-follow-mode 1)
-#+end_src
+Enable Treemacs to sync itself to the releveant file you're in.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-(setq treemacs-tag-follow-cleanup t)
-      ;treemacs-project-follow-cleanup
-      ;;treemacs-workspace-switch-cleanup
-
+(treemacs-follow-mode 1)
 #+end_src
 
-*** Reduce Follow Delay
+*** Fold Projects When Leaving
+
+In workspaces with multiple projects, fold the previous project upon switching to a new one.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-(setq treemacs-file-follow-delay 0.2
-      treemacs-tag-follow-delay 0.4
-      treemacs-file-event-delay 2000)
+(setq treemacs-project-follow-cleanup t)
 #+end_src
-
-*** Recenter After Following
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-;; (setq treemacs-recenter-after-tag-follow 'always
-;;       treemacs-recenter-after-file-follow 'always
-;;       treemacs-recenter-distance 0.9
-;;       treemacs-follow-recenter-distance 0.9)
-#+end_src
-
-*** Testing Fixing Treemacs Issues
-
-https://github.com/Alexander-Miller/treemacs#tag-view
-
-#+begin_src emacs-lisp :tangle no :noweb-ref pre-treemacs
-(setq imenu-auto-rescan t)
-;(setq imenu-use-markers nil)
-;(setq treemacs-imenu-scope 'current-project)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-;; (add-hook 'org-mode-hook
-;;            (lambda ()
-;;               (set (make-local-variable imenu-generic-expression)
-;;                    '((nil "^\\(?:[*\f]+\\).*$" 0)))))
-
-(setq treemacs-project-follow-into-home t)
-#+end_src
-
-Maybe can use:
-(defcustom imenu-after-jump-hook nil
-treemacs-imenu-scope
-treemacs-elisp-imenu-expression
-imenu-generic-expression
-imenu-syntax-alist
-*** Don't Add All New Projects to Each Workspace
-treemacs-expand-added-projects
-treemacs-project-follow-cleanup
-treemacs-project-follow-mode
 
 * Magit
 :PROPERTIES:

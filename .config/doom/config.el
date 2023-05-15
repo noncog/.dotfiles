@@ -282,24 +282,8 @@
   ;; Appearance
   (setq doom-themes-treemacs-theme "doom-colors")
   ;; Behavior
-  (treemacs-tag-follow-mode 1)
-  (setq treemacs-tag-follow-cleanup t)
-        ;treemacs-project-follow-cleanup
-        ;;treemacs-workspace-switch-cleanup
-  
-  (setq treemacs-file-follow-delay 0.2
-        treemacs-tag-follow-delay 0.4
-        treemacs-file-event-delay 2000)
-  ;; (setq treemacs-recenter-after-tag-follow 'always
-  ;;       treemacs-recenter-after-file-follow 'always
-  ;;       treemacs-recenter-distance 0.9
-  ;;       treemacs-follow-recenter-distance 0.9)
-  ;; (add-hook 'org-mode-hook
-  ;;            (lambda ()
-  ;;               (set (make-local-variable imenu-generic-expression)
-  ;;                    '((nil "^\\(?:[*\f]+\\).*$" 0)))))
-  
-  (setq treemacs-project-follow-into-home t)
+  (treemacs-follow-mode 1)
+  (setq treemacs-project-follow-cleanup t)
   )
 ;(setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-topleft-v1)
 (defadvice! my/magit-display-buffer-fullframe-status-topleft-v1 (buffer)
