@@ -1054,6 +1054,7 @@ Doom lacks the ability to move through previously viewed pages in the helpful bu
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes
+<<pre-doom-modeline>>
 (use-package! doom-modeline
   :defer t
   :config
@@ -1068,24 +1069,35 @@ Doom lacks the ability to move through previously viewed pages in the helpful bu
 ;; Appearance
 #+end_src
 
-*** General
+*** Dimensions
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
-(setq doom-modeline-height 35
-      doom-modeline-major-mode-icon (display-graphic-p)
-      doom-modeline-major-mode-color-icon (display-graphic-p)
-      auto-revert-check-vc-info t
-      doom-modeline-vcs-max-length 60
+(setq doom-modeline-height 35)
+#+end_src
+
+*** Major Mode
+
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
+(setq doom-modeline-major-mode-icon (display-graphic-p)
+      doom-modeline-major-mode-color-icon (display-graphic-p))
+#+end_src
+
+
+*** Version Control
+
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
+(setq doom-modeline-vcs-max-length 60
       ;doom-modeline-github t
       ;doom-modeline-github-interval 60
-      ;doom-modeline-buffer-file-name-style 'relative-to-project
+      auto-revert-check-vc-info t)
+#+end_src
+
+*** Persp Mode
+
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
+(setq doom-modeline-persp-name t
       doom-modeline-display-default-persp-name t
-      doom-modeline-persp-name t
-      doom-modeline-persp-icon t
-    ;;   (doom-modeline-def-modeline 'main
-    ;;     '(bar modals workspace-name window-number persp-name buffer-position selection-info buffer-info matches remote-host debug vcs matches)
-    ;; '(github mu4e grip gnus checker misc-info repl lsp " "))
-      )
+      doom-modeline-persp-icon t)
 #+end_src
 
 * Doom Dashboard
