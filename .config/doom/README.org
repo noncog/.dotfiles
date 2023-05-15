@@ -1003,6 +1003,40 @@ I was having an issue using =emacsclient= where which-key was being cut off belo
  which-key-replacement-alist
  '(("" . "\\`treemacs-\\(.*\\)") . (nil . " \\1")))
 #+end_src
+
+* Helpful
+
+#+begin_quote
+[[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes
+(use-package! helpful
+  :defer t
+  :config
+  <<helpful-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config :exports none
+;; Keybinds
+#+end_src
+
+*** Add
+
+Doom lacks the ability to move through previously viewed pages in the helpful buffer. So, we can add them using winner mode. These keybinds fit well with the rest and make sense logically.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(map! :map helpful-mode-map "C-h" #'winner-undo
+      :map helpful-mode-map "C-l" #'winner-redo)
+#+end_src
+
 * Doom Modeline
 :PROPERTIES:
 :VISIBILITY: children

@@ -160,25 +160,28 @@
    which-key-replacement-alist
    '(("" . "\\`treemacs-\\(.*\\)") . (nil . " \\1")))
   )
+(use-package! helpful
+  :defer t
+  :config
+  ;; Keybinds
+  (map! :map helpful-mode-map "C-h" #'winner-undo
+        :map helpful-mode-map "C-l" #'winner-redo)
+  )
+
 (use-package! doom-modeline
   :defer t
   :config
   ;; Appearance
-  (setq doom-modeline-height 35
-        doom-modeline-major-mode-icon (display-graphic-p)
-        doom-modeline-major-mode-color-icon (display-graphic-p)
-        auto-revert-check-vc-info t
-        doom-modeline-vcs-max-length 60
+  (setq doom-modeline-height 35)
+  (setq doom-modeline-major-mode-icon (display-graphic-p)
+        doom-modeline-major-mode-color-icon (display-graphic-p))
+  (setq doom-modeline-vcs-max-length 60
         ;doom-modeline-github t
         ;doom-modeline-github-interval 60
-        ;doom-modeline-buffer-file-name-style 'relative-to-project
+        auto-revert-check-vc-info t)
+  (setq doom-modeline-persp-name t
         doom-modeline-display-default-persp-name t
-        doom-modeline-persp-name t
-        doom-modeline-persp-icon t
-      ;;   (doom-modeline-def-modeline 'main
-      ;;     '(bar modals workspace-name window-number persp-name buffer-position selection-info buffer-info matches remote-host debug vcs matches)
-      ;; '(github mu4e grip gnus checker misc-info repl lsp " "))
-        )
+        doom-modeline-persp-icon t)
   )
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
 (setq +doom-dashboard-pwd-policy "~")
