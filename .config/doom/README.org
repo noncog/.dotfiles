@@ -2980,7 +2980,9 @@ Use the org-roam-ui and xwidget popup window instead.
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes
 (use-package! org-modern
-  :hook (org-mode . org-modern-mode)
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
   :config
   <<org-modern-config>>
   )

@@ -1015,7 +1015,9 @@ If nil it defaults to `split-string-default-separators', normally
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode))
 (use-package! org-modern
-  :hook (org-mode . org-modern-mode)
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
   :config
   ;; Appearance
   (setq org-modern-hide-stars nil              ; Let Org handle hiding the stars.
