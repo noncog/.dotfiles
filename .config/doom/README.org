@@ -1960,6 +1960,13 @@ I use this to center buffers (org-mode) primarily. I get this package by enablin
       org-hidden-keywords nil)               ; Can use to hide certain keywords.
 #+end_src
 
+*** Images
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(setq org-image-actual-width '(0.9)          ; Use an in-buffer width closer to export's
+      org-startup-with-inline-images t)      ; Show images at startup.
+#+end_src
+
 *** LaTeX
 
 **** Previews
@@ -1981,13 +1988,6 @@ Unfortunately, when using =native= highlighting the =org-block= face is used as 
 #+begin_src emacs-lisp :tangle no :noweb-ref post-org
 (require 'org-src)
 (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
-#+end_src
-
-*** Images
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-config
-(setq org-image-actual-width '(0.9)          ; Use an in-buffer width closer to export's
-      org-startup-with-inline-images t)      ; Show images at startup.
 #+end_src
 
 ** Behavior

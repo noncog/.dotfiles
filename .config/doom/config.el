@@ -449,10 +449,10 @@
   (setq org-ellipsis " ▾ "                     ; Use a custom ellipsis for folded headings.
         org-hide-leading-stars t               ; Remove excess heading stars.
         org-hidden-keywords nil)               ; Can use to hide certain keywords.
-  (setq org-startup-with-latex-preview nil)    ; Show rendered LaTeX in the buffers.
-  (setq org-highlight-latex-and-related '(native script entities))
   (setq org-image-actual-width '(0.9)          ; Use an in-buffer width closer to export's
         org-startup-with-inline-images t)      ; Show images at startup.
+  (setq org-startup-with-latex-preview nil)    ; Show rendered LaTeX in the buffers.
+  (setq org-highlight-latex-and-related '(native script entities))
   ;; Behavior
   (setq org-imenu-depth 10                     ; Allow imenu to search deeply in org docs.
         org-use-property-inheritance t         ; Sub-headings inherit parent properties.
