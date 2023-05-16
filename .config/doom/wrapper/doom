@@ -1,24 +1,9 @@
 #!/usr/bin/env bash
 
 if [ "$1" == "sync" ]; then
-    case "$OSTYPE" in
-        linux*)
-            emacsclient -e "(kill-emacs)"
-            "$HOME"/.config/emacs/bin/doom sync $2
-            emacs --daemon
-            ;;
-        darwin*)
-            emacs_service="$(brew services list | grep "^emacs" | awk '{print $1}')"
-            brew services stop "$emacs_service"
-            "$HOME"/.config/emacs/bin/doom sync $2
-            brew services start "$emacs_service"
-            ;;
-        *)
-            echo "OS not supported"
-            ;;
-    esac
+    emacsclient -e "(kill-emacs)"
+    "$HOME"/.config/emacs/bin/doom "$@"
+    emacsclient -c -n --alternate-editor=""
 else
-    "$HOME"/.config/emacs/bin/doom "$1"
+    "$HOME"/.config/emacs/bin/doom "$@"
 fi
-sleep 4
-emacsclient -c &
