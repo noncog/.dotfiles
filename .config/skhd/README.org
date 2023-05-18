@@ -71,6 +71,15 @@ alt - 0x18  [
 ]
 #+end_src
 
+*** Resize Windows
+
+#+begin_src conf :tangle skhdrc
+alt - 0x18  [
+  ,*      : yabai -m space --balance
+  "Emacs" ~
+]
+#+end_src
+
 *** Kill Window
 
 #+begin_src conf :tangle skhdrc
@@ -92,6 +101,7 @@ alt - v  [
   "Emacs" ~
 ]
 #+end_src
+
 ** General Workspaces
 
 #+begin_src conf :tangle skhdrc

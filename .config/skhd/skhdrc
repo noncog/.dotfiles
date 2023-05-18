@@ -32,6 +32,11 @@ alt - 0x18  [
   "Emacs" ~
 ]
 
+alt - 0x18  [
+  *      : yabai -m space --balance
+  "Emacs" ~
+]
+
 shift + alt - q  [
   *      : yabai -m window --close
   "Emacs" ~
