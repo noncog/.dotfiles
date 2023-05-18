@@ -425,7 +425,10 @@
   :custom
   (visual-fill-column-width 120)
   (visual-fill-column-center-text t)
-  :hook (org-mode . visual-fill-column-mode))
+  :hook (org-mode . visual-fill-column-mode)
+  :config
+  (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust)
+  )
 (use-package! org
   :defer t
   :init

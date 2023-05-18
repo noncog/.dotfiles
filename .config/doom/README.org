@@ -1969,7 +1969,10 @@ I use this package to center buffers, you can load it in Doom by enabling the =w
   :custom
   (visual-fill-column-width 120)
   (visual-fill-column-center-text t)
-  :hook (org-mode . visual-fill-column-mode))
+  :hook (org-mode . visual-fill-column-mode)
+  :config
+  (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust)
+  )
 #+end_src
 #+html:</details>
 
