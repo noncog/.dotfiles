@@ -34,8 +34,8 @@ export DOOMDIR="$HOME/.config/doom"
 export EMACSDIR="$HOME/.config/emacs"
 
 # Set Emacs as system editor.
-export EDITOR=emacs
-export VISUAL=emacs
+export EDITOR='emacsclient -c -n --alternate-editor=""'
+export VISUAL='emacsclient -c -n --alternate-editor=""'
 
 # Set terminal.
 export TERMINAL=/usr/bin/kitty

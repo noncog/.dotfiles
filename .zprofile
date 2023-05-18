@@ -14,8 +14,8 @@ export DOOMDIR="$HOME/.config/doom"
 export EMACSDIR="$HOME/.config/emacs"
 
 # Set Emacs as system editor.
-export EDITOR="emacsclient -c -a emacs"
-export VISUAL="emacsclient -c -a emacs"
+export EDITOR='emacsclient -c -n --alternate-editor=""'
+export VISUAL='emacsclient -c -n --alternate-editor=""'
 
 # Add GNU grep to system instead of BSD grep.
 PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"

@@ -1,11 +1,11 @@
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-
 # Enable command completions
 autoload -Uz compinit
 compinit
+#bashcompinit
 
 # Enable 'line editor'/readline keybinds
-bindkey -e # TODO: Fix keys
+bindkey -e # NOTE: Fixed using SKHD on macOS to emulate Linux. (Cmd -> Ctrl, Opt -> Alt)
 
 # Aliases
-alias emacs="emacsclient -c"
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias emacs='emacsclient -c -n --alternate-editor=""'
