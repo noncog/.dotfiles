@@ -1001,7 +1001,7 @@ Enable the use of the default which-key-c-h map to get paging keybinds. =Note=: 
 ;; Fixes
 #+end_src
 
-*** Add Window Height
+*** Ensure Window Height
 
 I was having an issue using =emacsclient= where which-key was being cut off below the modeline. There are two solutions, use whichever works for you:
 
@@ -1023,6 +1023,9 @@ A simple solution is to add spaces below the keybinds. Realistically, this doesn
 #+end_src
 
 *** Shorten Long Function Prefixes
+
+It's possible to reduce the description length for functions shown by which-key. To do so, enable multiple replacements, then add them for each prefix you want to remove.
+
 **** Enable Multiple Replacements
 
 #+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
@@ -1116,7 +1119,7 @@ A simple solution is to add spaces below the keybinds. Realistically, this doesn
 
 *** Increase Max Window Count
 
-Increase the count. I use this to be able to move back and forth between more help windows using the keybinds I set.
+I increase the window count to be able to move back and forth between more help windows using the keybinds that I set.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
 (setq helpful-max-buffers 10)
@@ -1124,7 +1127,7 @@ Increase the count. I use this to be able to move back and forth between more he
 
 *** Show Documentation At Top Line
 
-By default, Doom centers the page you visit after opening it. Often, I can't see the information behind the helpful window, so I remove the old advice and update it.
+By default, Doom centers the page when you visit a source file. Often, I can't see the information behind the helpful window, so I remove the old advice and update it to display at the top of the screen.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
 (advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
@@ -1155,7 +1158,7 @@ By default, Doom centers the page you visit after opening it. Often, I can't see
 
 *** Cycle Through Visited Help Pages
 
-Doom lacks the ability to move through previously viewed pages in the helpful buffer. So, we can add them using winner mode. These keybinds fit well with the rest and make sense logically.
+Doom lacks the ability to move through previously viewed pages in the helpful buffer. So, we can add them using winner mode. These keybinds fit well with the rest and make sense logically. Now, I can move "left" and "right" through history.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
 (map! :map helpful-mode-map "C-h" #'winner-undo
@@ -1258,7 +1261,7 @@ Doom-Dashboard adds a customizable dashboard as the default buffer.
 
 *** Default to =$HOME=
 
-Doom typically sets your Dashboard directory to latest of the recent file list. It's supposed to be convenient for when you accidentally close all buffers but want to resume work on a project. This rarely happens, and the for the rest of the time, this behavior is inconvenient. Let's remove it.
+Doom typically sets your Dashboard's directory to the latest of the recent file list. It's supposed to be convenient, but the use-case it was designed around rarely happens. Let's remove it.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-dashboard-init
 (setq +doom-dashboard-pwd-policy "~")
@@ -1340,7 +1343,7 @@ By default, when using =emacsclient=, Doom creates a new workspace for each clie
 
 *** Sorting Order
 
-I like to use by history first and then alphabetically.
+I like to sort by history first and then alphabetically.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
 (setq vertico-sort-function #'vertico-sort-history-alpha)
@@ -1390,7 +1393,7 @@ Luckily Doom doesn't use these yet and they can just be added.
 
 *** Add Colors and Modify File Marginalia
 
-This adds all of the following:
+This adds the following:
 - Color to indicate file size.
 - Replace recent files' date string with last used time.
 - Colored file attributes.
@@ -1552,7 +1555,7 @@ This adds all of the following:
 
 *** Projects Directory
 
-I use the same convention for project location on each OS I use.
+I use the same convention for project location on each OS that I use.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
 (setq projectile-project-search-path '("~/Projects"))
@@ -1566,7 +1569,7 @@ I use the same convention for project location on each OS I use.
 
 *** Disable Automatic Project Discovery
 
-I've had a long-standing issue where Projectile won't obey my ignored directories, so I disable auto discovery. To update the project list, the project must be in projectile-project-search-path and then you manually run projectile-discover-projects-in-search-path or for projects not in that variable you can run projectile-discover-projects-in-directory.
+I've had a long-standing issue where Projectile won't obey my ignored directories, so I disable auto discovery. To update the project list, the project must be in =projectile-project-search-path= and then you manually run =projectile-discover-projects-in-search-path= or for projects not in that variable you can run =projectile-discover-projects-in-directory=.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
 (setq projectile-auto-discover nil
@@ -1912,26 +1915,6 @@ And finally, the custom standards checker is hooked into Magit's finish commit f
              #'my-git-commit-check-style-conventions)
 #+end_src
 
-*** Testing Fix for Doom User
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-disabled
-;(setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-topleft-v1)
-(defadvice! my/magit-display-buffer-fullframe-status-topleft-v1 (buffer)
-  "Override Doom's default +magit-display-buffer-fn to use built-in behavior."
-  :override #'+magit-display-buffer-fn
-  ;; The following is a direct copy of magit-display-buffer-fullframe-status-topleft-v1
-  (display-buffer
-   buffer
-   (cond ((eq (with-current-buffer buffer major-mode)
-              'magit-status-mode)
-          '(magit--display-buffer-fullframe))
-         ((with-current-buffer buffer
-            (derived-mode-p 'magit-diff-mode 'magit-process-mode))
-          '(magit--display-buffer-topleft))
-         (t
-          '(display-buffer-same-window)))))
-#+end_src
-
 * Vterm
 :PROPERTIES:
 :VISIBILITY: children
@@ -1976,7 +1959,7 @@ I love this keybind, more things should use it. Including vterm... ([[https://gi
 [[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill-Column]] is an Emacs minor mode that enables word wrapping at a column and centering the buffer content.
 #+end_quote
 
-I use this to center buffers (org-mode) primarily. I get this package by enabling the =wordwrap= module.
+I use this package to center buffers, you can load it in Doom by enabling the =wordwrap= module.
 
 ** Package
 
