@@ -3,9 +3,19 @@
 (package! beacon
   :recipe (:host github :repo "Malabarba/beacon")
   :pin "85261a928ae0ec3b41e639f05291ffd6bf7c231c")
-(unpin! org-roam) ; NOTE: org-roam-ui requires latest org-roam.
+;(unpin! org-roam)
+;(package! org-roam
+;  :recipe (:host github :repo "org-roam/org-roam-ui")
+;  :pin "5c06471c3a11348342719fd9011486455adeb701")
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui"))
+(package! vulpea
+  :recipe (:host github :repo "d12frosted/vulpea")
+  :pin "f4d3448b6ccdb314c5fe3defea66e750e1371a10")
+(package! org-edna)
+(package! org-gtd
+  :recipe (:host github :repo "Trevoke/org-gtd.el")
+  :pin "218fba0931cfd666591b09273f9ea8f6a6d8d8f9")
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear")
   :pin "eb9f9db40aa529fe4b977235d86494b115281d17")

@@ -22,9 +22,10 @@
 (when IS-MAC
   (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
         doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
-        doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
-        doom-unicode-font (font-spec :family "JuliaMono")
-        doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light)))
+        ;; doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
+        ;; doom-unicode-font (font-spec :family "JuliaMono")
+        ;; doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light)
+        ))
 (when IS-LINUX
   (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
         doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
@@ -108,8 +109,8 @@
         "s-j" #'wm-window-down
         "s-k" #'wm-window-up
         "s-l" #'wm-window-right
-        ;; add workspace balancing python script.
-        ;; add window splitting.
+        ;; TODO: add workspace balancing python script.
+        ;; TODO: add window splitting.
         "s-Q" #'evil-quit))
 (map! :leader "w h" #'wm-window-left)
 (map! :leader "w j" #'wm-window-down)
@@ -119,7 +120,7 @@
                     mac-control-modifier 'meta   ; Maps Control -> Alt (Meta)
                     mac-option-modifier 'super)) ; Maps Option -> Super
 (use-package! beacon
-  :init
+  :config
   ;; Appearance
   (setq beacon-color "#61bfff")
   (setq beacon-size 40
@@ -128,9 +129,10 @@
   ;; Behavior
   (setq beacon-blink-when-buffer-changes t
         beacon-blink-when-window-scrolls nil
+        beacon-blink-when-point-moves-vertically nil
         beacon-blink-when-focused nil)
+  (beacon-mode 1)
   )
-(beacon-mode 1)
 (use-package! which-key
   :defer t
   :config
@@ -152,6 +154,12 @@
   (pushnew!
    which-key-replacement-alist
    '(("" . "\\`treemacs-\\(.*\\)") . (nil . " \\1")))
+  )
+(use-package! avy
+  :defer t
+  :config
+  ;; Behavior
+  (setq avy-all-windows t)
   )
 (use-package! helpful
   :defer t
@@ -177,7 +185,6 @@
   (map! :map helpful-mode-map "C-h" #'winner-undo
         :map helpful-mode-map "C-l" #'winner-redo)
   )
-
 (use-package! doom-modeline
   :defer t
   :config
@@ -186,23 +193,20 @@
   (setq doom-modeline-major-mode-icon (display-graphic-p)
         doom-modeline-major-mode-color-icon (display-graphic-p))
   (setq doom-modeline-vcs-max-length 60
-        ;doom-modeline-github t
-        ;doom-modeline-github-interval 60
         auto-revert-check-vc-info t)
   (setq doom-modeline-persp-name t
         doom-modeline-display-default-persp-name t
         doom-modeline-persp-icon t)
   )
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
-(setq +doom-dashboard-pwd-policy "~")
-(map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-
 (use-package! doom-dashboard
   :defer t
-  :config
+  :init
   ;; Appearance
+  (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
   ;; Behavior
+  (setq +doom-dashboard-pwd-policy "~")
   ;; Keybinds
+  (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
   )
 (use-package! persp-mode
   :defer t
@@ -270,24 +274,21 @@
   ;; Behavior
   (setq yas-triggers-in-field t)
   )
-(setq projectile-project-search-path '("~/Projects"))
-(setq doom-projectile-cache-blacklist '("~" "/tmp" "/" "~/.config/emacs" "/opt/homebrew"))
-(setq projectile-auto-discover nil)
-
 (use-package! projectile
   :defer t
+  :init
+  ;; Keybinds
+  (map! :map project-prefix-map
+        :leader
+        :desc "List dirty projects"
+        "p l" #'projectile-browse-dirty-projects)
   :config
   ;; Variables
+  (setq projectile-project-search-path '("~/Projects"))
   ;; Behavior
-  ;; Keybinds
+  (setq projectile-auto-discover nil
+        projectile-track-known-projects-automatically nil)
   )
-
-(map! :map project-prefix-map
-      :leader
-      :desc "List dirty projects"
-      "p l" #'projectile-browse-dirty-projects)
-
-
 (use-package! treemacs
   :defer t
   :config
@@ -297,22 +298,6 @@
   (treemacs-follow-mode 1)
   (setq treemacs-project-follow-cleanup t)
   )
-;(setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-topleft-v1)
-(defadvice! my/magit-display-buffer-fullframe-status-topleft-v1 (buffer)
-  "Override Doom's default +magit-display-buffer-fn to use built-in behavior."
-  :override #'+magit-display-buffer-fn
-  ;; The following is a direct copy of magit-display-buffer-fullframe-status-topleft-v1
-  (display-buffer
-   buffer
-   (cond ((eq (with-current-buffer buffer major-mode)
-              'magit-status-mode)
-          '(magit--display-buffer-fullframe))
-         ((with-current-buffer buffer
-            (derived-mode-p 'magit-diff-mode 'magit-process-mode))
-          '(magit--display-buffer-topleft))
-         (t
-          '(display-buffer-same-window)))))
-
 (use-package! magit
   :defer t
   :config
@@ -408,22 +393,24 @@
              (or (not (memq 'summary-title-not-end-in-punctuation my-git-commit-style-convention-checks))
                 (not (string-match-p "[\\.!\\?;,:]$" commit-title))
                 (y-or-n-p "Commit title ends with punctuation. Commit anyway?"))))))
-  (setq commit-types-file "~/.config/git/commit/commit-types")
+  (defvar commit-types-file "~/.config/git/commit/commit-types"
+    "A list of commit types to be checked by: TODO: link functions.")
   (defun get-commit-types ()
     "Return a list of commit types."
     (let ((file-path commit-types-file))
       (with-temp-buffer
         (insert-file-contents file-path)
         (split-string (buffer-string) "\n" t))))
-  (setq imperative-verbs-file "~/.config/git/commit/imperative-verbs")
+  (defvar imperative-verbs-file "~/.config/git/commit/imperative-verbs"
+    "A list of imperative verbs used in git commits to be checked by: TODO: link functions.")
   (defun get-imperative-verbs ()
     "Return a list of imperative verbs."
     (let ((file-path imperative-verbs-file))
       (with-temp-buffer
         (insert-file-contents file-path)
         (split-string (buffer-string) "\n" t))))
-  (setq git-commit-summary-max-length 50)                  ; Maximum title (summary) length.
-  (setq git-commit-fill-column 72)                         ; Description column limit.
+  (setq git-commit-summary-max-length 50) ; Maximum title (summary) length.
+  (setq git-commit-fill-column 72)        ; Description column limit.
   (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
   (add-to-list 'git-commit-finish-query-functions
                #'my-git-commit-check-style-conventions)
@@ -439,24 +426,25 @@
   (visual-fill-column-width 120)
   (visual-fill-column-center-text t)
   :hook (org-mode . visual-fill-column-mode))
-(setq org-directory "~/Projects/brain/")
-
 (use-package! org
   :defer t
-  ;:hook
-  :config
+  :init
   ;; Variables
+  (setq org-directory "~/Documents/org/")
+  :config
   (setq org-todo-keywords
         '((sequence
            "TODO(t!)"     ; Task that needs doing & is ready to do.
            "NEXT(N!)"     ; Task that needs doing & is ready to do.
            "WAIT(w@/!)"   ; Something is holding this up.
+           "|"
+           "DONE(d!)"     ; Task successfully completed.
+           "KILL(k@/!)")  ; Task cancelled or not applicable.
+          (type
            "NOTE(n!)"     ; A fleeting note, in person, idea, or link.
            "LINK(l!)"     ; A link I want to note.
            "APPT(a!)"     ; An appointment.
-           "|"
-           "DONE(d!)"     ; Task successfully completed.
-           "KILL(k@/!)")) ; Task cancelled or not applicable.
+           "|"))
         org-todo-keyword-faces
         '(("PROJ" . +org-todo-project)
           ("NEXT" . +org-todo-active)
@@ -474,6 +462,8 @@
         org-startup-with-inline-images t)      ; Show images at startup.
   (setq org-startup-with-latex-preview nil)    ; Show rendered LaTeX in the buffers.
   (setq org-highlight-latex-and-related '(native script entities))
+  (require 'org-src)
+  (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
   ;; Behavior
   (setq org-imenu-depth 10                     ; Allow imenu to search deeply in org docs.
         org-use-property-inheritance t         ; Sub-headings inherit parent properties.
@@ -486,44 +476,19 @@
   (setq org-return-follows-link t)             ; Pressing enter opens links.
   (add-to-list 'org-modules 'org-habit t)      ; Enable repeated task tracking/graphing!
   (setq evil-collection-calendar-want-org-bindings t)
-  ;; Fixes
-  (setq org-fold-core-style 'overlays)         ; Bugfix: Hide IDs in org-roam backlinks.
-  (defun org-view-output-file (&optional org-file-path)
-    "Visit buffer open on the first output file (if any),
-  found, using `org-view-output-file-extensions'."
-    (interactive)
-    (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
-           (dir (file-name-directory org-file-path))
-           (basename (file-name-base org-file-path))
-           (output-file nil))
-      (dolist (ext org-view-output-file-extensions)
-        (unless output-file
-          (when (file-exists-p
-                 (concat dir basename "." ext))
-            (setq output-file (concat dir basename "." ext)))))
-      (if output-file
-          (if (member (file-name-extension output-file) org-view-external-file-extensions)
-              (browse-url-xdg-open output-file)
-            (pop-to-buffer (or (find-buffer-visiting output-file)
-                               (find-file-noselect output-file))))
-        (message "No exported file found"))))
-  
-  (defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
-    "Find output files with these extensions, in order, viewing the first match.")
-  (defvar org-view-external-file-extensions '("html")
-    "File formats that should be opened externally.")
-  (map! :map org-mode-map
-        :localleader
-        :desc "View exported file"
-        "v" #'org-view-output-file)
+  (add-to-list 'org-tags-exclude-from-inheritance "agenda")
   )
-
-(require 'org-src)
-(add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
-(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
-
 (use-package! org-agenda
   :defer t
+  :init
+  (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
+  ;; Keybinds
+  (defun noncog/my-agenda ()
+    "My custom agenda launcher."
+    (interactive)
+    (org-agenda nil "o"))
+  (map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
+  ;; Helpers
   :config
   ;; Appearance
   (setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
@@ -538,6 +503,42 @@
   (custom-set-faces!
     '(org-agenda-structure
       :height 1.3 :weight bold))
+  (defun noncog/agenda-remove-empty ()
+    "A simple function to remove empty agenda sections. Scans for blank lines.
+  Blank sections defined by having two consecutive blank lines.
+  Not compatible with the block separator."
+    (interactive)
+    (setq buffer-read-only nil)
+    ;; initializes variables and scans first line.
+    (goto-char (point-min))
+    (let* ((agenda-blank-line "[[:blank:]]*$")
+           (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
+           (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
+           (start-pos (point)))
+      ;; step until the end of the buffer
+      (while (not (eobp))
+        (forward-line 1)
+         (cond
+          ;; delete region if previously found two blank lines
+          ((when (> content-blank-line-count 1)
+            (delete-region start-pos (point))
+            (setq content-blank-line-count 0)
+            (setq start-pos (point))))
+          ;; if found a non-blank line
+          ((not (looking-at-p agenda-blank-line))
+           (setq content-line-count (1+ content-line-count))
+           (setq start-pos (point))
+           (setq content-blank-line-count 0))
+          ;; if found a blank line
+          ((looking-at-p agenda-blank-line)
+           (setq content-blank-line-count (1+ content-blank-line-count)))))
+      ;; final blank line check at end of file
+      (when (> content-blank-line-count 1)
+        (delete-region start-pos (point))
+        (setq content-blank-line-count 0)))
+    ;; return to top and finish
+    (goto-char (point-min))
+    (setq buffer-read-only t))
   (setq noncog/agenda-width 70)
   (setq org-agenda-tags-column (+ 10 (* -1 noncog/agenda-width)))
   (setq org-agenda-custom-commands
@@ -667,225 +668,32 @@
   (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit 'current)
   ;; Behavior
   (setq org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
+  (defun noncog/skip-tag (tag)
+    "Skip trees with this tag."
+    (let* ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
+           (current-headline (or (and (org-at-heading-p) (point))
+                                 (save-excursion (org-back-to-heading)))))
+      (if (member tag (org-get-tags current-headline))
+          next-headline nil)))
+  (defun noncog/skip-all-but-this-tag (tag)
+    "Skip trees that are not this tag."
+    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (if (re-search-forward (concat ":" tag ":") subtree-end t)
+          nil          ; tag found, do not skip
+        subtree-end))) ; tag not found, continue after end of subtree
   )
-
-(defun noncog/agenda-remove-empty ()
-  "A simple function to remove empty agenda sections. Scans for blank lines.
-Blank sections defined by having two consecutive blank lines.
-Not compatible with the block separator."
-  (interactive)
-  (setq buffer-read-only nil)
-  ;; initializes variables and scans first line.
-  (goto-char (point-min))
-  (let* ((agenda-blank-line "[[:blank:]]*$")
-         (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
-         (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
-         (start-pos (point)))
-    ;; step until the end of the buffer
-    (while (not (eobp))
-      (forward-line 1)
-       (cond
-        ;; delete region if previously found two blank lines
-        ((when (> content-blank-line-count 1)
-          (delete-region start-pos (point))
-          (setq content-blank-line-count 0)
-          (setq start-pos (point))))
-        ;; if found a non-blank line
-        ((not (looking-at-p agenda-blank-line))
-         (setq content-line-count (1+ content-line-count))
-         (setq start-pos (point))
-         (setq content-blank-line-count 0))
-        ;; if found a blank line
-        ((looking-at-p agenda-blank-line)
-         (setq content-blank-line-count (1+ content-blank-line-count)))))
-    ;; final blank line check at end of file
-    (when (> content-blank-line-count 1)
-      (delete-region start-pos (point))
-      (setq content-blank-line-count 0)))
-  ;; return to top and finish
-  (goto-char (point-min))
-  (setq buffer-read-only t))
-(add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
-(after! (org-agenda org-roam)
-  (defun vulpea-task-p ()
-    "Return non-nil if current buffer has any todo entry.
-
-TODO entries marked as done are ignored, meaning the this
-function returns nil if current buffer contains only completed
-tasks."
-    (seq-find                                 ; (3)
-     (lambda (type)
-       (eq type 'todo))
-     (org-element-map                         ; (2)
-         (org-element-parse-buffer 'headline) ; (1)
-         'headline
-       (lambda (h)
-         (org-element-property :todo-type h)))))
-
-  (defun vulpea-task-update-tag ()
-    "Update task tag in the current buffer."
-    (when (and (not (active-minibuffer-window))
-               (vulpea-buffer-p))
-      (save-excursion
-        (goto-char (point-min))
-        (let* ((tags (vulpea-buffer-tags-get))
-               (original-tags tags))
-          (if (vulpea-task-p)
-              (setq tags (cons "task" tags))
-            (setq tags (remove "task" tags)))
-
-          ;; cleanup duplicates
-          (setq tags (seq-uniq tags))
-
-          ;; update tags if changed
-          (when (or (seq-difference tags original-tags)
-                    (seq-difference original-tags tags))
-            (apply #'vulpea-buffer-tags-set tags))))))
-
-  (defun vulpea-buffer-p ()
-    "Return non-nil if the currently visited buffer is a note."
-    (and buffer-file-name
-         (string-prefix-p
-          (expand-file-name (file-name-as-directory org-roam-directory))
-          (file-name-directory buffer-file-name))))
-
-  (defun vulpea-task-files ()
-    "Return a list of note files containing 'task' tag." ;
-    (seq-uniq
-     (seq-map
-      #'car
-      (org-roam-db-query
-       [:select [nodes:file]
-        :from tags
-        :left-join nodes
-        :on (= tags:node-id nodes:id)
-        :where (or (like tag (quote "%\"task\"%"))
-                   (like tag (quote "%\"schedule\"%")))]))))
-
-  (defun vulpea-agenda-files-update (&rest _)
-    "Update the value of `org-agenda-files'."
-    (setq org-agenda-files (vulpea-task-files)))
-
-  (add-hook 'find-file-hook #'vulpea-task-update-tag)
-  (add-hook 'before-save-hook #'vulpea-task-update-tag)
-
-  (advice-add 'org-agenda :before #'vulpea-agenda-files-update)
-  (advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
-
-  ;; functions borrowed from `vulpea' library
-  ;; https://github.com/d12frosted/vulpea/blob/6a735c34f1f64e1f70da77989e9ce8da7864e5ff/vulpea-buffer.el
-
-  (defun vulpea-buffer-tags-get ()
-    "Return filetags value in current buffer."
-    (vulpea-buffer-prop-get-list "filetags" "[ :]"))
-
-  (defun vulpea-buffer-tags-set (&rest tags)
-    "Set TAGS in current buffer.
-
-If filetags value is already set, replace it."
-    (if tags
-        (vulpea-buffer-prop-set
-         "filetags" (concat ":" (string-join tags ":") ":"))
-      (vulpea-buffer-prop-remove "filetags")))
-
-  (defun vulpea-buffer-tags-add (tag)
-    "Add a TAG to filetags in current buffer."
-    (let* ((tags (vulpea-buffer-tags-get))
-           (tags (append tags (list tag))))
-      (apply #'vulpea-buffer-tags-set tags)))
-
-  (defun vulpea-buffer-tags-remove (tag)
-    "Remove a TAG from filetags in current buffer."
-    (let* ((tags (vulpea-buffer-tags-get))
-           (tags (delete tag tags)))
-      (apply #'vulpea-buffer-tags-set tags)))
-
-  (defun vulpea-buffer-prop-set (name value)
-    "Set a file property called NAME to VALUE in buffer file.
-If the property is already set, replace its value."
-    (setq name (downcase name))
-    (org-with-point-at 1
-      (let ((case-fold-search t))
-        (if (re-search-forward (concat "^#\\+" name ":\\(.*\\)")
-                               (point-max) t)
-            (replace-match (concat "#+" name ": " value) 'fixedcase)
-          (while (and (not (eobp))
-                      (looking-at "^[#:]"))
-            (if (save-excursion (end-of-line) (eobp))
-                (progn
-                  (end-of-line)
-                  (insert "\n"))
-              (forward-line)
-              (beginning-of-line)))
-          (insert "#+" name ": " value "\n")))))
-
-  (defun vulpea-buffer-prop-set-list (name values &optional separators)
-    "Set a file property called NAME to VALUES in current buffer.
-VALUES are quoted and combined into single string using
-`combine-and-quote-strings'.
-If SEPARATORS is non-nil, it should be a regular expression
-matching text that separates, but is not part of, the substrings.
-If nil it defaults to `split-string-default-separators', normally
-\"[ \f\t\n\r\v]+\", and OMIT-NULLS is forced to t.
-If the property is already set, replace its value."
-    (vulpea-buffer-prop-set
-     name (combine-and-quote-strings values separators)))
-
-  (defun vulpea-buffer-prop-get (name)
-    "Get a buffer property called NAME as a string."
-    (org-with-point-at 1
-      (when (re-search-forward (concat "^#\\+" name ": \\(.*\\)")
-                               (point-max) t)
-        (buffer-substring-no-properties
-         (match-beginning 1)
-         (match-end 1)))))
-
-  (defun vulpea-buffer-prop-get-list (name &optional separators)
-    "Get a buffer property NAME as a list using SEPARATORS.
-If SEPARATORS is non-nil, it should be a regular expression
-matching text that separates, but is not part of, the substrings.
-If nil it defaults to `split-string-default-separators', normally
-\"[ \f\t\n\r\v]+\", and OMIT-NULLS is forced to t."
-    (let ((value (vulpea-buffer-prop-get name)))
-      (when (and value (not (string-empty-p value)))
-        (split-string-and-unquote value separators))))
-
-  (defun vulpea-buffer-prop-remove (name)
-    "Remove a buffer property called NAME."
-    (org-with-point-at 1
-      (when (re-search-forward (concat "\\(^#\\+" name ":.*\n?\\)")
-                               (point-max) t)
-        (replace-match ""))))
-  )
-;; Keybinds
-(defun noncog/my-agenda ()
-  "My custom agenda launcher."
-  (interactive)
-  (org-agenda nil "o"))
-;; Helpers
-(defun noncog/skip-tag (tag)
-  "Skip trees with this tag."
-  (let* ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
-         (current-headline (or (and (org-at-heading-p) (point))
-                               (save-excursion (org-back-to-heading)))))
-    (if (member tag (org-get-tags current-headline))
-        next-headline nil)))
-(defun noncog/skip-all-but-this-tag (tag)
-  "Skip trees that are not this tag."
-  (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-    (if (re-search-forward (concat ":" tag ":") subtree-end t)
-        nil          ; tag found, do not skip
-      subtree-end))) ; tag not found, continue after end of subtree
 (use-package! org-capture
   :defer t
+  :init
+  (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
   :config
   ;; Variables
   (setq org-capture-templates
         `(("i" "Inbox" entry
-           (file+headline "inbox.org" "Inbox")
+           (file "inbox.org")
            "* %?\n%i\n" :prepend t)
           ("l" "Link" entry
-           (file+headline "inbox.org" "Inbox")
+           (file "inbox.org")
            "* LINK %?\n%i\n" :prepend t)))
   ;; Behavior
   (setq org-capture-bookmark nil)
@@ -904,17 +712,19 @@ If nil it defaults to `split-string-default-separators', normally
         (org-capture-mode +1))))
   (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
   )
-(setq org-roam-directory (file-truename "~/Projects/brain"))
-(setq org-roam-db-location (file-truename "~/Projects/brain/brain.db"))
-(setq org-attach-id-dir (file-truename "~/Projects/brain/.attachments"))
-;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
-
 (use-package! org-roam
   :defer t
-  :config
+  :if (file-exists-p "~/Documents/org") ; Only load if the directory exists.
+  :init
   ;; Variables
+  (setq org-roam-directory org-directory)
+  (setq org-roam-db-location (file-truename "~/Documents/org/org.db"))
+  (setq org-attach-id-dir (file-truename "~/Documents/org/.attachments"))
+  ;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
+  :config
+  ;; Appearance
+  ;(setq org-roam-node-display-template)
   ;; Behavior
-  ;(setq +org-roam-auto-backlinks-buffer t)
   (setq org-roam-capture-templates
         '(("n" "node" plain
            "%?"
@@ -935,13 +745,12 @@ If nil it defaults to `split-string-default-separators', normally
   )
 (use-package! websocket
     :after org-roam)
-(map! :leader "n r g" #'org-roam-ui-open)
-
 (use-package! org-roam-ui
   :after org-roam
   :hook (org-roam . org-roam-ui-mode)
   :init
-  
+  ;; Keybinds
+  (map! :leader "n r g" #'org-roam-ui-open)
   :config
   ;; Appearance
   (setq org-roam-ui-sync-theme t)
@@ -980,8 +789,109 @@ If nil it defaults to `split-string-default-separators', normally
     :after #'org-roam-ui-open
     (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme)))))))
     )
-  ;; Keybinds
   )
+(use-package! vulpea
+  :after org-roam
+  :config
+  ;; Helpers
+  (defun vulpea-agenda-file-p ()
+    "Return non-nil if current buffer has todo keywords or scheduled items.
+  TODO entries marked as done are ignored, meaning the this
+  function returns nil if current buffer contains only completed
+  tasks. The only exception is headings tagged as REFILE."
+    (org-element-map
+        (org-element-parse-buffer 'headline)
+        'headline
+      (lambda (h)
+        (let ((todo-type (org-element-property :todo-type h)))
+          (or
+           ;; any headline with some todo keyword
+           (eq 'todo todo-type)
+           ;; any headline with REFILE tag (no inheritance)
+           (seq-contains-p (org-element-property :tags h) "REFILE")
+           ;; any non-todo headline with an active timestamp
+           (and
+            (not (eq 'done todo-type))
+            (org-element-property :contents-begin h)
+            (save-excursion
+              (goto-char (org-element-property :contents-begin h))
+              (let ((end (save-excursion
+                           ;; we must look for active timestamps only
+                           ;; before then next heading, even if it's
+                           ;; child, but org-element-property
+                           ;; :contents-end includes all children
+                           (or
+                            (re-search-forward org-element-headline-re
+                                               (org-element-property :contents-end h)
+                                               ':noerror)
+                            (org-element-property :contents-end h)))))
+                (re-search-forward org-ts-regexp end 'noerror)))))))
+      nil 'first-match))
+  (defun vulpea-ensure-filetag ()
+    "Add missing FILETAGS to the current node."
+    (let* ((tags (vulpea-buffer-tags-get))
+                 (original-tags tags))
+      ;; TODO: Add other tag processing capabilities.
+      ;; process agenda tags
+      (if (vulpea-agenda-file-p)
+          (setq tags (cons "agenda" tags))
+        (setq tags (remove "agenda" tags)))
+      ;; cleanup duplicates
+      (setq tags (seq-uniq tags))
+      ;; update tags if changed
+      (when (or (seq-difference tags original-tags)
+                (seq-difference original-tags tags))
+        (apply #'vulpea-buffer-tags-set (seq-uniq tags)))))
+  (defun vulpea-pre-save-hook ()
+    "Update 'org-agenda-files' when org-roam file is saved."
+    (when (and (not (active-minibuffer-window))
+               (org-roam-buffer-p))
+      (vulpea-ensure-filetag)))
+  (add-hook 'before-save-hook #'vulpea-pre-save-hook)
+  (defun vulpea-agenda-files ()
+    "Return a list of node files containing the 'agenda' tag." ;
+    ;; TODO Switch to vulpea-db-query
+    (seq-uniq
+     (seq-map
+      #'car
+      (org-roam-db-query
+       [:select [nodes:file]
+        :from tags
+        :left-join nodes
+        :on (= tags:node-id nodes:id)
+        :where (or (like tag (quote "%\"agenda\"%"))
+                   (like tag (quote "%\"agenda\"%")))])))) ;; TODO: Remove double agenda add other tags.
+  (defun vulpea-agenda-files-update (&rest _)
+    "A hook function to update the value of `org-agenda-files'."
+    (setq org-agenda-files (vulpea-agenda-files)))
+  (advice-add 'org-agenda :before #'vulpea-agenda-files-update)
+  (advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
+  )
+(use-package! org-gtd
+  ;:defer t
+  :after org
+  :init
+  (setq org-gtd-update-ack "3.0.0")
+  :custom
+  (org-gtd-directory "~/Documents/org/")
+  (org-edna-use-inheritance t)
+  (org-gtd-organize-hooks '(org-gtd-set-area-of-focus org-set-tags-command))
+  :config
+  ;; Variables
+  ;(setq org-gtd-default-file-name "~/Documents/org/nodes")
+  ;; Behavior
+  (org-edna-mode)
+  ;; Keybinds
+  (map! :leader
+        :prefix ("n g" . "org-gtd")
+        :desc "Capture"        "c"  #'org-gtd-capture
+        :desc "Engage"         "e"  #'org-gtd-engage
+        :desc "Process inbox"  "p"  #'org-gtd-process-inbox
+        :desc "Show all next"  "n"  #'org-gtd-show-all-next
+        :desc "Stuck projects" "s"  #'org-gtd-show-stuck-projects)
+  (map! :map org-gtd-process-map
+        :desc "Choose" "C-c c" #'org-gtd-choose)
+)
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
   :config
@@ -1095,6 +1005,9 @@ If nil it defaults to `split-string-default-separators', normally
   )
 (use-package! org-noter
   :defer t
+  :init
+  ;; Variables
+  (setq org-noter-notes-search-path (file-truename "~/Documents/org/references"))
   :config
   ;; Behavior
   (setq org-noter-always-create-frame nil        ; Don't create a new frame for the session.
@@ -1104,10 +1017,11 @@ If nil it defaults to `split-string-default-separators', normally
 (use-package! pdf-tools
   :defer t
   :config
+  ;; Behavior
+  (pdf-tools-install t)
   ;; Fixes
   (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
   )
-  (pdf-tools-install t)
 (use-package! plantuml-mode
   :defer t
   :config
@@ -1118,6 +1032,35 @@ If nil it defaults to `split-string-default-separators', normally
   )
 (use-package! ox
   :defer t
+  :init
+  ;; Keybinds
+  (defun org-view-output-file (&optional org-file-path)
+    "Visit buffer open on the first output file (if any),
+  found, using `org-view-output-file-extensions'."
+    (interactive)
+    (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
+           (dir (file-name-directory org-file-path))
+           (basename (file-name-base org-file-path))
+           (output-file nil))
+      (dolist (ext org-view-output-file-extensions)
+        (unless output-file
+          (when (file-exists-p
+                 (concat dir basename "." ext))
+            (setq output-file (concat dir basename "." ext)))))
+      (if output-file
+          (if (member (file-name-extension output-file) org-view-external-file-extensions)
+              (browse-url-xdg-open output-file)
+            (pop-to-buffer (or (find-buffer-visiting output-file)
+                               (find-file-noselect output-file))))
+        (message "No exported file found"))))
+  (defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
+    "Find output files with these extensions, in order, viewing the first match.")
+  (defvar org-view-external-file-extensions '("html")
+    "File formats that should be opened externally.")
+  (map! :map org-mode-map
+        :localleader
+        :desc "View exported file"
+        "v" #'org-view-output-file)
   :config
   ;; Appearance
   (setq org-export-with-creator t
@@ -1126,7 +1069,6 @@ If nil it defaults to `split-string-default-separators', normally
   (require 'ox-extra)
   (ox-extras-activate '(ignore-headlines))
   (setq org-export-headline-levels 5)
-  ;; Keybinds
   )
 (use-package! ox-latex
   :defer t
