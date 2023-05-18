@@ -26,7 +26,7 @@ yabai -m config window_shadow off
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Open Cycle Time$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
-yabai -m rule --add app="^Barrier$" manage=off sticky=on
+yabai -m rule --add app="^Barrier$" manage=off
 
 yabai -m rule --add app="^Emacs$" space=^1
 yabai -m rule --add app="^LibreWolf$" space=^2

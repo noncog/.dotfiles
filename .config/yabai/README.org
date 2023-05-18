@@ -4,6 +4,7 @@
 #+startup: show2levels hideblocks
 
 #+html:<div align="center">
+
 * Yabai
 
 #+begin_html
@@ -129,7 +130,7 @@ These apps won't be tiled.
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Open Cycle Time$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
-yabai -m rule --add app="^Barrier$" manage=off sticky=on
+yabai -m rule --add app="^Barrier$" manage=off
 #+end_src
 
 *** Assign Apps to Spaces
@@ -157,7 +158,6 @@ yabai -m rule --add app="^Discord" space=^9
 #+end_src
 
 ** Signals
-
 *** Quit Programs When Last Window Destroyed
 
 This type of signal can be used to automatically detect when a program no longer has windows and should be quit. This is a "feature" of macOS that I have always disliked. Let's fix it.
