@@ -136,9 +136,11 @@
   :config
   ;; Behavior
   (setq which-key-idle-delay 0.5)
+  ;(setq which-key-use-C-h-commands t)
   ;; Fixes
-  (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
-  (advice-add 'which-key--show-popup :around #'add-which-key-line)
+  (setq which-key-allow-imprecise-window-fit nil)
+  ;; (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
+  ;; (advice-add 'which-key--show-popup :around #'add-which-key-line)
   (setq which-key-allow-multiple-replacements t)
   (pushnew!
    which-key-replacement-alist
