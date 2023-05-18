@@ -156,6 +156,23 @@
 (use-package! helpful
   :defer t
   :config
+  ;; Behavior
+  (setq helpful-max-buffers 10)
+  (advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
+  (defadvice! my/+popup--helpful-open-in-origin-window-a (button)
+    "Open links in non-popup, originating window rather than helpful's window."
+    :override #'helpful--navigate
+    (let ((path (substring-no-properties (button-get button 'path)))
+          enable-local-variables
+          origin)
+      (save-popups!
+       (find-file path)
+       (when-let (pos (get-text-property button 'position
+                                         (marker-buffer button)))
+         (goto-char pos))
+       (setq origin (selected-window))
+       (recenter 0)) ; Added argument 0 to cause recenter to top of screen.
+      (select-window origin)))
   ;; Keybinds
   (map! :map helpful-mode-map "C-h" #'winner-undo
         :map helpful-mode-map "C-l" #'winner-redo)

@@ -1055,6 +1055,45 @@ A simple solution is to add spaces below the keybinds. Realistically, this doesn
 #+end_src
 #+html:</details>
 
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+;; Behavior
+#+end_src
+
+*** Increase Max Window Count
+
+Increase the count. I use this to be able to move back and forth between more help windows using the keybinds I set.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(setq helpful-max-buffers 10)
+#+end_src
+
+*** Show Documentation At Top Line
+
+By default, Doom centers the page you visit after opening it. Often, I can't see the information behind the helpful window, so I remove the old advice and update it.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(defadvice! my/+popup--helpful-open-in-origin-window-a (button)
+  "Open links in non-popup, originating window rather than helpful's window."
+  :override #'helpful--navigate
+  (let ((path (substring-no-properties (button-get button 'path)))
+        enable-local-variables
+        origin)
+    (save-popups!
+     (find-file path)
+     (when-let (pos (get-text-property button 'position
+                                       (marker-buffer button)))
+       (goto-char pos))
+     (setq origin (selected-window))
+     (recenter 0)) ; Added argument 0 to cause recenter to top of screen.
+    (select-window origin)))
+#+end_src
+
 ** Keybinds
 
 #+begin_src emacs-lisp :tangle no :noweb-ref helpful-config :exports none
