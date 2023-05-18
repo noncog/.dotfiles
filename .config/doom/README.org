@@ -23,7 +23,7 @@
 :PROPERTIES:
 #+html:<details><summary>Table of Contents</summary>
 #+BEGIN_QUOTE
-- [[#doom][Doom]]
+  - [[#doom][Doom]]
   - [[#doom-configs][Doom Configs]]
   - [[#variables][Variables]]
   - [[#appearance][Appearance]]
@@ -164,7 +164,7 @@
 #+END_QUOTE
 #+html:</details>
 
-* Doom
+** Doom
 :PROPERTIES:
 :VISIBILITY: children
 :END:
