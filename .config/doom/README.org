@@ -105,6 +105,7 @@
   - [[#fixes-2][Fixes]]
 - [[#org-roam][Org Roam]]
   - [[#package-19][Package]]
+  - [[#resources-1][Resources]]
   - [[#variables-4][Variables]]
   - [[#appearance-8][Appearance]]
   - [[#behavior-15][Behavior]]
@@ -167,7 +168,7 @@
 :PROPERTIES:
 :VISIBILITY: children
 :END:
-
+Place-holder text.
 #+begin_quote
 [[https://github.com/doomemacs/doomemacs][Doom]] is a configuration framework for GNU Emacs tailored for Emacs bankruptcy veterans who want less framework in their frameworks, a modicum of stability (and reproducibility) from their package manager, and the performance of a hand rolled config (or better). It can be a foundation for your own config or a resource for Emacs enthusiasts to learn more about our favorite operating system.
 #+end_quote
@@ -208,6 +209,7 @@ Some settings (very few) need to be loaded before Doom's modules. They're tangle
 
        :completion
        (company)           ; the ultimate code completion backend
+        ;+childframe)       ; display completions in a childframe...
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
@@ -2583,7 +2585,9 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
   )
 #+end_src
 #+html:</details>
-
+** Resources
+- [[https://www.orgroam.com/manual.html][Org-roam User Manual]]
+- [[https://org-roam.discourse.group][Org-roam Discourse]]
 ** Variables
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init :exports none
