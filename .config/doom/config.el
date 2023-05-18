@@ -35,7 +35,9 @@
 (setq-default x-stretch-cursor t)
 ;(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+(setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines))
 (setq display-line-numbers-type 'visual)
+(setq display-line-numbers-grow-only t)
 (setq evil-want-fine-undo t)
 (global-subword-mode 1)
 (defun noncog/repeat-function-count (fn &optional count)

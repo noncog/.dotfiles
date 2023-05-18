@@ -660,12 +660,24 @@ Currently disabled as I find it somewhat distracting with my tiny little brain.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+end_src
 
+**** Prevent Frame Resizing Due to Font/Face Changes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config
+(setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines))
+#+end_src
+
 *** Line Numbers
 
 I use relative visual line numbers to move around.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
 (setq display-line-numbers-type 'visual)
+#+end_src
+
+Prevent shifting the buffer content whenever the line number count increases in column width.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config
+(setq display-line-numbers-grow-only t)
 #+end_src
 
 ** Behavior
