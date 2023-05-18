@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: doom package source
+# key: doom_package_source
+# uuid: doom_package_source
+# expand-env: ((yas-indent-line 'fixed))
+# --
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages
+(package! $1)
+#+end_src
+#+html:</details>
+$0

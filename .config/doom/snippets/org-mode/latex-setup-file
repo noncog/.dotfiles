@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: latex setup file
-# uuid: setupfile
-# key:  setupfile
+# name: org latex setup file
+# uuid: org_latex_setup_file
+# key:  org_latex_setup_file
 # --
 #+setupfile: ~/Projects/exocortex/nodes/latex/org_latex_setup_file.org

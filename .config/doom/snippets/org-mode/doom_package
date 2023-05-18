@@ -1,0 +1,25 @@
+# -*- mode: snippet -*-
+# key: doom_package
+# name: doom package
+# expand-env: ((yas-indent-line 'fixed))
+# --
+* ${1:name}
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+$1
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes
+(use-package! $1
+  :config
+  <<$1-config>>
+  )
+#+end_src
+#+html:</details>
+$0
