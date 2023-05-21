@@ -1,128 +1,39 @@
-#+property: header-args :tangle config
-
-#+html:<h1 align="center">i3 Config ... With Gaps!</h1>
-
-#+html:<p align="center"><a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a></p>
-
-#+html:<p align="center"><code><a href="https://i3wm.org/">i3</a></code> is an open source tiling window manager for X11. I use a fork of it called <code><a href="https://github.com/Airblader/i3">i3-gaps</a></code>.</p>
 #+startup: show2levels
 
-- [[#monitors][Monitors]]
-- [[#basic-controls][Basic Controls]]
-- [[#settings][Settings]]
-- [[#looks][Looks]]
-- [[#workspaces][Workspaces]]
-- [[#workspace-apps][Workspace Apps]]
-- [[#scratchpad-apps][Scratchpad Apps]]
-- [[#utilities][Utilities]]
-- [[#startup-apps][Startup Apps]]
-- [[#tips][Tips]]
+#+html:<div align="center">
 
-* Monitors
+* i3
 
-#+begin_src conf
+#+begin_html
+<a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a> <a href="https://www.gnu.org/software/emacs/"><img src="https://img.shields.io/badge/Made_with-Emacs-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white" /></a>
+
+<p><code><a href="https://i3wm.org/">i3</a></code> is an open source tiling window manager for X11. I use a fork of it called <code><a href="https://github.com/Airblader/i3">i3-gaps</a></code>.</p>
+
+</div>
+#+end_html
+
+** Settings
+*** Monitors
+
+#+begin_src conf :tangle config
 set $laptop eDP-1-1
 set $external HDMI-0
 #+end_src
 
-* Basic Controls
-Mostly standard controls. Vim based with my own personal touches.
+*** Focus
 
-*** Set Modifiers
-#+begin_src conf
-set $mod Mod4
-floating_modifier $mod
-#+end_src
-
-*** Floating Window Controls
-
-#+begin_src conf
-# make window float
-bindsym $mod+Shift+space floating toggle
-
-# focus between floating and tiling
-bindsym $mod+space focus mode_toggle
-
-# hide scratchpad windows on focused workspace
-bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
-
-# cycle through scratchpad windows
-bindsym $mod+apostrophe scratchpad show, move position center
-#+end_src
-
-*** Layout Controls
-
-#+begin_src conf
-# layouts
-bindsym $mod+Tab layout tabbed
-bindsym $mod+grave layout toggle split
-
-# fullscreen
-bindsym $mod+F11 fullscreen toggle
-#+end_src
-
-*** Emergency Kill
-
-#+begin_src conf
-bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
-#+end_src
-
-*** Move Window
-
-#+begin_src conf
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-#+end_src
-
-*** Resize Window
-
-#+begin_src conf
-# horizontally
-bindsym $mod+minus resize shrink width 40 px or 40 ppt
-bindsym $mod+equal resize grow width 40 px or 40 ppt
-
-# vertically
-bindsym $mod+Shift+minus resize shrink height 40 px or 40 ppt
-bindsym $mod+Shift+equal resize grow height 40 px or 40 ppt
-#+end_src
-
-**** Balance Windows
-
-i3 can't natively do this. So, we add that feature by using [[https://github.com/atreyasha/i3-balance-workspace][i3-balance-workspace]].
-
-#+begin_src conf
-#bindsym $mod+Control+equal exec --no-startup-id $HOME/.local/bin/i3_balance_workspace
-#+end_src
-
-*** Kill Windows
-
-#+begin_src conf
-bindsym $mod+Shift+q kill
-#+end_src
-
-*** Window Splitting
-
-#+begin_src conf
-bindsym $mod+v split h
-bindsym $mod+s split v
-#+end_src
-
-* Settings
-
-#+begin_src conf
+#+begin_src conf :tangle config
 focus_wrapping no
 focus_follows_mouse no
 mouse_warping output
 #+end_src
 
-* Looks
+** Appearance
 *** Font
 
 I try to use Fira Code for everything.
 
-#+begin_src conf
+#+begin_src conf :tangle config
 font pango:Fira Code 11
 #+end_src
 
@@ -130,7 +41,7 @@ font pango:Fira Code 11
 
 Check out my [[https://github.com/noncog/.dotfiles/tree/master/.config/wallpapers][wallpapers directory]].
 
-#+begin_src conf
+#+begin_src conf :tangle config
 exec --no-startup-id nitrogen --restore
 #+end_src
 
@@ -138,7 +49,7 @@ exec --no-startup-id nitrogen --restore
 
 I use the [[https://draculatheme.com/][Dracula]] theme everywhere I can!
 
-#+begin_src conf
+#+begin_src conf :tangle config
 # class                 border  bground text    indicator child_border
 client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
@@ -149,9 +60,9 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 client.background       #F8F8F2
 #+end_src
 
-*** i3-gaps
+*** Gaps
 
-#+begin_src conf
+#+begin_src conf :tangle config
 # Necessary for i3-gaps to work properly (pixel can be any value)
 for_window [class="^.*"] border pixel 3
 
@@ -167,155 +78,250 @@ gaps inner 10
 gaps outer 0
 #+end_src
 
-* Workspaces
+** Controls
+
+Mostly standard controls. Vim based, with my own personal touches.
+
+*** Set Modifiers
+
+#+begin_src conf :tangle config
+set $mod Mod4
+floating_modifier $mod
+#+end_src
+
+*** Focus Windows
+
+#+begin_src conf :tangle config
+bindsym $mod+h [con_id="__focused__" class="^(?!Emacs)"] focus left
+bindsym $mod+j [con_id="__focused__" class="^(?!Emacs)"] focus down
+bindsym $mod+k [con_id="__focused__" class="^(?!Emacs)"] focus up
+bindsym $mod+l [con_id="__focused__" class="^(?!Emacs)"] focus right
+#+end_src
+
+*** Move Window
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+#+end_src
+
+*** Split Windows
+
+#+begin_src conf :tangle config
+bindsym $mod+v split h
+bindsym $mod+s split v
+#+end_src
+
+*** Kill Windows
+
+#+begin_src conf :tangle config
+bindsym $mod+Shift+q kill
+#+end_src
+
+*** Floating Window Controls
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+# make window float
+bindsym $mod+Shift+space floating toggle
+
+# focus between floating and tiling
+bindsym $mod+space focus mode_toggle
+
+# hide scratchpad windows on focused workspace
+bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
+
+# cycle through scratchpad windows
+bindsym $mod+apostrophe scratchpad show, move position center
+#+end_src
+
+*** Layout Controls
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+# layouts
+bindsym $mod+Tab layout tabbed
+bindsym $mod+grave layout toggle split
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+# fullscreen
+bindsym $mod+F11 fullscreen toggle
+#+end_src
+
+*** Resize Window
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+# TODO: Rebind resizing windows keys.
+# horizontally
+#bindsym $mod+minus resize shrink width 40 px or 40 ppt
+#bindsym $mod+equal resize grow width 40 px or 40 ppt
+
+# vertically
+#bindsym $mod+Shift+minus resize shrink height 40 px or 40 ppt
+#bindsym $mod+Shift+equal resize grow height 40 px or 40 ppt
+#+end_src
+
+**** Balance Windows
+
+i3 can't natively do this. So, we add that feature by using [[https://github.com/atreyasha/i3-balance-workspace][i3-balance-workspace]].
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+#bindsym $mod+Control+equal exec --no-startup-id $HOME/.local/bin/i3_balance_workspace
+#+end_src
+
+** Workspaces and Applications
 
 Some apps get their own workspace. Some apps live in the scratchpad.
 
-#+begin_src conf
+*** Emacs
+
+#+begin_src conf :tangle config
 # name workspaces
 set $emacs "1:Emacs"
-set $firefox "2:Firefox"
-set $code "3:Code"
-set $gimp "4:Gimp"
-set $blender "5:Blender"
-set $anki "6:Anki"
-set $ws1 "7:1"
-set $ws2 "8:2"
-set $ws3 "9:3"
-
-# switch to workspace
-# bindsym $mod+1 workspace number $ws1
-# bindsym $mod+2 workspace number $ws2
-# bindsym $mod+3 workspace number $ws3
-
-# move focused container to workspace
-bindsym $mod+Control+Shift+e move container to workspace $emacs
-bindsym $mod+Control+Shift+f move container to workspace $firefox
-bindsym $mod+Control+Shift+c move container to workspace $code
-bindsym $mod+Control+Shift+g move container to workspace $gimp
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-
-# assign workspaces to monitors
 workspace $emacs output $external $laptop
-workspace $firefox output $external $laptop
-workspace $code output $external $laptop
-workspace $gimp output $external $laptop
-workspace $anki output $external $laptop
-workspace $ws1 output $external $laptop
-workspace $ws2 output $external $laptop
-workspace $ws3 output $laptop $external
-#+end_src
-
-* Workspace Apps
-
-These apps are given keybinds but no dedicated workspace.
-
-*** GIMP
-
-#+begin_src conf
-assign [class="Gimp"] $gimp
-bindsym $mod+Shift+g exec --no-startup-id gimp
-bindsym $mod+g [class="Gimp"] focus
-#+end_src
-
-*** Emacs Client
-
-#+begin_src conf
 assign [class="Emacs"] $emacs
-for_window [con_id="__focused__" class="Emacs"] mode "pass-through"
-bindsym $mod+Shift+e exec --no-startup-id emacsclient -c; workspace number $emacs
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+e [class="Emacs"] focus
+bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""; workspace number $emacs
+bindsym $mod+Control+Shift+e move container to workspace $emacs
+#+end_src
+
+#+begin_src conf :tangle config
+exec --no-startup-id sleep 3 && emacs --daemon
+#+end_src
+
+#+begin_src conf :tangle config :noweb tangle
+mode "emacs" {
+<<keybinds>>
+}
+exec_always --no-startup-id sleep 3 && perl $HOME/.config/i3/scripts/i3-emacs-mode.pl
 #+end_src
 
 *** Firefox
 
-#+begin_src conf
+#+begin_src conf :tangle config
+set $firefox "2:Firefox"
+workspace $firefox output $external $laptop
 assign [class="Firefox-esr"] $firefox
-bindsym $mod+Shift+f exec --no-startup-id firefox
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+f [class="Firefox-esr" tiling] focus
+bindsym $mod+Shift+f exec --no-startup-id firefox
+bindsym $mod+Control+Shift+f move container to workspace $firefox
+#+end_src
+
+#+begin_src conf :tangle config
+# firefox
+exec --no-startup-id sleep 4 && firefox
+#+end_src
+
+*** Code (IDE)
+
+#+begin_src conf :tangle config
+set $code "3:Code"
+workspace $code output $external $laptop
+assign [class="jetbrains-clion"] $code
+assign [class="jetbrains-pycharm"] $code
+assign [class="jetbrains-idea"] $code
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+bindsym $mod+c [class="jetbrains-clion"] focus
+# TODO: Set up launching command.
+bindsym $mod+Control+Shift+c move container to workspace $code
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+bindsym $mod+p [class="jetbrains-pycharm"] focus
+# TODO: Set up launching command.
+bindsym $mod+Control+Shift+p move container to workspace $code
+#+end_src
+
+*** GIMP
+
+#+begin_src conf :tangle config
+set $gimp "4:Gimp"
+workspace $gimp output $external $laptop
+assign [class="Gimp"] $gimp
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+bindsym $mod+g [class="Gimp"] focus
+bindsym $mod+Shift+g exec --no-startup-id gimp
+bindsym $mod+Control+Shift+g move container to workspace $gimp
 #+end_src
 
 *** Blender
 
-#+begin_src conf
+#+begin_src conf :tangle config
+set $blender "5:Blender"
+workspace $blender output $external $laptop
 assign [class="Blender"] $blender
-bindsym $mod+Shift+b exec --no-startup-id blender
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+b [class="Blender" tiling] focus
+bindsym $mod+Shift+b exec --no-startup-id blender
+bindsym $mod+Control+Shift+b move container to workspace $blender
 #+end_src
-
-*** Clion
-
-#+begin_src conf
-assign [class="jetbrains-clion"] $code
-bindsym $mod+c [class="jetbrains-clion"] focus
-#+end_src
-
-*** Pycharm
-
-#+begin_src conf
-assign [class="jetbrains-pycharm"] $code
-bindsym $mod+p [class="jetbrains-pycharm"] focus
-#+end_src
-
-*** IntelliJ Idea
-
-#+begin_src conf
-assign [class="jetbrains-idea"] $code
-bindsym $mod+i [class="jetbrains-idea"] focus
-#+end_src
-
-*** Anki
-
-I give this it's own workspace to not deal with floating dialog issues in a scratchpad.
-
-#+begin_src conf
-assign [class="Anki"] $anki
-bindsym $mod+Shift+a exec --no-startup-id anki
-bindsym $mod+a [class="Anki"] focus
-#+end_src
-
-* Scratchpad Apps
-
-The scratchpad is an invisible workspace. I put "floating" apps or apps that I want to keep running into it. They can only be spawned and focused/hidden.
 
 *** Kitty
 
-#+begin_src conf
+#+begin_src conf :tangle config
 set $kitty-size resize set 50 ppt 50 ppt, move position center
 for_window [class="kitty"] move scratchpad, sticky enable
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $kitty-size; [class="kitty" floating] scratchpad show, $kitty-size
 bindsym $mod+Shift+Return exec --no-startup-id kitty
 bindsym $mod+Control+Return [class="kitty" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
-bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $kitty-size; [class="kitty" floating] scratchpad show, $kitty-size
+#+end_src
+
+#+begin_src conf :tangle config
+exec --no-startup-id kitty
 #+end_src
 
 *** Tor
 
-#+begin_src conf
+#+begin_src conf :tangle config
 for_window [class="Tor Browser"] move scratchpad, sticky enable
-bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, move position center
+bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
+# TODO: Figure out what this is lol.
 # only close if opened
 bindsym $mod+o [class="Tor Browser" workspace="__focused__"] scratchpad show, resize set 75 ppt 75 ppt, move position center
 #+end_src
 
 *** Discord
 
-#+begin_src conf
+#+begin_src conf :tangle config
 set $discord-size resize set 50 ppt 85 ppt, move position center
 for_window [class="discord"] move scratchpad, sticky enable
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
 bindsym $mod+Shift+d exec "--no-startup-id __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia discord"
 bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
-bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
 #+end_src
 
 *** Spotify
 
-#+begin_src conf
+#+begin_src conf :tangle config
 for_window [class="Spotify"] move scratchpad, sticky enable
-bindsym $mod+Shift+m exec --no-startup-id spotify
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+m [class="Spotify"] scratchpad show, resize set 50 ppt 60 ppt, move position center
+bindsym $mod+Shift+m exec --no-startup-id spotify
 #+end_src
 
 *** YouTube
@@ -326,7 +332,7 @@ To accomplish this, we launch an instance of Firefox using a unique YouTube URL 
 
 **** Set Unique URL and Title
 
-#+begin_src conf
+#+begin_src conf :tangle config
 # values found using xprop
 set $youtube_page https://www.youtube.com/premium
 set $youtube_title "YouTube Premium - YouTube — Mozilla Firefox"
@@ -335,7 +341,7 @@ set $youtube_title "YouTube Premium - YouTube — Mozilla Firefox"
 **** Set Size and Location For Monitors
 ***** Desktop/Docked
 
-#+begin_src conf
+#+begin_src conf :tangle config
 # size
 set $yt_d_w 720
 set $yt_d_h 407
@@ -347,7 +353,7 @@ set $yt_d_y 1023 px
 
 ***** Laptop
 
-#+begin_src conf
+#+begin_src conf :tangle config
 # size
 set $yt_l_w 636
 set $yt_l_h 360
@@ -361,14 +367,14 @@ set $yt_l_y 710 px
 
 This is applied whenever the YouTube player is launched.
 
-#+begin_src conf
+#+begin_src conf :tangle config
 for_window [title=$youtube_title] move scratchpad, sticky enable, mark youtube
 #+end_src
 
 **** Keybinds
 ***** Launch
 
-#+begin_src conf
+#+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+Shift+y exec --no-startup-id firefox --new-window $youtube_page
 #+end_src
 
@@ -378,7 +384,7 @@ This single bind contains an inline bash script which changes the window size an
 
 It also contains logic for the ability to show the YouTube window as a tiling window. For code without this feature find an older commit.
 
-#+begin_src conf
+#+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; [con_mark=youtube floating] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; [con_mark=youtube floating] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
 #+end_src
 
@@ -386,7 +392,7 @@ bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI
 
 This bind moves the floating YouTube player into a tiling window on the current workspace.
 
-#+begin_src conf
+#+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+Control+y [con_mark=youtube tiling] move scratchpad, scratchpad show; [con_mark=youtube floating] scratchpad show, floating toggle
 #+end_src
 
@@ -394,201 +400,57 @@ bindsym $mod+Control+y [con_mark=youtube tiling] move scratchpad, scratchpad sho
 
 This application has no controls associated with it. We simply controls it's windowing here.
 
-#+begin_src conf
+#+begin_src conf :tangle config
 for_window [class="Nitrogen"] move scratchpad, sticky enable, scratchpad show, resize set 50 ppt 50 ppt, move position center
-#+end_src
-
-* Utilities
-*** Rofi
-
-#+begin_src conf
-# desktop app launcher
-bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
-# cogmenu - custom menu launcher
-bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+end_src
 
 *** ScreenKey
 
-#+begin_src conf
+#+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+Shift+question exec --no-startup-id screenkey
 #+end_src
 
 *** Extreme Cooling 4 Linux
 
-#+begin_src conf
+#+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
 #+end_src
 
-*** Picom Daemon
-
-#+begin_src conf
-exec --no-startup-id picom -b
-#+end_src
-
-*** Pulse Audio Control
-
-#+begin_src conf
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-#+end_src
-
+** Utilities
 *** Network-Manager
 
-#+begin_src conf
+#+begin_src conf :tangle config
 exec --no-startup-id nm-applet
 #+end_src
 
 *** Polybar
 
-#+begin_src conf
+#+begin_src conf :tangle config
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 #+end_src
 
-* Startup Apps
+*** Rofi
 
-#+begin_src conf
-# emacs
-exec --no-startup-id sleep 3 && emacs --daemon
-
-# firefox
-exec --no-startup-id sleep 4 && firefox
-
-# kitty
-exec --no-startup-id kitty
-#+end_src
-
-* Tips
-
-*** Finding Keynames (keysym)
-
-#+begin_src conf
-# To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
-#+end_src
-
-*** Window Information
-
-#+begin_src conf
-# To find window related information use:
-# xprop and xwininfo
-#+end_src
-
-* Focus Window
-
-TODO: Leaving this in a jank but functional state. This whole config needs redone using noweb exporting so that I can have the same binds in Emacs mode and default mode.
-
-#+begin_src conf
-
-bindsym $mod+h [con_id="__focused__" class="^(?!Emacs)"] focus left
-bindsym $mod+j [con_id="__focused__" class="^(?!Emacs)"] focus down
-bindsym $mod+k [con_id="__focused__" class="^(?!Emacs)"] focus up
-bindsym $mod+l [con_id="__focused__" class="^(?!Emacs)"] focus right
-
-mode "emacs" {
-# youtube
-bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; [con_mark=youtube floating] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; [con_mark=youtube floating] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
-
-# spotify
-bindsym $mod+m [class="Spotify"] scratchpad show, resize set 50 ppt 60 ppt, move position center
-
-# discord
-bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
-
-# tor
-bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, move position center
-
-# kitty
-bindsym $mod+Control+Return [class="kitty" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
-bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $kitty-size; [class="kitty" floating] scratchpad show, $kitty-size
-# anki
-bindsym $mod+a [class="Anki"] focus
-# gimp
-bindsym $mod+g [class="Gimp"] focus
-# firefox
-bindsym $mod+f [class="Firefox-esr" tiling] focus
-# blender
-bindsym $mod+b [class="Blender" tiling] focus
-# clion
-bindsym $mod+c [class="jetbrains-clion"] focus
-# pycharm
-bindsym $mod+p [class="jetbrains-pycharm"] focus
-# intellij
-bindsym $mod+i [class="jetbrains-idea"] focus
-# move windows
-
-bindsym $mod+Control+Shift+e move container to workspace $emacs
-bindsym $mod+Control+Shift+f move container to workspace $firefox
-bindsym $mod+Control+Shift+c move container to workspace $code
-bindsym $mod+Control+Shift+g move container to workspace $gimp
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-
+#+begin_src conf :tangle config :noweb-ref keybinds
 # desktop app launcher
 bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 # cogmenu - custom menu launcher
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
-
-bindsym $mod+Shift+question exec --no-startup-id screenkey
-
-bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
-
-#bindsym $mod+Shift+q kill
-
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-
-# horizontally
-bindsym $mod+minus resize shrink width 40 px or 40 ppt
-bindsym $mod+equal resize grow width 40 px or 40 ppt
-
-# vertically
-bindsym $mod+Shift+minus resize shrink height 40 px or 40 ppt
-bindsym $mod+Shift+equal resize grow height 40 px or 40 ppt
-
-bindsym $mod+v split h
-bindsym $mod+s split v
-
-bindsym $mod+Shift+space floating toggle
-
-# focus between floating and tiling
-bindsym $mod+space focus mode_toggle
-
-# hide scratchpad windows on focused workspace
-bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
-
-# cycle through scratchpad windows
-bindsym $mod+apostrophe scratchpad show, move position center
-
-# layouts
-bindsym $mod+Tab layout tabbed
-bindsym $mod+grave layout toggle split
-
-# fullscreen
-bindsym $mod+F11 fullscreen toggle
-
-bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
-
-bindsym $mod+Shift+e exec --no-startup-id emacsclient -c
-
-bindsym $mod+Shift+f exec --no-startup-id firefox
-
-bindsym $mod+Shift+b exec --no-startup-id blender
-bindsym $mod+Shift+a exec --no-startup-id anki
-bindsym $mod+Shift+Return exec --no-startup-id kitty
-bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
-bindsym $mod+Shift+d exec --no-startup-id discord
-bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
-bindsym $mod+Shift+m exec --no-startup-id spotify
-
-bindsym $mod+Shift+y exec --no-startup-id firefox --new-window $youtube_page
-
-bindsym $mod+Control+y [con_mark=youtube tiling] move scratchpad, scratchpad show; [con_mark=youtube floating] scratchpad show, floating toggle
-}
-exec_always --no-startup-id sleep 3 && perl $HOME/.config/i3/scripts/i3-emacs-mode.pl
 #+end_src
+
+*** Picom Daemon
+
+#+begin_src conf :tangle config
+exec --no-startup-id picom -b
+#+end_src
+
+* Tips
+** Finding Information
+*** Key Names
+
+To find the name or =keysym= of the key to be used in this config use =xev= and press the key to get its name.
+
+*** Window Information
+
+To find window related information, you can use =xprop= and =xwininfo=.
+

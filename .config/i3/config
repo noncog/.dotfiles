@@ -1,50 +1,6 @@
 set $laptop eDP-1-1
 set $external HDMI-0
 
-set $mod Mod4
-floating_modifier $mod
-
-# make window float
-bindsym $mod+Shift+space floating toggle
-
-# focus between floating and tiling
-bindsym $mod+space focus mode_toggle
-
-# hide scratchpad windows on focused workspace
-bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
-
-# cycle through scratchpad windows
-bindsym $mod+apostrophe scratchpad show, move position center
-
-# layouts
-bindsym $mod+Tab layout tabbed
-bindsym $mod+grave layout toggle split
-
-# fullscreen
-bindsym $mod+F11 fullscreen toggle
-
-bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
-
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-
-# horizontally
-bindsym $mod+minus resize shrink width 40 px or 40 ppt
-bindsym $mod+equal resize grow width 40 px or 40 ppt
-
-# vertically
-bindsym $mod+Shift+minus resize shrink height 40 px or 40 ppt
-bindsym $mod+Shift+equal resize grow height 40 px or 40 ppt
-
-#bindsym $mod+Control+equal exec --no-startup-id $HOME/.local/bin/i3_balance_workspace
-
-bindsym $mod+Shift+q kill
-
-bindsym $mod+v split h
-bindsym $mod+s split v
-
 focus_wrapping no
 focus_follows_mouse no
 mouse_warping output
@@ -76,92 +32,207 @@ smart_borders on
 gaps inner 10
 gaps outer 0
 
+set $mod Mod4
+floating_modifier $mod
+
+bindsym $mod+h [con_id="__focused__" class="^(?!Emacs)"] focus left
+bindsym $mod+j [con_id="__focused__" class="^(?!Emacs)"] focus down
+bindsym $mod+k [con_id="__focused__" class="^(?!Emacs)"] focus up
+bindsym $mod+l [con_id="__focused__" class="^(?!Emacs)"] focus right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+v split h
+bindsym $mod+s split v
+
+bindsym $mod+Shift+q kill
+
+# make window float
+bindsym $mod+Shift+space floating toggle
+
+# focus between floating and tiling
+bindsym $mod+space focus mode_toggle
+
+# hide scratchpad windows on focused workspace
+bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
+
+# cycle through scratchpad windows
+bindsym $mod+apostrophe scratchpad show, move position center
+
+# layouts
+bindsym $mod+Tab layout tabbed
+bindsym $mod+grave layout toggle split
+
+# fullscreen
+bindsym $mod+F11 fullscreen toggle
+
+# TODO: Rebind resizing windows keys.
+# horizontally
+#bindsym $mod+minus resize shrink width 40 px or 40 ppt
+#bindsym $mod+equal resize grow width 40 px or 40 ppt
+
+# vertically
+#bindsym $mod+Shift+minus resize shrink height 40 px or 40 ppt
+#bindsym $mod+Shift+equal resize grow height 40 px or 40 ppt
+
+#bindsym $mod+Control+equal exec --no-startup-id $HOME/.local/bin/i3_balance_workspace
+
 # name workspaces
 set $emacs "1:Emacs"
-set $firefox "2:Firefox"
-set $code "3:Code"
-set $gimp "4:Gimp"
-set $blender "5:Blender"
-set $anki "6:Anki"
-set $ws1 "7:1"
-set $ws2 "8:2"
-set $ws3 "9:3"
-
-# switch to workspace
-# bindsym $mod+1 workspace number $ws1
-# bindsym $mod+2 workspace number $ws2
-# bindsym $mod+3 workspace number $ws3
-
-# move focused container to workspace
-bindsym $mod+Control+Shift+e move container to workspace $emacs
-bindsym $mod+Control+Shift+f move container to workspace $firefox
-bindsym $mod+Control+Shift+c move container to workspace $code
-bindsym $mod+Control+Shift+g move container to workspace $gimp
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-
-# assign workspaces to monitors
 workspace $emacs output $external $laptop
-workspace $firefox output $external $laptop
-workspace $code output $external $laptop
-workspace $gimp output $external $laptop
-workspace $anki output $external $laptop
-workspace $ws1 output $external $laptop
-workspace $ws2 output $external $laptop
-workspace $ws3 output $laptop $external
-
-assign [class="Gimp"] $gimp
-bindsym $mod+Shift+g exec --no-startup-id gimp
-bindsym $mod+g [class="Gimp"] focus
-
 assign [class="Emacs"] $emacs
-for_window [con_id="__focused__" class="Emacs"] mode "pass-through"
-bindsym $mod+Shift+e exec --no-startup-id emacsclient -c; workspace number $emacs
+
 bindsym $mod+e [class="Emacs"] focus
+bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""; workspace number $emacs
+bindsym $mod+Control+Shift+e move container to workspace $emacs
 
-assign [class="Firefox-esr"] $firefox
-bindsym $mod+Shift+f exec --no-startup-id firefox
+exec --no-startup-id sleep 3 && emacs --daemon
+
+mode "emacs" {
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+# make window float
+bindsym $mod+Shift+space floating toggle
+
+# focus between floating and tiling
+bindsym $mod+space focus mode_toggle
+
+# hide scratchpad windows on focused workspace
+bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
+
+# cycle through scratchpad windows
+bindsym $mod+apostrophe scratchpad show, move position center
+# layouts
+bindsym $mod+Tab layout tabbed
+bindsym $mod+grave layout toggle split
+# fullscreen
+bindsym $mod+F11 fullscreen toggle
+# TODO: Rebind resizing windows keys.
+# horizontally
+#bindsym $mod+minus resize shrink width 40 px or 40 ppt
+#bindsym $mod+equal resize grow width 40 px or 40 ppt
+
+# vertically
+#bindsym $mod+Shift+minus resize shrink height 40 px or 40 ppt
+#bindsym $mod+Shift+equal resize grow height 40 px or 40 ppt
+#bindsym $mod+Control+equal exec --no-startup-id $HOME/.local/bin/i3_balance_workspace
+bindsym $mod+e [class="Emacs"] focus
+bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""; workspace number $emacs
+bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+f [class="Firefox-esr" tiling] focus
-
-assign [class="Blender"] $blender
-bindsym $mod+Shift+b exec --no-startup-id blender
-bindsym $mod+b [class="Blender" tiling] focus
-
-assign [class="jetbrains-clion"] $code
+bindsym $mod+Shift+f exec --no-startup-id firefox
+bindsym $mod+Control+Shift+f move container to workspace $firefox
 bindsym $mod+c [class="jetbrains-clion"] focus
-
-assign [class="jetbrains-pycharm"] $code
+# TODO: Set up launching command.
+bindsym $mod+Control+Shift+c move container to workspace $code
 bindsym $mod+p [class="jetbrains-pycharm"] focus
+# TODO: Set up launching command.
+bindsym $mod+Control+Shift+p move container to workspace $code
+bindsym $mod+g [class="Gimp"] focus
+bindsym $mod+Shift+g exec --no-startup-id gimp
+bindsym $mod+Control+Shift+g move container to workspace $gimp
+bindsym $mod+b [class="Blender" tiling] focus
+bindsym $mod+Shift+b exec --no-startup-id blender
+bindsym $mod+Control+Shift+b move container to workspace $blender
+bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $kitty-size; [class="kitty" floating] scratchpad show, $kitty-size
+bindsym $mod+Shift+Return exec --no-startup-id kitty
+bindsym $mod+Control+Return [class="kitty" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
+bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, move position center
+bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
+# TODO: Figure out what this is lol.
+# only close if opened
+bindsym $mod+o [class="Tor Browser" workspace="__focused__"] scratchpad show, resize set 75 ppt 75 ppt, move position center
+bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
+bindsym $mod+Shift+d exec "--no-startup-id __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia discord"
+bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
+bindsym $mod+m [class="Spotify"] scratchpad show, resize set 50 ppt 60 ppt, move position center
+bindsym $mod+Shift+m exec --no-startup-id spotify
+bindsym $mod+Shift+y exec --no-startup-id firefox --new-window $youtube_page
+bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; [con_mark=youtube floating] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; [con_mark=youtube floating] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
+bindsym $mod+Control+y [con_mark=youtube tiling] move scratchpad, scratchpad show; [con_mark=youtube floating] scratchpad show, floating toggle
+bindsym $mod+Shift+question exec --no-startup-id screenkey
+bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+# desktop app launcher
+bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
+# cogmenu - custom menu launcher
+bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
+}
+exec_always --no-startup-id sleep 3 && perl $HOME/.config/i3/scripts/i3-emacs-mode.pl
 
+set $firefox "2:Firefox"
+workspace $firefox output $external $laptop
+assign [class="Firefox-esr"] $firefox
+
+bindsym $mod+f [class="Firefox-esr" tiling] focus
+bindsym $mod+Shift+f exec --no-startup-id firefox
+bindsym $mod+Control+Shift+f move container to workspace $firefox
+
+# firefox
+exec --no-startup-id sleep 4 && firefox
+
+set $code "3:Code"
+workspace $code output $external $laptop
+assign [class="jetbrains-clion"] $code
+assign [class="jetbrains-pycharm"] $code
 assign [class="jetbrains-idea"] $code
-bindsym $mod+i [class="jetbrains-idea"] focus
 
-assign [class="Anki"] $anki
-bindsym $mod+Shift+a exec --no-startup-id anki
-bindsym $mod+a [class="Anki"] focus
+bindsym $mod+c [class="jetbrains-clion"] focus
+# TODO: Set up launching command.
+bindsym $mod+Control+Shift+c move container to workspace $code
+
+bindsym $mod+p [class="jetbrains-pycharm"] focus
+# TODO: Set up launching command.
+bindsym $mod+Control+Shift+p move container to workspace $code
+
+set $gimp "4:Gimp"
+workspace $gimp output $external $laptop
+assign [class="Gimp"] $gimp
+
+bindsym $mod+g [class="Gimp"] focus
+bindsym $mod+Shift+g exec --no-startup-id gimp
+bindsym $mod+Control+Shift+g move container to workspace $gimp
+
+set $blender "5:Blender"
+workspace $blender output $external $laptop
+assign [class="Blender"] $blender
+
+bindsym $mod+b [class="Blender" tiling] focus
+bindsym $mod+Shift+b exec --no-startup-id blender
+bindsym $mod+Control+Shift+b move container to workspace $blender
 
 set $kitty-size resize set 50 ppt 50 ppt, move position center
 for_window [class="kitty"] move scratchpad, sticky enable
+
+bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $kitty-size; [class="kitty" floating] scratchpad show, $kitty-size
 bindsym $mod+Shift+Return exec --no-startup-id kitty
 bindsym $mod+Control+Return [class="kitty" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
-bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $kitty-size; [class="kitty" floating] scratchpad show, $kitty-size
+
+exec --no-startup-id kitty
 
 for_window [class="Tor Browser"] move scratchpad, sticky enable
-bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
+
 bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, move position center
+bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
+# TODO: Figure out what this is lol.
 # only close if opened
 bindsym $mod+o [class="Tor Browser" workspace="__focused__"] scratchpad show, resize set 75 ppt 75 ppt, move position center
 
 set $discord-size resize set 50 ppt 85 ppt, move position center
 for_window [class="discord"] move scratchpad, sticky enable
+
+bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
 bindsym $mod+Shift+d exec "--no-startup-id __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia discord"
 bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
-bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
 
 for_window [class="Spotify"] move scratchpad, sticky enable
-bindsym $mod+Shift+m exec --no-startup-id spotify
+
 bindsym $mod+m [class="Spotify"] scratchpad show, resize set 50 ppt 60 ppt, move position center
+bindsym $mod+Shift+m exec --no-startup-id spotify
 
 # values found using xprop
 set $youtube_page https://www.youtube.com/premium
@@ -193,148 +264,17 @@ bindsym $mod+Control+y [con_mark=youtube tiling] move scratchpad, scratchpad sho
 
 for_window [class="Nitrogen"] move scratchpad, sticky enable, scratchpad show, resize set 50 ppt 50 ppt, move position center
 
-# desktop app launcher
-bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
-# cogmenu - custom menu launcher
-bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
-
 bindsym $mod+Shift+question exec --no-startup-id screenkey
 
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
-
-exec --no-startup-id picom -b
-
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 exec --no-startup-id nm-applet
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-# emacs
-exec --no-startup-id sleep 3 && emacs --daemon
-
-# firefox
-exec --no-startup-id sleep 4 && firefox
-
-# kitty
-exec --no-startup-id kitty
-
-# To find the name or keysym of the key to be used in this config use xev and press the key to get it's name.
-
-# To find window related information use:
-# xprop and xwininfo
-
-bindsym $mod+h [con_id="__focused__" class="^(?!Emacs)"] focus left
-bindsym $mod+j [con_id="__focused__" class="^(?!Emacs)"] focus down
-bindsym $mod+k [con_id="__focused__" class="^(?!Emacs)"] focus up
-bindsym $mod+l [con_id="__focused__" class="^(?!Emacs)"] focus right
-
-
-mode "emacs" {
-# youtube
-bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI) ]; then i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y; [con_mark=youtube floating] scratchpad show, resize set $yt_l_w $yt_l_h, move position $yt_l_x $yt_l_y\\"; else i3-msg \\"[con_mark=youtube tiling] move scratchpad, scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y; [con_mark=youtube floating] scratchpad show, resize set $yt_d_w $yt_d_h, move position $yt_d_x $yt_d_y\\"; fi"
-
-# spotify
-bindsym $mod+m [class="Spotify"] scratchpad show, resize set 50 ppt 60 ppt, move position center
-
-# discord
-bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
-
-# tor
-bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, move position center
-
-# kitty
-bindsym $mod+Control+Return [class="kitty" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
-bindsym $mod+Return [class="kitty" tiling] move scratchpad, scratchpad show, $kitty-size; [class="kitty" floating] scratchpad show, $kitty-size
-# anki
-bindsym $mod+a [class="Anki"] focus
-# gimp
-bindsym $mod+g [class="Gimp"] focus
-# firefox
-bindsym $mod+f [class="Firefox-esr" tiling] focus
-# blender
-bindsym $mod+b [class="Blender" tiling] focus
-# clion
-bindsym $mod+c [class="jetbrains-clion"] focus
-# pycharm
-bindsym $mod+p [class="jetbrains-pycharm"] focus
-# intellij
-bindsym $mod+i [class="jetbrains-idea"] focus
-# move windows
-
-bindsym $mod+Control+Shift+e move container to workspace $emacs
-bindsym $mod+Control+Shift+f move container to workspace $firefox
-bindsym $mod+Control+Shift+c move container to workspace $code
-bindsym $mod+Control+Shift+g move container to workspace $gimp
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-
 # desktop app launcher
 bindsym $mod+BackSpace exec --no-startup-id rofi -show drun -show-icons
 # cogmenu - custom menu launcher
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 
-bindsym $mod+Shift+question exec --no-startup-id screenkey
-
-bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
-
-#bindsym $mod+Shift+q kill
-
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
-
-# horizontally
-bindsym $mod+minus resize shrink width 40 px or 40 ppt
-bindsym $mod+equal resize grow width 40 px or 40 ppt
-
-# vertically
-bindsym $mod+Shift+minus resize shrink height 40 px or 40 ppt
-bindsym $mod+Shift+equal resize grow height 40 px or 40 ppt
-
-bindsym $mod+v split h
-bindsym $mod+s split v
-
-bindsym $mod+Shift+space floating toggle
-
-# focus between floating and tiling
-bindsym $mod+space focus mode_toggle
-
-# hide scratchpad windows on focused workspace
-bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
-
-# cycle through scratchpad windows
-bindsym $mod+apostrophe scratchpad show, move position center
-
-# layouts
-bindsym $mod+Tab layout tabbed
-bindsym $mod+grave layout toggle split
-
-# fullscreen
-bindsym $mod+F11 fullscreen toggle
-
-bindsym $mod+Control+Delete exec --no-startup-id systemctl poweroff
-
-bindsym $mod+Shift+e exec --no-startup-id emacsclient -c
-
-bindsym $mod+Shift+f exec --no-startup-id firefox
-
-bindsym $mod+Shift+b exec --no-startup-id blender
-bindsym $mod+Shift+a exec --no-startup-id anki
-bindsym $mod+Shift+Return exec --no-startup-id kitty
-bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
-bindsym $mod+Shift+d exec --no-startup-id discord
-bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
-bindsym $mod+Shift+m exec --no-startup-id spotify
-
-bindsym $mod+Shift+y exec --no-startup-id firefox --new-window $youtube_page
-
-bindsym $mod+Control+y [con_mark=youtube tiling] move scratchpad, scratchpad show; [con_mark=youtube floating] scratchpad show, floating toggle
-}
-exec_always --no-startup-id sleep 3 && perl $HOME/.config/i3/scripts/i3-emacs-mode.pl
+exec --no-startup-id picom -b
