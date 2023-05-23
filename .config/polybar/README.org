@@ -69,8 +69,6 @@ i3-focused = #dd4545
 #+begin_src conf :tangle config
 [bar/default_bar]
 
-monitor = HDMI-0
-monitor-fallback = eDP-1-1
 width = 100%
 height = 27
 
