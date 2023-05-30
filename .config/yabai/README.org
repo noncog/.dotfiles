@@ -16,27 +16,6 @@
 </div>
 #+end_html
 
-** Controls
-These controls allow me to execute shell commands from within org-mode.
-
-[[shell:brew services restart yabai][Restart Yabai]]
-
-** Startup
-*** Load Scripting Additions
-
-The following is required to enable scripting additions at startup.
-
-#+begin_src sh :tangle yabairc :shebang "#!/usr/bin/env sh"
-yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-sudo yabai --load-sa
-#+end_src
-
-*** Debugging
-
-#+begin_src sh :tangle yabairc
-yabai -m config debug_output on
-#+end_src
-
 ** Settings
 *** List of Options :noexport:
 
@@ -79,6 +58,21 @@ yabai -m config debug_output on
 # external_bar                off          \ # Specify padding for external bar.
 #+end_src
 
+*** Load Scripting Additions
+
+The following is required to enable scripting additions at startup.
+
+#+begin_src sh :tangle yabairc :shebang "#!/usr/bin/env sh"
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+#+end_src
+
+*** Debugging
+
+#+begin_src sh :tangle yabairc
+yabai -m config debug_output off
+#+end_src
+
 *** Default Layout
 
 #+begin_src sh :tangle yabairc
@@ -93,17 +87,7 @@ Keep floating windows on top.
 yabai -m config window_topmost on
 #+end_src
 
-** Looks
-*** Gaps
-
-#+begin_src sh :tangle yabairc
-yabai -m config top_padding    10
-yabai -m config bottom_padding 10
-yabai -m config left_padding   10
-yabai -m config right_padding  10
-yabai -m config window_gap     10
-#+end_src
-
+** Appearance
 *** Window Borders
 
 #+begin_src sh :tangle yabairc
@@ -121,7 +105,99 @@ yabai -m config window_border_width         2
 yabai -m config window_shadow off
 #+end_src
 
-** Workspace Apps
+*** Gaps
+
+#+begin_src sh :tangle yabairc
+yabai -m config top_padding    10
+yabai -m config bottom_padding 10
+yabai -m config left_padding   10
+yabai -m config right_padding  10
+yabai -m config window_gap     10
+#+end_src
+
+** Controls
+
+I use Vim based movement binds with Yabai. These keybinds mirror my Linux configuration using i3 as much as possible.
+
+*** Focus Windows
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - h [
+  ,*      : yabai -m window --focus west
+  "Emacs" ~
+]
+alt - j  [
+  ,*      : yabai -m window --focus south
+  "Emacs" ~
+]
+alt - k  [
+  ,*      : yabai -m window --focus north
+  "Emacs" ~
+]
+alt - l  [
+  ,*      : yabai -m window --focus east
+  "Emacs" ~
+]
+#+end_src
+
+*** Move Windows
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+shift + alt - h : yabai -m window --swap west
+shift + alt - j : yabai -m window --swap south
+shift + alt - k : yabai -m window --swap north
+shift + alt - l : yabai -m window --swap east
+#+end_src
+
+**** Warp Windows
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+shift + alt + cmd - h : yabai -m window --warp west
+shift + alt + cmd - j : yabai -m window --warp south
+shift + alt + cmd - k : yabai -m window --warp north
+shift + alt + cmd - l : yabai -m window --warp east
+#+end_src
+
+*** Split Windows
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - s  [
+  ,*      : yabai -m window --toggle split
+  "Emacs" ~
+]
+alt - v  [
+  ,*      : yabai -m window --toggle split
+  "Emacs" ~
+]
+#+end_src
+
+*** Kill Windows
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+shift + alt - q  [
+  ,*      : yabai -m window --close
+  "Emacs" ~
+]
+#+end_src
+
+*** Floating Window Controls
+*** Layout Controls
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - f11 : yabai -m window --toggle zoom-fullscreen
+#+end_src
+
+*** Resize Windows
+**** Balance Windows
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - 0x18  [
+  ,*      : yabai -m space --balance
+  "Emacs" ~
+]
+#+end_src
+
+** Workspace and Applications
 *** Ignore List
 
 These apps won't be tiled.
@@ -133,32 +209,59 @@ yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Barrier$" manage=off
 #+end_src
 
-*** Assign Apps to Spaces
+*** Emacs
 
 #+begin_src sh :tangle yabairc
 yabai -m rule --add app="^Emacs$" space=^1
-yabai -m rule --add app="^LibreWolf$" space=^2
-yabai -m rule --add app="^Firefox$" space=^2
-yabai -m rule --add app="^Safari$" space=^2
-yabai -m rule --add app="^(CLion|PyCharm)$" space=^3
-yabai -m rule --add app="^Gimp$" space=^4
-yabai -m rule --add app="^Blender$" space=^5
-yabai -m rule --add app="^Anki$" space=^6
-yabai -m rule --add app="^Tor Browser$" space=^7
-yabai -m rule --add app="kitty" space=^8
-yabai -m rule --add app="^Discord" space=^9
 #+end_src
 
-*** Name Spaces
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - e : yabai -m space --focus 1
+shift + alt - e : emacsclient -c -n --alternate-editor=""
+cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
+#+end_src
+
+**** Fix Emacs Window Focus
+
+This is an issue that arises for me using =emacsclient= and a patch from emacs-plus: =--with-no-frame-refocus=. This fix automatically refocuses an Emacs window in the space after I close one. The reason I'm using this patch is to prevent the default behavior where Emacs will focus another frame if you close one. This is intended for use with emacs-everywhere and org-protocol.
 
 #+begin_src sh :tangle yabairc
-# yabai -m space 1 --label "Emacs"
-# yabai -m space 2 --label "Safari"
-# yabai -m space 8 --label "Kitty"
+#yabai -m signal --add event=window_destroyed app="^Emacs$" action="yabai -m display --focus 1" active=yes
 #+end_src
 
-** Signals
-*** Quit Programs When Last Window Destroyed
+Always focus a newly created Emacs window.
+
+#+begin_src sh :tangle yabairc
+#yabai -m signal --add event=window_created app="^Emacs$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
+#+end_src
+
+The effect of this signal is to focus Emacs after a non-Emacs window on the same space is closed.
+
+#+begin_src sh :tangle yabairc
+#yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m display --focus 1" active=no
+#+end_src
+
+*** Firefox
+
+#+begin_src sh :tangle yabairc
+yabai -m rule --add app="^(Firefox|LibreWolf|Safari|Tor Browswer)$" space=^2
+#+end_src
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - f : yabai -m space --focus 2
+shift + alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1; /opt/homebrew/bin/librewolf -profile $HOME/.config/firefox/noncog
+cmd + shift + alt - f : yabai -m window --space 2; yabai -m space --focus 2
+#+end_src
+
+**** Fix Firefox Window Focus
+
+Always focus a newly created Firefox window.
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_created app="^(Firefox|LibreWolf|Safari|Tor Browser)$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
+#+end_src
+
+**** Quit Browsers When Last Window Destroyed
 
 This type of signal can be used to automatically detect when a program no longer has windows and should be quit. This is a "feature" of macOS that I have always disliked. Let's fix it.
 
@@ -170,43 +273,75 @@ yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -
 yabai -m signal --add event=window_destroyed app="^LibreWolf$" action="osascript -e 'quit app \"LibreWolf\"'" active=yes
 #+end_src
 
-*** Automatically Resize SketchyBar
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_destroyed app="^Safari$" action="osascript -e 'quit app \"Safari\"'" active=yes
+#+end_src
 
-Whenever the screen resolution changes, restart sketchybar, which has a helper script to detect the new menu bar height.
+*** Code (IDE)
+
+#+begin_src sh :tangle yabairc
+yabai -m rule --add app="^(CLion|PyCharm)$" space=^3
+#+end_src
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - c : yabai -m space --focus 3
+shift + alt - c : open -n -a "CLion"
+cmd + shift + alt - c : yabai -m window --space 3; yabai -m space --focus 3
+#+end_src
+
+*** Blender
+
+#+begin_src sh :tangle yabairc
+yabai -m rule --add app="^(Gimp|Blender)$" space=^4
+#+end_src
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - b : yabai -m space --focus 5
+shift + alt - b : open -n -a "Blender"
+cmd + shift + alt - b : yabai -m window --space 5; yabai -m space --focus 5
+#+end_src
+
+*** Kitty
+
+#+begin_src sh :tangle yabairc
+yabai -m rule --add app="kitty" space=^8
+#+end_src
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - return : yabai -m space --focus 8
+shift + alt - return : open -n -a "kitty"
+#shift + alt - return : open -n -a "kitty"; sleep 0.1 && yabai -m window --toggle float; yabai -m window --grid 4:4:1:1:2:2
+cmd + shift + alt - return : yabai -m window --space 8; yabai -m space --focus 8
+#+end_src
+
+*** Tor
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - t : yabai -m space --focus 7
+shift + alt - t : open -n -a "Tor Browser"
+cmd + shift + alt - t : yabai -m window --space 7; yabai -m space --focus 7
+#+end_src
+
+*** Discord
+
+#+begin_src sh :tangle yabairc
+yabai -m rule --add app="^Discord" space=^9
+#+end_src
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - d : yabai -m space --focus 9
+shift + alt - d : open -n -a "Discord"
+cmd + shift + alt - d : yabai -m window --space 9; yabai -m space --focus 9
+#+end_src
+
+*** Spotify
+*** YouTube
+** Utilities
+*** Sketchybar
+**** Automatically Resize SketchyBar
+
+Whenever the screen resolution changes, restart sketchybar, which has a helper script to detect the new menu bar height to match the height in pixels of the notch in the screen.
 
 #+begin_src sh :tangle yabairc
 yabai -m signal --add event=display_resized action="brew services restart sketchybar"
 #+end_src
-
-*** Fix Emacs Window Focus
-
-This is an issue that arises for me using =emacsclient= and a patch from emacs-plus: =--with-no-frame-refocus=. This fix automatically refocuses an Emacs window in the space after I close one. The reason I'm using this patch is to prevent the default behavior where Emacs will focus another frame if you close one. This is intended for use with emacs-everywhere and org-protocol.
-
-#+begin_src sh :tangle yabairc
-yabai -m signal --add event=window_destroyed app="^Emacs$" action="yabai -m display --focus 1" active=yes
-#+end_src
-
-Always focus a newly created Emacs window.
-
-#+begin_src sh :tangle yabairc
-yabai -m signal --add event=window_created app="^Emacs$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
-#+end_src
-
-The effect of this signal is to focus Emacs after a non-Emacs window on the same space is closed.
-
-#+begin_src sh :tangle yabairc
-yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m display --focus 1" active=no
-#+end_src
-
-*** Fix Firefox Window Focus
-
-Always focus a newly created Firefox window.
-
-#+begin_src sh :tangle yabairc
-yabai -m signal --add event=window_created app="^Firefox$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
-#+end_src
-
-#+begin_src sh :tangle yabairc
-yabai -m signal --add event=window_created app="^LibreWolf$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
-#+end_src
-
