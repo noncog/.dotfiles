@@ -1,7 +1,6 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
 (setq +literate-config-file "~/.config/doom/README.org")
-(setq evil-respect-visual-line-mode t)
 
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
@@ -10,7 +9,7 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       (company)           ; the ultimate code completion backend
+       company             ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life

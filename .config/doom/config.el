@@ -15,41 +15,18 @@
         ("Arch Wiki" "https://wiki.archlinux.org/index.php?search=%s&title=Special%3ASearch&wprov=acrw1")
         ("AUR" "https://aur.archlinux.org/packages?O=0&K=%s")))
 (setq doom-theme 'doom-vibrant)
-;(setq doom-theme 'doom-Iosvkem)
-;(setq doom-theme 'doom-dracula
-;      doom-dracula-brighter-modeline t
-;      doom-dracula-colorful-headers t)
-(when IS-MAC
-  (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
-        doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
-        ;; doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
-        ;; doom-unicode-font (font-spec :family "JuliaMono")
-        ;; doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light)
-        ))
-(when IS-LINUX
-  (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
-        doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
-        ;;doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
-        ;;doom-unicode-font (font-spec :family "JuliaMono")
-        ;;doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light)
-        ))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 16))
 (setq-default x-stretch-cursor t)
 ;(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines))
 (setq display-line-numbers-type 'visual)
+(dolist (mode '(org-mode-hook))
+      (add-hook mode #'doom-disable-line-numbers-h))
 (setq display-line-numbers-grow-only t)
 (setq evil-want-fine-undo t)
 (global-subword-mode 1)
-(defun noncog/repeat-function-count (fn &optional count)
-  "Repeat given function COUNT times."
-  (let ((total (or count 1))
-        (counter 0))
-    (while (< counter total)
-      (funcall fn)
-      (setq counter (+ counter 1)))))
-(advice-add 'evil-previous-visual-line :around #'noncog/repeat-function-count)
-(advice-add 'evil-next-visual-line :around #'noncog/repeat-function-count)
 (setq evil-kill-on-visual-paste nil)
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
@@ -427,6 +404,7 @@
   (visual-fill-column-center-text t)
   :hook (org-mode . visual-fill-column-mode)
   :config
+  ;; Fixes
   (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust)
   )
 (use-package! org
@@ -691,6 +669,7 @@
   (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
   :config
   ;; Variables
+  (setq +org-capture-fn #'org-roam-capture)
   (setq org-capture-templates
         `(("i" "Inbox" entry
            (file "inbox.org")
@@ -717,12 +696,11 @@
   )
 (use-package! org-roam
   :defer t
-  :if (file-exists-p "~/Documents/org") ; Only load if the directory exists.
+  :if (file-exists-p org-directory) ; Only load if the directory exists.
   :init
   ;; Variables
   (setq org-roam-directory org-directory)
-  (setq org-roam-db-location (file-truename "~/Documents/org/org.db"))
-  (setq org-attach-id-dir (file-truename "~/Documents/org/.attachments"))
+  (setq org-roam-db-location (expand-file-name "org.db" org-directory))
   ;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
   :config
   ;; Appearance
@@ -932,9 +910,6 @@
         org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
         org-modern-horizontal-rule (make-string 80 ?─))
   )
-(use-package! org-modern-indent
-  :config ; add late to hook
-  (add-hook 'org-mode-hook #'org-modern-indent-mode 1))
 (use-package! toc-org
   :defer t
   :config

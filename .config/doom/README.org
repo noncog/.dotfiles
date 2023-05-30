@@ -90,6 +90,7 @@
   - [[#keybinds-5][Keybinds]]
 - [[#visual-fill-column][Visual Fill Column]]
   - [[#package-15][Package]]
+  - [[#fixes-2][Fixes]]
 - [[#org][Org]]
   - [[#package-16][Package]]
   - [[#variables-2][Variables]]
@@ -106,7 +107,7 @@
   - [[#variables-3][Variables]]
   - [[#behavior-14][Behavior]]
   - [[#keybinds-7][Keybinds]]
-  - [[#fixes-2][Fixes]]
+  - [[#fixes-3][Fixes]]
 - [[#org-roam][Org Roam]]
   - [[#package-19][Package]]
   - [[#resources-1][Resources]]
@@ -135,35 +136,33 @@
 - [[#org-modern][Org Modern]]
   - [[#package-25][Package]]
   - [[#appearance-11][Appearance]]
-- [[#org-modern-indent][Org Modern Indent]]
-  - [[#package-26][Package]]
 - [[#toc-org][TOC Org]]
-  - [[#package-27][Package]]
+  - [[#package-26][Package]]
   - [[#behavior-18][Behavior]]
 - [[#org-noter][Org Noter]]
-  - [[#package-28][Package]]
+  - [[#package-27][Package]]
   - [[#variables-6][Variables]]
   - [[#behavior-19][Behavior]]
 - [[#pdf-tools][PDF Tools]]
-  - [[#package-29][Package]]
+  - [[#package-28][Package]]
   - [[#behavior-20][Behavior]]
-  - [[#fixes-3][Fixes]]
+  - [[#fixes-4][Fixes]]
 - [[#plantuml][PlantUML]]
-  - [[#package-30][Package]]
+  - [[#package-29][Package]]
   - [[#behavior-21][Behavior]]
 - [[#ox-org-export][Ox (Org Export)]]
-  - [[#package-31][Package]]
+  - [[#package-30][Package]]
   - [[#appearance-12][Appearance]]
   - [[#behavior-22][Behavior]]
   - [[#keybinds-11][Keybinds]]
 - [[#ox-latex][Ox Latex]]
-  - [[#package-32][Package]]
+  - [[#package-31][Package]]
   - [[#appearance-13][Appearance]]
   - [[#behavior-23][Behavior]]
 - [[#engrave-faces][Engrave Faces]]
-  - [[#package-33][Package]]
+  - [[#package-32][Package]]
 - [[#lsp-clangd][LSP-Clangd]]
-  - [[#package-34][Package]]
+  - [[#package-33][Package]]
   - [[#behavior-24][Behavior]]
 #+END_QUOTE
 #+html:</details>
@@ -212,8 +211,7 @@ Some settings (very few) need to be loaded before Doom's modules. They're tangle
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       (company)           ; the ultimate code completion backend
-        ;+childframe)       ; display completions in a childframe...
+       company             ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
@@ -591,39 +589,10 @@ I don't use most of the default providers (Google) so I set my own.
 ** Appearance
 *** Theme
 
-I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experimenting with others:
-
-#+html:<details><summary>Themes I Like</summary>
-- Doom One
-- Doom Vibrant
-- Doom Iosvkem
-- Doom Dracula
-- Doom Palenight
-- Doom Henna
-- Doom Ayu-Mirage and Doom Ayu-Dark
-- Doom Material Dark
-- Doom Molokai
-- Doom Monokai
-- Doom Old Hope
-- Doom Horizon
-- Doom 1337
-- Doom Material
-- Doom Oceanic Next
-- Doom Xcode
-#+html:</details>
+I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experimenting with Doom Vibrant/One.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
 (setq doom-theme 'doom-vibrant)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config
-;(setq doom-theme 'doom-Iosvkem)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config
-;(setq doom-theme 'doom-dracula
-;      doom-dracula-brighter-modeline t
-;      doom-dracula-colorful-headers t)
 #+end_src
 
 *** Font
@@ -631,23 +600,8 @@ I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experi
 I'm also experimenting with fonts. Although, Jetbrains Mono and Fira Code are staples.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
-(when IS-MAC
-  (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
-        doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
-        ;; doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
-        ;; doom-unicode-font (font-spec :family "JuliaMono")
-        ;; doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light)
-        ))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config
-(when IS-LINUX
-  (setq doom-font (font-spec :family "Jetbrains Mono" :size 12)
-        doom-big-font (font-spec :family "Jetbrains Mono" :size 16)
-        ;;doom-variable-pitch-font (font-spec :family "Overpass" :size 14)
-        ;;doom-unicode-font (font-spec :family "JuliaMono")
-        ;;doom-serif-font (font-spec :family "IBM Plex Mono" :size 10 :weight 'light)
-        ))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 16))
 #+end_src
 
 *** Cursor
@@ -665,7 +619,7 @@ I add transparency to Doom's window to allow my wallpaper to show through it.
 
 On Linux, this effect probably requires a compositor. I use [[https://github.com/yshui/picom][Picom]].
 
-Currently disabled as I find it somewhat distracting with my tiny little brain. 
+Currently disabled as I find it somewhat distracting with my tiny little brain.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
 ;(add-to-list 'default-frame-alist '(alpha . 93)) ; [0-100]
@@ -691,6 +645,16 @@ I use relative visual line numbers to move around.
 (setq display-line-numbers-type 'visual)
 #+end_src
 
+But, I don't want them shown in all modes.
+
+Specifically, I disable it in org-mode. Emacs has a flaw related to visual line numbers, code folding, and Evil users.
+
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config
+(dolist (mode '(org-mode-hook))
+      (add-hook mode #'doom-disable-line-numbers-h))
+#+end_src
+
 Prevent shifting the buffer content whenever the line number count increases in column width.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
@@ -712,37 +676,6 @@ Allows iterating through CamelCase words.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
 (global-subword-mode 1)
-#+end_src
-
-*** Enable Evil Visual Line Movement
-
-Allow lines that wrap around the edge of the screen (visual lines) to count as "physical" lines. Enables you to use =j= and =k= to move up and down through wrapped lines.
-
-First, enable the following in =init.el=:
-
-#+begin_src emacs-lisp :tangle no :noweb-ref early-init
-(setq evil-respect-visual-line-mode t)
-#+end_src
-
-**** Fix Evil's Visual Line Over/Undershooting
-
-There's a long standing issue between =visual lines= and =Evil=. When using a prefix argument (line count) with Evil's next/previous visual line, often it will over or under shoot the desired line. As far as I have researched, there is no next/previous line commands that just works.
-
-To solve this, I created a function that handles repeating the desired function instead of letting it repeat itself. And then I use it to advise evil's visual line commands. This works perfectly to solve the issue and I always reach my desired line.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config
-(defun noncog/repeat-function-count (fn &optional count)
-  "Repeat given function COUNT times."
-  (let ((total (or count 1))
-        (counter 0))
-    (while (< counter total)
-      (funcall fn)
-      (setq counter (+ counter 1)))))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config
-(advice-add 'evil-previous-visual-line :around #'noncog/repeat-function-count)
-(advice-add 'evil-next-visual-line :around #'noncog/repeat-function-count)
 #+end_src
 
 *** Prevent Pasting From Adding to Kill Ring
@@ -1965,7 +1898,7 @@ I love this keybind, more things should use it. Including vterm... ([[https://gi
 [[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill-Column]] is an Emacs minor mode that enables word wrapping at a column and centering the buffer content.
 #+end_quote
 
-I use this package to center buffers, you can load it in Doom by enabling the =wordwrap= module.
+You can load it in Doom by enabling the =wordwrap= module.
 
 ** Package
 
@@ -1977,10 +1910,24 @@ I use this package to center buffers, you can load it in Doom by enabling the =w
   (visual-fill-column-center-text t)
   :hook (org-mode . visual-fill-column-mode)
   :config
-  (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust)
+  <<visual-fill-column-config>>
   )
 #+end_src
 #+html:</details>
+
+** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref visual-fill-column-config :exports none
+;; Fixes
+#+end_src
+
+*** Recenter After Text Scaling
+
+This advice causes the margins to remain centered in the frame regardless of text size. ([[https://codeberg.org/joostkremers/visual-fill-column#adjusting-text-size][Source]])
+
+#+begin_src emacs-lisp :tangle no :noweb-ref visual-fill-column-config
+(advice-add #'text-scale-adjust :after #'visual-fill-column-adjust)
+#+end_src
 
 * Org
 :PROPERTIES:
@@ -2482,6 +2429,12 @@ Org Capture lets you quickly insert into your org documents.
 ;; Variables
 #+end_src
 
+*** Org Capture Function
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+(setq +org-capture-fn #'org-roam-capture)
+#+end_src
+
 *** Capture Templates
 
 I'm currently only using one template that sends all captured headings to an inbox. This increases speed by capturing now and organizing later.
@@ -2551,7 +2504,7 @@ Sometimes the capture window breaks when the agenda or agenda files are already 
 
 *** Increase Windowing Compatibility
 
-By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any popup windows. The capturing popup window is a choice for these values. This means that it's popup behavior was unpredictable. Setting just =:vslot= to -1 causes the capture window to appear below most other popups, including the helpful window.
+By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any popup windows. The capturing popup window has no choice for these values. This means that its popup behavior was unpredictable with other popup windows. Setting just =:vslot= to -1 causes the capture window to appear below most other popups, including the helpful window.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-init
 (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
@@ -2581,7 +2534,7 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes
 (use-package! org-roam
   :defer t
-  :if (file-exists-p "~/Documents/org") ; Only load if the directory exists.
+  :if (file-exists-p org-directory) ; Only load if the directory exists.
   :init
   <<org-roam-init>>
   :config
@@ -2606,14 +2559,10 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
 
 *** Database Location
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
-(setq org-roam-db-location (file-truename "~/Documents/org/org.db"))
-#+end_src
-
-*** Attachments Directory
+I want the database file to be included in the org-roam directory instead of the Emacs directory.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
-(setq org-attach-id-dir (file-truename "~/Documents/org/.attachments"))
+(setq org-roam-db-location (expand-file-name "org.db" org-directory))
 #+end_src
 
 *** Exclude Directories
@@ -3203,33 +3152,6 @@ These settings will need sorted into their own headings eventually.
       org-modern-horizontal-rule (make-string 80 ?─))
 #+end_src
 
-* Org Modern Indent
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/jdtsmith/org-modern-indent][Org-modern-indent]] adds back the source block "bracket" to org-modern, which is normally broken by the use of indentation.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref packages
-(package! org-modern-indent
-  :recipe (:host github :repo "jdtsmith/org-modern-indent")
-  :pin "c5a50f302dc1053d5b498e0ea2bc0ee233e8e1b8")
-#+end_src
-#+html:</details>
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes
-(use-package! org-modern-indent
-  :config ; add late to hook
-  (add-hook 'org-mode-hook #'org-modern-indent-mode 1))
-#+end_src
-#+html:</details>
-
 * TOC Org
 :PROPERTIES:
 :VISIBILITY: children
@@ -3266,6 +3188,8 @@ These settings will need sorted into their own headings eventually.
 *** Add Code Folding to Quoted TOC
 
 When I use GitHub for literate documentation, I want to add the HTML =details= tag around the table of content to create a hidden table of contents that the user can expand if they wish to. This is done by creating and advising a function that replaces the string used in the quoted table of contents to include the details tag.
+
+In the future, I would like to add this feature to the package itself instead of this hack which abuses the string used to for a quoted table of contents.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref toc-org-config
 (defadvice! my/+toc-org-insert-toc-folded (&optional dry-run)

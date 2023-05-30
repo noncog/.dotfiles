@@ -23,9 +23,6 @@
   :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
 (package! org-modern
   :pin "b614ad31d72c49f9eb29d3836995fd7fb0d1fd4a")
-(package! org-modern-indent
-  :recipe (:host github :repo "jdtsmith/org-modern-indent")
-  :pin "c5a50f302dc1053d5b498e0ea2bc0ee233e8e1b8")
 (package! engrave-faces
   :recipe (:host github :repo "tecosaur/engrave-faces")
   :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
