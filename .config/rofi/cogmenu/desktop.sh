@@ -2,9 +2,9 @@
 # make display available
 xrandr --auto
 # rotate laptop display
-xrandr --output eDP-1-1 --rotate right --auto
+xrandr --output eDP-1-1 --rotate left --auto
 # set monitor positions
-xrandr --output eDP-1-1 --left-of HDMI-0
+xrandr --output eDP-1-1 --right-of HDMI-0
 # set primary display
 xrandr --output HDMI-0 --primary
 # set refresh rate of primary
