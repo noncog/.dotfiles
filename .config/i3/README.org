@@ -322,7 +322,7 @@ for_window [class="discord"] move scratchpad, sticky enable
 
 #+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+d [class="discord" tiling] move scratchpad, scratchpad show, $discord-size; [class="discord" floating] scratchpad show, $discord-size
-bindsym $mod+Shift+d exec "--no-startup-id __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia discord"
+bindsym $mod+Shift+d exec discord
 bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
 #+end_src
 
