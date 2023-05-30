@@ -92,7 +92,7 @@ inactive_border_color #6272a4
 
 * Keybinds
 
-All keybinds are enabled for Linux and macOS.
+Each of the following keybinds have a Linux and macOS counterpart.
 
 *** Disable All Defaults
 
@@ -117,43 +117,60 @@ map cmd+shift+v paste_from_clipboard
 #+end_src
 
 *** Vim Based Movement
+**** Scrolling
+***** Up
 
 #+begin_src conf :tangle kitty.conf
-# scrolling
 map kitty_mod+u scroll_page_up
 map kitty_mod+d scroll_page_down
-
 map cmd+shift+u scroll_page_up
 map cmd+shift+d scroll_page_down
 #+end_src
 
+***** Down
+
+#+begin_src conf :tangle kitty.conf
+map kitty_mod+j scroll_line_down
+map kitty_mod+k scroll_line_up
+map cmd+shift+j scroll_line_down
+map cmd+shift+k scroll_line_up
+#+end_src
+
+**** Tab Based Windowing
+***** New Tab
 #+begin_src conf :tangle kitty.conf
 # new tab
 map kitty_mod+enter new_tab
 map cmd+shift+enter new_tab
 #+end_src
 
+***** Switch Tabs
+
 #+begin_src conf :tangle kitty.conf
 # tab navigation
 map kitty_mod+h previous_tab
-map kitty_mod+j scroll_line_down
-map kitty_mod+k scroll_line_up
 map kitty_mod+l next_tab
+#+end_src
 
+#+begin_src conf :tangle kitty.conf
 map cmd+shift+h previous_tab
-map cmd+shift+j scroll_line_down
-map cmd+shift+k scroll_line_up
 map cmd+shift+l next_tab
 #+end_src
+
+***** Move Tabs
 
 #+begin_src conf :tangle kitty.conf
 # move tabs
 map kitty_mod+alt+h move_tab_backward
 map kitty_mod+alt+l move_tab_forward
+#+end_src
 
+#+begin_src conf :tangle kitty.conf
 map cmd+shift+ctrl+h move_tab_backward
 map cmd+shift+ctrl+l move_tab_forward
 #+end_src
+
+***** Close Tabs (Windows)
 
 #+begin_src conf :tangle kitty.conf
 # close tabs
@@ -175,13 +192,6 @@ map cmd+shift+minus change_font_size all -2.0
 
 * Mac Specific Settings
 
-
-** Fix ZSH Line Editor Controls
-
-There isn't a nice way for terminals to use the command key for the shell interrupt commands. They really only respond to control and alt. I'm using command as control. So, we must map the conversion ourselves. It's also done here instead of in skhd for a lot of reasons.
-
-These binds are specific to the emacs mode. I may try the vim mode some day but have these in my muscle memory already.
-
 The following will be put into a file named after the OS type and included using this line:
 
 #+begin_src conf :tangle kitty.conf
@@ -190,7 +200,7 @@ include ${KITTY_OS}.conf
 
 This allows me to apply these fixes only on macOS.
 
-*** General Settings
+** General Settings
 
 #+begin_src conf :tangle macos.conf
 hide_window_decorations titlebar-only
@@ -199,6 +209,12 @@ macos_quit_when_last_window_closed yes
 macos_option_as_alt no
 #allow_remote_control yes
 #+end_src
+
+** Fix ZSH Line Editor Controls
+
+There isn't a nice way for terminals to use the command key for the shell interrupt commands. They really only respond to control and alt. I'm using command as control. So, we must map the conversion ourselves. It's also done here instead of in skhd for a lot of reasons.
+
+These binds are specific to the emacs mode. I may try the vim mode some day but have these in my muscle memory already.
 
 *** "Control" Keybinds
 
