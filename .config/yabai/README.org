@@ -290,7 +290,6 @@ yabai -m rule --add app="kitty" space=^8
 #+begin_src conf :tangle ~/.config/skhd/skhdrc
 alt - return : yabai -m space --focus 8
 shift + alt - return : open -n -a "kitty"
-#shift + alt - return : open -n -a "kitty"; sleep 0.1 && yabai -m window --toggle float; yabai -m window --grid 4:4:1:1:2:2
 cmd + shift + alt - return : yabai -m window --space 8; yabai -m space --focus 8
 #+end_src
 
