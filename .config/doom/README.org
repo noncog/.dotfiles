@@ -2089,6 +2089,16 @@ Enable Evil bindings in org's calendar.
 (setq evil-collection-calendar-want-org-bindings t)
 #+end_src
 
+*** Refile
+
+Most of these are Doom's defaults but I set them to ensure the default behavior in case the defaults change someday. I should probably do that with more settings.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(setq org-outline-path-complete-in-steps nil)
+(setq org-refile-use-outline-path 'file)
+(setq org-refile-allow-creating-parent-nodes 'confirm)
+#+end_src
+
 * Org Agenda
 :PROPERTIES:
 :VISIBILITY: children
@@ -2603,10 +2613,16 @@ Currently not excluding any. This is a place holder for when I do.
          :unnarrowed t)))
 #+end_src
 
+*** Integrate Org Roam Files with Org Refile Targets
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(setq org-refile-targets '((org-agenda-files :maxlevel . 5) (org-roam-list-files :maxlevel . 5)))
+#+end_src
+
 *** Enable Autosync
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(org-roam-db-autosync-mode)
+(org-roam-db-autosync-enable)
 #+end_src
 
 ** Keybinds

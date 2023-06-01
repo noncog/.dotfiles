@@ -457,6 +457,9 @@
   (setq org-return-follows-link t)             ; Pressing enter opens links.
   (add-to-list 'org-modules 'org-habit t)      ; Enable repeated task tracking/graphing!
   (setq evil-collection-calendar-want-org-bindings t)
+  (setq org-outline-path-complete-in-steps nil)
+  (setq org-refile-use-outline-path 'file)
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
   (add-to-list 'org-tags-exclude-from-inheritance "agenda")
   )
 (use-package! org-agenda
@@ -713,7 +716,8 @@
            (file+head "nodes/${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
            :immediate-finish t
            :unnarrowed t)))
-  (org-roam-db-autosync-mode)
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 5) (org-roam-list-files :maxlevel . 5)))
+  (org-roam-db-autosync-enable)
   ;; Keybinds
   (defun noncog/org-roam-is-draft-p (node)
     "Is this org-roam node a draft?"
