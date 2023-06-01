@@ -411,7 +411,7 @@
   :defer t
   :init
   ;; Variables
-  (setq org-directory "~/Documents/org/")
+  (setq org-directory (file-truename "~/Documents/org/"))
   :config
   (setq org-todo-keywords
         '((sequence

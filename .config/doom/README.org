@@ -24,7 +24,6 @@
 :CUSTOM_ID: table-of-contents
 :VISIBILITY: folded
 :END:
-
 #+html:<details><summary>Table of Contents</summary>
 #+BEGIN_QUOTE
 - [[#doom][Doom]]
@@ -1961,7 +1960,7 @@ This advice causes the margins to remain centered in the frame regardless of tex
 *** Org Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-init
-(setq org-directory "~/Documents/org/")
+(setq org-directory (file-truename "~/Documents/org/"))
 #+end_src
 
 *** Keywords
