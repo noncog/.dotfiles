@@ -30,12 +30,6 @@ yabai -m rule --add app="^Barrier$" manage=off
 
 yabai -m rule --add app="^Emacs$" space=^1
 
-#yabai -m signal --add event=window_destroyed app="^Emacs$" action="yabai -m display --focus 1" active=yes
-
-#yabai -m signal --add event=window_created app="^Emacs$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
-
-#yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m display --focus 1" active=no
-
 yabai -m rule --add app="^(Firefox|LibreWolf|Safari|Tor Browswer)$" space=^2
 
 yabai -m signal --add event=window_created app="^(Firefox|LibreWolf|Safari|Tor Browser)$" action="yabai -m window --focus \$YABAI_WINDOW_ID"

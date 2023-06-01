@@ -221,26 +221,6 @@ shift + alt - e : emacsclient -c -n --alternate-editor=""
 cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
 #+end_src
 
-**** Fix Emacs Window Focus
-
-This is an issue that arises for me using =emacsclient= and a patch from emacs-plus: =--with-no-frame-refocus=. This fix automatically refocuses an Emacs window in the space after I close one. The reason I'm using this patch is to prevent the default behavior where Emacs will focus another frame if you close one. This is intended for use with emacs-everywhere and org-protocol.
-
-#+begin_src sh :tangle yabairc
-#yabai -m signal --add event=window_destroyed app="^Emacs$" action="yabai -m display --focus 1" active=yes
-#+end_src
-
-Always focus a newly created Emacs window.
-
-#+begin_src sh :tangle yabairc
-#yabai -m signal --add event=window_created app="^Emacs$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
-#+end_src
-
-The effect of this signal is to focus Emacs after a non-Emacs window on the same space is closed.
-
-#+begin_src sh :tangle yabairc
-#yabai -m signal --add event=window_resized app="^Emacs$" action="yabai -m display --focus 1" active=no
-#+end_src
-
 *** Firefox
 
 #+begin_src sh :tangle yabairc
