@@ -2575,12 +2575,12 @@ I want the database file to be included in the org-roam directory instead of the
 (setq org-roam-db-location (expand-file-name "org.db" org-directory))
 #+end_src
 
-*** Exclude Directories
+*** Dailies Directory
 
-Currently not excluding any. This is a place holder for when I do.
+I use dailies as a log of goals and activities that are planned and hopefully completed (worked on) throughout the day. So, I set the directory to =log/= instead of the default =daily/= directory.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
-;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
+(setq org-roam-dailies-directory "log/")
 #+end_src
 
 ** Appearance

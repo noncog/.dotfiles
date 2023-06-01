@@ -704,7 +704,7 @@
   ;; Variables
   (setq org-roam-directory org-directory)
   (setq org-roam-db-location (expand-file-name "org.db" org-directory))
-  ;(setq org-roam-file-exclude-regexp (rx (or "data/" "inbox.org")) )
+  (setq org-roam-dailies-directory "log/")
   :config
   ;; Appearance
   ;(setq org-roam-node-display-template)
