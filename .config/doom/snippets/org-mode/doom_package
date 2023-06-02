@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
 # key: doom_package
 # name: doom package
-# expand-env: ((yas-indent-line 'fixed))
+# expand-env: ((yas-indent-line 'fixed) (yas-after-exit-snippet-hook #'evil-force-normal-state))
 # --
 * ${1:name}
 :PROPERTIES:
