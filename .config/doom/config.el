@@ -110,6 +110,7 @@
         beacon-blink-when-focused nil)
   (beacon-mode 1)
   )
+
 (use-package! which-key
   :defer t
   :config
@@ -132,12 +133,14 @@
    which-key-replacement-alist
    '(("" . "\\`treemacs-\\(.*\\)") . (nil . " \\1")))
   )
+
 (use-package! avy
   :defer t
   :config
   ;; Behavior
   (setq avy-all-windows t)
   )
+
 (use-package! helpful
   :defer t
   :config
@@ -162,6 +165,7 @@
   (map! :map helpful-mode-map "C-h" #'winner-undo
         :map helpful-mode-map "C-l" #'winner-redo)
   )
+
 (use-package! doom-modeline
   :defer t
   :config
@@ -175,6 +179,7 @@
         doom-modeline-display-default-persp-name t
         doom-modeline-persp-icon t)
   )
+
 (use-package! doom-dashboard
   :defer t
   :init
@@ -185,12 +190,14 @@
   ;; Keybinds
   (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
   )
+
 (use-package! persp-mode
   :defer t
   :config
   ;; Fixes
   (setq persp-emacsclient-init-frame-behaviour-override nil)
   )
+
 (use-package! vertico
   :defer t
   :config
@@ -200,6 +207,7 @@
   (map! :map vertico-map "C-u" #'scroll-down-command
         :map vertico-map "C-d" #'scroll-up-command)
   )
+
 (use-package! marginalia
   :defer t
   :config
@@ -233,6 +241,7 @@
                     (doom-blend 'red 'orange (- size-index 1)))))
       (propertize (file-size-human-readable size) 'face (list :foreground color))))
   )
+
 (use-package! company
   :defer t
   :config
@@ -245,12 +254,14 @@
   (set-company-backend! 'sh-mode
     '(company-shell company-files :with company-yasnippet))
   )
+
 (use-package! yasnippet
   :defer t
   :config
   ;; Behavior
   (setq yas-triggers-in-field t)
   )
+
 (use-package! projectile
   :defer t
   :init
@@ -266,6 +277,7 @@
   (setq projectile-auto-discover nil
         projectile-track-known-projects-automatically nil)
   )
+
 (use-package! treemacs
   :defer t
   :config
@@ -275,6 +287,7 @@
   (treemacs-follow-mode 1)
   (setq treemacs-project-follow-cleanup t)
   )
+
 (use-package! magit
   :defer t
   :config
@@ -392,21 +405,24 @@
   (add-to-list 'git-commit-finish-query-functions
                #'my-git-commit-check-style-conventions)
   )
+
 (use-package! vterm
   :defer t
   :config
   ;; Keybinds
   (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
   )
+
 (use-package! visual-fill-column
   :custom
-  (visual-fill-column-width 120)
+  (visual-fill-column-width 100)
   (visual-fill-column-center-text t)
   :hook (org-mode . visual-fill-column-mode)
   :config
   ;; Fixes
   (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust)
   )
+
 (use-package! org
   :defer t
   :init
@@ -462,6 +478,7 @@
   (setq org-refile-allow-creating-parent-nodes 'confirm)
   (add-to-list 'org-tags-exclude-from-inheritance "agenda")
   )
+
 (use-package! org-agenda
   :defer t
   :init
@@ -666,6 +683,7 @@
           nil          ; tag found, do not skip
         subtree-end))) ; tag not found, continue after end of subtree
   )
+
 (use-package! org-capture
   :defer t
   :init
@@ -697,6 +715,7 @@
         (org-capture-mode +1))))
   (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
   )
+
 (use-package! org-roam
   :defer t
   :if (file-exists-p org-directory) ; Only load if the directory exists.
@@ -728,8 +747,10 @@
     (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
   (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
   )
+
 (use-package! websocket
     :after org-roam)
+
 (use-package! org-roam-ui
   :after org-roam
   :hook (org-roam . org-roam-ui-mode)
@@ -775,6 +796,7 @@
     (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme)))))))
     )
   )
+
 (use-package! vulpea
   :after org-roam
   :config
@@ -852,6 +874,7 @@
   (advice-add 'org-agenda :before #'vulpea-agenda-files-update)
   (advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
   )
+
 (use-package! org-gtd
   ;:defer t
   :after org
@@ -876,7 +899,8 @@
         :desc "Stuck projects" "s"  #'org-gtd-show-stuck-projects)
   (map! :map org-gtd-process-map
         :desc "Choose" "C-c c" #'org-gtd-choose)
-)
+  )
+
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
   :config
@@ -888,8 +912,10 @@
         org-appear-autokeywords nil            ; Shows hidden Org keywords.
         org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
   )
+
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode))
+
 (use-package! org-modern
   :hook
   (org-mode . org-modern-mode)
@@ -914,6 +940,7 @@
         org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
         org-modern-horizontal-rule (make-string 80 ?─))
   )
+
 (use-package! toc-org
   :defer t
   :config
@@ -985,6 +1012,7 @@
                         (insert new-toc)))))
               (message (concat "Hrefify function " hrefify-string " is not found")))))))))
   )
+
 (use-package! org-noter
   :defer t
   :init
@@ -996,6 +1024,7 @@
         org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
   (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
   )
+
 (use-package! pdf-tools
   :defer t
   :config
@@ -1004,6 +1033,7 @@
   ;; Fixes
   (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
   )
+
 (use-package! plantuml-mode
   :defer t
   :config
@@ -1012,6 +1042,7 @@
   (unless (file-exists-p plantuml-jar-path)
     (plantuml-download-jar))
   )
+
 (use-package! ox
   :defer t
   :init
@@ -1052,6 +1083,7 @@
   (ox-extras-activate '(ignore-headlines))
   (setq org-export-headline-levels 5)
   )
+
 (use-package! ox-latex
   :defer t
   :config
@@ -1071,10 +1103,13 @@
   ;; Behavior
   (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
   )
+
 (use-package! engrave-faces-latex
   :after ox-latex)
+
 (use-package! engrave-faces-html
   :after ox-html)
+
 (use-package! lsp-clangd
   :defer t
   :config
