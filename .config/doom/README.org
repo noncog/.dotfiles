@@ -1,6 +1,3 @@
-#+tags: export noexport
-#+export_select_tags: export
-#+export_exclude_tags: exclude noexport
 
 #+begin_html
 <div align="center">
@@ -180,7 +177,7 @@
 :VISIBILITY: children
 :END:
 
-Doom only uses three config files, loaded in a specific order. I use Org's literate programming technique known as 'tangling' to generate them from this =README.org= file. This allows me to describe my configuration in a different order than it would actually appears in Doom's configs:
+Doom only uses three config files, loaded in a specific order. I use Org's literate programming technique known as 'tangling' to generate them from this =README.org= file. This allows me to describe my configuration in a different order than it would actually appear in Doom's config files:
 
 *** Init.el
 
@@ -409,7 +406,7 @@ Some settings (very few) need to be loaded before Doom's modules. They're tangle
 
 **** User Packages
 
-External packages are added by the user here. Each package's =package!= source recipe is defined in its relevant package configuration secion and is tangled here using =noweb= referenced code blocks.
+Each package's =package!= source recipe is defined in its relevant package configuration section and is tangled to here using =noweb= referenced code blocks.
 
 #+begin_src emacs-lisp :tangle "packages.el" :noweb tangle
 <<packages>>
@@ -646,7 +643,7 @@ I use relative visual line numbers to move around.
 
 But, I don't want them shown in all modes.
 
-Specifically, I disable it in org-mode. Emacs has a flaw related to visual line numbers, code folding, and Evil users.
+Specifically, I disable it in org-mode. Emacs has a flaw related to visual line numbers, code folding, and Evil.
 
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
