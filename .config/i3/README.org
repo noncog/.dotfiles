@@ -223,7 +223,7 @@ assign [class="Firefox-esr"] $firefox
 
 #+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+f [class="Firefox-esr" tiling] focus
-bindsym $mod+Shift+f exec --no-startup-id firefox
+bindsym $mod+Shift+f exec --no-startup-id firefox -profile $HOME/.config/firefox/noncog
 bindsym $mod+Control+Shift+f move container to workspace $firefox
 #+end_src
 
@@ -466,4 +466,3 @@ To find the name or =keysym= of the key to be used in this config use =xev= and 
 *** Window Information
 
 To find window related information, you can use =xprop= and =xwininfo=.
-
