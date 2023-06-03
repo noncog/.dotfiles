@@ -759,42 +759,27 @@ When a window can't be found in that direction in Emacs, it passes the window fo
 #+end_src
 
 **** Keybinds
-***** macOS
+
+I use =super= as my window manager modifier key. These binds allow the window manager windowing keybinds to work within Emacs.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
-(when IS-MAC
-  (map! "s-h" #'wm-window-left
-        "s-j" #'wm-window-down
-        "s-k" #'wm-window-up
-        "s-l" #'wm-window-right
-        "s-=" #'balance-windows
-        "s-v" #'evil-window-vsplit
-        "s-s" #'evil-window-split
-        "s-Q" #'evil-quit))
+(map! "s-h" #'wm-window-left
+      "s-j" #'wm-window-down
+      "s-k" #'wm-window-up
+      "s-l" #'wm-window-right
+      "s-=" #'balance-windows
+      "s-v" #'evil-window-vsplit
+      "s-s" #'evil-window-split
+      "s-Q" #'evil-quit)
 #+end_src
-
-***** Linux
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config
-(when IS-LINUX
-  (map! "s-h" #'wm-window-left
-        "s-j" #'wm-window-down
-        "s-k" #'wm-window-up
-        "s-l" #'wm-window-right
-        ;; TODO: add workspace balancing python script.
-        ;; TODO: add window splitting.
-        "s-Q" #'evil-quit))
-#+end_src
-
-***** Emacs to Other Windows
 
 These binds allow you to use Doom's window switching commands to focus windows outside of Emacs.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config
-(map! :leader "w h" #'wm-window-left)
-(map! :leader "w j" #'wm-window-down)
-(map! :leader "w k" #'wm-window-up)
-(map! :leader "w l" #'wm-window-right)
+(map! :leader "w h" #'wm-window-left
+              "w j" #'wm-window-down
+              "w k" #'wm-window-up
+              "w l" #'wm-window-right)
 #+end_src
 
 ** Keybinds

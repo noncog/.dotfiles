@@ -71,27 +71,18 @@
   (interactive)
   (let ((direction (cond (IS-LINUX "down") (IS-MAC "south"))))
     (wm-focus-on-error direction #'windmove-down)))
-(when IS-MAC
-  (map! "s-h" #'wm-window-left
-        "s-j" #'wm-window-down
-        "s-k" #'wm-window-up
-        "s-l" #'wm-window-right
-        "s-=" #'balance-windows
-        "s-v" #'evil-window-vsplit
-        "s-s" #'evil-window-split
-        "s-Q" #'evil-quit))
-(when IS-LINUX
-  (map! "s-h" #'wm-window-left
-        "s-j" #'wm-window-down
-        "s-k" #'wm-window-up
-        "s-l" #'wm-window-right
-        ;; TODO: add workspace balancing python script.
-        ;; TODO: add window splitting.
-        "s-Q" #'evil-quit))
-(map! :leader "w h" #'wm-window-left)
-(map! :leader "w j" #'wm-window-down)
-(map! :leader "w k" #'wm-window-up)
-(map! :leader "w l" #'wm-window-right)
+(map! "s-h" #'wm-window-left
+      "s-j" #'wm-window-down
+      "s-k" #'wm-window-up
+      "s-l" #'wm-window-right
+      "s-=" #'balance-windows
+      "s-v" #'evil-window-vsplit
+      "s-s" #'evil-window-split
+      "s-Q" #'evil-quit)
+(map! :leader "w h" #'wm-window-left
+              "w j" #'wm-window-down
+              "w k" #'wm-window-up
+              "w l" #'wm-window-right)
 (when IS-MAC (setq mac-command-modifier 'control ; Maps Command -> Control
                     mac-control-modifier 'meta   ; Maps Control -> Alt (Meta)
                     mac-option-modifier 'super)) ; Maps Option -> Super
