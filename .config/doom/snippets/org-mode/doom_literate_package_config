@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: doom package config
-# key: doom_package_config
+# name: doom literate package config
+# key: doom_literate_package_config
 # expand-env: ((yas-indent-line 'fixed))
 # --
 #+begin_src emacs-lisp :tangle no :noweb-ref $1-config

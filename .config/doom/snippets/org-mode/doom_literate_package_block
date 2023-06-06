@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# key: doom_package
-# name: doom package
+# name: doom literate package block
+# key: doom_literate_package_block
 # expand-env: ((yas-indent-line 'fixed) (yas-after-exit-snippet-hook #'evil-force-normal-state))
 # --
 * ${1:name}
