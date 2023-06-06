@@ -428,6 +428,9 @@
 
 (use-package! vterm
   :defer t
+  :init
+  ;; Variables
+  (when (and IS-MAC (file-exists-p "/opt/homebrew/bin/bash")) (setq vterm-shell "/opt/homebrew/bin/bash"))
   :config
   ;; Keybinds
   (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))

@@ -1858,11 +1858,27 @@ And finally, the custom standards checker is hooked into Magit's finish commit f
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
 (use-package! vterm
   :defer t
+  :init
+  <<vterm-init>>
   :config
   <<vterm-config>>
   )
 #+end_src
 #+html:</details>
+
+** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vterm-init :exports none
+;; Variables
+#+end_src
+
+*** Vterm Shell
+
+Right now, I prefer to use my Bash configuration instead of Zsh, so we set Vterm to that when we're on macOS.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vterm-init
+(when (and IS-MAC (file-exists-p "/opt/homebrew/bin/bash")) (setq vterm-shell "/opt/homebrew/bin/bash"))
+#+end_src
 
 ** Keybinds
 
