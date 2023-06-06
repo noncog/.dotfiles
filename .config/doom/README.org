@@ -1894,9 +1894,26 @@ For some reason, this keybind works on my Linux machines but not on macOS. To fi
 (evil-define-key* 'insert vterm-mode-map (kbd "<M-backspace>") #'vterm-send-meta-backspace)
 #+end_src
 
+** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vterm-config :exports none
+;; Fixes
+#+end_src
+
+*** Always Start with Evil Insert Mode
+
+Although vterm-mode starts by using insert mode, when switching back to the terminal buffer this isn't the case. So I add advice to switch to the insert state after the function I use to open the terminal.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
+(defun my/advice-after-vterm-use-evil-insert-mode (fn &rest args)
+  "Advice to use Evil's insert mode after opening a vterm window."
+    (apply fn args)
+    (with-current-buffer (window-buffer (selected-window))
+      (when (eq major-mode 'vterm-mode) (evil-collection-vterm-insert))))
+#+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
-(define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
+(advice-add '+vterm/toggle :around #'my/advice-after-fn-use-evil-insert-mode)
 #+end_src
 
 * Visual Fill Column

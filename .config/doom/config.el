@@ -434,7 +434,15 @@
   :config
   ;; Keybinds
   (evil-define-key* 'insert vterm-mode-map (kbd "<M-backspace>") #'vterm-send-meta-backspace)
+  ;; Fixes
+  (advice-add '+vterm/toggle :around #'my/advice-after-fn-use-evil-insert-mode)
   )
+
+(defun my/advice-after-vterm-use-evil-insert-mode (fn &rest args)
+  "Advice to use Evil's insert mode after opening a vterm window."
+    (apply fn args)
+    (with-current-buffer (window-buffer (selected-window))
+      (when (eq major-mode 'vterm-mode) (evil-collection-vterm-insert))))
 
 (use-package! visual-fill-column
   :custom
