@@ -36,6 +36,7 @@
 - [[#which-key][Which-Key]]
   - [[#package-1][Package]]
   - [[#behavior-2][Behavior]]
+  - [[#keybinds-1][Keybinds]]
   - [[#fixes][Fixes]]
 - [[#avy][Avy]]
   - [[#package-2][Package]]
@@ -43,7 +44,7 @@
 - [[#helpful][Helpful]]
   - [[#package-3][Package]]
   - [[#behavior-4][Behavior]]
-  - [[#keybinds-1][Keybinds]]
+  - [[#keybinds-2][Keybinds]]
 - [[#doom-modeline][Doom Modeline]]
   - [[#package-4][Package]]
   - [[#appearance-2][Appearance]]
@@ -51,14 +52,14 @@
   - [[#package-5][Package]]
   - [[#appearance-3][Appearance]]
   - [[#behavior-5][Behavior]]
-  - [[#keybinds-2][Keybinds]]
+  - [[#keybinds-3][Keybinds]]
 - [[#persp-mode][Persp-Mode]]
   - [[#package-6][Package]]
   - [[#fixes-1][Fixes]]
 - [[#vertico][Vertico]]
   - [[#package-7][Package]]
   - [[#behavior-6][Behavior]]
-  - [[#keybinds-3][Keybinds]]
+  - [[#keybinds-4][Keybinds]]
 - [[#marginalia][Marginalia]]
   - [[#package-8][Package]]
   - [[#appearance-4][Appearance]]
@@ -73,7 +74,7 @@
   - [[#package-11][Package]]
   - [[#variables-1][Variables]]
   - [[#behavior-9][Behavior]]
-  - [[#keybinds-4][Keybinds]]
+  - [[#keybinds-5][Keybinds]]
 - [[#treemacs][Treemacs]]
   - [[#package-12][Package]]
   - [[#appearance-5][Appearance]]
@@ -83,47 +84,49 @@
   - [[#behavior-11][Behavior]]
 - [[#vterm][Vterm]]
   - [[#package-14][Package]]
-  - [[#keybinds-5][Keybinds]]
+  - [[#variables-2][Variables]]
+  - [[#keybinds-6][Keybinds]]
+  - [[#fixes-2][Fixes]]
 - [[#visual-fill-column][Visual Fill Column]]
   - [[#package-15][Package]]
-  - [[#fixes-2][Fixes]]
+  - [[#fixes-3][Fixes]]
 - [[#org][Org]]
   - [[#package-16][Package]]
-  - [[#variables-2][Variables]]
+  - [[#variables-3][Variables]]
   - [[#appearance-6][Appearance]]
   - [[#behavior-12][Behavior]]
 - [[#org-agenda][Org Agenda]]
   - [[#package-17][Package]]
   - [[#appearance-7][Appearance]]
   - [[#behavior-13][Behavior]]
-  - [[#keybinds-6][Keybinds]]
+  - [[#keybinds-7][Keybinds]]
   - [[#helpers][Helpers]]
 - [[#org-capture][Org Capture]]
   - [[#package-18][Package]]
-  - [[#variables-3][Variables]]
+  - [[#variables-4][Variables]]
   - [[#behavior-14][Behavior]]
-  - [[#keybinds-7][Keybinds]]
-  - [[#fixes-3][Fixes]]
+  - [[#keybinds-8][Keybinds]]
+  - [[#fixes-4][Fixes]]
 - [[#org-roam][Org Roam]]
   - [[#package-19][Package]]
   - [[#resources-1][Resources]]
-  - [[#variables-4][Variables]]
+  - [[#variables-5][Variables]]
   - [[#appearance-8][Appearance]]
   - [[#behavior-15][Behavior]]
-  - [[#keybinds-8][Keybinds]]
+  - [[#keybinds-9][Keybinds]]
 - [[#org-roam-ui][Org Roam UI]]
   - [[#package-20][Package]]
   - [[#appearance-9][Appearance]]
   - [[#behavior-16][Behavior]]
-  - [[#keybinds-9][Keybinds]]
+  - [[#keybinds-10][Keybinds]]
 - [[#vulpea][Vulpea]]
   - [[#package-21][Package]]
   - [[#helpers-1][Helpers]]
 - [[#org-gtd][Org GTD]]
   - [[#package-22][Package]]
-  - [[#variables-5][Variables]]
+  - [[#variables-6][Variables]]
   - [[#behavior-17][Behavior]]
-  - [[#keybinds-10][Keybinds]]
+  - [[#keybinds-11][Keybinds]]
 - [[#org-appear][Org Appear]]
   - [[#package-23][Package]]
   - [[#appearance-10][Appearance]]
@@ -137,12 +140,12 @@
   - [[#behavior-18][Behavior]]
 - [[#org-noter][Org Noter]]
   - [[#package-27][Package]]
-  - [[#variables-6][Variables]]
+  - [[#variables-7][Variables]]
   - [[#behavior-19][Behavior]]
 - [[#pdf-tools][PDF Tools]]
   - [[#package-28][Package]]
   - [[#behavior-20][Behavior]]
-  - [[#fixes-4][Fixes]]
+  - [[#fixes-5][Fixes]]
 - [[#plantuml][PlantUML]]
   - [[#package-29][Package]]
   - [[#behavior-21][Behavior]]
@@ -150,7 +153,7 @@
   - [[#package-30][Package]]
   - [[#appearance-12][Appearance]]
   - [[#behavior-22][Behavior]]
-  - [[#keybinds-11][Keybinds]]
+  - [[#keybinds-12][Keybinds]]
 - [[#ox-latex][Ox Latex]]
   - [[#package-31][Package]]
   - [[#appearance-13][Appearance]]
@@ -508,7 +511,9 @@ Most of the configuration is done here. Each code block is defined in its releva
 #+html:</details>
 *** Organization
 
-This file is structured to promote discoverability and comprehension. In general, it follows this scheme:
+This file is structured to promote discoverability and comprehension.
+
+In general, it follows this scheme:
 
 *Section*
 - Variables
@@ -520,6 +525,12 @@ This file is structured to promote discoverability and comprehension. In general
 You're currently reading the Doom section. I configure 'global' settings here.
 
 All other sections are dedicated to individul package configuration.
+
+*** Design
+
+- I try to use conventions that are not specific to Doom so that my configuration can apply to the wider Emacs community as well. Although one could translate Doom's convenience macros, I prefer to enable you to be able to easily copy and paste parts of my configuration.
+
+- Any functions or advice that I create start with =my/= as a unique identifier and try to be descriptive in their purpose. By being well written and not using my name (=noncog/=) as an identifier, you can directly copy and paste my stuff without needing to rename or rewrite it.
 
 *** Resources
 
@@ -958,7 +969,7 @@ This setting may fix the issue perfectly or cause crashing.
 
 **** Add Lines Below the Keybinds
 
-A simple solution is to add spaces below the keybinds. Realistically, this doesn't work everywhere but it's good enough for now. ([[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][Source]])
+A simple solution is to add spaces below the keybinds. Realistically, this doesn't work everywhere but it's good enough. ([[https://github.com/justbur/emacs-which-key/issues/231#issuecomment-627503184][Source]])
 
 #+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
 ;; (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))
