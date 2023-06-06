@@ -546,11 +546,16 @@ All other sections are dedicated to individul package configuration.
 #+html:</details>
 
 ** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n" :exports none
+;; Variables
+#+end_src
+
 *** TODO Personal Information
 
 Define an identity for use with GPG, email, and file templates/snippets.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
 #+end_src
@@ -567,7 +572,7 @@ I change my Org literate config file name from =config.org= to =README.org= in =
 
 I don't use most of the default providers (Google) so I set my own.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq +lookup-provider-url-alist
       '(("DuckDuckGo" +lookup--online-backend-duckduckgo "https://duckduckgo.com/?q=%s")
         ("Github" "https://github.com/search?ref=simplesearch&q=%s")
@@ -583,11 +588,16 @@ I don't use most of the default providers (Google) so I set my own.
 #+end_src
 
 ** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n" :exports none
+;; Appearance
+#+end_src
+
 *** Theme
 
 I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experimenting with Doom Vibrant/One.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq doom-theme 'doom-vibrant)
 #+end_src
 
@@ -595,7 +605,7 @@ I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experi
 
 I'm also experimenting with fonts. Although, Jetbrains Mono and Fira Code are staples.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
       doom-big-font (font-spec :family "JetBrains Mono" :size 16))
 #+end_src
@@ -604,20 +614,20 @@ I'm also experimenting with fonts. Although, Jetbrains Mono and Fira Code are st
 
 Draw the block cursor as wide as the glyph under it.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq-default x-stretch-cursor t)
 #+end_src
 
 *** Frames
 **** Start Maximized
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+end_src
 
 **** Prevent Frame Resizing Due to Font/Face Changes
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines))
 #+end_src
 
@@ -625,7 +635,7 @@ Draw the block cursor as wide as the glyph under it.
 
 I use relative visual line numbers to move around.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq display-line-numbers-type 'visual)
 #+end_src
 
@@ -634,23 +644,28 @@ But, I don't want them shown in all modes.
 Specifically, I disable it in org-mode. Emacs has a flaw related to visual line numbers, code folding, and Evil.
 
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (dolist (mode '(org-mode-hook))
       (add-hook mode #'doom-disable-line-numbers-h))
 #+end_src
 
 Prevent shifting the buffer content whenever the line number count increases in column width.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq display-line-numbers-grow-only t)
 #+end_src
 
 ** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n" :exports none
+;; Behavior
+#+end_src
+
 *** Enable Evil Fine Undo
 
 By default, all changes made while using insert mode are considered one. This setting enables a more granular undo scheme.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq evil-want-fine-undo t)
 #+end_src
 
@@ -658,7 +673,7 @@ By default, all changes made while using insert mode are considered one. This se
 
 Allows iterating through CamelCase words.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (global-subword-mode 1)
 #+end_src
 
@@ -666,20 +681,20 @@ Allows iterating through CamelCase words.
 
 Whenever you overwrite text in visual mode, prevent adding that text to the kill ring. This enables you to paste the same thing multiple times without losing it.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq evil-kill-on-visual-paste nil)
 #+end_src
 
 *** Focus New Windows After Splitting
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
 #+end_src
 
 *** Autoload File Changes
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (global-auto-revert-mode 1)
 #+end_src
 
@@ -689,13 +704,13 @@ This is an area of contention for me. Eventually I would like to overhaul this b
 
 **** Set Scroll Amount
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 ;(setq-default evil-scroll-count 5)
 #+end_src
 
 **** Center Scroll Mode
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (define-minor-mode prot/scroll-center-cursor-mode
   "Toggle centred cursor scrolling behavior"
   :init-value nil
@@ -726,7 +741,7 @@ This method requires some way for your window manager to pass the keybinds to Em
 
 When a window can't be found in that direction in Emacs, it passes the window focusing command to the window manager.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (defun wm-focus-on-error (direction move-fn)
     (when IS-LINUX
      (condition-case nil (funcall move-fn)
@@ -736,7 +751,7 @@ When a window can't be found in that direction in Emacs, it passes the window fo
         (user-error (start-process "wm" nil "yabai" "-m" "window" "--focus" direction)))))
 #+end_src
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (defun wm-window-left ()
   (interactive)
   (let ((direction (cond (IS-LINUX "left") (IS-MAC "west"))))
@@ -762,7 +777,7 @@ When a window can't be found in that direction in Emacs, it passes the window fo
 
 I use =super= as my window manager modifier key. These binds allow the window manager windowing keybinds to work within Emacs.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (map! "s-h" #'wm-window-left
       "s-j" #'wm-window-down
       "s-k" #'wm-window-up
@@ -775,7 +790,7 @@ I use =super= as my window manager modifier key. These binds allow the window ma
 
 These binds allow you to use Doom's window switching commands to focus windows outside of Emacs.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (map! :leader "w h" #'wm-window-left
               "w j" #'wm-window-down
               "w k" #'wm-window-up
@@ -783,11 +798,16 @@ These binds allow you to use Doom's window switching commands to focus windows o
 #+end_src
 
 ** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n" :exports none
+;; Keybinds
+#+end_src
+
 *** Mac Modifier Keys
 
 I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (when IS-MAC (setq mac-command-modifier 'control ; Maps Command -> Control
                     mac-control-modifier 'meta   ; Maps Control -> Alt (Meta)
                     mac-option-modifier 'super)) ; Maps Option -> Super

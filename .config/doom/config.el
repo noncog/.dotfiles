@@ -1,7 +1,10 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+;; Variables
+
 (setq user-full-name "Jake Turner"
       user-mail-address "john@doe.com")
+
 (setq +lookup-provider-url-alist
       '(("DuckDuckGo" +lookup--online-backend-duckduckgo "https://duckduckgo.com/?q=%s")
         ("Github" "https://github.com/search?ref=simplesearch&q=%s")
@@ -14,23 +17,42 @@
         ("MDN" "https://developer.mozilla.org/en-US/search?q=%s")
         ("Arch Wiki" "https://wiki.archlinux.org/index.php?search=%s&title=Special%3ASearch&wprov=acrw1")
         ("AUR" "https://aur.archlinux.org/packages?O=0&K=%s")))
+
+;; Appearance
+
 (setq doom-theme 'doom-vibrant)
+
 (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
       doom-big-font (font-spec :family "JetBrains Mono" :size 16))
+
 (setq-default x-stretch-cursor t)
+
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 (setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines))
+
 (setq display-line-numbers-type 'visual)
+
 (dolist (mode '(org-mode-hook))
       (add-hook mode #'doom-disable-line-numbers-h))
+
 (setq display-line-numbers-grow-only t)
+
+;; Behavior
+
 (setq evil-want-fine-undo t)
+
 (global-subword-mode 1)
+
 (setq evil-kill-on-visual-paste nil)
+
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
+
 (global-auto-revert-mode 1)
+
 ;(setq-default evil-scroll-count 5)
+
 (define-minor-mode prot/scroll-center-cursor-mode
   "Toggle centred cursor scrolling behavior"
   :init-value nil
@@ -45,6 +67,7 @@
                      maximum-scroll-margin
                      scroll-margin))
       (kill-local-variable `,local))))
+
 (defun wm-focus-on-error (direction move-fn)
     (when IS-LINUX
      (condition-case nil (funcall move-fn)
@@ -52,6 +75,7 @@
      (when IS-MAC
       (condition-case nil (funcall move-fn)
         (user-error (start-process "wm" nil "yabai" "-m" "window" "--focus" direction)))))
+
 (defun wm-window-left ()
   (interactive)
   (let ((direction (cond (IS-LINUX "left") (IS-MAC "west"))))
@@ -71,6 +95,7 @@
   (interactive)
   (let ((direction (cond (IS-LINUX "down") (IS-MAC "south"))))
     (wm-focus-on-error direction #'windmove-down)))
+
 (map! "s-h" #'wm-window-left
       "s-j" #'wm-window-down
       "s-k" #'wm-window-up
@@ -79,13 +104,18 @@
       "s-v" #'evil-window-vsplit
       "s-s" #'evil-window-split
       "s-Q" #'evil-quit)
+
 (map! :leader "w h" #'wm-window-left
               "w j" #'wm-window-down
               "w k" #'wm-window-up
               "w l" #'wm-window-right)
+
+;; Keybinds
+
 (when IS-MAC (setq mac-command-modifier 'control ; Maps Command -> Control
                     mac-control-modifier 'meta   ; Maps Control -> Alt (Meta)
                     mac-option-modifier 'super)) ; Maps Option -> Super
+
 (use-package! beacon
   :config
   ;; Appearance
