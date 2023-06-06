@@ -1886,9 +1886,14 @@ Right now, I prefer to use my Bash configuration instead of Zsh, so we set Vterm
 ;; Keybinds
 #+end_src
 
-*** Fix =C-backspace=
+*** Fix =M-backspace= on macOS
 
-I love this keybind, more things should use it. Including vterm... ([[https://github.com/elken/doom#fix-c-backspace][Source]])
+For some reason, this keybind works on my Linux machines but not on macOS. To fix it, we create a special Evil auxiliary map that's only active during insert mode inside of vterm-mode.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
+(evil-define-key* 'insert vterm-mode-map (kbd "<M-backspace>") #'vterm-send-meta-backspace)
+#+end_src
+
 
 #+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
 (define-key vterm-mode-map (kbd "<C-backspace>") (lambda () (interactive) (vterm-send-key (kbd "C-w"))))
