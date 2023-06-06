@@ -136,7 +136,17 @@
   :config
   ;; Behavior
   (setq which-key-idle-delay 0.5)
-  ;(setq which-key-use-C-h-commands t)
+  ;; Keybinds
+  (setq which-key-use-C-h-commands t
+        prefix-help-command #'which-key-C-h-dispatch)
+  
+  (defadvice! fix-which-key-dispatcher-a (fn &rest args)
+    :around #'which-key-C-h-dispatch
+    (let ((keys (this-command-keys-vector)))
+      (if (equal (elt keys (1- (length keys))) ?\?)
+          (let ((keys (which-key--this-command-keys)))
+            (embark-bindings (seq-take keys (1- (length keys)))))
+        (apply fn args))))
   ;; Fixes
   (setq which-key-allow-imprecise-window-fit nil)
   ;; (defun add-which-key-line (f &rest r) (progn (apply f (list (cons (+ 1 (car (car r))) (cdr (car r)))))))

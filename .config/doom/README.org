@@ -915,12 +915,27 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
 (setq which-key-idle-delay 0.5)
 #+end_src
 
-*** Use C-h Map
-
-Enable the use of the default which-key-c-h map to get paging keybinds. =Note=: One can use =SPC C-h= to see a searchable list of global leader keybinds and =C-h= in which key
+** Keybinds
 
 #+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
-;(setq which-key-use-C-h-commands t)
+;; Keybinds
+#+end_src
+
+*** Use =C-h= Commands
+
+These enable page navigation in the which-key popup. However, Doom binds =C-h= to Embark. So, we need to enable it and add some advice to make the two behave together.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
+(setq which-key-use-C-h-commands t
+      prefix-help-command #'which-key-C-h-dispatch)
+
+(defadvice! fix-which-key-dispatcher-a (fn &rest args)
+  :around #'which-key-C-h-dispatch
+  (let ((keys (this-command-keys-vector)))
+    (if (equal (elt keys (1- (length keys))) ?\?)
+        (let ((keys (which-key--this-command-keys)))
+          (embark-bindings (seq-take keys (1- (length keys)))))
+      (apply fn args))))
 #+end_src
 
 ** Fixes
