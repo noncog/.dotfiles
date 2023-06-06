@@ -1014,7 +1014,7 @@ It's possible to reduce the description length for functions shown by which-key.
 
 *** Enable Jumping to All Visible Windows
 
-#+begin_src emacs-lisp :tangle no :noweb-ref avy-config :exports none
+#+begin_src emacs-lisp :tangle no :noweb-ref avy-config
 (setq avy-all-windows t)
 #+end_src
 
