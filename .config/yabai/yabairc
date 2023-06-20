@@ -6,7 +6,15 @@ yabai -m config debug_output off
 
 yabai -m config layout bsp
 
-yabai -m config window_topmost on
+yabai -m config window_topmost off
+
+yabai -m signal --add event=window_focused action="printf "%s" \$YABAI_WINDOW_ID > \$HOME/.config/yabai/state/focused_window_id"
+
+yabai -m signal --add event=space_changed action="\$HOME/.config/yabai/scripts/focused_space.sh \$YABAI_SPACE_ID"
+
+source "$HOME/.config/yabai/scripts/update_scratchpad_space.sh"
+
+yabai -m signal --add event=display_resized action="brew services restart sketchybar"
 
 yabai -m config active_window_border_color  0xff6272A4
 yabai -m config normal_window_border_color  0xff555555
@@ -30,11 +38,10 @@ yabai -m rule --add app="^Open Cycle Time$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Barrier$" manage=off
 
-yabai -m rule --add app="^Emacs$" space=^1
+yabai -m rule --add app="Emacs$" space=^1
 
-yabai -m rule --add app="^(Firefox|LibreWolf|Safari|Tor Browswer)$" space=^2
-
-yabai -m signal --add event=window_created app="^(Firefox|LibreWolf|Safari|Tor Browser)$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
+yabai -m rule --add app="Firefox$" space=^2
+yabai -m rule --add app="LibreWolf$" space=^2
 
 yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'" active=yes
 
@@ -42,12 +49,28 @@ yabai -m signal --add event=window_destroyed app="^LibreWolf$" action="osascript
 
 yabai -m signal --add event=window_destroyed app="^Safari$" action="osascript -e 'quit app \"Safari\"'" active=yes
 
-yabai -m rule --add app="^(CLion|PyCharm)$" space=^3
+yabai -m rule --add app="Safari$" space=^2
 
-yabai -m rule --add app="^(Gimp|Blender)$" space=^4
+yabai -m rule --add app="Tor Browswer$" space=^2
 
-yabai -m rule --add app="kitty" space=^8
+yabai -m rule --add app="(CLion|PyCharm)$" space=^3
 
-yabai -m rule --add app="^Discord" space=^9
+yabai -m rule --add app="(Gimp|Blender)$" space=^4
 
-yabai -m signal --add event=display_resized action="brew services restart sketchybar"
+yabai -m rule --add app="kitty" grid=6:6:1:1:4:4 manage=off
+
+yabai -m signal --add event=window_created action="\$HOME/.config/yabai/scripts/scratchpad_win_id.sh \$YABAI_WINDOW_ID kitty" app="kitty"
+
+yabai -m signal --add event=window_destroyed action="\$HOME/.config/yabai/scripts/scratchpad_win_id_reset.sh kitty" app="kitty"
+
+yabai -m rule --add app="^Discord" grid=10:10:1:0:8:10 manage=off
+
+yabai -m signal --add event=window_focused action="\$HOME/.config/yabai/scripts/scratchpad_win_id.sh \$YABAI_WINDOW_ID Discord" app="Discord"
+
+yabai -m signal --add event=window_destroyed action="\$HOME/.config/yabai/scripts/scratchpad_win_id_reset.sh Discord" app="Discord"
+
+yabai -m rule --add app="Spotify" grid=6:6:1:1:4:4 manage=off
+
+yabai -m signal --add event=window_created action="\$HOME/.config/yabai/scripts/scratchpad_win_id.sh \$YABAI_WINDOW_ID Spotify" app="Spotify"
+
+yabai -m signal --add event=window_destroyed action="\$HOME/.config/yabai/scripts/scratchpad_win_id_reset.sh Spotify" app="Spotify"

@@ -81,10 +81,43 @@ yabai -m config layout bsp
 
 *** Floating Windows
 
-Keep floating windows on top.
+Prevent floating windows from spawning behind others...
 
 #+begin_src sh :tangle yabairc
-yabai -m config window_topmost on
+yabai -m config window_topmost off
+#+end_src
+
+** Utilities
+
+Using the following settings I implement the scratchpad functionality from i3 as well as several convenience functions.
+
+*** Windows
+**** Focused Window
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_focused action="printf "%s" \$YABAI_WINDOW_ID > \$HOME/.config/yabai/state/focused_window_id"
+#+end_src
+
+*** Spaces
+**** Focused Space
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=space_changed action="\$HOME/.config/yabai/scripts/focused_space.sh \$YABAI_SPACE_ID"
+#+end_src
+
+**** Scratchpad Space
+
+#+begin_src sh :tangle yabairc
+source "$HOME/.config/yabai/scripts/update_scratchpad_space.sh"
+#+end_src
+
+*** Sketchybar
+**** Automatically Resize SketchyBar
+
+Whenever the screen resolution changes, restart sketchybar, which has a helper script to detect the new menu bar height to match the height in pixels of the notch in the screen.
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=display_resized action="brew services restart sketchybar"
 #+end_src
 
 ** Appearance
@@ -103,6 +136,12 @@ yabai -m config window_border_width         1
 
 #+begin_src sh :tangle yabairc
 yabai -m config window_shadow off
+#+end_src
+
+*** Window Animatinos
+
+#+begin_src sh :tangle yabairc
+yabai -m config window_animation_duration 0.0
 #+end_src
 
 *** Gaps
@@ -212,7 +251,7 @@ yabai -m rule --add app="^Barrier$" manage=off
 *** Emacs
 
 #+begin_src sh :tangle yabairc
-yabai -m rule --add app="^Emacs$" space=^1
+yabai -m rule --add app="Emacs$" space=^1
 #+end_src
 
 #+begin_src conf :tangle ~/.config/skhd/skhdrc
@@ -224,21 +263,14 @@ cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
 *** Firefox
 
 #+begin_src sh :tangle yabairc
-yabai -m rule --add app="^(Firefox|LibreWolf|Safari|Tor Browswer)$" space=^2
+yabai -m rule --add app="Firefox$" space=^2
+yabai -m rule --add app="LibreWolf$" space=^2
 #+end_src
 
 #+begin_src conf :tangle ~/.config/skhd/skhdrc
 alt - f : yabai -m space --focus 2
 shift + alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1; /opt/homebrew/bin/librewolf -profile $HOME/.config/firefox/noncog
 cmd + shift + alt - f : yabai -m window --space 2; yabai -m space --focus 2
-#+end_src
-
-**** Fix Firefox Window Focus
-
-Always focus a newly created Firefox window.
-
-#+begin_src sh :tangle yabairc
-yabai -m signal --add event=window_created app="^(Firefox|LibreWolf|Safari|Tor Browser)$" action="yabai -m window --focus \$YABAI_WINDOW_ID"
 #+end_src
 
 **** Quit Browsers When Last Window Destroyed
@@ -257,10 +289,28 @@ yabai -m signal --add event=window_destroyed app="^LibreWolf$" action="osascript
 yabai -m signal --add event=window_destroyed app="^Safari$" action="osascript -e 'quit app \"Safari\"'" active=yes
 #+end_src
 
+*** Safari
+
+#+begin_src sh :tangle yabairc
+yabai -m rule --add app="Safari$" space=^2
+#+end_src
+
+*** Tor
+
+#+begin_src sh :tangle yabairc
+yabai -m rule --add app="Tor Browswer$" space=^2
+#+end_src
+
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - t : yabai -m space --focus 2
+shift + alt - t : open -n -a "Tor Browser"
+cmd + shift + alt - t : yabai -m window --space 2; yabai -m space --focus 2
+#+end_src
+
 *** Code (IDE)
 
 #+begin_src sh :tangle yabairc
-yabai -m rule --add app="^(CLion|PyCharm)$" space=^3
+yabai -m rule --add app="(CLion|PyCharm)$" space=^3
 #+end_src
 
 #+begin_src conf :tangle ~/.config/skhd/skhdrc
@@ -272,7 +322,7 @@ cmd + shift + alt - c : yabai -m window --space 3; yabai -m space --focus 3
 *** Blender
 
 #+begin_src sh :tangle yabairc
-yabai -m rule --add app="^(Gimp|Blender)$" space=^4
+yabai -m rule --add app="(Gimp|Blender)$" space=^4
 #+end_src
 
 #+begin_src conf :tangle ~/.config/skhd/skhdrc
@@ -283,44 +333,66 @@ cmd + shift + alt - b : yabai -m window --space 5; yabai -m space --focus 5
 
 *** Kitty
 
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - return : $HOME/.config/yabai/scripts/scratchpad.sh "kitty"
+shift + alt - return : $HOME/.config/yabai/scripts/launch_one_instance.sh "kitty" "open -n -a "kitty""
+#+end_src
+
+**** Scratchpad App Setup
+
 #+begin_src sh :tangle yabairc
-yabai -m rule --add app="kitty" space=^8
+yabai -m rule --add app="kitty" grid=6:6:1:1:4:4 manage=off
 #+end_src
 
-#+begin_src conf :tangle ~/.config/skhd/skhdrc
-alt - return : yabai -m space --focus 8
-shift + alt - return : open -n -a "kitty"
-cmd + shift + alt - return : yabai -m window --space 8; yabai -m space --focus 8
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_created action="\$HOME/.config/yabai/scripts/scratchpad_win_id.sh \$YABAI_WINDOW_ID kitty" app="kitty"
 #+end_src
 
-*** Tor
-
-#+begin_src conf :tangle ~/.config/skhd/skhdrc
-alt - t : yabai -m space --focus 7
-shift + alt - t : open -n -a "Tor Browser"
-cmd + shift + alt - t : yabai -m window --space 7; yabai -m space --focus 7
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_destroyed action="\$HOME/.config/yabai/scripts/scratchpad_win_id_reset.sh kitty" app="kitty"
 #+end_src
 
 *** Discord
 
-#+begin_src sh :tangle yabairc
-yabai -m rule --add app="^Discord" space=^9
-#+end_src
 
 #+begin_src conf :tangle ~/.config/skhd/skhdrc
-alt - d : yabai -m space --focus 9
+alt - d : $HOME/.config/yabai/scripts/scratchpad.sh "Discord"
 shift + alt - d : open -n -a "Discord"
-cmd + shift + alt - d : yabai -m window --space 9; yabai -m space --focus 9
+#+end_src
+
+**** Scratchpad App Setup
+
+#+begin_src sh :tangle yabairc
+yabai -m rule --add app="^Discord" grid=10:10:1:0:8:10 manage=off
+#+end_src
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_focused action="\$HOME/.config/yabai/scripts/scratchpad_win_id.sh \$YABAI_WINDOW_ID Discord" app="Discord"
+#+end_src
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_destroyed action="\$HOME/.config/yabai/scripts/scratchpad_win_id_reset.sh Discord" app="Discord"
 #+end_src
 
 *** Spotify
-*** YouTube
-** Utilities
-*** Sketchybar
-**** Automatically Resize SketchyBar
 
-Whenever the screen resolution changes, restart sketchybar, which has a helper script to detect the new menu bar height to match the height in pixels of the notch in the screen.
+#+begin_src conf :tangle ~/.config/skhd/skhdrc
+alt - m : $HOME/.config/yabai/scripts/scratchpad.sh "Spotify"
+shift + alt - m : open -n -a "Spotify"
+#+end_src
+
+**** Scratchpad App Setup
 
 #+begin_src sh :tangle yabairc
-yabai -m signal --add event=display_resized action="brew services restart sketchybar"
+yabai -m rule --add app="Spotify" grid=6:6:1:1:4:4 manage=off
 #+end_src
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_created action="\$HOME/.config/yabai/scripts/scratchpad_win_id.sh \$YABAI_WINDOW_ID Spotify" app="Spotify"
+#+end_src
+
+#+begin_src sh :tangle yabairc
+yabai -m signal --add event=window_destroyed action="\$HOME/.config/yabai/scripts/scratchpad_win_id_reset.sh Spotify" app="Spotify"
+#+end_src
+
+*** YouTube
