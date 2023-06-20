@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "$1" == "sync" ]; then
+if [[ "$1" == "sync" && "$#" == 1 ]]; then
     emacsclient -e "(kill-emacs)"
     "$HOME"/.config/emacs/bin/doom "$@"
     emacsclient -c -n --alternate-editor=""
