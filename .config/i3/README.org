@@ -446,9 +446,9 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 #+begin_src conf :tangle config :noweb-ref keybinds
 # desktop app launcher
-bindsym $mod+Escape exec --no-startup-id rofi -show drun -show-icons
+bindsym $mod+o exec --no-startup-id rofi -show drun -show-icons
 # cogmenu - custom menu launcher
-bindsym $mod+BackSpace exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
+bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+end_src
 
 *** Picom Daemon
