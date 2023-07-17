@@ -29,22 +29,22 @@
   - [[#appearance][Appearance]]
   - [[#behavior][Behavior]]
   - [[#keybinds][Keybinds]]
-- [[#beacon][Beacon]]
-  - [[#package][Package]]
-  - [[#appearance-1][Appearance]]
-  - [[#behavior-1][Behavior]]
-- [[#which-key][Which-Key]]
-  - [[#package-1][Package]]
-  - [[#behavior-2][Behavior]]
-  - [[#keybinds-1][Keybinds]]
-  - [[#fixes][Fixes]]
 - [[#avy][Avy]]
+  - [[#package][Package]]
+  - [[#behavior-1][Behavior]]
+- [[#beacon][Beacon]]
+  - [[#package-1][Package]]
+  - [[#appearance-1][Appearance]]
+  - [[#behavior-2][Behavior]]
+- [[#helpful][Helpful]]
   - [[#package-2][Package]]
   - [[#behavior-3][Behavior]]
-- [[#helpful][Helpful]]
+  - [[#keybinds-1][Keybinds]]
+- [[#which-key][Which-Key]]
   - [[#package-3][Package]]
   - [[#behavior-4][Behavior]]
   - [[#keybinds-2][Keybinds]]
+  - [[#fixes][Fixes]]
 - [[#doom-modeline][Doom Modeline]]
   - [[#package-4][Package]]
   - [[#appearance-2][Appearance]]
@@ -119,50 +119,57 @@
   - [[#appearance-9][Appearance]]
   - [[#behavior-16][Behavior]]
   - [[#keybinds-10][Keybinds]]
-- [[#vulpea][Vulpea]]
+- [[#org-roam-dailies][Org Roam Dailies]]
   - [[#package-21][Package]]
+  - [[#variables-6][Variables]]
+- [[#org-roam-protocol][Org Roam Protocol]]
+  - [[#package-22][Package]]
+  - [[#behavior-17][Behavior]]
+  - [[#see-what-this-does][See what this does.]]
+- [[#vulpea][Vulpea]]
+  - [[#package-23][Package]]
   - [[#helpers-1][Helpers]]
 - [[#org-gtd][Org GTD]]
-  - [[#package-22][Package]]
-  - [[#variables-6][Variables]]
-  - [[#behavior-17][Behavior]]
+  - [[#package-24][Package]]
+  - [[#variables-7][Variables]]
+  - [[#behavior-18][Behavior]]
   - [[#keybinds-11][Keybinds]]
 - [[#org-appear][Org Appear]]
-  - [[#package-23][Package]]
+  - [[#package-25][Package]]
   - [[#appearance-10][Appearance]]
 - [[#org-fragtog][Org Fragtog]]
-  - [[#package-24][Package]]
+  - [[#package-26][Package]]
 - [[#org-modern][Org Modern]]
-  - [[#package-25][Package]]
+  - [[#package-27][Package]]
   - [[#appearance-11][Appearance]]
 - [[#toc-org][TOC Org]]
-  - [[#package-26][Package]]
-  - [[#behavior-18][Behavior]]
-- [[#org-noter][Org Noter]]
-  - [[#package-27][Package]]
-  - [[#variables-7][Variables]]
-  - [[#behavior-19][Behavior]]
-- [[#pdf-tools][PDF Tools]]
   - [[#package-28][Package]]
+  - [[#behavior-19][Behavior]]
+- [[#org-noter][Org Noter]]
+  - [[#package-29][Package]]
+  - [[#variables-8][Variables]]
   - [[#behavior-20][Behavior]]
+- [[#pdf-tools][PDF Tools]]
+  - [[#package-30][Package]]
+  - [[#behavior-21][Behavior]]
   - [[#fixes-5][Fixes]]
 - [[#plantuml][PlantUML]]
-  - [[#package-29][Package]]
-  - [[#behavior-21][Behavior]]
-- [[#ox-org-export][Ox (Org Export)]]
-  - [[#package-30][Package]]
-  - [[#appearance-12][Appearance]]
+  - [[#package-31][Package]]
   - [[#behavior-22][Behavior]]
+- [[#ox-org-export][Ox (Org Export)]]
+  - [[#package-32][Package]]
+  - [[#appearance-12][Appearance]]
+  - [[#behavior-23][Behavior]]
   - [[#keybinds-12][Keybinds]]
 - [[#ox-latex][Ox Latex]]
-  - [[#package-31][Package]]
-  - [[#appearance-13][Appearance]]
-  - [[#behavior-23][Behavior]]
-- [[#engrave-faces][Engrave Faces]]
-  - [[#package-32][Package]]
-- [[#lsp-clangd][LSP-Clangd]]
   - [[#package-33][Package]]
+  - [[#appearance-13][Appearance]]
   - [[#behavior-24][Behavior]]
+- [[#engrave-faces][Engrave Faces]]
+  - [[#package-34][Package]]
+- [[#lsp-clangd][LSP-Clangd]]
+  - [[#package-35][Package]]
+  - [[#behavior-25][Behavior]]
 #+END_QUOTE
 #+html:</details>
 
@@ -606,7 +613,7 @@ I don't use most of the default providers (Google) so I set my own.
 
 *** Theme
 
-I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experimenting with Doom Vibrant/One.
+I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experimenting with Doom One (Vibrant).
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq doom-theme 'doom-vibrant)
@@ -614,11 +621,9 @@ I typically use the [[https://draculatheme.com/][Dracula]] theme, but I'm experi
 
 *** Font
 
-I'm also experimenting with fonts. Although, Jetbrains Mono and Fira Code are staples.
-
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 16))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 12)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 14))
 #+end_src
 
 *** Cursor
@@ -746,7 +751,7 @@ I love tiling window managers. I currently use [[https://i3wm.org][i3]] on Linux
 
 This method requires some way for your window manager to pass the keybinds to Emacs whenever it's the focused window. Then, you just bind those keys in Emacs to the windowing functions defined here.
 
-=NOTE=: i3 requires the use of a [[https://github.com/noncog/.dotfiles/blob/main/.config/i3/scripts/i3-emacs-mode.pl][script]] and a dedicated Emacs mode to know when Emacs is the focused window and change use different keybinds. Yabai supports this natively.
+- =NOTE=: i3 requires the use of a [[https://github.com/noncog/.dotfiles/blob/main/.config/i3/scripts/i3-emacs-mode.pl][script]] and a dedicated Emacs mode to know when Emacs is the focused window and change use different keybinds. Yabai supports this natively.
 
 **** Functions
 
@@ -824,6 +829,39 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
                     mac-option-modifier 'super)) ; Maps Option -> Super
 #+end_src
 
+* Avy
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/abo-abo/avy][Avy]] is a package for jumping to visible text using a char-based decision tree. Quickly jump to anything you see on your screen!
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! avy
+  :defer t
+  :config
+  <<avy-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref avy-config :exports none
+;; Behavior
+#+end_src
+
+*** Enable Jumping in All Visible Windows
+
+#+begin_src emacs-lisp :tangle no :noweb-ref avy-config
+(setq avy-all-windows t)
+#+end_src
+
 * Beacon
 :PROPERTIES:
 :VISIBILITY: children
@@ -893,6 +931,81 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
 (beacon-mode 1)
 #+end_src
 
+* Helpful
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! helpful
+  :defer t
+  :config
+  <<helpful-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config :exports none
+;; Behavior
+#+end_src
+
+*** Increase Max Window Count
+
+I increase the window count to be able to move back and forth between more help windows using the keybinds that I set.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(setq helpful-max-buffers 10)
+#+end_src
+
+*** Show Documentation At Top Line
+
+By default, Doom centers the page when you visit a source file. Often, I can't see the information behind the helpful window, so I remove the old advice and update it to display at the top of the screen.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(defadvice! my/+popup--helpful-open-in-origin-window-a (button)
+  "Open links in non-popup, originating window rather than helpful's window."
+  :override #'helpful--navigate
+  (let ((path (substring-no-properties (button-get button 'path)))
+        enable-local-variables
+        origin)
+    (save-popups!
+     (find-file path)
+     (when-let (pos (get-text-property button 'position
+                                       (marker-buffer button)))
+       (goto-char pos))
+     (setq origin (selected-window))
+     (recenter 0)) ; Added argument 0 to cause recenter to top of screen.
+    (select-window origin)))
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config :exports none
+;; Keybinds
+#+end_src
+
+*** Cycle Through Visited Help Pages
+
+Doom lacks the ability to move through previously viewed pages in the helpful buffer. So, we can add them using winner mode. These keybinds fit well with the rest and make sense logically. Now, I can move "left" and "right" through history.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(map! :map helpful-mode-map "C-h" #'winner-undo
+      :map helpful-mode-map "C-l" #'winner-redo)
+#+end_src
+
 * Which-Key
 :PROPERTIES:
 :VISIBILITY: children
@@ -928,7 +1041,7 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
 
 ** Keybinds
 
-#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config
+#+begin_src emacs-lisp :tangle no :noweb-ref which-key-config :exports none
 ;; Keybinds
 #+end_src
 
@@ -957,7 +1070,7 @@ These enable page navigation in the which-key popup. However, Doom binds =C-h= t
 
 *** Ensure Window Height
 
-I was having an issue using =emacsclient= where which-key was being cut off below the modeline. There are two solutions, use whichever works for you:
+I had an issue using =emacsclient= where which-key was being cut off below the modeline. There are two solutions, use whichever works for you:
 
 **** Allow Imprecise Fit
 
@@ -1009,114 +1122,6 @@ It's possible to reduce the description length for functions shown by which-key.
 (pushnew!
  which-key-replacement-alist
  '(("" . "\\`treemacs-\\(.*\\)") . (nil . " \\1")))
-#+end_src
-
-* Avy
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/abo-abo/avy][Avy]] is a package for jumping to visible text using a char-based decision tree. Quickly jump to anything you see on your screen!
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! avy
-  :defer t
-  :config
-  <<avy-config>>
-  )
-  #+end_src
-#+html:</details>
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref avy-config :exports none
-;; Behavior
-#+end_src
-
-*** Enable Jumping to All Visible Windows
-
-#+begin_src emacs-lisp :tangle no :noweb-ref avy-config
-(setq avy-all-windows t)
-#+end_src
-
-* Helpful
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! helpful
-  :defer t
-  :config
-  <<helpful-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
-;; Behavior
-#+end_src
-
-*** Increase Max Window Count
-
-I increase the window count to be able to move back and forth between more help windows using the keybinds that I set.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
-(setq helpful-max-buffers 10)
-#+end_src
-
-*** Show Documentation At Top Line
-
-By default, Doom centers the page when you visit a source file. Often, I can't see the information behind the helpful window, so I remove the old advice and update it to display at the top of the screen.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
-(advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
-(defadvice! my/+popup--helpful-open-in-origin-window-a (button)
-  "Open links in non-popup, originating window rather than helpful's window."
-  :override #'helpful--navigate
-  (let ((path (substring-no-properties (button-get button 'path)))
-        enable-local-variables
-        origin)
-    (save-popups!
-     (find-file path)
-     (when-let (pos (get-text-property button 'position
-                                       (marker-buffer button)))
-       (goto-char pos))
-     (setq origin (selected-window))
-     (recenter 0)) ; Added argument 0 to cause recenter to top of screen.
-    (select-window origin)))
-#+end_src
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config :exports none
-;; Keybinds
-#+end_src
-
-*** Cycle Through Visited Help Pages
-
-Doom lacks the ability to move through previously viewed pages in the helpful buffer. So, we can add them using winner mode. These keybinds fit well with the rest and make sense logically. Now, I can move "left" and "right" through history.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
-(map! :map helpful-mode-map "C-h" #'winner-undo
-      :map helpful-mode-map "C-l" #'winner-redo)
 #+end_src
 
 * Doom Modeline
@@ -1562,6 +1567,8 @@ I add a keybind to quickly view which projects have uncommitted changes.
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
 (use-package! treemacs
   :defer t
+  :init
+  <<treemacs-init>>
   :config
   <<treemacs-config>>
   )
@@ -1592,6 +1599,10 @@ Enable Treemacs to sync itself to the releveant file you're in.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
 (treemacs-follow-mode 1)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-init
+(setq treemacs-project-follow-into-home t)
 #+end_src
 
 *** Fold Projects When Leaving
@@ -1900,7 +1911,7 @@ And finally, the custom standards checker is hooked into Magit's finish commit f
 
 *** Vterm Shell
 
-Right now, I prefer to use my Bash configuration instead of Zsh, so we set Vterm to that when we're on macOS.
+Right now, when using macOS, I prefer to use my Bash configuration instead of Zsh.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref vterm-init
 (when (and IS-MAC (file-exists-p "/opt/homebrew/bin/bash")) (setq vterm-shell "/opt/homebrew/bin/bash"))
@@ -1930,16 +1941,13 @@ For some reason, this keybind works on my Linux machines but not on macOS. To fi
 
 Although vterm-mode starts by using insert mode, when switching back to the terminal buffer this isn't the case. So I add advice to switch to the insert state after the function I use to open the terminal.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(defun my/advice-after-vterm-use-evil-insert-mode (fn &rest args)
-  "Advice to use Evil's insert mode after opening a vterm window."
-    (apply fn args)
-    (with-current-buffer (window-buffer (selected-window))
-      (when (eq major-mode 'vterm-mode) (evil-collection-vterm-insert))))
-#+end_src
+- =NOTE=: Currently disabled due to bug where if leaving vterm on the screen and then moving away from and back to the buffer, you're stuck with a block cursor, yet inside insert mode, with no ability to run Emacs keybinds.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref vterm-config
-(advice-add '+vterm/toggle :around #'my/advice-after-fn-use-evil-insert-mode)
+;; (advice-add '+vterm/toggle :around
+;;             (lambda (fn &rest args) (apply fn args)
+;;               (when (eq major-mode 'vterm-mode)
+;;                 (evil-collection-vterm-insert))))
 #+end_src
 
 * Visual Fill Column
@@ -1951,7 +1959,7 @@ Although vterm-mode starts by using insert mode, when switching back to the term
 [[https://codeberg.org/joostkremers/visual-fill-column][Visual-Fill-Column]] is an Emacs minor mode that enables word wrapping at a column and centering the buffer content.
 #+end_quote
 
-You can load it in Doom by enabling the =wordwrap= module.
+- =NOTE=: You can load this package in Doom by enabling the =wordwrap= module.
 
 ** Package
 
@@ -2495,7 +2503,7 @@ Org Capture lets you quickly insert into your org documents.
 *** Org Capture Function
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-(setq +org-capture-fn #'org-roam-capture)
+;(setq +org-capture-fn #'org-roam-capture)
 #+end_src
 
 *** Capture Templates
@@ -2506,10 +2514,7 @@ I'm currently only using one template that sends all captured headings to an inb
 (setq org-capture-templates
       `(("i" "Inbox" entry
          (file "inbox.org")
-         "* %?\n%i\n" :prepend t)
-        ("l" "Link" entry
-         (file "inbox.org")
-         "* LINK %?\n%i\n" :prepend t)))
+         "* %?\n%i\n" :prepend t)))
 #+end_src
 
 ** Behavior
@@ -2535,8 +2540,8 @@ I'm currently only using one template that sends all captured headings to an inb
 I switch Doom's default scratch buffer and org-capture keybinds. With this, I can quickly capture something with =SPC x=.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-(map! :leader :desc "Org capture" "x" #'org-capture
-      :leader :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer)
+;; (map! :leader :desc "Org capture" "x" #'org-capture
+;;       :leader :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer)
 #+end_src
 
 ** Fixes
@@ -2586,10 +2591,11 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
 
 #+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
-;(unpin! org-roam)
-;(package! org-roam
-;  :recipe (:host github :repo "org-roam/org-roam-ui")
-;  :pin "5c06471c3a11348342719fd9011486455adeb701")
+(unpin! org-roam) ; Update to latest version to support org-roam-ui
+;; The following version for some reason began crashing my Doom... (6/10/23)
+;; (package! org-roam
+;;  :recipe (:host github :repo "org-roam/org-roam-ui")
+;;  :pin "5c06471c3a11348342719fd9011486455adeb701")
 #+end_src
 #+html:</details>
 
@@ -2605,6 +2611,7 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
   )
 #+end_src
 #+html:</details>
+
 ** Resources
 - [[https://www.orgroam.com/manual.html][Org-roam User Manual]]
 - [[https://org-roam.discourse.group][Org-roam Discourse]]
@@ -2625,15 +2632,7 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
 I want the database file to be included in the org-roam directory instead of the Emacs directory.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
-(setq org-roam-db-location (expand-file-name "org.db" org-directory))
-#+end_src
-
-*** Dailies Directory
-
-I use dailies as a log of goals and activities that are planned and hopefully completed (worked on) throughout the day. So, I set the directory to =log/= instead of the default =daily/= directory.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
-(setq org-roam-dailies-directory "log/")
+(setq org-roam-db-location (expand-file-name "org.db" org-roam-directory))
 #+end_src
 
 ** Appearance
@@ -2644,8 +2643,25 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 
 *** Completion Candidates
 
+- TODO:
+
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
 ;(setq org-roam-node-display-template)
+#+end_src
+
+*** Modeline File Names
+
+Since org-roam uses the date/time in the file name to ensure uniqueness, let's make that human readable in the modeline instead of just concatenated numbers. ([[https://github.com/tecosaur/emacs-config/blob/master/config.org#modeline-file-name][Source]])
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defadvice! doom-modeline--buffer-file-name-roam-aware-a (orig-fun)
+  :around #'doom-modeline-buffer-file-name ; takes no args
+  (if (s-contains-p org-roam-directory (or buffer-file-name ""))
+      (replace-regexp-in-string
+       "\\(?:^\\|.*/\\)\\([0-9]\\{4\\}\\)\\([0-9]\\{2\\}\\)\\([0-9]\\{2\\}\\)[0-9]*-"
+       "🢔(\\1-\\2-\\3) "
+       (subst-char-in-string ?_ ?  buffer-file-name))
+    (funcall orig-fun)))
 #+end_src
 
 ** Behavior
@@ -2654,28 +2670,12 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 ;; Behavior
 #+end_src
 
-*** Capture Template
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(setq org-roam-capture-templates
-      '(("n" "node" plain
-         "%?"
-         :target
-         (file+head "nodes/${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
-         :immediate-finish t
-         :unnarrowed t)))
-#+end_src
-
 *** Integrate Org Roam Files with Org Refile Targets
+
+TODO: Add description.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
 (setq org-refile-targets '((org-agenda-files :maxlevel . 5) (org-roam-list-files :maxlevel . 5)))
-#+end_src
-
-*** Enable Autosync
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(org-roam-db-autosync-enable)
 #+end_src
 
 ** Keybinds
@@ -2709,7 +2709,7 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 :END:
 
 #+begin_quote
-[[https://github.com/org-roam/org-roam-ui][org-roam-ui]] is a frontend for exploring and interacting with your org-roam notes.
+[[https://github.com/org-roam/org-roam-ui][Org Roam UI]] is a frontend for exploring and interacting with your org-roam notes.
 #+end_quote
 
 ** Package
@@ -2766,36 +2766,52 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 
 *** Use Xwidgets Instead of Regular Web Browser
 
+This feature isn't fully functional yet. It has a few bugs...
+
 The following enables org-roam-ui to open within Emacs using xwidgets instead of using a browser.
 
-Prevent from opening the default graph on start and replace the browser function with an xwidgets function.
+Create a function to create a new buffer/window using display-buffer so that we can control it using popup-rules.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-init
+(defvar my/+lookup--xwidget-webkit-last-session-buffer nil)
+(defun my/+lookup-xwidget-webkit-open-url-fn (url &optional new-session)
+  (if (not (display-graphic-p))
+      (browse-url url)
+    (unless (featurep 'xwidget-internal)
+      (user-error "Your build of Emacs lacks Xwidgets support and cannot open Xwidget WebKit browser"))
+    (let ((orig-last-session-buffer (if (boundp 'xwidget-webkit-last-session-buffer)
+                                        xwidget-webkit-last-session-buffer
+                                      nil)))
+      (setq xwidget-webkit-last-session-buffer my/+lookup--xwidget-webkit-last-session-buffer)
+      (save-window-excursion
+        (xwidget-webkit-browse-url url new-session))
+      (display-buffer xwidget-webkit-last-session-buffer)
+      (setq my/+lookup--xwidget-webkit-last-session-buffer xwidget-webkit-last-session-buffer
+            xwidget-webkit-last-session-buffer orig-last-session-buffer))))
+#+end_src
+
+Prevent from opening the default graph on start and replace the browser function with our xwidgets function.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
 (setq org-roam-ui-open-on-start nil
-      org-roam-ui-browser-function #'+lookup-xwidget-webkit-open-url-fn)
+      org-roam-ui-browser-function #'my/+lookup-xwidget-webkit-open-url-fn)
 #+end_src
 
 Add a function to kill the xwidgets buffer and exit org-roam-ui-mode when we close the graph window.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(defun +org-roam-ui-popup-kill (roam-ui-popup-buffer)
+(defun my/+org-roam-ui-popup-kill (roam-ui-popup-buffer)
   (progn (+popup--kill-buffer roam-ui-popup-buffer 0.1) (org-roam-ui-mode -1)))
 #+end_src
 
 Set the window's popup rules. This configuration opens the graph above the backlinks buffer splitting the vertical height equally.
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(setq display-buffer-mark-dedicated t)
-(set-popup-rule! "^\\*xwidget" :side 'right :ttl #'+org-roam-ui-popup-kill :slot -1 :width 0.33 :height 0.5 :quit 'current :select nil :modeline nil)
-#+end_src
-
-Additionally, you can take control of roam's poppup rules for further customization.
+- =NOTE=: I currently only use xwidgets for displaying org-roam-ui. If you need the popup window to be specific to just this window then you'll have to define a more exact regular expression to only match it.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-;; (set-popup-rule! (regexp-quote org-roam-buffer) ; persistent org-roam buffer
-;;      :side 'right :width 0.33 :height 0.5 :ttl nil :modeline nil :quit nil :slot 1)
-;; (set-popup-rule! "^\\*org-roam: " ; node dedicated org-roam buffer
-;;      :side 'right :width 0.33 :height 0.5 :ttl nil :modeline nil :quit nil :slot 2)
+;(setq display-buffer-mark-dedicated t)
+(set-popup-rule! "\\*xwidget"
+  :side 'right :width 0.33 :height 0.5 :ttl #'my/+org-roam-ui-popup-kill :slot -1 :quit nil :modeline nil)
 #+end_src
 
 *** Don't Open Nodes in Side Windows
@@ -2830,8 +2846,7 @@ This works nearly perfectly. Unfortunately you have to open the graph twice for 
 (defadvice! +org-roam-ui-always-sync-theme ()
   "Always sync da theme..."
   :after #'org-roam-ui-open
-  (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme)))))))
-  )
+  (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme))))))))
 #+end_src
 
 ** Keybinds
@@ -2846,6 +2861,140 @@ Use the org-roam-ui and xwidget popup window instead.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-init
 (map! :leader "n r g" #'org-roam-ui-open)
+#+end_src
+
+* Org Roam Dailies
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://www.orgroam.com/manual.html#org_002droam_002ddailies][Org Roam Dailies]] is an extension to org-roam to provide journaling capabilities akin to org-journal but better integrated.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-roam-dailies
+  :after org-roam
+  :init
+  <<org-roam-dailies-init>>
+  )
+#+end_src
+#+html:</details>
+
+** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-dailies-init :exports none
+;; Variables
+#+end_src
+
+*** Dailies Directory
+
+I use dailies as a log of goals and activities that are planned and hopefully completed (worked on) throughout the day. So, I set the directory to =log/= instead of the default =daily/= directory.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-dailies-init
+(setq org-roam-dailies-directory "log/")
+#+end_src
+
+* Org Roam Protocol
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://www.orgroam.com/manual.html#org_002droam_002dprotocol][Org Roam Protocol]] is an extension to org-roam for capturing content from external applications such as web browsers via org-protocol. It extends org-protocol with two more protocols: roam-node and roam-ref.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-roam-protocol
+  :defer t
+  :after org-roam
+  :init
+  <<org-roam-protocol-init>>
+  :config
+  <<org-roam-protocol-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
+;; Behavior
+#+end_src
+
+*** Enable Org Roam Protocol
+
+First, require the module. ([[https://www.orgroam.com/manual.html#Mac-OS][Source]])
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-init
+(require 'org-roam-protocol)
+#+end_src
+
+Then, register a valid scheme handler for the =org-protocol:= links on each OS you use.
+
+**** Linux
+
+=TODO=
+
+**** macOS
+
+I created an application script (=OrgProtocolClient.app=) in this directory and just need to associate the application and the link type using the following command.
+
+#+begin_src shell :tangle no
+/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -R -f $HOME/.config/doom/OrgProtocolClient.app
+#+end_src
+
+**** Bookmark
+
+And finally, I can create a bookmarklet with the following content in my browser and use it to capture website links and any highlighted content into my capture template defined below.
+
+#+begin_src javascript :tangle no
+javascript:location.href =
+    'org-protocol://roam-ref?template=r&ref='
+    + encodeURIComponent(location.href)
+    + '&title='
+    + encodeURIComponent(document.title)
+    + '&body='
+    + encodeURIComponent(window.getSelection())
+#+end_src
+
+*** Org Roam Capture Ref Template
+
+- TODO: Document:
+  - Adding time stamp
+  - Where these go.
+  - Decide on directory/file (to inbox?)
+  - Decide on getting date created method.
+  - Decide on tagging and filtering and processing.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
+(setq org-roam-capture-ref-templates
+      '(("r" "ref" plain "%?" :target
+        (file+head "resource/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n${body}")
+        :unnarrowed t)))
+#+end_src
+
+*** Org Roam Capture Template
+
+TODO: This is currently the default template..
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
+(setq org-roam-capture-templates
+      '(("d" "default" plain "%?" :target
+        (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+        :unnarrowed t)))
+#+end_src
+
+** TODO See what this does.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
+(setq org-roam-protocol-store-links t)
 #+end_src
 
 * Vulpea
@@ -2870,6 +3019,7 @@ Use the org-roam-ui and xwidget popup window instead.
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
 (use-package! vulpea
   :after org-roam
+  :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable))
   :config
   <<vulpea-config>>
   )
@@ -2997,28 +3147,28 @@ tasks. The only exception is headings tagged as REFILE."
 
 #+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
-(package! org-edna)
+;; (package! org-edna)
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
-(package! org-gtd
-  :recipe (:host github :repo "Trevoke/org-gtd.el")
-  :pin "218fba0931cfd666591b09273f9ea8f6a6d8d8f9")
+;; (package! org-gtd
+;;   :recipe (:host github :repo "Trevoke/org-gtd.el")
+;;   :pin "218fba0931cfd666591b09273f9ea8f6a6d8d8f9")
 #+end_src
 #+html:</details>
 
 #+html:<details><summary>Package</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! org-gtd
-  ;:defer t
-  :after org
-  :init
-  <<org-gtd-init>>
-  :custom
-  <<org-gtd-custom>>
-  :config
-  <<org-gtd-config>>
-  )
+;; (use-package! org-gtd
+;;   ;:defer t
+;;   :after org
+;;   :init
+;;   <<org-gtd-init>>
+;;   :custom
+;;   <<org-gtd-custom>>
+;;   :config
+;;   <<org-gtd-config>>
+;;   )
 #+end_src
 #+html:</details>
 

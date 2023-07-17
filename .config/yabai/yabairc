@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
+yabai -m config mouse_follows_focus on
+
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
@@ -12,26 +14,36 @@ yabai -m signal --add event=window_focused action="printf "%s" \$YABAI_WINDOW_ID
 
 yabai -m signal --add event=space_changed action="\$HOME/.config/yabai/scripts/focused_space.sh \$YABAI_SPACE_ID"
 
+yabai -m signal --add event=space_changed action="sketchybar --trigger windows_on_spaces"
+
 source "$HOME/.config/yabai/scripts/update_scratchpad_space.sh"
 
 yabai -m signal --add event=display_resized action="brew services restart sketchybar"
+
+yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+
+yabai -m signal --add event=space_changed action="yabai -m window --focus"
+
+yabai -m signal --add event=window_created action="yabai -m window --focus \$YABAI_WINDOW_ID"
 
 yabai -m config active_window_border_color  0xff6272A4
 yabai -m config normal_window_border_color  0xff555555
 yabai -m config window_border               on
 yabai -m config window_border_blur          off
 yabai -m config window_border_hidpi         off
-yabai -m config window_border_width         1
+yabai -m config window_border_width         2
 
 yabai -m config window_shadow off
 
 yabai -m config window_animation_duration 0.0
 
-yabai -m config top_padding    12
-yabai -m config bottom_padding 8
-yabai -m config left_padding   8
-yabai -m config right_padding  8
-yabai -m config window_gap     8
+yabai -m config top_padding    6
+yabai -m config bottom_padding 4
+yabai -m config left_padding   4
+yabai -m config right_padding  4
+yabai -m config window_gap     4
 
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Open Cycle Time$" manage=off
@@ -69,7 +81,7 @@ yabai -m signal --add event=window_focused action="\$HOME/.config/yabai/scripts/
 
 yabai -m signal --add event=window_destroyed action="\$HOME/.config/yabai/scripts/scratchpad_win_id_reset.sh Discord" app="Discord"
 
-yabai -m rule --add app="Spotify" grid=6:6:1:1:4:4 manage=off
+yabai -m rule --add app="Spotify" grid=6:6:1:1:4:4 manage=off native-fullscreen=on
 
 yabai -m signal --add event=window_created action="\$HOME/.config/yabai/scripts/scratchpad_win_id.sh \$YABAI_WINDOW_ID Spotify" app="Spotify"
 

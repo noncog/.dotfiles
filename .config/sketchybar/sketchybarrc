@@ -1,105 +1,29 @@
-#!/usr/bin/env bash
-launchctl unload -F /System/Library/LaunchAgents/com.apple.OSDUIHelper.plist >/dev/null 2>&1 &
+#!/bin/bash
 
-PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+source "$CONFIG_DIR/colors.sh" # Loads all defined colors
+source "$CONFIG_DIR/icons.sh" # Loads all defined icons
 
-BLACK=0xff000000
-WHITE=0xffffffff
-TRANSPARENT=0x00000000
-if [[ $THEME -eq 1 ]]; then
-    echo "Dracula"
-elif [[ $THEME -eq 2 ]]; then
-    # Define Frappe colors
-    ROSEWATER=0xfff2d5cf
-    FLAMINGO=0xffeebebe
-    PINK=0xfff4b8e4
-    MAUVE=0xffca9ee6
-    RED=0xffe78284
-    MAROON=0xffea999c
-    PEACH=0xffef9f76
-    YELLOW=0xffe5c890
-    GREEN=0xffa6d189
-    TEAL=0xff81c8be
-    SKY=0xff99d1db
-    SAPPHIRE=0xff85c1dc
-    BLUE=0xff8caaee
-    LAVENDER=0xffbabbf1
-    TEXT=0xffc6d0f5
-    SUBTEXT1=0xffb5bfe2
-    SUBTEXT0=0xffa5adce
-    OVERLAY2=0xff949cbb
-    OVERLAY1=0xff838ba7
-    OVERLAY0=0xff737994
-    SURFACE2=0xff626880
-    SURFACE1=0xff51576d
-    SURFACE0=0xff414559
-    BASE=0xff303446
-    MANTLE=0xff292c3c
-    CRUST=0xff232634
-    # Translate colors to SketchyBar
-    BAR_COLOR=$BASE
-    BORDER_COLOR=$SURFACE1
-    ICON_COLOR=$TEXT
-    LABEL_COLOR=$TEXT
-    POPUP_COLOR=$BASE
-    POPUP_BORDER_COLOR=$TEXT
-    SHADOW_COLOR=$CRUST
-    #HIGHLIGHT_COLOR=
-else
-    # Define mocha colors
-    ROSEWATER=0xfff5e0dc
-    FLAMINGO=0xfff2cdcd
-    PINK=0xfff5c2e7
-    MAUVE=0xffcba6f7
-    RED=0xfff38ba8
-    MAROON=0xffeba0ac
-    PEACH=0xfffab387
-    YELLOW=0xfff9e2af
-    GREEN=0xffa6e3a1
-    TEAL=0xff94e2d5
-    SKY=0xff89dceb
-    SAPPHIRE=0xff74c7ec
-    BLUE=0xff89b4fa
-    LAVENDER=0xffb4befe
-    TEXT=0xffcdd6f4
-    SUBTEXT1=0xffbac2de
-    SUBTEXT0=0xffa6adc8
-    OVERLAY2=0xff9399b2
-    OVERLAY1=0xff7f849c
-    OVERLAY0=0xff6c7086
-    SURFACE2=0xff585b70
-    SURFACE1=0xff45475a
-    SURFACE0=0xff313244
-    BASE=0xff1e1e2e
-    MANTLE=0xff181825
-    CRUST=0xff11111b
-    TRANSPARENT=0x00000000
-    # Translate colors to SketchyBar
-    BAR_COLOR=$BASE
-    BORDER_COLOR=$SURFACE1
-    ICON_COLOR=$TEXT
-    LABEL_COLOR=$TEXT
-    POPUP_COLOR=$BASE
-    POPUP_BORDER_COLOR=$TEXT
-    SHADOW_COLOR=$CRUST
-    #HIGHLIGHT_COLOR=
-fi
+# Directories
+PLUGINS_DIR="$CONFIG_DIR/plugins" # Directory where all the plugin scripts are stored
+HELPERS_DIR="$CONFIG_DIR/helpers"
 
-PADDING=4
-FONT="Hack Nerd Font"
-#FONT_LABEL=
-#FONT_ICON=
-THEME=2 # 1 = Dracula, 2 = Catppuccin Frappe, 3 = Catppuccin Mocha
-#BAR_TYPE=1 # 1 = , 2 =
-bar_defaults=(
-    color=$BAR_COLOR
-    border_color=$BORDER_COLOR
+# Global Variables
+FONT="SF Pro" # Needs to have Regular, Bold, Semibold, Heavy and Black variants
+PADDING=4 # All paddings use this value (icon, label, background)
+
+# Unload the macOS on screen indicator overlay for volume change
+launchctl unload -F /System/Library/LaunchAgents/com.apple.OSDUIHelper.plist > /dev/null 2>&1 &
+
+# General Bar Appearance
+bar=(
+    color="$BAR_COLOR"
+    border_color="$BORDER_COLOR"
     position=top
-    height=$($HOME/.config/sketchybar/helpers/get_menu_bar_height)
     margin=-2
     y_offset=-2
     corner_radius=0
     border_width=2
+    height=$(($("$HELPERS_DIR"/get_menu_bar_height) + PADDING + border_width))
     blur_radius=30
     padding_left=15
     padding_right=15
@@ -112,80 +36,51 @@ bar_defaults=(
     font_smoothing=off
     shadow=off
 )
-icon_defaults=(
-    icon.color=$ICON_COLOR
-    icon.font="$FONT:Bold:17.0"
-    icon.padding_left=$PADDING
-    icon.padding_right=$PADDING
-)
-label_defaults=(
-    label.color=$LABEL_COLOR
-    label.font="$FONT:Semibold:13.0"
-    label.padding_left=$PADDING
-    label.padding_right=$PADDING
-)
-background_defaults=(
-    background.height=26
-    background.corner_radius=9
-    background.border_width=2
-    #background.padding_left=$PADDING
-    #background.padding_right=$PADDING
-)
-popup_defaults=(
-    #popup.height=30
-    popup.background.border_width=2
-    popup.background.corner_radius=9
-    popup.background.color=$POPUP_COLOR
-    popup.background.border_color=$POPUP_BORDER_COLOR
-    #popup.horizontal=false
-    #popup.background.shadow.drawing=on
-    #popup.blur_radius=20
-)
-sketchybar --bar "${bar_defaults[@]}"
-sketchybar --default updates=when_shown \
-    "${icon_defaults[@]}" \
-    "${label_defaults[@]}" \
-    "${background_defaults[@]}" \
-    "${popup_defaults[@]}"
+sketchybar --bar "${bar[@]}"
 
-source "$PLUGIN_DIR/spaces/item.sh"
+# Default Values
+defaults=(
+  updates=when_shown
+  icon.font="$FONT:Bold:17.0"
+  icon.color="$ICON_COLOR"
+  icon.padding_left="$PADDING"
+  icon.padding_right="$PADDING"
+  label.font="$FONT:Semibold:13.0"
+  label.color="$LABEL_COLOR"
+  label.padding_left="$PADDING"
+  label.padding_right="$PADDING"
+  padding_right="$PADDING"
+  padding_left="$PADDING"
+  background.height=26
+  background.corner_radius=9
+  background.border_width=2
+  popup.background.border_width=2
+  popup.background.corner_radius=9
+  popup.background.border_color="$POPUP_BORDER_COLOR"
+  popup.background.color="$POPUP_COLOR"
+  #popup.blur_radius=20
+  popup.background.shadow.drawing=on
+)
+sketchybar --default "${defaults[@]}"
 
-sketchybar --add item space_separator left                         \
-           --set space_separator icon=                            \
-                                 padding_left=10                   \
-                                 padding_right=10                  \
-                                 label.drawing=off                 \
-                                                                   \
-           --add item front_app left                               \
-           --set front_app       script="$PLUGIN_DIR/front_app.sh" \
-                                 icon.drawing=off                  \
-           --subscribe front_app front_app_switched
-# none yet
-source "$PLUGIN_DIR/date/item.sh"
-source "$PLUGIN_DIR/wifi/item.sh"
-# Some items refresh on a fixed cycle, e.g. the clock runs its script once
-# every 10s. Other items respond to events they subscribe to, e.g. the
-# volume.sh script is only executed once an actual change in system audio
-# volume is registered. More info about the event system can be found here:
-# https://felixkratz.github.io/SketchyBar/config/events
+# Left
+source "$PLUGINS_DIR/apple/item.sh"
+source "$PLUGINS_DIR/spaces/item.sh"
+source "$PLUGINS_DIR/yabai/item.sh"
+#source "$PLUGINS_DIR/front_app.sh"
 
-# sketchybar --add item clock right                              \
-#            --set clock   update_freq=10                        \
-#                          icon=                                \
-#                          script="$PLUGIN_DIR/clock.sh"         \
-#                                                                \
-#            --add item wifi right                               \
-#            --set wifi    script="$PLUGIN_DIR/wifi.sh"          \
-#                          icon=直                               \
-#            --subscribe wifi wifi_change                        \
-#                                                                \
-#            --add item volume right                             \
-#            --set volume  script="$PLUGIN_DIR/volume.sh"        \
-#            --subscribe volume volume_change                    \
-#                                                                \
-#            --add item battery right                            \
-#            --set battery script="$PLUGIN_DIR/battery.sh"       \
-#                          update_freq=120                       \
-#            --subscribe battery system_woke power_source_change
+# Center
+#source "$ITEM_DIR/spotify.sh"
 
+# Right
+source "$PLUGINS_DIR/calendar/item.sh"
+source "$PLUGINS_DIR/brew/item.sh"
+#source "$ITEM_DIR/github.sh"
+#source "$PLUGINS_DIR/battery/item.sh"
+source "$PLUGINS_DIR/volume/item.sh"
+#source "$ITEM_DIR/cpu.sh"
+
+# Forcing all item scripts to run (never do this outside of sketchybarrc)
 sketchybar --update
+
+echo "Sketchybar configuation loaded..."

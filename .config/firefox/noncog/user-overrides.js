@@ -109,3 +109,5 @@ user_pref("extensions.blocklist.enabled", false);
 user_pref("extensions.getAddons.cache.enabled", false);
 user_pref("extensions.getAddons.showPane", false);
 user_pref("browser.safebrowsing.appRepURL", "");
+
+user_pref("keyword.enabled", true);

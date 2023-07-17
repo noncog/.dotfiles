@@ -22,8 +22,8 @@
 
 (setq doom-theme 'doom-vibrant)
 
-(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 16))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 12)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 14))
 
 (setq-default x-stretch-cursor t)
 
@@ -116,6 +116,13 @@
                     mac-control-modifier 'meta   ; Maps Control -> Alt (Meta)
                     mac-option-modifier 'super)) ; Maps Option -> Super
 
+(use-package! avy
+  :defer t
+  :config
+  ;; Behavior
+  (setq avy-all-windows t)
+  )
+
 (use-package! beacon
   :config
   ;; Appearance
@@ -129,6 +136,31 @@
         beacon-blink-when-point-moves-vertically nil
         beacon-blink-when-focused nil)
   (beacon-mode 1)
+  )
+
+(use-package! helpful
+  :defer t
+  :config
+  ;; Behavior
+  (setq helpful-max-buffers 10)
+  (advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
+  (defadvice! my/+popup--helpful-open-in-origin-window-a (button)
+    "Open links in non-popup, originating window rather than helpful's window."
+    :override #'helpful--navigate
+    (let ((path (substring-no-properties (button-get button 'path)))
+          enable-local-variables
+          origin)
+      (save-popups!
+       (find-file path)
+       (when-let (pos (get-text-property button 'position
+                                         (marker-buffer button)))
+         (goto-char pos))
+       (setq origin (selected-window))
+       (recenter 0)) ; Added argument 0 to cause recenter to top of screen.
+      (select-window origin)))
+  ;; Keybinds
+  (map! :map helpful-mode-map "C-h" #'winner-undo
+        :map helpful-mode-map "C-l" #'winner-redo)
   )
 
 (use-package! which-key
@@ -162,38 +194,6 @@
   (pushnew!
    which-key-replacement-alist
    '(("" . "\\`treemacs-\\(.*\\)") . (nil . " \\1")))
-  )
-
-(use-package! avy
-  :defer t
-  :config
-  ;; Behavior
-  (setq avy-all-windows t)
-  )
-
-(use-package! helpful
-  :defer t
-  :config
-  ;; Behavior
-  (setq helpful-max-buffers 10)
-  (advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
-  (defadvice! my/+popup--helpful-open-in-origin-window-a (button)
-    "Open links in non-popup, originating window rather than helpful's window."
-    :override #'helpful--navigate
-    (let ((path (substring-no-properties (button-get button 'path)))
-          enable-local-variables
-          origin)
-      (save-popups!
-       (find-file path)
-       (when-let (pos (get-text-property button 'position
-                                         (marker-buffer button)))
-         (goto-char pos))
-       (setq origin (selected-window))
-       (recenter 0)) ; Added argument 0 to cause recenter to top of screen.
-      (select-window origin)))
-  ;; Keybinds
-  (map! :map helpful-mode-map "C-h" #'winner-undo
-        :map helpful-mode-map "C-l" #'winner-redo)
   )
 
 (use-package! doom-modeline
@@ -310,6 +310,8 @@
 
 (use-package! treemacs
   :defer t
+  :init
+  (setq treemacs-project-follow-into-home t)
   :config
   ;; Appearance
   (setq doom-themes-treemacs-theme "doom-colors")
@@ -445,14 +447,11 @@
   ;; Keybinds
   (evil-define-key* 'insert vterm-mode-map (kbd "<M-backspace>") #'vterm-send-meta-backspace)
   ;; Fixes
-  (advice-add '+vterm/toggle :around #'my/advice-after-fn-use-evil-insert-mode)
+  ;; (advice-add '+vterm/toggle :around
+  ;;             (lambda (fn &rest args) (apply fn args)
+  ;;               (when (eq major-mode 'vterm-mode)
+  ;;                 (evil-collection-vterm-insert))))
   )
-
-(defun my/advice-after-vterm-use-evil-insert-mode (fn &rest args)
-  "Advice to use Evil's insert mode after opening a vterm window."
-    (apply fn args)
-    (with-current-buffer (window-buffer (selected-window))
-      (when (eq major-mode 'vterm-mode) (evil-collection-vterm-insert))))
 
 (use-package! visual-fill-column
   :custom
@@ -731,19 +730,16 @@
   (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
   :config
   ;; Variables
-  (setq +org-capture-fn #'org-roam-capture)
+  ;(setq +org-capture-fn #'org-roam-capture)
   (setq org-capture-templates
         `(("i" "Inbox" entry
            (file "inbox.org")
-           "* %?\n%i\n" :prepend t)
-          ("l" "Link" entry
-           (file "inbox.org")
-           "* LINK %?\n%i\n" :prepend t)))
+           "* %?\n%i\n" :prepend t)))
   ;; Behavior
   (setq org-capture-bookmark nil)
   ;; Keybinds
-  (map! :leader :desc "Org capture" "x" #'org-capture
-        :leader :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer)
+  ;; (map! :leader :desc "Org capture" "x" #'org-capture
+  ;;       :leader :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer)
   ;; Fixes
   (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
     :around #'+org--restart-mode-h
@@ -763,21 +759,20 @@
   :init
   ;; Variables
   (setq org-roam-directory org-directory)
-  (setq org-roam-db-location (expand-file-name "org.db" org-directory))
-  (setq org-roam-dailies-directory "log/")
+  (setq org-roam-db-location (expand-file-name "org.db" org-roam-directory))
   :config
   ;; Appearance
   ;(setq org-roam-node-display-template)
+  (defadvice! doom-modeline--buffer-file-name-roam-aware-a (orig-fun)
+    :around #'doom-modeline-buffer-file-name ; takes no args
+    (if (s-contains-p org-roam-directory (or buffer-file-name ""))
+        (replace-regexp-in-string
+         "\\(?:^\\|.*/\\)\\([0-9]\\{4\\}\\)\\([0-9]\\{2\\}\\)\\([0-9]\\{2\\}\\)[0-9]*-"
+         "🢔(\\1-\\2-\\3) "
+         (subst-char-in-string ?_ ?  buffer-file-name))
+      (funcall orig-fun)))
   ;; Behavior
-  (setq org-roam-capture-templates
-        '(("n" "node" plain
-           "%?"
-           :target
-           (file+head "nodes/${slug}.org" "#+title: ${title}\n#+filetags: :draft:\n")
-           :immediate-finish t
-           :unnarrowed t)))
   (setq org-refile-targets '((org-agenda-files :maxlevel . 5) (org-roam-list-files :maxlevel . 5)))
-  (org-roam-db-autosync-enable)
   ;; Keybinds
   (defun noncog/org-roam-is-draft-p (node)
     "Is this org-roam node a draft?"
@@ -796,6 +791,21 @@
   :after org-roam
   :hook (org-roam . org-roam-ui-mode)
   :init
+  (defvar my/+lookup--xwidget-webkit-last-session-buffer nil)
+  (defun my/+lookup-xwidget-webkit-open-url-fn (url &optional new-session)
+    (if (not (display-graphic-p))
+        (browse-url url)
+      (unless (featurep 'xwidget-internal)
+        (user-error "Your build of Emacs lacks Xwidgets support and cannot open Xwidget WebKit browser"))
+      (let ((orig-last-session-buffer (if (boundp 'xwidget-webkit-last-session-buffer)
+                                          xwidget-webkit-last-session-buffer
+                                        nil)))
+        (setq xwidget-webkit-last-session-buffer my/+lookup--xwidget-webkit-last-session-buffer)
+        (save-window-excursion
+          (xwidget-webkit-browse-url url new-session))
+        (display-buffer xwidget-webkit-last-session-buffer)
+        (setq my/+lookup--xwidget-webkit-last-session-buffer xwidget-webkit-last-session-buffer
+              xwidget-webkit-last-session-buffer orig-last-session-buffer))))
   ;; Keybinds
   (map! :leader "n r g" #'org-roam-ui-open)
   :config
@@ -805,15 +815,12 @@
   (setq org-roam-ui-follow t
         org-roam-ui-update-on-save t)
   (setq org-roam-ui-open-on-start nil
-        org-roam-ui-browser-function #'+lookup-xwidget-webkit-open-url-fn)
-  (defun +org-roam-ui-popup-kill (roam-ui-popup-buffer)
+        org-roam-ui-browser-function #'my/+lookup-xwidget-webkit-open-url-fn)
+  (defun my/+org-roam-ui-popup-kill (roam-ui-popup-buffer)
     (progn (+popup--kill-buffer roam-ui-popup-buffer 0.1) (org-roam-ui-mode -1)))
-  (setq display-buffer-mark-dedicated t)
-  (set-popup-rule! "^\\*xwidget" :side 'right :ttl #'+org-roam-ui-popup-kill :slot -1 :width 0.33 :height 0.5 :quit 'current :select nil :modeline nil)
-  ;; (set-popup-rule! (regexp-quote org-roam-buffer) ; persistent org-roam buffer
-  ;;      :side 'right :width 0.33 :height 0.5 :ttl nil :modeline nil :quit nil :slot 1)
-  ;; (set-popup-rule! "^\\*org-roam: " ; node dedicated org-roam buffer
-  ;;      :side 'right :width 0.33 :height 0.5 :ttl nil :modeline nil :quit nil :slot 2)
+  ;(setq display-buffer-mark-dedicated t)
+  (set-popup-rule! "\\*xwidget"
+    :side 'right :width 0.33 :height 0.5 :ttl #'my/+org-roam-ui-popup-kill :slot -1 :quit nil :modeline nil)
   (defadvice! my/+org-roam-ui--on-msg-open-node (data)
     "Open a node CAREFULLY when receiving DATA from the websocket."
     :override #'org-roam-ui--on-msg-open-node
@@ -834,12 +841,37 @@
   (defadvice! +org-roam-ui-always-sync-theme ()
     "Always sync da theme..."
     :after #'org-roam-ui-open
-    (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme)))))))
-    )
+    (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme))))))))
+  )
+
+(use-package! org-roam-dailies
+  :after org-roam
+  :init
+  ;; Variables
+  (setq org-roam-dailies-directory "log/")
+  )
+
+(use-package! org-roam-protocol
+  :defer t
+  :after org-roam
+  :init
+  (require 'org-roam-protocol)
+  :config
+  ;; Behavior
+  (setq org-roam-capture-ref-templates
+        '(("r" "ref" plain "%?" :target
+          (file+head "resource/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n${body}")
+          :unnarrowed t)))
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?" :target
+          (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+          :unnarrowed t)))
+  (setq org-roam-protocol-store-links t)
   )
 
 (use-package! vulpea
   :after org-roam
+  :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable))
   :config
   ;; Helpers
   (defun vulpea-agenda-file-p ()
@@ -916,31 +948,31 @@
   (advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
   )
 
-(use-package! org-gtd
-  ;:defer t
-  :after org
-  :init
-  (setq org-gtd-update-ack "3.0.0")
-  :custom
-  (org-gtd-directory "~/Documents/org/")
-  (org-edna-use-inheritance t)
-  (org-gtd-organize-hooks '(org-gtd-set-area-of-focus org-set-tags-command))
-  :config
-  ;; Variables
-  ;(setq org-gtd-default-file-name "~/Documents/org/nodes")
-  ;; Behavior
-  (org-edna-mode)
-  ;; Keybinds
-  (map! :leader
-        :prefix ("n g" . "org-gtd")
-        :desc "Capture"        "c"  #'org-gtd-capture
-        :desc "Engage"         "e"  #'org-gtd-engage
-        :desc "Process inbox"  "p"  #'org-gtd-process-inbox
-        :desc "Show all next"  "n"  #'org-gtd-show-all-next
-        :desc "Stuck projects" "s"  #'org-gtd-show-stuck-projects)
-  (map! :map org-gtd-process-map
-        :desc "Choose" "C-c c" #'org-gtd-choose)
-  )
+;; (use-package! org-gtd
+;;   ;:defer t
+;;   :after org
+;;   :init
+;;   (setq org-gtd-update-ack "3.0.0")
+;;   :custom
+;;   (org-gtd-directory "~/Documents/org/")
+;;   (org-edna-use-inheritance t)
+;;   (org-gtd-organize-hooks '(org-gtd-set-area-of-focus org-set-tags-command))
+;;   :config
+;;   ;; Variables
+;;   ;(setq org-gtd-default-file-name "~/Documents/org/nodes")
+;;   ;; Behavior
+;;   (org-edna-mode)
+;;   ;; Keybinds
+;;   (map! :leader
+;;         :prefix ("n g" . "org-gtd")
+;;         :desc "Capture"        "c"  #'org-gtd-capture
+;;         :desc "Engage"         "e"  #'org-gtd-engage
+;;         :desc "Process inbox"  "p"  #'org-gtd-process-inbox
+;;         :desc "Show all next"  "n"  #'org-gtd-show-all-next
+;;         :desc "Stuck projects" "s"  #'org-gtd-show-stuck-projects)
+;;   (map! :map org-gtd-process-map
+;;         :desc "Choose" "C-c c" #'org-gtd-choose)
+;;   )
 
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)

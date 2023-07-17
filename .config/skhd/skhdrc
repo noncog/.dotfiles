@@ -39,6 +39,15 @@ shift + alt - q  [
   "Emacs" ~
 ]
 
+shift + alt - space : yabai -m window --toggle float
+
+alt - 1 : yabai -m space --focus 1
+shift + alt - 1 : yabai -m window --space 1
+alt - 2 : yabai -m space --focus 2
+shift + alt - 2 : yabai -m window --space 2
+alt - 3 : yabai -m space --focus 3
+shift + alt - 3 : yabai -m window --space 3
+
 alt - f11 : yabai -m window --toggle zoom-fullscreen
 
 alt - 0x18  [
@@ -66,10 +75,10 @@ alt - b : yabai -m space --focus 5
 shift + alt - b : open -n -a "Blender"
 cmd + shift + alt - b : yabai -m window --space 5; yabai -m space --focus 5
 
-alt - return : $HOME/.config/yabai/scripts/scratchpad.sh "kitty"
+alt - return : $HOME/.config/yabai/scripts/scratchpad.sh kitty
 shift + alt - return : $HOME/.config/yabai/scripts/launch_one_instance.sh "kitty" "open -n -a "kitty""
 
-alt - d : $HOME/.config/yabai/scripts/scratchpad.sh "Discord"
+alt - d : $HOME/.config/yabai/scripts/scratchpad.sh Discord
 shift + alt - d : open -n -a "Discord"
 
 alt - m : $HOME/.config/yabai/scripts/scratchpad.sh "Spotify"
