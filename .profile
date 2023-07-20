@@ -29,13 +29,9 @@ fi
 # Add Doom wrapper script to $PATH.
 PATH="$PATH:$HOME/.config/doom/wrapper"
 
-# Set Doom environment variables.
-export DOOMDIR="$HOME/.config/doom"
-export EMACSDIR="$HOME/.config/emacs"
-
 # Set Emacs as system editor.
-export EDITOR='emacsclient -c -n --alternate-editor=""'
-export VISUAL='emacsclient -c -n --alternate-editor=""'
+export EDITOR="emacs --with-profile $(cat "$HOME"/.config/chemacs/profile)"
+export VISUAL=$EDITOR
 
 # Set terminal.
 export TERMINAL=/usr/bin/kitty

@@ -2,8 +2,8 @@
 
 if [[ "$1" == "sync" && "$#" == 1 ]]; then
     emacsclient -e "(kill-emacs)"
-    "$HOME"/.config/emacs/bin/doom "$@"
+    /opt/doom/bin/doom "$@"
     emacsclient -c -n --alternate-editor=""
 else
-    "$HOME"/.config/emacs/bin/doom "$@"
+    /opt/doom/bin/doom "$@"
 fi

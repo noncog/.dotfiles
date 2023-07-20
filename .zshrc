@@ -8,7 +8,6 @@ bindkey -e # NOTE: Fixed using SKHD and Kitty on macOS to emulate Linux. (Cmd ->
 
 # Aliases
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
-alias emacs='emacsclient -c -n --alternate-editor=""'
 
 # Sketchybar interactivity overloads
 function brew() {

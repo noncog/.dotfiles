@@ -56,7 +56,7 @@ alt - 0x18  [
 ]
 
 alt - e : yabai -m space --focus 1
-shift + alt - e : emacsclient -c -n --alternate-editor=""
+shift + alt - e : emacs --with-profile $(cat "$HOME"/.config/chemacs/profile)
 cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
 
 alt - f : yabai -m space --focus 2
