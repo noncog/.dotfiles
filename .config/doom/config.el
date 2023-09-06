@@ -74,7 +74,7 @@
        (user-error (start-process "wm" nil "i3-msg" "focus" direction))))
      (when IS-MAC
       (condition-case nil (funcall move-fn)
-        (user-error (start-process "wm" nil "yabai" "-m" "window" "--focus" direction)))))
+        (user-error (start-process "wm" nil "yabai_emacs_window_and_space_focus.sh" direction)))))
 
 (defun wm-window-left ()
   (interactive)

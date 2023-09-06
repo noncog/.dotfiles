@@ -753,6 +753,8 @@ This method requires some way for your window manager to pass the keybinds to Em
 
 - =NOTE=: i3 requires the use of a [[https://github.com/noncog/.dotfiles/blob/main/.config/i3/scripts/i3-emacs-mode.pl][script]] and a dedicated Emacs mode to know when Emacs is the focused window and change use different keybinds. Yabai supports this natively.
 
+- =NOTE=: Yabai requires the use of a [[https://github.com/noncog/.dotfiles/blob/main/.local/bin/yabai_emacs_window_and_space_focus.sh][script]] for changing the focus across spaces and windowing keybinds to be passed through using SKHD or similar.
+
 **** Functions
 
 When a window can't be found in that direction in Emacs, it passes the window focusing command to the window manager.
@@ -764,7 +766,7 @@ When a window can't be found in that direction in Emacs, it passes the window fo
        (user-error (start-process "wm" nil "i3-msg" "focus" direction))))
      (when IS-MAC
       (condition-case nil (funcall move-fn)
-        (user-error (start-process "wm" nil "yabai" "-m" "window" "--focus" direction)))))
+        (user-error (start-process "wm" nil "yabai_emacs_window_and_space_focus.sh" direction)))))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"

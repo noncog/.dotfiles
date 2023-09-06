@@ -1,5 +1,5 @@
 alt - h [
-  *      : yabai -m window --focus west
+  *      : yabai -m window --focus west || yabai -m space --focus prev
   "Emacs" ~
 ]
 alt - j  [
@@ -11,7 +11,7 @@ alt - k  [
   "Emacs" ~
 ]
 alt - l  [
-  *      : yabai -m window --focus east
+  *      : yabai -m window --focus east || yabai -m space --focus next
   "Emacs" ~
 ]
 
