@@ -10,11 +10,14 @@ export XDG_CONFIG_HOME="$HOME/.config"
 PATH="$PATH:$HOME/.config/doom/wrapper"
 
 # Set Emacs as system editor.
-export EDITOR="emacs --with-profile $(cat "$HOME"/.config/chemacs/profile)"
-export VISUAL=$EDITOR
+export EDITOR="emacsclient -c -s $(cat "$HOME"/.config/chemacs/profile) -a=''"
+export VISUAL="$EDITOR"
 
 # Add GNU grep to system instead of BSD grep.
 PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
+
+# Add local script binary directory to $PATH.
+PATH="$HOME/.local/bin:$PATH"
 
 # Add Clangd/Llvm for LSP mode.
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"

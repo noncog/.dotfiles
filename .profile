@@ -17,12 +17,12 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
+if [ -d "$HOME/bin" ]; then
     PATH="$HOME/bin:$PATH"
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
+if [ -d "$HOME/.local/bin" ]; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
@@ -30,8 +30,8 @@ fi
 PATH="$PATH:$HOME/.config/doom/wrapper"
 
 # Set Emacs as system editor.
-export EDITOR="emacs --with-profile $(cat "$HOME"/.config/chemacs/profile)"
-export VISUAL=$EDITOR
+export EDITOR="emacsclient -c -s $(cat "$HOME"/.config/chemacs/profile) -a=''"
+export VISUAL="$EDITOR"
 
 # Set terminal.
 export TERMINAL=/usr/bin/kitty

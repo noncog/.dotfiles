@@ -1,88 +1,81 @@
 #!/usr/bin/env sh
-yabai -m config mouse_follows_focus on
 
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
-yabai -m config debug_output off
+PADDING=4
+BAR_HEIGHT=$("$HOME"/.config/sketchybar/get_menu_bar_height)
+BAR_HEIGHT=$((BAR_HEIGHT + PADDING))
 
-yabai -m config layout bsp
-
-yabai -m config window_topmost off
-
-yabai -m signal --add event=window_focused action="printf "%s" \$YABAI_WINDOW_ID > \$HOME/.config/yabai/state/focused_window_id"
-
-yabai -m signal --add event=space_changed action="\$HOME/.config/yabai/scripts/focused_space.sh \$YABAI_SPACE_ID"
-
-yabai -m signal --add event=space_changed action="sketchybar --trigger windows_on_spaces"
-
-source "$HOME/.config/yabai/scripts/update_scratchpad_space.sh"
+yabai -m config \
+    active_window_border_color 0xff6272A4 \
+    active_window_opacity 1.0 \
+    auto_balance off \
+    bottom_padding 4 \
+    focus_follows_mouse off \
+    insert_feedback_color 0xffd75f5f \
+    layout bsp \
+    left_padding 4 \
+    mouse_action1 move \
+    mouse_action2 resize \
+    mouse_drop_action swap \
+    mouse_follows_focus on \
+    mouse_modifier alt \
+    normal_window_border_color 0xff555555 \
+    normal_window_opacity 0.90 \
+    right_padding 4 \
+    split_ratio 0.50 \
+    split_type auto \
+    top_padding 6 \
+    window_animation_duration 0.0 \
+    window_animation_frame_rate 120 \
+    window_border off \
+    window_border_blur off \
+    window_border_hidpi off \
+    window_border_radius 12 \
+    window_border_width 2 \
+    window_gap 04 \
+    window_opacity off \
+    window_opacity_duration 0.0 \
+    window_origin_display default \
+    window_placement second_child \
+    window_shadow off \
+    window_topmost off \
+    window_zoom_persist on \
+    debug_output off \
+    external_bar all:"$BAR_HEIGHT":0
 
 yabai -m signal --add event=display_resized action="brew services restart sketchybar"
+# Testing a signal to ensure that the most recent window is focused on a space after closing one like finder.
+yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
 
-yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
-yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
-yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+# yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+# yabai -m signal --add event=application_launched action="sketchybar --trigger windows_on_spaces"
 
-yabai -m signal --add event=space_changed action="yabai -m window --focus"
+#yabai -m signal --add event=space_changed action="yabai -m window --focus"
+#yabai -m signal --add event=window_created action="yabai -m window --focus \$YABAI_WINDOW_ID"
+# --add event=window_focused action="printf "%s" \$YABAI_WINDOW_ID > \$HOME/.config/yabai/state/focused_window_id" \
+# --add event=space_changed action="\$HOME/.config/yabai/scripts/focused_space.sh \$YABAI_SPACE_ID" \
+# --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'" active=yes \
+# --add event=window_destroyed app="^LibreWolf$" action="osascript -e 'quit app \"LibreWolf\"'" active=yes
+#--add event=window_destroyed app="^Safari$" action="osascript -e 'quit app \"Safari\"'" active=yes
 
-yabai -m signal --add event=window_created action="yabai -m window --focus \$YABAI_WINDOW_ID"
-
-yabai -m config active_window_border_color  0xff6272A4
-yabai -m config normal_window_border_color  0xff555555
-yabai -m config window_border               on
-yabai -m config window_border_blur          off
-yabai -m config window_border_hidpi         off
-yabai -m config window_border_width         2
-
-yabai -m config window_shadow off
-
-yabai -m config window_animation_duration 0.0
-
-yabai -m config top_padding    6
-yabai -m config bottom_padding 4
-yabai -m config left_padding   4
-yabai -m config right_padding  4
-yabai -m config window_gap     4
+# Try a window hidden and destroyed space focus to fix not focusing app after window closes on a space.
+# Perhaps I can use the application front switched to get the recent process id...
+# . "$HOME/.config/yabai/scripts/update_scratchpad_space.sh"
 
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Open Cycle Time$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Barrier$" manage=off
-
 yabai -m rule --add app="Emacs$" space=^1
-
 yabai -m rule --add app="Firefox$" space=^2
 yabai -m rule --add app="LibreWolf$" space=^2
-
-yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'" active=yes
-
-yabai -m signal --add event=window_destroyed app="^LibreWolf$" action="osascript -e 'quit app \"LibreWolf\"'" active=yes
-
-yabai -m signal --add event=window_destroyed app="^Safari$" action="osascript -e 'quit app \"Safari\"'" active=yes
-
 yabai -m rule --add app="Safari$" space=^2
-
 yabai -m rule --add app="Tor Browswer$" space=^2
-
 yabai -m rule --add app="(CLion|PyCharm)$" space=^3
-
 yabai -m rule --add app="(Gimp|Blender)$" space=^4
 
-yabai -m rule --add app="kitty" grid=6:6:1:1:4:4 manage=off
-
-yabai -m signal --add event=window_created action="\$HOME/.config/yabai/scripts/scratchpad_win_id.sh \$YABAI_WINDOW_ID kitty" app="kitty"
-
-yabai -m signal --add event=window_destroyed action="\$HOME/.config/yabai/scripts/scratchpad_win_id_reset.sh kitty" app="kitty"
-
-yabai -m rule --add app="^Discord" grid=10:10:1:0:8:10 manage=off
-
-yabai -m signal --add event=window_focused action="\$HOME/.config/yabai/scripts/scratchpad_win_id.sh \$YABAI_WINDOW_ID Discord" app="Discord"
-
-yabai -m signal --add event=window_destroyed action="\$HOME/.config/yabai/scripts/scratchpad_win_id_reset.sh Discord" app="Discord"
-
-yabai -m rule --add app="Spotify" grid=6:6:1:1:4:4 manage=off native-fullscreen=on
-
-yabai -m signal --add event=window_created action="\$HOME/.config/yabai/scripts/scratchpad_win_id.sh \$YABAI_WINDOW_ID Spotify" app="Spotify"
-
-yabai -m signal --add event=window_destroyed action="\$HOME/.config/yabai/scripts/scratchpad_win_id_reset.sh Spotify" app="Spotify"
+yabai -m rule --add app="kitty" grid=6:6:1:1:4:4 manage=off sticky=on
+yabai -m rule --add app="^Discord" grid=10:10:1:0:8:10 manage=off sticky=off
+yabai -m rule --add app="Spotify" grid=6:6:1:1:4:4 manage=off sticky=off
