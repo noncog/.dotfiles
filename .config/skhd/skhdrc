@@ -71,8 +71,8 @@ alt - 0x18  [
   "Emacs" ~
 ]
 
-alt - e : open -a Emacs 
-shift + alt - e : emacsclient -c -s $(cat "$HOME/.config/chemacs/profile") -n -a=''
+alt - e : $HOME/.local/bin/macos_launch_emacs.sh
+#shift + alt - e : emacsclient -c -s $(cat "$HOME/.config/chemacs/profile") -n -a=''
 cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
 
 alt - f : open -a safari
