@@ -6,9 +6,6 @@ fi
 # Set XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# Add Doom wrapper script to $PATH.
-PATH="$PATH:$HOME/.config/doom/wrapper"
-
 # Set Emacs as system editor.
 export EDITOR="emacsclient -c -s $(cat "$HOME"/.config/chemacs/profile) -a=''"
 export VISUAL="$EDITOR"

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-if [[ "$1" == "sync" && "$#" == 1 ]]; then
-    emacsclient -e "(kill-emacs)"
-    /opt/doom/bin/doom "$@"
-    emacsclient -c -n --alternate-editor=""
-else
-    /opt/doom/bin/doom "$@"
-fi

@@ -26,9 +26,6 @@ if [ -d "$HOME/.local/bin" ]; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Add Doom wrapper script to $PATH.
-PATH="$PATH:$HOME/.config/doom/wrapper"
-
 # Set Emacs as system editor.
 export EDITOR="emacsclient -c -s $(cat "$HOME"/.config/chemacs/profile) -a=''"
 export VISUAL="$EDITOR"
