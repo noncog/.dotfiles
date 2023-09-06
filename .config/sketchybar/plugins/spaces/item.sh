@@ -7,7 +7,7 @@ SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
 
 sid=0
 for i in "${!SPACE_ICONS[@]}"; do
-    sid=$(($i+1))
+    sid=$(($i + 1))
     space=(
         associated_space="$sid"
         icon="${SPACE_ICONS[i]}"
@@ -25,12 +25,12 @@ for i in "${!SPACE_ICONS[@]}"; do
         background.border_color="$BACKGROUND_2"
         background.drawing=off
         label.drawing=off
-        script="$PLUGINS_DIR/spaces/scripts/spaces.sh"
+        script="$CONFIG_DIR/plugins/spaces/plugin.sh"
     )
 
-    sketchybar --add space space.$sid left    \
-               --set space.$sid "${space[@]}" \
-               --subscribe space.$sid mouse.clicked
+    sketchybar --add space space.$sid left \
+        --set space.$sid "${space[@]}" \
+        --subscribe space.$sid mouse.clicked
 done
 
 spaces_bracket=(
@@ -49,8 +49,8 @@ separator=(
     icon.color="$WHITE"
 )
 
-sketchybar --add bracket spaces_bracket '/space\..*/'  \
-           --set spaces_bracket "${spaces_bracket[@]}" \
-                                                       \
-           --add item separator left                   \
-           --set separator "${separator[@]}"
+sketchybar --add bracket spaces_bracket '/space\..*/' \
+    --set spaces_bracket "${spaces_bracket[@]}" \
+    \
+    --add item separator left \
+    --set separator "${separator[@]}"
