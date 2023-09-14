@@ -68,14 +68,14 @@ yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Open Cycle Time$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Barrier$" manage=off
-yabai -m rule --add app="Emacs$" space=^1
-yabai -m rule --add app="Firefox$" space=^2
-yabai -m rule --add app="LibreWolf$" space=^2
-yabai -m rule --add app="Safari$" space=^2
+yabai -m rule --add app="Emacs$" display=^last
+yabai -m rule --add app="LibreWolf$" display=^last
+#yabai -m rule --add app="Firefox$" space=^2
+#yabai -m rule --add app="Safari$" space=^2
 yabai -m rule --add app="Tor Browswer$" space=^2
 yabai -m rule --add app="(CLion|PyCharm)$" space=^3
 yabai -m rule --add app="(Gimp|Blender)$" space=^4
 
-yabai -m rule --add app="kitty" grid=6:6:1:1:4:4 manage=off sticky=on
+yabai -m rule --add app="kitty" grid=6:6:1:1:4:4 manage=off sticky=off
 yabai -m rule --add app="^Discord" grid=10:10:1:0:8:10 manage=off sticky=off
 yabai -m rule --add app="Spotify" grid=6:6:1:1:4:4 manage=off sticky=off
