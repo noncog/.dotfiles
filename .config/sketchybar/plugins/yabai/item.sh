@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
 
 yabai=(
     icon.width=0
@@ -10,7 +11,7 @@ yabai=(
 
 sketchybar --add event window_focus \
     --add event windows_on_spaces \
-    --add item yabai left \
+    --add item yabai e \
     --set yabai "${yabai[@]}" \
     --subscribe yabai window_focus \
     space_change \

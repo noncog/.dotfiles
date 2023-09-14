@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shellcheck disable=SC1091
 
 update() {
     source "$CONFIG_DIR/colors.sh"
@@ -17,7 +18,7 @@ mouse_clicked() {
         sketchybar --trigger windows_on_spaces
         sketchybar --trigger space_change
     else
-        yabai -m space --focus "$SID" 2>/dev/null
+        yabai -m space --focus "$SID" 2> /dev/null
     fi
 }
 
