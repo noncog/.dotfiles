@@ -4,18 +4,16 @@ yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
 PADDING=4
-BAR_HEIGHT=$("$HOME"/.config/sketchybar/get_menu_bar_height)
-BAR_HEIGHT=$((BAR_HEIGHT + PADDING))
 
 yabai -m config \
     active_window_border_color 0xff6272A4 \
     active_window_opacity 1.0 \
     auto_balance off \
-    bottom_padding 4 \
+    bottom_padding "$PADDING" \
     focus_follows_mouse off \
     insert_feedback_color 0xffd75f5f \
     layout bsp \
-    left_padding 4 \
+    left_padding "$PADDING" \
     mouse_action1 move \
     mouse_action2 resize \
     mouse_drop_action swap \
@@ -23,10 +21,10 @@ yabai -m config \
     mouse_modifier alt \
     normal_window_border_color 0xff555555 \
     normal_window_opacity 0.90 \
-    right_padding 4 \
+    right_padding "$PADDING" \
     split_ratio 0.50 \
     split_type auto \
-    top_padding 6 \
+    top_padding "$PADDING" \
     window_animation_duration 0.0 \
     window_animation_frame_rate 120 \
     window_border off \
@@ -34,7 +32,7 @@ yabai -m config \
     window_border_hidpi off \
     window_border_radius 12 \
     window_border_width 2 \
-    window_gap 04 \
+    window_gap "$PADDING" \
     window_opacity off \
     window_opacity_duration 0.0 \
     window_origin_display default \
@@ -43,7 +41,7 @@ yabai -m config \
     window_topmost off \
     window_zoom_persist on \
     debug_output off \
-    external_bar all:"$BAR_HEIGHT":0
+    external_bar main:0:0
 
 yabai -m signal --add event=display_resized action="brew services restart sketchybar"
 # Testing a signal to ensure that the most recent window is focused on a space after closing one like finder.
