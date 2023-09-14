@@ -46,9 +46,8 @@ yabai -m config \
 yabai -m signal --add event=display_resized action="brew services restart sketchybar"
 # Testing a signal to ensure that the most recent window is focused on a space after closing one like finder.
 yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
-
-# yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
-# yabai -m signal --add event=application_launched action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
 
 #yabai -m signal --add event=space_changed action="yabai -m window --focus"
 #yabai -m signal --add event=window_created action="yabai -m window --focus \$YABAI_WINDOW_ID"
