@@ -3867,3 +3867,36 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
         "--header-insertion-decorators=0"))
 (set-lsp-priority! 'clangd 2)
 #+end_src
+
+* Sh-script
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+Sh-script is a built-in library that provides a major mode for editing shell scripts.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! sh-script
+  :defer t
+  :config
+  <<sh-script-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Behavior
+*** Shfmt Rules
+
+Doom provides some basic arguments to [[https://github.com/mvdan/sh][shfmt]] but those aren't enough for my preferences so I add my own.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref sh-script-config
+(set-formatter! 'shfmt
+  '("shfmt" "-ci" "-bn" "-sr" "-kp"
+    ("-i" "%d" (unless indent-tabs-mode tab-width))
+    ("-ln" "%s" (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix")))))
+#+end_src
