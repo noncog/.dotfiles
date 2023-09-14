@@ -3,7 +3,7 @@
 <div align="center">
 
 <!-- Shields -->
-<p><a href="https://www.gnu.org/software/emacs/emacs.html#Releases"><img src="https://img.shields.io/badge/Emacs-27.1+-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white"></a> <a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-literate%20config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a></p>
+<p><a href="https://www.gnu.org/software/emacs/emacs.html#Releases"><img src="https://img.shields.io/badge/Emacs-28.2+-blueviolet.svg?style=flat-square&logo=GNU%20Emacs&logoColor=white"></a> <a href="https://orgmode.org"><img src="https://img.shields.io/badge/Org-Literate%20Config-%2377aa99?style=flat-square&logo=org&logoColor=white"></a></p>
 
 <!-- Doom Logo -->
 <p><a href="https://github.com/Schievel1/doom-emacs-splash"><img src="https://github.com/Schievel1/doom-emacs-splash/blob/main/svg/doom/doomEmacsDracula.svg" height="300"></a></p>
