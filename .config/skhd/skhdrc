@@ -1,5 +1,5 @@
 alt - h [
-  *      : yabai -m window --focus west || yabai -m space --focus prev
+  *      : yabai -m window --focus west
   "Emacs" ~
 ]
 alt - j  [
@@ -11,10 +11,11 @@ alt - k  [
   "Emacs" ~
 ]
 alt - l  [
-  *      : yabai -m window --focus east || yabai -m space --focus next
+  *      : yabai -m window --focus east
   "Emacs" ~
 ]
 
+cmd - tab [ "Librewolf" ~ ]
 shift + alt - h : yabai -m window --swap west
 shift + alt - j : yabai -m window --swap south
 shift + alt - k : yabai -m window --swap north
@@ -72,12 +73,8 @@ alt - 0x18  [
 ]
 
 alt - e : $HOME/.local/bin/macos_launch_emacs.sh
-#shift + alt - e : emacsclient -c -s $(cat "$HOME/.config/chemacs/profile") -n -a=''
-cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
 
-alt - f : open -a safari
-shift + alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1; /opt/homebrew/bin/librewolf -profile $HOME/.config/firefox/noncog
-cmd + shift + alt - f : yabai -m window --space 2; yabai -m space --focus 2
+alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1 && open -a librewolf --args -profile $HOME/.config/firefox/noncog
 
 alt - return : $HOME/.local/bin/yabai_scratchpad_app.sh kitty
 alt - d : $HOME/.local/bin/yabai_scratchpad_app.sh Discord
