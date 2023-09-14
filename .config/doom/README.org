@@ -170,6 +170,9 @@
 - [[#lsp-clangd][LSP-Clangd]]
   - [[#package-35][Package]]
   - [[#behavior-25][Behavior]]
+- [[#sh-script][Sh-script]]
+  - [[#package-36][Package]]
+  - [[#behavior-26][Behavior]]
 #+END_QUOTE
 #+html:</details>
 
