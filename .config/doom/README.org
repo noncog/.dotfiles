@@ -725,7 +725,7 @@ This is an area of contention for me. Eventually I would like to overhaul this b
 **** Set Scroll Amount
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-;(setq-default evil-scroll-count 5)
+(setq-default evil-scroll-count 10)
 #+end_src
 
 **** Center Scroll Mode
