@@ -99,6 +99,7 @@ Each of the following keybinds have a Linux and macOS counterpart.
 I prefer to build my own workflow. To make this easier we clear all defaults, especially since I need to configure Linux and macOS compatibility.
 
 #+begin_src conf :tangle kitty.conf
+tab_bar_align center
 clear_all_shortcuts yes
 #+end_src
 
