@@ -15,11 +15,39 @@ alt - l  [
   "Emacs" ~
 ]
 
-cmd - tab [ "Librewolf" ~ ]
-shift + alt - h : yabai -m window --swap west
-shift + alt - j : yabai -m window --swap south
-shift + alt - k : yabai -m window --swap north
-shift + alt - l : yabai -m window --swap east
+shift + alt - h [
+  * : yabai -m window --swap west
+  "Emacs" ~
+]
+shift + alt - j [
+  * : yabai -m window --swap south
+  "Emacs" ~
+]
+shift + alt - k [
+  * : yabai -m window --swap north
+  "Emacs" ~
+]
+shift + alt - l [
+  * : yabai -m window --swap east
+  "Emacs" ~
+]
+
+alt + cmd - h [
+  * : yabai -m window --resize left:-20:0 || yabai -m window --resize right:-20:0
+  "Emacs" ~
+]
+alt + cmd - j [
+  * : yabai -m window --resize bottom:0:20 || yabai -m window --resize top:0:20
+  "Emacs" ~
+]
+alt + cmd - k [
+  * : yabai -m window --resize top:0:-20 || yabai -m window --resize bottom:0:-20
+  "Emacs" ~
+]
+alt + cmd - l [
+  * : yabai -m window --resize right:20:0 || yabai -m window --resize left:20:0
+  "Emacs" ~
+]
 
 shift + alt + cmd - h : yabai -m window --warp west
 shift + alt + cmd - j : yabai -m window --warp south
@@ -27,16 +55,16 @@ shift + alt + cmd - k : yabai -m window --warp north
 shift + alt + cmd - l : yabai -m window --warp east
 
 alt - s  [
-  *      : yabai -m window --toggle split
+  * : yabai -m window --toggle split
   "Emacs" ~
 ]
 alt - v  [
-  *      : yabai -m window --toggle split
+  * : yabai -m window --toggle split
   "Emacs" ~
 ]
 
 shift + alt - q  [
-  *      : yabai -m window --close
+  * : yabai -m window --close
   "Emacs" ~
 ]
 
@@ -65,6 +93,16 @@ shift + alt - 0 : yabai -m window --space 0
 
 alt - f11 : yabai -m window --toggle zoom-fullscreen
 
+cmd - tab [
+  "Librewolf" : skhd -k "ctrl - tab"
+  * ~
+]
+
+cmd + shift - tab [
+  "Librewolf" : skhd -k "ctrl + shift - tab"
+  * ~
+]
+
 alt - tab : yabai -m space --layout stack
 
 alt - 0x18  [
@@ -73,6 +111,7 @@ alt - 0x18  [
 ]
 
 alt - e : $HOME/.local/bin/macos_launch_emacs.sh
+cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
 
 alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1 && open -a librewolf --args -profile $HOME/.config/firefox/noncog
 
