@@ -3041,7 +3041,7 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 
 ** Behavior
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config :exports none
 ;; Behavior
 #+end_src
 
