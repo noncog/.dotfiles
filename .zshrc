@@ -17,3 +17,5 @@ function brew() {
     sketchybar --trigger brew_update
   fi
 }
+
+alias lsregister="/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister"
