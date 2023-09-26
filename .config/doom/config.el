@@ -184,8 +184,7 @@
         beacon-blink-when-window-scrolls nil
         beacon-blink-when-point-moves-vertically 10
         beacon-blink-when-focused nil) ; Does not work with Doom/Yabai.
-  (beacon-mode 1)
-  )
+  (beacon-mode 1))
 
 (use-package! helpful
   :defer t
@@ -209,8 +208,7 @@
       (select-window origin)))
   ;; Keybinds
   (map! :map helpful-mode-map "C-h" #'winner-undo
-        :map helpful-mode-map "C-l" #'winner-redo)
-  )
+        :map helpful-mode-map "C-l" #'winner-redo))
 
 (use-package! which-key
   :defer t
@@ -242,8 +240,7 @@
    '(("" . "\\`org-agenda-\\(.*\\)") . (nil . " \\1")))
   (pushnew!
    which-key-replacement-alist
-   '(("" . "\\`treemacs-\\(.*\\)") . (nil . " \\1")))
-  )
+   '(("" . "\\`treemacs-\\(.*\\)") . (nil . " \\1"))))
 
 (use-package! doom-modeline
   :defer t
@@ -256,8 +253,7 @@
         auto-revert-check-vc-info t)
   (setq doom-modeline-persp-name t
         doom-modeline-display-default-persp-name t
-        doom-modeline-persp-icon t)
-  )
+        doom-modeline-persp-icon t))
 
 (use-package! doom-dashboard
   :defer t
@@ -274,8 +270,7 @@
   :defer t
   :config
   ;; Fixes
-  (setq persp-emacsclient-init-frame-behaviour-override nil)
-  )
+  (setq persp-emacsclient-init-frame-behaviour-override nil))
 
 (use-package! vertico
   :defer t
@@ -284,8 +279,7 @@
   (setq vertico-sort-function #'vertico-sort-history-alpha)
   ;; Keybinds
   (map! :map vertico-map "C-u" #'scroll-down-command
-        :map vertico-map "C-d" #'scroll-up-command)
-  )
+        :map vertico-map "C-d" #'scroll-up-command))
 
 (use-package! marginalia
   :defer t
@@ -318,8 +312,7 @@
            (color (if (< size-index 10000000) ; 10m
                       (doom-blend 'orange 'green size-index)
                     (doom-blend 'red 'orange (- size-index 1)))))
-      (propertize (file-size-human-readable size) 'face (list :foreground color))))
-  )
+      (propertize (file-size-human-readable size) 'face (list :foreground color)))))
 
 (use-package! company
   :defer t
@@ -331,15 +324,13 @@
   (set-company-backend! 'org-mode
     '(company-capf company-files :with company-yasnippet))
   (set-company-backend! 'sh-mode
-    '(company-shell company-files :with company-yasnippet))
-  )
+    '(company-shell company-files :with company-yasnippet)))
 
 (use-package! yasnippet
   :defer t
   :config
   ;; Behavior
-  (setq yas-triggers-in-field t)
-  )
+  (setq yas-triggers-in-field t))
 
 (use-package! projectile
   :defer t
@@ -354,8 +345,7 @@
   (setq projectile-project-search-path '("~/Projects"))
   ;; Behavior
   (setq projectile-auto-discover nil
-        projectile-track-known-projects-automatically nil)
-  )
+        projectile-track-known-projects-automatically nil))
 
 (use-package! treemacs
   :defer t
@@ -366,8 +356,7 @@
   (setq doom-themes-treemacs-theme "doom-colors")
   ;; Behavior
   (treemacs-follow-mode 1)
-  (setq treemacs-project-follow-cleanup t)
-  )
+  (setq treemacs-project-follow-cleanup t))
 
 (use-package! magit
   :defer t
@@ -484,8 +473,7 @@
   (setq git-commit-fill-column 72)        ; Description column limit.
   (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
   (add-to-list 'git-commit-finish-query-functions
-               #'my-git-commit-check-style-conventions)
-  )
+               #'my-git-commit-check-style-conventions))
 
 (use-package! vterm
   :defer t
@@ -499,8 +487,7 @@
   ;; (advice-add '+vterm/toggle :around
   ;;             (lambda (fn &rest args) (apply fn args)
   ;;               (when (eq major-mode 'vterm-mode)
-  ;;                 (evil-collection-vterm-insert))))
-  )
+  ;;                 (evil-collection-vterm-insert)))))
 
 (use-package! visual-fill-column
   :custom
@@ -509,8 +496,7 @@
   :hook (org-mode . visual-fill-column-mode)
   :config
   ;; Fixes
-  (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust)
-  )
+  (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust))
 
 (use-package! org
   :defer t
@@ -565,8 +551,7 @@
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-use-outline-path 'file)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
-  (add-to-list 'org-tags-exclude-from-inheritance "agenda")
-  )
+  (add-to-list 'org-tags-exclude-from-inheritance "agenda"))
 
 (use-package! org-agenda
   :defer t
@@ -770,8 +755,7 @@
     (let ((subtree-end (save-excursion (org-end-of-subtree t))))
       (if (re-search-forward (concat ":" tag ":") subtree-end t)
           nil          ; tag found, do not skip
-        subtree-end))) ; tag not found, continue after end of subtree
-  )
+        subtree-end))) ; tag not found, continue after end of subtree)
 
 (use-package! org-capture
   :defer t
@@ -799,8 +783,7 @@
       (when old-org-capture-current-plist
         (setq-local org-capture-current-plist old-org-capture-current-plist)
         (org-capture-mode +1))))
-  (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
-  )
+  (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t)))
 
 (use-package! org-roam
   :defer t
@@ -830,8 +813,7 @@
     "Get a random node with the draft tag. "
     (interactive)
     (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
-  (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
- )
+  (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft))
 
 (use-package! websocket
     :after org-roam)
@@ -890,8 +872,7 @@
   (defadvice! +org-roam-ui-always-sync-theme ()
     "Always sync da theme..."
     :after #'org-roam-ui-open
-    (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme))))))))
-  )
+    (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme)))))))))
 
 (use-package! org-roam-dailies
   :after org-roam
@@ -915,8 +896,7 @@
         '(("d" "default" plain "%?" :target
           (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
           :unnarrowed t)))
-  (setq org-roam-protocol-store-links t)
-  )
+  (setq org-roam-protocol-store-links t))
 
 (defun my/org-protocol-make-app-handler ()
   "Generate the Applescript application 'OrgProtocol.app' using Applescript and elisp."
@@ -1039,8 +1019,7 @@
     "A hook function to update the value of `org-agenda-files'."
     (setq org-agenda-files (vulpea-agenda-files)))
   (advice-add 'org-agenda :before #'vulpea-agenda-files-update)
-  (advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
-  )
+  (advice-add 'org-todo-list :before #'vulpea-agenda-files-update))
 
 ;; (use-package! org-gtd
 ;;   ;:defer t
@@ -1065,8 +1044,7 @@
 ;;         :desc "Show all next"  "n"  #'org-gtd-show-all-next
 ;;         :desc "Stuck projects" "s"  #'org-gtd-show-stuck-projects)
 ;;   (map! :map org-gtd-process-map
-;;         :desc "Choose" "C-c c" #'org-gtd-choose)
-;;   )
+;;         :desc "Choose" "C-c c" #'org-gtd-choose))
 
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
@@ -1077,8 +1055,7 @@
         org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
         org-appear-autolinks nil               ; Shows Org links.
         org-appear-autokeywords nil            ; Shows hidden Org keywords.
-        org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
-  )
+        org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.)
 
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode))
@@ -1105,8 +1082,7 @@
           ("KILL" :inverse-video t :inherit +org-todo-cancel)
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
         org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
-        org-modern-horizontal-rule (make-string 80 ?─))
-  )
+        org-modern-horizontal-rule (make-string 80 ?─)))
 
 (use-package! toc-org
   :defer t
@@ -1177,8 +1153,7 @@
                                new-toc)
                         (delete-region beg end)
                         (insert new-toc)))))
-              (message (concat "Hrefify function " hrefify-string " is not found")))))))))
-  )
+              (message (concat "Hrefify function " hrefify-string " is not found"))))))))))
 
 (use-package! org-noter
   :defer t
@@ -1189,8 +1164,7 @@
   ;; Behavior
   (setq org-noter-always-create-frame nil        ; Don't create a new frame for the session.
         org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
-  (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
-  )
+  (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.)
 
 (use-package! pdf-tools
   :defer t
@@ -1198,8 +1172,7 @@
   ;; Behavior
   (pdf-tools-install t)
   ;; Fixes
-  (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode))
-  )
+  (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode)))
 
 (use-package! plantuml-mode
   :defer t
@@ -1207,8 +1180,7 @@
   ;; Behavior
   (setq plantuml-default-exec-mode 'jar)
   (unless (file-exists-p plantuml-jar-path)
-    (plantuml-download-jar))
-  )
+    (plantuml-download-jar)))
 
 (use-package! ox
   :defer t
@@ -1248,8 +1220,7 @@
   ;; Behavior
   (require 'ox-extra)
   (ox-extras-activate '(ignore-headlines))
-  (setq org-export-headline-levels 5)
-  )
+  (setq org-export-headline-levels 5))
 
 (use-package! ox-latex
   :defer t
@@ -1268,8 +1239,7 @@
                  ("\\paragraph{%s}" . "\\paragraph*{%s}")
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   ;; Behavior
-  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
-  )
+  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f")))
 
 (use-package! engrave-faces-latex
   :after ox-latex)
@@ -1288,8 +1258,7 @@
           "--completion-style=detailed"
           "--header-insertion=never"
           "--header-insertion-decorators=0"))
-  (set-lsp-priority! 'clangd 2)
-  )
+  (set-lsp-priority! 'clangd 2))
 
 (use-package! sh-script
   :defer t
@@ -1297,8 +1266,7 @@
   (set-formatter! 'shfmt
     '("shfmt" "-ci" "-bn" "-sr" "-kp"
       ("-i" "%d" (unless indent-tabs-mode tab-width))
-      ("-ln" "%s" (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix")))))
-  )
+      ("-ln" "%s" (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix"))))))
 
 ;;;; Allow editing of binary .scpt files (applescript) on mac.
 (add-to-list 'jka-compr-compression-info-list
