@@ -51,7 +51,7 @@
 
 (global-auto-revert-mode 1)
 
-;(setq-default evil-scroll-count 5)
+(setq-default evil-scroll-count 10)
 
 (define-minor-mode prot/scroll-center-cursor-mode
   "Toggle centred cursor scrolling behavior"
@@ -68,47 +68,97 @@
                      scroll-margin))
       (kill-local-variable `,local))))
 
-(defun wm-focus-on-error (direction move-fn)
-    (when IS-LINUX
-     (condition-case nil (funcall move-fn)
-       (user-error (start-process "wm" nil "i3-msg" "focus" direction))))
-     (when IS-MAC
-      (condition-case nil (funcall move-fn)
-        (user-error (start-process "wm" nil "yabai_emacs_window_and_space_focus.sh" direction)))))
+(defun wm-win-cmd-in-direction (wm-cmd direction emacs-fn)
+  (let ((tell-wm (concat (cond (IS-LINUX "i3-msg ") (IS-MAC "yabai -m window --")) wm-cmd " " direction)))
+    (condition-case nil (funcall emacs-fn)
+      (user-error (apply #'start-process "wm" nil (split-string tell-wm))))))
 
-(defun wm-window-left ()
+(defun wm-focus-win-left ()
   (interactive)
   (let ((direction (cond (IS-LINUX "left") (IS-MAC "west"))))
-    (wm-focus-on-error direction #'windmove-left)))
+    (wm-win-cmd-in-direction "focus" direction #'windmove-left)))
 
-(defun wm-window-right ()
+(defun wm-focus-win-right ()
   (interactive)
   (let ((direction (cond (IS-LINUX "right") (IS-MAC "east"))))
-    (wm-focus-on-error direction #'windmove-right)))
+    (wm-win-cmd-in-direction "focus" direction #'windmove-right)))
 
-(defun wm-window-up ()
+(defun wm-focus-win-up ()
   (interactive)
   (let ((direction (cond (IS-LINUX "up") (IS-MAC "north"))))
-    (wm-focus-on-error direction #'windmove-up)))
+    (wm-win-cmd-in-direction "focus" direction #'windmove-up)))
 
-(defun wm-window-down ()
+(defun wm-focus-win-down ()
   (interactive)
   (let ((direction (cond (IS-LINUX "down") (IS-MAC "south"))))
-    (wm-focus-on-error direction #'windmove-down)))
+    (wm-win-cmd-in-direction "focus" direction #'windmove-down)))
 
-(map! "s-h" #'wm-window-left
-      "s-j" #'wm-window-down
-      "s-k" #'wm-window-up
-      "s-l" #'wm-window-right
+(defun wm-move-win-left ()
+  (interactive)
+  (let ((direction (cond (IS-LINUX "left") (IS-MAC "west")))
+        (move-cmd (cond (IS-LINUX "move") (IS-MAC "swap"))))
+    (wm-win-cmd-in-direction move-cmd direction #'windmove-swap-states-left)))
+
+(defun wm-move-win-right ()
+  (interactive)
+  (let ((direction (cond (IS-LINUX "right") (IS-MAC "east")))
+        (move-cmd (cond (IS-LINUX "move") (IS-MAC "swap"))))
+    (wm-win-cmd-in-direction move-cmd direction #'windmove-swap-states-right)))
+
+(defun wm-move-win-up ()
+  (interactive)
+  (let ((direction (cond (IS-LINUX "up") (IS-MAC "north")))
+        (move-cmd (cond (IS-LINUX "move") (IS-MAC "swap"))))
+    (wm-win-cmd-in-direction move-cmd direction #'windmove-swap-states-up)))
+
+(defun wm-move-win-down ()
+  (interactive)
+  (let ((direction (cond (IS-LINUX "down") (IS-MAC "south")))
+        (move-cmd (cond (IS-LINUX "move") (IS-MAC "swap"))))
+    (wm-win-cmd-in-direction move-cmd direction #'windmove-swap-states-down)))
+
+(defun wm-resize-win-left ()
+  (interactive)
+  (if (window-in-direction 'left nil nil nil nil) (enlarge-window-horizontally 10) (enlarge-window-horizontally -10)))
+
+(defun wm-resize-win-right ()
+  (interactive)
+  (if (window-in-direction 'left nil nil nil nil) (enlarge-window-horizontally -10) (enlarge-window-horizontally 10)))
+
+(defun wm-resize-win-up ()
+  (interactive)
+  (if (window-in-direction 'above nil nil nil nil) (enlarge-window 5) (enlarge-window -5)))
+
+(defun wm-resize-win-down ()
+  (interactive)
+  (if (window-in-direction 'below nil nil nil nil) (enlarge-window 5) (enlarge-window -5)))
+
+(map! "s-h" #'wm-focus-win-left
+      "s-j" #'wm-focus-win-down
+      "s-k" #'wm-focus-win-up
+      "s-l" #'wm-focus-win-right
+      "s-H" #'wm-move-win-left
+      "s-J" #'wm-move-win-down
+      "s-K" #'wm-move-win-up
+      "s-L" #'wm-move-win-right
       "s-=" #'balance-windows
       "s-v" #'evil-window-vsplit
       "s-s" #'evil-window-split
       "s-Q" #'evil-quit)
 
-(map! :leader "w h" #'wm-window-left
-              "w j" #'wm-window-down
-              "w k" #'wm-window-up
-              "w l" #'wm-window-right)
+(map! :leader "w h" #'wm-focus-win-left
+              "w j" #'wm-focus-win-down
+              "w k" #'wm-focus-win-up
+              "w l" #'wm-focus-win-right
+              "w H" #'wm-move-win-left
+              "w J" #'wm-move-win-down
+              "w K" #'wm-move-win-up
+              "w L" #'wm-move-win-right)
+
+(map! "C-s-h" #'wm-resize-win-left
+      "C-s-j" #'wm-resize-win-down
+      "C-s-k" #'wm-resize-win-up
+      "C-s-l" #'wm-resize-win-right)
 
 ;; Keybinds
 
@@ -120,8 +170,7 @@
   :defer t
   :config
   ;; Behavior
-  (setq avy-all-windows t)
-  )
+  (setq avy-all-windows t))
 
 (use-package! beacon
   :config
@@ -131,10 +180,10 @@
         beacon-blink-duration 0.3
         beacon-blink-delay 0.5)
   ;; Behavior
-  (setq beacon-blink-when-buffer-changes t
+  (setq beacon-blink-when-buffer-changes nil
         beacon-blink-when-window-scrolls nil
-        beacon-blink-when-point-moves-vertically nil
-        beacon-blink-when-focused nil)
+        beacon-blink-when-point-moves-vertically 10
+        beacon-blink-when-focused nil) ; Does not work with Doom/Yabai.
   (beacon-mode 1)
   )
 
@@ -755,7 +804,7 @@
 
 (use-package! org-roam
   :defer t
-  :if (file-exists-p org-directory) ; Only load if the directory exists.
+  ;; :if (file-exists-p org-directory) ; Only load if the directory exists.
   :init
   ;; Variables
   (setq org-roam-directory org-directory)
@@ -782,7 +831,7 @@
     (interactive)
     (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
   (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
-  )
+ )
 
 (use-package! websocket
     :after org-roam)
@@ -860,7 +909,7 @@
   ;; Behavior
   (setq org-roam-capture-ref-templates
         '(("r" "ref" plain "%?" :target
-          (file+head "resource/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n${body}")
+          (file+head "reference/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n${body}")
           :unnarrowed t)))
   (setq org-roam-capture-templates
         '(("d" "default" plain "%?" :target
@@ -868,6 +917,51 @@
           :unnarrowed t)))
   (setq org-roam-protocol-store-links t)
   )
+
+(defun my/org-protocol-make-app-handler ()
+  "Generate the Applescript application 'OrgProtocol.app' using Applescript and elisp."
+  ;; TODO: Create options to change where the application gets created.
+  (interactive)
+  ;; TODO: Consider prompting are you sure?
+  (let* ((script (expand-file-name "OrgProtocolClient.applescript" doom-user-dir))
+         (app "/Applications/OrgProtocolClient.app")
+         ; Sending application to Doom's directory causes issues. Using /Applications auto links I believe.
+         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that.
+         ;(app (expand-file-name "OrgProtocolClient.app" doom-user-dir))
+         (plist (expand-file-name "Contents/Info.plist" app))
+         (emacsclient "/opt/homebrew/bin/emacsclient -n "))
+    (with-temp-file script
+      (insert "on open location this_URL\n")
+      (insert (format "\tset EC to \"%s\"\n" emacsclient))
+      (insert "\tset filePath to quoted form of this_URL\n")
+      (insert "\tdo shell script EC & filePath\n")
+      (insert "\ttell application \"Emacs\" to activate\n")
+      (insert "end open location\n"))
+    ;; Must be done for osacompile to recognize application extension.
+    (when (file-exists-p app) (delete-directory app t))
+    (let ((status (call-process-shell-command (format "osacompile -o %s %s" app script))))
+      (if (eq status 0)
+          (with-temp-file plist
+            (when (file-exists-p script) (delete-file script t))
+            (when-let  ((plist-buffer (get-file-buffer plist)))
+              (kill-buffer plist-buffer))
+            (insert-file-contents plist)
+            (goto-char (point-max))
+            (goto-char (re-search-backward "</dict>"))
+            (previous-line) (end-of-line) (newline)
+            (insert "\t<key>CFBundleURLTypes</key>\n")
+            (insert "\t<array>\n")
+            (insert "\t\t<dict>\n")
+            (insert "\t\t\t<key>CFBundleURLName</key>\n")
+            (insert "\t\t\t<string>org-protocol handler</string>\n")
+            (insert "\t\t\t<key>CFBundleURLSchemes</key>\n")
+            (insert "\t\t\t<array>\n")
+            (insert "\t\t\t\t<string>org-protocol</string>\n")
+            (insert "\t\t\t</array>\n")
+            (insert "\t\t</dict>\n")
+            (insert "\t</array>")
+            (write-region nil nil plist))
+        (error "Something wen't wrong with the compilation of the script!")))))
 
 (use-package! vulpea
   :after org-roam
@@ -1018,7 +1112,7 @@
   :defer t
   :config
   ;; Behavior
-  (setq org-toc-default-depth 2)
+  (setq org-toc-default-depth 3)
   (defadvice! my/+toc-org-insert-toc-folded (&optional dry-run)
     "An advised function to extend 'toc-org-insert-toc to add html details tags."
     :override #'toc-org-insert-toc
@@ -1196,3 +1290,27 @@
           "--header-insertion-decorators=0"))
   (set-lsp-priority! 'clangd 2)
   )
+
+(use-package! sh-script
+  :defer t
+  :config
+  (set-formatter! 'shfmt
+    '("shfmt" "-ci" "-bn" "-sr" "-kp"
+      ("-i" "%d" (unless indent-tabs-mode tab-width))
+      ("-ln" "%s" (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix")))))
+  )
+
+;;;; Allow editing of binary .scpt files (applescript) on mac.
+(add-to-list 'jka-compr-compression-info-list
+             `["\\.scpt\\'"
+               "converting text applescript to binary applescprit "
+               ,(expand-file-name "applescript-helper.sh" doom-user-dir) nil
+               "converting binary applescript to text applescprit "
+               ,(expand-file-name "applescript-helper.sh" doom-user-dir) ("-d")
+               nil t "FasdUAS"])
+;;It is necessary to perform an update!
+(jka-compr-update)
+
+(defun org-execute-named-src-block-in-lit-config ()
+  (interactive)
+  (org-babel-with-temp-filebuffer +literate-config-file (org-babel-goto-named-src-block "gen-org-protocol-script") (org-babel-execute-src-block)))

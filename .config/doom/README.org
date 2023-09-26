@@ -1,3 +1,8 @@
+:PROPERTIES:
+:ID:       d9e2bc97-ec0a-48c6-8151-c6c6e88eae7c
+:END:
+#+export_exclude_tags: exclude noexport
+#+filetags: :agenda:
 
 #+begin_html
 <div align="center">
@@ -24,7 +29,9 @@
 #+html:<details><summary>Table of Contents</summary>
 #+BEGIN_QUOTE
 - [[#doom][Doom]]
-  - [[#doom-configs][Doom Configs]]
+  - [[#about][About]]
+  - [[#resources][Resources]]
+- [[#global-configuration][Global Configuration]]
   - [[#variables][Variables]]
   - [[#appearance][Appearance]]
   - [[#behavior][Behavior]]
@@ -68,7 +75,7 @@
   - [[#behavior-7][Behavior]]
 - [[#yasnippet][Yasnippet]]
   - [[#package-10][Package]]
-  - [[#resources][Resources]]
+  - [[#resources-1][Resources]]
   - [[#behavior-8][Behavior]]
 - [[#projectile][Projectile]]
   - [[#package-11][Package]]
@@ -109,7 +116,7 @@
   - [[#fixes-4][Fixes]]
 - [[#org-roam][Org Roam]]
   - [[#package-19][Package]]
-  - [[#resources-1][Resources]]
+  - [[#resources-2][Resources]]
   - [[#variables-5][Variables]]
   - [[#appearance-8][Appearance]]
   - [[#behavior-15][Behavior]]
@@ -125,7 +132,6 @@
 - [[#org-roam-protocol][Org Roam Protocol]]
   - [[#package-22][Package]]
   - [[#behavior-17][Behavior]]
-  - [[#see-what-this-does][See what this does.]]
 - [[#vulpea][Vulpea]]
   - [[#package-23][Package]]
   - [[#helpers-1][Helpers]]
@@ -173,36 +179,28 @@
 - [[#sh-script][Sh-script]]
   - [[#package-36][Package]]
   - [[#behavior-26][Behavior]]
+- [[#applescript][Applescript]]
+  - [[#package-37][Package]]
+  - [[#enable-editing-of-compiled-script-files][Enable Editing of Compiled Script Files]]
+- [[#experiments][Experiments]]
 #+END_QUOTE
 #+html:</details>
 
-* Doom
+* No Web :noexport:
 :PROPERTIES:
-:VISIBILITY: children
+:VISIBILITY: folded
 :END:
+** Init.el
 
-#+begin_quote
-[[https://github.com/doomemacs/doomemacs][Doom]] is a configuration framework for GNU Emacs tailored for Emacs bankruptcy veterans who want less framework in their frameworks, a modicum of stability (and reproducibility) from their package manager, and the performance of a hand rolled config (or better). It can be a foundation for your own config or a resource for Emacs enthusiasts to learn more about our favorite operating system.
-#+end_quote
+#+html:<details><summary></summary>
 
-** Doom Configs
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-Doom only uses three config files, loaded in a specific order. I use Org's literate programming technique known as 'tangling' to generate them from this =README.org= file. This allows me to describe my configuration in a different order than it would actually appear in Doom's config files:
-
-*** Init.el
-
-#+html:<details><summary>Defines which of Doom’s modules are enabled and their load order.</summary>
-
-**** Enable Lexical Binding
+*** Enable Lexical Binding
 
 #+begin_src emacs-lisp :tangle init.el
 ;;; init.el -*- lexical-binding: t; -*-
 #+end_src
 
-**** Early Init
+*** Early Init
 
 Some settings (very few) need to be loaded before Doom's modules. They're tangled to here from other sections of my configuration using =noweb= referenced code blocks.
 
@@ -210,7 +208,7 @@ Some settings (very few) need to be loaded before Doom's modules. They're tangle
 <<early-init>>
 #+end_src
 
-**** Modules
+*** Modules
 
 #+begin_src emacs-lisp :tangle init.el
 (doom! :input
@@ -407,18 +405,18 @@ Some settings (very few) need to be loaded before Doom's modules. They're tangle
 
 #+html:</details>
 
-*** Packages.el
+** Packages.el
 
 #+html:<details><summary>Defines which external packages are loaded by the user.</summary>
 
-**** Disable Byte Compiling
+*** Disable Byte Compiling
 
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 #+end_src
 
-**** User Packages
+*** User Packages
 
 Each package's =package!= source recipe is defined in its relevant package configuration section and is tangled to here using =noweb= referenced code blocks.
 
@@ -426,7 +424,7 @@ Each package's =package!= source recipe is defined in its relevant package confi
 <<packages>>
 #+end_src
 
-**** Basic Use Instructions
+*** Basic Use Instructions
 
 #+begin_src emacs-lisp :tangle no
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
@@ -474,17 +472,17 @@ Each package's =package!= source recipe is defined in its relevant package confi
 
 #+html:</details>
 
-*** Config.el
+** Config.el
 
 #+html:<details><summary>Defines the user's custom configuration.</summary>
 
-**** Enable Lexical Binding
+*** Enable Lexical Binding
 
 #+begin_src emacs-lisp :tangle config.el
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 #+end_src
 
-**** User Config
+*** User Config
 
 Most of the configuration is done here. Each code block is defined in its relevant section and is tangled here using =noweb= referenced code blocks.
 
@@ -492,7 +490,7 @@ Most of the configuration is done here. Each code block is defined in its releva
 <<config>>
 #+end_src
 
-**** Basic Use Instructions
+*** Basic Use Instructions
 
 #+begin_src emacs-lisp :tangle no
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -520,53 +518,109 @@ Most of the configuration is done here. Each code block is defined in its releva
 #+end_src
 
 #+html:</details>
-*** Organization
 
-This file is structured to promote discoverability and comprehension.
+* Doom
+:PROPERTIES:
+:VISIBILITY: children
+:ID:       2a62f3e5-c721-44f7-be13-a20e468a5178
+:END:
 
-In general, it follows this scheme:
+#+begin_quote
+[[https://github.com/doomemacs/doomemacs][Doom]] is a configuration framework for GNU Emacs tailored for Emacs bankruptcy veterans who want less framework in their frameworks, a modicum of stability (and reproducibility) from their package manager, and the performance of a hand rolled config (or better). It can be a foundation for your own config or a resource for Emacs enthusiasts to learn more about our favorite operating system.
+#+end_quote
 
+** About
+
+=Configuring Emacs is an art form... and it can get ugly.=
+
+This section hosts meta commentary on the configuration of your configuration... of your configuration framework. Or at least, how I'm doing it.
+
+*** Config Files
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+=Doom uses three config files, loaded in a specific order.=
+
+#+begin_quote
+[!IMPORTANT]
+It's imperative that your configuration is loaded in the correct time and place. My configuration files are dynamically generated (tangled) from this =README.org= file using [[https://orgmode.org/][org-mode]]. Therefore, the load order perceived here may not reflect the actual source code. See [[#literate-configuration][Literate Configuration]] for more information.
+#+end_quote
+
+- Init.el :: Defines which of Doom’s modules are enabled.
+- Packages.el :: Defines the external packages loaded by the user.
+- Config.el :: Defines the user's custom configuration.
+
+*** Macros
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+=Doom provides many convenience macros and functions for its configuration.=
+
+Although I do use Doom's macros, I try to configure Emacs using more common means, like use-package.
+
+**** Use Package
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/jwiegley/use-package][Use-Package(!)]] is a built-in configuration macro that simplifies package-based configuration in Emacs.
+#+end_quote
+
+This macro provides isolated package configurations that use keywords to control your configuration's load order relative to the loading of a package. Although vital, use-package structures your configuration around load order instead of readability or the author's choice. To be able to structure my configuration independently of use-package or other constraints, I use a literate configuration to generate it dynamically.
+
+*** Literate Configuration
+
+#+begin_quote
+A [[https://leanpub.com/lit-config/read][Literate Configuration]] using org-mode enables you to dynamically mix documentation, source code, languages, formats, images, tables, and more in your config files!
+#+end_quote
+
+**** Organization
+
+This file is structured to promote discoverability and comprehension. In general, it follows this scheme:
+
+#+begin_quote
 *Section*
 - Variables
 - Appearance
 - Behavior
 - Keybinds
+- Fixes
 - Etc.
+#+end_quote
 
-You're currently reading the Doom section. I configure 'global' settings here.
-
-All other sections are dedicated to individul package configuration.
-
-*** Design
-
-- I try to use conventions that are not specific to Doom so that my configuration can apply to the wider Emacs community as well. Although one could translate Doom's convenience macros, I prefer to enable you to be able to easily copy and paste parts of my configuration.
-
-- Any functions or advice that I create start with =my/= as a unique identifier and try to be descriptive in their purpose. By being well written and not using my name (=noncog/=) as an identifier, you can directly copy and paste my stuff without needing to rename or rewrite it.
-
-*** Resources
+*** Coding Conventions
+- I try to use a descriptive and generalized name for any emacs-lisp that I write. I use the prefix =my/= instead of something specific like =noncog/= or =nc/= to identify any code that I write. This prefix specifies code that I wrote, but makes it not necessarily specific to me, so that it's portable for others to use. I would recommend adopting it.
+** Resources
 
 #+html:<details><summary>Other Emacs User Configs</summary>
 
-**** Doom User
+*** Doom User
 - [[https://github.com/tecosaur/emacs-config][Tecosaur]]
 - [[https://github.com/zzamboni/dot-doom/blob/master/doom.org][Zzamboni]]
 - [[https://github.com/elken/doom][Elken]]
 - [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Nguyen Duc Hieu]]
 - [[https://github.com/slano-ls/Doom-Emacs-Config][Saihaj Law]]
+- [[https://github.com/chrisbarrett/doom-configuration][Chris Barrett]]
 - [[https://github.com/hlissner/.doom.d/tree/master][Henrik Lissner]]
 - [[https://github.com/tefkah/doom-emacs-config][Tefkah]]
 
-**** Emacs User
+*** Emacs User
 - [[https://github.com/daviwil/dotfiles/tree/guix-home][David Wilson]]
 - [[https://github.com/rougier/dotemacs/tree/master][Nicolas P. Rougier]]
 - [[https://github.com/jimeh/.emacs.d][Emacs Siren]]
 - [[https://github.com/howardabrams/hamacs][Howard Abrams]]
-- [[https://github.com/chrisbarrett/.emacs.d/blob/master/config.org][Chris Barrett]]
 - [[https://github.com/novoid/dot-emacs/blob/master/config.org][Novoid]]
 - [[https://github.com/ianyepan/.wsl-emacs.d][Ian Y.E. Pan]]
 
 #+html:</details>
 
+* Global Configuration
+:PROPERTIES:
+:VISIBILITY: children
+:END:
 ** Variables
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n" :exports none
@@ -575,7 +629,7 @@ All other sections are dedicated to individul package configuration.
 
 *** TODO Personal Information
 
-Define an identity for use with GPG, email, and file templates/snippets.
+Defines an identity for use with GPG, email, and file templates/snippets.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq user-full-name "Jake Turner"
@@ -764,35 +818,76 @@ This method requires some way for your window manager to pass the keybinds to Em
 When a window can't be found in that direction in Emacs, it passes the window focusing command to the window manager.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(defun wm-focus-on-error (direction move-fn)
-    (when IS-LINUX
-     (condition-case nil (funcall move-fn)
-       (user-error (start-process "wm" nil "i3-msg" "focus" direction))))
-     (when IS-MAC
-      (condition-case nil (funcall move-fn)
-        (user-error (start-process "wm" nil "yabai" "-m" "window" "--focus" direction)))))
+(defun wm-win-cmd-in-direction (wm-cmd direction emacs-fn)
+  (let ((tell-wm (concat (cond (IS-LINUX "i3-msg ") (IS-MAC "yabai -m window --")) wm-cmd " " direction)))
+    (condition-case nil (funcall emacs-fn)
+      (user-error (apply #'start-process "wm" nil (split-string tell-wm))))))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(defun wm-window-left ()
+(defun wm-focus-win-left ()
   (interactive)
   (let ((direction (cond (IS-LINUX "left") (IS-MAC "west"))))
-    (wm-focus-on-error direction #'windmove-left)))
+    (wm-win-cmd-in-direction "focus" direction #'windmove-left)))
 
-(defun wm-window-right ()
+(defun wm-focus-win-right ()
   (interactive)
   (let ((direction (cond (IS-LINUX "right") (IS-MAC "east"))))
-    (wm-focus-on-error direction #'windmove-right)))
+    (wm-win-cmd-in-direction "focus" direction #'windmove-right)))
 
-(defun wm-window-up ()
+(defun wm-focus-win-up ()
   (interactive)
   (let ((direction (cond (IS-LINUX "up") (IS-MAC "north"))))
-    (wm-focus-on-error direction #'windmove-up)))
+    (wm-win-cmd-in-direction "focus" direction #'windmove-up)))
 
-(defun wm-window-down ()
+(defun wm-focus-win-down ()
   (interactive)
   (let ((direction (cond (IS-LINUX "down") (IS-MAC "south"))))
-    (wm-focus-on-error direction #'windmove-down)))
+    (wm-win-cmd-in-direction "focus" direction #'windmove-down)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
+(defun wm-move-win-left ()
+  (interactive)
+  (let ((direction (cond (IS-LINUX "left") (IS-MAC "west")))
+        (move-cmd (cond (IS-LINUX "move") (IS-MAC "swap"))))
+    (wm-win-cmd-in-direction move-cmd direction #'windmove-swap-states-left)))
+
+(defun wm-move-win-right ()
+  (interactive)
+  (let ((direction (cond (IS-LINUX "right") (IS-MAC "east")))
+        (move-cmd (cond (IS-LINUX "move") (IS-MAC "swap"))))
+    (wm-win-cmd-in-direction move-cmd direction #'windmove-swap-states-right)))
+
+(defun wm-move-win-up ()
+  (interactive)
+  (let ((direction (cond (IS-LINUX "up") (IS-MAC "north")))
+        (move-cmd (cond (IS-LINUX "move") (IS-MAC "swap"))))
+    (wm-win-cmd-in-direction move-cmd direction #'windmove-swap-states-up)))
+
+(defun wm-move-win-down ()
+  (interactive)
+  (let ((direction (cond (IS-LINUX "down") (IS-MAC "south")))
+        (move-cmd (cond (IS-LINUX "move") (IS-MAC "swap"))))
+    (wm-win-cmd-in-direction move-cmd direction #'windmove-swap-states-down)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
+(defun wm-resize-win-left ()
+  (interactive)
+  (if (window-in-direction 'left nil nil nil nil) (enlarge-window-horizontally 10) (enlarge-window-horizontally -10)))
+
+(defun wm-resize-win-right ()
+  (interactive)
+  (if (window-in-direction 'left nil nil nil nil) (enlarge-window-horizontally -10) (enlarge-window-horizontally 10)))
+
+(defun wm-resize-win-up ()
+  (interactive)
+  (if (window-in-direction 'above nil nil nil nil) (enlarge-window 5) (enlarge-window -5)))
+
+(defun wm-resize-win-down ()
+  (interactive)
+  (if (window-in-direction 'below nil nil nil nil) (enlarge-window 5) (enlarge-window -5)))
 #+end_src
 
 **** Keybinds
@@ -800,23 +895,40 @@ When a window can't be found in that direction in Emacs, it passes the window fo
 I use =super= as my window manager modifier key. These binds allow the window manager windowing keybinds to work within Emacs.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(map! "s-h" #'wm-window-left
-      "s-j" #'wm-window-down
-      "s-k" #'wm-window-up
-      "s-l" #'wm-window-right
+(map! "s-h" #'wm-focus-win-left
+      "s-j" #'wm-focus-win-down
+      "s-k" #'wm-focus-win-up
+      "s-l" #'wm-focus-win-right
+      "s-H" #'wm-move-win-left
+      "s-J" #'wm-move-win-down
+      "s-K" #'wm-move-win-up
+      "s-L" #'wm-move-win-right
       "s-=" #'balance-windows
       "s-v" #'evil-window-vsplit
       "s-s" #'evil-window-split
       "s-Q" #'evil-quit)
 #+end_src
 
-These binds allow you to use Doom's window switching commands to focus windows outside of Emacs.
+These binds allow you to use Doom's window management keybinds from Emacs to windows outside of it.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(map! :leader "w h" #'wm-window-left
-              "w j" #'wm-window-down
-              "w k" #'wm-window-up
-              "w l" #'wm-window-right)
+(map! :leader "w h" #'wm-focus-win-left
+              "w j" #'wm-focus-win-down
+              "w k" #'wm-focus-win-up
+              "w l" #'wm-focus-win-right
+              "w H" #'wm-move-win-left
+              "w J" #'wm-move-win-down
+              "w K" #'wm-move-win-up
+              "w L" #'wm-move-win-right)
+#+end_src
+
+These binds allow you to resize windows directionally. These echo the window manager functionality but are not integrated yet.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
+(map! "C-s-h" #'wm-resize-win-left
+      "C-s-j" #'wm-resize-win-down
+      "C-s-k" #'wm-resize-win-up
+      "C-s-l" #'wm-resize-win-right)
 #+end_src
 
 ** Keybinds
@@ -851,8 +963,7 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
 (use-package! avy
   :defer t
   :config
-  <<avy-config>>
-  )
+  <<avy-config>>)
 #+end_src
 #+html:</details>
 
@@ -925,10 +1036,10 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
 *** When To Blink
 
 #+begin_src emacs-lisp :tangle no :noweb-ref beacon-config
-(setq beacon-blink-when-buffer-changes t
+(setq beacon-blink-when-buffer-changes nil
       beacon-blink-when-window-scrolls nil
-      beacon-blink-when-point-moves-vertically nil
-      beacon-blink-when-focused nil)
+      beacon-blink-when-point-moves-vertically 10
+      beacon-blink-when-focused nil) ; Does not work with Doom/Yabai.
 #+end_src
 
 *** Enable Beacon
@@ -2597,7 +2708,7 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
 
 #+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
-(unpin! org-roam) ; Update to latest version to support org-roam-ui
+;(unpin! org-roam) ; Update to latest version to support org-roam-ui
 ;; The following version for some reason began crashing my Doom... (6/10/23)
 ;; (package! org-roam
 ;;  :recipe (:host github :repo "org-roam/org-roam-ui")
@@ -2609,12 +2720,12 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
 (use-package! org-roam
   :defer t
-  :if (file-exists-p org-directory) ; Only load if the directory exists.
+  ;; :if (file-exists-p org-directory) ; Only load if the directory exists.
   :init
   <<org-roam-init>>
   :config
   <<org-roam-config>>
-  )
+ )
 #+end_src
 #+html:</details>
 
@@ -2950,11 +3061,57 @@ Then, register a valid scheme handler for the =org-protocol:= links on each OS y
 
 **** macOS
 
-I created an application script (=OrgProtocolClient.app=) in this directory and just need to associate the application and the link type using the following command.
+TODO: Add notes about registering the application, especially in Firefox.
 
-#+begin_src shell :tangle no
-/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -R -f $HOME/.config/doom/OrgProtocolClient.app
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref config :noweb-sep "\n\n"
+(defun my/org-protocol-make-app-handler ()
+  "Generate the Applescript application 'OrgProtocol.app' using Applescript and elisp."
+  ;; TODO: Create options to change where the application gets created.
+  (interactive)
+  ;; TODO: Consider prompting are you sure?
+  (let* ((script (expand-file-name "OrgProtocolClient.applescript" doom-user-dir))
+         (app "/Applications/OrgProtocolClient.app")
+         ; Sending application to Doom's directory causes issues. Using /Applications auto links I believe.
+         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that.
+         ;(app (expand-file-name "OrgProtocolClient.app" doom-user-dir))
+         (plist (expand-file-name "Contents/Info.plist" app))
+         (emacsclient "/opt/homebrew/bin/emacsclient -n "))
+    (with-temp-file script
+      (insert "on open location this_URL\n")
+      (insert (format "\tset EC to \"%s\"\n" emacsclient))
+      (insert "\tset filePath to quoted form of this_URL\n")
+      (insert "\tdo shell script EC & filePath\n")
+      (insert "\ttell application \"Emacs\" to activate\n")
+      (insert "end open location\n"))
+    ;; Must be done for osacompile to recognize application extension.
+    (when (file-exists-p app) (delete-directory app t))
+    (let ((status (call-process-shell-command (format "osacompile -o %s %s" app script))))
+      (if (eq status 0)
+          (with-temp-file plist
+            (when (file-exists-p script) (delete-file script t))
+            (when-let  ((plist-buffer (get-file-buffer plist)))
+              (kill-buffer plist-buffer))
+            (insert-file-contents plist)
+            (goto-char (point-max))
+            (goto-char (re-search-backward "</dict>"))
+            (previous-line) (end-of-line) (newline)
+            (insert "\t<key>CFBundleURLTypes</key>\n")
+            (insert "\t<array>\n")
+            (insert "\t\t<dict>\n")
+            (insert "\t\t\t<key>CFBundleURLName</key>\n")
+            (insert "\t\t\t<string>org-protocol handler</string>\n")
+            (insert "\t\t\t<key>CFBundleURLSchemes</key>\n")
+            (insert "\t\t\t<array>\n")
+            (insert "\t\t\t\t<string>org-protocol</string>\n")
+            (insert "\t\t\t</array>\n")
+            (insert "\t\t</dict>\n")
+            (insert "\t</array>")
+            (write-region nil nil plist))
+        (error "Something wen't wrong with the compilation of the script!")))))
 #+end_src
+
+
+I created an application script (=OrgProtocolClient.app=) in this directory and just need to associate the application and the link type using the following command.
 
 **** Bookmark
 
@@ -2982,7 +3139,7 @@ javascript:location.href =
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
 (setq org-roam-capture-ref-templates
       '(("r" "ref" plain "%?" :target
-        (file+head "resource/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n${body}")
+        (file+head "reference/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n${body}")
         :unnarrowed t)))
 #+end_src
 
@@ -2997,7 +3154,7 @@ TODO: This is currently the default template..
         :unnarrowed t)))
 #+end_src
 
-** TODO See what this does.
+*** TODO See what this does.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
 (setq org-roam-protocol-store-links t)
@@ -3331,7 +3488,7 @@ tasks. The only exception is headings tagged as REFILE."
 #+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
 (package! org-modern
-  :pin "b614ad31d72c49f9eb29d3836995fd7fb0d1fd4a")
+  :pin "afa7d44282d62dbba84afec2a1a6c2a3ee41e7b9")
 #+end_src
 #+html:</details>
 
@@ -3407,7 +3564,7 @@ These settings will need sorted into their own headings eventually.
 *** Set Default Depth
 
 #+begin_src emacs-lisp :tangle no :noweb-ref toc-org-config
-(setq org-toc-default-depth 2)
+(setq org-toc-default-depth 3)
 #+end_src
 
 *** Add Code Folding to Quoted TOC
@@ -3902,4 +4059,46 @@ Doom provides some basic arguments to [[https://github.com/mvdan/sh][shfmt]] but
   '("shfmt" "-ci" "-bn" "-sr" "-kp"
     ("-i" "%d" (unless indent-tabs-mode tab-width))
     ("-ln" "%s" (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix")))))
+#+end_src
+
+* Applescript
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+(WIP) This section is setup to enable extending Emacs using Applescript. This section is highly experimental and does not follow my normal package configuration conventions.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Tangle Header to config.el</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+<<applescript-config>>
+#+end_src
+#+html:</details>
+
+** Enable Editing of Compiled Script Files
+
+([[https://www.emacswiki.org/emacs/AppleScript][Source]])
+
+#+begin_src emacs-lisp :tangle no :noweb-ref applescript-config
+;;;; Allow editing of binary .scpt files (applescript) on mac.
+(add-to-list 'jka-compr-compression-info-list
+             `["\\.scpt\\'"
+               "converting text applescript to binary applescprit "
+               ,(expand-file-name "applescript-helper.sh" doom-user-dir) nil
+               "converting binary applescript to text applescprit "
+               ,(expand-file-name "applescript-helper.sh" doom-user-dir) ("-d")
+               nil t "FasdUAS"])
+;;It is necessary to perform an update!
+(jka-compr-update)
+#+end_src
+
+* Experiments
+
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref config :noweb-sep "\n\n"
+(defun org-execute-named-src-block-in-lit-config ()
+  (interactive)
+  (org-babel-with-temp-filebuffer +literate-config-file (org-babel-goto-named-src-block "gen-org-protocol-script") (org-babel-execute-src-block)))
 #+end_src
