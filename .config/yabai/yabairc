@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
@@ -73,6 +72,7 @@ yabai -m rule --add app="Tor Browswer$" space=^2
 yabai -m rule --add app="(CLion|PyCharm)$" space=^3
 yabai -m rule --add app="(Gimp|Blender)$" space=^4
 
+yabai -m rule --add app="Emacs" title="doom-capture" grid=6:6:1:1:4:4 manage=off sticky=on
 yabai -m rule --add app="kitty" grid=6:6:1:1:4:4 manage=off sticky=off
 yabai -m rule --add app="^Discord" grid=10:10:1:0:8:10 manage=off sticky=off
 yabai -m rule --add app="Spotify" grid=6:6:1:1:4:4 manage=off sticky=off
