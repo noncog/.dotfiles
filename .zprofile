@@ -7,7 +7,10 @@ fi
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # Set Emacs as system editor.
-export EDITOR="emacsclient -c -s $(cat "$HOME"/.config/chemacs/profile) -a=''"
+export EMACSDIR="$HOME/.config/emacs"
+export DOOMDIR="$HOME/.config/doom"
+
+export EDITOR="emacsclient -c -a=''"
 export VISUAL="$EDITOR"
 
 # Add GNU grep to system instead of BSD grep.

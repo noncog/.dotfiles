@@ -27,7 +27,10 @@ if [ -d "$HOME/.local/bin" ]; then
 fi
 
 # Set Emacs as system editor.
-export EDITOR="emacsclient -c -s $(cat "$HOME"/.config/chemacs/profile) -a=''"
+export EMACSDIR="$HOME/.config/emacs"
+export DOOMDIR="$HOME/.config/doom"
+
+export EDITOR="emacsclient -c -a=''"
 export VISUAL="$EDITOR"
 
 # Set terminal.
