@@ -2,7 +2,6 @@
 :ID:       d9e2bc97-ec0a-48c6-8151-c6c6e88eae7c
 :END:
 #+export_exclude_tags: exclude noexport
-#+filetags: :agenda:
 
 #+begin_html
 <div align="center">
@@ -55,6 +54,7 @@
 - [[#doom-modeline][Doom Modeline]]
   - [[#package-4][Package]]
   - [[#appearance-2][Appearance]]
+  - [[#fixes-1][Fixes]]
 - [[#doom-dashboard][Doom Dashboard]]
   - [[#package-5][Package]]
   - [[#appearance-3][Appearance]]
@@ -62,7 +62,7 @@
   - [[#keybinds-3][Keybinds]]
 - [[#persp-mode][Persp-Mode]]
   - [[#package-6][Package]]
-  - [[#fixes-1][Fixes]]
+  - [[#fixes-2][Fixes]]
 - [[#vertico][Vertico]]
   - [[#package-7][Package]]
   - [[#behavior-6][Behavior]]
@@ -73,114 +73,122 @@
 - [[#company][Company]]
   - [[#package-9][Package]]
   - [[#behavior-7][Behavior]]
-- [[#yasnippet][Yasnippet]]
+- [[#cape][Cape]]
   - [[#package-10][Package]]
+- [[#yasnippet][Yasnippet]]
+  - [[#package-11][Package]]
   - [[#resources-1][Resources]]
   - [[#behavior-8][Behavior]]
 - [[#projectile][Projectile]]
-  - [[#package-11][Package]]
+  - [[#package-12][Package]]
   - [[#variables-1][Variables]]
   - [[#behavior-9][Behavior]]
   - [[#keybinds-5][Keybinds]]
 - [[#treemacs][Treemacs]]
-  - [[#package-12][Package]]
+  - [[#package-13][Package]]
   - [[#appearance-5][Appearance]]
   - [[#behavior-10][Behavior]]
 - [[#magit][Magit]]
-  - [[#package-13][Package]]
+  - [[#package-14][Package]]
   - [[#behavior-11][Behavior]]
 - [[#vterm][Vterm]]
-  - [[#package-14][Package]]
+  - [[#package-15][Package]]
   - [[#variables-2][Variables]]
   - [[#keybinds-6][Keybinds]]
-  - [[#fixes-2][Fixes]]
-- [[#visual-fill-column][Visual Fill Column]]
-  - [[#package-15][Package]]
   - [[#fixes-3][Fixes]]
-- [[#org][Org]]
+- [[#visual-fill-column][Visual Fill Column]]
   - [[#package-16][Package]]
-  - [[#variables-3][Variables]]
-  - [[#appearance-6][Appearance]]
-  - [[#behavior-12][Behavior]]
-- [[#org-agenda][Org Agenda]]
+  - [[#fixes-4][Fixes]]
+- [[#denote][Denote]]
   - [[#package-17][Package]]
-  - [[#appearance-7][Appearance]]
+  - [[#variables-3][Variables]]
+  - [[#behavior-12][Behavior]]
+- [[#org][Org]]
+  - [[#package-18][Package]]
+  - [[#variables-4][Variables]]
+  - [[#appearance-6][Appearance]]
   - [[#behavior-13][Behavior]]
+  - [[#fixes-5][Fixes]]
+- [[#org-agenda][Org Agenda]]
+  - [[#package-19][Package]]
+  - [[#appearance-7][Appearance]]
+  - [[#behavior-14][Behavior]]
   - [[#keybinds-7][Keybinds]]
   - [[#helpers][Helpers]]
 - [[#org-capture][Org Capture]]
-  - [[#package-18][Package]]
-  - [[#variables-4][Variables]]
-  - [[#behavior-14][Behavior]]
-  - [[#keybinds-8][Keybinds]]
-  - [[#fixes-4][Fixes]]
-- [[#org-roam][Org Roam]]
-  - [[#package-19][Package]]
-  - [[#resources-2][Resources]]
-  - [[#variables-5][Variables]]
-  - [[#appearance-8][Appearance]]
-  - [[#behavior-15][Behavior]]
-  - [[#keybinds-9][Keybinds]]
-- [[#org-roam-ui][Org Roam UI]]
   - [[#package-20][Package]]
-  - [[#appearance-9][Appearance]]
-  - [[#behavior-16][Behavior]]
-  - [[#keybinds-10][Keybinds]]
-- [[#org-roam-dailies][Org Roam Dailies]]
+  - [[#variables-5][Variables]]
+  - [[#behavior-15][Behavior]]
+  - [[#fixes-6][Fixes]]
+- [[#org-roam][Org Roam]]
   - [[#package-21][Package]]
+  - [[#resources-2][Resources]]
   - [[#variables-6][Variables]]
-- [[#org-roam-protocol][Org Roam Protocol]]
+  - [[#appearance-8][Appearance]]
+  - [[#behavior-16][Behavior]]
+  - [[#keybinds-8][Keybinds]]
+- [[#org-roam-capture][Org Roam Capture]]
   - [[#package-22][Package]]
-  - [[#behavior-17][Behavior]]
-- [[#vulpea][Vulpea]]
-  - [[#package-23][Package]]
-  - [[#helpers-1][Helpers]]
-- [[#org-gtd][Org GTD]]
-  - [[#package-24][Package]]
   - [[#variables-7][Variables]]
-  - [[#behavior-18][Behavior]]
-  - [[#keybinds-11][Keybinds]]
-- [[#org-appear][Org Appear]]
+- [[#org-roam-ui][Org Roam UI]]
+  - [[#package-23][Package]]
+  - [[#appearance-9][Appearance]]
+  - [[#behavior-17][Behavior]]
+  - [[#keybinds-9][Keybinds]]
+- [[#org-roam-dailies][Org Roam Dailies]]
+  - [[#package-24][Package]]
+  - [[#variables-8][Variables]]
+- [[#org-roam-protocol][Org Roam Protocol]]
   - [[#package-25][Package]]
+  - [[#behavior-18][Behavior]]
+- [[#vulpea][Vulpea]]
+  - [[#package-26][Package]]
+- [[#org-gtd][Org GTD]]
+  - [[#package-27][Package]]
+  - [[#variables-9][Variables]]
+  - [[#behavior-19][Behavior]]
+  - [[#keybinds-10][Keybinds]]
+- [[#org-appear][Org Appear]]
+  - [[#package-28][Package]]
   - [[#appearance-10][Appearance]]
 - [[#org-fragtog][Org Fragtog]]
-  - [[#package-26][Package]]
+  - [[#package-29][Package]]
 - [[#org-modern][Org Modern]]
-  - [[#package-27][Package]]
+  - [[#package-30][Package]]
   - [[#appearance-11][Appearance]]
 - [[#toc-org][TOC Org]]
-  - [[#package-28][Package]]
-  - [[#behavior-19][Behavior]]
-- [[#org-noter][Org Noter]]
-  - [[#package-29][Package]]
-  - [[#variables-8][Variables]]
-  - [[#behavior-20][Behavior]]
-- [[#pdf-tools][PDF Tools]]
-  - [[#package-30][Package]]
-  - [[#behavior-21][Behavior]]
-  - [[#fixes-5][Fixes]]
-- [[#plantuml][PlantUML]]
   - [[#package-31][Package]]
-  - [[#behavior-22][Behavior]]
+  - [[#behavior-20][Behavior]]
 - [[#ox-org-export][Ox (Org Export)]]
   - [[#package-32][Package]]
   - [[#appearance-12][Appearance]]
-  - [[#behavior-23][Behavior]]
-  - [[#keybinds-12][Keybinds]]
-- [[#ox-latex][Ox Latex]]
-  - [[#package-33][Package]]
-  - [[#appearance-13][Appearance]]
-  - [[#behavior-24][Behavior]]
+  - [[#behavior-21][Behavior]]
+  - [[#keybinds-11][Keybinds]]
 - [[#engrave-faces][Engrave Faces]]
+  - [[#package-33][Package]]
+- [[#ox-latex][Ox Latex]]
   - [[#package-34][Package]]
-- [[#lsp-clangd][LSP-Clangd]]
+  - [[#appearance-13][Appearance]]
+  - [[#behavior-22][Behavior]]
+- [[#org-noter][Org Noter]]
   - [[#package-35][Package]]
-  - [[#behavior-25][Behavior]]
-- [[#sh-script][Sh-script]]
+  - [[#variables-10][Variables]]
+  - [[#behavior-23][Behavior]]
+- [[#pdf-tools][PDF Tools]]
   - [[#package-36][Package]]
-  - [[#behavior-26][Behavior]]
-- [[#applescript][Applescript]]
+  - [[#behavior-24][Behavior]]
+  - [[#fixes-7][Fixes]]
+- [[#plantuml][PlantUML]]
   - [[#package-37][Package]]
+  - [[#behavior-25][Behavior]]
+- [[#lsp-clangd][LSP-Clangd]]
+  - [[#package-38][Package]]
+  - [[#behavior-26][Behavior]]
+- [[#sh-script][Sh-script]]
+  - [[#package-39][Package]]
+  - [[#behavior-27][Behavior]]
+- [[#applescript][Applescript]]
+  - [[#package-40][Package]]
   - [[#enable-editing-of-compiled-script-files][Enable Editing of Compiled Script Files]]
 - [[#experiments][Experiments]]
 #+END_QUOTE
@@ -522,7 +530,6 @@ Most of the configuration is done here. Each code block is defined in its releva
 * Doom
 :PROPERTIES:
 :VISIBILITY: children
-:ID:       2a62f3e5-c721-44f7-be13-a20e468a5178
 :END:
 
 #+begin_quote
@@ -627,7 +634,7 @@ This file is structured to promote discoverability and comprehension. In general
 ;; Variables
 #+end_src
 
-*** TODO Personal Information
+*** Personal Information
 
 Defines an identity for use with GPG, email, and file templates/snippets.
 
@@ -696,13 +703,23 @@ Draw the block cursor as wide as the glyph under it.
 **** Start Maximized
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;(add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+end_src
+
+**** Enable Round Corners and No Title Bar
+
+On macOS and when using Emacs 29+, I like to use rounded window corners with no title bar.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
+(add-to-list 'default-frame-alist '(undecorated-round . t))
 #+end_src
 
 **** Prevent Frame Resizing Due to Font/Face Changes
 
+On macOS with Yabai, toggling =doom-big-font-mode= was causing the frame to resize and lose window management. This fixes that.
+
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines))
+(when (and IS-MAC (>= emacs-major-version 29)) (setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines)))
 #+end_src
 
 *** Line Numbers
@@ -803,7 +820,7 @@ This is an area of contention for me. Eventually I would like to overhaul this b
 
 *** Window Manager Integration
 
-I love tiling window managers. I currently use [[https://i3wm.org][i3]] on Linux and [[https://github.com/koekeishiya/yabai][Yabai]] on macOS. These configs allow me to seamlessly use some of their windowing controls inside of Emacs.
+I love tiling window managers. These configs allow me to seamlessly use some of their windowing controls inside of Emacs. I currently use [[https://i3wm.org][i3]] on Linux and [[https://github.com/koekeishiya/yabai][Yabai]] on macOS.
 
 **** How It Works
 
@@ -1273,8 +1290,8 @@ It's possible to reduce the description length for functions shown by which-key.
 *** Major Mode
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
-(setq doom-modeline-major-mode-icon (display-graphic-p)
-      doom-modeline-major-mode-color-icon (display-graphic-p))
+(setq doom-modeline-major-mode-icon t
+      doom-modeline-major-mode-color-icon t)
 #+end_src
 
 *** Version Control
@@ -1287,6 +1304,14 @@ It's possible to reduce the description length for functions shown by which-key.
 *** Persp Mode
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
+(setq doom-modeline-persp-name t
+      doom-modeline-display-default-persp-name t
+      doom-modeline-persp-icon t)
+#+end_src
+
+** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-init
 (setq doom-modeline-persp-name t
       doom-modeline-display-default-persp-name t
       doom-modeline-persp-icon t)
@@ -1554,6 +1579,35 @@ This adds the following:
 (set-company-backend! 'sh-mode
   '(company-shell company-files :with company-yasnippet))
 #+end_src
+
+* Cape
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/minad/cape][Cape]] provides Completion At Point Extensions which can be used in combination with Corfu, Company or the default completion UI. The completion backends used by completion-at-point are called completion-at-point-functions (Capfs).
+#+end_quote
+
+I'm using this package to get emacs-lisp completions in Org's source blocks!
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages :noweb-sep "\n\n"
+(package! cape
+  :recipe (:host github :repo "minad/cape")
+  :pin "116063b9ee912cbaa7318dbe6597ade4a62b3f59")
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! cape
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block))
+#+end_src
+#+html:</details>
 
 * Yasnippet
 :PROPERTIES:
@@ -2003,7 +2057,8 @@ And finally, the custom standards checker is hooked into Magit's finish commit f
   :init
   <<vterm-init>>
   :config
-  <<vterm-config>>)
+  <<vterm-config>>
+  )
 #+end_src
 #+html:</details>
 
@@ -2093,6 +2148,68 @@ This advice causes the margins to remain centered in the frame regardless of tex
 (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust)
 #+end_src
 
+* Denote
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/protesilaos/denote][Denote]] is a simple note-taking tool for Emacs with an efficient file naming scheme. It's based on the idea that notes should follow a predictable and descriptive file-naming scheme.
+#+end_quote
+
+I'm working to integrate Org, Org Roam, and Denote. I want the best of everything.
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages :noweb-sep "\n\n"
+(package! denote
+  :recipe (:host github :repo "protesilaos/denote")
+  :pin "95a9824ff8d1003985bfd83114ea8a16265047dc")
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! denote
+  :after org
+  :init
+  <<denote-init>>
+  :config
+  <<denote-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-init :exports none
+;; Variables
+#+end_src
+
+*** Denote Directory
+
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-init
+(setq denote-directory (file-truename "~/Documents/notes"))
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-config :exports none
+;; Behavior
+#+end_src
+
+*** Integrate Org ID and File Properties
+
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-config
+(setq org-id-ts-format denote-id-format
+      org-id-method 'ts)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-config
+(setq denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:DATE: %2$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n")
+#+end_src
+
 * Org
 :PROPERTIES:
 :VISIBILITY: children
@@ -2124,7 +2241,7 @@ This advice causes the margins to remain centered in the frame regardless of tex
 *** Org Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-init
-(setq org-directory (file-truename "~/Documents/org/"))
+(setq org-directory (file-truename "~/Documents/notes"))
 #+end_src
 
 *** Keywords
@@ -2133,22 +2250,31 @@ This advice causes the margins to remain centered in the frame regardless of tex
 (setq org-todo-keywords
       '((sequence
          "TODO(t!)"     ; Task that needs doing & is ready to do.
+         "APPT(a!)"     ; An appointment.
+         "MEET(m!)"     ; A meeting.
+         "ISSUE(i!)"    ; An issue.
          "NEXT(N!)"     ; Task that needs doing & is ready to do.
          "WAIT(w@/!)"   ; Something is holding this up.
          "|"
          "DONE(d!)"     ; Task successfully completed.
          "KILL(k@/!)")  ; Task cancelled or not applicable.
         (type
+         "|"            ; NOTE: Prevents being considered 'TODO' keyword in agenda files.
          "NOTE(n!)"     ; A fleeting note, in person, idea, or link.
          "LINK(l!)"     ; A link I want to note.
-         "APPT(a!)"     ; An appointment.
-         "|"))
+         "KEYBIND(K!)"  ; A link I want to note.
+         "QUESTION(q!)" ; A question that I want to be able to hold information about.
+         ))
       org-todo-keyword-faces
-      '(("PROJ" . +org-todo-project)
+      '(("ISSUE" . +org-todo-project)
         ("NEXT" . +org-todo-active)
         ("WAIT" . +org-todo-onhold)
         ("NOTE" . +org-todo-active)
         ("KILL" . +org-todo-cancel)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(setq org-treat-insert-todo-heading-as-state-change t)
 #+end_src
 
 ** Appearance
@@ -2223,6 +2349,10 @@ Unfortunately, when using =native= highlighting the =org-block= face is used as 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-log-done 'time                     ; Add completion time to DONE items.
       org-log-into-drawer t                  ; Log times into a drawer to hide them.
+      org-log-reschedule t                   ; Log rescheduling of scheduled items.
+      org-log-redeadline t                   ; Log rescheduling of deadline items.
+      org-log-refile t                       ; Log when a heading is refiled.
+      ;org-log-repeat t
       org-log-states-order-reversed nil)     ; Log state changes chronologically.
 #+end_src
 
@@ -2262,6 +2392,16 @@ Most of these are Doom's defaults but I set them to ensure the default behavior 
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 #+end_src
 
+** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-init
+(remove-hook 'org-mode-hook #'+org-make-last-point-visible-h)
+#+end_src
+
+#+begin_src emacs-lisp
+;(remove-hook 'org-mode-hook #'+org-make-last-point-visible-h)
+#+end_src
+
 * Org Agenda
 :PROPERTIES:
 :VISIBILITY: children
@@ -2280,7 +2420,8 @@ Org Agenda collects, creates, and displays an overview of actionable tasks your 
   :init
   <<org-agenda-init>>
   :config
-  <<org-agenda-config>>)
+  <<org-agenda-config>>
+  )
 #+end_src
 #+html:</details>
 
@@ -2612,9 +2753,36 @@ I'm currently only using one template that sends all captured headings to an inb
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
 (setq org-capture-templates
-      `(("i" "Inbox" entry
-         (file "inbox.org")
-         "* %?\n%i\n" :prepend t)))
+      `(("t" "Task" entry
+         (file+headline "node/20231006T043148--inbox.org" "Tasks")
+         "* TODO %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
+         :prepend t)
+        ("i" "Issue" entry
+         (file+headline "node/20231006T043148--inbox.org" "Issues")
+         "* ISSUE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
+         :prepend t)
+        ("n" "Note" entry
+         (file+headline "node/20231006T043148--inbox.org" "Notes")
+         "* NOTE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
+        ("q" "Question" entry
+         (file+headline "node/20231006T043148--inbox.org" "Questions")
+         "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
+        ("k" "Keybind" entry
+         (file+headline "node/20231006T043148--inbox.org" "Notes")
+         "* KEYBIND %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"KEYBIND\"       from              %U\n:END:\n%i" :prepend t)
+        ("b" "Bookmark" entry
+         (file+headline "node/20231006T043148--inbox.org" "Bookmarks")
+         "* LINK %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"LINK\"       from              %U\n:END:\n%i" :prepend t)
+        ("a" "Appointment" entry
+         (file+headline "node/20231006T043148--inbox.org" "Tasks")
+         "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
+        ("m" "Meeting" entry
+         (file+headline "node/20231006T043148--inbox.org" "Meeting")
+         "* MEET %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+;; (setq org-capture-templates-contexts)
 #+end_src
 
 ** Behavior
@@ -2627,21 +2795,6 @@ I'm currently only using one template that sends all captured headings to an inb
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
 (setq org-capture-bookmark nil)
-#+end_src
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :exports none
-;; Keybinds
-#+end_src
-
-*** Switch Doom's Default Capture Binds
-
-I switch Doom's default scratch buffer and org-capture keybinds. With this, I can quickly capture something with =SPC x=.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-;; (map! :leader :desc "Org capture" "x" #'org-capture
-;;       :leader :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer)
 #+end_src
 
 ** Fixes
@@ -2703,7 +2856,7 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
 (use-package! org-roam
   :defer t
-  ;; :if (file-exists-p org-directory) ; Only load if the directory exists.
+  :after denote ;; Wait until Denote loads to integrate Org Roam with it.
   :init
   <<org-roam-init>>
   :config
@@ -2714,6 +2867,7 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
 ** Resources
 - [[https://www.orgroam.com/manual.html][Org-roam User Manual]]
 - [[https://org-roam.discourse.group][Org-roam Discourse]]
+
 ** Variables
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init :exports none
@@ -2731,7 +2885,7 @@ By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any po
 I want the database file to be included in the org-roam directory instead of the Emacs directory.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-init
-(setq org-roam-db-location (expand-file-name "org.db" org-roam-directory))
+(setq org-roam-db-location (expand-file-name ".org.db" org-roam-directory))
 #+end_src
 
 ** Appearance
@@ -2742,25 +2896,91 @@ I want the database file to be included in the org-roam directory instead of the
 
 *** Completion Candidates
 
-- TODO:
-
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
 ;(setq org-roam-node-display-template)
 #+end_src
 
 *** Modeline File Names
 
-Since org-roam uses the date/time in the file name to ensure uniqueness, let's make that human readable in the modeline instead of just concatenated numbers. ([[https://github.com/tecosaur/emacs-config/blob/master/config.org#modeline-file-name][Source]])
+Since Org Roam and Denote both use unique identifiers in their filename, (which I've integrated) Doom Modeline needs updated to render their names normally so we can make it human readable and take advantage of the built-in style templates that Doom Modeline provides.
+
+I did this by rewriting =doom-modeline-buffer-file-name= to get the buffer file name from the following functions that I've written to decide whether or not the file name should be formatted or not.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config :results none
+(defun my/org-roam-note-has-denote-title-p (file-name)
+  "Return t if Org Roam note file name should be reformatted to display in Doom Modeline."
+  (when (and (s-contains-p (expand-file-name org-roam-directory) (expand-file-name file-name))
+             (string-match denote-title-regexp file-name)) t))
+
+(defun my/org-roam-note-reformat-file-name (file-name)
+  "Remove Denote ID and keywords from Org Roam file names."
+  (replace-regexp-in-string (concat denote-id-regexp "--") "" (replace-regexp-in-string denote-keywords-regexp "" file-name)))
+
+(defun my/doom-modeline-buffer-file-name ()
+  "Return buffer-file-name filtered if necessary to display in Doom Modeline."
+  (let ((file-name (file-local-name (or (buffer-file-name (buffer-base-buffer)) ""))))
+    (if (my/org-roam-note-has-denote-title-p file-name)
+        (my/org-roam-note-reformat-file-name file-name) file-name)))
+
+(defun my/doom-modeline-buffer-file-truename ()
+  "Return buffer-file-truename filtered if necessary to display in Doom Modeline."
+  (let ((file-truename (file-local-name (or buffer-file-truename (file-truename buffer-file-name) ""))))
+    (if (my/org-roam-note-has-denote-title-p file-truename)
+        (my/org-roam-note-reformat-file-name file-truename) file-truename)))
+#+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(defadvice! doom-modeline--buffer-file-name-roam-aware-a (orig-fun)
-  :around #'doom-modeline-buffer-file-name ; takes no args
-  (if (s-contains-p org-roam-directory (or buffer-file-name ""))
-      (replace-regexp-in-string
-       "\\(?:^\\|.*/\\)\\([0-9]\\{4\\}\\)\\([0-9]\\{2\\}\\)\\([0-9]\\{2\\}\\)[0-9]*-"
-       "🢔(\\1-\\2-\\3) "
-       (subst-char-in-string ?_ ?  buffer-file-name))
-    (funcall orig-fun)))
+(defun doom-modeline-buffer-file-name ()
+  "Propertize file name based on `doom-modeline-buffer-file-name-style'."
+  (let* ((buffer-file-name (my/doom-modeline-buffer-file-name))
+         (buffer-file-truename (my/doom-modeline-buffer-file-truename))
+         (file-name
+          (pcase doom-modeline-buffer-file-name-style
+            ('auto
+             (if (doom-modeline-project-p)
+                 (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shrink 'hide)
+               (propertize "%b" 'face 'doom-modeline-buffer-file)))
+            ('truncate-upto-project
+             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink))
+            ('truncate-from-project
+             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename nil 'shrink))
+            ('truncate-with-project
+             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shink 'hide))
+            ('truncate-except-project
+             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shink))
+            ('truncate-upto-root
+             (doom-modeline--buffer-file-name-truncate buffer-file-name buffer-file-truename))
+            ('truncate-all
+             (doom-modeline--buffer-file-name-truncate buffer-file-name buffer-file-truename t))
+            ('truncate-nil
+             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename))
+            ('relative-to-project
+             (doom-modeline--buffer-file-name-relative buffer-file-name buffer-file-truename))
+            ('relative-from-project
+             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename nil nil 'hide))
+            ('file-name
+             (propertize (file-name-nondirectory buffer-file-name)
+                         'face 'doom-modeline-buffer-file))
+            ((or 'buffer-name _)
+             (propertize "%b" 'face 'doom-modeline-buffer-file)))))
+    (propertize (if (string-empty-p file-name)
+                    (propertize "%b" 'face 'doom-modeline-buffer-file)
+                  file-name)
+                'mouse-face 'mode-line-highlight
+                'help-echo (concat buffer-file-truename
+                                   (unless (string= (file-name-nondirectory buffer-file-truename)
+                                                    (buffer-name))
+                                     (concat "\n" (buffer-name)))
+                                   "\nmouse-1: Previous buffer\nmouse-3: Next buffer")
+                'local-map mode-line-buffer-identification-keymap)))
+#+end_src
+
+After setting up the correct file names, we can take advantage of Doom Modeline's file name rendering settings.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(setq doom-modeline-buffer-file-true-name nil
+      doom-modeline-project-detection 'auto
+      doom-modeline-buffer-file-name-style 'relative-from-project)
 #+end_src
 
 ** Behavior
@@ -2769,12 +2989,214 @@ Since org-roam uses the date/time in the file name to ensure uniqueness, let's m
 ;; Behavior
 #+end_src
 
-*** Integrate Org Roam Files with Org Refile Targets
+*** Integrate with Denote File Names
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; TODO: Check what each slug function does and minimize it. Currently doing both.
+(cl-defmethod org-roam-node-slug ((node org-roam-node))
+  "Return the slug of NODE."
+  (let ((title (org-roam-node-title node))
+        (slug-trim-chars '(;; Combining Diacritical Marks https://www.unicode.org/charts/PDF/U0300.pdf
+                           768 ; U+0300 COMBINING GRAVE ACCENT
+                           769 ; U+0301 COMBINING ACUTE ACCENT
+                           770 ; U+0302 COMBINING CIRCUMFLEX ACCENT
+                           771 ; U+0303 COMBINING TILDE
+                           772 ; U+0304 COMBINING MACRON
+                           774 ; U+0306 COMBINING BREVE
+                           775 ; U+0307 COMBINING DOT ABOVE
+                           776 ; U+0308 COMBINING DIAERESIS
+                           777 ; U+0309 COMBINING HOOK ABOVE
+                           778 ; U+030A COMBINING RING ABOVE
+                           779 ; U+030B COMBINING DOUBLE ACUTE ACCENT
+                           780 ; U+030C COMBINING CARON
+                           795 ; U+031B COMBINING HORN
+                           803 ; U+0323 COMBINING DOT BELOW
+                           804 ; U+0324 COMBINING DIAERESIS BELOW
+                           805 ; U+0325 COMBINING RING BELOW
+                           807 ; U+0327 COMBINING CEDILLA
+                           813 ; U+032D COMBINING CIRCUMFLEX ACCENT BELOW
+                           814 ; U+032E COMBINING BREVE BELOW
+                           816 ; U+0330 COMBINING TILDE BELOW
+                           817 ; U+0331 COMBINING MACRON BELOW
+                           )))
+    (cl-flet* ((nonspacing-mark-p (char) (memq char slug-trim-chars))
+               (strip-nonspacing-marks (s) (string-glyph-compose
+                                            (apply #'string
+                                                   (seq-remove #'nonspacing-mark-p
+                                                               (string-glyph-decompose s)))))
+               (cl-replace (title pair) (replace-regexp-in-string (car pair) (cdr pair) title)))
+      (let* ((pairs `(("[^[:alnum:][:digit:]]" . "_") ;; convert anything not alphanumeric
+                      ("__*" . "_")                   ;; remove sequential underscores
+                      ("^_" . "")                     ;; remove starting underscore
+                      ("_$" . "")))                   ;; remove ending underscore
+             (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
+        (denote-sluggify slug)))))
+#+end_src
+
+*** Integrate Org Roam with Org Agenda
+
+By using org-roam, we may have thousands of files to search in order to display tasks in the agenda. To combat this, we can dynamically update the =org-agenda-files= variable to check for org-roam files that contain certain tags. I'm using the =agenda= tag. Org-roam files are automatically marked as long as it has a TODO heading, a scheduled item, or a refile tag. ([[https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html][Source1]], [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Source2]], [[https://github.com/d12frosted/environment/blob/f48e6d91be48b7e1d6126cde6f39c39a92a288ab/emacs/lisp/lib-vulpea-agenda.el#L81][Source3]],[[https://github.com/d12frosted/environment/blob/f48e6d91be48b7e1d6126cde6f39c39a92a288ab/emacs/lisp/lib-vulpea.el#L51][Source4]])
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(add-to-list 'org-tags-exclude-from-inheritance "agenda")
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defun my/org-roam-agenda-file-p ()
+  "Return non-nil if current buffer has todo keywords or scheduled items.
+TODO entries marked as done are ignored, meaning the this
+function returns nil if current buffer contains only completed
+tasks. The only exception is headings tagged as REFILE."
+;; TODO: Add ignoring of certain directories/files.
+  (interactive)
+  (org-element-map
+      (org-element-parse-buffer 'headline)
+      'headline
+    (lambda (h)
+      (let ((todo-type (org-element-property :todo-type h)))
+        (or
+         ;; any headline with some todo keyword
+         (eq 'todo todo-type)
+         ;; any headline with REFILE tag (no inheritance)
+         (seq-contains-p (org-element-property :tags h) "REFILE")
+         ;; any non-todo headline with an active timestamp
+         (and
+          (not (eq 'done todo-type))
+          (org-element-property :contents-begin h)
+          (save-excursion
+            (goto-char (org-element-property :contents-begin h))
+            (let ((end (save-excursion
+                         ;; we must look for active timestamps only
+                         ;; before then next heading, even if it's
+                         ;; child, but org-element-property
+                         ;; :contents-end includes all children
+                         (or
+                          (re-search-forward org-element-headline-re
+                                             (org-element-property :contents-end h)
+                                             ':noerror)
+                          (org-element-property :contents-end h)))))
+              (re-search-forward org-ts-regexp end 'noerror)))))))
+    nil 'first-match))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;;org-roam-get-keyword
+;;org-roam--get-keyword
+;; delete filetags if empty.
+;; org-roam-set-keyword "filetags" "" will delete the filetag if there is nothing in the list.
+;; org-roam-tag-remove is the function to model the rest of this on
+;; TODO: Add rules to this to change behavior.
+;; TODO: Define options to change this behavior.
+;; TODO: Add more tag ensuring rules and make it extendable.
+
+    ;; 1. Update filetags
+    ;; - Add/remove agenda filetags.
+    ;; - Add/remove other filetags.
+    ;; 2.
+    ;; TODO: Add other tag processing capabilities.
+    ;; process agenda tags
+    ;; If this file should be an agenda file,
+    ;; TODO: Change ot removing a list of tags we care about.
+    ;; If should make unique?
+    ;(setq filetags-list (seq-uniq filetags-list))
+
+    ;; Set the org roam tag
+;; update tags if changed
+;; (when (or (seq-difference tags original-tags)
+;;           (seq-difference original-tags tags))
+;;   (apply #'vulpea-buffer-tags-set (seq-uniq tags))))
+;; TODO: Add list of functions run for each thing.
+;; TODO: Ensure if you use Denote that you execute file names updating as well as filetags updating. Denote's keywords are file tags.
+(defun my/org-roam-ensure-filetags ()
+  "Update FILETAGS Add missing FILETAGS to the current node."
+  (let* ((get-filetags (org-roam--get-keyword "filetags"))
+         (filetags (if get-filetags (split-string get-filetags ":" 'omit-nulls) nil))
+         (new-tags filetags))
+    (if (my/org-roam-agenda-file-p)
+        (setq new-tags (seq-union new-tags '("agenda")))
+      (setq new-tags (seq-difference new-tags '("agenda"))))
+    (when (not (seq-set-equal-p filetags new-tags)) (org-roam-set-keyword "filetags" (org-make-tag-string (seq-uniq new-tags))))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defun my/org-roam-get-agenda-files ()
+  "Return a list of node files containing the 'agenda' tag." ;
+  ;; TODO: Consider switching to vulpea-db-query if you support it.
+  ;; TODO: Make this a dynamic search or another function which does this and returns org roam files with tags.
+  (seq-uniq
+   (seq-map
+    #'car
+    (org-roam-db-query
+     [:select [nodes:file]
+      :from tags
+      :left-join nodes
+      :on (= tags:node-id nodes:id)
+      :where (like tag (quote "%\"agenda\"%"))]))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defun my/org-roam-update-agenda-files (&rest _)
+  "A hook function to update the value of `org-agenda-files'."
+  (setq org-agenda-files (my/org-roam-get-agenda-files)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defun my/org-roam-pre-save-hook ()
+  "Update 'org-agenda-files' when org-roam file is saved."
+  (when (and (not (active-minibuffer-window))
+             (org-roam-buffer-p))
+    (progn (my/org-roam-ensure-filetags)
+           (my/org-roam-update-agenda-files))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(add-hook 'before-save-hook #'my/org-roam-pre-save-hook)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(advice-add 'org-agenda :before #'my/org-roam-update-agenda-files)
+(advice-add 'org-todo-list :before #'my/org-roam-update-agenda-files)
+#+end_src
+
+**** Integrate Org Roam Files with Org Refile Targets
 
 TODO: Add description.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
 (setq org-refile-targets '((org-agenda-files :maxlevel . 5) (org-roam-list-files :maxlevel . 5)))
+#+end_src
+
+**** Infer Org Agenda Categories
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(setq org-agenda-prefix-format
+      '((agenda . " %i %-12(my/org-roam-agenda-category)%?-12t% s")
+        (todo . " %i %-12(my/org-roam-agenda-category) ")
+        (tags . " %i %-12(my/org-roam-agenda-category) ")
+        (search . " %i %-12(my/org-roam-agenda-category) ")))
+
+(defun my/org-roam-agenda-category ()
+  "Get category of item at point for agenda.
+
+Category is defined by one of the following items:
+
+- CATEGORY property
+- TITLE keyword
+- TITLE property
+- filename without directory and extension
+
+Usage example:
+
+  (setq org-agenda-prefix-format
+        '((agenda . \" %(vulpea-agenda-category) %?-12t %12s\")))
+
+Refer to `org-agenda-prefix-format' for more information."
+  (let* ((file-name (when buffer-file-name
+                      (file-name-sans-extension
+                       (file-name-nondirectory buffer-file-name))))
+         (title (org-roam--get-keyword "title"))
+         (category (org-get-category)))
+    (or (if (and title (string-equal category file-name)) title category) "")))
 #+end_src
 
 ** Keybinds
@@ -2800,6 +3222,74 @@ TODO: Add description.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
 (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
+#+end_src
+
+* Org Roam Capture
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+Org Roam Capture extends the built-in Org Capture functionality with Org Roam specific template expansions, integration with node creation, and Org Roam Reference captures using Org Roam Ref Protocol!
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-roam-capture
+  :defer t
+  ;; :if (file-exists-p org-directory) ; Only load if the directory exists.
+  :config
+  <<org-roam-capture-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-capture-init :exports none
+;; Variables
+#+end_src
+
+*** Org Roam Capture Template
+
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-capture-config :results none
+(setq org-roam-capture-templates
+      '(("n" "node" plain "%?"
+         :target (file+head "node/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
+         :unnarrowed t)
+        ("p" "project" plain "%?"
+         :target (file+head "project/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
+         :unnarrowed t)
+        ("a" "area" plain "%?"
+         :target (file+head "area/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
+         :unnarrowed t)
+        ("b" "blog" plain "%?"
+         :target (file+head "blog/%<%Y%m%dT%H%M%S>-${slug}.org" "#+title: ${title}\n")
+         :unnarrowed t)))
+#+end_src
+
+**** Ensure "DATE" Property for New Nodes Using Denote
+:PROPERTIES:
+:DATE:     20230928T212105
+:END:
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-capture-config :results none
+(defun my/org-roam-file-property-p (property)
+  (let ((has-prop (org-find-property property)))
+    (when has-prop (org-with-point-at has-prop (org-before-first-heading-p)))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-capture-config :results none
+;; TODO: Make more dynamic to be able to generate ID and DATE using independent information.
+(defun my/org-roam-ensure-new-file-properties ()
+  (interactive)
+    (unless (my/org-roam-file-property-p "DATE")
+      (org-set-property "DATE" (denote-date-org-timestamp (safe-date-to-time (denote-retrieve-filename-identifier (buffer-file-name)))))))
+
+;(add-hook 'org-roam-capture-new-node-hook #'my/org-roam-ensure-new-file-properties)
 #+end_src
 
 * Org Roam UI
@@ -2978,6 +3468,8 @@ Use the org-roam-ui and xwidget popup window instead.
   :after org-roam
   :init
   <<org-roam-dailies-init>>
+  :config
+  <<org-roam-dailies-config>>
   )
 #+end_src
 #+html:</details>
@@ -2996,6 +3488,14 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 (setq org-roam-dailies-directory "log/")
 #+end_src
 
+*** Org Roam Dailies Capture Templates
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-dailies-config
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry "* %?"
+         :target (file+head "%<%Y%m%dT%H%M%S>--log.org" "#+title: Log\n"))))
+#+end_src
+
 * Org Roam Protocol
 :PROPERTIES:
 :VISIBILITY: children
@@ -3011,9 +3511,6 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
 (use-package! org-roam-protocol
   :defer t
-  :after org-roam
-  :init
-  <<org-roam-protocol-init>>
   :config
   <<org-roam-protocol-config>>)
 #+end_src
@@ -3025,15 +3522,9 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 ;; Behavior
 #+end_src
 
-*** Enable Org Roam Protocol
+*** Setup Org Roam Protocol
 
-First, require the module. ([[https://www.orgroam.com/manual.html#Mac-OS][Source]])
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-init
-(require 'org-roam-protocol)
-#+end_src
-
-Then, register a valid scheme handler for the =org-protocol:= links on each OS you use.
+There's some basic steps to get this working, some people have had poor luck with it, thankfully I've automated most of it. ([[https://www.orgroam.com/manual.html#Mac-OS][Source]])
 
 **** Linux
 
@@ -3041,7 +3532,7 @@ Then, register a valid scheme handler for the =org-protocol:= links on each OS y
 
 **** macOS
 
-TODO: Add notes about registering the application, especially in Firefox.
+This ugly function uses Applescript and Emacs-Lisp to generate and customize an application (=OrgProtocolClient.app=) to act as our scheme handler for =org-protocol:= links. It's automatically installed in the applications directory and appears to automatically register itself as the handler for our new URI. On macOS any application in =/Applications= that has a =CFBundleURLTypes= value in its =Info.plist= will be registered as a handler for the URL schemes.
 
 #+begin_src emacs-lisp :tangle no :exports none :noweb-ref config :noweb-sep "\n\n"
 (defun my/org-protocol-make-app-handler ()
@@ -3051,9 +3542,7 @@ TODO: Add notes about registering the application, especially in Firefox.
   ;; TODO: Consider prompting are you sure?
   (let* ((script (expand-file-name "OrgProtocolClient.applescript" doom-user-dir))
          (app "/Applications/OrgProtocolClient.app")
-         ; Sending application to Doom's directory causes issues. Using /Applications auto links I believe.
-         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that.
-         ;(app (expand-file-name "OrgProtocolClient.app" doom-user-dir))
+         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that eventually.
          (plist (expand-file-name "Contents/Info.plist" app))
          (emacsclient "/opt/homebrew/bin/emacsclient -n "))
     (with-temp-file script
@@ -3090,12 +3579,11 @@ TODO: Add notes about registering the application, especially in Firefox.
         (error "Something wen't wrong with the compilation of the script!")))))
 #+end_src
 
-
-I created an application script (=OrgProtocolClient.app=) in this directory and just need to associate the application and the link type using the following command.
-
 **** Bookmark
 
-And finally, I can create a bookmarklet with the following content in my browser and use it to capture website links and any highlighted content into my capture template defined below.
+To use org-protocol to interact with the browser we can use the following bookmarklet written in Javascript. Simply add this to your browser to be able to send web links and information from them to Org Mode!
+
+When using this with various browsers, you may need to enable the handler in the browser's settings manually. Some browsers just work and others require you to set it in the GUI settings, thankfully not in their text configuration.
 
 #+begin_src javascript :tangle no
 javascript:location.href =
@@ -3118,23 +3606,12 @@ javascript:location.href =
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
 (setq org-roam-capture-ref-templates
-      '(("r" "ref" plain "%?" :target
-        (file+head "reference/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n${body}")
+      '(("r" "ref" plain "%?"
+         :target (file+head "reference/%<%Y%m%d%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
         :unnarrowed t)))
 #+end_src
 
-*** Org Roam Capture Template
-
-TODO: This is currently the default template..
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
-(setq org-roam-capture-templates
-      '(("d" "default" plain "%?" :target
-        (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
-        :unnarrowed t)))
-#+end_src
-
-*** TODO See what this does.
+*** Ensure Links are Store When Capturing from Websites
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
 (setq org-roam-protocol-store-links t)
@@ -3151,130 +3628,13 @@ TODO: This is currently the default template..
 
 ** Package
 
+#+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
 (package! vulpea
   :recipe (:host github :repo "d12frosted/vulpea")
-  :pin "f4d3448b6ccdb314c5fe3defea66e750e1371a10")
+  :pin "de199a16e294056e2368a2e031b19008cf9f9e52")
 #+end_src
 #+html:</details>
-
-#+html:<details><summary>Package</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! vulpea
-  :after org-roam
-  :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable))
-  :config
-  <<vulpea-config>>)
-#+end_src
-#+html:</details>
-
-** Helpers
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vulpea-config :exports none
-;; Helpers
-#+end_src
-
-*** Org Agenda
-**** Integrate Org Roam Nodes
-
-By using org-roam, we may have thousands of files to search in order to display tasks in the agenda. To combat this, we can dynamically update the =org-agenda-files= variable to check for org-roam files that contain certain tags. I'm using the =agenda= tag. Org-roam files are automatically marked as long as it has a TODO heading, a scheduled item, or a refile tag. ([[https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html][Source1]], [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Source2]], [[https://github.com/d12frosted/environment/blob/f48e6d91be48b7e1d6126cde6f39c39a92a288ab/emacs/lisp/lib-vulpea-agenda.el#L81][Source3]],[[https://github.com/d12frosted/environment/blob/f48e6d91be48b7e1d6126cde6f39c39a92a288ab/emacs/lisp/lib-vulpea.el#L51][Source4]])
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-config
-(add-to-list 'org-tags-exclude-from-inheritance "agenda")
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vulpea-config
-(defun vulpea-agenda-file-p ()
-  "Return non-nil if current buffer has todo keywords or scheduled items.
-TODO entries marked as done are ignored, meaning the this
-function returns nil if current buffer contains only completed
-tasks. The only exception is headings tagged as REFILE."
-  (org-element-map
-      (org-element-parse-buffer 'headline)
-      'headline
-    (lambda (h)
-      (let ((todo-type (org-element-property :todo-type h)))
-        (or
-         ;; any headline with some todo keyword
-         (eq 'todo todo-type)
-         ;; any headline with REFILE tag (no inheritance)
-         (seq-contains-p (org-element-property :tags h) "REFILE")
-         ;; any non-todo headline with an active timestamp
-         (and
-          (not (eq 'done todo-type))
-          (org-element-property :contents-begin h)
-          (save-excursion
-            (goto-char (org-element-property :contents-begin h))
-            (let ((end (save-excursion
-                         ;; we must look for active timestamps only
-                         ;; before then next heading, even if it's
-                         ;; child, but org-element-property
-                         ;; :contents-end includes all children
-                         (or
-                          (re-search-forward org-element-headline-re
-                                             (org-element-property :contents-end h)
-                                             ':noerror)
-                          (org-element-property :contents-end h)))))
-              (re-search-forward org-ts-regexp end 'noerror)))))))
-    nil 'first-match))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vulpea-config
-(defun vulpea-ensure-filetag ()
-  "Add missing FILETAGS to the current node."
-  (let* ((tags (vulpea-buffer-tags-get))
-               (original-tags tags))
-    ;; TODO: Add other tag processing capabilities.
-    ;; process agenda tags
-    (if (vulpea-agenda-file-p)
-        (setq tags (cons "agenda" tags))
-      (setq tags (remove "agenda" tags)))
-    ;; cleanup duplicates
-    (setq tags (seq-uniq tags))
-    ;; update tags if changed
-    (when (or (seq-difference tags original-tags)
-              (seq-difference original-tags tags))
-      (apply #'vulpea-buffer-tags-set (seq-uniq tags)))))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vulpea-config
-(defun vulpea-pre-save-hook ()
-  "Update 'org-agenda-files' when org-roam file is saved."
-  (when (and (not (active-minibuffer-window))
-             (org-roam-buffer-p))
-    (vulpea-ensure-filetag)))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vulpea-config
-(add-hook 'before-save-hook #'vulpea-pre-save-hook)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vulpea-config
-(defun vulpea-agenda-files ()
-  "Return a list of node files containing the 'agenda' tag." ;
-  ;; TODO Switch to vulpea-db-query
-  (seq-uniq
-   (seq-map
-    #'car
-    (org-roam-db-query
-     [:select [nodes:file]
-      :from tags
-      :left-join nodes
-      :on (= tags:node-id nodes:id)
-      :where (or (like tag (quote "%\"agenda\"%"))
-                 (like tag (quote "%\"agenda\"%")))])))) ;; TODO: Remove double agenda add other tags.
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vulpea-config
-(defun vulpea-agenda-files-update (&rest _)
-  "A hook function to update the value of `org-agenda-files'."
-  (setq org-agenda-files (vulpea-agenda-files)))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref vulpea-config
-(advice-add 'org-agenda :before #'vulpea-agenda-files-update)
-(advice-add 'org-todo-list :before #'vulpea-agenda-files-update)
-#+end_src
 
 * Org GTD
 :PROPERTIES:
@@ -3285,31 +3645,19 @@ tasks. The only exception is headings tagged as REFILE."
 [[https://github.com/Trevoke/org-gtd.el][Org-GTD]] is a package that tries to replicate the 'Getting Things Done' workflow as closely as possible in Org mode.
 #+end_quote
 
+I'm not really using this package yet, but I'm investigating how I can.
+
 ** Package
 
 #+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
-;; (package! org-edna)
+(package! org-edna)
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
-;; (package! org-gtd
-;;   :recipe (:host github :repo "Trevoke/org-gtd.el")
-;;   :pin "218fba0931cfd666591b09273f9ea8f6a6d8d8f9")
-#+end_src
-#+html:</details>
-
-#+html:<details><summary>Package</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-;; (use-package! org-gtd
-;;   ;:defer t
-;;   :after org
-;;   :init
-;;   <<org-gtd-init>>
-;;   :custom
-;;   <<org-gtd-custom>>
-;;   :config
-;;   <<org-gtd-config>>)
+(package! org-gtd
+  :recipe (:host github :repo "Trevoke/org-gtd.el")
+  :pin "218fba0931cfd666591b09273f9ea8f6a6d8d8f9")
 #+end_src
 #+html:</details>
 
@@ -3405,7 +3753,8 @@ tasks. The only exception is headings tagged as REFILE."
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
   :config
-  <<org-appear-config>>)
+  <<org-appear-config>>
+  )
 #+end_src
 #+html:</details>
 
@@ -3526,7 +3875,8 @@ These settings will need sorted into their own headings eventually.
 (use-package! toc-org
   :defer t
   :config
-  <<toc-org-config>>)
+  <<toc-org-config>>
+  )
 #+end_src
 #+html:</details>
 
@@ -3616,6 +3966,206 @@ In the future, I would like to add this feature to the package itself instead of
             (message (concat "Hrefify function " hrefify-string " is not found")))))))))
 #+end_src
 
+* Ox (Org Export)
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+Ox (Org Export) implements a generic export engine for Org. It uses different backends to change the translation of org documents into various other formats.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! ox
+  :defer t
+  :init
+  <<ox-init>>
+  :config
+  <<ox-config>>)
+#+end_src
+#+html:</details>
+
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config :exports none
+;; Appearance
+#+end_src
+
+*** Creator String
+
+I like to include this on my LaTeX exports to allude to the tools that I like to use.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+(setq org-export-with-creator t
+      org-export-creator-string (format "Doom Emacs %s (Org mode %s)" emacs-version org-version))
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config :exports none
+;; Behavior
+#+end_src
+
+*** Ignore Headings but Keep Content in Exports
+
+This setting allows you to use the =:ignore:= tag to remove a heading from an export but keep its contents.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+(require 'ox-extra)
+(ox-extras-activate '(ignore-headlines))
+#+end_src
+
+*** Export Depth
+
+By default only the first three headings, including titles are exported. Five levels of depth seems like a reasonable value for LaTeX and HTML exports. Tecosaur reasoned that HTML5 has six heading levels but Org exports start at the second, leaving us with just five to use. It should also challenge/prevent me from overly nesting information.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
+(setq org-export-headline-levels 5)
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-init :exports none
+;; Keybinds
+#+end_src
+
+*** View Exported Org File
+
+[[https://github.com/tecosaur/emacs-config/blob/master/config.org#view-exported-file][Tecosaur]] created a function and keybind to view the recently exported org-file.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-init
+(defun org-view-output-file (&optional org-file-path)
+  "Visit buffer open on the first output file (if any),
+found, using `org-view-output-file-extensions'."
+  (interactive)
+  (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
+         (dir (file-name-directory org-file-path))
+         (basename (file-name-base org-file-path))
+         (output-file nil))
+    (dolist (ext org-view-output-file-extensions)
+      (unless output-file
+        (when (file-exists-p
+               (concat dir basename "." ext))
+          (setq output-file (concat dir basename "." ext)))))
+    (if output-file
+        (if (member (file-name-extension output-file) org-view-external-file-extensions)
+            (browse-url-xdg-open output-file)
+          (pop-to-buffer (or (find-buffer-visiting output-file)
+                             (find-file-noselect output-file))))
+      (message "No exported file found"))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-init
+(defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
+  "Find output files with these extensions, in order, viewing the first match.")
+(defvar org-view-external-file-extensions '("html")
+  "File formats that should be opened externally.")
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-init
+(map! :map org-mode-map
+      :localleader
+      :desc "View exported file"
+      "v" #'org-view-output-file)
+#+end_src
+
+* Engrave Faces
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/tecosaur/engrave-faces][Engrave Faces]] is a generic exporter that passes a fontified buffer to an org backend to be exported to a particular format. It provides theming and syntax highlighting in code blocks for our org-mode html and latex exports!
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages
+(package! engrave-faces
+  :recipe (:host github :repo "tecosaur/engrave-faces")
+  :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
+#+end_src
+#+html:</details>
+
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! engrave-faces-latex
+  :after ox-latex)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! engrave-faces-html
+  :after ox-html)
+#+end_src
+#+html:</details>
+
+* Ox Latex
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+Ox Latex is the LaTeX backend for the Org Export Engine.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! ox-latex
+  :defer t
+  :config
+  <<ox-latex-config>>)
+#+end_src
+#+html:</details>
+
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config :exports none
+;; Appearance
+#+end_src
+
+*** Set Source Block Backend
+
+This adds theming and syntax highlighting to our source blocks in latex exports.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
+(setq org-latex-src-block-backend 'engraved)
+#+end_src
+
+*** Custom Document Class
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
+(add-to-list 'org-latex-classes
+             '("notes"
+               "\\documentclass{article}
+                [NO-DEFAULT-PACKAGES]
+                [PACKAGES]
+                [EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config :exports none
+;; Behavior
+#+end_src
+
+*** Set PDF Process
+
+#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
+(setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
+#+end_src
+
 * Org Noter
 :PROPERTIES:
 :VISIBILITY: children
@@ -3634,7 +4184,8 @@ In the future, I would like to add this feature to the package itself instead of
   :init
   <<org-noter-init>>
   :config
-  <<org-noter-config>>)
+  <<org-noter-config>>
+  )
 #+end_src
 #+html:</details>
 
@@ -3757,206 +4308,6 @@ Downloads the jar file if it's not on the system.
 (unless (file-exists-p plantuml-jar-path)
   (plantuml-download-jar))
 #+end_src
-
-* Ox (Org Export)
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-Ox (Org Export) implements a generic export engine for Org. It uses different backends to change the translation of org documents into various other formats.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! ox
-  :defer t
-  :init
-  <<ox-init>>
-  :config
-  <<ox-config>>)
-#+end_src
-#+html:</details>
-
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config :exports none
-;; Appearance
-#+end_src
-
-*** Creator String
-
-I like to include this on my LaTeX exports to allude to the tools that I like to use.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
-(setq org-export-with-creator t
-      org-export-creator-string (format "Doom Emacs %s (Org mode %s)" emacs-version org-version))
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config :exports none
-;; Behavior
-#+end_src
-
-*** Ignore Headings but Keep Content in Exports
-
-This setting allows you to use the =:ignore:= tag to remove a heading from an export but keep its contents.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
-(require 'ox-extra)
-(ox-extras-activate '(ignore-headlines))
-#+end_src
-
-*** Export Depth
-
-By default only the first three headings, including titles are exported. Five levels of depth seems like a reasonable value for LaTeX and HTML exports. Tecosaur reasoned that HTML5 has six heading levels but Org exports start at the second, leaving us with just five to use. It should also challenge/prevent me from overly nesting information.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-config
-(setq org-export-headline-levels 5)
-#+end_src
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-init :exports none
-;; Keybinds
-#+end_src
-
-*** View Exported Org File
-
-[[https://github.com/tecosaur/emacs-config/blob/master/config.org#view-exported-file][Tecosaur]] created a function and keybind to view the recently exported org-file.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-init
-(defun org-view-output-file (&optional org-file-path)
-  "Visit buffer open on the first output file (if any),
-found, using `org-view-output-file-extensions'."
-  (interactive)
-  (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
-         (dir (file-name-directory org-file-path))
-         (basename (file-name-base org-file-path))
-         (output-file nil))
-    (dolist (ext org-view-output-file-extensions)
-      (unless output-file
-        (when (file-exists-p
-               (concat dir basename "." ext))
-          (setq output-file (concat dir basename "." ext)))))
-    (if output-file
-        (if (member (file-name-extension output-file) org-view-external-file-extensions)
-            (browse-url-xdg-open output-file)
-          (pop-to-buffer (or (find-buffer-visiting output-file)
-                             (find-file-noselect output-file))))
-      (message "No exported file found"))))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-init
-(defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
-  "Find output files with these extensions, in order, viewing the first match.")
-(defvar org-view-external-file-extensions '("html")
-  "File formats that should be opened externally.")
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-init
-(map! :map org-mode-map
-      :localleader
-      :desc "View exported file"
-      "v" #'org-view-output-file)
-#+end_src
-
-* Ox Latex
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-Ox Latex is the LaTeX backend for the Org Export Engine.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! ox-latex
-  :defer t
-  :config
-  <<ox-latex-config>>)
-#+end_src
-#+html:</details>
-
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config :exports none
-;; Appearance
-#+end_src
-
-*** Set Source Block Backend
-
-This adds theming and syntax highlighting to our source blocks in latex exports.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
-(setq org-latex-src-block-backend 'engraved)
-#+end_src
-
-*** Custom Document Class
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
-(add-to-list 'org-latex-classes
-             '("notes"
-               "\\documentclass{article}
-                [NO-DEFAULT-PACKAGES]
-                [PACKAGES]
-                [EXTRA]"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config :exports none
-;; Behavior
-#+end_src
-
-*** Set PDF Process
-
-#+begin_src emacs-lisp :tangle no :noweb-ref ox-latex-config
-(setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
-#+end_src
-
-* Engrave Faces
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/tecosaur/engrave-faces][Engrave Faces]] is a generic exporter that passes a fontified buffer to an org backend to be exported to a particular format. It provides theming and syntax highlighting in code blocks for our org-mode html and latex exports!
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref packages
-(package! engrave-faces
-  :recipe (:host github :repo "tecosaur/engrave-faces")
-  :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
-#+end_src
-#+html:</details>
-
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! engrave-faces-latex
-  :after ox-latex)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! engrave-faces-html
-  :after ox-html)
-#+end_src
-#+html:</details>
 
 * LSP-Clangd
 :PROPERTIES:

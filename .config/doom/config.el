@@ -27,9 +27,11 @@
 
 (setq-default x-stretch-cursor t)
 
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-(setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines))
+(add-to-list 'default-frame-alist '(undecorated-round . t))
+
+(when (and IS-MAC (>= emacs-major-version 29)) (setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines)))
 
 (setq display-line-numbers-type 'visual)
 
@@ -247,8 +249,8 @@
   :config
   ;; Appearance
   (setq doom-modeline-height 35)
-  (setq doom-modeline-major-mode-icon (display-graphic-p)
-        doom-modeline-major-mode-color-icon (display-graphic-p))
+  (setq doom-modeline-major-mode-icon t
+        doom-modeline-major-mode-color-icon t)
   (setq doom-modeline-vcs-max-length 60
         auto-revert-check-vc-info t)
   (setq doom-modeline-persp-name t
@@ -325,6 +327,10 @@
     '(company-capf company-files :with company-yasnippet))
   (set-company-backend! 'sh-mode
     '(company-shell company-files :with company-yasnippet)))
+
+(use-package! cape
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block))
 
 (use-package! yasnippet
   :defer t
@@ -487,7 +493,8 @@
   ;; (advice-add '+vterm/toggle :around
   ;;             (lambda (fn &rest args) (apply fn args)
   ;;               (when (eq major-mode 'vterm-mode)
-  ;;                 (evil-collection-vterm-insert)))))
+  ;;                 (evil-collection-vterm-insert))))
+  )
 
 (use-package! visual-fill-column
   :custom
@@ -498,31 +505,50 @@
   ;; Fixes
   (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust))
 
+(use-package! denote
+  :after org
+  :init
+  ;; Variables
+  (setq denote-directory (file-truename "~/Documents/notes"))
+  :config
+  ;; Behavior
+  (setq org-id-ts-format denote-id-format
+        org-id-method 'ts)
+  (setq denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:DATE: %2$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n")
+  )
+
 (use-package! org
   :defer t
   :init
   ;; Variables
-  (setq org-directory (file-truename "~/Documents/org/"))
+  (setq org-directory (file-truename "~/Documents/notes"))
+  (remove-hook 'org-mode-hook #'+org-make-last-point-visible-h)
   :config
   (setq org-todo-keywords
         '((sequence
            "TODO(t!)"     ; Task that needs doing & is ready to do.
+           "APPT(a!)"     ; An appointment.
+           "MEET(m!)"     ; A meeting.
+           "ISSUE(i!)"    ; An issue.
            "NEXT(N!)"     ; Task that needs doing & is ready to do.
            "WAIT(w@/!)"   ; Something is holding this up.
            "|"
            "DONE(d!)"     ; Task successfully completed.
            "KILL(k@/!)")  ; Task cancelled or not applicable.
           (type
+           "|"            ; NOTE: Prevents being considered 'TODO' keyword in agenda files.
            "NOTE(n!)"     ; A fleeting note, in person, idea, or link.
            "LINK(l!)"     ; A link I want to note.
-           "APPT(a!)"     ; An appointment.
-           "|"))
+           "KEYBIND(K!)"  ; A link I want to note.
+           "QUESTION(q!)" ; A question that I want to be able to hold information about.
+           ))
         org-todo-keyword-faces
-        '(("PROJ" . +org-todo-project)
+        '(("ISSUE" . +org-todo-project)
           ("NEXT" . +org-todo-active)
           ("WAIT" . +org-todo-onhold)
           ("NOTE" . +org-todo-active)
           ("KILL" . +org-todo-cancel)))
+  (setq org-treat-insert-todo-heading-as-state-change t)
   ;; Appearance
   (setq org-hide-emphasis-markers t            ; Hide syntax for emphasis. (Use org-appear)
         org-pretty-entities t                  ; Show sub/superscript as UTF8.
@@ -543,6 +569,10 @@
         org-use-fast-todo-selection 'auto)     ; Method to select TODO heading keywords.
   (setq org-log-done 'time                     ; Add completion time to DONE items.
         org-log-into-drawer t                  ; Log times into a drawer to hide them.
+        org-log-reschedule t                   ; Log rescheduling of scheduled items.
+        org-log-redeadline t                   ; Log rescheduling of deadline items.
+        org-log-refile t                       ; Log when a heading is refiled.
+        ;org-log-repeat t
         org-log-states-order-reversed nil)     ; Log state changes chronologically.
   (setq org-list-allow-alphabetical t)         ; Enable use of alphabet as list bullets.
   (setq org-return-follows-link t)             ; Pressing enter opens links.
@@ -755,7 +785,8 @@
     (let ((subtree-end (save-excursion (org-end-of-subtree t))))
       (if (re-search-forward (concat ":" tag ":") subtree-end t)
           nil          ; tag found, do not skip
-        subtree-end))) ; tag not found, continue after end of subtree)
+        subtree-end))) ; tag not found, continue after end of subtree
+  )
 
 (use-package! org-capture
   :defer t
@@ -765,14 +796,35 @@
   ;; Variables
   ;(setq +org-capture-fn #'org-roam-capture)
   (setq org-capture-templates
-        `(("i" "Inbox" entry
-           (file "inbox.org")
-           "* %?\n%i\n" :prepend t)))
+        `(("t" "Task" entry
+           (file+headline "node/20231006T043148--inbox.org" "Tasks")
+           "* TODO %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
+           :prepend t)
+          ("i" "Issue" entry
+           (file+headline "node/20231006T043148--inbox.org" "Issues")
+           "* ISSUE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
+           :prepend t)
+          ("n" "Note" entry
+           (file+headline "node/20231006T043148--inbox.org" "Notes")
+           "* NOTE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
+          ("q" "Question" entry
+           (file+headline "node/20231006T043148--inbox.org" "Questions")
+           "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
+          ("k" "Keybind" entry
+           (file+headline "node/20231006T043148--inbox.org" "Notes")
+           "* KEYBIND %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"KEYBIND\"       from              %U\n:END:\n%i" :prepend t)
+          ("b" "Bookmark" entry
+           (file+headline "node/20231006T043148--inbox.org" "Bookmarks")
+           "* LINK %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"LINK\"       from              %U\n:END:\n%i" :prepend t)
+          ("a" "Appointment" entry
+           (file+headline "node/20231006T043148--inbox.org" "Tasks")
+           "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
+          ("m" "Meeting" entry
+           (file+headline "node/20231006T043148--inbox.org" "Meeting")
+           "* MEET %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)))
+  ;; (setq org-capture-templates-contexts)
   ;; Behavior
   (setq org-capture-bookmark nil)
-  ;; Keybinds
-  ;; (map! :leader :desc "Org capture" "x" #'org-capture
-  ;;       :leader :desc "Pop up scratch buffer" "X" #'doom/open-scratch-buffer)
   ;; Fixes
   (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
     :around #'+org--restart-mode-h
@@ -787,24 +839,245 @@
 
 (use-package! org-roam
   :defer t
-  ;; :if (file-exists-p org-directory) ; Only load if the directory exists.
+  :after denote ;; Wait until Denote loads to integrate Org Roam with it.
   :init
   ;; Variables
   (setq org-roam-directory org-directory)
-  (setq org-roam-db-location (expand-file-name "org.db" org-roam-directory))
+  (setq org-roam-db-location (expand-file-name ".org.db" org-roam-directory))
   :config
   ;; Appearance
   ;(setq org-roam-node-display-template)
-  (defadvice! doom-modeline--buffer-file-name-roam-aware-a (orig-fun)
-    :around #'doom-modeline-buffer-file-name ; takes no args
-    (if (s-contains-p org-roam-directory (or buffer-file-name ""))
-        (replace-regexp-in-string
-         "\\(?:^\\|.*/\\)\\([0-9]\\{4\\}\\)\\([0-9]\\{2\\}\\)\\([0-9]\\{2\\}\\)[0-9]*-"
-         "🢔(\\1-\\2-\\3) "
-         (subst-char-in-string ?_ ?  buffer-file-name))
-      (funcall orig-fun)))
+  (defun my/org-roam-note-has-denote-title-p (file-name)
+    "Return t if Org Roam note file name should be reformatted to display in Doom Modeline."
+    (when (and (s-contains-p (expand-file-name org-roam-directory) (expand-file-name file-name))
+               (string-match denote-title-regexp file-name)) t))
+  
+  (defun my/org-roam-note-reformat-file-name (file-name)
+    "Remove Denote ID and keywords from Org Roam file names."
+    (replace-regexp-in-string (concat denote-id-regexp "--") "" (replace-regexp-in-string denote-keywords-regexp "" file-name)))
+  
+  (defun my/doom-modeline-buffer-file-name ()
+    "Return buffer-file-name filtered if necessary to display in Doom Modeline."
+    (let ((file-name (file-local-name (or (buffer-file-name (buffer-base-buffer)) ""))))
+      (if (my/org-roam-note-has-denote-title-p file-name)
+          (my/org-roam-note-reformat-file-name file-name) file-name)))
+  
+  (defun my/doom-modeline-buffer-file-truename ()
+    "Return buffer-file-truename filtered if necessary to display in Doom Modeline."
+    (let ((file-truename (file-local-name (or buffer-file-truename (file-truename buffer-file-name) ""))))
+      (if (my/org-roam-note-has-denote-title-p file-truename)
+          (my/org-roam-note-reformat-file-name file-truename) file-truename)))
+  (defun doom-modeline-buffer-file-name ()
+    "Propertize file name based on `doom-modeline-buffer-file-name-style'."
+    (let* ((buffer-file-name (my/doom-modeline-buffer-file-name))
+           (buffer-file-truename (my/doom-modeline-buffer-file-truename))
+           (file-name
+            (pcase doom-modeline-buffer-file-name-style
+              ('auto
+               (if (doom-modeline-project-p)
+                   (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shrink 'hide)
+                 (propertize "%b" 'face 'doom-modeline-buffer-file)))
+              ('truncate-upto-project
+               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink))
+              ('truncate-from-project
+               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename nil 'shrink))
+              ('truncate-with-project
+               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shink 'hide))
+              ('truncate-except-project
+               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shink))
+              ('truncate-upto-root
+               (doom-modeline--buffer-file-name-truncate buffer-file-name buffer-file-truename))
+              ('truncate-all
+               (doom-modeline--buffer-file-name-truncate buffer-file-name buffer-file-truename t))
+              ('truncate-nil
+               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename))
+              ('relative-to-project
+               (doom-modeline--buffer-file-name-relative buffer-file-name buffer-file-truename))
+              ('relative-from-project
+               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename nil nil 'hide))
+              ('file-name
+               (propertize (file-name-nondirectory buffer-file-name)
+                           'face 'doom-modeline-buffer-file))
+              ((or 'buffer-name _)
+               (propertize "%b" 'face 'doom-modeline-buffer-file)))))
+      (propertize (if (string-empty-p file-name)
+                      (propertize "%b" 'face 'doom-modeline-buffer-file)
+                    file-name)
+                  'mouse-face 'mode-line-highlight
+                  'help-echo (concat buffer-file-truename
+                                     (unless (string= (file-name-nondirectory buffer-file-truename)
+                                                      (buffer-name))
+                                       (concat "\n" (buffer-name)))
+                                     "\nmouse-1: Previous buffer\nmouse-3: Next buffer")
+                  'local-map mode-line-buffer-identification-keymap)))
+  (setq doom-modeline-buffer-file-true-name nil
+        doom-modeline-project-detection 'auto
+        doom-modeline-buffer-file-name-style 'relative-from-project)
   ;; Behavior
+  ;; TODO: Check what each slug function does and minimize it. Currently doing both.
+  (cl-defmethod org-roam-node-slug ((node org-roam-node))
+    "Return the slug of NODE."
+    (let ((title (org-roam-node-title node))
+          (slug-trim-chars '(;; Combining Diacritical Marks https://www.unicode.org/charts/PDF/U0300.pdf
+                             768 ; U+0300 COMBINING GRAVE ACCENT
+                             769 ; U+0301 COMBINING ACUTE ACCENT
+                             770 ; U+0302 COMBINING CIRCUMFLEX ACCENT
+                             771 ; U+0303 COMBINING TILDE
+                             772 ; U+0304 COMBINING MACRON
+                             774 ; U+0306 COMBINING BREVE
+                             775 ; U+0307 COMBINING DOT ABOVE
+                             776 ; U+0308 COMBINING DIAERESIS
+                             777 ; U+0309 COMBINING HOOK ABOVE
+                             778 ; U+030A COMBINING RING ABOVE
+                             779 ; U+030B COMBINING DOUBLE ACUTE ACCENT
+                             780 ; U+030C COMBINING CARON
+                             795 ; U+031B COMBINING HORN
+                             803 ; U+0323 COMBINING DOT BELOW
+                             804 ; U+0324 COMBINING DIAERESIS BELOW
+                             805 ; U+0325 COMBINING RING BELOW
+                             807 ; U+0327 COMBINING CEDILLA
+                             813 ; U+032D COMBINING CIRCUMFLEX ACCENT BELOW
+                             814 ; U+032E COMBINING BREVE BELOW
+                             816 ; U+0330 COMBINING TILDE BELOW
+                             817 ; U+0331 COMBINING MACRON BELOW
+                             )))
+      (cl-flet* ((nonspacing-mark-p (char) (memq char slug-trim-chars))
+                 (strip-nonspacing-marks (s) (string-glyph-compose
+                                              (apply #'string
+                                                     (seq-remove #'nonspacing-mark-p
+                                                                 (string-glyph-decompose s)))))
+                 (cl-replace (title pair) (replace-regexp-in-string (car pair) (cdr pair) title)))
+        (let* ((pairs `(("[^[:alnum:][:digit:]]" . "_") ;; convert anything not alphanumeric
+                        ("__*" . "_")                   ;; remove sequential underscores
+                        ("^_" . "")                     ;; remove starting underscore
+                        ("_$" . "")))                   ;; remove ending underscore
+               (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
+          (denote-sluggify slug)))))
+  (defun my/org-roam-agenda-file-p ()
+    "Return non-nil if current buffer has todo keywords or scheduled items.
+  TODO entries marked as done are ignored, meaning the this
+  function returns nil if current buffer contains only completed
+  tasks. The only exception is headings tagged as REFILE."
+  ;; TODO: Add ignoring of certain directories/files.
+    (interactive)
+    (org-element-map
+        (org-element-parse-buffer 'headline)
+        'headline
+      (lambda (h)
+        (let ((todo-type (org-element-property :todo-type h)))
+          (or
+           ;; any headline with some todo keyword
+           (eq 'todo todo-type)
+           ;; any headline with REFILE tag (no inheritance)
+           (seq-contains-p (org-element-property :tags h) "REFILE")
+           ;; any non-todo headline with an active timestamp
+           (and
+            (not (eq 'done todo-type))
+            (org-element-property :contents-begin h)
+            (save-excursion
+              (goto-char (org-element-property :contents-begin h))
+              (let ((end (save-excursion
+                           ;; we must look for active timestamps only
+                           ;; before then next heading, even if it's
+                           ;; child, but org-element-property
+                           ;; :contents-end includes all children
+                           (or
+                            (re-search-forward org-element-headline-re
+                                               (org-element-property :contents-end h)
+                                               ':noerror)
+                            (org-element-property :contents-end h)))))
+                (re-search-forward org-ts-regexp end 'noerror)))))))
+      nil 'first-match))
+  ;;org-roam-get-keyword
+  ;;org-roam--get-keyword
+  ;; delete filetags if empty.
+  ;; org-roam-set-keyword "filetags" "" will delete the filetag if there is nothing in the list.
+  ;; org-roam-tag-remove is the function to model the rest of this on
+  ;; TODO: Add rules to this to change behavior.
+  ;; TODO: Define options to change this behavior.
+  ;; TODO: Add more tag ensuring rules and make it extendable.
+  
+      ;; 1. Update filetags
+      ;; - Add/remove agenda filetags.
+      ;; - Add/remove other filetags.
+      ;; 2.
+      ;; TODO: Add other tag processing capabilities.
+      ;; process agenda tags
+      ;; If this file should be an agenda file,
+      ;; TODO: Change ot removing a list of tags we care about.
+      ;; If should make unique?
+      ;(setq filetags-list (seq-uniq filetags-list))
+  
+      ;; Set the org roam tag
+  ;; update tags if changed
+  ;; (when (or (seq-difference tags original-tags)
+  ;;           (seq-difference original-tags tags))
+  ;;   (apply #'vulpea-buffer-tags-set (seq-uniq tags))))
+  ;; TODO: Add list of functions run for each thing.
+  ;; TODO: Ensure if you use Denote that you execute file names updating as well as filetags updating. Denote's keywords are file tags.
+  (defun my/org-roam-ensure-filetags ()
+    "Update FILETAGS Add missing FILETAGS to the current node."
+    (let* ((get-filetags (org-roam--get-keyword "filetags"))
+           (filetags (if get-filetags (split-string get-filetags ":" 'omit-nulls) nil))
+           (new-tags filetags))
+      (if (my/org-roam-agenda-file-p)
+          (setq new-tags (seq-union new-tags '("agenda")))
+        (setq new-tags (seq-difference new-tags '("agenda"))))
+      (when (not (seq-set-equal-p filetags new-tags)) (org-roam-set-keyword "filetags" (org-make-tag-string (seq-uniq new-tags))))))
+  (defun my/org-roam-get-agenda-files ()
+    "Return a list of node files containing the 'agenda' tag." ;
+    ;; TODO: Consider switching to vulpea-db-query if you support it.
+    ;; TODO: Make this a dynamic search or another function which does this and returns org roam files with tags.
+    (seq-uniq
+     (seq-map
+      #'car
+      (org-roam-db-query
+       [:select [nodes:file]
+        :from tags
+        :left-join nodes
+        :on (= tags:node-id nodes:id)
+        :where (like tag (quote "%\"agenda\"%"))]))))
+  (defun my/org-roam-update-agenda-files (&rest _)
+    "A hook function to update the value of `org-agenda-files'."
+    (setq org-agenda-files (my/org-roam-get-agenda-files)))
+  (defun my/org-roam-pre-save-hook ()
+    "Update 'org-agenda-files' when org-roam file is saved."
+    (when (and (not (active-minibuffer-window))
+               (org-roam-buffer-p))
+      (progn (my/org-roam-ensure-filetags)
+             (my/org-roam-update-agenda-files))))
+  (add-hook 'before-save-hook #'my/org-roam-pre-save-hook)
+  (advice-add 'org-agenda :before #'my/org-roam-update-agenda-files)
+  (advice-add 'org-todo-list :before #'my/org-roam-update-agenda-files)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 5) (org-roam-list-files :maxlevel . 5)))
+  (setq org-agenda-prefix-format
+        '((agenda . " %i %-12(my/org-roam-agenda-category)%?-12t% s")
+          (todo . " %i %-12(my/org-roam-agenda-category) ")
+          (tags . " %i %-12(my/org-roam-agenda-category) ")
+          (search . " %i %-12(my/org-roam-agenda-category) ")))
+  
+  (defun my/org-roam-agenda-category ()
+    "Get category of item at point for agenda.
+  
+  Category is defined by one of the following items:
+  
+  - CATEGORY property
+  - TITLE keyword
+  - TITLE property
+  - filename without directory and extension
+  
+  Usage example:
+  
+    (setq org-agenda-prefix-format
+          '((agenda . \" %(vulpea-agenda-category) %?-12t %12s\")))
+  
+  Refer to `org-agenda-prefix-format' for more information."
+    (let* ((file-name (when buffer-file-name
+                        (file-name-sans-extension
+                         (file-name-nondirectory buffer-file-name))))
+           (title (org-roam--get-keyword "title"))
+           (category (org-get-category)))
+      (or (if (and title (string-equal category file-name)) title category) "")))
   ;; Keybinds
   (defun noncog/org-roam-is-draft-p (node)
     "Is this org-roam node a draft?"
@@ -814,6 +1087,35 @@
     (interactive)
     (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
   (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft))
+
+(use-package! org-roam-capture
+  :defer t
+  ;; :if (file-exists-p org-directory) ; Only load if the directory exists.
+  :config
+  (setq org-roam-capture-templates
+        '(("n" "node" plain "%?"
+           :target (file+head "node/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("p" "project" plain "%?"
+           :target (file+head "project/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("a" "area" plain "%?"
+           :target (file+head "area/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+          ("b" "blog" plain "%?"
+           :target (file+head "blog/%<%Y%m%dT%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)))
+  (defun my/org-roam-file-property-p (property)
+    (let ((has-prop (org-find-property property)))
+      (when has-prop (org-with-point-at has-prop (org-before-first-heading-p)))))
+  ;; TODO: Make more dynamic to be able to generate ID and DATE using independent information.
+  (defun my/org-roam-ensure-new-file-properties ()
+    (interactive)
+      (unless (my/org-roam-file-property-p "DATE")
+        (org-set-property "DATE" (denote-date-org-timestamp (safe-date-to-time (denote-retrieve-filename-identifier (buffer-file-name)))))))
+  
+  ;(add-hook 'org-roam-capture-new-node-hook #'my/org-roam-ensure-new-file-properties)
+  )
 
 (use-package! websocket
     :after org-roam)
@@ -879,22 +1181,19 @@
   :init
   ;; Variables
   (setq org-roam-dailies-directory "log/")
+  :config
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry "* %?"
+           :target (file+head "%<%Y%m%dT%H%M%S>--log.org" "#+title: Log\n"))))
   )
 
 (use-package! org-roam-protocol
   :defer t
-  :after org-roam
-  :init
-  (require 'org-roam-protocol)
   :config
   ;; Behavior
   (setq org-roam-capture-ref-templates
-        '(("r" "ref" plain "%?" :target
-          (file+head "reference/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n\n${body}")
-          :unnarrowed t)))
-  (setq org-roam-capture-templates
-        '(("d" "default" plain "%?" :target
-          (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+        '(("r" "ref" plain "%?"
+           :target (file+head "reference/%<%Y%m%d%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
           :unnarrowed t)))
   (setq org-roam-protocol-store-links t))
 
@@ -905,9 +1204,7 @@
   ;; TODO: Consider prompting are you sure?
   (let* ((script (expand-file-name "OrgProtocolClient.applescript" doom-user-dir))
          (app "/Applications/OrgProtocolClient.app")
-         ; Sending application to Doom's directory causes issues. Using /Applications auto links I believe.
-         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that.
-         ;(app (expand-file-name "OrgProtocolClient.app" doom-user-dir))
+         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that eventually.
          (plist (expand-file-name "Contents/Info.plist" app))
          (emacsclient "/opt/homebrew/bin/emacsclient -n "))
     (with-temp-file script
@@ -943,109 +1240,6 @@
             (write-region nil nil plist))
         (error "Something wen't wrong with the compilation of the script!")))))
 
-(use-package! vulpea
-  :after org-roam
-  :hook ((org-roam-db-autosync-mode . vulpea-db-autosync-enable))
-  :config
-  ;; Helpers
-  (defun vulpea-agenda-file-p ()
-    "Return non-nil if current buffer has todo keywords or scheduled items.
-  TODO entries marked as done are ignored, meaning the this
-  function returns nil if current buffer contains only completed
-  tasks. The only exception is headings tagged as REFILE."
-    (org-element-map
-        (org-element-parse-buffer 'headline)
-        'headline
-      (lambda (h)
-        (let ((todo-type (org-element-property :todo-type h)))
-          (or
-           ;; any headline with some todo keyword
-           (eq 'todo todo-type)
-           ;; any headline with REFILE tag (no inheritance)
-           (seq-contains-p (org-element-property :tags h) "REFILE")
-           ;; any non-todo headline with an active timestamp
-           (and
-            (not (eq 'done todo-type))
-            (org-element-property :contents-begin h)
-            (save-excursion
-              (goto-char (org-element-property :contents-begin h))
-              (let ((end (save-excursion
-                           ;; we must look for active timestamps only
-                           ;; before then next heading, even if it's
-                           ;; child, but org-element-property
-                           ;; :contents-end includes all children
-                           (or
-                            (re-search-forward org-element-headline-re
-                                               (org-element-property :contents-end h)
-                                               ':noerror)
-                            (org-element-property :contents-end h)))))
-                (re-search-forward org-ts-regexp end 'noerror)))))))
-      nil 'first-match))
-  (defun vulpea-ensure-filetag ()
-    "Add missing FILETAGS to the current node."
-    (let* ((tags (vulpea-buffer-tags-get))
-                 (original-tags tags))
-      ;; TODO: Add other tag processing capabilities.
-      ;; process agenda tags
-      (if (vulpea-agenda-file-p)
-          (setq tags (cons "agenda" tags))
-        (setq tags (remove "agenda" tags)))
-      ;; cleanup duplicates
-      (setq tags (seq-uniq tags))
-      ;; update tags if changed
-      (when (or (seq-difference tags original-tags)
-                (seq-difference original-tags tags))
-        (apply #'vulpea-buffer-tags-set (seq-uniq tags)))))
-  (defun vulpea-pre-save-hook ()
-    "Update 'org-agenda-files' when org-roam file is saved."
-    (when (and (not (active-minibuffer-window))
-               (org-roam-buffer-p))
-      (vulpea-ensure-filetag)))
-  (add-hook 'before-save-hook #'vulpea-pre-save-hook)
-  (defun vulpea-agenda-files ()
-    "Return a list of node files containing the 'agenda' tag." ;
-    ;; TODO Switch to vulpea-db-query
-    (seq-uniq
-     (seq-map
-      #'car
-      (org-roam-db-query
-       [:select [nodes:file]
-        :from tags
-        :left-join nodes
-        :on (= tags:node-id nodes:id)
-        :where (or (like tag (quote "%\"agenda\"%"))
-                   (like tag (quote "%\"agenda\"%")))])))) ;; TODO: Remove double agenda add other tags.
-  (defun vulpea-agenda-files-update (&rest _)
-    "A hook function to update the value of `org-agenda-files'."
-    (setq org-agenda-files (vulpea-agenda-files)))
-  (advice-add 'org-agenda :before #'vulpea-agenda-files-update)
-  (advice-add 'org-todo-list :before #'vulpea-agenda-files-update))
-
-;; (use-package! org-gtd
-;;   ;:defer t
-;;   :after org
-;;   :init
-;;   (setq org-gtd-update-ack "3.0.0")
-;;   :custom
-;;   (org-gtd-directory "~/Documents/org/")
-;;   (org-edna-use-inheritance t)
-;;   (org-gtd-organize-hooks '(org-gtd-set-area-of-focus org-set-tags-command))
-;;   :config
-;;   ;; Variables
-;;   ;(setq org-gtd-default-file-name "~/Documents/org/nodes")
-;;   ;; Behavior
-;;   (org-edna-mode)
-;;   ;; Keybinds
-;;   (map! :leader
-;;         :prefix ("n g" . "org-gtd")
-;;         :desc "Capture"        "c"  #'org-gtd-capture
-;;         :desc "Engage"         "e"  #'org-gtd-engage
-;;         :desc "Process inbox"  "p"  #'org-gtd-process-inbox
-;;         :desc "Show all next"  "n"  #'org-gtd-show-all-next
-;;         :desc "Stuck projects" "s"  #'org-gtd-show-stuck-projects)
-;;   (map! :map org-gtd-process-map
-;;         :desc "Choose" "C-c c" #'org-gtd-choose))
-
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
   :config
@@ -1055,7 +1249,8 @@
         org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
         org-appear-autolinks nil               ; Shows Org links.
         org-appear-autokeywords nil            ; Shows hidden Org keywords.
-        org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.)
+        org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
+  )
 
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode))
@@ -1153,34 +1348,8 @@
                                new-toc)
                         (delete-region beg end)
                         (insert new-toc)))))
-              (message (concat "Hrefify function " hrefify-string " is not found"))))))))))
-
-(use-package! org-noter
-  :defer t
-  :init
-  ;; Variables
-  (setq org-noter-notes-search-path (file-truename "~/Documents/org/references"))
-  :config
-  ;; Behavior
-  (setq org-noter-always-create-frame nil        ; Don't create a new frame for the session.
-        org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
-  (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.)
-
-(use-package! pdf-tools
-  :defer t
-  :config
-  ;; Behavior
-  (pdf-tools-install t)
-  ;; Fixes
-  (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode)))
-
-(use-package! plantuml-mode
-  :defer t
-  :config
-  ;; Behavior
-  (setq plantuml-default-exec-mode 'jar)
-  (unless (file-exists-p plantuml-jar-path)
-    (plantuml-download-jar)))
+              (message (concat "Hrefify function " hrefify-string " is not found")))))))))
+  )
 
 (use-package! ox
   :defer t
@@ -1222,6 +1391,12 @@
   (ox-extras-activate '(ignore-headlines))
   (setq org-export-headline-levels 5))
 
+(use-package! engrave-faces-latex
+  :after ox-latex)
+
+(use-package! engrave-faces-html
+  :after ox-html)
+
 (use-package! ox-latex
   :defer t
   :config
@@ -1241,11 +1416,33 @@
   ;; Behavior
   (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f")))
 
-(use-package! engrave-faces-latex
-  :after ox-latex)
+(use-package! org-noter
+  :defer t
+  :init
+  ;; Variables
+  (setq org-noter-notes-search-path (file-truename "~/Documents/org/references"))
+  :config
+  ;; Behavior
+  (setq org-noter-always-create-frame nil        ; Don't create a new frame for the session.
+        org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
+  (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
+  )
 
-(use-package! engrave-faces-html
-  :after ox-html)
+(use-package! pdf-tools
+  :defer t
+  :config
+  ;; Behavior
+  (pdf-tools-install t)
+  ;; Fixes
+  (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode)))
+
+(use-package! plantuml-mode
+  :defer t
+  :config
+  ;; Behavior
+  (setq plantuml-default-exec-mode 'jar)
+  (unless (file-exists-p plantuml-jar-path)
+    (plantuml-download-jar)))
 
 (use-package! lsp-clangd
   :defer t
@@ -1282,3 +1479,5 @@
 (defun org-execute-named-src-block-in-lit-config ()
   (interactive)
   (org-babel-with-temp-filebuffer +literate-config-file (org-babel-goto-named-src-block "gen-org-protocol-script") (org-babel-execute-src-block)))
+
+;(remove-hook 'org-mode-hook #'+org-make-last-point-visible-h)
