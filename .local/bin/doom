@@ -1,11 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
-read -r default_profile <"$HOME/.config/chemacs/profile"
-
-if [[ "$1" == "sync" && "$#" == 1 ]]; then
-    emacsclient -s "$default_profile" -e "(kill-emacs)"
-    /opt/doom/bin/doom "$@"
-    emacsclient -c -s "$default_profile" -n -a=''
+if [ "$1" = "sync" ]; then
+    emacsclient -e "(kill-emacs)"
+    "$HOME"/.config/emacs/bin/doom "$@"
+    emacsclient -c -n -a=''
 else
-    /opt/doom/bin/doom "$@"
+    "$HOME"/.config/emacs/bin/doom "$@"
 fi
