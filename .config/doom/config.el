@@ -1108,13 +1108,14 @@
   (defun my/org-roam-file-property-p (property)
     (let ((has-prop (org-find-property property)))
       (when has-prop (org-with-point-at has-prop (org-before-first-heading-p)))))
-  ;; TODO: Make more dynamic to be able to generate ID and DATE using independent information.
-  (defun my/org-roam-ensure-new-file-properties ()
-    (interactive)
-      (unless (my/org-roam-file-property-p "DATE")
-        (org-set-property "DATE" (denote-date-org-timestamp (safe-date-to-time (denote-retrieve-filename-identifier (buffer-file-name)))))))
   
-  ;(add-hook 'org-roam-capture-new-node-hook #'my/org-roam-ensure-new-file-properties)
+  (defun my/org-roam-add-new-file-date-property ()
+    (interactive)
+    (save-excursion
+      (unless (my/org-roam-file-property-p "DATE")
+        (org-set-property "DATE" (denote-date-org-timestamp (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
+  
+  (add-hook 'org-roam-capture-new-node-hook #'my/org-roam-add-new-file-date-property 100)
   )
 
 (use-package! websocket
@@ -1193,7 +1194,7 @@
   ;; Behavior
   (setq org-roam-capture-ref-templates
         '(("r" "ref" plain "%?"
-           :target (file+head "reference/%<%Y%m%d%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
+           :target (file+head "reference/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
           :unnarrowed t)))
   (setq org-roam-protocol-store-links t))
 
