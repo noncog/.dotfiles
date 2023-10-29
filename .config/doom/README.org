@@ -130,17 +130,17 @@
 - [[#org-roam-capture][Org Roam Capture]]
   - [[#package-22][Package]]
   - [[#variables-7][Variables]]
-- [[#org-roam-ui][Org Roam UI]]
+- [[#org-roam-protocol][Org Roam Protocol]]
   - [[#package-23][Package]]
-  - [[#appearance-9][Appearance]]
   - [[#behavior-17][Behavior]]
+- [[#org-roam-ui][Org Roam UI]]
+  - [[#package-24][Package]]
+  - [[#appearance-9][Appearance]]
+  - [[#behavior-18][Behavior]]
   - [[#keybinds-9][Keybinds]]
 - [[#org-roam-dailies][Org Roam Dailies]]
-  - [[#package-24][Package]]
-  - [[#variables-8][Variables]]
-- [[#org-roam-protocol][Org Roam Protocol]]
   - [[#package-25][Package]]
-  - [[#behavior-18][Behavior]]
+  - [[#variables-8][Variables]]
 - [[#vulpea][Vulpea]]
   - [[#package-26][Package]]
 - [[#org-gtd][Org GTD]]
@@ -156,39 +156,41 @@
 - [[#org-modern][Org Modern]]
   - [[#package-30][Package]]
   - [[#appearance-11][Appearance]]
-- [[#toc-org][TOC Org]]
+- [[#org-link][Org Link]]
   - [[#package-31][Package]]
+- [[#toc-org][TOC Org]]
+  - [[#package-32][Package]]
   - [[#behavior-20][Behavior]]
 - [[#ox-org-export][Ox (Org Export)]]
-  - [[#package-32][Package]]
+  - [[#package-33][Package]]
   - [[#appearance-12][Appearance]]
   - [[#behavior-21][Behavior]]
   - [[#keybinds-11][Keybinds]]
 - [[#engrave-faces][Engrave Faces]]
-  - [[#package-33][Package]]
-- [[#ox-latex][Ox Latex]]
   - [[#package-34][Package]]
+- [[#ox-latex][Ox Latex]]
+  - [[#package-35][Package]]
   - [[#appearance-13][Appearance]]
   - [[#behavior-22][Behavior]]
 - [[#org-noter][Org Noter]]
-  - [[#package-35][Package]]
+  - [[#package-36][Package]]
   - [[#variables-10][Variables]]
   - [[#behavior-23][Behavior]]
 - [[#pdf-tools][PDF Tools]]
-  - [[#package-36][Package]]
+  - [[#package-37][Package]]
   - [[#behavior-24][Behavior]]
   - [[#fixes-7][Fixes]]
 - [[#plantuml][PlantUML]]
-  - [[#package-37][Package]]
+  - [[#package-38][Package]]
   - [[#behavior-25][Behavior]]
 - [[#lsp-clangd][LSP-Clangd]]
-  - [[#package-38][Package]]
+  - [[#package-39][Package]]
   - [[#behavior-26][Behavior]]
 - [[#sh-script][Sh-script]]
-  - [[#package-39][Package]]
+  - [[#package-40][Package]]
   - [[#behavior-27][Behavior]]
 - [[#applescript][Applescript]]
-  - [[#package-40][Package]]
+  - [[#package-41][Package]]
   - [[#enable-editing-of-compiled-script-files][Enable Editing of Compiled Script Files]]
 - [[#experiments][Experiments]]
 #+END_QUOTE
@@ -621,6 +623,7 @@ This file is structured to promote discoverability and comprehension. In general
 - [[https://github.com/howardabrams/hamacs][Howard Abrams]]
 - [[https://github.com/novoid/dot-emacs/blob/master/config.org][Novoid]]
 - [[https://github.com/ianyepan/.wsl-emacs.d][Ian Y.E. Pan]]
+- [[https://github.com/abougouffa/minemacs/tree/main][Abdelhak Bougouffa - Minemacs]] 
 
 #+html:</details>
 
@@ -816,6 +819,14 @@ This is an area of contention for me. Eventually I would like to overhaul this b
                      maximum-scroll-margin
                      scroll-margin))
       (kill-local-variable `,local))))
+#+end_src
+
+**** Pixel Precision Scrolling
+
+For me, this new setting just works okay. I'm not sure if I will keep it.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
+(when (and IS-MAC (>= emacs-major-version 29)) (pixel-scroll-mode 1) (pixel-scroll-precision-mode 1))
 #+end_src
 
 *** Window Manager Integration
@@ -2269,8 +2280,10 @@ I'm working to integrate Org, Org Roam, and Denote. I want the best of everythin
       '(("ISSUE" . +org-todo-project)
         ("NEXT" . +org-todo-active)
         ("WAIT" . +org-todo-onhold)
+        ("KILL" . +org-todo-cancel)
         ("NOTE" . +org-todo-active)
-        ("KILL" . +org-todo-cancel)))
+        ("LINK" . +org-todo-active)
+        ("QUESTION" . +org-todo-active)))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
@@ -2749,36 +2762,55 @@ Org Capture lets you quickly insert into your org documents.
 
 *** Capture Templates
 
-I'm currently only using one template that sends all captured headings to an inbox. This increases speed by capturing now and organizing later.
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
+(defun my/org-capture-context ()
+  "Find an Org Roam node related to the current context for use with org-capture-templates."
+  ;; TODO: Currently context is only able to be related to an org roam node.
+  ;; TODO: Consider wrapping in after! to ensure loads correctly.
+  (interactive)
+  (let* ((projectile-project (projectile-project-name))
+         (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
+         (description (org-roam-node-formatted node))
+         (id (org-roam-node-id node)))
+    (if id (org-link-make-string (concat "id:" id) description) " ")
+    ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
+    ))
+#+end_src
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
 (setq org-capture-templates
       `(("t" "Task" entry
          (file+headline "node/20231006T043148--inbox.org" "Tasks")
-         "* TODO %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
+         "* TODO (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
          :prepend t)
         ("i" "Issue" entry
          (file+headline "node/20231006T043148--inbox.org" "Issues")
-         "* ISSUE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
+         "* ISSUE (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
          :prepend t)
         ("n" "Note" entry
          (file+headline "node/20231006T043148--inbox.org" "Notes")
-         "* NOTE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
-        ("q" "Question" entry
+         "* NOTE (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
+        ("?" "Question" entry
          (file+headline "node/20231006T043148--inbox.org" "Questions")
-         "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
+         "* QUESTION (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
         ("k" "Keybind" entry
          (file+headline "node/20231006T043148--inbox.org" "Notes")
-         "* KEYBIND %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"KEYBIND\"       from              %U\n:END:\n%i" :prepend t)
+         "* KEYBIND (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"KEYBIND\"       from              %U\n:END:\n%i" :prepend t)
         ("b" "Bookmark" entry
          (file+headline "node/20231006T043148--inbox.org" "Bookmarks")
-         "* LINK %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"LINK\"       from              %U\n:END:\n%i" :prepend t)
+         "* LINK (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"LINK\"       from              %U\n:END:\n%i" :prepend t)
         ("a" "Appointment" entry
          (file+headline "node/20231006T043148--inbox.org" "Tasks")
-         "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
+         "* APPT (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
         ("m" "Meeting" entry
          (file+headline "node/20231006T043148--inbox.org" "Meeting")
-         "* MEET %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)))
+         "* MEET (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
+(set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
+
+(set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
@@ -2821,14 +2853,6 @@ Sometimes the capture window breaks when the agenda or agenda files are already 
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
 (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
-#+end_src
-
-*** Increase Windowing Compatibility
-
-By default, Doom sets the =:vslot= and =:slot= window parameters to 0 for any popup windows. The capturing popup window has no choice for these values. This means that its popup behavior was unpredictable with other popup windows. Setting just =:vslot= to -1 causes the capture window to appear below most other popups, including the helpful window.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-init
-(set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
 #+end_src
 
 * Org Roam
@@ -3031,6 +3055,11 @@ After setting up the correct file names, we can take advantage of Doom Modeline'
                       ("_$" . "")))                   ;; remove ending underscore
              (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
         (denote-sluggify slug)))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; TODO: Somehow ensure that Denote's keyword (tag) front-matter is being added too!
+(setq org-roam-extract-new-file-path (concat denote-id-format "--${slug}.org"))
 #+end_src
 
 *** Integrate Org Roam with Org Agenda
@@ -3267,7 +3296,7 @@ Org Roam Capture extends the built-in Org Capture functionality with Org Roam sp
          :target (file+head "area/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
          :unnarrowed t)
         ("b" "blog" plain "%?"
-         :target (file+head "blog/%<%Y%m%dT%H%M%S>-${slug}.org" "#+title: ${title}\n")
+         :target (file+head "blog/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
          :unnarrowed t)))
 #+end_src
 
@@ -3280,13 +3309,137 @@ This develops the ability to add properties, primarily the "DATE" property from 
   (let ((has-prop (org-find-property property)))
     (when has-prop (org-with-point-at has-prop (org-before-first-heading-p)))))
 
-(defun my/org-roam-add-new-file-date-property ()
+(defun my/org-roam-add-new-property-file-date ()
+  "Set the 'DATE' file property using the 'buffer-file-name'."
   (interactive)
   (save-excursion
     (unless (my/org-roam-file-property-p "DATE")
       (org-set-property "DATE" (denote-date-org-timestamp (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
 
-(add-hook 'org-roam-capture-new-node-hook #'my/org-roam-add-new-file-date-property 100)
+(defun my/org-roam-add-new-property-category ()
+  "Set the 'CATEGORY' file property using the 'buffer-file-name'."
+  (interactive)
+  (save-excursion
+    (unless (my/org-roam-file-property-p "CATEGORY")
+      (org-set-property "CATEGORY" (org-get-title)))))
+
+(add-hook 'org-roam-capture-new-node-hook #'my/org-roam-add-new-property-file-date 100)
+(add-hook 'org-roam-capture-new-node-hook #'my/org-roam-add-new-property-category 100)
+#+end_src
+
+* Org Roam Protocol
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://www.orgroam.com/manual.html#org_002droam_002dprotocol][Org Roam Protocol]] is an extension to org-roam for capturing content from external applications such as web browsers via org-protocol. It extends org-protocol with two more protocols: roam-node and roam-ref.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-roam-protocol
+  :defer t
+  :config
+  <<org-roam-protocol-config>>)
+#+end_src
+#+html:</details>
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config :exports none
+;; Behavior
+#+end_src
+
+*** Setup Org Roam Protocol
+
+There's some basic steps to get this working, some people have had poor luck with it, thankfully I've automated most of it. ([[https://www.orgroam.com/manual.html#Mac-OS][Source]])
+
+**** Linux
+
+=TODO=
+
+**** macOS
+
+This ugly function uses Applescript and Emacs-Lisp to generate and customize an application (=OrgProtocolClient.app=) to act as our scheme handler for =org-protocol:= links. It's automatically installed in the applications directory and appears to automatically register itself as the handler for our new URI. On macOS any application in =/Applications= that has a =CFBundleURLTypes= value in its =Info.plist= will be registered as a handler for the URL schemes.
+
+#+begin_src emacs-lisp :tangle no :exports none :noweb-ref config :noweb-sep "\n\n"
+(defun my/org-protocol-make-app-handler ()
+  "Generate the Applescript application 'OrgProtocol.app' using Applescript and elisp."
+  ;; TODO: Create options to change where the application gets created.
+  (interactive)
+  ;; TODO: Consider prompting are you sure?
+  (let* ((script (expand-file-name "OrgProtocolClient.applescript" doom-user-dir))
+         (app "/Applications/OrgProtocolClient.app")
+         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that eventually.
+         (plist (expand-file-name "Contents/Info.plist" app))
+         (emacsclient "/opt/homebrew/bin/emacsclient -n "))
+    (with-temp-file script
+      (insert "on open location this_URL\n")
+      (insert (format "\tset EC to \"%s\"\n" emacsclient))
+      (insert "\tset filePath to quoted form of this_URL\n")
+      (insert "\tdo shell script EC & filePath\n")
+      (insert "\ttell application \"Emacs\" to activate\n")
+      (insert "end open location\n"))
+    ;; Must be done for osacompile to recognize application extension.
+    (when (file-exists-p app) (delete-directory app t))
+    (let ((status (call-process-shell-command (format "osacompile -o %s %s" app script))))
+      (if (eq status 0)
+          (with-temp-file plist
+            (when (file-exists-p script) (delete-file script t))
+            (when-let  ((plist-buffer (get-file-buffer plist)))
+              (kill-buffer plist-buffer))
+            (insert-file-contents plist)
+            (goto-char (point-max))
+            (goto-char (re-search-backward "</dict>"))
+            (previous-line) (end-of-line) (newline)
+            (insert "\t<key>CFBundleURLTypes</key>\n")
+            (insert "\t<array>\n")
+            (insert "\t\t<dict>\n")
+            (insert "\t\t\t<key>CFBundleURLName</key>\n")
+            (insert "\t\t\t<string>org-protocol handler</string>\n")
+            (insert "\t\t\t<key>CFBundleURLSchemes</key>\n")
+            (insert "\t\t\t<array>\n")
+            (insert "\t\t\t\t<string>org-protocol</string>\n")
+            (insert "\t\t\t</array>\n")
+            (insert "\t\t</dict>\n")
+            (insert "\t</array>")
+            (write-region nil nil plist))
+        (error "Something wen't wrong with the compilation of the script!")))))
+#+end_src
+
+**** Bookmark
+
+To use org-protocol to interact with the browser we can use the following bookmarklet written in Javascript. Simply add this to your browser to be able to send web links and information from them to Org Mode!
+
+When using this with various browsers, you may need to enable the handler in the browser's settings manually. Some browsers just work and others require you to set it in the GUI settings, thankfully not in their text configuration.
+
+#+begin_src javascript :tangle no
+javascript:location.href =
+    'org-protocol://roam-ref?template=r&ref='
+    + encodeURIComponent(location.href)
+    + '&title='
+    + encodeURIComponent(document.title)
+    + '&body='
+    + encodeURIComponent(window.getSelection())
+#+end_src
+
+*** Org Roam Capture Ref Template
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
+(setq org-roam-capture-ref-templates
+      '(("r" "ref" plain "%?"
+         :target (file+head "reference/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
+        :unnarrowed t)))
+#+end_src
+
+
+*** Ensure Links are Stored When Capturing from Websites
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
+(setq org-roam-protocol-store-links t)
 #+end_src
 
 * Org Roam UI
@@ -3491,128 +3644,6 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 (setq org-roam-dailies-capture-templates
       '(("d" "default" entry "* %?"
          :target (file+head "%<%Y%m%dT%H%M%S>--log.org" "#+title: Log\n"))))
-#+end_src
-
-* Org Roam Protocol
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://www.orgroam.com/manual.html#org_002droam_002dprotocol][Org Roam Protocol]] is an extension to org-roam for capturing content from external applications such as web browsers via org-protocol. It extends org-protocol with two more protocols: roam-node and roam-ref.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! org-roam-protocol
-  :defer t
-  :config
-  <<org-roam-protocol-config>>)
-#+end_src
-#+html:</details>
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config :exports none
-;; Behavior
-#+end_src
-
-*** Setup Org Roam Protocol
-
-There's some basic steps to get this working, some people have had poor luck with it, thankfully I've automated most of it. ([[https://www.orgroam.com/manual.html#Mac-OS][Source]])
-
-**** Linux
-
-=TODO=
-
-**** macOS
-
-This ugly function uses Applescript and Emacs-Lisp to generate and customize an application (=OrgProtocolClient.app=) to act as our scheme handler for =org-protocol:= links. It's automatically installed in the applications directory and appears to automatically register itself as the handler for our new URI. On macOS any application in =/Applications= that has a =CFBundleURLTypes= value in its =Info.plist= will be registered as a handler for the URL schemes.
-
-#+begin_src emacs-lisp :tangle no :exports none :noweb-ref config :noweb-sep "\n\n"
-(defun my/org-protocol-make-app-handler ()
-  "Generate the Applescript application 'OrgProtocol.app' using Applescript and elisp."
-  ;; TODO: Create options to change where the application gets created.
-  (interactive)
-  ;; TODO: Consider prompting are you sure?
-  (let* ((script (expand-file-name "OrgProtocolClient.applescript" doom-user-dir))
-         (app "/Applications/OrgProtocolClient.app")
-         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that eventually.
-         (plist (expand-file-name "Contents/Info.plist" app))
-         (emacsclient "/opt/homebrew/bin/emacsclient -n "))
-    (with-temp-file script
-      (insert "on open location this_URL\n")
-      (insert (format "\tset EC to \"%s\"\n" emacsclient))
-      (insert "\tset filePath to quoted form of this_URL\n")
-      (insert "\tdo shell script EC & filePath\n")
-      (insert "\ttell application \"Emacs\" to activate\n")
-      (insert "end open location\n"))
-    ;; Must be done for osacompile to recognize application extension.
-    (when (file-exists-p app) (delete-directory app t))
-    (let ((status (call-process-shell-command (format "osacompile -o %s %s" app script))))
-      (if (eq status 0)
-          (with-temp-file plist
-            (when (file-exists-p script) (delete-file script t))
-            (when-let  ((plist-buffer (get-file-buffer plist)))
-              (kill-buffer plist-buffer))
-            (insert-file-contents plist)
-            (goto-char (point-max))
-            (goto-char (re-search-backward "</dict>"))
-            (previous-line) (end-of-line) (newline)
-            (insert "\t<key>CFBundleURLTypes</key>\n")
-            (insert "\t<array>\n")
-            (insert "\t\t<dict>\n")
-            (insert "\t\t\t<key>CFBundleURLName</key>\n")
-            (insert "\t\t\t<string>org-protocol handler</string>\n")
-            (insert "\t\t\t<key>CFBundleURLSchemes</key>\n")
-            (insert "\t\t\t<array>\n")
-            (insert "\t\t\t\t<string>org-protocol</string>\n")
-            (insert "\t\t\t</array>\n")
-            (insert "\t\t</dict>\n")
-            (insert "\t</array>")
-            (write-region nil nil plist))
-        (error "Something wen't wrong with the compilation of the script!")))))
-#+end_src
-
-**** Bookmark
-
-To use org-protocol to interact with the browser we can use the following bookmarklet written in Javascript. Simply add this to your browser to be able to send web links and information from them to Org Mode!
-
-When using this with various browsers, you may need to enable the handler in the browser's settings manually. Some browsers just work and others require you to set it in the GUI settings, thankfully not in their text configuration.
-
-#+begin_src javascript :tangle no
-javascript:location.href =
-    'org-protocol://roam-ref?template=r&ref='
-    + encodeURIComponent(location.href)
-    + '&title='
-    + encodeURIComponent(document.title)
-    + '&body='
-    + encodeURIComponent(window.getSelection())
-#+end_src
-
-*** Org Roam Capture Ref Template
-
-- TODO: Document:
-  - Adding time stamp
-  - Where these go.
-  - Decide on directory/file (to inbox?)
-  - Decide on getting date created method.
-  - Decide on tagging and filtering and processing.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
-(setq org-roam-capture-ref-templates
-      '(("r" "ref" plain "%?"
-         :target (file+head "reference/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
-        :unnarrowed t)))
-#+end_src
-
-
-*** Ensure Links are Store When Capturing from Websites
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
-(setq org-roam-protocol-store-links t)
 #+end_src
 
 * Vulpea
@@ -3856,6 +3887,29 @@ These settings will need sorted into their own headings eventually.
       org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
       org-modern-horizontal-rule (make-string 80 ?─))
 #+end_src
+
+* Org Link
+
+#+begin_quote
+[[https://github.com/tarsius/orglink][Orglink]] provides fontification for Org Mode links in other modes. Although Org supports inserting (org-insert-link-global) and opening links globally (org-open-at-point-global), they are not fontified by default.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages
+(package! orglink)
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! orglink
+  :config
+  (setq orglink-activate-in-modes '(sh-mode emacs-lisp-mode))
+  (global-orglink-mode))
+#+end_src
+#+html:</details>
 
 * TOC Org
 :PROPERTIES:
@@ -4361,6 +4415,8 @@ Sh-script is a built-in library that provides a major mode for editing shell scr
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
 (use-package! sh-script
   :defer t
+  :init
+  <<sh-script-init>>
   :config
   <<sh-script-config>>)
 #+end_src
@@ -4376,6 +4432,17 @@ Doom provides some basic arguments to [[https://github.com/mvdan/sh][shfmt]] but
   '("shfmt" "-ci" "-bn" "-sr" "-kp"
     ("-i" "%d" (unless indent-tabs-mode tab-width))
     ("-ln" "%s" (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix")))))
+#+end_src
+
+*** Open Bash Info Page
+
+This is a simple interactive function that I call to quickly jump to the info page for Bash.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref sh-script-init
+(defun my/bash-info-page ()
+  "Go to the Bash info page."
+  (interactive)
+  (info "Bash"))
 #+end_src
 
 * Applescript

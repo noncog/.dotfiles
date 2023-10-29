@@ -32,6 +32,7 @@
   :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
 (package! org-modern
   :pin "afa7d44282d62dbba84afec2a1a6c2a3ee41e7b9")
+(package! orglink)
 (package! engrave-faces
   :recipe (:host github :repo "tecosaur/engrave-faces")
   :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")

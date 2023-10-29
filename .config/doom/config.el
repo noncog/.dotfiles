@@ -70,6 +70,8 @@
                      scroll-margin))
       (kill-local-variable `,local))))
 
+(when (and IS-MAC (>= emacs-major-version 29)) (pixel-scroll-mode 1) (pixel-scroll-precision-mode 1))
+
 (defun wm-win-cmd-in-direction (wm-cmd direction emacs-fn)
   (let ((tell-wm (concat (cond (IS-LINUX "i3-msg ") (IS-MAC "yabai -m window --")) wm-cmd " " direction)))
     (condition-case nil (funcall emacs-fn)
@@ -546,8 +548,10 @@
         '(("ISSUE" . +org-todo-project)
           ("NEXT" . +org-todo-active)
           ("WAIT" . +org-todo-onhold)
+          ("KILL" . +org-todo-cancel)
           ("NOTE" . +org-todo-active)
-          ("KILL" . +org-todo-cancel)))
+          ("LINK" . +org-todo-active)
+          ("QUESTION" . +org-todo-active)))
   (setq org-treat-insert-todo-heading-as-state-change t)
   ;; Appearance
   (setq org-hide-emphasis-markers t            ; Hide syntax for emphasis. (Use org-appear)
@@ -791,37 +795,52 @@
 (use-package! org-capture
   :defer t
   :init
-  (set-popup-rule! "^\\*Capture\\*$\\|CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
+  
   :config
   ;; Variables
   ;(setq +org-capture-fn #'org-roam-capture)
+  (defun my/org-capture-context ()
+    "Find an Org Roam node related to the current context for use with org-capture-templates."
+    ;; TODO: Currently context is only able to be related to an org roam node.
+    ;; TODO: Consider wrapping in after! to ensure loads correctly.
+    (interactive)
+    (let* ((projectile-project (projectile-project-name))
+           (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
+           (description (org-roam-node-formatted node))
+           (id (org-roam-node-id node)))
+      (if id (org-link-make-string (concat "id:" id) description) " ")
+      ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
+      ))
   (setq org-capture-templates
         `(("t" "Task" entry
            (file+headline "node/20231006T043148--inbox.org" "Tasks")
-           "* TODO %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
+           "* TODO (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
            :prepend t)
           ("i" "Issue" entry
            (file+headline "node/20231006T043148--inbox.org" "Issues")
-           "* ISSUE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
+           "* ISSUE (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
            :prepend t)
           ("n" "Note" entry
            (file+headline "node/20231006T043148--inbox.org" "Notes")
-           "* NOTE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
-          ("q" "Question" entry
+           "* NOTE (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
+          ("?" "Question" entry
            (file+headline "node/20231006T043148--inbox.org" "Questions")
-           "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
+           "* QUESTION (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
           ("k" "Keybind" entry
            (file+headline "node/20231006T043148--inbox.org" "Notes")
-           "* KEYBIND %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"KEYBIND\"       from              %U\n:END:\n%i" :prepend t)
+           "* KEYBIND (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"KEYBIND\"       from              %U\n:END:\n%i" :prepend t)
           ("b" "Bookmark" entry
            (file+headline "node/20231006T043148--inbox.org" "Bookmarks")
-           "* LINK %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"LINK\"       from              %U\n:END:\n%i" :prepend t)
+           "* LINK (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"LINK\"       from              %U\n:END:\n%i" :prepend t)
           ("a" "Appointment" entry
            (file+headline "node/20231006T043148--inbox.org" "Tasks")
-           "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
+           "* APPT (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
           ("m" "Meeting" entry
            (file+headline "node/20231006T043148--inbox.org" "Meeting")
-           "* MEET %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)))
+           "* MEET (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)))
+  (set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
+  
+  (set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
   ;; (setq org-capture-templates-contexts)
   ;; Behavior
   (setq org-capture-bookmark nil)
@@ -953,6 +972,8 @@
                         ("_$" . "")))                   ;; remove ending underscore
                (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
           (denote-sluggify slug)))))
+  ;; TODO: Somehow ensure that Denote's keyword (tag) front-matter is being added too!
+  (setq org-roam-extract-new-file-path (concat denote-id-format "--${slug}.org"))
   (defun my/org-roam-agenda-file-p ()
     "Return non-nil if current buffer has todo keywords or scheduled items.
   TODO entries marked as done are ignored, meaning the this
@@ -1103,20 +1124,82 @@
            :target (file+head "area/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)
           ("b" "blog" plain "%?"
-           :target (file+head "blog/%<%Y%m%dT%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :target (file+head "blog/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)))
   (defun my/org-roam-file-property-p (property)
     (let ((has-prop (org-find-property property)))
       (when has-prop (org-with-point-at has-prop (org-before-first-heading-p)))))
   
-  (defun my/org-roam-add-new-file-date-property ()
+  (defun my/org-roam-add-new-property-file-date ()
+    "Set the 'DATE' file property using the 'buffer-file-name'."
     (interactive)
     (save-excursion
       (unless (my/org-roam-file-property-p "DATE")
         (org-set-property "DATE" (denote-date-org-timestamp (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
   
-  (add-hook 'org-roam-capture-new-node-hook #'my/org-roam-add-new-file-date-property 100)
+  (defun my/org-roam-add-new-property-category ()
+    "Set the 'CATEGORY' file property using the 'buffer-file-name'."
+    (interactive)
+    (save-excursion
+      (unless (my/org-roam-file-property-p "CATEGORY")
+        (org-set-property "CATEGORY" (org-get-title)))))
+  
+  (add-hook 'org-roam-capture-new-node-hook #'my/org-roam-add-new-property-file-date 100)
+  (add-hook 'org-roam-capture-new-node-hook #'my/org-roam-add-new-property-category 100)
   )
+
+(use-package! org-roam-protocol
+  :defer t
+  :config
+  ;; Behavior
+  (setq org-roam-capture-ref-templates
+        '(("r" "ref" plain "%?"
+           :target (file+head "reference/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
+          :unnarrowed t)))
+  (setq org-roam-protocol-store-links t))
+
+(defun my/org-protocol-make-app-handler ()
+  "Generate the Applescript application 'OrgProtocol.app' using Applescript and elisp."
+  ;; TODO: Create options to change where the application gets created.
+  (interactive)
+  ;; TODO: Consider prompting are you sure?
+  (let* ((script (expand-file-name "OrgProtocolClient.applescript" doom-user-dir))
+         (app "/Applications/OrgProtocolClient.app")
+         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that eventually.
+         (plist (expand-file-name "Contents/Info.plist" app))
+         (emacsclient "/opt/homebrew/bin/emacsclient -n "))
+    (with-temp-file script
+      (insert "on open location this_URL\n")
+      (insert (format "\tset EC to \"%s\"\n" emacsclient))
+      (insert "\tset filePath to quoted form of this_URL\n")
+      (insert "\tdo shell script EC & filePath\n")
+      (insert "\ttell application \"Emacs\" to activate\n")
+      (insert "end open location\n"))
+    ;; Must be done for osacompile to recognize application extension.
+    (when (file-exists-p app) (delete-directory app t))
+    (let ((status (call-process-shell-command (format "osacompile -o %s %s" app script))))
+      (if (eq status 0)
+          (with-temp-file plist
+            (when (file-exists-p script) (delete-file script t))
+            (when-let  ((plist-buffer (get-file-buffer plist)))
+              (kill-buffer plist-buffer))
+            (insert-file-contents plist)
+            (goto-char (point-max))
+            (goto-char (re-search-backward "</dict>"))
+            (previous-line) (end-of-line) (newline)
+            (insert "\t<key>CFBundleURLTypes</key>\n")
+            (insert "\t<array>\n")
+            (insert "\t\t<dict>\n")
+            (insert "\t\t\t<key>CFBundleURLName</key>\n")
+            (insert "\t\t\t<string>org-protocol handler</string>\n")
+            (insert "\t\t\t<key>CFBundleURLSchemes</key>\n")
+            (insert "\t\t\t<array>\n")
+            (insert "\t\t\t\t<string>org-protocol</string>\n")
+            (insert "\t\t\t</array>\n")
+            (insert "\t\t</dict>\n")
+            (insert "\t</array>")
+            (write-region nil nil plist))
+        (error "Something wen't wrong with the compilation of the script!")))))
 
 (use-package! websocket
     :after org-roam)
@@ -1188,59 +1271,6 @@
            :target (file+head "%<%Y%m%dT%H%M%S>--log.org" "#+title: Log\n"))))
   )
 
-(use-package! org-roam-protocol
-  :defer t
-  :config
-  ;; Behavior
-  (setq org-roam-capture-ref-templates
-        '(("r" "ref" plain "%?"
-           :target (file+head "reference/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
-          :unnarrowed t)))
-  (setq org-roam-protocol-store-links t))
-
-(defun my/org-protocol-make-app-handler ()
-  "Generate the Applescript application 'OrgProtocol.app' using Applescript and elisp."
-  ;; TODO: Create options to change where the application gets created.
-  (interactive)
-  ;; TODO: Consider prompting are you sure?
-  (let* ((script (expand-file-name "OrgProtocolClient.applescript" doom-user-dir))
-         (app "/Applications/OrgProtocolClient.app")
-         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that eventually.
-         (plist (expand-file-name "Contents/Info.plist" app))
-         (emacsclient "/opt/homebrew/bin/emacsclient -n "))
-    (with-temp-file script
-      (insert "on open location this_URL\n")
-      (insert (format "\tset EC to \"%s\"\n" emacsclient))
-      (insert "\tset filePath to quoted form of this_URL\n")
-      (insert "\tdo shell script EC & filePath\n")
-      (insert "\ttell application \"Emacs\" to activate\n")
-      (insert "end open location\n"))
-    ;; Must be done for osacompile to recognize application extension.
-    (when (file-exists-p app) (delete-directory app t))
-    (let ((status (call-process-shell-command (format "osacompile -o %s %s" app script))))
-      (if (eq status 0)
-          (with-temp-file plist
-            (when (file-exists-p script) (delete-file script t))
-            (when-let  ((plist-buffer (get-file-buffer plist)))
-              (kill-buffer plist-buffer))
-            (insert-file-contents plist)
-            (goto-char (point-max))
-            (goto-char (re-search-backward "</dict>"))
-            (previous-line) (end-of-line) (newline)
-            (insert "\t<key>CFBundleURLTypes</key>\n")
-            (insert "\t<array>\n")
-            (insert "\t\t<dict>\n")
-            (insert "\t\t\t<key>CFBundleURLName</key>\n")
-            (insert "\t\t\t<string>org-protocol handler</string>\n")
-            (insert "\t\t\t<key>CFBundleURLSchemes</key>\n")
-            (insert "\t\t\t<array>\n")
-            (insert "\t\t\t\t<string>org-protocol</string>\n")
-            (insert "\t\t\t</array>\n")
-            (insert "\t\t</dict>\n")
-            (insert "\t</array>")
-            (write-region nil nil plist))
-        (error "Something wen't wrong with the compilation of the script!")))))
-
 (use-package! org-appear
   :hook (org-mode . org-appear-mode)
   :config
@@ -1279,6 +1309,11 @@
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
         org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
         org-modern-horizontal-rule (make-string 80 ?─)))
+
+(use-package! orglink
+  :config
+  (setq orglink-activate-in-modes '(sh-mode emacs-lisp-mode))
+  (global-orglink-mode))
 
 (use-package! toc-org
   :defer t
@@ -1460,6 +1495,11 @@
 
 (use-package! sh-script
   :defer t
+  :init
+  (defun my/bash-info-page ()
+    "Go to the Bash info page."
+    (interactive)
+    (info "Bash"))
   :config
   (set-formatter! 'shfmt
     '("shfmt" "-ci" "-bn" "-sr" "-kp"
