@@ -187,6 +187,18 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 
 Some apps get their own workspace. Some apps live in the scratchpad.
 
+*** General Workspace Controls
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+# name workspaces
+bindsym $mod+1 workspace 1
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+Shift+3 move container to workspace 3
+#+end_src
+
 *** Emacs
 
 #+begin_src conf :tangle config
