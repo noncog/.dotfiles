@@ -737,7 +737,6 @@ But, I don't want them shown in all modes.
 
 Specifically, I disable it in org-mode. Emacs has a flaw related to visual line numbers, code folding, and Evil.
 
-
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (dolist (mode '(org-mode-hook))
       (add-hook mode #'doom-disable-line-numbers-h))
