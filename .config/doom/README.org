@@ -2418,10 +2418,6 @@ Most of these are Doom's defaults but I set them to ensure the default behavior 
 (remove-hook 'org-mode-hook #'+org-make-last-point-visible-h)
 #+end_src
 
-#+begin_src emacs-lisp
-;(remove-hook 'org-mode-hook #'+org-make-last-point-visible-h)
-#+end_src
-
 * Org Agenda
 :PROPERTIES:
 :VISIBILITY: children
@@ -3835,7 +3831,6 @@ I'm not really using this package yet, but I'm investigating how I can.
         ("[?]"  :inverse-video t :inherit +org-todo-onhold)
         ("KILL" :inverse-video t :inherit +org-todo-cancel)
         ("NO"   :inverse-video t :inherit +org-todo-cancel))
-      org-modern-star nil
       org-modern-star nil                    ; Disabled due to font instability.
       org-modern-horizontal-rule (make-string 80 ?─))
 #+end_src

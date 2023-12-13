@@ -1263,7 +1263,6 @@
           ("[?]"  :inverse-video t :inherit +org-todo-onhold)
           ("KILL" :inverse-video t :inherit +org-todo-cancel)
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
-        org-modern-star nil
         org-modern-star nil                    ; Disabled due to font instability.
         org-modern-horizontal-rule (make-string 80 ?─)))
 
@@ -1477,5 +1476,3 @@
 (defun org-execute-named-src-block-in-lit-config ()
   (interactive)
   (org-babel-with-temp-filebuffer +literate-config-file (org-babel-goto-named-src-block "gen-org-protocol-script") (org-babel-execute-src-block)))
-
-;(remove-hook 'org-mode-hook #'+org-make-last-point-visible-h)
