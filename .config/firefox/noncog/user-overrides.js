@@ -111,3 +111,8 @@ user_pref("extensions.getAddons.showPane", false);
 user_pref("browser.safebrowsing.appRepURL", "");
 
 user_pref("keyword.enabled", true);
+user_pref("privacy.resistFingerprinting.letterboxing", false); // [HIDDEN PREF]
+
+user_pref("network.protocol-handler.external.javascript", false);
+user_pref("network.protocol-handler.external.org-protocol", true);
+// user_pref("network.protocol-handler.external.ms-windows-store", "");
