@@ -322,7 +322,7 @@ bindsym $mod+t [class="Tor Browser"] scratchpad show, resize set 75 ppt 75 ppt, 
 bindsym $mod+Shift+t exec --no-startup-id bash /opt/tor-browser_en-US/Browser/start-tor-browser
 # TODO: Figure out what this is lol.
 # only close if opened
-bindsym $mod+o [class="Tor Browser" workspace="__focused__"] scratchpad show, resize set 75 ppt 75 ppt, move position center
+#bindsym $mod+o [class="Tor Browser" workspace="__focused__"] scratchpad show, resize set 75 ppt 75 ppt, move position center
 #+end_src
 
 *** Discord
