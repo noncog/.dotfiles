@@ -40,6 +40,8 @@
 
 (setq display-line-numbers-grow-only t)
 
+(setq menu-bar-mode 0)
+
 ;; Behavior
 
 (setq evil-want-fine-undo t)
