@@ -623,7 +623,8 @@ This file is structured to promote discoverability and comprehension. In general
 - [[https://github.com/howardabrams/hamacs][Howard Abrams]]
 - [[https://github.com/novoid/dot-emacs/blob/master/config.org][Novoid]]
 - [[https://github.com/ianyepan/.wsl-emacs.d][Ian Y.E. Pan]]
-- [[https://github.com/abougouffa/minemacs/tree/main][Abdelhak Bougouffa - Minemacs]] 
+- [[https://github.com/abougouffa/minemacs/tree/main][Abdelhak Bougouffa - Minemacs]]
+- [[https://github.com/yantar92/emacs-config][Ihor Radchenko]]
 
 #+html:</details>
 
