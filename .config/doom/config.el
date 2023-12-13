@@ -1261,7 +1261,7 @@
           ("[?]"  :inverse-video t :inherit +org-todo-onhold)
           ("KILL" :inverse-video t :inherit +org-todo-cancel)
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
-        org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
+        org-modern-star nil
         org-modern-horizontal-rule (make-string 80 ?─)))
 
 (use-package! orglink

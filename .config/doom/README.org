@@ -3809,7 +3809,8 @@ I'm not really using this package yet, but I'm investigating how I can.
 
 *** General
 
-These settings will need sorted into their own headings eventually.
+- TODO: Sort settings into their own headings.
+- TODO: Change faces to match org-todo-keywords.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-modern-config
 (setq org-modern-hide-stars nil              ; Let Org handle hiding the stars.
@@ -3827,7 +3828,7 @@ These settings will need sorted into their own headings eventually.
         ("[?]"  :inverse-video t :inherit +org-todo-onhold)
         ("KILL" :inverse-video t :inherit +org-todo-cancel)
         ("NO"   :inverse-video t :inherit +org-todo-cancel))
-      org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
+      org-modern-star nil
       org-modern-horizontal-rule (make-string 80 ?─))
 #+end_src
 
