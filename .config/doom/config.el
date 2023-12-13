@@ -1261,7 +1261,11 @@
           ("[?]"  :inverse-video t :inherit +org-todo-onhold)
           ("KILL" :inverse-video t :inherit +org-todo-cancel)
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
+<<<<<<< Updated upstream
         org-modern-star nil
+=======
+        org-modern-star nil                    ; Disabled due to font instability.
+>>>>>>> Stashed changes
         org-modern-horizontal-rule (make-string 80 ?─)))
 
 (use-package! orglink

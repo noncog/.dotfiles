@@ -3828,7 +3828,11 @@ I'm not really using this package yet, but I'm investigating how I can.
         ("[?]"  :inverse-video t :inherit +org-todo-onhold)
         ("KILL" :inverse-video t :inherit +org-todo-cancel)
         ("NO"   :inverse-video t :inherit +org-todo-cancel))
+<<<<<<< Updated upstream
       org-modern-star nil
+=======
+      org-modern-star nil                    ; Disabled due to font instability.
+>>>>>>> Stashed changes
       org-modern-horizontal-rule (make-string 80 ?─))
 #+end_src
 
