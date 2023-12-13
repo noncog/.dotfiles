@@ -989,6 +989,7 @@
   ;;   (apply #'vulpea-buffer-tags-set (seq-uniq tags))))
   ;; TODO: Add list of functions run for each thing.
   ;; TODO: Ensure if you use Denote that you execute file names updating as well as filetags updating. Denote's keywords are file tags.
+  ;; Builds a list of what the tags should be and compares to current list and sets if need to. Make an abstraction to run through each function change the tag list somehow.
   (defun my/org-roam-ensure-filetags ()
     "Update FILETAGS Add missing FILETAGS to the current node."
     (let* ((get-filetags (org-roam--get-keyword "filetags"))

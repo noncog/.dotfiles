@@ -17,7 +17,8 @@
 <!-- Description -->
 <p><code>This is my <a href="https://github.com/doomemacs/doomemacs">Doom</a> <a href="https://www.gnu.org/software/emacs/">Emacs</a> configuration.</code></p>
 
-</div>
+</div
+>
 #+end_html
 
 * Table of Contents :TOC:QUOTE:
@@ -54,7 +55,6 @@
 - [[#doom-modeline][Doom Modeline]]
   - [[#package-4][Package]]
   - [[#appearance-2][Appearance]]
-  - [[#fixes-1][Fixes]]
 - [[#doom-dashboard][Doom Dashboard]]
   - [[#package-5][Package]]
   - [[#appearance-3][Appearance]]
@@ -62,7 +62,7 @@
   - [[#keybinds-3][Keybinds]]
 - [[#persp-mode][Persp-Mode]]
   - [[#package-6][Package]]
-  - [[#fixes-2][Fixes]]
+  - [[#fixes-1][Fixes]]
 - [[#vertico][Vertico]]
   - [[#package-7][Package]]
   - [[#behavior-6][Behavior]]
@@ -95,10 +95,10 @@
   - [[#package-15][Package]]
   - [[#variables-2][Variables]]
   - [[#keybinds-6][Keybinds]]
-  - [[#fixes-3][Fixes]]
+  - [[#fixes-2][Fixes]]
 - [[#visual-fill-column][Visual Fill Column]]
   - [[#package-16][Package]]
-  - [[#fixes-4][Fixes]]
+  - [[#fixes-3][Fixes]]
 - [[#denote][Denote]]
   - [[#package-17][Package]]
   - [[#variables-3][Variables]]
@@ -108,7 +108,7 @@
   - [[#variables-4][Variables]]
   - [[#appearance-6][Appearance]]
   - [[#behavior-13][Behavior]]
-  - [[#fixes-5][Fixes]]
+  - [[#fixes-4][Fixes]]
 - [[#org-agenda][Org Agenda]]
   - [[#package-19][Package]]
   - [[#appearance-7][Appearance]]
@@ -119,7 +119,7 @@
   - [[#package-20][Package]]
   - [[#variables-5][Variables]]
   - [[#behavior-15][Behavior]]
-  - [[#fixes-6][Fixes]]
+  - [[#fixes-5][Fixes]]
 - [[#org-roam][Org Roam]]
   - [[#package-21][Package]]
   - [[#resources-2][Resources]]
@@ -179,7 +179,7 @@
 - [[#pdf-tools][PDF Tools]]
   - [[#package-37][Package]]
   - [[#behavior-24][Behavior]]
-  - [[#fixes-7][Fixes]]
+  - [[#fixes-6][Fixes]]
 - [[#plantuml][PlantUML]]
   - [[#package-38][Package]]
   - [[#behavior-25][Behavior]]
@@ -3078,6 +3078,7 @@ tasks. The only exception is headings tagged as REFILE."
 ;;   (apply #'vulpea-buffer-tags-set (seq-uniq tags))))
 ;; TODO: Add list of functions run for each thing.
 ;; TODO: Ensure if you use Denote that you execute file names updating as well as filetags updating. Denote's keywords are file tags.
+;; Builds a list of what the tags should be and compares to current list and sets if need to. Make an abstraction to run through each function change the tag list somehow.
 (defun my/org-roam-ensure-filetags ()
   "Update FILETAGS Add missing FILETAGS to the current node."
   (let* ((get-filetags (org-roam--get-keyword "filetags"))
