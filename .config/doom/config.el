@@ -251,6 +251,9 @@
   :config
   ;; Appearance
   (setq doom-modeline-height 35)
+  (setq doom-modeline-buffer-file-true-name nil
+        doom-modeline-project-detection 'auto
+        doom-modeline-buffer-file-name-style 'relative-from-project)
   (setq doom-modeline-major-mode-icon t
         doom-modeline-major-mode-color-icon t)
   (setq doom-modeline-vcs-max-length 60
@@ -875,63 +878,13 @@
     "Remove Denote ID and keywords from Org Roam file names."
     (replace-regexp-in-string (concat denote-id-regexp "--") "" (replace-regexp-in-string denote-keywords-regexp "" file-name)))
   
-  (defun my/doom-modeline-buffer-file-name ()
+  (defun my/doom-modeline-process-buffer-file-name (file-name)
     "Return buffer-file-name filtered if necessary to display in Doom Modeline."
-    (let ((file-name (file-local-name (or (buffer-file-name (buffer-base-buffer)) ""))))
-      (if (my/org-roam-note-has-denote-title-p file-name)
-          (my/org-roam-note-reformat-file-name file-name) file-name)))
+    (if (my/org-roam-note-has-denote-title-p file-name)
+        (my/org-roam-note-reformat-file-name file-name) file-name))
   
-  (defun my/doom-modeline-buffer-file-truename ()
-    "Return buffer-file-truename filtered if necessary to display in Doom Modeline."
-    (let ((file-truename (file-local-name (or buffer-file-truename (file-truename buffer-file-name) ""))))
-      (if (my/org-roam-note-has-denote-title-p file-truename)
-          (my/org-roam-note-reformat-file-name file-truename) file-truename)))
-  (defun doom-modeline-buffer-file-name ()
-    "Propertize file name based on `doom-modeline-buffer-file-name-style'."
-    (let* ((buffer-file-name (my/doom-modeline-buffer-file-name))
-           (buffer-file-truename (my/doom-modeline-buffer-file-truename))
-           (file-name
-            (pcase doom-modeline-buffer-file-name-style
-              ('auto
-               (if (doom-modeline-project-p)
-                   (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shrink 'hide)
-                 (propertize "%b" 'face 'doom-modeline-buffer-file)))
-              ('truncate-upto-project
-               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink))
-              ('truncate-from-project
-               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename nil 'shrink))
-              ('truncate-with-project
-               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shink 'hide))
-              ('truncate-except-project
-               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shink))
-              ('truncate-upto-root
-               (doom-modeline--buffer-file-name-truncate buffer-file-name buffer-file-truename))
-              ('truncate-all
-               (doom-modeline--buffer-file-name-truncate buffer-file-name buffer-file-truename t))
-              ('truncate-nil
-               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename))
-              ('relative-to-project
-               (doom-modeline--buffer-file-name-relative buffer-file-name buffer-file-truename))
-              ('relative-from-project
-               (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename nil nil 'hide))
-              ('file-name
-               (propertize (file-name-nondirectory buffer-file-name)
-                           'face 'doom-modeline-buffer-file))
-              ((or 'buffer-name _)
-               (propertize "%b" 'face 'doom-modeline-buffer-file)))))
-      (propertize (if (string-empty-p file-name)
-                      (propertize "%b" 'face 'doom-modeline-buffer-file)
-                    file-name)
-                  'mouse-face 'mode-line-highlight
-                  'help-echo (concat buffer-file-truename
-                                     (unless (string= (file-name-nondirectory buffer-file-truename)
-                                                      (buffer-name))
-                                       (concat "\n" (buffer-name)))
-                                     "\nmouse-1: Previous buffer\nmouse-3: Next buffer")
-                  'local-map mode-line-buffer-identification-keymap)))
-  (setq doom-modeline-buffer-file-true-name nil
-        doom-modeline-project-detection 'auto
-        doom-modeline-buffer-file-name-style 'relative-from-project)
+  (setq doom-modeline-buffer-file-name-function #'my/doom-modeline-process-buffer-file-name)
+  (setq doom-modeline-buffer-file-truename-function #'my/doom-modeline-process-buffer-file-name)
   ;; Behavior
   ;; TODO: Check what each slug function does and minimize it. Currently doing both.
   (cl-defmethod org-roam-node-slug ((node org-roam-node))

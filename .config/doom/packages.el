@@ -3,6 +3,7 @@
 (package! beacon
   :recipe (:host github :repo "Malabarba/beacon")
   :pin "85261a928ae0ec3b41e639f05291ffd6bf7c231c")
+(unpin! doom-modeline) ; Update to latest version to support buffer file name pre-processing. See: #673
 (package! cape
   :recipe (:host github :repo "minad/cape")
   :pin "116063b9ee912cbaa7318dbe6597ade4a62b3f59")

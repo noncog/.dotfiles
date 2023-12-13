@@ -1277,6 +1277,12 @@ It's possible to reduce the description length for functions shown by which-key.
 
 ** Package
 
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages
+(unpin! doom-modeline) ; Update to latest version to support buffer file name pre-processing. See: #673
+#+end_src
+#+html:</details>
+
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
 (use-package! doom-modeline
@@ -1298,6 +1304,14 @@ It's possible to reduce the description length for functions shown by which-key.
 (setq doom-modeline-height 35)
 #+end_src
 
+*** File Names
+
+#+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
+(setq doom-modeline-buffer-file-true-name nil
+      doom-modeline-project-detection 'auto
+      doom-modeline-buffer-file-name-style 'relative-from-project)
+#+end_src
+
 *** Major Mode
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
@@ -1315,14 +1329,6 @@ It's possible to reduce the description length for functions shown by which-key.
 *** Persp Mode
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
-(setq doom-modeline-persp-name t
-      doom-modeline-display-default-persp-name t
-      doom-modeline-persp-icon t)
-#+end_src
-
-** Fixes
-
-#+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-init
 (setq doom-modeline-persp-name t
       doom-modeline-display-default-persp-name t
       doom-modeline-persp-icon t)
@@ -2928,7 +2934,7 @@ I want the database file to be included in the org-roam directory instead of the
 
 Since Org Roam and Denote both use unique identifiers in their filename, (which I've integrated) Doom Modeline needs updated to render their names normally so we can make it human readable and take advantage of the built-in style templates that Doom Modeline provides.
 
-I did this by rewriting =doom-modeline-buffer-file-name= to get the buffer file name from the following functions that I've written to decide whether or not the file name should be formatted or not.
+To do this, I got the ability to pre-process buffer file names added into Doom Modeline. We can simply define a function which is passed the file name which will decide if it should pre-process it or not and return the result to Doom Modeline for further styling.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config :results none
 (defun my/org-roam-note-has-denote-title-p (file-name)
@@ -2940,71 +2946,13 @@ I did this by rewriting =doom-modeline-buffer-file-name= to get the buffer file 
   "Remove Denote ID and keywords from Org Roam file names."
   (replace-regexp-in-string (concat denote-id-regexp "--") "" (replace-regexp-in-string denote-keywords-regexp "" file-name)))
 
-(defun my/doom-modeline-buffer-file-name ()
+(defun my/doom-modeline-process-buffer-file-name (file-name)
   "Return buffer-file-name filtered if necessary to display in Doom Modeline."
-  (let ((file-name (file-local-name (or (buffer-file-name (buffer-base-buffer)) ""))))
-    (if (my/org-roam-note-has-denote-title-p file-name)
-        (my/org-roam-note-reformat-file-name file-name) file-name)))
+  (if (my/org-roam-note-has-denote-title-p file-name)
+      (my/org-roam-note-reformat-file-name file-name) file-name))
 
-(defun my/doom-modeline-buffer-file-truename ()
-  "Return buffer-file-truename filtered if necessary to display in Doom Modeline."
-  (let ((file-truename (file-local-name (or buffer-file-truename (file-truename buffer-file-name) ""))))
-    (if (my/org-roam-note-has-denote-title-p file-truename)
-        (my/org-roam-note-reformat-file-name file-truename) file-truename)))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(defun doom-modeline-buffer-file-name ()
-  "Propertize file name based on `doom-modeline-buffer-file-name-style'."
-  (let* ((buffer-file-name (my/doom-modeline-buffer-file-name))
-         (buffer-file-truename (my/doom-modeline-buffer-file-truename))
-         (file-name
-          (pcase doom-modeline-buffer-file-name-style
-            ('auto
-             (if (doom-modeline-project-p)
-                 (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shrink 'hide)
-               (propertize "%b" 'face 'doom-modeline-buffer-file)))
-            ('truncate-upto-project
-             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink))
-            ('truncate-from-project
-             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename nil 'shrink))
-            ('truncate-with-project
-             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shink 'hide))
-            ('truncate-except-project
-             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename 'shrink 'shink))
-            ('truncate-upto-root
-             (doom-modeline--buffer-file-name-truncate buffer-file-name buffer-file-truename))
-            ('truncate-all
-             (doom-modeline--buffer-file-name-truncate buffer-file-name buffer-file-truename t))
-            ('truncate-nil
-             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename))
-            ('relative-to-project
-             (doom-modeline--buffer-file-name-relative buffer-file-name buffer-file-truename))
-            ('relative-from-project
-             (doom-modeline--buffer-file-name buffer-file-name buffer-file-truename nil nil 'hide))
-            ('file-name
-             (propertize (file-name-nondirectory buffer-file-name)
-                         'face 'doom-modeline-buffer-file))
-            ((or 'buffer-name _)
-             (propertize "%b" 'face 'doom-modeline-buffer-file)))))
-    (propertize (if (string-empty-p file-name)
-                    (propertize "%b" 'face 'doom-modeline-buffer-file)
-                  file-name)
-                'mouse-face 'mode-line-highlight
-                'help-echo (concat buffer-file-truename
-                                   (unless (string= (file-name-nondirectory buffer-file-truename)
-                                                    (buffer-name))
-                                     (concat "\n" (buffer-name)))
-                                   "\nmouse-1: Previous buffer\nmouse-3: Next buffer")
-                'local-map mode-line-buffer-identification-keymap)))
-#+end_src
-
-After setting up the correct file names, we can take advantage of Doom Modeline's file name rendering settings.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(setq doom-modeline-buffer-file-true-name nil
-      doom-modeline-project-detection 'auto
-      doom-modeline-buffer-file-name-style 'relative-from-project)
+(setq doom-modeline-buffer-file-name-function #'my/doom-modeline-process-buffer-file-name)
+(setq doom-modeline-buffer-file-truename-function #'my/doom-modeline-process-buffer-file-name)
 #+end_src
 
 ** Behavior
