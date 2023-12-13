@@ -532,7 +532,9 @@
            "TODO(t!)"     ; Task that needs doing & is ready to do.
            "APPT(a!)"     ; An appointment.
            "MEET(m!)"     ; A meeting.
-           "ISSUE(i!)"    ; An issue.
+           "IDEA(i!)"     ; An idea.
+           "ISSUE(I!)"    ; An issue.
+           "EVENT(e!)"    ; An event.
            "NEXT(N!)"     ; Task that needs doing & is ready to do.
            "WAIT(w@/!)"   ; Something is holding this up.
            "|"
