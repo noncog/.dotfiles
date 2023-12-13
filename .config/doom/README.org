@@ -821,14 +821,6 @@ This is an area of contention for me. Eventually I would like to overhaul this b
       (kill-local-variable `,local))))
 #+end_src
 
-**** Pixel Precision Scrolling
-
-For me, this new setting just works okay. I'm not sure if I will keep it.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(when (and IS-MAC (>= emacs-major-version 29)) (pixel-scroll-mode 1) (pixel-scroll-precision-mode 1))
-#+end_src
-
 *** Window Manager Integration
 
 I love tiling window managers. These configs allow me to seamlessly use some of their windowing controls inside of Emacs. I currently use [[https://i3wm.org][i3]] on Linux and [[https://github.com/koekeishiya/yabai][Yabai]] on macOS.

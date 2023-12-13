@@ -70,8 +70,6 @@
                      scroll-margin))
       (kill-local-variable `,local))))
 
-(when (and IS-MAC (>= emacs-major-version 29)) (pixel-scroll-mode 1) (pixel-scroll-precision-mode 1))
-
 (defun wm-win-cmd-in-direction (wm-cmd direction emacs-fn)
   (let ((tell-wm (concat (cond (IS-LINUX "i3-msg ") (IS-MAC "yabai -m window --")) wm-cmd " " direction)))
     (condition-case nil (funcall emacs-fn)
