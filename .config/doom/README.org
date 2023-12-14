@@ -754,7 +754,7 @@ Prevent shifting the buffer content whenever the line number count increases in 
 I like to disable the menu bar until I need it to avoid clutter.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(setq menu-bar-mode 0)
+(menu-bar-mode -1)
 #+end_src
 
 ** Behavior

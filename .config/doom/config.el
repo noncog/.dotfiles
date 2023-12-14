@@ -40,7 +40,7 @@
 
 (setq display-line-numbers-grow-only t)
 
-(setq menu-bar-mode 0)
+(menu-bar-mode -1)
 
 ;; Behavior
 
