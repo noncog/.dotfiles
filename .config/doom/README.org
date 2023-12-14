@@ -2784,30 +2784,30 @@ Org Capture lets you quickly insert into your org documents.
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
 (setq org-capture-templates
       `(("t" "Task" entry
-         (file+headline "node/20231006T043148--inbox.org" "Tasks")
+         (file+headline "node/20231006T043148--inbox__agenda.org" "Tasks")
          "* TODO (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
          :prepend t)
         ("i" "Issue" entry
-         (file+headline "node/20231006T043148--inbox.org" "Issues")
+         (file+headline "node/20231006T043148--inbox__agenda.org" "Issues")
          "* ISSUE (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
          :prepend t)
         ("n" "Note" entry
-         (file+headline "node/20231006T043148--inbox.org" "Notes")
+         (file+headline "node/20231006T043148--inbox__agenda.org" "Notes")
          "* NOTE (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
         ("?" "Question" entry
-         (file+headline "node/20231006T043148--inbox.org" "Questions")
+         (file+headline "node/20231006T043148--inbox__agenda.org" "Questions")
          "* QUESTION (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
         ("k" "Keybind" entry
-         (file+headline "node/20231006T043148--inbox.org" "Notes")
+         (file+headline "node/20231006T043148--inbox__agenda.org" "Notes")
          "* KEYBIND (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"KEYBIND\"       from              %U\n:END:\n%i" :prepend t)
         ("b" "Bookmark" entry
-         (file+headline "node/20231006T043148--inbox.org" "Bookmarks")
+         (file+headline "node/20231006T043148--inbox__agenda.org" "Bookmarks")
          "* LINK (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"LINK\"       from              %U\n:END:\n%i" :prepend t)
         ("a" "Appointment" entry
-         (file+headline "node/20231006T043148--inbox.org" "Tasks")
+         (file+headline "node/20231006T043148--inbox__agenda.org" "Tasks")
          "* APPT (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
         ("m" "Meeting" entry
-         (file+headline "node/20231006T043148--inbox.org" "Meeting")
+         (file+headline "node/20231006T043148--inbox__agenda.org" "Meeting")
          "* MEET (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)))
 #+end_src
 
