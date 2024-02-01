@@ -154,12 +154,12 @@ bindsym $mod+F11 fullscreen toggle
 #+begin_src conf :tangle config :noweb-ref keybinds
 # TODO: Rebind resizing windows keys.
 # horizontally
-#bindsym $mod+minus resize shrink width 40 px or 40 ppt
-#bindsym $mod+equal resize grow width 40 px or 40 ppt
+bindsym $mod+minus resize shrink width 10 px or 10 ppt
+bindsym $mod+equal resize grow width 10 px or 10 ppt
 
 # vertically
-#bindsym $mod+Shift+minus resize shrink height 40 px or 40 ppt
-#bindsym $mod+Shift+equal resize grow height 40 px or 40 ppt
+bindsym $mod+Shift+minus resize shrink height 10 px or 10 ppt
+bindsym $mod+Shift+equal resize grow height 10 px or 10 ppt
 #+end_src
 
 **** Balance Windows
