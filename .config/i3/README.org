@@ -228,6 +228,7 @@ exec_always --no-startup-id sleep 3 && perl $HOME/.config/i3/scripts/i3-emacs-mo
 *** Firefox
 
 #+begin_src conf :tangle config
+set $firefox_command "firefox -profile $HOME/.config/firefox/noncog"
 set $firefox "2:Firefox"
 workspace $firefox output $external $laptop
 assign [class="Firefox-esr"] $firefox
@@ -235,13 +236,8 @@ assign [class="Firefox-esr"] $firefox
 
 #+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+f [class="Firefox-esr" tiling] focus
-bindsym $mod+Shift+f exec --no-startup-id firefox -profile $HOME/.config/firefox/noncog
+bindsym $mod+Shift+f exec --no-startup-id $firefox_command
 bindsym $mod+Control+Shift+f move container to workspace $firefox
-#+end_src
-
-#+begin_src conf :tangle config
-# firefox
-exec --no-startup-id sleep 4 && firefox
 #+end_src
 
 *** Code (IDE)

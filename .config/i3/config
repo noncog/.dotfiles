@@ -147,7 +147,7 @@ bindsym $mod+e [class="Emacs"] focus
 bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""; workspace number $emacs
 bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+f [class="Firefox-esr" tiling] focus
-bindsym $mod+Shift+f exec --no-startup-id firefox -profile $HOME/.config/firefox/noncog
+bindsym $mod+Shift+f exec --no-startup-id $firefox_command
 bindsym $mod+Control+Shift+f move container to workspace $firefox
 bindsym $mod+c [class="jetbrains-clion"] focus
 # TODO: Set up launching command.
@@ -186,16 +186,14 @@ bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 }
 exec_always --no-startup-id sleep 3 && perl $HOME/.config/i3/scripts/i3-emacs-mode.pl
 
+set $firefox_command "firefox -profile $HOME/.config/firefox/noncog"
 set $firefox "2:Firefox"
 workspace $firefox output $external $laptop
 assign [class="Firefox-esr"] $firefox
 
 bindsym $mod+f [class="Firefox-esr" tiling] focus
-bindsym $mod+Shift+f exec --no-startup-id firefox -profile $HOME/.config/firefox/noncog
+bindsym $mod+Shift+f exec --no-startup-id $firefox_command
 bindsym $mod+Control+Shift+f move container to workspace $firefox
-
-# firefox
-exec --no-startup-id sleep 4 && firefox
 
 set $code "3:Code"
 workspace $code output $external $laptop
