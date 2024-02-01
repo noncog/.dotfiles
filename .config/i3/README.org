@@ -100,11 +100,11 @@ bindsym $mod+l [con_id="__focused__" class="^(?!Emacs)"] focus right
 
 *** Move Window
 
-#+begin_src conf :tangle config :noweb-ref keybinds
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+#+begin_src conf :tangle config
+bindsym $mod+Shift+h [con_id="__focused__" class="^(?!Emacs)"] move left
+bindsym $mod+Shift+j [con_id="__focused__" class="^(?!Emacs)"] move down
+bindsym $mod+Shift+k [con_id="__focused__" class="^(?!Emacs)"] move up
+bindsym $mod+Shift+l [con_id="__focused__" class="^(?!Emacs)"] move right
 #+end_src
 
 *** Split Windows

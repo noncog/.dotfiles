@@ -40,10 +40,10 @@ bindsym $mod+j [con_id="__focused__" class="^(?!Emacs)"] focus down
 bindsym $mod+k [con_id="__focused__" class="^(?!Emacs)"] focus up
 bindsym $mod+l [con_id="__focused__" class="^(?!Emacs)"] focus right
 
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+h [con_id="__focused__" class="^(?!Emacs)"] move left
+bindsym $mod+Shift+j [con_id="__focused__" class="^(?!Emacs)"] move down
+bindsym $mod+Shift+k [con_id="__focused__" class="^(?!Emacs)"] move up
+bindsym $mod+Shift+l [con_id="__focused__" class="^(?!Emacs)"] move right
 
 bindsym $mod+v split h
 bindsym $mod+s split v
@@ -107,10 +107,6 @@ bindsym $mod+Control+Shift+e move container to workspace $emacs
 exec --no-startup-id sleep 3 && emacs --daemon
 
 mode "emacs" {
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
 # make window float
 bindsym $mod+Shift+space floating toggle
 
