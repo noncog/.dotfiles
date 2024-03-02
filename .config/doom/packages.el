@@ -3,15 +3,19 @@
 (package! beacon
   :recipe (:host github :repo "Malabarba/beacon")
   :pin "85261a928ae0ec3b41e639f05291ffd6bf7c231c")
-(unpin! doom-modeline) ; Update to latest version to support buffer file name pre-processing. See: #673
-(package! cape
-  :recipe (:host github :repo "minad/cape")
-  :pin "116063b9ee912cbaa7318dbe6597ade4a62b3f59")
-
+(package! doom-modeline ; See: #673
+  :recipe (:host github :repo "seagle0128/doom-modeline")
+  :pin "cfc7bcf1494cb0634a1464dc40a4a1a1e337cb37")
 (package! denote
   :recipe (:host github :repo "protesilaos/denote")
   :pin "95a9824ff8d1003985bfd83114ea8a16265047dc")
 
+;; Downgrade to 9.6.9 due to incompatibility with org-ql
+(package! org :pin "806abc5a2bbcb5f884467a0145547221ba09eb59")
+
+(package! org-ql
+  :recipe (:host github :repo "alphapapa/org-ql")
+  :pin "9606aaf81230d1faf2c7f54925b45e527fa32bf0")
 ;(unpin! org-roam) ; Update to latest version to support org-roam-ui
 ;; The following version for some reason began crashing my Doom... (6/10/23)
 ;; (package! org-roam
@@ -19,6 +23,9 @@
 ;;  :pin "5c06471c3a11348342719fd9011486455adeb701")
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui"))
+(package! orca
+  :recipe (:host github :repo "abo-abo/orca")
+  :pin "0687f416a5573f63b691d384454f5a793266ed97")
 (package! vulpea
   :recipe (:host github :repo "d12frosted/vulpea")
   :pin "de199a16e294056e2368a2e031b19008cf9f9e52")

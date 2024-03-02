@@ -40,8 +40,6 @@
 
 (setq display-line-numbers-grow-only t)
 
-(menu-bar-mode -1)
-
 ;; Behavior
 
 (setq evil-want-fine-undo t)
@@ -170,6 +168,23 @@
                     mac-control-modifier 'meta   ; Maps Control -> Alt (Meta)
                     mac-option-modifier 'super)) ; Maps Option -> Super
 
+(map! :leader "h t" nil
+      :leader "t t" #'load-theme
+      :leader "h T" nil
+      :leader "t T" #'doom/toggle-profiler
+      :leader :desc "Menu-bar mode" "t m" #'toggle-menu-bar-mode-from-frame)
+
+(when IS-MAC
+  (map! "C-s-f" nil ; Frame fullscreen toggle is broken on macOS.
+   :leader "t F" nil))
+
+(defun my/find-file-from-home ()
+  "Start find-file frome $HOME."
+  (interactive)
+  (find-file (expand-file-name "~/")))
+
+(map! :leader "f h" #'my/find-file-from-home)
+
 (use-package! avy
   :defer t
   :config
@@ -251,11 +266,11 @@
   :config
   ;; Appearance
   (setq doom-modeline-height 35)
-  (setq doom-modeline-buffer-file-true-name nil
+  (setq doom-modeline-buffer-file-true-name t
         doom-modeline-project-detection 'auto
         doom-modeline-buffer-file-name-style 'relative-from-project)
-  (setq doom-modeline-major-mode-icon t
-        doom-modeline-major-mode-color-icon t)
+  (setq doom-modeline-major-mode-icon (display-graphic-p)
+        doom-modeline-major-mode-color-icon (display-graphic-p))
   (setq doom-modeline-vcs-max-length 60
         auto-revert-check-vc-info t)
   (setq doom-modeline-persp-name t
@@ -332,10 +347,6 @@
     '(company-capf company-files :with company-yasnippet))
   (set-company-backend! 'sh-mode
     '(company-shell company-files :with company-yasnippet)))
-
-(use-package! cape
-  :init
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block))
 
 (use-package! yasnippet
   :defer t
@@ -484,7 +495,14 @@
   (setq git-commit-fill-column 72)        ; Description column limit.
   (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
   (add-to-list 'git-commit-finish-query-functions
-               #'my-git-commit-check-style-conventions))
+               #'my-git-commit-check-style-conventions)
+  (defun my/magit-edit-bare-dotfile ()
+    "Select a dotfile to edit."
+    (interactive)
+    (let ((default-directory (expand-file-name "~/")))
+      (list "{worktree}" (magit-read-file-from-rev "HEAD" "Find .dotfile"))))
+  
+  (map! :leader :desc "Edit .dotfiles" "g d" #'my/magit-edit-bare-dotfile))
 
 (use-package! vterm
   :defer t
@@ -505,7 +523,7 @@
   :custom
   (visual-fill-column-width 100)
   (visual-fill-column-center-text t)
-  :hook (org-mode . visual-fill-column-mode)
+  ;:hook (org-mode . visual-fill-column-mode)
   :config
   ;; Fixes
   (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust))
@@ -520,6 +538,7 @@
   (setq org-id-ts-format denote-id-format
         org-id-method 'ts)
   (setq denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:DATE: %2$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n")
+  ;;(setq denote-dired-directories-include-subdirectories t)
   )
 
 (use-package! org
@@ -590,6 +609,40 @@
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-use-outline-path 'file)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
+  (defun my/org-remove-all-tags ()
+    "Remove all tags for the current Org heading."
+    (interactive)
+    (org-set-tags nil))
+  (defun my/org-capture-print-help-link ()
+    "Prints a link as a result for use in an org-capture result function."
+    (interactive)
+    (let* ((link (pop org-stored-links))
+          (left (car link))
+          (right (cadr link)))
+    (format "[[%s][%s]]" left right)))
+  
+  (defun my/org-store-help-link (symbol)
+    "Select symbol from prompt or point and insert link to help page for it."
+      (push (list (format "help:%s" symbol) symbol) org-stored-links))
+  
+  (defun my/org-insert-last-link (symbol)
+    "Select symbol from prompt or point and insert link to help page for it."
+      (my/org-store-help-link symbol)
+      (org-insert-all-links 1 "" ""))
+  
+  (defun my/org-insert-symbol-link ()
+    "Select symbol from prompt or point and insert link to help page for it."
+    (interactive)
+    (let ((symbol (symbol-name (helpful--read-symbol
+                                "Symbol: " (helpful--symbol-at-point)
+                                #'helpful--bound-p))))
+      (my/org-insert-last-link symbol)))
+  (map! :map (embark-symbol-map
+              embark-variable-map
+              embark-function-map
+              embark-command-map)
+        "I" #'my/org-insert-help-link
+        "l" #'my/org-store-help-link)
   (add-to-list 'org-tags-exclude-from-inheritance "agenda"))
 
 (use-package! org-agenda
@@ -665,7 +718,7 @@
              (org-agenda-overriding-header " Agenda\n")
              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
              (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a, %b %-e %y")  ; american date format
+             (org-agenda-format-date " %a, %b %-e")  ; american date format
              (org-agenda-start-on-weekday nil)          ; start today
              (org-agenda-start-day nil)                 ; don't show previous days
              (org-agenda-span 1)                        ; only show today
@@ -677,6 +730,7 @@
              ;(org-agenda-todo-keyword-format "%-4s")
              (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
              (org-agenda-dim-blocked-tasks nil)
+             ;; TODO: Fix inbox not-skipping... Since I no longer have that tag.
              (org-agenda-skip-function '(noncog/skip-tag "inbox"))
              (org-agenda-entry-types '(:timestamp :deadline :scheduled))
              ))
@@ -687,7 +741,7 @@
              (org-agenda-overriding-header "")
              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
              (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a %b %-e")
+             (org-agenda-format-date " %a, %b %-e")
              (org-agenda-start-on-weekday nil)
              (org-agenda-start-day "+1d")
              (org-agenda-span 3)
@@ -707,15 +761,16 @@
              (org-agenda-overriding-header "\n Coming Up\n")
              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
              (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a %b %-e")
+             (org-agenda-format-date " %a, %b %-e")
              (org-agenda-start-on-weekday nil)
              (org-agenda-start-day "+4d")
-             (org-agenda-span 14)
+             (org-agenda-span 28)
              (org-scheduled-past-days 0)
              (org-deadline-warning-days 0)
              (org-agenda-time-leading-zero t)
              (org-agenda-time-grid nil)
-             (org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+             ;(org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+             (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
              ;(org-agenda-todo-keyword-format "%-4s")
              (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
              (org-agenda-entry-types '(:deadline :scheduled))
@@ -728,7 +783,7 @@
              (org-agenda-overriding-header "\n Past Due\n")
              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
              (org-agenda-block-separator nil)
-             (org-agenda-format-date "%a %b %-e")
+             (org-agenda-format-date " %a, %b %-e")
              (org-agenda-start-on-weekday nil)
              (org-agenda-start-day "-60d")
              (org-agenda-span 60)
@@ -799,50 +854,80 @@
 
 (use-package! org-capture
   :defer t
-  :init
-  
+  ;;:init
+  ;;
   :config
   ;; Variables
   ;(setq +org-capture-fn #'org-roam-capture)
-  (defun my/org-capture-context ()
-    "Find an Org Roam node related to the current context for use with org-capture-templates."
-    ;; TODO: Currently context is only able to be related to an org roam node.
-    ;; TODO: Consider wrapping in after! to ensure loads correctly.
-    (interactive)
-    (let* ((projectile-project (projectile-project-name))
-           (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
-           (description (org-roam-node-formatted node))
-           (id (org-roam-node-id node)))
-      (if id (org-link-make-string (concat "id:" id) description) " ")
-      ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
-      ))
+  ;; (defun my/org-capture-context ()
+  ;;   "Find an Org Roam node related to the current context for use with org-capture-templates."
+  ;;   ;; TODO: Rewrite to use org-bookmark!
+  ;;   ;; TODO: Currently context is only able to be related to an org roam node.
+  ;;   ;; TODO: Consider wrapping in after! to ensure loads correctly.
+  ;;   (interactive)
+  ;;   (let* ((projectile-project (projectile-project-name))
+  ;;          (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
+  ;;          (description (org-roam-node-formatted node))
+  ;;          (id (org-roam-node-id node)))
+  ;;     (if id (org-link-make-string (concat "id:" id) description) " ")
+  ;;     ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
+  ;;     ))
   (setq org-capture-templates
         `(("t" "Task" entry
-           (file+headline "node/20231006T043148--inbox__agenda.org" "Tasks")
-           "* TODO (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
+           (file+headline "inbox.org" "Tasks")
+           "* TODO %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
            :prepend t)
           ("i" "Issue" entry
-           (file+headline "node/20231006T043148--inbox__agenda.org" "Issues")
-           "* ISSUE (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
+           (file+headline "inbox.org" "Issues")
+           "* ISSUE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
            :prepend t)
           ("n" "Note" entry
-           (file+headline "node/20231006T043148--inbox__agenda.org" "Notes")
-           "* NOTE (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
+           (file+headline "inbox.org" "Notes")
+           "* NOTE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
           ("?" "Question" entry
-           (file+headline "node/20231006T043148--inbox__agenda.org" "Questions")
-           "* QUESTION (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
-          ("k" "Keybind" entry
-           (file+headline "node/20231006T043148--inbox__agenda.org" "Notes")
-           "* KEYBIND (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"KEYBIND\"       from              %U\n:END:\n%i" :prepend t)
+           (file+headline "inbox.org" "Questions")
+           "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
           ("b" "Bookmark" entry
-           (file+headline "node/20231006T043148--inbox__agenda.org" "Bookmarks")
-           "* LINK (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"LINK\"       from              %U\n:END:\n%i" :prepend t)
+           (function org-bookmark-location)
+           "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n %i%?" :prepend t)
           ("a" "Appointment" entry
-           (file+headline "node/20231006T043148--inbox__agenda.org" "Tasks")
-           "* APPT (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
+           (file+headline "inbox.org" "Tasks")
+           "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
           ("m" "Meeting" entry
-           (file+headline "node/20231006T043148--inbox__agenda.org" "Meeting")
-           "* MEET (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)))
+           (file+headline "inbox.org" "Meeting")
+           "* MEET %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)
+          ("s" "Symbol" table-line
+             (function org-bookmark-symbol)
+             "|%(my/org-capture-print-help-link)|%?||" :table-line-pos "III-1" :immediate-finish t)
+          ("h" "Here")
+          ("hh" "Heading" entry
+           (here)
+           "* %?\n:PROPERTIES:\n:DATE: %U\n:END:\n"
+           :prepend nil)
+          ("ht" "Task" entry
+           (here)
+           "* TODO %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
+           :prepend nil)
+          ("hi" "Issue" entry
+           (here)
+           "* ISSUE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
+           :prepend nil)
+          ("hn" "Note" entry
+           (here)
+           "* NOTE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend nil)
+          ("h?" "Question" entry
+           (here)
+           "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend nil)
+          ("hb" "Bookmark" entry
+           (here)
+           "* %(org-cliplink-capture)\n:PROPERTIES:\n:DATE: %U\n:END:\n%?" :prepend nil)
+          ("ha" "Appointment" entry
+           (here)
+           "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend nil)
+          ("hm" "Meeting" entry
+           (here)
+           "* MEET %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend nil)
+          ))
   (set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
   
   (set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
@@ -850,16 +935,24 @@
   ;; Behavior
   (setq org-capture-bookmark nil)
   ;; Fixes
-  (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
-    :around #'+org--restart-mode-h
-    (let ((old-org-capture-current-plist
-           (and (bound-and-true-p org-capture-mode)
-                (bound-and-true-p org-capture-current-plist))))
-      (apply fn args)
-      (when old-org-capture-current-plist
-        (setq-local org-capture-current-plist old-org-capture-current-plist)
-        (org-capture-mode +1))))
-  (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t)))
+  ;; (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
+  ;;   :around #'+org--restart-mode-h
+  ;;   (let ((old-org-capture-current-plist
+  ;;          (and (bound-and-true-p org-capture-mode)
+  ;;               (bound-and-true-p org-capture-current-plist))))
+  ;;     (apply fn args)
+  ;;     (when old-org-capture-current-plist
+  ;;       (setq-local org-capture-current-plist old-org-capture-current-plist)
+  ;;       (org-capture-mode +1))))
+  ;; (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
+  )
+
+(use-package! org-ql
+  :defer t
+  :after denote)
+;; (use-package! org-ql-search
+;;   :after org-roam)
+  ;:autoload org-dblock-write:org-ql)
 
 (use-package! org-roam
   :defer t
@@ -1026,6 +1119,10 @@
   (add-hook 'before-save-hook #'my/org-roam-pre-save-hook)
   (advice-add 'org-agenda :before #'my/org-roam-update-agenda-files)
   (advice-add 'org-todo-list :before #'my/org-roam-update-agenda-files)
+  (defun my/org-roam-agenda-files ()
+    "Select from and visit an Org Roam node tagged with 'agenda'"
+    (interactive)
+    (org-roam-node-find nil "agenda"))
   (setq org-refile-targets '((org-agenda-files :maxlevel . 5) (org-roam-list-files :maxlevel . 5)))
   (setq org-agenda-prefix-format
         '((agenda . " %i %-12(my/org-roam-agenda-category)%?-12t% s")
@@ -1072,15 +1169,6 @@
   (setq org-roam-capture-templates
         '(("n" "node" plain "%?"
            :target (file+head "node/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t)
-          ("p" "project" plain "%?"
-           :target (file+head "project/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t)
-          ("a" "area" plain "%?"
-           :target (file+head "area/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
-           :unnarrowed t)
-          ("b" "blog" plain "%?"
-           :target (file+head "blog/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
            :unnarrowed t)))
   (defun my/org-roam-file-property-p (property)
     (let ((has-prop (org-find-property property)))
@@ -1092,6 +1180,9 @@
     (save-excursion
       (unless (my/org-roam-file-property-p "DATE")
         (org-set-property "DATE" (denote-date-org-timestamp (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
+  
+  ;; TODO: Add ability to modify category based on other contexts such as log files.
+  ;; - This should ultimately work based off of a parent directory name list. Or use manual correction...
   
   (defun my/org-roam-add-new-property-category ()
     "Set the 'CATEGORY' file property using the 'buffer-file-name'."
@@ -1110,7 +1201,7 @@
   ;; Behavior
   (setq org-roam-capture-ref-templates
         '(("r" "ref" plain "%?"
-           :target (file+head "reference/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
+           :target (file+head "resource/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
           :unnarrowed t)))
   (setq org-roam-protocol-store-links t))
 
@@ -1187,34 +1278,35 @@
   ;; Behavior
   (setq org-roam-ui-follow t
         org-roam-ui-update-on-save t)
-  (setq org-roam-ui-open-on-start nil
-        org-roam-ui-browser-function #'my/+lookup-xwidget-webkit-open-url-fn)
+  (setq org-roam-ui-open-on-start nil)
+        ;org-roam-ui-browser-function #'my/+lookup-xwidget-webkit-open-url-fn)
   (defun my/+org-roam-ui-popup-kill (roam-ui-popup-buffer)
     (progn (+popup--kill-buffer roam-ui-popup-buffer 0.1) (org-roam-ui-mode -1)))
   ;(setq display-buffer-mark-dedicated t)
-  (set-popup-rule! "\\*xwidget"
-    :side 'right :width 0.33 :height 0.5 :ttl #'my/+org-roam-ui-popup-kill :slot -1 :quit nil :modeline nil)
-  (defadvice! my/+org-roam-ui--on-msg-open-node (data)
-    "Open a node CAREFULLY when receiving DATA from the websocket."
-    :override #'org-roam-ui--on-msg-open-node
-    (let* ((id (alist-get 'id data))
-           (node (org-roam-node-from-id id))
-           (pos (org-roam-node-point node))
-           (buf (find-file-noselect (org-roam-node-file node))))
-      (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
-      (unless (window-live-p org-roam-ui--window)
-        (if-let ((windows (cl-set-difference (doom-visible-windows) (list (minibuffer-window))))
-                 (newest-window (car (seq-sort-by #'window-use-time #'> windows))))
-            (setq org-roam-ui--window newest-window)
-          (setq org-roam-ui--window newest-window)))
-      (set-window-buffer org-roam-ui--window buf)
-      (select-window org-roam-ui--window)
-      (goto-char pos)
-      (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
-  (defadvice! +org-roam-ui-always-sync-theme ()
-    "Always sync da theme..."
-    :after #'org-roam-ui-open
-    (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme)))))))))
+  ;; (set-popup-rule! "\\*xwidget"
+  ;;   :side 'right :width 0.33 :height 0.5 :ttl #'my/+org-roam-ui-popup-kill :slot -1 :quit nil :modeline nil)
+  ;; (defadvice! my/+org-roam-ui--on-msg-open-node (data)
+  ;;   "Open a node CAREFULLY when receiving DATA from the websocket."
+  ;;   :override #'org-roam-ui--on-msg-open-node
+  ;;   (let* ((id (alist-get 'id data))
+  ;;          (node (org-roam-node-from-id id))
+  ;;          (pos (org-roam-node-point node))
+  ;;          (buf (find-file-noselect (org-roam-node-file node))))
+  ;;     (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
+  ;;     (unless (window-live-p org-roam-ui--window)
+  ;;       (if-let ((windows (cl-set-difference (doom-visible-windows) (list (minibuffer-window))))
+  ;;                (newest-window (car (seq-sort-by #'window-use-time #'> windows))))
+  ;;           (setq org-roam-ui--window newest-window)
+  ;;         (setq org-roam-ui--window newest-window)))
+  ;;     (set-window-buffer org-roam-ui--window buf)
+  ;;     (select-window org-roam-ui--window)
+  ;;     (goto-char pos)
+  ;;     (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
+  ;; (defadvice! +org-roam-ui-always-sync-theme ()
+  ;;   "Always sync da theme..."
+  ;;   :after #'org-roam-ui-open
+  ;;   (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme))))))))
+  )
 
 (use-package! org-roam-dailies
   :after org-roam
@@ -1225,6 +1317,168 @@
   (setq org-roam-dailies-capture-templates
         '(("d" "default" entry "* %?"
            :target (file+head "%<%Y%m%dT%H%M%S>--log.org" "#+title: Log\n"))))
+  )
+
+(defvar org-bookmark--format-hash (make-hash-table :test #'equal)
+  "A hash of (DOMAIN TITLE-FORMATTER) to be applied to link titles.")
+
+(defun org-bookmark-add-link-formatter (domain title-transformer)
+  "Adds a DOMAIN and associated TITLE-TRANSFORMER to the org-bookmark--format-hash"
+  (puthash domain title-transformer org-bookmark--format-hash))
+
+(defun org-bookmark-replace-in-link-title (regex replacement)
+  "Replace REGEX of a link's title with REPLACEMENT."
+  (lambda (title)
+    (replace-regexp-in-string regex replacement title)))
+
+(defun org-bookmark-format-stored-link ()
+  "Return a pretty-printed top of `org-stored-links'."
+  (let* ((link (caar org-stored-links))
+         (title (cl-cadar org-stored-links))
+         (parsed-link (url-generic-parse-url link))
+         (domain (concat (url-type parsed-link) "://" (url-host parsed-link)))
+         (formatter (gethash domain org-bookmark--format-hash)))
+    (progn (unless org-link-keep-stored-after-insertion (pop org-stored-links))
+    (org-link-make-string link (if formatter (funcall formatter title) title)))))
+
+(defun org-bookmark-format-link ()
+  (if org-stored-links
+      (org-bookmark-format-stored-link)
+      (when (fboundp 'org-cliplink-capture) (org-cliplink-capture))))
+
+(defvar org-bookmark-location-handlers nil
+  "List of bookmark location handlers by priority.
+
+Each item is a function of zero arguments that opens an
+appropiriate file/line and returns non-nil on match.")
+
+(defun org-bookmark-handler-file-heading (file heading)
+  "Open or create the FILE and HEADING to insert a bookmark at."
+  (set-buffer (org-capture-target-buffer file))
+  (unless (derived-mode-p 'org-mode)
+    (org-display-warning
+     (format "Capture requirement: switching buffer %S to Org mode"
+             (current-buffer)))
+    (org-mode))
+  (org-capture-put-target-region-and-position)
+  (widen)
+  (goto-char (point-min))
+  (if (re-search-forward (format org-complex-heading-regexp-format
+                                 (regexp-quote heading)) nil t)
+      (beginning-of-line)
+    (goto-char (point-max))
+    (unless (bolp) (insert "\n"))
+    (insert "* " heading "\n")
+    (beginning-of-line 0))
+  t)
+
+(defun org-bookmark-handler-match-url (regex file heading)
+  "For link matching REGEX select FILE at HEADING."
+  (if
+      (caar org-stored-links)
+      (when (string-match regex (caar org-stored-links))
+        (org-bookmark-handler-file-heading file heading))
+    (when (string-match regex (string-trim (substring-no-properties
+                                                (current-kill 0))))
+      (org-bookmark-handler-file-heading file heading))))
+
+(defvar org-bookmark-append-style 'beginning)
+
+(defun org-bookmark-append-style-valid-p ()
+  (if (and (symbolp org-bookmark-append-style)
+           (member org-bookmark-append-style (list 'nil 'beginning 'end)))
+           t nil))
+
+;; TODO: These need some work, steal from org capture insertion commands.
+(defun org-bookmark-append-content (initial-content)
+  (unless (org-bookmark-append-style-valid-p)
+    (error "Invalid org-bookmark appending style '%s'" org-bookmark-append-style))
+  (when (eq org-bookmark-append-style 'beginning)
+    (progn
+      (org-end-of-meta-data t)
+      (insert initial-content "\n")))
+  (when (eq org-bookmark-append-style 'end)
+    (progn
+      (outline-next-heading)
+      (beginning-of-line 0)
+      (insert initial-content "\n"))))
+
+(defun org-bookmark-find-rg ()
+  (unless (executable-find "rg")
+    (error "Org-bookmark could not find rg in your path!")))
+
+(defun org-bookmark-find-link ()
+  (let* ((link (if (caar org-stored-links)
+                   (caar org-stored-links)
+                 (string-trim (substring-no-properties (current-kill 0)))))
+         (old-links
+          (split-string (shell-command-to-string
+                         (format "rg -Fn '[%s]' %s" link org-directory))
+                        "\n" t)))
+    (if old-links
+        (let ((old-link (car old-links)))
+          (if (string-match "^\\(.*\\):\\([0-9]+\\):\\(.*\\)$" old-link)
+              (let ((file (match-string 1 old-link))
+                    (line (string-to-number (match-string 2 old-link))))
+                (find-file file)
+                (goto-char (point-min))
+                (forward-line (1- line))
+                (if (string-match-p "https://www.youtube.com" link)
+                    (not (y-or-n-p "old link: redo?"))
+                  (message "%d old link(s)" (length old-links)) t))
+            (error "Could not match %s" old-link)))
+      nil)))
+
+(defun org-bookmark-capture-kill ()
+  (let ((initial-content (plist-get org-store-link-plist :initial)))
+    (when (and org-bookmark-append-style initial-content (not (string-empty-p initial-content)))
+      (org-bookmark-append-content initial-content))
+    (unless org-link-keep-stored-after-insertion (pop org-stored-links))
+    (org-capture-kill)))
+
+(defun org-bookmark-handle-location ()
+  (let ((hands org-bookmark-location-handlers)
+        hand)
+    (while (and (setq hand (pop hands))
+                (null
+                 (apply (car hand) (cdr hand)))))))
+
+(defun org-bookmark-location ()
+  "Selects a location to store the current bookmark link."
+  (if (org-bookmark-find-link)
+      (org-bookmark-capture-kill)
+    (org-bookmark-handle-location)))
+
+(org-bookmark-add-link-formatter "https://github.com" (org-bookmark-replace-in-link-title ":[ ].*$?" ""))
+
+;;(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
+(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
+
+(defun org-bookmark-symbol ()
+  (let ((symbol (symbol-name (helpful--read-symbol
+                              "Symbol: " (helpful--symbol-at-point)
+                              #'helpful--bound-p))))
+    (my/org-store-help-link symbol)
+    (apply #'org-bookmark-handler-file-heading '("~/Documents/notes/area/20231006T042354--emacs.org" "Useful Symbols and Keybinds"))))
+
+(use-package! orca
+  :after org-protocol
+  ;;; Variables
+  ;;; (setq orca-handler-list
+  ;;;       '((orca-handler-match-url
+  ;;;          "https://www.reddit.com"         "/home/noncog/Documents/notes/wiki/emacs.org"
+  ;;;          "\\ * Reddit")))
+  ;(setq orca-handler-list
+  ;      '((orca-handler-match-url
+  ;         "https://www.reddit.com/emacs/"
+  ;         "~/Documents/notes/wiki/emacs.org"
+  ;         "Reddit")
+  ;        (orca-handler-match-url
+  ;         "https://emacs.stackexchange.com/"
+  ;         "~/Documents/notes/wiki/emacs.org"
+  ;         "\\* Questions")
+  ;        (orca-handler-current-buffer
+  ;         "\\* Tasks")))
   )
 
 (use-package! org-appear
@@ -1462,16 +1716,10 @@
       ("-i" "%d" (unless indent-tabs-mode tab-width))
       ("-ln" "%s" (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix"))))))
 
-;;;; Allow editing of binary .scpt files (applescript) on mac.
-(add-to-list 'jka-compr-compression-info-list
-             `["\\.scpt\\'"
-               "converting text applescript to binary applescprit "
-               ,(expand-file-name "applescript-helper.sh" doom-user-dir) nil
-               "converting binary applescript to text applescprit "
-               ,(expand-file-name "applescript-helper.sh" doom-user-dir) ("-d")
-               nil t "FasdUAS"])
-;;It is necessary to perform an update!
-(jka-compr-update)
+(defun sp-wrap-quote ()
+  "Wrap following sexp in quotes."
+  (interactive "*")
+  (sp-wrap-with-pair "\""))
 
 (defun org-execute-named-src-block-in-lit-config ()
   (interactive)

@@ -17,8 +17,7 @@
 <!-- Description -->
 <p><code>This is my <a href="https://github.com/doomemacs/doomemacs">Doom</a> <a href="https://www.gnu.org/software/emacs/">Emacs</a> configuration.</code></p>
 
-</div
->
+</div>
 #+end_html
 
 * Table of Contents :TOC:QUOTE:
@@ -91,6 +90,7 @@
 - [[#magit][Magit]]
   - [[#package-14][Package]]
   - [[#behavior-11][Behavior]]
+  - [[#helpers][Helpers]]
 - [[#vterm][Vterm]]
   - [[#package-15][Package]]
   - [[#variables-2][Variables]]
@@ -109,89 +109,93 @@
   - [[#appearance-6][Appearance]]
   - [[#behavior-13][Behavior]]
   - [[#fixes-4][Fixes]]
+  - [[#helpers-1][Helpers]]
 - [[#org-agenda][Org Agenda]]
   - [[#package-19][Package]]
   - [[#appearance-7][Appearance]]
   - [[#behavior-14][Behavior]]
   - [[#keybinds-7][Keybinds]]
-  - [[#helpers][Helpers]]
+  - [[#helpers-2][Helpers]]
 - [[#org-capture][Org Capture]]
   - [[#package-20][Package]]
   - [[#variables-5][Variables]]
   - [[#behavior-15][Behavior]]
   - [[#fixes-5][Fixes]]
-- [[#org-roam][Org Roam]]
+- [[#org-ql][Org QL]]
   - [[#package-21][Package]]
+- [[#org-roam][Org Roam]]
+  - [[#package-22][Package]]
   - [[#resources-2][Resources]]
   - [[#variables-6][Variables]]
   - [[#appearance-8][Appearance]]
   - [[#behavior-16][Behavior]]
   - [[#keybinds-8][Keybinds]]
 - [[#org-roam-capture][Org Roam Capture]]
-  - [[#package-22][Package]]
+  - [[#package-23][Package]]
   - [[#variables-7][Variables]]
 - [[#org-roam-protocol][Org Roam Protocol]]
-  - [[#package-23][Package]]
+  - [[#package-24][Package]]
   - [[#behavior-17][Behavior]]
 - [[#org-roam-ui][Org Roam UI]]
-  - [[#package-24][Package]]
+  - [[#package-25][Package]]
   - [[#appearance-9][Appearance]]
   - [[#behavior-18][Behavior]]
   - [[#keybinds-9][Keybinds]]
 - [[#org-roam-dailies][Org Roam Dailies]]
-  - [[#package-25][Package]]
-  - [[#variables-8][Variables]]
-- [[#vulpea][Vulpea]]
   - [[#package-26][Package]]
-- [[#org-gtd][Org GTD]]
+  - [[#variables-8][Variables]]
+- [[#org-bookmark][Org Bookmark]]
+- [[#orca][Orca]]
   - [[#package-27][Package]]
   - [[#variables-9][Variables]]
+- [[#vulpea][Vulpea]]
+  - [[#package-28][Package]]
+- [[#org-gtd][Org GTD]]
+  - [[#package-29][Package]]
+  - [[#variables-10][Variables]]
   - [[#behavior-19][Behavior]]
   - [[#keybinds-10][Keybinds]]
 - [[#org-appear][Org Appear]]
-  - [[#package-28][Package]]
+  - [[#package-30][Package]]
   - [[#appearance-10][Appearance]]
 - [[#org-fragtog][Org Fragtog]]
-  - [[#package-29][Package]]
+  - [[#package-31][Package]]
 - [[#org-modern][Org Modern]]
-  - [[#package-30][Package]]
+  - [[#package-32][Package]]
   - [[#appearance-11][Appearance]]
 - [[#org-link][Org Link]]
-  - [[#package-31][Package]]
+  - [[#package-33][Package]]
 - [[#toc-org][TOC Org]]
-  - [[#package-32][Package]]
+  - [[#package-34][Package]]
   - [[#behavior-20][Behavior]]
 - [[#ox-org-export][Ox (Org Export)]]
-  - [[#package-33][Package]]
+  - [[#package-35][Package]]
   - [[#appearance-12][Appearance]]
   - [[#behavior-21][Behavior]]
   - [[#keybinds-11][Keybinds]]
 - [[#engrave-faces][Engrave Faces]]
-  - [[#package-34][Package]]
+  - [[#package-36][Package]]
 - [[#ox-latex][Ox Latex]]
-  - [[#package-35][Package]]
+  - [[#package-37][Package]]
   - [[#appearance-13][Appearance]]
   - [[#behavior-22][Behavior]]
 - [[#org-noter][Org Noter]]
-  - [[#package-36][Package]]
-  - [[#variables-10][Variables]]
+  - [[#package-38][Package]]
+  - [[#variables-11][Variables]]
   - [[#behavior-23][Behavior]]
 - [[#pdf-tools][PDF Tools]]
-  - [[#package-37][Package]]
+  - [[#package-39][Package]]
   - [[#behavior-24][Behavior]]
   - [[#fixes-6][Fixes]]
 - [[#plantuml][PlantUML]]
-  - [[#package-38][Package]]
+  - [[#package-40][Package]]
   - [[#behavior-25][Behavior]]
 - [[#lsp-clangd][LSP-Clangd]]
-  - [[#package-39][Package]]
+  - [[#package-41][Package]]
   - [[#behavior-26][Behavior]]
 - [[#sh-script][Sh-script]]
-  - [[#package-40][Package]]
+  - [[#package-42][Package]]
   - [[#behavior-27][Behavior]]
-- [[#applescript][Applescript]]
-  - [[#package-41][Package]]
-  - [[#enable-editing-of-compiled-script-files][Enable Editing of Compiled Script Files]]
 - [[#experiments][Experiments]]
 #+END_QUOTE
 #+html:</details>
@@ -628,6 +632,16 @@ This file is structured to promote discoverability and comprehension. In general
 
 #+html:</details>
 
+*** Tips and Tricks
+
+- To quickly visit the source code for a package use: =straight-visit-package=.
+
+- To quickly visit the website for a package use: =straight-visit-package-website=.
+
+- To quickly browse the contents of a source code file, use =imenu= or =consult-imenu= (=SPC s i=) to see and jump through its definitions.
+
+- To save and interact with a list of results from the minibuffer use =embark-collect= (=C-c C-l=) to move them to their own buffer.
+
 * Global Configuration
 :PROPERTIES:
 :VISIBILITY: children
@@ -652,7 +666,7 @@ Defines an identity for use with GPG, email, and file templates/snippets.
 I change my Org literate config file name from =config.org= to =README.org= in =init.el= for displaying it on GitHub.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref early-init
-(setq +literate-config-file "~/.config/doom/README.org")
+(setq +literate-config-file "~/.config/doom/doom.org")
 #+end_src
 
 *** Lookup Providers
@@ -747,14 +761,6 @@ Prevent shifting the buffer content whenever the line number count increases in 
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
 (setq display-line-numbers-grow-only t)
-#+end_src
-
-*** Menu Bar
-
-I like to disable the menu bar until I need it to avoid clutter.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-(menu-bar-mode -1)
 #+end_src
 
 ** Behavior
@@ -973,6 +979,33 @@ I translate the Mac modifier keys to be equivalent to my Linux/Windows modifiers
 (when IS-MAC (setq mac-command-modifier 'control ; Maps Command -> Control
                     mac-control-modifier 'meta   ; Maps Control -> Alt (Meta)
                     mac-option-modifier 'super)) ; Maps Option -> Super
+#+end_src
+
+*** 'Toggle' Keybinds
+
+For some reason, Doom has several 'toggle' binds under the 'help' menu, so I move them to the 'toggle' menu and add some others.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
+(map! :leader "h t" nil
+      :leader "t t" #'load-theme
+      :leader "h T" nil
+      :leader "t T" #'doom/toggle-profiler
+      :leader :desc "Menu-bar mode" "t m" #'toggle-menu-bar-mode-from-frame)
+
+(when IS-MAC
+  (map! "C-s-f" nil ; Frame fullscreen toggle is broken on macOS.
+   :leader "t F" nil))
+#+end_src
+
+*** Find File From Home Directory
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
+(defun my/find-file-from-home ()
+  "Start find-file frome $HOME."
+  (interactive)
+  (find-file (expand-file-name "~/")))
+
+(map! :leader "f h" #'my/find-file-from-home)
 #+end_src
 
 * Avy
@@ -1279,7 +1312,9 @@ It's possible to reduce the description length for functions shown by which-key.
 
 #+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
-(unpin! doom-modeline) ; Update to latest version to support buffer file name pre-processing. See: #673
+(package! doom-modeline ; See: #673
+  :recipe (:host github :repo "seagle0128/doom-modeline")
+  :pin "cfc7bcf1494cb0634a1464dc40a4a1a1e337cb37")
 #+end_src
 #+html:</details>
 
@@ -1307,7 +1342,7 @@ It's possible to reduce the description length for functions shown by which-key.
 *** File Names
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
-(setq doom-modeline-buffer-file-true-name nil
+(setq doom-modeline-buffer-file-true-name t
       doom-modeline-project-detection 'auto
       doom-modeline-buffer-file-name-style 'relative-from-project)
 #+end_src
@@ -1315,8 +1350,8 @@ It's possible to reduce the description length for functions shown by which-key.
 *** Major Mode
 
 #+begin_src emacs-lisp :tangle no :noweb-ref doom-modeline-config
-(setq doom-modeline-major-mode-icon t
-      doom-modeline-major-mode-color-icon t)
+(setq doom-modeline-major-mode-icon (display-graphic-p)
+      doom-modeline-major-mode-color-icon (display-graphic-p))
 #+end_src
 
 *** Version Control
@@ -1611,7 +1646,7 @@ I'm using this package to get emacs-lisp completions in Org's source blocks!
 ** Package
 
 #+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref packages :noweb-sep "\n\n"
+#+begin_src emacs-lisp :tangle no :noweb-ref packages-disabled :noweb-sep "\n\n"
 (package! cape
   :recipe (:host github :repo "minad/cape")
   :pin "116063b9ee912cbaa7318dbe6597ade4a62b3f59")
@@ -1619,7 +1654,7 @@ I'm using this package to get emacs-lisp completions in Org's source blocks!
 #+html:</details>
 
 #+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+#+begin_src emacs-lisp :tangle no :noweb-ref config-disabled :noweb yes :noweb-sep "\n\n"
 (use-package! cape
   :init
   (add-to-list 'completion-at-point-functions #'cape-elisp-block))
@@ -2056,6 +2091,21 @@ And finally, the custom standards checker is hooked into Magit's finish commit f
              #'my-git-commit-check-style-conventions)
 #+end_src
 
+** Helpers
+*** Edit Git Bare Dotfiles
+
+- TODO: Continue developing...
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
+(defun my/magit-edit-bare-dotfile ()
+  "Select a dotfile to edit."
+  (interactive)
+  (let ((default-directory (expand-file-name "~/")))
+    (list "{worktree}" (magit-read-file-from-rev "HEAD" "Find .dotfile"))))
+
+(map! :leader :desc "Edit .dotfiles" "g d" #'my/magit-edit-bare-dotfile)
+#+end_src
+
 * Vterm
 :PROPERTIES:
 :VISIBILITY: children
@@ -2145,7 +2195,7 @@ Although vterm-mode starts by using insert mode, when switching back to the term
   :custom
   (visual-fill-column-width 100)
   (visual-fill-column-center-text t)
-  :hook (org-mode . visual-fill-column-mode)
+  ;:hook (org-mode . visual-fill-column-mode)
   :config
   <<visual-fill-column-config>>)
 #+end_src
@@ -2227,6 +2277,12 @@ I'm working to integrate Org, Org Roam, and Denote. I want the best of everythin
 (setq denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:DATE: %2$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n")
 #+end_src
 
+*** Include Subdirectories
+
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-config
+;;(setq denote-dired-directories-include-subdirectories t)
+#+end_src
+
 * Org
 :PROPERTIES:
 :VISIBILITY: children
@@ -2237,6 +2293,13 @@ I'm working to integrate Org, Org Roam, and Denote. I want the best of everythin
 #+end_quote
 
 ** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages :noweb-sep "\n\n"
+;; Downgrade to 9.6.9 due to incompatibility with org-ql
+(package! org :pin "806abc5a2bbcb5f884467a0145547221ba09eb59")
+#+end_src
+#+html:</details>
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
@@ -2419,6 +2482,73 @@ Most of these are Doom's defaults but I set them to ensure the default behavior 
 (remove-hook 'org-mode-hook #'+org-make-last-point-visible-h)
 #+end_src
 
+** Helpers
+
+*** Remove All Heading Tags
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(defun my/org-remove-all-tags ()
+  "Remove all tags for the current Org heading."
+  (interactive)
+  (org-set-tags nil))
+#+end_src
+
+*** Insert Org Link to Symbols
+
+I create a function to select a symbol from the minibuffer or point and insert an Org link to it.
+
+Although helpful supports using =org-store-link= which you can then you use with =org-insert-link= to store links to symbols, I would rather have a streamlined process for doing so.
+
+- Supports converting highlighted text to a link to its help page.
+
+- Supports storing links from minibuffer completions.
+
+- Supports inserting links from minibuffer completions.
+
+- =NOTE=: Requires Helpful package.
+
+  - Although helpful has functions describing variables, functions, commands, and symbols, I chose to use the symbol completions as it is the most universal. To store links to completions for other types use my embark keybindings.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(defun my/org-capture-print-help-link ()
+  "Prints a link as a result for use in an org-capture result function."
+  (interactive)
+  (let* ((link (pop org-stored-links))
+        (left (car link))
+        (right (cadr link)))
+  (format "[[%s][%s]]" left right)))
+
+(defun my/org-store-help-link (symbol)
+  "Select symbol from prompt or point and insert link to help page for it."
+    (push (list (format "help:%s" symbol) symbol) org-stored-links))
+
+(defun my/org-insert-last-link (symbol)
+  "Select symbol from prompt or point and insert link to help page for it."
+    (my/org-store-help-link symbol)
+    (org-insert-all-links 1 "" ""))
+
+(defun my/org-insert-symbol-link ()
+  "Select symbol from prompt or point and insert link to help page for it."
+  (interactive)
+  (let ((symbol (symbol-name (helpful--read-symbol
+                              "Symbol: " (helpful--symbol-at-point)
+                              #'helpful--bound-p))))
+    (my/org-insert-last-link symbol)))
+#+end_src
+
+*** Get Org Links to Symbols From Minibuffer Using Embark
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(map! :map (embark-symbol-map
+            embark-variable-map
+            embark-function-map
+            embark-command-map)
+      "I" #'my/org-insert-help-link
+      "l" #'my/org-store-help-link)
+#+end_src
+
+- =NOTE=: This pairs nicely with =embark-insert=.
+
 * Org Agenda
 :PROPERTIES:
 :VISIBILITY: children
@@ -2545,7 +2675,7 @@ Not compatible with the block separator."
            (org-agenda-overriding-header " Agenda\n")
            (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
            (org-agenda-block-separator nil)
-           (org-agenda-format-date " %a, %b %-e %y")  ; american date format
+           (org-agenda-format-date " %a, %b %-e")  ; american date format
            (org-agenda-start-on-weekday nil)          ; start today
            (org-agenda-start-day nil)                 ; don't show previous days
            (org-agenda-span 1)                        ; only show today
@@ -2557,6 +2687,7 @@ Not compatible with the block separator."
            ;(org-agenda-todo-keyword-format "%-4s")
            (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
            (org-agenda-dim-blocked-tasks nil)
+           ;; TODO: Fix inbox not-skipping... Since I no longer have that tag.
            (org-agenda-skip-function '(noncog/skip-tag "inbox"))
            (org-agenda-entry-types '(:timestamp :deadline :scheduled))
            ))
@@ -2567,7 +2698,7 @@ Not compatible with the block separator."
            (org-agenda-overriding-header "")
            (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
            (org-agenda-block-separator nil)
-           (org-agenda-format-date " %a %b %-e")
+           (org-agenda-format-date " %a, %b %-e")
            (org-agenda-start-on-weekday nil)
            (org-agenda-start-day "+1d")
            (org-agenda-span 3)
@@ -2587,15 +2718,16 @@ Not compatible with the block separator."
            (org-agenda-overriding-header "\n Coming Up\n")
            (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
            (org-agenda-block-separator nil)
-           (org-agenda-format-date " %a %b %-e")
+           (org-agenda-format-date " %a, %b %-e")
            (org-agenda-start-on-weekday nil)
            (org-agenda-start-day "+4d")
-           (org-agenda-span 14)
+           (org-agenda-span 28)
            (org-scheduled-past-days 0)
            (org-deadline-warning-days 0)
            (org-agenda-time-leading-zero t)
            (org-agenda-time-grid nil)
-           (org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+           ;(org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+           (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
            ;(org-agenda-todo-keyword-format "%-4s")
            (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
            (org-agenda-entry-types '(:deadline :scheduled))
@@ -2608,7 +2740,7 @@ Not compatible with the block separator."
            (org-agenda-overriding-header "\n Past Due\n")
            (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
            (org-agenda-block-separator nil)
-           (org-agenda-format-date "%a %b %-e")
+           (org-agenda-format-date " %a, %b %-e")
            (org-agenda-start-on-weekday nil)
            (org-agenda-start-day "-60d")
            (org-agenda-span 60)
@@ -2745,10 +2877,11 @@ Org Capture lets you quickly insert into your org documents.
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
 (use-package! org-capture
   :defer t
-  :init
-  <<org-capture-init>>
+  ;;:init
+  ;;<<org-capture-init>>
   :config
-  <<org-capture-config>>)
+  <<org-capture-config>>
+  )
 #+end_src
 #+html:</details>
 
@@ -2766,49 +2899,92 @@ Org Capture lets you quickly insert into your org documents.
 
 *** Capture Templates
 
+- NOTE: Currently disabled due to various issues.
+- TODO: Develop or use better insert here headings.
+  - I'll need to write a function which better targets the current heading and creates an entry instead of plain text.
+
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
-(defun my/org-capture-context ()
-  "Find an Org Roam node related to the current context for use with org-capture-templates."
-  ;; TODO: Currently context is only able to be related to an org roam node.
-  ;; TODO: Consider wrapping in after! to ensure loads correctly.
-  (interactive)
-  (let* ((projectile-project (projectile-project-name))
-         (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
-         (description (org-roam-node-formatted node))
-         (id (org-roam-node-id node)))
-    (if id (org-link-make-string (concat "id:" id) description) " ")
-    ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
-    ))
+;; (defun my/org-capture-context ()
+;;   "Find an Org Roam node related to the current context for use with org-capture-templates."
+;;   ;; TODO: Rewrite to use org-bookmark!
+;;   ;; TODO: Currently context is only able to be related to an org roam node.
+;;   ;; TODO: Consider wrapping in after! to ensure loads correctly.
+;;   (interactive)
+;;   (let* ((projectile-project (projectile-project-name))
+;;          (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
+;;          (description (org-roam-node-formatted node))
+;;          (id (org-roam-node-id node)))
+;;     (if id (org-link-make-string (concat "id:" id) description) " ")
+;;     ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
+;;     ))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
 (setq org-capture-templates
       `(("t" "Task" entry
-         (file+headline "node/20231006T043148--inbox__agenda.org" "Tasks")
-         "* TODO (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
+         (file+headline "inbox.org" "Tasks")
+         "* TODO %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
          :prepend t)
         ("i" "Issue" entry
-         (file+headline "node/20231006T043148--inbox__agenda.org" "Issues")
-         "* ISSUE (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
+         (file+headline "inbox.org" "Issues")
+         "* ISSUE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
          :prepend t)
         ("n" "Note" entry
-         (file+headline "node/20231006T043148--inbox__agenda.org" "Notes")
-         "* NOTE (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
+         (file+headline "inbox.org" "Notes")
+         "* NOTE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
         ("?" "Question" entry
-         (file+headline "node/20231006T043148--inbox__agenda.org" "Questions")
-         "* QUESTION (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
-        ("k" "Keybind" entry
-         (file+headline "node/20231006T043148--inbox__agenda.org" "Notes")
-         "* KEYBIND (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"KEYBIND\"       from              %U\n:END:\n%i" :prepend t)
+         (file+headline "inbox.org" "Questions")
+         "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
         ("b" "Bookmark" entry
-         (file+headline "node/20231006T043148--inbox__agenda.org" "Bookmarks")
-         "* LINK (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"LINK\"       from              %U\n:END:\n%i" :prepend t)
+         (function org-bookmark-location)
+         "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n %i%?" :prepend t)
         ("a" "Appointment" entry
-         (file+headline "node/20231006T043148--inbox__agenda.org" "Tasks")
-         "* APPT (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
+         (file+headline "inbox.org" "Tasks")
+         "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
         ("m" "Meeting" entry
-         (file+headline "node/20231006T043148--inbox__agenda.org" "Meeting")
-         "* MEET (%(my/org-capture-context)) %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)))
+         (file+headline "inbox.org" "Meeting")
+         "* MEET %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)
+        ("s" "Symbol" table-line
+           (function org-bookmark-symbol)
+           "|%(my/org-capture-print-help-link)|%?||" :table-line-pos "III-1" :immediate-finish t)
+        ("h" "Here")
+        ("hh" "Heading" entry
+         (here)
+         "* %?\n:PROPERTIES:\n:DATE: %U\n:END:\n"
+         :prepend nil)
+        ("ht" "Task" entry
+         (here)
+         "* TODO %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
+         :prepend nil)
+        ("hi" "Issue" entry
+         (here)
+         "* ISSUE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
+         :prepend nil)
+        ("hn" "Note" entry
+         (here)
+         "* NOTE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend nil)
+        ("h?" "Question" entry
+         (here)
+         "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend nil)
+        ("hb" "Bookmark" entry
+         (here)
+         "* %(org-cliplink-capture)\n:PROPERTIES:\n:DATE: %U\n:END:\n%?" :prepend nil)
+        ("ha" "Appointment" entry
+         (here)
+         "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend nil)
+        ("hm" "Meeting" entry
+         (here)
+         "* MEET %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend nil)
+        ))
+#+end_src
+
+Then, we hide capture or make certain capture templates only available in certain modes. For me, Some of these templates are only called after I have pre-processed some information such as interactively obtaining a value for the template. Therefore, I don't want them to break or be used unless it's ready to be used.
+
+- TODO: Needs work, fix this.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config-disabled :results none
+(setq org-capture-templates-contexts
+      '(("s" ((in-mode . "my/org-capture-mode")))))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
@@ -2844,20 +3020,48 @@ Org Capture lets you quickly insert into your org documents.
 Sometimes the capture window breaks when the agenda or agenda files are already open. This fix reloads org-mode during captures. ([[https://github.com/doomemacs/doomemacs/issues/5714][Source]])
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-(defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
-  :around #'+org--restart-mode-h
-  (let ((old-org-capture-current-plist
-         (and (bound-and-true-p org-capture-mode)
-              (bound-and-true-p org-capture-current-plist))))
-    (apply fn args)
-    (when old-org-capture-current-plist
-      (setq-local org-capture-current-plist old-org-capture-current-plist)
-      (org-capture-mode +1))))
+;; (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
+;;   :around #'+org--restart-mode-h
+;;   (let ((old-org-capture-current-plist
+;;          (and (bound-and-true-p org-capture-mode)
+;;               (bound-and-true-p org-capture-current-plist))))
+;;     (apply fn args)
+;;     (when old-org-capture-current-plist
+;;       (setq-local org-capture-current-plist old-org-capture-current-plist)
+;;       (org-capture-mode +1))))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-(add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
+;; (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
 #+end_src
+
+* Org QL
+
+#+begin_quote
+[[https://github.com/alphapapa/org-ql][Org QL]] provides a query language for Org files. It offers two syntax styles: Lisp-like sexps and search engine-like keywords.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages
+(package! org-ql
+  :recipe (:host github :repo "alphapapa/org-ql")
+  :pin "9606aaf81230d1faf2c7f54925b45e527fa32bf0")
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-ql
+  :defer t
+  :after denote)
+;; (use-package! org-ql-search
+;;   :after org-roam)
+  ;:autoload org-dblock-write:org-ql)
+#+end_src
+
+#+html:</details>
 
 * Org Roam
 :PROPERTIES:
@@ -3134,6 +3338,15 @@ tasks. The only exception is headings tagged as REFILE."
 (advice-add 'org-todo-list :before #'my/org-roam-update-agenda-files)
 #+end_src
 
+***** Quickly View Org Agenda Files Using Org Roam
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defun my/org-roam-agenda-files ()
+  "Select from and visit an Org Roam node tagged with 'agenda'"
+  (interactive)
+  (org-roam-node-find nil "agenda"))
+#+end_src
+
 **** Integrate Org Roam Files with Org Refile Targets
 
 TODO: Add description.
@@ -3230,20 +3443,12 @@ Org Roam Capture extends the built-in Org Capture functionality with Org Roam sp
 
 *** Org Roam Capture Template
 
+- NOTE: Although I use a directory structure (PARA) within my notes, I'm not using it within org-roam-captures and prefer to move the files to their separate directories manually. This avoids cluttering the template and requiring extra input keys for a new node's creation.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-capture-config :results none
 (setq org-roam-capture-templates
       '(("n" "node" plain "%?"
          :target (file+head "node/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
-         :unnarrowed t)
-        ("p" "project" plain "%?"
-         :target (file+head "project/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
-         :unnarrowed t)
-        ("a" "area" plain "%?"
-         :target (file+head "area/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
-         :unnarrowed t)
-        ("b" "blog" plain "%?"
-         :target (file+head "blog/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n")
          :unnarrowed t)))
 #+end_src
 
@@ -3262,6 +3467,9 @@ This develops the ability to add properties, primarily the "DATE" property from 
   (save-excursion
     (unless (my/org-roam-file-property-p "DATE")
       (org-set-property "DATE" (denote-date-org-timestamp (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
+
+;; TODO: Add ability to modify category based on other contexts such as log files.
+;; - This should ultimately work based off of a parent directory name list. Or use manual correction...
 
 (defun my/org-roam-add-new-property-category ()
   "Set the 'CATEGORY' file property using the 'buffer-file-name'."
@@ -3378,10 +3586,9 @@ javascript:location.href =
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
 (setq org-roam-capture-ref-templates
       '(("r" "ref" plain "%?"
-         :target (file+head "reference/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
+         :target (file+head "resource/%<%Y%m%dT%H%M%S>--${slug}.org" "#+title: ${title}\n\n${body}")
         :unnarrowed t)))
 #+end_src
-
 
 *** Ensure Links are Stored When Capturing from Websites
 
@@ -3420,7 +3627,8 @@ javascript:location.href =
   :init
   <<org-roam-ui-init>>
   :config
-  <<org-roam-ui-config>>)
+  <<org-roam-ui-config>>
+  )
 #+end_src
 #+html:</details>
 
@@ -3478,8 +3686,8 @@ Create a function to create a new buffer/window using display-buffer so that we 
 Prevent from opening the default graph on start and replace the browser function with our xwidgets function.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(setq org-roam-ui-open-on-start nil
-      org-roam-ui-browser-function #'my/+lookup-xwidget-webkit-open-url-fn)
+(setq org-roam-ui-open-on-start nil)
+      ;org-roam-ui-browser-function #'my/+lookup-xwidget-webkit-open-url-fn)
 #+end_src
 
 Add a function to kill the xwidgets buffer and exit org-roam-ui-mode when we close the graph window.
@@ -3495,8 +3703,8 @@ Set the window's popup rules. This configuration opens the graph above the backl
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
 ;(setq display-buffer-mark-dedicated t)
-(set-popup-rule! "\\*xwidget"
-  :side 'right :width 0.33 :height 0.5 :ttl #'my/+org-roam-ui-popup-kill :slot -1 :quit nil :modeline nil)
+;; (set-popup-rule! "\\*xwidget"
+;;   :side 'right :width 0.33 :height 0.5 :ttl #'my/+org-roam-ui-popup-kill :slot -1 :quit nil :modeline nil)
 #+end_src
 
 *** Don't Open Nodes in Side Windows
@@ -3504,23 +3712,23 @@ Set the window's popup rules. This configuration opens the graph above the backl
 By default org-roam-ui attempts to open nodes by splitting the newest window. This won't work with side windows. So, a function is needed to more carefully choose a window to split. I simply force it to open the node in the latest regular window.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(defadvice! my/+org-roam-ui--on-msg-open-node (data)
-  "Open a node CAREFULLY when receiving DATA from the websocket."
-  :override #'org-roam-ui--on-msg-open-node
-  (let* ((id (alist-get 'id data))
-         (node (org-roam-node-from-id id))
-         (pos (org-roam-node-point node))
-         (buf (find-file-noselect (org-roam-node-file node))))
-    (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
-    (unless (window-live-p org-roam-ui--window)
-      (if-let ((windows (cl-set-difference (doom-visible-windows) (list (minibuffer-window))))
-               (newest-window (car (seq-sort-by #'window-use-time #'> windows))))
-          (setq org-roam-ui--window newest-window)
-        (setq org-roam-ui--window newest-window)))
-    (set-window-buffer org-roam-ui--window buf)
-    (select-window org-roam-ui--window)
-    (goto-char pos)
-    (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
+;; (defadvice! my/+org-roam-ui--on-msg-open-node (data)
+;;   "Open a node CAREFULLY when receiving DATA from the websocket."
+;;   :override #'org-roam-ui--on-msg-open-node
+;;   (let* ((id (alist-get 'id data))
+;;          (node (org-roam-node-from-id id))
+;;          (pos (org-roam-node-point node))
+;;          (buf (find-file-noselect (org-roam-node-file node))))
+;;     (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
+;;     (unless (window-live-p org-roam-ui--window)
+;;       (if-let ((windows (cl-set-difference (doom-visible-windows) (list (minibuffer-window))))
+;;                (newest-window (car (seq-sort-by #'window-use-time #'> windows))))
+;;           (setq org-roam-ui--window newest-window)
+;;         (setq org-roam-ui--window newest-window)))
+;;     (set-window-buffer org-roam-ui--window buf)
+;;     (select-window org-roam-ui--window)
+;;     (goto-char pos)
+;;     (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
 #+end_src
 
 *** Ensure Doom Theme Colors Always
@@ -3528,10 +3736,10 @@ By default org-roam-ui attempts to open nodes by splitting the newest window. Th
 This works nearly perfectly. Unfortunately you have to open the graph twice for your theme to update. But, this really isn't a big deal, at least it updates, and most users wont switch themes often.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(defadvice! +org-roam-ui-always-sync-theme ()
-  "Always sync da theme..."
-  :after #'org-roam-ui-open
-  (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme))))))))
+;; (defadvice! +org-roam-ui-always-sync-theme ()
+;;   "Always sync da theme..."
+;;   :after #'org-roam-ui-open
+;;   (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme))))))))
 #+end_src
 
 ** Keybinds
@@ -3586,11 +3794,233 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 #+end_src
 
 *** Org Roam Dailies Capture Templates
-
+- TODO: Change the category property and file name to be cat: log and filename: simple date.
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-dailies-config
 (setq org-roam-dailies-capture-templates
       '(("d" "default" entry "* %?"
          :target (file+head "%<%Y%m%dT%H%M%S>--log.org" "#+title: Log\n"))))
+#+end_src
+
+* Org Bookmark
+
+Org Bookmark is a package I'm currently working on. It's a rewrite/reimagination of Orca and will probably serve functions from Org Projectile as well. It has the ability to format org link's text according to rules and store specific links/websites/etc. in specific locations. Hopefully more features to come.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(defvar org-bookmark--format-hash (make-hash-table :test #'equal)
+  "A hash of (DOMAIN TITLE-FORMATTER) to be applied to link titles.")
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(defun org-bookmark-add-link-formatter (domain title-transformer)
+  "Adds a DOMAIN and associated TITLE-TRANSFORMER to the org-bookmark--format-hash"
+  (puthash domain title-transformer org-bookmark--format-hash))
+
+(defun org-bookmark-replace-in-link-title (regex replacement)
+  "Replace REGEX of a link's title with REPLACEMENT."
+  (lambda (title)
+    (replace-regexp-in-string regex replacement title)))
+
+(defun org-bookmark-format-stored-link ()
+  "Return a pretty-printed top of `org-stored-links'."
+  (let* ((link (caar org-stored-links))
+         (title (cl-cadar org-stored-links))
+         (parsed-link (url-generic-parse-url link))
+         (domain (concat (url-type parsed-link) "://" (url-host parsed-link)))
+         (formatter (gethash domain org-bookmark--format-hash)))
+    (progn (unless org-link-keep-stored-after-insertion (pop org-stored-links))
+    (org-link-make-string link (if formatter (funcall formatter title) title)))))
+
+(defun org-bookmark-format-link ()
+  (if org-stored-links
+      (org-bookmark-format-stored-link)
+      (when (fboundp 'org-cliplink-capture) (org-cliplink-capture))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(defvar org-bookmark-location-handlers nil
+  "List of bookmark location handlers by priority.
+
+Each item is a function of zero arguments that opens an
+appropiriate file/line and returns non-nil on match.")
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(defun org-bookmark-handler-file-heading (file heading)
+  "Open or create the FILE and HEADING to insert a bookmark at."
+  (set-buffer (org-capture-target-buffer file))
+  (unless (derived-mode-p 'org-mode)
+    (org-display-warning
+     (format "Capture requirement: switching buffer %S to Org mode"
+             (current-buffer)))
+    (org-mode))
+  (org-capture-put-target-region-and-position)
+  (widen)
+  (goto-char (point-min))
+  (if (re-search-forward (format org-complex-heading-regexp-format
+                                 (regexp-quote heading)) nil t)
+      (beginning-of-line)
+    (goto-char (point-max))
+    (unless (bolp) (insert "\n"))
+    (insert "* " heading "\n")
+    (beginning-of-line 0))
+  t)
+
+(defun org-bookmark-handler-match-url (regex file heading)
+  "For link matching REGEX select FILE at HEADING."
+  (if
+      (caar org-stored-links)
+      (when (string-match regex (caar org-stored-links))
+        (org-bookmark-handler-file-heading file heading))
+    (when (string-match regex (string-trim (substring-no-properties
+                                                (current-kill 0))))
+      (org-bookmark-handler-file-heading file heading))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(defvar org-bookmark-append-style 'beginning)
+
+(defun org-bookmark-append-style-valid-p ()
+  (if (and (symbolp org-bookmark-append-style)
+           (member org-bookmark-append-style (list 'nil 'beginning 'end)))
+           t nil))
+
+;; TODO: These need some work, steal from org capture insertion commands.
+(defun org-bookmark-append-content (initial-content)
+  (unless (org-bookmark-append-style-valid-p)
+    (error "Invalid org-bookmark appending style '%s'" org-bookmark-append-style))
+  (when (eq org-bookmark-append-style 'beginning)
+    (progn
+      (org-end-of-meta-data t)
+      (insert initial-content "\n")))
+  (when (eq org-bookmark-append-style 'end)
+    (progn
+      (outline-next-heading)
+      (beginning-of-line 0)
+      (insert initial-content "\n"))))
+
+(defun org-bookmark-find-rg ()
+  (unless (executable-find "rg")
+    (error "Org-bookmark could not find rg in your path!")))
+
+(defun org-bookmark-find-link ()
+  (let* ((link (if (caar org-stored-links)
+                   (caar org-stored-links)
+                 (string-trim (substring-no-properties (current-kill 0)))))
+         (old-links
+          (split-string (shell-command-to-string
+                         (format "rg -Fn '[%s]' %s" link org-directory))
+                        "\n" t)))
+    (if old-links
+        (let ((old-link (car old-links)))
+          (if (string-match "^\\(.*\\):\\([0-9]+\\):\\(.*\\)$" old-link)
+              (let ((file (match-string 1 old-link))
+                    (line (string-to-number (match-string 2 old-link))))
+                (find-file file)
+                (goto-char (point-min))
+                (forward-line (1- line))
+                (if (string-match-p "https://www.youtube.com" link)
+                    (not (y-or-n-p "old link: redo?"))
+                  (message "%d old link(s)" (length old-links)) t))
+            (error "Could not match %s" old-link)))
+      nil)))
+
+(defun org-bookmark-capture-kill ()
+  (let ((initial-content (plist-get org-store-link-plist :initial)))
+    (when (and org-bookmark-append-style initial-content (not (string-empty-p initial-content)))
+      (org-bookmark-append-content initial-content))
+    (unless org-link-keep-stored-after-insertion (pop org-stored-links))
+    (org-capture-kill)))
+
+(defun org-bookmark-handle-location ()
+  (let ((hands org-bookmark-location-handlers)
+        hand)
+    (while (and (setq hand (pop hands))
+                (null
+                 (apply (car hand) (cdr hand)))))))
+
+(defun org-bookmark-location ()
+  "Selects a location to store the current bookmark link."
+  (if (org-bookmark-find-link)
+      (org-bookmark-capture-kill)
+    (org-bookmark-handle-location)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(org-bookmark-add-link-formatter "https://github.com" (org-bookmark-replace-in-link-title ":[ ].*$?" ""))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config-disabled :noweb yes :noweb-sep "\n\n"
+;;(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
+(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "node/20240123T062105--bash.org" "Bookmarks")
+                                       (org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+;;(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
+(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(defun org-bookmark-symbol ()
+  (let ((symbol (symbol-name (helpful--read-symbol
+                              "Symbol: " (helpful--symbol-at-point)
+                              #'helpful--bound-p))))
+    (my/org-store-help-link symbol)
+    (apply #'org-bookmark-handler-file-heading '("~/Documents/notes/area/20231006T042354--emacs.org" "Useful Symbols and Keybinds"))))
+#+end_src
+
+* Orca
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/colonelpanic8/org-project-capture][Org Project Capture]] integrates Org Mode's TODO with both Projectile and Projects.el. This enables TODO lists for specific projects stored outside of the project.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages
+(package! orca
+  :recipe (:host github :repo "abo-abo/orca")
+  :pin "0687f416a5573f63b691d384454f5a793266ed97")
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! orca
+  :after org-protocol
+  ;<<orca-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref orca-config :exports none
+;; Variables
+#+end_src
+
+*** Handlers List
+
+#+begin_src emacs-lisp :tangle no :noweb-ref orca-config
+;; (setq orca-handler-list
+;;       '((orca-handler-match-url
+;;          "https://www.reddit.com"         "/home/noncog/Documents/notes/wiki/emacs.org"
+;;          "\\ * Reddit")))
+(setq orca-handler-list
+      '((orca-handler-match-url
+         "https://www.reddit.com/emacs/"
+         "~/Documents/notes/wiki/emacs.org"
+         "Reddit")
+        (orca-handler-match-url
+         "https://emacs.stackexchange.com/"
+         "~/Documents/notes/wiki/emacs.org"
+         "\\* Questions")
+        (orca-handler-current-buffer
+         "\\* Tasks")))
 #+end_src
 
 * Vulpea
@@ -4393,41 +4823,14 @@ This is a simple interactive function that I call to quickly jump to the info pa
   (info "Bash"))
 #+end_src
 
-* Applescript
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-(WIP) This section is setup to enable extending Emacs using Applescript. This section is highly experimental and does not follow my normal package configuration conventions.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Tangle Header to config.el</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-<<applescript-config>>
-#+end_src
-#+html:</details>
-
-** Enable Editing of Compiled Script Files
-
-([[https://www.emacswiki.org/emacs/AppleScript][Source]])
-
-#+begin_src emacs-lisp :tangle no :noweb-ref applescript-config
-;;;; Allow editing of binary .scpt files (applescript) on mac.
-(add-to-list 'jka-compr-compression-info-list
-             `["\\.scpt\\'"
-               "converting text applescript to binary applescprit "
-               ,(expand-file-name "applescript-helper.sh" doom-user-dir) nil
-               "converting binary applescript to text applescprit "
-               ,(expand-file-name "applescript-helper.sh" doom-user-dir) ("-d")
-               nil t "FasdUAS"])
-;;It is necessary to perform an update!
-(jka-compr-update)
-#+end_src
-
 * Experiments
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
+(defun sp-wrap-quote ()
+  "Wrap following sexp in quotes."
+  (interactive "*")
+  (sp-wrap-with-pair "\""))
+#+end_src
 
 #+begin_src emacs-lisp :tangle no :exports none :noweb-ref config :noweb-sep "\n\n"
 (defun org-execute-named-src-block-in-lit-config ()
