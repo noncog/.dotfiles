@@ -40,7 +40,7 @@
 ** Colors
 *** Dracula Theme
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [colors]
 background = #282a36
 foreground = #f8f8f2
@@ -66,7 +66,7 @@ i3-focused = #dd4545
 ** Bars
 *** Default
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [bar/default_bar]
 
 width = 100%
@@ -116,7 +116,7 @@ Modules are ordered in their usage from left to right.
 
 *** i3
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
@@ -165,7 +165,7 @@ label-urgent-padding = 1
 
 *** CPU
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [module/cpu]
 type = internal/cpu
 
@@ -177,7 +177,7 @@ label = %percentage:02%%
 
 *** Memory
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [module/memory]
 type = internal/memory
 
@@ -189,7 +189,7 @@ label = %percentage_used:02%%
 
 *** Temperature
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [module/temperature]
 type = internal/temperature
 thermal-zone = 0
@@ -214,7 +214,7 @@ ramp-foreground = ${colors.yellow}
 
 *** File System
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [module/filesystem]
 type = internal/fs
 
@@ -241,7 +241,7 @@ spacing = 4
 
 *** Date
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [module/date]
 type = internal/date
 
@@ -253,7 +253,7 @@ label = %date%
 
 *** Pulse Audio
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [module/pulseaudio]
 type = internal/pulseaudio
 
@@ -270,7 +270,7 @@ click-right = pavucontrol
 
 *** Battery
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [module/battery]
 type = internal/battery
 
@@ -300,14 +300,14 @@ animation-discharging-foreground = ${colors.red}
 ** Misc.
 *** Settings
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [settings]
 screenchange-reload = true
 #+end_src
 
 *** WM
 
-#+begin_src conf :tangle config
+#+begin_src conf :tangle config.ini
 [global/wm]
 margin-top = 5
 margin-bottom = 5
