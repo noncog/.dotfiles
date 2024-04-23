@@ -13,11 +13,25 @@
 #+end_html
 
 ** Settings
-*** Monitors
+*** Host Specific
+
+Here, we can use Xresources to define host specific settings and include them into the i3 configuration.
 
 #+begin_src conf :tangle config
+set_from_resource $host_name i3wm.host_name none
+include ~/.config/i3/$host_name.conf
+#+end_src
+
+*** Monitors
+
+
+#+begin_src conf :tangle Europa.conf
 set $laptop eDP-1
 set $external HDMI-1-0
+#+end_src
+
+#+begin_src conf :tangle Callisto.conf
+set $external DP-0
 #+end_src
 
 *** Focus
@@ -27,6 +41,7 @@ focus_wrapping no
 focus_follows_mouse no
 mouse_warping output
 #+end_src
+
 
 ** Appearance
 *** Font
@@ -251,15 +266,15 @@ assign [class="jetbrains-idea"] $code
 #+end_src
 
 #+begin_src conf :tangle config :noweb-ref keybinds
-bindsym $mod+c [class="jetbrains-clion"] focus
+#bindsym $mod+c [class="jetbrains-clion"] focus
 # TODO: Set up launching command.
-bindsym $mod+Control+Shift+c move container to workspace $code
+#bindsym $mod+Control+Shift+c move container to workspace $code
 #+end_src
 
 #+begin_src conf :tangle config :noweb-ref keybinds
-bindsym $mod+p [class="jetbrains-pycharm"] focus
+#bindsym $mod+p [class="jetbrains-pycharm"] focus
 # TODO: Set up launching command.
-bindsym $mod+Control+Shift+p move container to workspace $code
+#bindsym $mod+Control+Shift+p move container to workspace $code
 #+end_src
 
 *** GIMP
@@ -435,6 +450,19 @@ bindsym $mod+Shift+question exec --no-startup-id screenkey
 
 #+begin_src conf :tangle config :noweb-ref keybinds
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+#+end_src
+
+*** GregTech New Horizons
+
+#+begin_src conf :tangle config
+set $gregtech-size resize set 1920 px 1080 px, move position center
+for_window [class="GT: New Horizons 2.5.1"] move scratchpad, sticky enable
+#+end_src
+
+#+begin_src conf :tangle config :noweb-ref keybinds
+bindsym $mod+p [class="GT: New Horizons 2.5.1" tiling] move scratchpad, scratchpad show, $gregtech-size; [class="GT: New Horizons 2.5.1" floating] scratchpad show, $gregtech-size
+bindsym $mod+Shift+p exec --no-startup-id /opt/PrismLauncher-Linux-Qt5-8.2/bin/prismlauncher -l "GT_New_Horizons_2.5.1_Java_17-21"
+bindsym $mod+Control+p [class="GT: New Horizons 2.5.1" tiling] move scratchpad, scratchpad show; [class="GT: New Horizons 2.5.1" floating] scratchpad show, floating toggle
 #+end_src
 
 ** Utilities

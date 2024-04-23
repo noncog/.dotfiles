@@ -1,5 +1,5 @@
-set $laptop eDP-1
-set $external HDMI-1-0
+set_from_resource $host_name i3wm.host_name none
+include ~/.config/i3/$host_name.conf
 
 focus_wrapping no
 focus_follows_mouse no
@@ -149,12 +149,12 @@ bindsym $mod+Control+Shift+e move container to workspace $emacs
 bindsym $mod+f [class="Firefox-esr" tiling] focus
 bindsym $mod+Shift+f exec --no-startup-id $firefox_command
 bindsym $mod+Control+Shift+f move container to workspace $firefox
-bindsym $mod+c [class="jetbrains-clion"] focus
+#bindsym $mod+c [class="jetbrains-clion"] focus
 # TODO: Set up launching command.
-bindsym $mod+Control+Shift+c move container to workspace $code
-bindsym $mod+p [class="jetbrains-pycharm"] focus
+#bindsym $mod+Control+Shift+c move container to workspace $code
+#bindsym $mod+p [class="jetbrains-pycharm"] focus
 # TODO: Set up launching command.
-bindsym $mod+Control+Shift+p move container to workspace $code
+#bindsym $mod+Control+Shift+p move container to workspace $code
 bindsym $mod+g [class="Gimp"] focus
 bindsym $mod+Shift+g exec --no-startup-id gimp
 bindsym $mod+Control+Shift+g move container to workspace $gimp
@@ -179,6 +179,9 @@ bindsym $mod+y exec --no-startup-id "if [ -z $(xrandr --listmonitors | grep HDMI
 bindsym $mod+Control+y [con_mark=youtube tiling] move scratchpad, scratchpad show; [con_mark=youtube floating] scratchpad show, floating toggle
 bindsym $mod+Shift+question exec --no-startup-id screenkey
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+bindsym $mod+p [class="GT: New Horizons 2.5.1" tiling] move scratchpad, scratchpad show, $gregtech-size; [class="GT: New Horizons 2.5.1" floating] scratchpad show, $gregtech-size
+bindsym $mod+Shift+p exec --no-startup-id /opt/PrismLauncher-Linux-Qt5-8.2/bin/prismlauncher -l "GT_New_Horizons_2.5.1_Java_17-21"
+bindsym $mod+Control+p [class="GT: New Horizons 2.5.1" tiling] move scratchpad, scratchpad show; [class="GT: New Horizons 2.5.1" floating] scratchpad show, floating toggle
 # desktop app launcher
 bindsym $mod+o exec --no-startup-id rofi -show drun -show-icons
 # cogmenu - custom menu launcher
@@ -201,13 +204,13 @@ assign [class="jetbrains-clion"] $code
 assign [class="jetbrains-pycharm"] $code
 assign [class="jetbrains-idea"] $code
 
-bindsym $mod+c [class="jetbrains-clion"] focus
+#bindsym $mod+c [class="jetbrains-clion"] focus
 # TODO: Set up launching command.
-bindsym $mod+Control+Shift+c move container to workspace $code
+#bindsym $mod+Control+Shift+c move container to workspace $code
 
-bindsym $mod+p [class="jetbrains-pycharm"] focus
+#bindsym $mod+p [class="jetbrains-pycharm"] focus
 # TODO: Set up launching command.
-bindsym $mod+Control+Shift+p move container to workspace $code
+#bindsym $mod+Control+Shift+p move container to workspace $code
 
 set $gimp "4:Gimp"
 workspace $gimp output $external $laptop
@@ -287,6 +290,13 @@ for_window [class="Nitrogen"] move scratchpad, sticky enable, scratchpad show, r
 bindsym $mod+Shift+question exec --no-startup-id screenkey
 
 bindsym $mod+Shift+z exec --no-startup-id ec4Linux change-state
+
+set $gregtech-size resize set 1920 px 1080 px, move position center
+for_window [class="GT: New Horizons 2.5.1"] move scratchpad, sticky enable
+
+bindsym $mod+p [class="GT: New Horizons 2.5.1" tiling] move scratchpad, scratchpad show, $gregtech-size; [class="GT: New Horizons 2.5.1" floating] scratchpad show, $gregtech-size
+bindsym $mod+Shift+p exec --no-startup-id /opt/PrismLauncher-Linux-Qt5-8.2/bin/prismlauncher -l "GT_New_Horizons_2.5.1_Java_17-21"
+bindsym $mod+Control+p [class="GT: New Horizons 2.5.1" tiling] move scratchpad, scratchpad show; [class="GT: New Horizons 2.5.1" floating] scratchpad show, floating toggle
 
 exec --no-startup-id nm-applet
 
