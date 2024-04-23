@@ -4801,6 +4801,14 @@ Sh-script is a built-in library that provides a major mode for editing shell scr
 #+html:</details>
 
 ** Behavior
+*** Ensure Shell is Bash
+
+Load my own template specifying Bash. For some reason, the detection of the correct shell appears to work, except in templates. Perhaps it's related to load order or Yasnippet's environment...
+
+#+begin_src emacs-lisp :tangle no :noweb-ref early-init
+(set-file-template! "\\.sh" :trigger "__sh" :mode 'sh-mode)
+#+end_src
+
 *** Shfmt Rules
 
 Doom provides some basic arguments to [[https://github.com/mvdan/sh][shfmt]] but those aren't enough for my preferences so I add my own.

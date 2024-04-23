@@ -1,6 +1,7 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
 (setq +literate-config-file "~/.config/doom/doom.org")
+(set-file-template! "\\.sh" :trigger "__sh" :mode 'sh-mode)
 
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: __sh
+# --
+#!/usr/bin/env `(format "bash")`
+
+$0
