@@ -8,7 +8,7 @@
   :pin "cb20d1e2347ebe2ffaf5caaa792f6986a8a190cf")
 (package! denote
   :recipe (:host github :repo "protesilaos/denote")
-  :pin "b914c2f6eaf5307650c4f94b7e0d2669ec26df52")
+  :pin "59e6c43f9bd5ef35bde891b7ec9fab44aa991344")
 
 (package! org-ql
   :recipe (:host github :repo "alphapapa/org-ql")

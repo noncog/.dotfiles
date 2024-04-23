@@ -889,7 +889,7 @@
            "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
           ("b" "Bookmark" entry
            (function org-bookmark-location)
-           "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n %i%?" :prepend t)
+           "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n %i%?" :prepend t :immediate-finish t)
           ("a" "Appointment" entry
            (file+headline "inbox.org" "Tasks")
            "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)

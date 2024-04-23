@@ -1649,7 +1649,7 @@ I'm using this package to get emacs-lisp completions in Org's source blocks!
 #+begin_src emacs-lisp :tangle no :noweb-ref packages-disabled :noweb-sep "\n\n"
 (package! cape
   :recipe (:host github :repo "minad/cape")
-  :pin "116063b9ee912cbaa7318dbe6597ade4a62b3f59")
+  :pin "bf22aa6ce0ffca1a1a77b693dddcd05eddc386f0")
 #+end_src
 #+html:</details>
 
@@ -2232,7 +2232,7 @@ I'm working to integrate Org, Org Roam, and Denote. I want the best of everythin
 #+begin_src emacs-lisp :tangle no :noweb-ref packages :noweb-sep "\n\n"
 (package! denote
   :recipe (:host github :repo "protesilaos/denote")
-  :pin "95a9824ff8d1003985bfd83114ea8a16265047dc")
+  :pin "59e6c43f9bd5ef35bde891b7ec9fab44aa991344")
 #+end_src
 #+html:</details>
 
@@ -2293,13 +2293,6 @@ I'm working to integrate Org, Org Roam, and Denote. I want the best of everythin
 #+end_quote
 
 ** Package
-
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref packages :noweb-sep "\n\n"
-;; Downgrade to 9.6.9 due to incompatibility with org-ql
-(package! org :pin "806abc5a2bbcb5f884467a0145547221ba09eb59")
-#+end_src
-#+html:</details>
 
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
@@ -2937,7 +2930,7 @@ Org Capture lets you quickly insert into your org documents.
          "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
         ("b" "Bookmark" entry
          (function org-bookmark-location)
-         "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n %i%?" :prepend t)
+         "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n %i%?" :prepend t :immediate-finish t)
         ("a" "Appointment" entry
          (file+headline "inbox.org" "Tasks")
          "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
@@ -3047,7 +3040,7 @@ Sometimes the capture window breaks when the agenda or agenda files are already 
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
 (package! org-ql
   :recipe (:host github :repo "alphapapa/org-ql")
-  :pin "9606aaf81230d1faf2c7f54925b45e527fa32bf0")
+  :pin "c9370982bfd4df04b590762bd795a7da3012c4dd")
 #+end_src
 #+html:</details>
 
@@ -3571,7 +3564,7 @@ To use org-protocol to interact with the browser we can use the following bookma
 
 When using this with various browsers, you may need to enable the handler in the browser's settings manually. Some browsers just work and others require you to set it in the GUI settings, thankfully not in their text configuration.
 
-#+begin_src javascript :tangle no
+#+begin_src javascript :tangle no :exports none
 javascript:location.href =
     'org-protocol://roam-ref?template=r&ref='
     + encodeURIComponent(location.href)
@@ -3802,6 +3795,20 @@ I use dailies as a log of goals and activities that are planned and hopefully co
 #+end_src
 
 * Org Bookmark
+
+#+begin_src javascript :tangle no :exports none
+javascript:location.href =
+    'org-protocol://capture?template=b&ref='
+    + encodeURIComponent(location.href)
+    + '&title='
+    + encodeURIComponent(document.title)
+    + '&body='
+    + encodeURIComponent(window.getSelection())
+#+end_src
+
+#+begin_src javascript :tangle no :exports none
+javascript:location.href =     'org-protocol://capture?template=b&url='     + encodeURIComponent(location.href)     + '&title='     + encodeURIComponent(document.title)     + '&body='     + encodeURIComponent(window.getSelection())
+#+end_src
 
 Org Bookmark is a package I'm currently working on. It's a rewrite/reimagination of Orca and will probably serve functions from Org Projectile as well. It has the ability to format org link's text according to rules and store specific links/websites/etc. in specific locations. Hopefully more features to come.
 
@@ -4845,3 +4852,5 @@ This is a simple interactive function that I call to quickly jump to the info pa
   (interactive)
   (org-babel-with-temp-filebuffer +literate-config-file (org-babel-goto-named-src-block "gen-org-protocol-script") (org-babel-execute-src-block)))
 #+end_src
+
+

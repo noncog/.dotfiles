@@ -42,11 +42,11 @@ yabai -m config \
     debug_output off \
     external_bar main:0:0
 
-yabai -m signal --add event=display_resized action="brew services restart sketchybar"
+#yabai -m signal --add event=display_resized action="brew services restart sketchybar"
 # Testing a signal to ensure that the most recent window is focused on a space after closing one like finder.
 yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
-yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
-yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
+#yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+#yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
 
 #yabai -m signal --add event=space_changed action="yabai -m window --focus"
 #yabai -m signal --add event=window_created action="yabai -m window --focus \$YABAI_WINDOW_ID"
@@ -73,6 +73,6 @@ yabai -m rule --add app="(CLion|PyCharm)$" space=^3
 yabai -m rule --add app="(Gimp|Blender)$" space=^4
 
 yabai -m rule --add app="Emacs" title="doom-capture" grid=6:6:1:1:4:4 manage=off sticky=on display=^last
-yabai -m rule --add app="kitty" grid=6:6:1:1:4:4 manage=off sticky=off display=^last
-yabai -m rule --add app="^Discord" grid=10:10:1:0:8:10 manage=off sticky=off dispaly=^last
-yabai -m rule --add app="Spotify" grid=6:6:1:1:4:4 manage=off sticky=off display=^last
+yabai -m rule --add app="kitty" scratchpad="kitty" grid=6:6:1:1:4:4 manage=off sticky=off display=^last
+yabai -m rule --add app="^Discord" scratchpad="discord" grid=10:10:1:0:8:10 manage=off sticky=off dispaly=^last
+yabai -m rule --add app="Spotify" scratchpad="spotify" grid=6:6:1:1:4:4 manage=off sticky=off display=^last

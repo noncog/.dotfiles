@@ -118,3 +118,7 @@ alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1 && open -a librewolf --args -profil
 alt - return : $HOME/.local/bin/yabai_scratchpad_app.sh kitty
 alt - d : $HOME/.local/bin/yabai_scratchpad_app.sh Discord
 alt - m : $HOME/.local/bin/yabai_scratchpad_app.sh Spotify
+
+# alt - return : yabai -m window --toggle kitty
+# alt - d : yabai -m window --toggle discord
+# alt - m : yabai -m window --toggle spotify
