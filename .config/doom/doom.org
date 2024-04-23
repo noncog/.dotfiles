@@ -4805,7 +4805,7 @@ Sh-script is a built-in library that provides a major mode for editing shell scr
 
 Load my own template specifying Bash. For some reason, the detection of the correct shell appears to work, except in templates. Perhaps it's related to load order or Yasnippet's environment...
 
-#+begin_src emacs-lisp :tangle no :noweb-ref early-init
+#+begin_src emacs-lisp :tangle no :noweb-ref sh-script-init
 (set-file-template! "\\.sh" :trigger "__sh" :mode 'sh-mode)
 #+end_src
 

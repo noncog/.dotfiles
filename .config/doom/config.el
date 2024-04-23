@@ -1706,6 +1706,7 @@ appropiriate file/line and returns non-nil on match.")
 (use-package! sh-script
   :defer t
   :init
+  (set-file-template! "\\.sh" :trigger "__sh" :mode 'sh-mode)
   (defun my/bash-info-page ()
     "Go to the Bash info page."
     (interactive)
