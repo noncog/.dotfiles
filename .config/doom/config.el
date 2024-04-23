@@ -875,58 +875,58 @@
   (setq org-capture-templates
         `(("t" "Task" entry
            (file+headline "inbox.org" "Tasks")
-           "* TODO %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
+           "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
            :prepend t)
           ("i" "Issue" entry
            (file+headline "inbox.org" "Issues")
-           "* ISSUE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
+           "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
            :prepend t)
           ("n" "Note" entry
            (file+headline "inbox.org" "Notes")
-           "* NOTE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
+           "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
           ("?" "Question" entry
            (file+headline "inbox.org" "Questions")
-           "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
+           "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
           ("b" "Bookmark" entry
            (function org-bookmark-location)
-           "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n %i%?" :prepend t :immediate-finish t)
+           "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n %i%?" :prepend t :immediate-finish t)
           ("a" "Appointment" entry
            (file+headline "inbox.org" "Tasks")
-           "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
+           "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
           ("m" "Meeting" entry
            (file+headline "inbox.org" "Meeting")
-           "* MEET %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)
+           "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
           ("s" "Symbol" table-line
              (function org-bookmark-symbol)
              "|%(my/org-capture-print-help-link)|%?||" :table-line-pos "III-1" :immediate-finish t)
           ("h" "Here")
           ("hh" "Heading" entry
            (here)
-           "* %?\n:PROPERTIES:\n:DATE: %U\n:END:\n"
+           "* %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n"
            :prepend nil)
           ("ht" "Task" entry
            (here)
-           "* TODO %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i"
+           "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
            :prepend nil)
           ("hi" "Issue" entry
            (here)
-           "* ISSUE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i"
+           "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
            :prepend nil)
           ("hn" "Note" entry
            (here)
-           "* NOTE %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend nil)
+           "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
           ("h?" "Question" entry
            (here)
-           "* QUESTION %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend nil)
+           "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
           ("hb" "Bookmark" entry
            (here)
-           "* %(org-cliplink-capture)\n:PROPERTIES:\n:DATE: %U\n:END:\n%?" :prepend nil)
+           "* %(org-cliplink-capture)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%?" :prepend nil)
           ("ha" "Appointment" entry
            (here)
-           "* APPT %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend nil)
+           "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
           ("hm" "Meeting" entry
            (here)
-           "* MEET %?\n:PROPERTIES:\n:DATE: %U\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend nil)
+           "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
           ))
   (set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
   
@@ -1019,7 +1019,7 @@
                         ("^_" . "")                     ;; remove starting underscore
                         ("_$" . "")))                   ;; remove ending underscore
                (slug (-reduce-from #'cl-replace (strip-nonspacing-marks title) pairs)))
-          (denote-sluggify slug)))))
+          (denote-sluggify 'title slug)))))
   ;; TODO: Somehow ensure that Denote's keyword (tag) front-matter is being added too!
   (setq org-roam-extract-new-file-path (concat denote-id-format "--${slug}.org"))
   (defun my/org-roam-agenda-file-p ()
@@ -1179,7 +1179,7 @@
     (interactive)
     (save-excursion
       (unless (my/org-roam-file-property-p "DATE")
-        (org-set-property "DATE" (denote-date-org-timestamp (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
+        (org-set-property "DATE" (format-time-string "[%Y-%m-%d %a %H:%M:%S]" (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
   
   ;; TODO: Add ability to modify category based on other contexts such as log files.
   ;; - This should ultimately work based off of a parent directory name list. Or use manual correction...
