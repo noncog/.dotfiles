@@ -1314,7 +1314,7 @@ It's possible to reduce the description length for functions shown by which-key.
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
 (package! doom-modeline ; See: #673
   :recipe (:host github :repo "seagle0128/doom-modeline")
-  :pin "cfc7bcf1494cb0634a1464dc40a4a1a1e337cb37")
+  :pin "cb20d1e2347ebe2ffaf5caaa792f6986a8a190cf")
 #+end_src
 #+html:</details>
 

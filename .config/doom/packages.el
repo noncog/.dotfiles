@@ -5,17 +5,14 @@
   :pin "85261a928ae0ec3b41e639f05291ffd6bf7c231c")
 (package! doom-modeline ; See: #673
   :recipe (:host github :repo "seagle0128/doom-modeline")
-  :pin "cfc7bcf1494cb0634a1464dc40a4a1a1e337cb37")
+  :pin "cb20d1e2347ebe2ffaf5caaa792f6986a8a190cf")
 (package! denote
   :recipe (:host github :repo "protesilaos/denote")
-  :pin "95a9824ff8d1003985bfd83114ea8a16265047dc")
-
-;; Downgrade to 9.6.9 due to incompatibility with org-ql
-(package! org :pin "806abc5a2bbcb5f884467a0145547221ba09eb59")
+  :pin "b914c2f6eaf5307650c4f94b7e0d2669ec26df52")
 
 (package! org-ql
   :recipe (:host github :repo "alphapapa/org-ql")
-  :pin "9606aaf81230d1faf2c7f54925b45e527fa32bf0")
+  :pin "c9370982bfd4df04b590762bd795a7da3012c4dd")
 ;(unpin! org-roam) ; Update to latest version to support org-roam-ui
 ;; The following version for some reason began crashing my Doom... (6/10/23)
 ;; (package! org-roam
