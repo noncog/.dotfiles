@@ -4150,7 +4150,7 @@ I'm not really using this package yet, but I'm investigating how I can.
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear")
-  :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
+  :pin "81eba5d7a5b74cdb1bad091d85667e836f16b997")
 #+end_src
 #+html:</details>
 

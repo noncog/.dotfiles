@@ -32,7 +32,7 @@
   :pin "218fba0931cfd666591b09273f9ea8f6a6d8d8f9")
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear")
-  :pin "eb9f9db40aa529fe4b977235d86494b115281d17")
+  :pin "81eba5d7a5b74cdb1bad091d85667e836f16b997")
 (package! org-fragtog
   :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
 (package! org-modern
