@@ -36,7 +36,7 @@
 (package! org-fragtog
   :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
 (package! org-modern
-  :pin "418b1adeec936e42abe1e3151633951055909ea4")
+  :pin "c97096b3f82c3bd84859f90a23273dfa2c6dfd7e")
 (package! orglink)
 (package! engrave-faces
   :recipe (:host github :repo "tecosaur/engrave-faces")

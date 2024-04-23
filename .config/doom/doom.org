@@ -4220,7 +4220,7 @@ I'm not really using this package yet, but I'm investigating how I can.
 #+html:<details><summary>Source</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref packages
 (package! org-modern
-  :pin "418b1adeec936e42abe1e3151633951055909ea4")
+  :pin "c97096b3f82c3bd84859f90a23273dfa2c6dfd7e")
 #+end_src
 #+html:</details>
 
