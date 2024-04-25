@@ -1137,80 +1137,43 @@
   :config
   ;; Variables
   ;(setq +org-capture-fn #'org-roam-capture)
-  ;; (defun my/org-capture-context ()
-  ;;   "Find an Org Roam node related to the current context for use with org-capture-templates."
-  ;;   ;; TODO: Rewrite to use org-bookmark!
-  ;;   ;; TODO: Currently context is only able to be related to an org roam node.
-  ;;   ;; TODO: Consider wrapping in after! to ensure loads correctly.
-  ;;   (interactive)
-  ;;   (let* ((projectile-project (projectile-project-name))
-  ;;          (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
-  ;;          (description (org-roam-node-formatted node))
-  ;;          (id (org-roam-node-id node)))
-  ;;     (if id (org-link-make-string (concat "id:" id) description) " ")
-  ;;     ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
-  ;;     ))
-  ;; (defun my/org-capture-template-heading-string headline other_args
-  ;;        (format "* %s\n:PROPERTIES:\n:DATE: %s\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %s\n:END:\n%i" headline "[%<%Y-%m-%d %a %H:%M:%S>]" "[%<%Y-%m-%d %a %H:%M:%S>]")
-  ;;        )
+  (defvar org-capture-inbox-file
+    (format "inbox-%s.org" (system-name))
+    "The path to the inbox file per-system.")
   (setq org-capture-templates
         `(("t" "Task" entry
-           (file+headline "inbox.org" "Tasks")
-           "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+           (file+headline org-capture-inbox-file "Tasks")
+           "* TODO %?\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i" :prepend t)
           ("i" "Issue" entry
-           (file+headline "inbox.org" "Issues")
-           "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+           (file+headline org-capture-inbox-file "Issues")
+           "* ISSUE %?\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i" :prepend t)
           ("n" "Note" entry
-           (file+headline "inbox.org" "Notes")
-           "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+           (file+headline org-capture-inbox-file "Notes")
+           "* NOTE %?\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
+          ("I" "IDEA" entry
+           (file+headline org-capture-inbox-file "Ideas")
+           "* IDEA %?\n:LOGBOOK:\n- State \"IDEA\"       from              %U\n:END:\n%i" :prepend t)
           ("?" "Question" entry
-           (file+headline "inbox.org" "Questions")
-           "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+           (file+headline org-capture-inbox-file "Questions")
+           "* QUESTION %?\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
           ("b" "Bookmark" entry
            (function org-bookmark-location)
-           "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i%?" :prepend t :immediate-finish t)
+           "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n%i%?" :prepend t :immediate-finish t)
           ("a" "Appointment" entry
-           (file+headline "inbox.org" "Tasks")
-           "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+           (file+headline org-capture-inbox-file "Appointments")
+           "* APPT %?\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
           ("m" "Meeting" entry
-           (file+headline "inbox.org" "Meeting")
-           "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+           (file+headline org-capture-inbox-file "Meetings")
+           "* MEET %?\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)
+          ("e" "Event" entry
+           (file+headline org-capture-inbox-file "Events")
+           "* EVENT %?\n:\n:LOGBOOK:\n- State \"EVENT\"       from              %U\n:END:\n%i" :prepend t)
           ("s" "Symbol" table-line
              (function org-bookmark-symbol)
-             "|%(my/org-capture-print-help-link)|%?||" :table-line-pos "III-1" :immediate-finish t)
-          ("h" "Here")
-          ("hh" "Heading" entry
-           (here)
-           "* %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n"
-           :prepend nil)
-          ("ht" "Task" entry
-           (here)
-           "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
-           :prepend nil)
-          ("hi" "Issue" entry
-           (here)
-           "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
-           :prepend nil)
-          ("hn" "Note" entry
-           (here)
-           "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-          ("h?" "Question" entry
-           (here)
-           "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-          ("hb" "Bookmark" entry
-           (here)
-           "* %(org-cliplink-capture)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%?" :prepend nil)
-          ("ha" "Appointment" entry
-           (here)
-           "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-          ("hm" "Meeting" entry
-           (here)
-           "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-          ))
+             "|%(my/org-capture-print-help-link)|%?||" :table-line-pos "III-1" :immediate-finish t)))
   (set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
   
   (set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
-  ;; (setq org-capture-templates-contexts)
   ;; Behavior
   (setq org-capture-bookmark nil)
   ;; Fixes
