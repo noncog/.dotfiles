@@ -2259,19 +2259,18 @@ This advice causes the margins to remain centered in the frame regardless of tex
          "TODO(t!)"     ; Task that needs doing & is ready to do.
          "APPT(a!)"     ; An appointment.
          "MEET(m!)"     ; A meeting.
-         "IDEA(i!)"     ; An idea.
          "ISSUE(I!)"    ; An issue.
          "EVENT(e!)"    ; An event.
          "NEXT(N!)"     ; Task that needs doing & is ready to do.
          "WAIT(w@/!)"   ; Something is holding this up.
-         "|"
+         "|"            ; Required to get org-roam to ignore the following todo items.
          "DONE(d!)"     ; Task successfully completed.
          "KILL(k@/!)")  ; Task cancelled or not applicable.
         (type
-         "NOTE(n!)")    ; A fleeting note, in person, idea, or link.
-        (type
-         "LINK(l!)")    ; A link I want to note.
-        (type
+         "|"            ; Required to get org-roam to ignore the following todo items.
+         "IDEA(i!)"     ; An idea.
+         "NOTE(n!)"     ; A fleeting note, in person, idea, or link.
+         "LINK(l!)"     ; A link I want to note.
          "KEYBIND(K!)") ; A link I want to note.
         (type
          "QUESTION(q!)" ; A question that I want to be able to hold information about.
