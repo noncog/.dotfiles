@@ -1430,8 +1430,7 @@ appropiriate file/line and returns non-nil on match.")
 
 (org-bookmark-add-link-formatter "https://github.com" (org-bookmark-replace-in-link-title ":[ ].*$?" ""))
 
-;;(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
-(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
+(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading org-capture-inbox-file "Bookmarks")))
 
 (defun org-bookmark-symbol ()
   (let ((symbol (symbol-name (helpful--read-symbol

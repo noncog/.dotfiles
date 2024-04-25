@@ -3534,10 +3534,6 @@ Org Capture lets you quickly insert into your org documents.
 (set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
 #+end_src
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-;; (setq org-capture-templates-contexts)
-#+end_src
-
 ** Behavior
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :exports none
@@ -3966,15 +3962,8 @@ appropiriate file/line and returns non-nil on match.")
 (org-bookmark-add-link-formatter "https://github.com" (org-bookmark-replace-in-link-title ":[ ].*$?" ""))
 #+end_src
 
-#+begin_src emacs-lisp :tangle no :noweb-ref config-disabled :noweb yes :noweb-sep "\n\n"
-;;(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
-(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "node/20240123T062105--bash.org" "Bookmarks")
-                                       (org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
-#+end_src
-
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-;;(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
-(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
+(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading org-capture-inbox-file "Bookmarks")))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
