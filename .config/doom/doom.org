@@ -2524,7 +2524,7 @@ I'm working to integrate Org, Org Roam, and Denote. I want the best of everythin
 *** Denote Directory
 
 #+begin_src emacs-lisp :tangle no :noweb-ref denote-init
-(setq denote-directory (file-truename "~/Documents/notes"))
+(setq denote-directory org-directory)
 #+end_src
 
 ** Behavior

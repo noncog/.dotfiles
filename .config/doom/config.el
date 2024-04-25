@@ -639,7 +639,7 @@
   :after org
   :init
   ;; Variables
-  (setq denote-directory (file-truename "~/Documents/notes"))
+  (setq denote-directory org-directory)
   :config
   ;; Behavior
   (setq org-id-ts-format denote-id-format
