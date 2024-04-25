@@ -658,24 +658,17 @@
   :config
   ;; Appearance
   ;(setq org-roam-node-display-template)
-  (defun my/org-roam-note-has-denote-title-p (file-name)
-    "Return t if Org Roam note file name should be reformatted to display in Doom Modeline."
-    (when (and (s-contains-p (expand-file-name org-roam-directory) (expand-file-name file-name))
-               (string-match denote-title-regexp file-name)) t))
-  
-  (defun my/org-roam-note-reformat-file-name (file-name)
-    "Remove Denote ID and keywords from Org Roam file names."
-    (replace-regexp-in-string (concat denote-id-regexp "--") "" (replace-regexp-in-string denote-keywords-regexp "" file-name)))
-  
   (defun my/doom-modeline-process-buffer-file-name (file-name)
     "Return buffer-file-name filtered if necessary to display in Doom Modeline."
-    (if (my/org-roam-note-has-denote-title-p file-name)
-        (my/org-roam-note-reformat-file-name file-name) file-name))
+      (when (s-contains-p org-directory file-name)
+               (replace-regexp-in-string
+                (concat denote-id-regexp "--") ""
+                (replace-regexp-in-string denote-keywords-regexp ".org" file-name))))
   
   (setq doom-modeline-buffer-file-name-function #'my/doom-modeline-process-buffer-file-name)
   (setq doom-modeline-buffer-file-truename-function #'my/doom-modeline-process-buffer-file-name)
   ;; Behavior
-  ;; TODO: Check what each slug function does and minimize it. Currently doing both.
+  ;; TODO: Check what each slug function does and minimize it. Currently doing excess character removing/checks in both functions.
   (cl-defmethod org-roam-node-slug ((node org-roam-node))
     "Return the slug of NODE."
     (let ((title (org-roam-node-title node))
@@ -716,6 +709,7 @@
           (denote-sluggify 'title slug)))))
   ;; TODO: Somehow ensure that Denote's keyword (tag) front-matter is being added too!
   (setq org-roam-extract-new-file-path (concat denote-id-format "--${slug}.org"))
+  ;; NOTE: This doesn't need to be named org-roam-
   (defun my/org-roam-agenda-file-p ()
     "Return non-nil if current buffer has todo keywords or scheduled items.
   TODO entries marked as done are ignored, meaning the this

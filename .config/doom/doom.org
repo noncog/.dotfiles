@@ -2616,19 +2616,12 @@ Since Org Roam and Denote both use unique identifiers in their filename, (which 
 To do this, I got the ability to pre-process buffer file names added into Doom Modeline. We can simply define a function which is passed the file name which will decide if it should pre-process it or not and return the result to Doom Modeline for further styling.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config :results none
-(defun my/org-roam-note-has-denote-title-p (file-name)
-  "Return t if Org Roam note file name should be reformatted to display in Doom Modeline."
-  (when (and (s-contains-p (expand-file-name org-roam-directory) (expand-file-name file-name))
-             (string-match denote-title-regexp file-name)) t))
-
-(defun my/org-roam-note-reformat-file-name (file-name)
-  "Remove Denote ID and keywords from Org Roam file names."
-  (replace-regexp-in-string (concat denote-id-regexp "--") "" (replace-regexp-in-string denote-keywords-regexp "" file-name)))
-
 (defun my/doom-modeline-process-buffer-file-name (file-name)
   "Return buffer-file-name filtered if necessary to display in Doom Modeline."
-  (if (my/org-roam-note-has-denote-title-p file-name)
-      (my/org-roam-note-reformat-file-name file-name) file-name))
+    (when (s-contains-p org-directory file-name)
+             (replace-regexp-in-string
+              (concat denote-id-regexp "--") ""
+              (replace-regexp-in-string denote-keywords-regexp ".org" file-name))))
 
 (setq doom-modeline-buffer-file-name-function #'my/doom-modeline-process-buffer-file-name)
 (setq doom-modeline-buffer-file-truename-function #'my/doom-modeline-process-buffer-file-name)
@@ -2643,7 +2636,7 @@ To do this, I got the ability to pre-process buffer file names added into Doom M
 *** Integrate with Denote File Names
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-;; TODO: Check what each slug function does and minimize it. Currently doing both.
+;; TODO: Check what each slug function does and minimize it. Currently doing excess character removing/checks in both functions.
 (cl-defmethod org-roam-node-slug ((node org-roam-node))
   "Return the slug of NODE."
   (let ((title (org-roam-node-title node))
