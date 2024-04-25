@@ -10,11 +10,6 @@
   :recipe (:host github :repo "protesilaos/denote")
   :pin "59e6c43f9bd5ef35bde891b7ec9fab44aa991344")
 
-;(unpin! org-roam) ; Update to latest version to support org-roam-ui
-;; The following version for some reason began crashing my Doom... (6/10/23)
-;; (package! org-roam
-;;  :recipe (:host github :repo "org-roam/org-roam-ui")
-;;  :pin "5c06471c3a11348342719fd9011486455adeb701")
 (package! org-roam-ui
   :recipe (:host github :repo "org-roam/org-roam-ui"))
 (package! org-sidebar
