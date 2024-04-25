@@ -567,6 +567,10 @@
           ("LINK" . +org-todo-active)
           ("QUESTION" . +org-todo-active)))
   (setq org-treat-insert-todo-heading-as-state-change t)
+  (setq org-tag-alist
+        '(("agenda")
+          ("person")
+          ("project")))
   ;; Appearance
   (setq org-hide-emphasis-markers t            ; Hide syntax for emphasis. (Use org-appear)
         org-pretty-entities t                  ; Show sub/superscript as UTF8.
@@ -633,7 +637,9 @@
               embark-command-map)
         "I" #'my/org-insert-help-link
         "l" #'my/org-store-help-link)
-  (add-to-list 'org-tags-exclude-from-inheritance "agenda"))
+  (setq org-use-tag-inheritance t)
+  (add-to-list 'org-tags-exclude-from-inheritance "agenda")
+  (add-to-list 'org-tags-exclude-from-inheritance "project"))
 
 (use-package! denote
   :after org
@@ -745,42 +751,32 @@
                             (org-element-property :contents-end h)))))
                 (re-search-forward org-ts-regexp end 'noerror)))))))
       nil 'first-match))
-  ;;org-roam-get-keyword
-  ;;org-roam--get-keyword
-  ;; delete filetags if empty.
-  ;; org-roam-set-keyword "filetags" "" will delete the filetag if there is nothing in the list.
-  ;; org-roam-tag-remove is the function to model the rest of this on
-  ;; TODO: Add rules to this to change behavior.
-  ;; TODO: Define options to change this behavior.
-  ;; TODO: Add more tag ensuring rules and make it extendable.
-  
-      ;; 1. Update filetags
-      ;; - Add/remove agenda filetags.
-      ;; - Add/remove other filetags.
-      ;; 2.
-      ;; TODO: Add other tag processing capabilities.
-      ;; process agenda tags
-      ;; If this file should be an agenda file,
-      ;; TODO: Change ot removing a list of tags we care about.
-      ;; If should make unique?
-      ;(setq filetags-list (seq-uniq filetags-list))
-  
-      ;; Set the org roam tag
-  ;; update tags if changed
-  ;; (when (or (seq-difference tags original-tags)
-  ;;           (seq-difference original-tags tags))
-  ;;   (apply #'vulpea-buffer-tags-set (seq-uniq tags))))
-  ;; TODO: Add list of functions run for each thing.
-  ;; TODO: Ensure if you use Denote that you execute file names updating as well as filetags updating. Denote's keywords are file tags.
-  ;; Builds a list of what the tags should be and compares to current list and sets if need to. Make an abstraction to run through each function change the tag list somehow.
-  (defun my/org-roam-ensure-filetags ()
-    "Update FILETAGS Add missing FILETAGS to the current node."
-    (let* ((get-filetags (org-roam--get-keyword "filetags"))
+  (defun my/org-roam-update-filetags ()
+    ;; TODO: Look into org tags sort function.
+    ;; TODO: Add call to Denote to update file name parts.
+    ;; TODO: Eventually port this to a list of predicates and tag names.
+    ;; TODO: Consider adding sorting order.
+    ;; NOTE: This is for FILETAGS and TITLES ONLY.
+    "Add or remove FILETAGS to the current node based on conditions."
+    (let* ((title (org-roam--get-keyword "title"))
+           (title-as-tag (concat "@" (s-replace " " "" title)))
+           (get-filetags (org-roam--get-keyword "filetags"))
            (filetags (if get-filetags (split-string get-filetags ":" 'omit-nulls) nil))
-           (new-tags filetags))
+           (new-tags filetags)
+           (add-tags (list))
+           (remove-tags (list)))
+      ;; Ensure the agenda tag is sest when appropriate. See my/org-roam-agenda-file-p
       (if (my/org-roam-agenda-file-p)
-          (setq new-tags (seq-union new-tags '("agenda")))
-        (setq new-tags (seq-difference new-tags '("agenda"))))
+          (add-to-list 'add-tags "agenda" )
+        (add-to-list 'remove-tags "agenda"))
+      ;; Ensure that @PersonName tag is set when node is tagged as a person.
+      (if (seq-contains-p filetags "person")
+          (add-to-list 'add-tags title-as-tag)
+        (add-to-list 'remove-tags title-as-tag))
+      ;; Update the list of filetags.
+      (setq new-tags (seq-union new-tags add-tags))
+      (setq new-tags (seq-difference new-tags remove-tags))
+      ;; Apply latest filetags to node.
       (when (not (seq-set-equal-p filetags new-tags)) (org-roam-set-keyword "filetags" (org-make-tag-string (seq-uniq new-tags))))))
   (defun my/org-roam-get-agenda-files ()
     "Return a list of node files containing the 'agenda' tag." ;
@@ -802,11 +798,27 @@
     "Update 'org-agenda-files' when org-roam file is saved."
     (when (and (not (active-minibuffer-window))
                (org-roam-buffer-p))
-      (progn (my/org-roam-ensure-filetags)
+      (progn (my/org-roam-update-filetags)
              (my/org-roam-update-agenda-files))))
+  (defun my/org-roam-node-insert-hook (id link-description)
+    "Update @PersonName tag when linking to their node in a task."
+    (let* ((node (org-roam-node-from-id id))
+           (filetags (org-roam-node-tags node))
+           (title (concat "@" (s-replace " " "" (org-roam-node-title node)))))
+      (when (seq-contains-p filetags "person")
+          (save-excursion
+          (ignore-errors
+            (org-back-to-heading)
+            (when (eq 'todo (org-element-property
+                             :todo-type
+                             (org-element-at-point)))
+              (org-set-tags (seq-uniq (cons title (org-get-tags nil t))))))))))
+  (add-hook 'org-roam-post-node-insert-hook #'my/org-roam-node-insert-hook)
   (add-hook 'before-save-hook #'my/org-roam-pre-save-hook)
+  ;; TODO: See if it's necessary to run this hook in both before-save-hook and in org's agenda functions.
   (advice-add 'org-agenda :before #'my/org-roam-update-agenda-files)
   (advice-add 'org-todo-list :before #'my/org-roam-update-agenda-files)
+  ;; TODO: Look into other functions to hook.
   (defun my/org-roam-agenda-files ()
     "Select from and visit an Org Roam node tagged with 'agenda'"
     (interactive)

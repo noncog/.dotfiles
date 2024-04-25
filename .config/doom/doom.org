@@ -2287,11 +2287,17 @@ This advice causes the margins to remain centered in the frame regardless of tex
         ("QUESTION" . +org-todo-active)))
 #+end_src
 
-#+RESULTS:
-: ((ISSUE . +org-todo-project) (NEXT . +org-todo-active) (WAIT . +org-todo-onhold) (KILL . +org-todo-cancel) (NOTE . +org-todo-active) (LINK . +org-todo-active) (QUESTION . +org-todo-active))
-
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-treat-insert-todo-heading-as-state-change t)
+#+end_src
+
+*** Tags List
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(setq org-tag-alist
+      '(("agenda")
+        ("person")
+        ("project")))
 #+end_src
 
 ** Appearance
@@ -2684,13 +2690,16 @@ To do this, I got the ability to pre-process buffer file names added into Doom M
 
 *** Integrate Org Roam with Org Agenda
 
-By using org-roam, we may have thousands of files to search in order to display tasks in the agenda. To combat this, we can dynamically update the =org-agenda-files= variable to check for org-roam files that contain certain tags. I'm using the =agenda= tag. Org-roam files are automatically marked as long as it has a TODO heading, a scheduled item, or a refile tag. ([[https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html][Source1]], [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Source2]], [[https://github.com/d12frosted/environment/blob/f48e6d91be48b7e1d6126cde6f39c39a92a288ab/emacs/lisp/lib-vulpea-agenda.el#L81][Source3]],[[https://github.com/d12frosted/environment/blob/f48e6d91be48b7e1d6126cde6f39c39a92a288ab/emacs/lisp/lib-vulpea.el#L51][Source4]])
+By using org-roam, we may have thousands of files to search in order to display tasks in the agenda. To combat this, we can dynamically update the =org-agenda-files= variable to check for org-roam files that contain certain tags. I'm using the =agenda= tag. Org-roam files are automatically marked as long as it has a TODO heading, a scheduled item, or a refile tag. ([[https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html][Source1]], [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Source2]], [[https://github.com/d12frosted/environment/blob/f48e6d91be48b7e1d6126cde6f39c39a92a288ab/emacs/lisp/lib-vulpea-agenda.el#L81][Source3]], [[https://github.com/d12frosted/environment/blob/f48e6d91be48b7e1d6126cde6f39c39a92a288ab/emacs/lisp/lib-vulpea.el#L51][Source4]])
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
+(setq org-use-tag-inheritance t)
 (add-to-list 'org-tags-exclude-from-inheritance "agenda")
+(add-to-list 'org-tags-exclude-from-inheritance "project")
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; NOTE: This doesn't need to be named org-roam-
 (defun my/org-roam-agenda-file-p ()
   "Return non-nil if current buffer has todo keywords or scheduled items.
 TODO entries marked as done are ignored, meaning the this
@@ -2729,42 +2738,32 @@ tasks. The only exception is headings tagged as REFILE."
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-;;org-roam-get-keyword
-;;org-roam--get-keyword
-;; delete filetags if empty.
-;; org-roam-set-keyword "filetags" "" will delete the filetag if there is nothing in the list.
-;; org-roam-tag-remove is the function to model the rest of this on
-;; TODO: Add rules to this to change behavior.
-;; TODO: Define options to change this behavior.
-;; TODO: Add more tag ensuring rules and make it extendable.
-
-    ;; 1. Update filetags
-    ;; - Add/remove agenda filetags.
-    ;; - Add/remove other filetags.
-    ;; 2.
-    ;; TODO: Add other tag processing capabilities.
-    ;; process agenda tags
-    ;; If this file should be an agenda file,
-    ;; TODO: Change ot removing a list of tags we care about.
-    ;; If should make unique?
-    ;(setq filetags-list (seq-uniq filetags-list))
-
-    ;; Set the org roam tag
-;; update tags if changed
-;; (when (or (seq-difference tags original-tags)
-;;           (seq-difference original-tags tags))
-;;   (apply #'vulpea-buffer-tags-set (seq-uniq tags))))
-;; TODO: Add list of functions run for each thing.
-;; TODO: Ensure if you use Denote that you execute file names updating as well as filetags updating. Denote's keywords are file tags.
-;; Builds a list of what the tags should be and compares to current list and sets if need to. Make an abstraction to run through each function change the tag list somehow.
-(defun my/org-roam-ensure-filetags ()
-  "Update FILETAGS Add missing FILETAGS to the current node."
-  (let* ((get-filetags (org-roam--get-keyword "filetags"))
+(defun my/org-roam-update-filetags ()
+  ;; TODO: Look into org tags sort function.
+  ;; TODO: Add call to Denote to update file name parts.
+  ;; TODO: Eventually port this to a list of predicates and tag names.
+  ;; TODO: Consider adding sorting order.
+  ;; NOTE: This is for FILETAGS and TITLES ONLY.
+  "Add or remove FILETAGS to the current node based on conditions."
+  (let* ((title (org-roam--get-keyword "title"))
+         (title-as-tag (concat "@" (s-replace " " "" title)))
+         (get-filetags (org-roam--get-keyword "filetags"))
          (filetags (if get-filetags (split-string get-filetags ":" 'omit-nulls) nil))
-         (new-tags filetags))
+         (new-tags filetags)
+         (add-tags (list))
+         (remove-tags (list)))
+    ;; Ensure the agenda tag is sest when appropriate. See my/org-roam-agenda-file-p
     (if (my/org-roam-agenda-file-p)
-        (setq new-tags (seq-union new-tags '("agenda")))
-      (setq new-tags (seq-difference new-tags '("agenda"))))
+        (add-to-list 'add-tags "agenda" )
+      (add-to-list 'remove-tags "agenda"))
+    ;; Ensure that @PersonName tag is set when node is tagged as a person.
+    (if (seq-contains-p filetags "person")
+        (add-to-list 'add-tags title-as-tag)
+      (add-to-list 'remove-tags title-as-tag))
+    ;; Update the list of filetags.
+    (setq new-tags (seq-union new-tags add-tags))
+    (setq new-tags (seq-difference new-tags remove-tags))
+    ;; Apply latest filetags to node.
     (when (not (seq-set-equal-p filetags new-tags)) (org-roam-set-keyword "filetags" (org-make-tag-string (seq-uniq new-tags))))))
 #+end_src
 
@@ -2795,17 +2794,37 @@ tasks. The only exception is headings tagged as REFILE."
   "Update 'org-agenda-files' when org-roam file is saved."
   (when (and (not (active-minibuffer-window))
              (org-roam-buffer-p))
-    (progn (my/org-roam-ensure-filetags)
+    (progn (my/org-roam-update-filetags)
            (my/org-roam-update-agenda-files))))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(defun my/org-roam-node-insert-hook (id link-description)
+  "Update @PersonName tag when linking to their node in a task."
+  (let* ((node (org-roam-node-from-id id))
+         (filetags (org-roam-node-tags node))
+         (title (concat "@" (s-replace " " "" (org-roam-node-title node)))))
+    (when (seq-contains-p filetags "person")
+        (save-excursion
+        (ignore-errors
+          (org-back-to-heading)
+          (when (eq 'todo (org-element-property
+                           :todo-type
+                           (org-element-at-point)))
+            (org-set-tags (seq-uniq (cons title (org-get-tags nil t))))))))))
+#+end_src
+
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(add-hook 'org-roam-post-node-insert-hook #'my/org-roam-node-insert-hook)
 (add-hook 'before-save-hook #'my/org-roam-pre-save-hook)
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; TODO: See if it's necessary to run this hook in both before-save-hook and in org's agenda functions.
 (advice-add 'org-agenda :before #'my/org-roam-update-agenda-files)
 (advice-add 'org-todo-list :before #'my/org-roam-update-agenda-files)
+;; TODO: Look into other functions to hook.
 #+end_src
 
 ***** Quickly View Org Agenda Files Using Org Roam
