@@ -99,48 +99,50 @@
 - [[#visual-fill-column][Visual Fill Column]]
   - [[#package-16][Package]]
   - [[#fixes-3][Fixes]]
-- [[#denote][Denote]]
+- [[#org][Org]]
   - [[#package-17][Package]]
   - [[#variables-3][Variables]]
-  - [[#behavior-12][Behavior]]
-- [[#org][Org]]
-  - [[#package-18][Package]]
-  - [[#variables-4][Variables]]
   - [[#appearance-6][Appearance]]
-  - [[#behavior-13][Behavior]]
+  - [[#behavior-12][Behavior]]
   - [[#fixes-4][Fixes]]
   - [[#helpers-1][Helpers]]
-- [[#org-agenda][Org Agenda]]
+- [[#denote][Denote]]
+  - [[#package-18][Package]]
+  - [[#variables-4][Variables]]
+  - [[#behavior-13][Behavior]]
+- [[#org-roam][Org Roam]]
   - [[#package-19][Package]]
+  - [[#resources-2][Resources]]
+  - [[#variables-5][Variables]]
   - [[#appearance-7][Appearance]]
   - [[#behavior-14][Behavior]]
   - [[#keybinds-7][Keybinds]]
-  - [[#helpers-2][Helpers]]
-- [[#org-capture][Org Capture]]
+- [[#org-roam-ui][Org Roam UI]]
   - [[#package-20][Package]]
-  - [[#variables-5][Variables]]
-  - [[#behavior-15][Behavior]]
-  - [[#fixes-5][Fixes]]
-- [[#org-ql][Org QL]]
-  - [[#package-21][Package]]
-- [[#org-roam][Org Roam]]
-  - [[#package-22][Package]]
-  - [[#resources-2][Resources]]
-  - [[#variables-6][Variables]]
   - [[#appearance-8][Appearance]]
-  - [[#behavior-16][Behavior]]
+  - [[#behavior-15][Behavior]]
   - [[#keybinds-8][Keybinds]]
-- [[#org-roam-capture][Org Roam Capture]]
+- [[#org-sidebar][Org Sidebar]]
+- [[#org-agenda][Org Agenda]]
+  - [[#package-21][Package]]
+  - [[#appearance-9][Appearance]]
+  - [[#behavior-16][Behavior]]
+  - [[#keybinds-9][Keybinds]]
+  - [[#helpers-2][Helpers]]
+- [[#org-super-agenda][Org Super Agenda]]
+- [[#org-ql][Org QL]]
+  - [[#package-22][Package]]
+- [[#org-capture][Org Capture]]
   - [[#package-23][Package]]
+  - [[#variables-6][Variables]]
+  - [[#behavior-17][Behavior]]
+  - [[#fixes-5][Fixes]]
+- [[#org-roam-capture][Org Roam Capture]]
+  - [[#package-24][Package]]
   - [[#variables-7][Variables]]
 - [[#org-roam-protocol][Org Roam Protocol]]
-  - [[#package-24][Package]]
-  - [[#behavior-17][Behavior]]
-- [[#org-roam-ui][Org Roam UI]]
   - [[#package-25][Package]]
-  - [[#appearance-9][Appearance]]
   - [[#behavior-18][Behavior]]
-  - [[#keybinds-9][Keybinds]]
 - [[#org-roam-dailies][Org Roam Dailies]]
   - [[#package-26][Package]]
   - [[#variables-8][Variables]]
@@ -150,19 +152,19 @@
   - [[#variables-9][Variables]]
 - [[#vulpea][Vulpea]]
   - [[#package-28][Package]]
-- [[#org-gtd][Org GTD]]
+- [[#org-modern][Org Modern]]
   - [[#package-29][Package]]
+  - [[#appearance-10][Appearance]]
+- [[#org-gtd][Org GTD]]
+  - [[#package-30][Package]]
   - [[#variables-10][Variables]]
   - [[#behavior-19][Behavior]]
   - [[#keybinds-10][Keybinds]]
 - [[#org-appear][Org Appear]]
-  - [[#package-30][Package]]
-  - [[#appearance-10][Appearance]]
-- [[#org-fragtog][Org Fragtog]]
   - [[#package-31][Package]]
-- [[#org-modern][Org Modern]]
-  - [[#package-32][Package]]
   - [[#appearance-11][Appearance]]
+- [[#org-fragtog][Org Fragtog]]
+  - [[#package-32][Package]]
 - [[#org-link][Org Link]]
   - [[#package-33][Package]]
 - [[#toc-org][TOC Org]]
@@ -2215,74 +2217,6 @@ This advice causes the margins to remain centered in the frame regardless of tex
 (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust)
 #+end_src
 
-* Denote
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/protesilaos/denote][Denote]] is a simple note-taking tool for Emacs with an efficient file naming scheme. It's based on the idea that notes should follow a predictable and descriptive file-naming scheme.
-#+end_quote
-
-I'm working to integrate Org, Org Roam, and Denote. I want the best of everything.
-
-** Package
-
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref packages :noweb-sep "\n\n"
-(package! denote
-  :recipe (:host github :repo "protesilaos/denote")
-  :pin "59e6c43f9bd5ef35bde891b7ec9fab44aa991344")
-#+end_src
-#+html:</details>
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! denote
-  :after org
-  :init
-  <<denote-init>>
-  :config
-  <<denote-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Variables
-
-#+begin_src emacs-lisp :tangle no :noweb-ref denote-init :exports none
-;; Variables
-#+end_src
-
-*** Denote Directory
-
-#+begin_src emacs-lisp :tangle no :noweb-ref denote-init
-(setq denote-directory (file-truename "~/Documents/notes"))
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref denote-config :exports none
-;; Behavior
-#+end_src
-
-*** Integrate Org ID and File Properties
-
-#+begin_src emacs-lisp :tangle no :noweb-ref denote-config
-(setq org-id-ts-format denote-id-format
-      org-id-method 'ts)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref denote-config
-(setq denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:DATE: %2$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n")
-#+end_src
-
-*** Include Subdirectories
-
-#+begin_src emacs-lisp :tangle no :noweb-ref denote-config
-;;(setq denote-dired-directories-include-subdirectories t)
-#+end_src
-
 * Org
 :PROPERTIES:
 :VISIBILITY: children
@@ -2334,11 +2268,15 @@ I'm working to integrate Org, Org Roam, and Denote. I want the best of everythin
          "DONE(d!)"     ; Task successfully completed.
          "KILL(k@/!)")  ; Task cancelled or not applicable.
         (type
-         "|"            ; NOTE: Prevents being considered 'TODO' keyword in agenda files.
-         "NOTE(n!)"     ; A fleeting note, in person, idea, or link.
-         "LINK(l!)"     ; A link I want to note.
-         "KEYBIND(K!)"  ; A link I want to note.
+         "NOTE(n!)")    ; A fleeting note, in person, idea, or link.
+        (type
+         "LINK(l!)")    ; A link I want to note.
+        (type
+         "KEYBIND(K!)") ; A link I want to note.
+        (type
          "QUESTION(q!)" ; A question that I want to be able to hold information about.
+         "|"
+         "ANSWER(q!)"   ; A question that I want to be able to hold information about.
          ))
       org-todo-keyword-faces
       '(("ISSUE" . +org-todo-project)
@@ -2349,6 +2287,9 @@ I'm working to integrate Org, Org Roam, and Denote. I want the best of everythin
         ("LINK" . +org-todo-active)
         ("QUESTION" . +org-todo-active)))
 #+end_src
+
+#+RESULTS:
+: ((ISSUE . +org-todo-project) (NEXT . +org-todo-active) (WAIT . +org-todo-onhold) (KILL . +org-todo-cancel) (NOTE . +org-todo-active) (LINK . +org-todo-active) (QUESTION . +org-todo-active))
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-treat-insert-todo-heading-as-state-change t)
@@ -2542,519 +2483,73 @@ Although helpful supports using =org-store-link= which you can then you use with
 
 - =NOTE=: This pairs nicely with =embark-insert=.
 
-* Org Agenda
+* Denote
 :PROPERTIES:
 :VISIBILITY: children
 :END:
 
 #+begin_quote
-Org Agenda collects, creates, and displays an overview of actionable tasks your org files.
+[[https://github.com/protesilaos/denote][Denote]] is a simple note-taking tool for Emacs with an efficient file naming scheme. It's based on the idea that notes should follow a predictable and descriptive file-naming scheme.
 #+end_quote
+
+I'm working to integrate Org, Org Roam, and Denote. I want the best of everything.
 
 ** Package
 
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! org-agenda
-  :defer t
-  :init
-  <<org-agenda-init>>
-  :config
-  <<org-agenda-config>>
-  )
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages :noweb-sep "\n\n"
+(package! denote
+  :recipe (:host github :repo "protesilaos/denote")
+  :pin "59e6c43f9bd5ef35bde891b7ec9fab44aa991344")
 #+end_src
 #+html:</details>
 
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config :exports none
-;; Appearance
-#+end_src
-
-*** Habits
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-(setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
-      org-habit-show-all-today t)            ; Keep habits visible even if done.
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-;(setq +org-habit-min-width)
-;(setq +org-habit-graph-padding)
-;(setq +org-habit-graph-window-ratio)
-;(setq org-habit-graph-column)
-;(setq org-habit-today-glyph)
-;(setq org-habit-completed-glyph)
-;(setq org-habit-show-done-always-green)
-#+end_src
-
-*** Section Title Face
-
-Make agenda section titles slightly more bold.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-(custom-set-faces!
-  '(org-agenda-structure
-    :height 1.3 :weight bold))
-#+end_src
-
-*** Remove Empty Agenda Sections
-
-If one of my agenda blocks has no information, I don't want to see it.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-(defun noncog/agenda-remove-empty ()
-  "A simple function to remove empty agenda sections. Scans for blank lines.
-Blank sections defined by having two consecutive blank lines.
-Not compatible with the block separator."
-  (interactive)
-  (setq buffer-read-only nil)
-  ;; initializes variables and scans first line.
-  (goto-char (point-min))
-  (let* ((agenda-blank-line "[[:blank:]]*$")
-         (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
-         (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
-         (start-pos (point)))
-    ;; step until the end of the buffer
-    (while (not (eobp))
-      (forward-line 1)
-       (cond
-        ;; delete region if previously found two blank lines
-        ((when (> content-blank-line-count 1)
-          (delete-region start-pos (point))
-          (setq content-blank-line-count 0)
-          (setq start-pos (point))))
-        ;; if found a non-blank line
-        ((not (looking-at-p agenda-blank-line))
-         (setq content-line-count (1+ content-line-count))
-         (setq start-pos (point))
-         (setq content-blank-line-count 0))
-        ;; if found a blank line
-        ((looking-at-p agenda-blank-line)
-         (setq content-blank-line-count (1+ content-blank-line-count)))))
-    ;; final blank line check at end of file
-    (when (> content-blank-line-count 1)
-      (delete-region start-pos (point))
-      (setq content-blank-line-count 0)))
-  ;; return to top and finish
-  (goto-char (point-min))
-  (setq buffer-read-only t))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init
-(add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
-#+end_src
-
-*** Tags Column
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-(setq noncog/agenda-width 70)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-(setq org-agenda-tags-column (+ 10 (* -1 noncog/agenda-width)))
-#+end_src
-
-*** My Custom Agenda
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-(setq org-agenda-custom-commands
-      '(
-        ("o" "My Agenda" (
-         (agenda
-          ""
-          ( ;; Today
-           ;(org-agenda-overriding-header "Today\n")
-           (org-agenda-overriding-header " Agenda\n")
-           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-           (org-agenda-block-separator nil)
-           (org-agenda-format-date " %a, %b %-e")  ; american date format
-           (org-agenda-start-on-weekday nil)          ; start today
-           (org-agenda-start-day nil)                 ; don't show previous days
-           (org-agenda-span 1)                        ; only show today
-           (org-scheduled-past-days 0)                ; don't show overdue
-           (org-deadline-warning-days 0)              ; don't show deadlines for the future
-           (org-agenda-time-leading-zero t)           ; unify times formatting
-           (org-agenda-remove-tags t)
-           (org-agenda-time-grid '((today remove-match) (800 1000 1200 1400 1600 1800 2000 2200) "" ""))
-           ;(org-agenda-todo-keyword-format "%-4s")
-           (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
-           (org-agenda-dim-blocked-tasks nil)
-           ;; TODO: Fix inbox not-skipping... Since I no longer have that tag.
-           (org-agenda-skip-function '(noncog/skip-tag "inbox"))
-           (org-agenda-entry-types '(:timestamp :deadline :scheduled))
-           ))
-         (agenda
-          ""
-          ( ;; Next Three Days
-           ;(org-agenda-overriding-header "\nNext Three Days\n")
-           (org-agenda-overriding-header "")
-           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-           (org-agenda-block-separator nil)
-           (org-agenda-format-date " %a, %b %-e")
-           (org-agenda-start-on-weekday nil)
-           (org-agenda-start-day "+1d")
-           (org-agenda-span 3)
-           (org-scheduled-past-days 0)
-           (org-deadline-warning-days 0)
-           (org-agenda-time-leading-zero t)
-           (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
-           (org-agenda-entry-types '(:deadline :scheduled))
-           (org-agenda-time-grid '((daily weekly) () "" ""))
-           (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
-           ;(org-agenda-todo-keyword-format "%-4s")
-           (org-agenda-dim-blocked-tasks nil)
-           ))
-         (agenda
-          ""
-          ( ;; Upcoming Deadlines
-           (org-agenda-overriding-header "\n Coming Up\n")
-           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-           (org-agenda-block-separator nil)
-           (org-agenda-format-date " %a, %b %-e")
-           (org-agenda-start-on-weekday nil)
-           (org-agenda-start-day "+4d")
-           (org-agenda-span 28)
-           (org-scheduled-past-days 0)
-           (org-deadline-warning-days 0)
-           (org-agenda-time-leading-zero t)
-           (org-agenda-time-grid nil)
-           ;(org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
-           (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
-           ;(org-agenda-todo-keyword-format "%-4s")
-           (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
-           (org-agenda-entry-types '(:deadline :scheduled))
-           (org-agenda-show-all-dates nil)
-           (org-agenda-dim-blocked-tasks nil)
-           ))
-         (agenda
-          ""
-          ( ;; Past Due
-           (org-agenda-overriding-header "\n Past Due\n")
-           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-           (org-agenda-block-separator nil)
-           (org-agenda-format-date " %a, %b %-e")
-           (org-agenda-start-on-weekday nil)
-           (org-agenda-start-day "-60d")
-           (org-agenda-span 60)
-           (org-scheduled-past-days 60)
-           (org-deadline-past-days 60)
-           (org-deadline-warning-days 0)
-           (org-agenda-time-leading-zero t)
-           (org-agenda-time-grid nil)
-           (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
-           ;(org-agenda-todo-keyword-format "%-4s")
-           (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
-           (org-agenda-entry-types '(:deadline :scheduled))
-           (org-agenda-show-all-dates nil)
-           (org-agenda-dim-blocked-tasks nil)
-           ))
-         (todo
-          ""
-          ( ;; Important Tasks No Date
-           (org-agenda-overriding-header "\n Important Tasks - No Date\n")
-           (org-agenda-block-separator nil)
-           (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
-           (org-agenda-block-separator nil)
-           (org-agenda-time-grid nil)
-           (org-agenda-prefix-format '((todo . "  %?:c ")))
-           ;(org-agenda-todo-keyword-format "%-4s")
-           (org-agenda-dim-blocked-tasks nil)
-           ))
-         (todo
-          ""
-          ( ;; Next
-           (org-agenda-overriding-header "\n Next\n")
-           (org-agenda-block-separator nil)
-           (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("NEXT" "STRT")))
-           (org-agenda-block-separator nil)
-           (org-agenda-time-grid nil)
-           (org-agenda-prefix-format '((todo . "  %?:c ")))
-           ;(org-agenda-todo-keyword-format "%-4s")
-           (org-agenda-dim-blocked-tasks nil)
-           ))
-         (tags-todo
-          "inbox"
-          ( ;; Inbox
-           (org-agenda-overriding-header (propertize "\n Inbox\n" 'help-echo "Effort: 'c e' Refile: 'SPC m r'")) ; Ads mouse hover tooltip.
-           ;(org-agenda-remove-tags t)
-           (org-agenda-block-separator nil)
-           (org-agenda-prefix-format "  %?-4e ")
-           ;(org-agenda-todo-keyword-format "%-4s")
-           ))
-         ))))
-#+end_src
-
-*** Agenda Popup Window
-
-I use Doom's popup window rules to create a dedicated agenda window on the right side.
-
-I use a custom width variable to ensure the formatting as I can't trust auto-align.
-
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-;;(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit t)
-(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit 'current)
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config :exports none
-;; Behavior
-#+end_src
-
-*** Logging
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-(setq org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
-#+end_src
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init :exports none
-;; Keybinds
-#+end_src
-
-*** My Custom Agenda Launcher
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init
-(defun noncog/my-agenda ()
-  "My custom agenda launcher."
-  (interactive)
-  (org-agenda nil "o"))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init
-(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
-#+end_src
-
-** Helpers
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init :exports none
-;; Helpers
-#+end_src
-
-*** Find and Skip Tags
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-(defun noncog/skip-tag (tag)
-  "Skip trees with this tag."
-  (let* ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
-         (current-headline (or (and (org-at-heading-p) (point))
-                               (save-excursion (org-back-to-heading)))))
-    (if (member tag (org-get-tags current-headline))
-        next-headline nil)))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
-(defun noncog/skip-all-but-this-tag (tag)
-  "Skip trees that are not this tag."
-  (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-    (if (re-search-forward (concat ":" tag ":") subtree-end t)
-        nil          ; tag found, do not skip
-      subtree-end))) ; tag not found, continue after end of subtree
-#+end_src
-
-* Org Capture
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-Org Capture lets you quickly insert into your org documents.
-#+end_quote
-
-** Package
-
 #+html:<details><summary>Configuration</summary>
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! org-capture
-  :defer t
-  ;;:init
-  ;;<<org-capture-init>>
+(use-package! denote
+  :after org
+  :init
+  <<denote-init>>
   :config
-  <<org-capture-config>>
+  <<denote-config>>
   )
 #+end_src
 #+html:</details>
 
 ** Variables
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :exports none
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-init :exports none
 ;; Variables
 #+end_src
 
-*** Org Capture Function
+*** Denote Directory
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-;(setq +org-capture-fn #'org-roam-capture)
-#+end_src
-
-*** Capture Templates
-
-- NOTE: Currently disabled due to various issues.
-- TODO: Develop or use better insert here headings.
-  - I'll need to write a function which better targets the current heading and creates an entry instead of plain text.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
-;; (defun my/org-capture-context ()
-;;   "Find an Org Roam node related to the current context for use with org-capture-templates."
-;;   ;; TODO: Rewrite to use org-bookmark!
-;;   ;; TODO: Currently context is only able to be related to an org roam node.
-;;   ;; TODO: Consider wrapping in after! to ensure loads correctly.
-;;   (interactive)
-;;   (let* ((projectile-project (projectile-project-name))
-;;          (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
-;;          (description (org-roam-node-formatted node))
-;;          (id (org-roam-node-id node)))
-;;     (if id (org-link-make-string (concat "id:" id) description) " ")
-;;     ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
-;;     ))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
-(setq org-capture-templates
-      `(("t" "Task" entry
-         (file+headline "inbox.org" "Tasks")
-         "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
-         :prepend t)
-        ("i" "Issue" entry
-         (file+headline "inbox.org" "Issues")
-         "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
-         :prepend t)
-        ("n" "Note" entry
-         (file+headline "inbox.org" "Notes")
-         "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
-        ("?" "Question" entry
-         (file+headline "inbox.org" "Questions")
-         "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
-        ("b" "Bookmark" entry
-         (function org-bookmark-location)
-         "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n %i%?" :prepend t :immediate-finish t)
-        ("a" "Appointment" entry
-         (file+headline "inbox.org" "Tasks")
-         "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
-        ("m" "Meeting" entry
-         (file+headline "inbox.org" "Meeting")
-         "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
-        ("s" "Symbol" table-line
-           (function org-bookmark-symbol)
-           "|%(my/org-capture-print-help-link)|%?||" :table-line-pos "III-1" :immediate-finish t)
-        ("h" "Here")
-        ("hh" "Heading" entry
-         (here)
-         "* %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n"
-         :prepend nil)
-        ("ht" "Task" entry
-         (here)
-         "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
-         :prepend nil)
-        ("hi" "Issue" entry
-         (here)
-         "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
-         :prepend nil)
-        ("hn" "Note" entry
-         (here)
-         "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-        ("h?" "Question" entry
-         (here)
-         "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-        ("hb" "Bookmark" entry
-         (here)
-         "* %(org-cliplink-capture)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%?" :prepend nil)
-        ("ha" "Appointment" entry
-         (here)
-         "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-        ("hm" "Meeting" entry
-         (here)
-         "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-        ))
-#+end_src
-
-Then, we hide capture or make certain capture templates only available in certain modes. For me, Some of these templates are only called after I have pre-processed some information such as interactively obtaining a value for the template. Therefore, I don't want them to break or be used unless it's ready to be used.
-
-- TODO: Needs work, fix this.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config-disabled :results none
-(setq org-capture-templates-contexts
-      '(("s" ((in-mode . "my/org-capture-mode")))))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
-(set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
-
-(set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-;; (setq org-capture-templates-contexts)
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-init
+(setq denote-directory (file-truename "~/Documents/notes"))
 #+end_src
 
 ** Behavior
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :exports none
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-config :exports none
 ;; Behavior
 #+end_src
 
-*** Don't Add to Bookmarks
+*** Integrate Org ID and File Properties
 
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-(setq org-capture-bookmark nil)
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-config
+(setq org-id-ts-format denote-id-format
+      org-id-method 'ts)
 #+end_src
 
-** Fixes
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :exports none
-;; Fixes
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-config
+(setq denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:DATE: %2$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n")
 #+end_src
 
-*** Prevent Breaking Org Capture Window
+*** Include Subdirectories
 
-Sometimes the capture window breaks when the agenda or agenda files are already open. This fix reloads org-mode during captures. ([[https://github.com/doomemacs/doomemacs/issues/5714][Source]])
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-;; (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
-;;   :around #'+org--restart-mode-h
-;;   (let ((old-org-capture-current-plist
-;;          (and (bound-and-true-p org-capture-mode)
-;;               (bound-and-true-p org-capture-current-plist))))
-;;     (apply fn args)
-;;     (when old-org-capture-current-plist
-;;       (setq-local org-capture-current-plist old-org-capture-current-plist)
-;;       (org-capture-mode +1))))
+#+begin_src emacs-lisp :tangle no :noweb-ref denote-config
+;;(setq denote-dired-directories-include-subdirectories t)
 #+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
-;; (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
-#+end_src
-
-* Org QL
-
-#+begin_quote
-[[https://github.com/alphapapa/org-ql][Org QL]] provides a query language for Org files. It offers two syntax styles: Lisp-like sexps and search engine-like keywords.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref packages
-(package! org-ql
-  :recipe (:host github :repo "alphapapa/org-ql")
-  :pin "c9370982bfd4df04b590762bd795a7da3012c4dd")
-#+end_src
-#+html:</details>
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! org-ql
-  :defer t
-  :after denote)
-;; (use-package! org-ql-search
-;;   :after org-roam)
-  ;:autoload org-dblock-write:org-ql)
-#+end_src
-
-#+html:</details>
 
 * Org Roam
 :PROPERTIES:
@@ -3406,6 +2901,729 @@ Refer to `org-agenda-prefix-format' for more information."
 (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
 #+end_src
 
+* Org Roam UI
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/org-roam/org-roam-ui][Org Roam UI]] is a frontend for exploring and interacting with your org-roam notes.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages
+(package! org-roam-ui
+  :recipe (:host github :repo "org-roam/org-roam-ui"))
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! websocket
+    :after org-roam)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-roam-ui
+  :after org-roam
+  :hook (org-roam . org-roam-ui-mode)
+  :init
+  <<org-roam-ui-init>>
+  :config
+  <<org-roam-ui-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config :exports none
+;; Appearance
+#+end_src
+
+*** Enable Doom Themes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+(setq org-roam-ui-sync-theme t)
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config :exports none
+;; Behavior
+#+end_src
+
+*** General
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+(setq org-roam-ui-follow t
+      org-roam-ui-update-on-save t)
+#+end_src
+
+*** Use Xwidgets Instead of Regular Web Browser
+
+This feature isn't fully functional yet. It has a few bugs...
+
+The following enables org-roam-ui to open within Emacs using xwidgets instead of using a browser.
+
+Create a function to create a new buffer/window using display-buffer so that we can control it using popup-rules.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-init
+(defvar my/+lookup--xwidget-webkit-last-session-buffer nil)
+(defun my/+lookup-xwidget-webkit-open-url-fn (url &optional new-session)
+  (if (not (display-graphic-p))
+      (browse-url url)
+    (unless (featurep 'xwidget-internal)
+      (user-error "Your build of Emacs lacks Xwidgets support and cannot open Xwidget WebKit browser"))
+    (let ((orig-last-session-buffer (if (boundp 'xwidget-webkit-last-session-buffer)
+                                        xwidget-webkit-last-session-buffer
+                                      nil)))
+      (setq xwidget-webkit-last-session-buffer my/+lookup--xwidget-webkit-last-session-buffer)
+      (save-window-excursion
+        (xwidget-webkit-browse-url url new-session))
+      (display-buffer xwidget-webkit-last-session-buffer)
+      (setq my/+lookup--xwidget-webkit-last-session-buffer xwidget-webkit-last-session-buffer
+            xwidget-webkit-last-session-buffer orig-last-session-buffer))))
+#+end_src
+
+Prevent from opening the default graph on start and replace the browser function with our xwidgets function.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+(setq org-roam-ui-open-on-start nil)
+      ;org-roam-ui-browser-function #'my/+lookup-xwidget-webkit-open-url-fn)
+#+end_src
+
+Add a function to kill the xwidgets buffer and exit org-roam-ui-mode when we close the graph window.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+(defun my/+org-roam-ui-popup-kill (roam-ui-popup-buffer)
+  (progn (+popup--kill-buffer roam-ui-popup-buffer 0.1) (org-roam-ui-mode -1)))
+#+end_src
+
+Set the window's popup rules. This configuration opens the graph above the backlinks buffer splitting the vertical height equally.
+
+- =NOTE=: I currently only use xwidgets for displaying org-roam-ui. If you need the popup window to be specific to just this window then you'll have to define a more exact regular expression to only match it.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;(setq display-buffer-mark-dedicated t)
+;; (set-popup-rule! "\\*xwidget"
+;;   :side 'right :width 0.33 :height 0.5 :ttl #'my/+org-roam-ui-popup-kill :slot -1 :quit nil :modeline nil)
+#+end_src
+
+*** Don't Open Nodes in Side Windows
+
+By default org-roam-ui attempts to open nodes by splitting the newest window. This won't work with side windows. So, a function is needed to more carefully choose a window to split. I simply force it to open the node in the latest regular window.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;; (defadvice! my/+org-roam-ui--on-msg-open-node (data)
+;;   "Open a node CAREFULLY when receiving DATA from the websocket."
+;;   :override #'org-roam-ui--on-msg-open-node
+;;   (let* ((id (alist-get 'id data))
+;;          (node (org-roam-node-from-id id))
+;;          (pos (org-roam-node-point node))
+;;          (buf (find-file-noselect (org-roam-node-file node))))
+;;     (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
+;;     (unless (window-live-p org-roam-ui--window)
+;;       (if-let ((windows (cl-set-difference (doom-visible-windows) (list (minibuffer-window))))
+;;                (newest-window (car (seq-sort-by #'window-use-time #'> windows))))
+;;           (setq org-roam-ui--window newest-window)
+;;         (setq org-roam-ui--window newest-window)))
+;;     (set-window-buffer org-roam-ui--window buf)
+;;     (select-window org-roam-ui--window)
+;;     (goto-char pos)
+;;     (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
+#+end_src
+
+*** Ensure Doom Theme Colors Always
+
+This works nearly perfectly. Unfortunately you have to open the graph twice for your theme to update. But, this really isn't a big deal, at least it updates, and most users wont switch themes often.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
+;; (defadvice! +org-roam-ui-always-sync-theme ()
+;;   "Always sync da theme..."
+;;   :after #'org-roam-ui-open
+;;   (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme))))))))
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-init :exports none
+;; Keybinds
+#+end_src
+
+*** Replace Doom's Default Org Roam Graph Keybind
+
+Use the org-roam-ui and xwidget popup window instead.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-init
+(map! :leader "n r g" #'org-roam-ui-open)
+#+end_src
+
+* Org Sidebar
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/alphapapa/org-sidebar][Org Sidebar]] presents helpful sidebars for Org buffers. Sidebars are customizable using [[https://github.com/alphapapa/org-ql][org-ql]] queries and [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] grouping.
+#+end_quote
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages :noweb-sep "\n\n"
+(package! org-sidebar
+  :recipe (:host github :repo "alphapapa/org-sidebar")
+  :pin "1e06d1b4ab5f0d09301712cdecb757c9437a7179")
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-sidebar
+  :after org)
+#+end_src
+#+html:</details>
+
+* Org Agenda
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+Org Agenda collects, creates, and displays an overview of actionable tasks your org files.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-agenda
+  :defer t
+  :init
+  <<org-agenda-init>>
+  :config
+  <<org-agenda-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config :exports none
+;; Appearance
+#+end_src
+
+*** Habits
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
+      org-habit-show-all-today t)            ; Keep habits visible even if done.
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+;(setq +org-habit-min-width)
+;(setq +org-habit-graph-padding)
+;(setq +org-habit-graph-window-ratio)
+;(setq org-habit-graph-column)
+;(setq org-habit-today-glyph)
+;(setq org-habit-completed-glyph)
+;(setq org-habit-show-done-always-green)
+#+end_src
+
+*** Section Title Face
+
+Make agenda section titles slightly more bold.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(custom-set-faces!
+  '(org-agenda-structure
+    :height 1.3 :weight bold))
+#+end_src
+
+*** Remove Empty Agenda Sections
+
+If one of my agenda blocks has no information, I don't want to see it.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(defun noncog/agenda-remove-empty ()
+  "A simple function to remove empty agenda sections. Scans for blank lines.
+Blank sections defined by having two consecutive blank lines.
+Not compatible with the block separator."
+  (interactive)
+  (setq buffer-read-only nil)
+  ;; initializes variables and scans first line.
+  (goto-char (point-min))
+  (let* ((agenda-blank-line "[[:blank:]]*$")
+         (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
+         (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
+         (start-pos (point)))
+    ;; step until the end of the buffer
+    (while (not (eobp))
+      (forward-line 1)
+       (cond
+        ;; delete region if previously found two blank lines
+        ((when (> content-blank-line-count 1)
+          (delete-region start-pos (point))
+          (setq content-blank-line-count 0)
+          (setq start-pos (point))))
+        ;; if found a non-blank line
+        ((not (looking-at-p agenda-blank-line))
+         (setq content-line-count (1+ content-line-count))
+         (setq start-pos (point))
+         (setq content-blank-line-count 0))
+        ;; if found a blank line
+        ((looking-at-p agenda-blank-line)
+         (setq content-blank-line-count (1+ content-blank-line-count)))))
+    ;; final blank line check at end of file
+    (when (> content-blank-line-count 1)
+      (delete-region start-pos (point))
+      (setq content-blank-line-count 0)))
+  ;; return to top and finish
+  (goto-char (point-min))
+  (setq buffer-read-only t))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init
+(add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
+#+end_src
+
+*** Tags Column
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(setq noncog/agenda-width 70)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(setq org-agenda-tags-column (+ 10 (* -1 noncog/agenda-width)))
+#+end_src
+
+*** My Custom Agenda
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(setq org-agenda-custom-commands
+      '(
+        ("o" "My Agenda" (
+         (agenda
+          ""
+          ( ;; Today
+           ;(org-agenda-overriding-header "Today\n")
+           (org-agenda-overriding-header " Agenda\n")
+           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+           (org-agenda-block-separator nil)
+           (org-agenda-format-date " %a, %b %-e")  ; american date format
+           (org-agenda-start-on-weekday nil)          ; start today
+           (org-agenda-start-day nil)                 ; don't show previous days
+           (org-agenda-span 1)                        ; only show today
+           (org-scheduled-past-days 0)                ; don't show overdue
+           (org-deadline-warning-days 0)              ; don't show deadlines for the future
+           (org-agenda-time-leading-zero t)           ; unify times formatting
+           (org-agenda-remove-tags t)
+           (org-agenda-time-grid '((today remove-match) (800 1000 1200 1400 1600 1800 2000 2200) "" ""))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
+           (org-agenda-dim-blocked-tasks nil)
+           ;; TODO: Fix inbox not-skipping... Since I no longer have that tag.
+           (org-agenda-skip-function '(noncog/skip-tag "inbox"))
+           (org-agenda-entry-types '(:timestamp :deadline :scheduled))
+           ))
+         (agenda
+          ""
+          ( ;; Next Three Days
+           ;(org-agenda-overriding-header "\nNext Three Days\n")
+           (org-agenda-overriding-header "")
+           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+           (org-agenda-block-separator nil)
+           (org-agenda-format-date " %a, %b %-e")
+           (org-agenda-start-on-weekday nil)
+           (org-agenda-start-day "+1d")
+           (org-agenda-span 3)
+           (org-scheduled-past-days 0)
+           (org-deadline-warning-days 0)
+           (org-agenda-time-leading-zero t)
+           (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+           (org-agenda-entry-types '(:deadline :scheduled))
+           (org-agenda-time-grid '((daily weekly) () "" ""))
+           (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-dim-blocked-tasks nil)
+           ))
+         (agenda
+          ""
+          ( ;; Upcoming Deadlines
+           (org-agenda-overriding-header "\n Coming Up\n")
+           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+           (org-agenda-block-separator nil)
+           (org-agenda-format-date " %a, %b %-e")
+           (org-agenda-start-on-weekday nil)
+           (org-agenda-start-day "+4d")
+           (org-agenda-span 28)
+           (org-scheduled-past-days 0)
+           (org-deadline-warning-days 0)
+           (org-agenda-time-leading-zero t)
+           (org-agenda-time-grid nil)
+           ;(org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+           (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+           (org-agenda-entry-types '(:deadline :scheduled))
+           (org-agenda-show-all-dates nil)
+           (org-agenda-dim-blocked-tasks nil)
+           ))
+         (agenda
+          ""
+          ( ;; Past Due
+           (org-agenda-overriding-header "\n Past Due\n")
+           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+           (org-agenda-block-separator nil)
+           (org-agenda-format-date " %a, %b %-e")
+           (org-agenda-start-on-weekday nil)
+           (org-agenda-start-day "-60d")
+           (org-agenda-span 60)
+           (org-scheduled-past-days 60)
+           (org-deadline-past-days 60)
+           (org-deadline-warning-days 0)
+           (org-agenda-time-leading-zero t)
+           (org-agenda-time-grid nil)
+           (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+           (org-agenda-entry-types '(:deadline :scheduled))
+           (org-agenda-show-all-dates nil)
+           (org-agenda-dim-blocked-tasks nil)
+           ))
+         (todo
+          ""
+          ( ;; Important Tasks No Date
+           (org-agenda-overriding-header "\n Important Tasks - No Date\n")
+           (org-agenda-block-separator nil)
+           (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+           (org-agenda-block-separator nil)
+           (org-agenda-time-grid nil)
+           (org-agenda-prefix-format '((todo . "  %?:c ")))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-dim-blocked-tasks nil)
+           ))
+         (todo
+          ""
+          ( ;; Next
+           (org-agenda-overriding-header "\n Next\n")
+           (org-agenda-block-separator nil)
+           (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("NEXT" "STRT")))
+           (org-agenda-block-separator nil)
+           (org-agenda-time-grid nil)
+           (org-agenda-prefix-format '((todo . "  %?:c ")))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-dim-blocked-tasks nil)
+           ))
+         (tags-todo
+          "inbox"
+          ( ;; Inbox
+           (org-agenda-overriding-header (propertize "\n Inbox\n" 'help-echo "Effort: 'c e' Refile: 'SPC m r'")) ; Ads mouse hover tooltip.
+           ;(org-agenda-remove-tags t)
+           (org-agenda-block-separator nil)
+           (org-agenda-prefix-format "  %?-4e ")
+           ;(org-agenda-todo-keyword-format "%-4s")
+           ))
+         ))))
+#+end_src
+
+*** Agenda Popup Window
+
+I use Doom's popup window rules to create a dedicated agenda window on the right side.
+
+I use a custom width variable to ensure the formatting as I can't trust auto-align.
+
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+;;(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit t)
+(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit 'current)
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config :exports none
+;; Behavior
+#+end_src
+
+*** Logging
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(setq org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init :exports none
+;; Keybinds
+#+end_src
+
+*** My Custom Agenda Launcher
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init
+(defun noncog/my-agenda ()
+  "My custom agenda launcher."
+  (interactive)
+  (org-agenda nil "o"))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init
+(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
+#+end_src
+
+** Helpers
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init :exports none
+;; Helpers
+#+end_src
+
+*** Find and Skip Tags
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(defun noncog/skip-tag (tag)
+  "Skip trees with this tag."
+  (let* ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
+         (current-headline (or (and (org-at-heading-p) (point))
+                               (save-excursion (org-back-to-heading)))))
+    (if (member tag (org-get-tags current-headline))
+        next-headline nil)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(defun noncog/skip-all-but-this-tag (tag)
+  "Skip trees that are not this tag."
+  (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+    (if (re-search-forward (concat ":" tag ":") subtree-end t)
+        nil          ; tag found, do not skip
+      subtree-end))) ; tag not found, continue after end of subtree
+#+end_src
+
+* Org Super Agenda
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/alphapapa/org-super-agenda][Org Super Agenda]] lets you “supercharge” your Org daily/weekly agenda. The idea is to group items into sections, rather than having them all in one big list. It's merely a filter on top of org-agenda, however it also can accept org-ql queries!
+#+end_quote
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages :noweb-sep "\n\n"
+(package! org-super-agenda
+  :recipe (:host github :repo "alphapapa/org-super-agenda")
+  :pin "51c9da5ce7b791150758984bab469d2222516844")
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-super-agenda
+  :after org-agenda)
+#+end_src
+#+html:</details>
+
+* Org QL
+
+#+begin_quote
+[[https://github.com/alphapapa/org-ql][Org QL]] provides a query language for Org files. It offers two syntax styles: Lisp-like sexps and search engine-like keywords.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages
+(package! org-ql
+  :recipe (:host github :repo "alphapapa/org-ql")
+  :pin "c9370982bfd4df04b590762bd795a7da3012c4dd")
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-ql
+  :defer t
+  :after denote)
+;; (use-package! org-ql-search
+;;   :after org-roam)
+  ;:autoload org-dblock-write:org-ql)
+#+end_src
+
+#+html:</details>
+
+* Org Capture
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+Org Capture lets you quickly insert into your org documents.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-capture
+  :defer t
+  ;;:init
+  ;;<<org-capture-init>>
+  :config
+  <<org-capture-config>>
+  )
+#+end_src
+#+html:</details>
+
+** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :exports none
+;; Variables
+#+end_src
+
+*** Org Capture Function
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+;(setq +org-capture-fn #'org-roam-capture)
+#+end_src
+
+*** Capture Templates
+
+- NOTE: Currently disabled due to various issues.
+- TODO: Develop or use better insert here headings.
+  - I'll need to write a function which better targets the current heading and creates an entry instead of plain text.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
+;; (defun my/org-capture-context ()
+;;   "Find an Org Roam node related to the current context for use with org-capture-templates."
+;;   ;; TODO: Rewrite to use org-bookmark!
+;;   ;; TODO: Currently context is only able to be related to an org roam node.
+;;   ;; TODO: Consider wrapping in after! to ensure loads correctly.
+;;   (interactive)
+;;   (let* ((projectile-project (projectile-project-name))
+;;          (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
+;;          (description (org-roam-node-formatted node))
+;;          (id (org-roam-node-id node)))
+;;     (if id (org-link-make-string (concat "id:" id) description) " ")
+;;     ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
+;;     ))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
+;; (defun my/org-capture-template-heading-string headline other_args
+;;        (format "* %s\n:PROPERTIES:\n:DATE: %s\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %s\n:END:\n%i" headline "[%<%Y-%m-%d %a %H:%M:%S>]" "[%<%Y-%m-%d %a %H:%M:%S>]")
+;;        )
+(setq org-capture-templates
+      `(("t" "Task" entry
+         (file+headline "inbox.org" "Tasks")
+         "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+        ("i" "Issue" entry
+         (file+headline "inbox.org" "Issues")
+         "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+        ("n" "Note" entry
+         (file+headline "inbox.org" "Notes")
+         "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+        ("?" "Question" entry
+         (file+headline "inbox.org" "Questions")
+         "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+        ("b" "Bookmark" entry
+         (function org-bookmark-location)
+         "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i%?" :prepend t :immediate-finish t)
+        ("a" "Appointment" entry
+         (file+headline "inbox.org" "Tasks")
+         "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+        ("m" "Meeting" entry
+         (file+headline "inbox.org" "Meeting")
+         "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+        ("s" "Symbol" table-line
+           (function org-bookmark-symbol)
+           "|%(my/org-capture-print-help-link)|%?||" :table-line-pos "III-1" :immediate-finish t)
+        ("h" "Here")
+        ("hh" "Heading" entry
+         (here)
+         "* %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n"
+         :prepend nil)
+        ("ht" "Task" entry
+         (here)
+         "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
+         :prepend nil)
+        ("hi" "Issue" entry
+         (here)
+         "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
+         :prepend nil)
+        ("hn" "Note" entry
+         (here)
+         "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
+        ("h?" "Question" entry
+         (here)
+         "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
+        ("hb" "Bookmark" entry
+         (here)
+         "* %(org-cliplink-capture)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%?" :prepend nil)
+        ("ha" "Appointment" entry
+         (here)
+         "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
+        ("hm" "Meeting" entry
+         (here)
+         "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
+        ))
+#+end_src
+
+Then, we hide capture or make certain capture templates only available in certain modes. For me, Some of these templates are only called after I have pre-processed some information such as interactively obtaining a value for the template. Therefore, I don't want them to break or be used unless it's ready to be used.
+
+- TODO: Needs work, fix this.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config-disabled :results none
+(setq org-capture-templates-contexts
+      '(("s" ((in-mode . "my/org-capture-mode")))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
+(set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
+
+(set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+;; (setq org-capture-templates-contexts)
+#+end_src
+
+** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :exports none
+;; Behavior
+#+end_src
+
+*** Don't Add to Bookmarks
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+(setq org-capture-bookmark nil)
+#+end_src
+
+** Fixes
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :exports none
+;; Fixes
+#+end_src
+
+*** Prevent Breaking Org Capture Window
+
+Sometimes the capture window breaks when the agenda or agenda files are already open. This fix reloads org-mode during captures. ([[https://github.com/doomemacs/doomemacs/issues/5714][Source]])
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+;; (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
+;;   :around #'+org--restart-mode-h
+;;   (let ((old-org-capture-current-plist
+;;          (and (bound-and-true-p org-capture-mode)
+;;               (bound-and-true-p org-capture-current-plist))))
+;;     (apply fn args)
+;;     (when old-org-capture-current-plist
+;;       (setq-local org-capture-current-plist old-org-capture-current-plist)
+;;       (org-capture-mode +1))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config
+;; (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
+#+end_src
+
 * Org Roam Capture
 :PROPERTIES:
 :VISIBILITY: children
@@ -3587,166 +3805,6 @@ javascript:location.href =
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-protocol-config
 (setq org-roam-protocol-store-links t)
-#+end_src
-
-* Org Roam UI
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/org-roam/org-roam-ui][Org Roam UI]] is a frontend for exploring and interacting with your org-roam notes.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref packages
-(package! org-roam-ui
-  :recipe (:host github :repo "org-roam/org-roam-ui"))
-#+end_src
-#+html:</details>
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! websocket
-    :after org-roam)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! org-roam-ui
-  :after org-roam
-  :hook (org-roam . org-roam-ui-mode)
-  :init
-  <<org-roam-ui-init>>
-  :config
-  <<org-roam-ui-config>>
-  )
-#+end_src
-#+html:</details>
-
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config :exports none
-;; Appearance
-#+end_src
-
-*** Enable Doom Themes
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(setq org-roam-ui-sync-theme t)
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config :exports none
-;; Behavior
-#+end_src
-
-*** General
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(setq org-roam-ui-follow t
-      org-roam-ui-update-on-save t)
-#+end_src
-
-*** Use Xwidgets Instead of Regular Web Browser
-
-This feature isn't fully functional yet. It has a few bugs...
-
-The following enables org-roam-ui to open within Emacs using xwidgets instead of using a browser.
-
-Create a function to create a new buffer/window using display-buffer so that we can control it using popup-rules.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-init
-(defvar my/+lookup--xwidget-webkit-last-session-buffer nil)
-(defun my/+lookup-xwidget-webkit-open-url-fn (url &optional new-session)
-  (if (not (display-graphic-p))
-      (browse-url url)
-    (unless (featurep 'xwidget-internal)
-      (user-error "Your build of Emacs lacks Xwidgets support and cannot open Xwidget WebKit browser"))
-    (let ((orig-last-session-buffer (if (boundp 'xwidget-webkit-last-session-buffer)
-                                        xwidget-webkit-last-session-buffer
-                                      nil)))
-      (setq xwidget-webkit-last-session-buffer my/+lookup--xwidget-webkit-last-session-buffer)
-      (save-window-excursion
-        (xwidget-webkit-browse-url url new-session))
-      (display-buffer xwidget-webkit-last-session-buffer)
-      (setq my/+lookup--xwidget-webkit-last-session-buffer xwidget-webkit-last-session-buffer
-            xwidget-webkit-last-session-buffer orig-last-session-buffer))))
-#+end_src
-
-Prevent from opening the default graph on start and replace the browser function with our xwidgets function.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(setq org-roam-ui-open-on-start nil)
-      ;org-roam-ui-browser-function #'my/+lookup-xwidget-webkit-open-url-fn)
-#+end_src
-
-Add a function to kill the xwidgets buffer and exit org-roam-ui-mode when we close the graph window.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-(defun my/+org-roam-ui-popup-kill (roam-ui-popup-buffer)
-  (progn (+popup--kill-buffer roam-ui-popup-buffer 0.1) (org-roam-ui-mode -1)))
-#+end_src
-
-Set the window's popup rules. This configuration opens the graph above the backlinks buffer splitting the vertical height equally.
-
-- =NOTE=: I currently only use xwidgets for displaying org-roam-ui. If you need the popup window to be specific to just this window then you'll have to define a more exact regular expression to only match it.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-;(setq display-buffer-mark-dedicated t)
-;; (set-popup-rule! "\\*xwidget"
-;;   :side 'right :width 0.33 :height 0.5 :ttl #'my/+org-roam-ui-popup-kill :slot -1 :quit nil :modeline nil)
-#+end_src
-
-*** Don't Open Nodes in Side Windows
-
-By default org-roam-ui attempts to open nodes by splitting the newest window. This won't work with side windows. So, a function is needed to more carefully choose a window to split. I simply force it to open the node in the latest regular window.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-;; (defadvice! my/+org-roam-ui--on-msg-open-node (data)
-;;   "Open a node CAREFULLY when receiving DATA from the websocket."
-;;   :override #'org-roam-ui--on-msg-open-node
-;;   (let* ((id (alist-get 'id data))
-;;          (node (org-roam-node-from-id id))
-;;          (pos (org-roam-node-point node))
-;;          (buf (find-file-noselect (org-roam-node-file node))))
-;;     (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
-;;     (unless (window-live-p org-roam-ui--window)
-;;       (if-let ((windows (cl-set-difference (doom-visible-windows) (list (minibuffer-window))))
-;;                (newest-window (car (seq-sort-by #'window-use-time #'> windows))))
-;;           (setq org-roam-ui--window newest-window)
-;;         (setq org-roam-ui--window newest-window)))
-;;     (set-window-buffer org-roam-ui--window buf)
-;;     (select-window org-roam-ui--window)
-;;     (goto-char pos)
-;;     (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
-#+end_src
-
-*** Ensure Doom Theme Colors Always
-
-This works nearly perfectly. Unfortunately you have to open the graph twice for your theme to update. But, this really isn't a big deal, at least it updates, and most users wont switch themes often.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-config
-;; (defadvice! +org-roam-ui-always-sync-theme ()
-;;   "Always sync da theme..."
-;;   :after #'org-roam-ui-open
-;;   (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme))))))))
-#+end_src
-
-** Keybinds
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-init :exports none
-;; Keybinds
-#+end_src
-
-*** Replace Doom's Default Org Roam Graph Keybind
-
-Use the org-roam-ui and xwidget popup window instead.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-ui-init
-(map! :leader "n r g" #'org-roam-ui-open)
 #+end_src
 
 * Org Roam Dailies
@@ -4049,6 +4107,66 @@ appropiriate file/line and returns non-nil on match.")
 #+end_src
 #+html:</details>
 
+* Org Modern
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/minad/org-modern][Org Modern]] implements a “modern” style for your Org buffers using font locking and text properties.
+#+end_quote
+
+** Package
+
+#+html:<details><summary>Source</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref packages
+(package! org-modern
+  :pin "c97096b3f82c3bd84859f90a23273dfa2c6dfd7e")
+#+end_src
+#+html:</details>
+
+#+html:<details><summary>Configuration</summary>
+#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
+(use-package! org-modern
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
+  :config
+  <<org-modern-config>>)
+#+end_src
+#+html:</details>
+
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-modern-config :exports none
+;; Appearance
+#+end_src
+
+*** General
+
+- TODO: Sort settings into their own headings.
+- TODO: Change faces to match org-todo-keywords.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-modern-config
+(setq org-modern-hide-stars nil              ; Let Org handle hiding the stars.
+      org-modern-table-vertical 1            ; Use thinner lines than default.
+      org-modern-table-horizontal 0.2        ; Unify line thickness with vertical line.
+      org-modern-progress nil                ; Use default progress face.
+      org-modern-priority nil                ; Use default priority face.
+      org-modern-todo-faces                  ; Inherit Doom's Org faces.
+      '(("TODO" :inverse-video t :inherit org-todo)
+        ("PROJ" :inverse-video t :inherit +org-todo-project)
+        ("STRT" :inverse-video t :inherit +org-todo-active)
+        ("[-]"  :inverse-video t :inherit +org-todo-active)
+        ("HOLD" :inverse-video t :inherit +org-todo-onhold)
+        ("WAIT" :inverse-video t :inherit +org-todo-onhold)
+        ("[?]"  :inverse-video t :inherit +org-todo-onhold)
+        ("KILL" :inverse-video t :inherit +org-todo-cancel)
+        ("NO"   :inverse-video t :inherit +org-todo-cancel))
+      org-modern-star nil                    ; Disabled due to font instability.
+      org-modern-horizontal-rule (make-string 80 ?─))
+#+end_src
+
 * Org GTD
 :PROPERTIES:
 :VISIBILITY: children
@@ -4212,66 +4330,6 @@ I'm not really using this package yet, but I'm investigating how I can.
   :hook (org-mode . org-fragtog-mode))
 #+end_src
 #+html:</details>
-
-* Org Modern
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/minad/org-modern][Org Modern]] implements a “modern” style for your Org buffers using font locking and text properties.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Source</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref packages
-(package! org-modern
-  :pin "c97096b3f82c3bd84859f90a23273dfa2c6dfd7e")
-#+end_src
-#+html:</details>
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! org-modern
-  :hook
-  (org-mode . org-modern-mode)
-  (org-agenda-finalize . org-modern-agenda)
-  :config
-  <<org-modern-config>>)
-#+end_src
-#+html:</details>
-
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-modern-config :exports none
-;; Appearance
-#+end_src
-
-*** General
-
-- TODO: Sort settings into their own headings.
-- TODO: Change faces to match org-todo-keywords.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-modern-config
-(setq org-modern-hide-stars nil              ; Let Org handle hiding the stars.
-      org-modern-table-vertical 1            ; Use thinner lines than default.
-      org-modern-table-horizontal 0.2        ; Unify line thickness with vertical line.
-      org-modern-progress nil                ; Use default progress face.
-      org-modern-priority nil                ; Use default priority face.
-      org-modern-todo-faces                  ; Inherit Doom's Org faces.
-      '(("TODO" :inverse-video t :inherit org-todo)
-        ("PROJ" :inverse-video t :inherit +org-todo-project)
-        ("STRT" :inverse-video t :inherit +org-todo-active)
-        ("[-]"  :inverse-video t :inherit +org-todo-active)
-        ("HOLD" :inverse-video t :inherit +org-todo-onhold)
-        ("WAIT" :inverse-video t :inherit +org-todo-onhold)
-        ("[?]"  :inverse-video t :inherit +org-todo-onhold)
-        ("KILL" :inverse-video t :inherit +org-todo-cancel)
-        ("NO"   :inverse-video t :inherit +org-todo-cancel))
-      org-modern-star nil                    ; Disabled due to font instability.
-      org-modern-horizontal-rule (make-string 80 ?─))
-#+end_src
 
 * Org Link
 

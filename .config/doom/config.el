@@ -528,19 +528,6 @@
   ;; Fixes
   (advice-add #'text-scale-adjust :after #'visual-fill-column-adjust))
 
-(use-package! denote
-  :after org
-  :init
-  ;; Variables
-  (setq denote-directory (file-truename "~/Documents/notes"))
-  :config
-  ;; Behavior
-  (setq org-id-ts-format denote-id-format
-        org-id-method 'ts)
-  (setq denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:DATE: %2$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n")
-  ;;(setq denote-dired-directories-include-subdirectories t)
-  )
-
 (use-package! org
   :defer t
   :init
@@ -562,11 +549,15 @@
            "DONE(d!)"     ; Task successfully completed.
            "KILL(k@/!)")  ; Task cancelled or not applicable.
           (type
-           "|"            ; NOTE: Prevents being considered 'TODO' keyword in agenda files.
-           "NOTE(n!)"     ; A fleeting note, in person, idea, or link.
-           "LINK(l!)"     ; A link I want to note.
-           "KEYBIND(K!)"  ; A link I want to note.
+           "NOTE(n!)")    ; A fleeting note, in person, idea, or link.
+          (type
+           "LINK(l!)")    ; A link I want to note.
+          (type
+           "KEYBIND(K!)") ; A link I want to note.
+          (type
            "QUESTION(q!)" ; A question that I want to be able to hold information about.
+           "|"
+           "ANSWER(q!)"   ; A question that I want to be able to hold information about.
            ))
         org-todo-keyword-faces
         '(("ISSUE" . +org-todo-project)
@@ -645,314 +636,18 @@
         "l" #'my/org-store-help-link)
   (add-to-list 'org-tags-exclude-from-inheritance "agenda"))
 
-(use-package! org-agenda
-  :defer t
+(use-package! denote
+  :after org
   :init
-  (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
-  ;; Keybinds
-  (defun noncog/my-agenda ()
-    "My custom agenda launcher."
-    (interactive)
-    (org-agenda nil "o"))
-  (map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
-  ;; Helpers
-  :config
-  ;; Appearance
-  (setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
-        org-habit-show-all-today t)            ; Keep habits visible even if done.
-  ;(setq +org-habit-min-width)
-  ;(setq +org-habit-graph-padding)
-  ;(setq +org-habit-graph-window-ratio)
-  ;(setq org-habit-graph-column)
-  ;(setq org-habit-today-glyph)
-  ;(setq org-habit-completed-glyph)
-  ;(setq org-habit-show-done-always-green)
-  (custom-set-faces!
-    '(org-agenda-structure
-      :height 1.3 :weight bold))
-  (defun noncog/agenda-remove-empty ()
-    "A simple function to remove empty agenda sections. Scans for blank lines.
-  Blank sections defined by having two consecutive blank lines.
-  Not compatible with the block separator."
-    (interactive)
-    (setq buffer-read-only nil)
-    ;; initializes variables and scans first line.
-    (goto-char (point-min))
-    (let* ((agenda-blank-line "[[:blank:]]*$")
-           (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
-           (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
-           (start-pos (point)))
-      ;; step until the end of the buffer
-      (while (not (eobp))
-        (forward-line 1)
-         (cond
-          ;; delete region if previously found two blank lines
-          ((when (> content-blank-line-count 1)
-            (delete-region start-pos (point))
-            (setq content-blank-line-count 0)
-            (setq start-pos (point))))
-          ;; if found a non-blank line
-          ((not (looking-at-p agenda-blank-line))
-           (setq content-line-count (1+ content-line-count))
-           (setq start-pos (point))
-           (setq content-blank-line-count 0))
-          ;; if found a blank line
-          ((looking-at-p agenda-blank-line)
-           (setq content-blank-line-count (1+ content-blank-line-count)))))
-      ;; final blank line check at end of file
-      (when (> content-blank-line-count 1)
-        (delete-region start-pos (point))
-        (setq content-blank-line-count 0)))
-    ;; return to top and finish
-    (goto-char (point-min))
-    (setq buffer-read-only t))
-  (setq noncog/agenda-width 70)
-  (setq org-agenda-tags-column (+ 10 (* -1 noncog/agenda-width)))
-  (setq org-agenda-custom-commands
-        '(
-          ("o" "My Agenda" (
-           (agenda
-            ""
-            ( ;; Today
-             ;(org-agenda-overriding-header "Today\n")
-             (org-agenda-overriding-header " Agenda\n")
-             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-             (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a, %b %-e")  ; american date format
-             (org-agenda-start-on-weekday nil)          ; start today
-             (org-agenda-start-day nil)                 ; don't show previous days
-             (org-agenda-span 1)                        ; only show today
-             (org-scheduled-past-days 0)                ; don't show overdue
-             (org-deadline-warning-days 0)              ; don't show deadlines for the future
-             (org-agenda-time-leading-zero t)           ; unify times formatting
-             (org-agenda-remove-tags t)
-             (org-agenda-time-grid '((today remove-match) (800 1000 1200 1400 1600 1800 2000 2200) "" ""))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
-             (org-agenda-dim-blocked-tasks nil)
-             ;; TODO: Fix inbox not-skipping... Since I no longer have that tag.
-             (org-agenda-skip-function '(noncog/skip-tag "inbox"))
-             (org-agenda-entry-types '(:timestamp :deadline :scheduled))
-             ))
-           (agenda
-            ""
-            ( ;; Next Three Days
-             ;(org-agenda-overriding-header "\nNext Three Days\n")
-             (org-agenda-overriding-header "")
-             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-             (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a, %b %-e")
-             (org-agenda-start-on-weekday nil)
-             (org-agenda-start-day "+1d")
-             (org-agenda-span 3)
-             (org-scheduled-past-days 0)
-             (org-deadline-warning-days 0)
-             (org-agenda-time-leading-zero t)
-             (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
-             (org-agenda-entry-types '(:deadline :scheduled))
-             (org-agenda-time-grid '((daily weekly) () "" ""))
-             (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-dim-blocked-tasks nil)
-             ))
-           (agenda
-            ""
-            ( ;; Upcoming Deadlines
-             (org-agenda-overriding-header "\n Coming Up\n")
-             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-             (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a, %b %-e")
-             (org-agenda-start-on-weekday nil)
-             (org-agenda-start-day "+4d")
-             (org-agenda-span 28)
-             (org-scheduled-past-days 0)
-             (org-deadline-warning-days 0)
-             (org-agenda-time-leading-zero t)
-             (org-agenda-time-grid nil)
-             ;(org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
-             (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
-             (org-agenda-entry-types '(:deadline :scheduled))
-             (org-agenda-show-all-dates nil)
-             (org-agenda-dim-blocked-tasks nil)
-             ))
-           (agenda
-            ""
-            ( ;; Past Due
-             (org-agenda-overriding-header "\n Past Due\n")
-             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-             (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a, %b %-e")
-             (org-agenda-start-on-weekday nil)
-             (org-agenda-start-day "-60d")
-             (org-agenda-span 60)
-             (org-scheduled-past-days 60)
-             (org-deadline-past-days 60)
-             (org-deadline-warning-days 0)
-             (org-agenda-time-leading-zero t)
-             (org-agenda-time-grid nil)
-             (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
-             (org-agenda-entry-types '(:deadline :scheduled))
-             (org-agenda-show-all-dates nil)
-             (org-agenda-dim-blocked-tasks nil)
-             ))
-           (todo
-            ""
-            ( ;; Important Tasks No Date
-             (org-agenda-overriding-header "\n Important Tasks - No Date\n")
-             (org-agenda-block-separator nil)
-             (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
-             (org-agenda-block-separator nil)
-             (org-agenda-time-grid nil)
-             (org-agenda-prefix-format '((todo . "  %?:c ")))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-dim-blocked-tasks nil)
-             ))
-           (todo
-            ""
-            ( ;; Next
-             (org-agenda-overriding-header "\n Next\n")
-             (org-agenda-block-separator nil)
-             (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("NEXT" "STRT")))
-             (org-agenda-block-separator nil)
-             (org-agenda-time-grid nil)
-             (org-agenda-prefix-format '((todo . "  %?:c ")))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-dim-blocked-tasks nil)
-             ))
-           (tags-todo
-            "inbox"
-            ( ;; Inbox
-             (org-agenda-overriding-header (propertize "\n Inbox\n" 'help-echo "Effort: 'c e' Refile: 'SPC m r'")) ; Ads mouse hover tooltip.
-             ;(org-agenda-remove-tags t)
-             (org-agenda-block-separator nil)
-             (org-agenda-prefix-format "  %?-4e ")
-             ;(org-agenda-todo-keyword-format "%-4s")
-             ))
-           ))))
-  ;;(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit t)
-  (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit 'current)
-  ;; Behavior
-  (setq org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
-  (defun noncog/skip-tag (tag)
-    "Skip trees with this tag."
-    (let* ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
-           (current-headline (or (and (org-at-heading-p) (point))
-                                 (save-excursion (org-back-to-heading)))))
-      (if (member tag (org-get-tags current-headline))
-          next-headline nil)))
-  (defun noncog/skip-all-but-this-tag (tag)
-    "Skip trees that are not this tag."
-    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-      (if (re-search-forward (concat ":" tag ":") subtree-end t)
-          nil          ; tag found, do not skip
-        subtree-end))) ; tag not found, continue after end of subtree
-  )
-
-(use-package! org-capture
-  :defer t
-  ;;:init
-  ;;
-  :config
   ;; Variables
-  ;(setq +org-capture-fn #'org-roam-capture)
-  ;; (defun my/org-capture-context ()
-  ;;   "Find an Org Roam node related to the current context for use with org-capture-templates."
-  ;;   ;; TODO: Rewrite to use org-bookmark!
-  ;;   ;; TODO: Currently context is only able to be related to an org roam node.
-  ;;   ;; TODO: Consider wrapping in after! to ensure loads correctly.
-  ;;   (interactive)
-  ;;   (let* ((projectile-project (projectile-project-name))
-  ;;          (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
-  ;;          (description (org-roam-node-formatted node))
-  ;;          (id (org-roam-node-id node)))
-  ;;     (if id (org-link-make-string (concat "id:" id) description) " ")
-  ;;     ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
-  ;;     ))
-  (setq org-capture-templates
-        `(("t" "Task" entry
-           (file+headline "inbox.org" "Tasks")
-           "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
-           :prepend t)
-          ("i" "Issue" entry
-           (file+headline "inbox.org" "Issues")
-           "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
-           :prepend t)
-          ("n" "Note" entry
-           (file+headline "inbox.org" "Notes")
-           "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
-          ("?" "Question" entry
-           (file+headline "inbox.org" "Questions")
-           "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
-          ("b" "Bookmark" entry
-           (function org-bookmark-location)
-           "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n %i%?" :prepend t :immediate-finish t)
-          ("a" "Appointment" entry
-           (file+headline "inbox.org" "Tasks")
-           "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
-          ("m" "Meeting" entry
-           (file+headline "inbox.org" "Meeting")
-           "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
-          ("s" "Symbol" table-line
-             (function org-bookmark-symbol)
-             "|%(my/org-capture-print-help-link)|%?||" :table-line-pos "III-1" :immediate-finish t)
-          ("h" "Here")
-          ("hh" "Heading" entry
-           (here)
-           "* %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n"
-           :prepend nil)
-          ("ht" "Task" entry
-           (here)
-           "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
-           :prepend nil)
-          ("hi" "Issue" entry
-           (here)
-           "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
-           :prepend nil)
-          ("hn" "Note" entry
-           (here)
-           "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-          ("h?" "Question" entry
-           (here)
-           "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-          ("hb" "Bookmark" entry
-           (here)
-           "* %(org-cliplink-capture)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%?" :prepend nil)
-          ("ha" "Appointment" entry
-           (here)
-           "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-          ("hm" "Meeting" entry
-           (here)
-           "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
-          ))
-  (set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
-  
-  (set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
-  ;; (setq org-capture-templates-contexts)
+  (setq denote-directory (file-truename "~/Documents/notes"))
+  :config
   ;; Behavior
-  (setq org-capture-bookmark nil)
-  ;; Fixes
-  ;; (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
-  ;;   :around #'+org--restart-mode-h
-  ;;   (let ((old-org-capture-current-plist
-  ;;          (and (bound-and-true-p org-capture-mode)
-  ;;               (bound-and-true-p org-capture-current-plist))))
-  ;;     (apply fn args)
-  ;;     (when old-org-capture-current-plist
-  ;;       (setq-local org-capture-current-plist old-org-capture-current-plist)
-  ;;       (org-capture-mode +1))))
-  ;; (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
+  (setq org-id-ts-format denote-id-format
+        org-id-method 'ts)
+  (setq denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:DATE: %2$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n")
+  ;;(setq denote-dired-directories-include-subdirectories t)
   )
-
-(use-package! org-ql
-  :defer t
-  :after denote)
-;; (use-package! org-ql-search
-;;   :after org-roam)
-  ;:autoload org-dblock-write:org-ql)
 
 (use-package! org-roam
   :defer t
@@ -1162,6 +857,382 @@
     (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
   (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft))
 
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+  :after org-roam
+  :hook (org-roam . org-roam-ui-mode)
+  :init
+  (defvar my/+lookup--xwidget-webkit-last-session-buffer nil)
+  (defun my/+lookup-xwidget-webkit-open-url-fn (url &optional new-session)
+    (if (not (display-graphic-p))
+        (browse-url url)
+      (unless (featurep 'xwidget-internal)
+        (user-error "Your build of Emacs lacks Xwidgets support and cannot open Xwidget WebKit browser"))
+      (let ((orig-last-session-buffer (if (boundp 'xwidget-webkit-last-session-buffer)
+                                          xwidget-webkit-last-session-buffer
+                                        nil)))
+        (setq xwidget-webkit-last-session-buffer my/+lookup--xwidget-webkit-last-session-buffer)
+        (save-window-excursion
+          (xwidget-webkit-browse-url url new-session))
+        (display-buffer xwidget-webkit-last-session-buffer)
+        (setq my/+lookup--xwidget-webkit-last-session-buffer xwidget-webkit-last-session-buffer
+              xwidget-webkit-last-session-buffer orig-last-session-buffer))))
+  ;; Keybinds
+  (map! :leader "n r g" #'org-roam-ui-open)
+  :config
+  ;; Appearance
+  (setq org-roam-ui-sync-theme t)
+  ;; Behavior
+  (setq org-roam-ui-follow t
+        org-roam-ui-update-on-save t)
+  (setq org-roam-ui-open-on-start nil)
+        ;org-roam-ui-browser-function #'my/+lookup-xwidget-webkit-open-url-fn)
+  (defun my/+org-roam-ui-popup-kill (roam-ui-popup-buffer)
+    (progn (+popup--kill-buffer roam-ui-popup-buffer 0.1) (org-roam-ui-mode -1)))
+  ;(setq display-buffer-mark-dedicated t)
+  ;; (set-popup-rule! "\\*xwidget"
+  ;;   :side 'right :width 0.33 :height 0.5 :ttl #'my/+org-roam-ui-popup-kill :slot -1 :quit nil :modeline nil)
+  ;; (defadvice! my/+org-roam-ui--on-msg-open-node (data)
+  ;;   "Open a node CAREFULLY when receiving DATA from the websocket."
+  ;;   :override #'org-roam-ui--on-msg-open-node
+  ;;   (let* ((id (alist-get 'id data))
+  ;;          (node (org-roam-node-from-id id))
+  ;;          (pos (org-roam-node-point node))
+  ;;          (buf (find-file-noselect (org-roam-node-file node))))
+  ;;     (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
+  ;;     (unless (window-live-p org-roam-ui--window)
+  ;;       (if-let ((windows (cl-set-difference (doom-visible-windows) (list (minibuffer-window))))
+  ;;                (newest-window (car (seq-sort-by #'window-use-time #'> windows))))
+  ;;           (setq org-roam-ui--window newest-window)
+  ;;         (setq org-roam-ui--window newest-window)))
+  ;;     (set-window-buffer org-roam-ui--window buf)
+  ;;     (select-window org-roam-ui--window)
+  ;;     (goto-char pos)
+  ;;     (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
+  ;; (defadvice! +org-roam-ui-always-sync-theme ()
+  ;;   "Always sync da theme..."
+  ;;   :after #'org-roam-ui-open
+  ;;   (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme))))))))
+  )
+
+(use-package! org-sidebar
+  :after org)
+
+(use-package! org-agenda
+  :defer t
+  :init
+  (add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
+  ;; Keybinds
+  (defun noncog/my-agenda ()
+    "My custom agenda launcher."
+    (interactive)
+    (org-agenda nil "o"))
+  (map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
+  ;; Helpers
+  :config
+  ;; Appearance
+  (setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
+        org-habit-show-all-today t)            ; Keep habits visible even if done.
+  ;(setq +org-habit-min-width)
+  ;(setq +org-habit-graph-padding)
+  ;(setq +org-habit-graph-window-ratio)
+  ;(setq org-habit-graph-column)
+  ;(setq org-habit-today-glyph)
+  ;(setq org-habit-completed-glyph)
+  ;(setq org-habit-show-done-always-green)
+  (custom-set-faces!
+    '(org-agenda-structure
+      :height 1.3 :weight bold))
+  (defun noncog/agenda-remove-empty ()
+    "A simple function to remove empty agenda sections. Scans for blank lines.
+  Blank sections defined by having two consecutive blank lines.
+  Not compatible with the block separator."
+    (interactive)
+    (setq buffer-read-only nil)
+    ;; initializes variables and scans first line.
+    (goto-char (point-min))
+    (let* ((agenda-blank-line "[[:blank:]]*$")
+           (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
+           (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
+           (start-pos (point)))
+      ;; step until the end of the buffer
+      (while (not (eobp))
+        (forward-line 1)
+         (cond
+          ;; delete region if previously found two blank lines
+          ((when (> content-blank-line-count 1)
+            (delete-region start-pos (point))
+            (setq content-blank-line-count 0)
+            (setq start-pos (point))))
+          ;; if found a non-blank line
+          ((not (looking-at-p agenda-blank-line))
+           (setq content-line-count (1+ content-line-count))
+           (setq start-pos (point))
+           (setq content-blank-line-count 0))
+          ;; if found a blank line
+          ((looking-at-p agenda-blank-line)
+           (setq content-blank-line-count (1+ content-blank-line-count)))))
+      ;; final blank line check at end of file
+      (when (> content-blank-line-count 1)
+        (delete-region start-pos (point))
+        (setq content-blank-line-count 0)))
+    ;; return to top and finish
+    (goto-char (point-min))
+    (setq buffer-read-only t))
+  (setq noncog/agenda-width 70)
+  (setq org-agenda-tags-column (+ 10 (* -1 noncog/agenda-width)))
+  (setq org-agenda-custom-commands
+        '(
+          ("o" "My Agenda" (
+           (agenda
+            ""
+            ( ;; Today
+             ;(org-agenda-overriding-header "Today\n")
+             (org-agenda-overriding-header " Agenda\n")
+             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+             (org-agenda-block-separator nil)
+             (org-agenda-format-date " %a, %b %-e")  ; american date format
+             (org-agenda-start-on-weekday nil)          ; start today
+             (org-agenda-start-day nil)                 ; don't show previous days
+             (org-agenda-span 1)                        ; only show today
+             (org-scheduled-past-days 0)                ; don't show overdue
+             (org-deadline-warning-days 0)              ; don't show deadlines for the future
+             (org-agenda-time-leading-zero t)           ; unify times formatting
+             (org-agenda-remove-tags t)
+             (org-agenda-time-grid '((today remove-match) (800 1000 1200 1400 1600 1800 2000 2200) "" ""))
+             ;(org-agenda-todo-keyword-format "%-4s")
+             (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
+             (org-agenda-dim-blocked-tasks nil)
+             ;; TODO: Fix inbox not-skipping... Since I no longer have that tag.
+             (org-agenda-skip-function '(noncog/skip-tag "inbox"))
+             (org-agenda-entry-types '(:timestamp :deadline :scheduled))
+             ))
+           (agenda
+            ""
+            ( ;; Next Three Days
+             ;(org-agenda-overriding-header "\nNext Three Days\n")
+             (org-agenda-overriding-header "")
+             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+             (org-agenda-block-separator nil)
+             (org-agenda-format-date " %a, %b %-e")
+             (org-agenda-start-on-weekday nil)
+             (org-agenda-start-day "+1d")
+             (org-agenda-span 3)
+             (org-scheduled-past-days 0)
+             (org-deadline-warning-days 0)
+             (org-agenda-time-leading-zero t)
+             (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+             (org-agenda-entry-types '(:deadline :scheduled))
+             (org-agenda-time-grid '((daily weekly) () "" ""))
+             (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+             ;(org-agenda-todo-keyword-format "%-4s")
+             (org-agenda-dim-blocked-tasks nil)
+             ))
+           (agenda
+            ""
+            ( ;; Upcoming Deadlines
+             (org-agenda-overriding-header "\n Coming Up\n")
+             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+             (org-agenda-block-separator nil)
+             (org-agenda-format-date " %a, %b %-e")
+             (org-agenda-start-on-weekday nil)
+             (org-agenda-start-day "+4d")
+             (org-agenda-span 28)
+             (org-scheduled-past-days 0)
+             (org-deadline-warning-days 0)
+             (org-agenda-time-leading-zero t)
+             (org-agenda-time-grid nil)
+             ;(org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+             (org-agenda-prefix-format '((agenda . " %8:c %-5t ")))
+             ;(org-agenda-todo-keyword-format "%-4s")
+             (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+             (org-agenda-entry-types '(:deadline :scheduled))
+             (org-agenda-show-all-dates nil)
+             (org-agenda-dim-blocked-tasks nil)
+             ))
+           (agenda
+            ""
+            ( ;; Past Due
+             (org-agenda-overriding-header "\n Past Due\n")
+             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+             (org-agenda-block-separator nil)
+             (org-agenda-format-date " %a, %b %-e")
+             (org-agenda-start-on-weekday nil)
+             (org-agenda-start-day "-60d")
+             (org-agenda-span 60)
+             (org-scheduled-past-days 60)
+             (org-deadline-past-days 60)
+             (org-deadline-warning-days 0)
+             (org-agenda-time-leading-zero t)
+             (org-agenda-time-grid nil)
+             (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+             ;(org-agenda-todo-keyword-format "%-4s")
+             (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+             (org-agenda-entry-types '(:deadline :scheduled))
+             (org-agenda-show-all-dates nil)
+             (org-agenda-dim-blocked-tasks nil)
+             ))
+           (todo
+            ""
+            ( ;; Important Tasks No Date
+             (org-agenda-overriding-header "\n Important Tasks - No Date\n")
+             (org-agenda-block-separator nil)
+             (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+             (org-agenda-block-separator nil)
+             (org-agenda-time-grid nil)
+             (org-agenda-prefix-format '((todo . "  %?:c ")))
+             ;(org-agenda-todo-keyword-format "%-4s")
+             (org-agenda-dim-blocked-tasks nil)
+             ))
+           (todo
+            ""
+            ( ;; Next
+             (org-agenda-overriding-header "\n Next\n")
+             (org-agenda-block-separator nil)
+             (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("NEXT" "STRT")))
+             (org-agenda-block-separator nil)
+             (org-agenda-time-grid nil)
+             (org-agenda-prefix-format '((todo . "  %?:c ")))
+             ;(org-agenda-todo-keyword-format "%-4s")
+             (org-agenda-dim-blocked-tasks nil)
+             ))
+           (tags-todo
+            "inbox"
+            ( ;; Inbox
+             (org-agenda-overriding-header (propertize "\n Inbox\n" 'help-echo "Effort: 'c e' Refile: 'SPC m r'")) ; Ads mouse hover tooltip.
+             ;(org-agenda-remove-tags t)
+             (org-agenda-block-separator nil)
+             (org-agenda-prefix-format "  %?-4e ")
+             ;(org-agenda-todo-keyword-format "%-4s")
+             ))
+           ))))
+  ;;(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit t)
+  (set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit 'current)
+  ;; Behavior
+  (setq org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
+  (defun noncog/skip-tag (tag)
+    "Skip trees with this tag."
+    (let* ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
+           (current-headline (or (and (org-at-heading-p) (point))
+                                 (save-excursion (org-back-to-heading)))))
+      (if (member tag (org-get-tags current-headline))
+          next-headline nil)))
+  (defun noncog/skip-all-but-this-tag (tag)
+    "Skip trees that are not this tag."
+    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (if (re-search-forward (concat ":" tag ":") subtree-end t)
+          nil          ; tag found, do not skip
+        subtree-end))) ; tag not found, continue after end of subtree
+  )
+
+(use-package! org-super-agenda
+  :after org-agenda)
+
+(use-package! org-ql
+  :defer t
+  :after denote)
+;; (use-package! org-ql-search
+;;   :after org-roam)
+  ;:autoload org-dblock-write:org-ql)
+
+(use-package! org-capture
+  :defer t
+  ;;:init
+  ;;
+  :config
+  ;; Variables
+  ;(setq +org-capture-fn #'org-roam-capture)
+  ;; (defun my/org-capture-context ()
+  ;;   "Find an Org Roam node related to the current context for use with org-capture-templates."
+  ;;   ;; TODO: Rewrite to use org-bookmark!
+  ;;   ;; TODO: Currently context is only able to be related to an org roam node.
+  ;;   ;; TODO: Consider wrapping in after! to ensure loads correctly.
+  ;;   (interactive)
+  ;;   (let* ((projectile-project (projectile-project-name))
+  ;;          (node (org-roam-node-read (s-join " " (s-split-words projectile-project))))
+  ;;          (description (org-roam-node-formatted node))
+  ;;          (id (org-roam-node-id node)))
+  ;;     (if id (org-link-make-string (concat "id:" id) description) " ")
+  ;;     ;; TODO: Consider adding progn with 'org-roam-post-node-insert-hook capabilities.
+  ;;     ))
+  ;; (defun my/org-capture-template-heading-string headline other_args
+  ;;        (format "* %s\n:PROPERTIES:\n:DATE: %s\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              %s\n:END:\n%i" headline "[%<%Y-%m-%d %a %H:%M:%S>]" "[%<%Y-%m-%d %a %H:%M:%S>]")
+  ;;        )
+  (setq org-capture-templates
+        `(("t" "Task" entry
+           (file+headline "inbox.org" "Tasks")
+           "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+          ("i" "Issue" entry
+           (file+headline "inbox.org" "Issues")
+           "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+          ("n" "Note" entry
+           (file+headline "inbox.org" "Notes")
+           "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+          ("?" "Question" entry
+           (file+headline "inbox.org" "Questions")
+           "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+          ("b" "Bookmark" entry
+           (function org-bookmark-location)
+           "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i%?" :prepend t :immediate-finish t)
+          ("a" "Appointment" entry
+           (file+headline "inbox.org" "Tasks")
+           "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+          ("m" "Meeting" entry
+           (file+headline "inbox.org" "Meeting")
+           "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend t)
+          ("s" "Symbol" table-line
+             (function org-bookmark-symbol)
+             "|%(my/org-capture-print-help-link)|%?||" :table-line-pos "III-1" :immediate-finish t)
+          ("h" "Here")
+          ("hh" "Heading" entry
+           (here)
+           "* %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n"
+           :prepend nil)
+          ("ht" "Task" entry
+           (here)
+           "* TODO %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"TODO\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
+           :prepend nil)
+          ("hi" "Issue" entry
+           (here)
+           "* ISSUE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"ISSUE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i"
+           :prepend nil)
+          ("hn" "Note" entry
+           (here)
+           "* NOTE %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"NOTE\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
+          ("h?" "Question" entry
+           (here)
+           "* QUESTION %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"QUESTION\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
+          ("hb" "Bookmark" entry
+           (here)
+           "* %(org-cliplink-capture)\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%?" :prepend nil)
+          ("ha" "Appointment" entry
+           (here)
+           "* APPT %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"APPT\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
+          ("hm" "Meeting" entry
+           (here)
+           "* MEET %?\n:PROPERTIES:\n:DATE: [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n:LOGBOOK:\n- State \"MEET\"       from              [%<%Y-%m-%d %a %H:%M:%S>]\n:END:\n%i" :prepend nil)
+          ))
+  (set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
+  
+  (set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
+  ;; (setq org-capture-templates-contexts)
+  ;; Behavior
+  (setq org-capture-bookmark nil)
+  ;; Fixes
+  ;; (defadvice! my/+org--restart-mode-h-careful-restart (fn &rest args)
+  ;;   :around #'+org--restart-mode-h
+  ;;   (let ((old-org-capture-current-plist
+  ;;          (and (bound-and-true-p org-capture-mode)
+  ;;               (bound-and-true-p org-capture-current-plist))))
+  ;;     (apply fn args)
+  ;;     (when old-org-capture-current-plist
+  ;;       (setq-local org-capture-current-plist old-org-capture-current-plist)
+  ;;       (org-capture-mode +1))))
+  ;; (add-hook! 'org-capture-after-finalize-hook (org-element-cache-reset t))
+  )
+
 (use-package! org-roam-capture
   :defer t
   ;; :if (file-exists-p org-directory) ; Only load if the directory exists.
@@ -1247,66 +1318,6 @@
             (insert "\t</array>")
             (write-region nil nil plist))
         (error "Something wen't wrong with the compilation of the script!")))))
-
-(use-package! websocket
-    :after org-roam)
-
-(use-package! org-roam-ui
-  :after org-roam
-  :hook (org-roam . org-roam-ui-mode)
-  :init
-  (defvar my/+lookup--xwidget-webkit-last-session-buffer nil)
-  (defun my/+lookup-xwidget-webkit-open-url-fn (url &optional new-session)
-    (if (not (display-graphic-p))
-        (browse-url url)
-      (unless (featurep 'xwidget-internal)
-        (user-error "Your build of Emacs lacks Xwidgets support and cannot open Xwidget WebKit browser"))
-      (let ((orig-last-session-buffer (if (boundp 'xwidget-webkit-last-session-buffer)
-                                          xwidget-webkit-last-session-buffer
-                                        nil)))
-        (setq xwidget-webkit-last-session-buffer my/+lookup--xwidget-webkit-last-session-buffer)
-        (save-window-excursion
-          (xwidget-webkit-browse-url url new-session))
-        (display-buffer xwidget-webkit-last-session-buffer)
-        (setq my/+lookup--xwidget-webkit-last-session-buffer xwidget-webkit-last-session-buffer
-              xwidget-webkit-last-session-buffer orig-last-session-buffer))))
-  ;; Keybinds
-  (map! :leader "n r g" #'org-roam-ui-open)
-  :config
-  ;; Appearance
-  (setq org-roam-ui-sync-theme t)
-  ;; Behavior
-  (setq org-roam-ui-follow t
-        org-roam-ui-update-on-save t)
-  (setq org-roam-ui-open-on-start nil)
-        ;org-roam-ui-browser-function #'my/+lookup-xwidget-webkit-open-url-fn)
-  (defun my/+org-roam-ui-popup-kill (roam-ui-popup-buffer)
-    (progn (+popup--kill-buffer roam-ui-popup-buffer 0.1) (org-roam-ui-mode -1)))
-  ;(setq display-buffer-mark-dedicated t)
-  ;; (set-popup-rule! "\\*xwidget"
-  ;;   :side 'right :width 0.33 :height 0.5 :ttl #'my/+org-roam-ui-popup-kill :slot -1 :quit nil :modeline nil)
-  ;; (defadvice! my/+org-roam-ui--on-msg-open-node (data)
-  ;;   "Open a node CAREFULLY when receiving DATA from the websocket."
-  ;;   :override #'org-roam-ui--on-msg-open-node
-  ;;   (let* ((id (alist-get 'id data))
-  ;;          (node (org-roam-node-from-id id))
-  ;;          (pos (org-roam-node-point node))
-  ;;          (buf (find-file-noselect (org-roam-node-file node))))
-  ;;     (run-hook-with-args 'org-roam-ui-before-open-node-functions id)
-  ;;     (unless (window-live-p org-roam-ui--window)
-  ;;       (if-let ((windows (cl-set-difference (doom-visible-windows) (list (minibuffer-window))))
-  ;;                (newest-window (car (seq-sort-by #'window-use-time #'> windows))))
-  ;;           (setq org-roam-ui--window newest-window)
-  ;;         (setq org-roam-ui--window newest-window)))
-  ;;     (set-window-buffer org-roam-ui--window buf)
-  ;;     (select-window org-roam-ui--window)
-  ;;     (goto-char pos)
-  ;;     (run-hook-with-args 'org-roam-ui-after-open-node-functions id)))
-  ;; (defadvice! +org-roam-ui-always-sync-theme ()
-  ;;   "Always sync da theme..."
-  ;;   :after #'org-roam-ui-open
-  ;;   (while (when (and org-roam-ui-mode (ignore-errors (get-buffer-window-list "*xwidget webkit: ORUI *"))) (websocket-send-text org-roam-ui-ws-socket (json-encode `((type . "theme") (data . ,(org-roam-ui--update-theme))))))))
-  )
 
 (use-package! org-roam-dailies
   :after org-roam
@@ -1481,21 +1492,6 @@ appropiriate file/line and returns non-nil on match.")
   ;         "\\* Tasks")))
   )
 
-(use-package! org-appear
-  :hook (org-mode . org-appear-mode)
-  :config
-  ;; Appearance
-  (setq org-appear-autoemphasis t              ; Show emphasis markup.
-        org-appear-autosubmarkers t            ; Show sub/superscript
-        org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
-        org-appear-autolinks nil               ; Shows Org links.
-        org-appear-autokeywords nil            ; Shows hidden Org keywords.
-        org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
-  )
-
-(use-package! org-fragtog
-  :hook (org-mode . org-fragtog-mode))
-
 (use-package! org-modern
   :hook
   (org-mode . org-modern-mode)
@@ -1519,6 +1515,21 @@ appropiriate file/line and returns non-nil on match.")
           ("NO"   :inverse-video t :inherit +org-todo-cancel))
         org-modern-star nil                    ; Disabled due to font instability.
         org-modern-horizontal-rule (make-string 80 ?─)))
+
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  ;; Appearance
+  (setq org-appear-autoemphasis t              ; Show emphasis markup.
+        org-appear-autosubmarkers t            ; Show sub/superscript
+        org-appear-autoentities t              ; Show LaTeX like Org pretty entities.
+        org-appear-autolinks nil               ; Shows Org links.
+        org-appear-autokeywords nil            ; Shows hidden Org keywords.
+        org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
+  )
+
+(use-package! org-fragtog
+  :hook (org-mode . org-fragtog-mode))
 
 (use-package! orglink
   :config
