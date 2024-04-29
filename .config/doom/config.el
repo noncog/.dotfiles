@@ -1149,36 +1149,33 @@
   :config
   ;; Variables
   ;(setq +org-capture-fn #'org-roam-capture)
-  (defvar org-capture-inbox-file
-    (format "inbox-%s.org" (system-name))
-    "The path to the inbox file per-system.")
   (setq org-capture-templates
         `(("t" "Task" entry
-           (file+headline org-capture-inbox-file "Tasks")
+           (file+headline "inbox.org" "Tasks")
            "* TODO %?\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i" :prepend t)
           ("i" "Issue" entry
-           (file+headline org-capture-inbox-file "Issues")
+           (file+headline "inbox.org" "Issues")
            "* ISSUE %?\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i" :prepend t)
           ("n" "Note" entry
-           (file+headline org-capture-inbox-file "Notes")
+           (file+headline "inbox.org" "Notes")
            "* NOTE %?\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
           ("I" "IDEA" entry
-           (file+headline org-capture-inbox-file "Ideas")
+           (file+headline "inbox.org" "Ideas")
            "* IDEA %?\n:LOGBOOK:\n- State \"IDEA\"       from              %U\n:END:\n%i" :prepend t)
           ("?" "Question" entry
-           (file+headline org-capture-inbox-file "Questions")
+           (file+headline "inbox.org" "Questions")
            "* QUESTION %?\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
           ("b" "Bookmark" entry
            (function org-bookmark-location)
            "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n%i%?" :prepend t :immediate-finish t)
           ("a" "Appointment" entry
-           (file+headline org-capture-inbox-file "Appointments")
+           (file+headline "inbox.org" "Appointments")
            "* APPT %?\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
           ("m" "Meeting" entry
-           (file+headline org-capture-inbox-file "Meetings")
+           (file+headline "inbox.org" "Meetings")
            "* MEET %?\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)
           ("e" "Event" entry
-           (file+headline org-capture-inbox-file "Events")
+           (file+headline "inbox.org" "Events")
            "* EVENT %?\n:\n:LOGBOOK:\n- State \"EVENT\"       from              %U\n:END:\n%i" :prepend t)
           ("s" "Symbol" table-line
              (function org-bookmark-symbol)
@@ -1218,7 +1215,7 @@
     (interactive)
     (save-excursion
       (unless (my/org-roam-file-property-p "DATE")
-        (org-set-property "DATE" (format-time-string "[%Y-%m-%d %a %H:%M:%S]" (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
+        (org-set-property "DATE" (format-time-string "[%Y-%m-%d %a %H:%M]" (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
   
   ;; TODO: Add ability to modify category based on other contexts such as log files.
   ;; - This should ultimately work based off of a parent directory name list. Or use manual correction...
@@ -1430,7 +1427,7 @@ appropiriate file/line and returns non-nil on match.")
 
 (org-bookmark-add-link-formatter "https://github.com" (org-bookmark-replace-in-link-title ":[ ].*$?" ""))
 
-(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading org-capture-inbox-file "Bookmarks")))
+(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
 
 (defun org-bookmark-symbol ()
   (let ((symbol (symbol-name (helpful--read-symbol
