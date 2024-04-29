@@ -823,6 +823,7 @@
     "Select from and visit an Org Roam node tagged with 'agenda'"
     (interactive)
     (org-roam-node-find nil "agenda"))
+  (org-noter-enable-org-roam-integration)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 5) (org-roam-list-files :maxlevel . 5)))
   (setq org-agenda-prefix-format
         '((agenda . " %i %-12(my/org-roam-agenda-category)%?-12t% s")
@@ -1646,7 +1647,10 @@ appropiriate file/line and returns non-nil on match.")
   ;; Behavior
   (setq org-noter-always-create-frame nil        ; Don't create a new frame for the session.
         org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
+  ;; Appearance
   (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
+  (setq org-noter-disable-narrowing t) ; Let me see everything.
+  (map! :leader :desc "Kill org noter session" "n k" #'org-noter-kill-session)
   )
 
 (use-package! pdf-tools

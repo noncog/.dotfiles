@@ -185,6 +185,8 @@
   - [[#package-38][Package]]
   - [[#variables-11][Variables]]
   - [[#behavior-23][Behavior]]
+  - [[#appearance-14][Appearance]]
+  - [[#keybinds-12][Keybinds]]
 - [[#pdf-tools][PDF Tools]]
   - [[#package-39][Package]]
   - [[#behavior-24][Behavior]]
@@ -2827,6 +2829,7 @@ tasks. The only exception is headings tagged as REFILE."
 ;; TODO: Look into other functions to hook.
 #+end_src
 
+
 ***** Quickly View Org Agenda Files Using Org Roam
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
@@ -2834,6 +2837,13 @@ tasks. The only exception is headings tagged as REFILE."
   "Select from and visit an Org Roam node tagged with 'agenda'"
   (interactive)
   (org-roam-node-find nil "agenda"))
+#+end_src
+
+
+We will see how this works...
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(org-noter-enable-org-roam-integration)
 #+end_src
 
 **** Integrate Org Roam Files with Org Refile Targets
@@ -2876,6 +2886,7 @@ Refer to `org-agenda-prefix-format' for more information."
          (category (org-get-category)))
     (or (if (and title (string-equal category file-name)) title category) "")))
 #+end_src
+*** Integrate with Org Noter
 
 ** Keybinds
 
@@ -3489,39 +3500,33 @@ Org Capture lets you quickly insert into your org documents.
 *** Capture Templates
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
-(defvar org-capture-inbox-file
-  (format "inbox-%s.org" (system-name))
-  "The path to the inbox file per-system.")
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-capture-config :results none
 (setq org-capture-templates
       `(("t" "Task" entry
-         (file+headline org-capture-inbox-file "Tasks")
+         (file+headline "inbox.org" "Tasks")
          "* TODO %?\n:LOGBOOK:\n- State \"TODO\"       from              %U\n:END:\n%i" :prepend t)
         ("i" "Issue" entry
-         (file+headline org-capture-inbox-file "Issues")
+         (file+headline "inbox.org" "Issues")
          "* ISSUE %?\n:LOGBOOK:\n- State \"ISSUE\"       from              %U\n:END:\n%i" :prepend t)
         ("n" "Note" entry
-         (file+headline org-capture-inbox-file "Notes")
+         (file+headline "inbox.org" "Notes")
          "* NOTE %?\n:LOGBOOK:\n- State \"NOTE\"       from              %U\n:END:\n%i" :prepend t)
         ("I" "IDEA" entry
-         (file+headline org-capture-inbox-file "Ideas")
+         (file+headline "inbox.org" "Ideas")
          "* IDEA %?\n:LOGBOOK:\n- State \"IDEA\"       from              %U\n:END:\n%i" :prepend t)
         ("?" "Question" entry
-         (file+headline org-capture-inbox-file "Questions")
+         (file+headline "inbox.org" "Questions")
          "* QUESTION %?\n:LOGBOOK:\n- State \"QUESTION\"       from              %U\n:END:\n%i" :prepend t)
         ("b" "Bookmark" entry
          (function org-bookmark-location)
          "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n%i%?" :prepend t :immediate-finish t)
         ("a" "Appointment" entry
-         (file+headline org-capture-inbox-file "Appointments")
+         (file+headline "inbox.org" "Appointments")
          "* APPT %?\n:LOGBOOK:\n- State \"APPT\"       from              %U\n:END:\n%i" :prepend t)
         ("m" "Meeting" entry
-         (file+headline org-capture-inbox-file "Meetings")
+         (file+headline "inbox.org" "Meetings")
          "* MEET %?\n:LOGBOOK:\n- State \"MEET\"       from              %U\n:END:\n%i" :prepend t)
         ("e" "Event" entry
-         (file+headline org-capture-inbox-file "Events")
+         (file+headline "inbox.org" "Events")
          "* EVENT %?\n:\n:LOGBOOK:\n- State \"EVENT\"       from              %U\n:END:\n%i" :prepend t)
         ("s" "Symbol" table-line
            (function org-bookmark-symbol)
@@ -3625,7 +3630,7 @@ This develops the ability to add properties, primarily the "DATE" property from 
   (interactive)
   (save-excursion
     (unless (my/org-roam-file-property-p "DATE")
-      (org-set-property "DATE" (format-time-string "[%Y-%m-%d %a %H:%M:%S]" (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
+      (org-set-property "DATE" (format-time-string "[%Y-%m-%d %a %H:%M]" (date-to-time (denote-retrieve-filename-identifier (buffer-file-name))))))))
 
 ;; TODO: Add ability to modify category based on other contexts such as log files.
 ;; - This should ultimately work based off of a parent directory name list. Or use manual correction...
@@ -3963,7 +3968,7 @@ appropiriate file/line and returns non-nil on match.")
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading org-capture-inbox-file "Bookmarks")))
+(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading "inbox.org" "Bookmarks")))
 #+end_src
 
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
@@ -4650,10 +4655,23 @@ This adds theming and syntax highlighting to our source blocks in latex exports.
       org-noter-kill-frame-at-session-end nil) ; Don't kill any frames since none created.
 #+end_src
 
-*** Notes
+** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-noter-config :exports none
+;; Appearance
+#+end_src
+
+*** Notes View/Format
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-noter-config
 (setq org-noter-separate-notes-from-heading t) ; Adds line between headings and notes.
+(setq org-noter-disable-narrowing t) ; Let me see everything.
+#+end_src
+
+** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-noter-config
+(map! :leader :desc "Kill org noter session" "n k" #'org-noter-kill-session)
 #+end_src
 
 * PDF Tools
