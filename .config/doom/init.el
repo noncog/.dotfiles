@@ -37,7 +37,9 @@
        ;;tabs              ; a tab bar for Emacs
        treemacs            ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
-       (vc-gutter +pretty) ; vcs diff in the fringe
+       (vc-gutter
+        +diff-hl           ; vcs diff in the fringe
+        +pretty)
        vi-tilde-fringe     ; fringe tildes to mark beyond EOB
        ;;window-select     ; visually switch windows
        workspaces          ; tab emulation, persistence & separate workspaces
@@ -58,9 +60,7 @@
        word-wrap           ; soft wrapping with language-aware indent
 
        :emacs
-       (dired              ; making dired pretty [functional]
-        +icons             ; use icons for file types
-        +ranger)           ; emulate the famous vim-based file manager
+       (dired +icons)      ; making dired pretty [functional]
        electric            ; smarter, keyword-based electric-indent
        (ibuffer +icons)    ; interactive buffer management
        undo                ; persistent, smarter undo for your inevitable mistakes
@@ -94,7 +94,7 @@
        ;;pass              ; password manager for nerds
        pdf                 ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
-       rgb                 ; creating color strings
+       ;;rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
@@ -138,10 +138,7 @@
        ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
-       (latex              ; writing papers in Emacs has never been so fun
-        +cdlatex           ; Enable cdlatex for fast math insertion
-        +fold              ; Use TeX-fold to fold LaTeX macros to unicode
-        +latexmk)          ; Use laexMk instead of Latex to compile documents
+       ;;latex             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
        ;;lua               ; one-based indices? one-based indices
@@ -152,10 +149,9 @@
        (org                ; organize your plain life in plain text
         +noter
         +dragndrop
-        +roam2
-        +gnuplot)
+        +roam2)
        ;;php               ; perl's insecure younger brother
-       plantuml            ; diagrams for confusing people more
+       ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
        ;;python            ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
