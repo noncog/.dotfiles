@@ -25,6 +25,7 @@
 :CUSTOM_ID: table-of-contents
 :VISIBILITY: folded
 :END:
+
 #+html:<details><summary>Table of Contents</summary>
 #+BEGIN_QUOTE
 - [[#doom][Doom]]
@@ -2843,7 +2844,7 @@ tasks. The only exception is headings tagged as REFILE."
 We will see how this works...
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-(org-noter-enable-org-roam-integration)
+;;(org-noter-enable-org-roam-integration)
 #+end_src
 
 **** Integrate Org Roam Files with Org Refile Targets
