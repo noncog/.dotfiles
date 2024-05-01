@@ -1437,25 +1437,25 @@ appropiriate file/line and returns non-nil on match.")
     (my/org-store-help-link symbol)
     (apply #'org-bookmark-handler-file-heading '("~/Documents/notes/area/20231006T042354--emacs.org" "Useful Symbols and Keybinds"))))
 
-(use-package! orca
-  :after org-protocol
+;(use-package! orca
+;  :after org-protocol
   ;;; Variables
   ;;; (setq orca-handler-list
   ;;;       '((orca-handler-match-url
   ;;;          "https://www.reddit.com"         "/home/noncog/Documents/notes/wiki/emacs.org"
   ;;;          "\\ * Reddit")))
-  ;(setq orca-handler-list
-  ;      '((orca-handler-match-url
-  ;         "https://www.reddit.com/emacs/"
-  ;         "~/Documents/notes/wiki/emacs.org"
-  ;         "Reddit")
-  ;        (orca-handler-match-url
-  ;         "https://emacs.stackexchange.com/"
-  ;         "~/Documents/notes/wiki/emacs.org"
-  ;         "\\* Questions")
-  ;        (orca-handler-current-buffer
-  ;         "\\* Tasks")))
-  )
+  ;;; (setq orca-handler-list
+  ;;;       '((orca-handler-match-url
+  ;;;          "https://www.reddit.com/emacs/"
+  ;;;          "~/Documents/notes/wiki/emacs.org"
+  ;;;          "Reddit")
+  ;;;         (orca-handler-match-url
+  ;;;          "https://emacs.stackexchange.com/"
+  ;;;          "~/Documents/notes/wiki/emacs.org"
+  ;;;          "\\* Questions")
+  ;;;         (orca-handler-current-buffer
+  ;;;          "\\* Tasks")))
+;  )
 
 (use-package! org-modern
   :hook
@@ -1492,9 +1492,6 @@ appropiriate file/line and returns non-nil on match.")
         org-appear-autokeywords nil            ; Shows hidden Org keywords.
         org-appear-inside-latex nil)           ; Show LaTeX code. Use Fragtog instead.
   )
-
-(use-package! org-fragtog
-  :hook (org-mode . org-fragtog-mode))
 
 (use-package! orglink
   :config
@@ -1613,31 +1610,6 @@ appropiriate file/line and returns non-nil on match.")
   (ox-extras-activate '(ignore-headlines))
   (setq org-export-headline-levels 5))
 
-(use-package! engrave-faces-latex
-  :after ox-latex)
-
-(use-package! engrave-faces-html
-  :after ox-html)
-
-(use-package! ox-latex
-  :defer t
-  :config
-  ;; Appearance
-  (setq org-latex-src-block-backend 'engraved)
-  (add-to-list 'org-latex-classes
-               '("notes"
-                 "\\documentclass{article}
-                  [NO-DEFAULT-PACKAGES]
-                  [PACKAGES]
-                  [EXTRA]"
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-  ;; Behavior
-  (setq org-latex-pdf-process '("LC_ALL=en_US.UTF-8 latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f")))
-
 (use-package! org-noter
   :defer t
   :init
@@ -1660,27 +1632,6 @@ appropiriate file/line and returns non-nil on match.")
   (pdf-tools-install t)
   ;; Fixes
   (when IS-MAC (add-hook 'pdf-tools-enabled-hook 'pdf-view-dark-minor-mode)))
-
-(use-package! plantuml-mode
-  :defer t
-  :config
-  ;; Behavior
-  (setq plantuml-default-exec-mode 'jar)
-  (unless (file-exists-p plantuml-jar-path)
-    (plantuml-download-jar)))
-
-(use-package! lsp-clangd
-  :defer t
-  :config
-  ;; Behavior
-  (setq lsp-clients-clangd-args
-        '("-j=3"
-          "--background-index"
-          "--clang-tidy"
-          "--completion-style=detailed"
-          "--header-insertion=never"
-          "--header-insertion-decorators=0"))
-  (set-lsp-priority! 'clangd 2))
 
 (use-package! sh-script
   :defer t

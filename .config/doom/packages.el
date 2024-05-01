@@ -26,9 +26,6 @@
 (package! orca
   :recipe (:host github :repo "abo-abo/orca")
   :pin "0687f416a5573f63b691d384454f5a793266ed97")
-(package! vulpea
-  :recipe (:host github :repo "d12frosted/vulpea")
-  :pin "de199a16e294056e2368a2e031b19008cf9f9e52")
 (package! org-modern
   :pin "c97096b3f82c3bd84859f90a23273dfa2c6dfd7e")
 (package! org-edna)
@@ -38,9 +35,4 @@
 (package! org-appear
   :recipe (:host github :repo "awth13/org-appear")
   :pin "81eba5d7a5b74cdb1bad091d85667e836f16b997")
-(package! org-fragtog
-  :pin "c675563af3f9ab5558cfd5ea460e2a07477b0cfd")
 (package! orglink)
-(package! engrave-faces
-  :recipe (:host github :repo "tecosaur/engrave-faces")
-  :pin "2c72619195d489a4f6d5370f70dd7f6aa11801c3")
