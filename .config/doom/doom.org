@@ -84,107 +84,103 @@
   - [[#variables-1][Variables]]
   - [[#behavior-9][Behavior]]
   - [[#keybinds-5][Keybinds]]
-- [[#treemacs][Treemacs]]
-  - [[#package-13][Package]]
-  - [[#appearance-5][Appearance]]
-  - [[#behavior-10][Behavior]]
 - [[#magit][Magit]]
-  - [[#package-14][Package]]
-  - [[#behavior-11][Behavior]]
+  - [[#package-13][Package]]
+  - [[#behavior-10][Behavior]]
   - [[#helpers][Helpers]]
 - [[#vterm][Vterm]]
-  - [[#package-15][Package]]
+  - [[#package-14][Package]]
   - [[#variables-2][Variables]]
   - [[#keybinds-6][Keybinds]]
   - [[#fixes-2][Fixes]]
 - [[#visual-fill-column][Visual Fill Column]]
-  - [[#package-16][Package]]
+  - [[#package-15][Package]]
   - [[#fixes-3][Fixes]]
 - [[#org][Org]]
-  - [[#package-17][Package]]
+  - [[#package-16][Package]]
   - [[#variables-3][Variables]]
-  - [[#appearance-6][Appearance]]
-  - [[#behavior-12][Behavior]]
+  - [[#appearance-5][Appearance]]
+  - [[#behavior-11][Behavior]]
   - [[#fixes-4][Fixes]]
   - [[#helpers-1][Helpers]]
 - [[#denote][Denote]]
-  - [[#package-18][Package]]
+  - [[#package-17][Package]]
   - [[#variables-4][Variables]]
-  - [[#behavior-13][Behavior]]
+  - [[#behavior-12][Behavior]]
 - [[#org-roam][Org Roam]]
-  - [[#package-19][Package]]
+  - [[#package-18][Package]]
   - [[#resources-2][Resources]]
   - [[#variables-5][Variables]]
-  - [[#appearance-7][Appearance]]
-  - [[#behavior-14][Behavior]]
+  - [[#appearance-6][Appearance]]
+  - [[#behavior-13][Behavior]]
   - [[#keybinds-7][Keybinds]]
 - [[#org-roam-ui][Org Roam UI]]
-  - [[#package-20][Package]]
-  - [[#appearance-8][Appearance]]
-  - [[#behavior-15][Behavior]]
+  - [[#package-19][Package]]
+  - [[#appearance-7][Appearance]]
+  - [[#behavior-14][Behavior]]
   - [[#keybinds-8][Keybinds]]
 - [[#org-sidebar][Org Sidebar]]
 - [[#org-agenda][Org Agenda]]
-  - [[#package-21][Package]]
-  - [[#appearance-9][Appearance]]
-  - [[#behavior-16][Behavior]]
+  - [[#package-20][Package]]
+  - [[#appearance-8][Appearance]]
+  - [[#behavior-15][Behavior]]
   - [[#keybinds-9][Keybinds]]
   - [[#helpers-2][Helpers]]
 - [[#org-super-agenda][Org Super Agenda]]
 - [[#org-ql][Org QL]]
-  - [[#package-22][Package]]
+  - [[#package-21][Package]]
 - [[#org-capture][Org Capture]]
-  - [[#package-23][Package]]
+  - [[#package-22][Package]]
   - [[#variables-6][Variables]]
-  - [[#behavior-17][Behavior]]
+  - [[#behavior-16][Behavior]]
   - [[#fixes-5][Fixes]]
 - [[#org-roam-capture][Org Roam Capture]]
-  - [[#package-24][Package]]
+  - [[#package-23][Package]]
   - [[#variables-7][Variables]]
 - [[#org-roam-protocol][Org Roam Protocol]]
-  - [[#package-25][Package]]
-  - [[#behavior-18][Behavior]]
+  - [[#package-24][Package]]
+  - [[#behavior-17][Behavior]]
 - [[#org-roam-dailies][Org Roam Dailies]]
-  - [[#package-26][Package]]
+  - [[#package-25][Package]]
   - [[#variables-8][Variables]]
 - [[#org-bookmark][Org Bookmark]]
 - [[#orca][Orca]]
-  - [[#package-27][Package]]
+  - [[#package-26][Package]]
   - [[#variables-9][Variables]]
 - [[#org-modern][Org Modern]]
-  - [[#package-28][Package]]
-  - [[#appearance-10][Appearance]]
+  - [[#package-27][Package]]
+  - [[#appearance-9][Appearance]]
 - [[#org-gtd][Org GTD]]
-  - [[#package-29][Package]]
+  - [[#package-28][Package]]
   - [[#variables-10][Variables]]
-  - [[#behavior-19][Behavior]]
+  - [[#behavior-18][Behavior]]
   - [[#keybinds-10][Keybinds]]
 - [[#org-appear][Org Appear]]
-  - [[#package-30][Package]]
-  - [[#appearance-11][Appearance]]
+  - [[#package-29][Package]]
+  - [[#appearance-10][Appearance]]
 - [[#org-link][Org Link]]
-  - [[#package-31][Package]]
+  - [[#package-30][Package]]
 - [[#toc-org][TOC Org]]
-  - [[#package-32][Package]]
-  - [[#behavior-20][Behavior]]
+  - [[#package-31][Package]]
+  - [[#behavior-19][Behavior]]
 - [[#ox-org-export][Ox (Org Export)]]
-  - [[#package-33][Package]]
-  - [[#appearance-12][Appearance]]
-  - [[#behavior-21][Behavior]]
+  - [[#package-32][Package]]
+  - [[#appearance-11][Appearance]]
+  - [[#behavior-20][Behavior]]
   - [[#keybinds-11][Keybinds]]
 - [[#org-noter][Org Noter]]
-  - [[#package-34][Package]]
+  - [[#package-33][Package]]
   - [[#variables-11][Variables]]
-  - [[#behavior-22][Behavior]]
-  - [[#appearance-13][Appearance]]
+  - [[#behavior-21][Behavior]]
+  - [[#appearance-12][Appearance]]
   - [[#keybinds-12][Keybinds]]
 - [[#pdf-tools][PDF Tools]]
-  - [[#package-35][Package]]
-  - [[#behavior-23][Behavior]]
+  - [[#package-34][Package]]
+  - [[#behavior-22][Behavior]]
   - [[#fixes-6][Fixes]]
 - [[#sh-script][Sh-script]]
-  - [[#package-36][Package]]
-  - [[#behavior-24][Behavior]]
+  - [[#package-35][Package]]
+  - [[#behavior-23][Behavior]]
 - [[#experiments][Experiments]]
 #+END_QUOTE
 #+html:</details>
@@ -247,7 +243,7 @@ Some settings (very few) need to be loaded before Doom's modules. They're tangle
        ophints             ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
        ;;tabs              ; a tab bar for Emacs
-       treemacs            ; a project drawer, like neotree but cooler
+       ;;treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
        (vc-gutter
         +diff-hl           ; vcs diff in the fringe
@@ -1748,66 +1744,6 @@ I add a keybind to quickly view which projects have uncommitted changes.
       :leader
       :desc "List dirty projects"
       "p l" #'projectile-browse-dirty-projects)
-#+end_src
-
-* Treemacs
-:PROPERTIES:
-:VISIBILITY: children
-:END:
-
-#+begin_quote
-[[https://github.com/Alexander-Miller/treemacs][Treemacs]] is a file and project explorer in a tree sidebar similar to Neotree and Nerdtree for Vim.
-#+end_quote
-
-** Package
-
-#+html:<details><summary>Configuration</summary>
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
-(use-package! treemacs
-  :defer t
-  :init
-  <<treemacs-init>>
-  :config
-  <<treemacs-config>>)
-#+end_src
-#+html:</details>
-
-** Appearance
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config :exports none
-;; Appearance
-#+end_src
-
-*** Enable Doom Themes Colors
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-(setq doom-themes-treemacs-theme "doom-colors")
-#+end_src
-
-** Behavior
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config :exports none
-;; Behavior
-#+end_src
-
-*** Enable Follow Mode
-
-Enable Treemacs to sync itself to the releveant file you're in.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-(treemacs-follow-mode 1)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-init
-(setq treemacs-project-follow-into-home t)
-#+end_src
-
-*** Fold Projects When Leaving
-
-In workspaces with multiple projects, fold the previous project upon switching to a new one.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref treemacs-config
-(setq treemacs-project-follow-cleanup t)
 #+end_src
 
 * Magit

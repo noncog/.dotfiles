@@ -369,17 +369,6 @@
   (setq projectile-auto-discover nil
         projectile-track-known-projects-automatically nil))
 
-(use-package! treemacs
-  :defer t
-  :init
-  (setq treemacs-project-follow-into-home t)
-  :config
-  ;; Appearance
-  (setq doom-themes-treemacs-theme "doom-colors")
-  ;; Behavior
-  (treemacs-follow-mode 1)
-  (setq treemacs-project-follow-cleanup t))
-
 (use-package! magit
   :defer t
   :config
