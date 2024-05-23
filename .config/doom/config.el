@@ -816,7 +816,6 @@
     "Select from and visit an Org Roam node tagged with 'agenda'"
     (interactive)
     (org-roam-node-find nil "agenda"))
-  ;;(org-noter-enable-org-roam-integration)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 5) (org-roam-list-files :maxlevel . 5)))
   (setq org-agenda-prefix-format
         '((agenda . " %i %-12(my/org-roam-agenda-category)%?-12t% s")

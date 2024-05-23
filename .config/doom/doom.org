@@ -2760,13 +2760,6 @@ tasks. The only exception is headings tagged as REFILE."
   (org-roam-node-find nil "agenda"))
 #+end_src
 
-
-We will see how this works...
-
-#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
-;;(org-noter-enable-org-roam-integration)
-#+end_src
-
 **** Integrate Org Roam Files with Org Refile Targets
 
 TODO: Add description.
@@ -2807,7 +2800,7 @@ Refer to `org-agenda-prefix-format' for more information."
          (category (org-get-category)))
     (or (if (and title (string-equal category file-name)) title category) "")))
 #+end_src
-*** Integrate with Org Noter
+
 
 ** Keybinds
 
