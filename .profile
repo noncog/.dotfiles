@@ -26,6 +26,14 @@ if [ -d "$HOME/.local/bin" ]; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# Set PATH, MANPATH, etc., for Homebrew.
+if [ -f /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# Set XDG directories
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # Set Emacs as system editor.
 export EMACSDIR="$HOME/.config/emacs"
 export DOOMDIR="$HOME/.config/doom"
@@ -38,3 +46,9 @@ export TERMINAL=/usr/bin/kitty
 
 # Add Jetbrains Toolbox to $PATH.
 export PATH="$PATH:/home/jake/.local/share/JetBrains/Toolbox/scripts"
+
+# Add Clangd/Llvm for LSP mode.
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+
+# Add GNU grep to system instead of BSD grep.
+PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"

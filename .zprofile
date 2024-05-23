@@ -13,6 +13,9 @@ export DOOMDIR="$HOME/.config/doom"
 export EDITOR="emacsclient -c -a=''"
 export VISUAL="$EDITOR"
 
+# Set terminal.
+export TERMINAL=/usr/bin/kitty
+
 # Add GNU grep to system instead of BSD grep.
 PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
 

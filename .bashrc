@@ -138,3 +138,11 @@ fi
 # Aliases
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias emacs='emacsclient -c -n --alternate-editor=""'
+
+function brew() {
+  command brew "$@"
+
+  if [[ "$*" =~ "upgrade" ]] || [[ "$*" =~ "update" ]] || [[ "$*" =~ "outdated" ]]; then
+    sketchybar --trigger brew_update
+  fi
+}
