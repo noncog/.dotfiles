@@ -845,6 +845,10 @@
            (title (org-roam--get-keyword "title"))
            (category (org-get-category)))
       (or (if (and title (string-equal category file-name)) title category) "")))
+  (defun my/org-roam-node-find-advice (&optional OTHER-WINDOW INITIAL-INPUT FILTER-FN PRED &key TEMPLATES)
+      "Returns a list of formatted args for org-roam-node-find to use as defaults."
+      '(nil "!private "))
+  (advice-add 'org-roam-node-find :filter-args #'my/org-roam-node-find-advice)
   ;; Keybinds
   (defun noncog/org-roam-is-draft-p (node)
     "Is this org-roam node a draft?"
