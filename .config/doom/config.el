@@ -740,13 +740,12 @@
                             (org-element-property :contents-end h)))))
                 (re-search-forward org-ts-regexp end 'noerror)))))))
       nil 'first-match))
+  (defvar my/org-roam-sort-filetags t
+    "Boolean to decide if org roam's filetags should be sorted.")
+  
   (defun my/org-roam-update-filetags ()
-    ;; TODO: Look into org tags sort function.
-    ;; TODO: Add call to Denote to update file name parts.
-    ;; TODO: Eventually port this to a list of predicates and tag names.
-    ;; TODO: Consider adding sorting order.
-    ;; NOTE: This is for FILETAGS and TITLES ONLY.
     "Add or remove FILETAGS to the current node based on conditions."
+    ;; TODO: Keep org tag alist up-to-date with org-roam tags.
     (let* ((title (org-roam--get-keyword "title"))
            (title-as-tag (concat "@" (s-replace " " "" title)))
            (get-filetags (org-roam--get-keyword "filetags"))
@@ -765,12 +764,17 @@
       ;; Update the list of filetags.
       (setq new-tags (seq-union new-tags add-tags))
       (setq new-tags (seq-difference new-tags remove-tags))
+      (when (not (seq-set-equal-p filetags new-tags))
+        (setq new-tags (seq-uniq new-tags)))
       ;; Apply latest filetags to node.
-      (when (not (seq-set-equal-p filetags new-tags)) (org-roam-set-keyword "filetags" (org-make-tag-string (seq-uniq new-tags))))))
+      (org-roam-set-keyword
+       "filetags" (org-make-tag-string
+                   (if my/org-roam-sort-filetags
+                       (sort new-tags #'string<)
+                       new-tags)))
+      (denote-rename-file-using-front-matter (buffer-file-name))))
   (defun my/org-roam-get-agenda-files ()
     "Return a list of node files containing the 'agenda' tag." ;
-    ;; TODO: Consider switching to vulpea-db-query if you support it.
-    ;; TODO: Make this a dynamic search or another function which does this and returns org roam files with tags.
     (seq-uniq
      (seq-map
       #'car
