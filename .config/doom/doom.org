@@ -55,133 +55,128 @@
 - [[#doom-modeline][Doom Modeline]]
   - [[#package-4][Package]]
   - [[#appearance-2][Appearance]]
-- [[#doom-dashboard][Doom Dashboard]]
-  - [[#package-5][Package]]
-  - [[#appearance-3][Appearance]]
-  - [[#behavior-5][Behavior]]
-  - [[#keybinds-3][Keybinds]]
 - [[#persp-mode][Persp-Mode]]
-  - [[#package-6][Package]]
+  - [[#package-5][Package]]
   - [[#fixes-1][Fixes]]
 - [[#vertico][Vertico]]
-  - [[#package-7][Package]]
-  - [[#behavior-6][Behavior]]
-  - [[#keybinds-4][Keybinds]]
+  - [[#package-6][Package]]
+  - [[#behavior-5][Behavior]]
+  - [[#keybinds-3][Keybinds]]
 - [[#marginalia][Marginalia]]
-  - [[#package-8][Package]]
-  - [[#appearance-4][Appearance]]
+  - [[#package-7][Package]]
+  - [[#appearance-3][Appearance]]
 - [[#company][Company]]
-  - [[#package-9][Package]]
-  - [[#behavior-7][Behavior]]
+  - [[#package-8][Package]]
+  - [[#behavior-6][Behavior]]
 - [[#cape][Cape]]
-  - [[#package-10][Package]]
+  - [[#package-9][Package]]
 - [[#yasnippet][Yasnippet]]
-  - [[#package-11][Package]]
+  - [[#package-10][Package]]
   - [[#resources-1][Resources]]
-  - [[#behavior-8][Behavior]]
+  - [[#behavior-7][Behavior]]
 - [[#projectile][Projectile]]
-  - [[#package-12][Package]]
+  - [[#package-11][Package]]
   - [[#variables-1][Variables]]
-  - [[#behavior-9][Behavior]]
-  - [[#keybinds-5][Keybinds]]
+  - [[#behavior-8][Behavior]]
+  - [[#keybinds-4][Keybinds]]
 - [[#magit][Magit]]
-  - [[#package-13][Package]]
-  - [[#behavior-10][Behavior]]
+  - [[#package-12][Package]]
+  - [[#behavior-9][Behavior]]
   - [[#helpers][Helpers]]
 - [[#vterm][Vterm]]
-  - [[#package-14][Package]]
+  - [[#package-13][Package]]
   - [[#variables-2][Variables]]
-  - [[#keybinds-6][Keybinds]]
-  - [[#fixes-2][Fixes]]
+  - [[#keybinds-5][Keybinds]]
 - [[#visual-fill-column][Visual Fill Column]]
-  - [[#package-15][Package]]
-  - [[#fixes-3][Fixes]]
+  - [[#package-14][Package]]
+  - [[#fixes-2][Fixes]]
 - [[#org][Org]]
-  - [[#package-16][Package]]
+  - [[#package-15][Package]]
   - [[#variables-3][Variables]]
-  - [[#appearance-5][Appearance]]
-  - [[#behavior-11][Behavior]]
-  - [[#fixes-4][Fixes]]
+  - [[#appearance-4][Appearance]]
+  - [[#behavior-10][Behavior]]
+  - [[#fixes-3][Fixes]]
   - [[#helpers-1][Helpers]]
 - [[#denote][Denote]]
-  - [[#package-17][Package]]
+  - [[#package-16][Package]]
   - [[#variables-4][Variables]]
-  - [[#behavior-12][Behavior]]
+  - [[#behavior-11][Behavior]]
 - [[#org-roam][Org Roam]]
-  - [[#package-18][Package]]
+  - [[#package-17][Package]]
   - [[#resources-2][Resources]]
   - [[#variables-5][Variables]]
+  - [[#appearance-5][Appearance]]
+  - [[#behavior-12][Behavior]]
+  - [[#keybinds-6][Keybinds]]
+- [[#org-roam-ui][Org Roam UI]]
+  - [[#package-18][Package]]
   - [[#appearance-6][Appearance]]
   - [[#behavior-13][Behavior]]
   - [[#keybinds-7][Keybinds]]
-- [[#org-roam-ui][Org Roam UI]]
+- [[#org-sidebar][Org Sidebar]]
+- [[#org-agenda][Org Agenda]]
   - [[#package-19][Package]]
   - [[#appearance-7][Appearance]]
   - [[#behavior-14][Behavior]]
   - [[#keybinds-8][Keybinds]]
-- [[#org-sidebar][Org Sidebar]]
-- [[#org-agenda][Org Agenda]]
-  - [[#package-20][Package]]
-  - [[#appearance-8][Appearance]]
-  - [[#behavior-15][Behavior]]
-  - [[#keybinds-9][Keybinds]]
   - [[#helpers-2][Helpers]]
 - [[#org-super-agenda][Org Super Agenda]]
 - [[#org-ql][Org QL]]
-  - [[#package-21][Package]]
+  - [[#package-20][Package]]
 - [[#org-capture][Org Capture]]
-  - [[#package-22][Package]]
+  - [[#package-21][Package]]
   - [[#variables-6][Variables]]
-  - [[#behavior-16][Behavior]]
-  - [[#fixes-5][Fixes]]
+  - [[#behavior-15][Behavior]]
+  - [[#fixes-4][Fixes]]
 - [[#org-roam-capture][Org Roam Capture]]
-  - [[#package-23][Package]]
+  - [[#package-22][Package]]
   - [[#variables-7][Variables]]
 - [[#org-roam-protocol][Org Roam Protocol]]
-  - [[#package-24][Package]]
-  - [[#behavior-17][Behavior]]
+  - [[#package-23][Package]]
+  - [[#behavior-16][Behavior]]
 - [[#org-roam-dailies][Org Roam Dailies]]
-  - [[#package-25][Package]]
+  - [[#package-24][Package]]
   - [[#variables-8][Variables]]
 - [[#org-bookmark][Org Bookmark]]
 - [[#orca][Orca]]
-  - [[#package-26][Package]]
+  - [[#package-25][Package]]
   - [[#variables-9][Variables]]
 - [[#org-modern][Org Modern]]
-  - [[#package-27][Package]]
-  - [[#appearance-9][Appearance]]
+  - [[#package-26][Package]]
+  - [[#appearance-8][Appearance]]
 - [[#org-gtd][Org GTD]]
-  - [[#package-28][Package]]
+  - [[#package-27][Package]]
   - [[#variables-10][Variables]]
-  - [[#behavior-18][Behavior]]
-  - [[#keybinds-10][Keybinds]]
+  - [[#behavior-17][Behavior]]
+  - [[#keybinds-9][Keybinds]]
 - [[#org-appear][Org Appear]]
-  - [[#package-29][Package]]
-  - [[#appearance-10][Appearance]]
+  - [[#package-28][Package]]
+  - [[#appearance-9][Appearance]]
 - [[#org-link][Org Link]]
-  - [[#package-30][Package]]
+  - [[#package-29][Package]]
 - [[#toc-org][TOC Org]]
-  - [[#package-31][Package]]
-  - [[#behavior-19][Behavior]]
+  - [[#package-30][Package]]
+  - [[#behavior-18][Behavior]]
 - [[#ox-org-export][Ox (Org Export)]]
-  - [[#package-32][Package]]
-  - [[#appearance-11][Appearance]]
-  - [[#behavior-20][Behavior]]
-  - [[#keybinds-11][Keybinds]]
+  - [[#package-31][Package]]
+  - [[#appearance-10][Appearance]]
+  - [[#behavior-19][Behavior]]
+  - [[#keybinds-10][Keybinds]]
 - [[#org-noter][Org Noter]]
-  - [[#package-33][Package]]
+  - [[#package-32][Package]]
   - [[#variables-11][Variables]]
-  - [[#behavior-21][Behavior]]
-  - [[#appearance-12][Appearance]]
-  - [[#keybinds-12][Keybinds]]
+  - [[#behavior-20][Behavior]]
+  - [[#appearance-11][Appearance]]
+  - [[#keybinds-11][Keybinds]]
 - [[#pdf-tools][PDF Tools]]
+  - [[#package-33][Package]]
+  - [[#behavior-21][Behavior]]
+  - [[#fixes-5][Fixes]]
+- [[#sh-script][Sh-script]]
   - [[#package-34][Package]]
   - [[#behavior-22][Behavior]]
-  - [[#fixes-6][Fixes]]
-- [[#sh-script][Sh-script]]
-  - [[#package-35][Package]]
-  - [[#behavior-23][Behavior]]
 - [[#experiments][Experiments]]
+- [[#archived][Archived]]
 #+END_QUOTE
 #+html:</details>
 
@@ -1089,7 +1084,7 @@ For some reason, Doom has several 'toggle' binds under the 'help' menu, so I mov
 I increase the window count to be able to move back and forth between more help windows using the keybinds that I set.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
-(setq helpful-max-buffers 10)
+(setq helpful-max-buffers nil)
 #+end_src
 
 *** Show Documentation At Top Line
@@ -2068,11 +2063,22 @@ This advice causes the margins to remain centered in the frame regardless of tex
 #+begin_src emacs-lisp :tangle no :noweb-ref org-config
 (setq org-todo-keywords
       '((sequence
-         "TODO(t!)"     ; Task that needs doing & is ready to do.
-         "APPT(a!)"     ; An appointment.
-         "MEET(m!)"     ; A meeting.
-         "ISSUE(I!)"    ; An issue.
          "EVENT(e!)"    ; An event.
+         "|"
+         "DONE(d!)"     ; Successfully completed.
+         "KILL(k@/!)")  ; Cancelled or not applicable.
+        (sequence
+         "MEET(m!)"     ; A meeting.
+         "|"
+         "DONE(d!)"     ; Successfully completed.
+         "KILL(k@/!)")  ; Cancelled or not applicable.
+        (sequence
+         "APPT(a!)"     ; An appointment.
+         "|"
+         "DONE(d!)"     ; Successfully completed.
+         "KILL(k@/!)")  ; Cancelled or not applicable.
+        (sequence
+         "TODO(t!)"     ; Task that needs doing & is ready to do.
          "NEXT(N!)"     ; Task that needs doing & is ready to do.
          "WAIT(w@/!)"   ; Something is holding this up.
          "|"            ; Required to get org-roam to ignore the following todo items.
@@ -2080,10 +2086,9 @@ This advice causes the margins to remain centered in the frame regardless of tex
          "KILL(k@/!)")  ; Task cancelled or not applicable.
         (type
          "|"            ; Required to get org-roam to ignore the following todo items.
+         "ISSUE(I!)"    ; An issue.
          "IDEA(i!)"     ; An idea.
-         "NOTE(n!)"     ; A fleeting note, in person, idea, or link.
-         "LINK(l!)"     ; A link I want to note.
-         "KEYBIND(K!)") ; A link I want to note.
+         "NOTE(n!)")    ; A fleeting note, in person, idea, or link.
         (type
          "QUESTION(q!)" ; A question that I want to be able to hold information about.
          "|"
@@ -2556,6 +2561,7 @@ tasks. The only exception is headings tagged as REFILE."
 (defun my/org-roam-update-filetags ()
   "Add or remove FILETAGS to the current node based on conditions."
   ;; TODO: Keep org tag alist up-to-date with org-roam tags.
+  ;; TODO: Force length check for one or more tags using seq-length.
   (let* ((title (org-roam--get-keyword "title"))
          (title-as-tag (concat "@" (s-replace " " "" title)))
          (get-filetags (org-roam--get-keyword "filetags"))
@@ -2701,6 +2707,8 @@ By using advice, we can filter the arguments passed to org-roam-node-find. Here,
 This may need some work eventually to prevent the loss of arguments when used in other cases by passing along any previously given. For now, this works fine.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+;; TODO: Consider shifting off args like bash and returning the rest.
+;; TODO: Consider adding a toggle to enable/disable.
 (defun my/org-roam-node-find-advice (&optional OTHER-WINDOW INITIAL-INPUT FILTER-FN PRED &key TEMPLATES)
     "Returns a list of formatted args for org-roam-node-find to use as defaults."
     '(nil "!private "))
@@ -2730,6 +2738,11 @@ This may need some work eventually to prevent the loss of arguments when used in
 
 #+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
 (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
+#+end_src
+*** Remove Old/Useless Functions
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-roam-config
+(makunbound 'org-roam-add-property)
 #+end_src
 
 * Org Roam UI
@@ -3274,11 +3287,11 @@ I use a custom width variable to ensure the formatting as I can't trust auto-ali
 (use-package! org-ql
   :defer t
   :after denote)
-;; (use-package! org-ql-search
-;;   :after org-roam)
-  ;:autoload org-dblock-write:org-ql)
-#+end_src
 
+(use-package! org-ql-search
+  :after org-roam
+  :autoload org-dblock-write:org-ql)
+#+end_src
 #+html:</details>
 
 * Org Capture
@@ -4469,4 +4482,6 @@ This is a simple interactive function that I call to quickly jump to the info pa
   (org-babel-with-temp-filebuffer +literate-config-file (org-babel-goto-named-src-block "gen-org-protocol-script") (org-babel-execute-src-block)))
 #+end_src
 
+* Archived
 
+This section holds code that has been removed with an explanation why if I feel the need to keep it for posterity or for others to learn from/use.

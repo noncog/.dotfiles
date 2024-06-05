@@ -187,7 +187,7 @@
   :defer t
   :config
   ;; Behavior
-  (setq helpful-max-buffers 10)
+  (setq helpful-max-buffers nil)
   (advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
   (defadvice! my/+popup--helpful-open-in-origin-window-a (button)
     "Open links in non-popup, originating window rather than helpful's window."
@@ -456,7 +456,7 @@
     "Select a dotfile to edit."
     (interactive)
     (let ((default-directory (expand-file-name "~/")))
-      (list "{worktree}" (magit-read-file-from-rev "HEAD" "Find .dotfile"))))
+      (find-file (concat default-directory "/" (magit-read-file-from-rev "HEAD" "Find .dotfile")))))
   
   (map! :leader :desc "Edit .dotfiles" "g d" #'my/magit-edit-bare-dotfile))
 
@@ -488,11 +488,22 @@
   :config
   (setq org-todo-keywords
         '((sequence
-           "TODO(t!)"     ; Task that needs doing & is ready to do.
-           "APPT(a!)"     ; An appointment.
-           "MEET(m!)"     ; A meeting.
-           "ISSUE(I!)"    ; An issue.
            "EVENT(e!)"    ; An event.
+           "|"
+           "DONE(d!)"     ; Successfully completed.
+           "KILL(k@/!)")  ; Cancelled or not applicable.
+          (sequence
+           "MEET(m!)"     ; A meeting.
+           "|"
+           "DONE(d!)"     ; Successfully completed.
+           "KILL(k@/!)")  ; Cancelled or not applicable.
+          (sequence
+           "APPT(a!)"     ; An appointment.
+           "|"
+           "DONE(d!)"     ; Successfully completed.
+           "KILL(k@/!)")  ; Cancelled or not applicable.
+          (sequence
+           "TODO(t!)"     ; Task that needs doing & is ready to do.
            "NEXT(N!)"     ; Task that needs doing & is ready to do.
            "WAIT(w@/!)"   ; Something is holding this up.
            "|"            ; Required to get org-roam to ignore the following todo items.
@@ -500,10 +511,9 @@
            "KILL(k@/!)")  ; Task cancelled or not applicable.
           (type
            "|"            ; Required to get org-roam to ignore the following todo items.
+           "ISSUE(I!)"    ; An issue.
            "IDEA(i!)"     ; An idea.
-           "NOTE(n!)"     ; A fleeting note, in person, idea, or link.
-           "LINK(l!)"     ; A link I want to note.
-           "KEYBIND(K!)") ; A link I want to note.
+           "NOTE(n!)")    ; A fleeting note, in person, idea, or link.
           (type
            "QUESTION(q!)" ; A question that I want to be able to hold information about.
            "|"
@@ -708,6 +718,7 @@
   (defun my/org-roam-update-filetags ()
     "Add or remove FILETAGS to the current node based on conditions."
     ;; TODO: Keep org tag alist up-to-date with org-roam tags.
+    ;; TODO: Force length check for one or more tags using seq-length.
     (let* ((title (org-roam--get-keyword "title"))
            (title-as-tag (concat "@" (s-replace " " "" title)))
            (get-filetags (org-roam--get-keyword "filetags"))
@@ -807,6 +818,8 @@
            (title (org-roam--get-keyword "title"))
            (category (org-get-category)))
       (or (if (and title (string-equal category file-name)) title category) "")))
+  ;; TODO: Consider shifting off args like bash and returning the rest.
+  ;; TODO: Consider adding a toggle to enable/disable.
   (defun my/org-roam-node-find-advice (&optional OTHER-WINDOW INITIAL-INPUT FILTER-FN PRED &key TEMPLATES)
       "Returns a list of formatted args for org-roam-node-find to use as defaults."
       '(nil "!private "))
@@ -819,7 +832,8 @@
     "Get a random node with the draft tag. "
     (interactive)
     (org-roam-node-random nil #'noncog/org-roam-is-draft-p))
-  (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft))
+  (map! :leader :desc "Random draft node" "n r u" #'noncog/org-roam-random-draft)
+  (makunbound 'org-roam-add-property))
 
 (use-package! websocket
     :after org-roam)
@@ -1097,9 +1111,10 @@
 (use-package! org-ql
   :defer t
   :after denote)
-;; (use-package! org-ql-search
-;;   :after org-roam)
-  ;:autoload org-dblock-write:org-ql)
+
+(use-package! org-ql-search
+  :after org-roam
+  :autoload org-dblock-write:org-ql)
 
 (use-package! org-capture
   :defer t
