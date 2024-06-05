@@ -95,11 +95,13 @@ alt - f11 : yabai -m window --toggle zoom-fullscreen
 
 cmd - tab [
   "Librewolf" : skhd -k "ctrl - tab"
+  "Safari" : skhd -k "ctrl - tab"
   * ~
 ]
 
 cmd + shift - tab [
   "Librewolf" : skhd -k "ctrl + shift - tab"
+  "Safari" : skhd -k "ctrl + shift - tab"
   * ~
 ]
 
@@ -115,9 +117,12 @@ cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
 
 alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1 && open -a librewolf --args -profile $HOME/.config/firefox/noncog
 
-alt - return : $HOME/.local/bin/yabai_scratchpad_app.sh kitty
-alt - d : $HOME/.local/bin/yabai_scratchpad_app.sh Discord
-alt - m : $HOME/.local/bin/yabai_scratchpad_app.sh Spotify
+alt - return : yabai -m window --toggle kitty || open  -a kitty
+#alt - return : $HOME/.local/bin/yabai_scratchpad_app.sh kitty
+alt - d : yabai -m window --toggle discord || open -a discord
+#alt - d : $HOME/.local/bin/yabai_scratchpad_app.sh Discord
+alt - m : yabai -m window --toggle spotify || open -a  Spotify
+#alt - m : $HOME/.local/bin/yabai_scratchpad_app.sh Spotify
 
 # alt - return : yabai -m window --toggle kitty
 # alt - d : yabai -m window --toggle discord

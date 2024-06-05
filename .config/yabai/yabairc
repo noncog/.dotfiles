@@ -44,17 +44,17 @@ yabai -m config \
 
 #yabai -m signal --add event=display_resized action="brew services restart sketchybar"
 # Testing a signal to ensure that the most recent window is focused on a space after closing one like finder.
-yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
-#yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
-#yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
+#yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
+yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
 
 #yabai -m signal --add event=space_changed action="yabai -m window --focus"
 #yabai -m signal --add event=window_created action="yabai -m window --focus \$YABAI_WINDOW_ID"
 # --add event=window_focused action="printf "%s" \$YABAI_WINDOW_ID > \$HOME/.config/yabai/state/focused_window_id" \
 # --add event=space_changed action="\$HOME/.config/yabai/scripts/focused_space.sh \$YABAI_SPACE_ID" \
-# --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'" active=yes \
-# --add event=window_destroyed app="^LibreWolf$" action="osascript -e 'quit app \"LibreWolf\"'" active=yes
-#--add event=window_destroyed app="^Safari$" action="osascript -e 'quit app \"Safari\"'" active=yes
+yabai -m signal --add event=window_destroyed app="^Firefox$" action="osascript -e 'quit app \"Firefox\"'" active=yes
+yabai -m signal --add event=window_destroyed app="^LibreWolf$" action="osascript -e 'quit app \"LibreWolf\"'" active=yes
+yabai -m signal --add event=window_destroyed app="^Safari$" action="osascript -e 'quit app \"Safari\"'" active=yes
 
 # Try a window hidden and destroyed space focus to fix not focusing app after window closes on a space.
 # Perhaps I can use the application front switched to get the recent process id...
@@ -64,15 +64,15 @@ yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Open Cycle Time$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Barrier$" manage=off
-# yabai -m rule --add app="Emacs$" display=^last
-yabai -m rule --add app="LibreWolf$" display=^last
-yabai -m rule --add app="Firefox$" display=^last
-yabai -m rule --add app="Safari$" display=^last
+yabai -m rule --add app="^Emacs$" space=^1
+yabai -m rule --add app="^LibreWolf$" space=^2
+yabai -m rule --add app="^Firefox$" space=^2
+yabaf -m rule --add app="^Safari$" space=^2
 yabai -m rule --add app="Tor Browswer$" space=^2
 yabai -m rule --add app="(CLion|PyCharm)$" space=^3
-yabai -m rule --add app="(Gimp|Blender)$" space=^4
+yabai -m rule --add app="(Gimp|Blender)$" space=^3
 
-yabai -m rule --add app="Emacs" title="doom-capture" grid=6:6:1:1:4:4 manage=off sticky=on display=^last
-yabai -m rule --add app="kitty" scratchpad="kitty" grid=6:6:1:1:4:4 manage=off sticky=off display=^last
-yabai -m rule --add app="^Discord" scratchpad="discord" grid=10:10:1:0:8:10 manage=off sticky=off dispaly=^last
-yabai -m rule --add app="Spotify" scratchpad="spotify" grid=6:6:1:1:4:4 manage=off sticky=off display=^last
+#yabai -m rule --add app="Emacs" title="doom-capture" grid=6:6:1:1:4:4 manage=off sticky=on display=^last
+yabai -m rule --add app="kitty" scratchpad="kitty" grid=6:6:1:1:4:4
+yabai -m rule --add app="^Discord$" title!="^Discord Updater$" scratchpad="discord" grid=10:10:1:0:8:10
+yabai -m rule --add app="Spotify" scratchpad="spotify" grid=6:6:1:1:4:4
