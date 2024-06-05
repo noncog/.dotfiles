@@ -55,21 +55,6 @@
 
 (setq-default evil-scroll-count 10)
 
-(define-minor-mode prot/scroll-center-cursor-mode
-  "Toggle centred cursor scrolling behavior"
-  :init-value nil
-  :lighter " S="
-  :global nil
-  (if prot/scroll-center-cursor-mode
-      (setq-local scroll-margin (* (frame-height) 2)
-                  scroll-conservatively 0
-                  maximum-scroll-margin 0.5)
-    (dolist (local '(scroll-preserve-screen-position
-                     scroll-conservatively
-                     maximum-scroll-margin
-                     scroll-margin))
-      (kill-local-variable `,local))))
-
 (defun wm-win-cmd-in-direction (wm-cmd direction emacs-fn)
   (let ((tell-wm (concat (cond (IS-LINUX "i3-msg ") (IS-MAC "yabai -m window --")) wm-cmd " " direction)))
     (condition-case nil (funcall emacs-fn)
@@ -178,13 +163,6 @@
   (map! "C-s-f" nil ; Frame fullscreen toggle is broken on macOS.
    :leader "t F" nil))
 
-(defun my/find-file-from-home ()
-  "Start find-file frome $HOME."
-  (interactive)
-  (find-file (expand-file-name "~/")))
-
-(map! :leader "f h" #'my/find-file-from-home)
-
 (use-package! avy
   :defer t
   :config
@@ -276,17 +254,6 @@
   (setq doom-modeline-persp-name t
         doom-modeline-display-default-persp-name t
         doom-modeline-persp-icon t))
-
-(use-package! doom-dashboard
-  :defer t
-  :init
-  ;; Appearance
-  (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
-  ;; Behavior
-  (setq +doom-dashboard-pwd-policy "~")
-  ;; Keybinds
-  (map! :leader :desc "Dashboard" "d" #'+doom-dashboard/open)
-  )
 
 (use-package! persp-mode
   :defer t
@@ -501,11 +468,6 @@
   :config
   ;; Keybinds
   (evil-define-key* 'insert vterm-mode-map (kbd "<M-backspace>") #'vterm-send-meta-backspace)
-  ;; Fixes
-  ;; (advice-add '+vterm/toggle :around
-  ;;             (lambda (fn &rest args) (apply fn args)
-  ;;               (when (eq major-mode 'vterm-mode)
-  ;;                 (evil-collection-vterm-insert))))
   )
 
 (use-package! visual-fill-column
