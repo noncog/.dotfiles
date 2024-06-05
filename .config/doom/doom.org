@@ -1925,14 +1925,16 @@ And finally, the custom standards checker is hooked into Magit's finish commit f
 ** Helpers
 *** Edit Git Bare Dotfiles
 
-- TODO: Continue developing...
+This function uses the above hack to Magit for editing dotfiles in a bare repository to select one and edit it.
+
+- TODO: Get Marginalia support.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref magit-config
 (defun my/magit-edit-bare-dotfile ()
   "Select a dotfile to edit."
   (interactive)
   (let ((default-directory (expand-file-name "~/")))
-    (list "{worktree}" (magit-read-file-from-rev "HEAD" "Find .dotfile"))))
+    (find-file (concat default-directory "/" (magit-read-file-from-rev "HEAD" "Find .dotfile")))))
 
 (map! :leader :desc "Edit .dotfiles" "g d" #'my/magit-edit-bare-dotfile)
 #+end_src
