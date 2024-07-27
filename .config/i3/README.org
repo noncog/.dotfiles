@@ -236,7 +236,7 @@ exec --no-startup-id sleep 3 && emacs --daemon
 mode "emacs" {
 <<keybinds>>
 }
-exec_always --no-startup-id sleep 3 && perl $HOME/.config/i3/scripts/i3-emacs-mode.pl
+exec --no-startup-id sleep 3 && perl $HOME/.config/i3/scripts/i3-emacs-mode.pl
 #+end_src
 
 *** Firefox
