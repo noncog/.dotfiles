@@ -344,23 +344,6 @@
         '(("~/.dotfiles" . 0)
           ("~/Projects" . 1)
           ("~/Code" . 1)))
-  (defun my/magit-process-environment (env)
-    "Detect and set git -bare repo env vars when in tracked dotfile directories."
-    (let* ((default (file-name-as-directory (expand-file-name default-directory)))
-           (git-dir (expand-file-name "~/.dotfiles/"))
-           (work-tree (expand-file-name "~/"))
-           (dotfile-dirs
-            (-map (apply-partially 'concat work-tree)
-                  (-uniq (-keep #'file-name-directory (split-string (shell-command-to-string
-                  (format "/usr/bin/git --git-dir=%s --work-tree=%s ls-tree --full-tree --name-only -r HEAD"
-                          git-dir work-tree))))))))
-      (push work-tree dotfile-dirs)
-      (when (member default dotfile-dirs)
-        (push (format "GIT_WORK_TREE=%s" work-tree) env)
-        (push (format "GIT_DIR=%s" git-dir) env)))
-    env)
-  (advice-add 'magit-process-environment
-              :filter-return #'my/magit-process-environment)
   (defcustom my-git-commit-style-convention-checks '(summary-has-type
                                                      summary-type-lowercase
                                                      summary-has-separator
@@ -453,14 +436,7 @@
   (setq git-commit-fill-column 72)        ; Description column limit.
   (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
   (add-to-list 'git-commit-finish-query-functions
-               #'my-git-commit-check-style-conventions)
-  (defun my/magit-edit-bare-dotfile ()
-    "Select a dotfile to edit."
-    (interactive)
-    (let ((default-directory (expand-file-name "~/.dotfiles")))
-      (find-file (concat default-directory "/" (magit-read-file-from-rev "HEAD" "Find .dotfile")))))
-  
-  (map! :leader :desc "Edit .dotfiles" "g d" #'my/magit-edit-bare-dotfile))
+               #'my-git-commit-check-style-conventions))
 
 (use-package! vterm
   :defer t

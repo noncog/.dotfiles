@@ -82,7 +82,6 @@
 - [[#magit][Magit]]
   - [[#package-12][Package]]
   - [[#behavior-9][Behavior]]
-  - [[#helpers][Helpers]]
 - [[#vterm][Vterm]]
   - [[#package-13][Package]]
   - [[#variables-2][Variables]]
@@ -96,7 +95,7 @@
   - [[#appearance-4][Appearance]]
   - [[#behavior-10][Behavior]]
   - [[#fixes-3][Fixes]]
-  - [[#helpers-1][Helpers]]
+  - [[#helpers][Helpers]]
 - [[#denote][Denote]]
   - [[#package-16][Package]]
   - [[#variables-4][Variables]]
@@ -119,7 +118,7 @@
   - [[#appearance-7][Appearance]]
   - [[#behavior-14][Behavior]]
   - [[#keybinds-8][Keybinds]]
-  - [[#helpers-2][Helpers]]
+  - [[#helpers-1][Helpers]]
 - [[#org-super-agenda][Org Super Agenda]]
 - [[#org-ql][Org QL]]
   - [[#package-20][Package]]
@@ -1688,35 +1687,6 @@ Defining this directory enables =magit-status= to search for a repository when n
         ("~/Code" . 1)))
 #+end_src
 
-*** Dotfiles Git Bare Repository Support
-
-Out of the box Magit doesn't support =--bare= repositories, which are commonly used to manage dotfiles. I've extended an old method of loading the corresponding Git environment variables when relevant directories are open. It simply gets a list of all your dotfiles from the repository and whenever you're in their releveant directory it modifies the Magit/Git environment variable to support the bare repository whenever you need it.
-
-This method works everywhere and seamlessly integrates managing my dotfiles into Magit. It could easily be extended to support multiple bare repositories as well.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(defun my/magit-process-environment (env)
-  "Detect and set git -bare repo env vars when in tracked dotfile directories."
-  (let* ((default (file-name-as-directory (expand-file-name default-directory)))
-         (git-dir (expand-file-name "~/.dotfiles/"))
-         (work-tree (expand-file-name "~/"))
-         (dotfile-dirs
-          (-map (apply-partially 'concat work-tree)
-                (-uniq (-keep #'file-name-directory (split-string (shell-command-to-string
-                (format "/usr/bin/git --git-dir=%s --work-tree=%s ls-tree --full-tree --name-only -r HEAD"
-                        git-dir work-tree))))))))
-    (push work-tree dotfile-dirs)
-    (when (member default dotfile-dirs)
-      (push (format "GIT_WORK_TREE=%s" work-tree) env)
-      (push (format "GIT_DIR=%s" git-dir) env)))
-  env)
-#+end_src
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(advice-add 'magit-process-environment
-            :filter-return #'my/magit-process-environment)
-#+end_src
-
 *** Commit Linter
 
 I've developed a custom Git commit linter based on [[https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format][Angular]] and [[https://www.conventionalcommits.org/][Conventional Commits]]. The code is based on this [[https://www.adventuresinwhy.com/post/commit-message-linting/][this]] post but highly modified to conform to my chosen conventions.
@@ -1917,23 +1887,6 @@ And finally, the custom standards checker is hooked into Magit's finish commit f
 (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
 (add-to-list 'git-commit-finish-query-functions
              #'my-git-commit-check-style-conventions)
-#+end_src
-
-** Helpers
-*** Edit Git Bare Dotfiles
-
-This function uses the above hack to Magit for editing dotfiles in a bare repository to select one and edit it.
-
-- TODO: Get Marginalia support.
-
-#+begin_src emacs-lisp :tangle no :noweb-ref magit-config
-(defun my/magit-edit-bare-dotfile ()
-  "Select a dotfile to edit."
-  (interactive)
-  (let ((default-directory (expand-file-name "~/.dotfiles")))
-    (find-file (concat default-directory "/" (magit-read-file-from-rev "HEAD" "Find .dotfile")))))
-
-(map! :leader :desc "Edit .dotfiles" "g d" #'my/magit-edit-bare-dotfile)
 #+end_src
 
 * Vterm
