@@ -1615,10 +1615,7 @@ appropiriate file/line and returns non-nil on match.")
     (interactive)
     (info "Bash"))
   :config
-  (set-formatter! 'shfmt
-    '("shfmt" "-ci" "-bn" "-sr" "-kp"
-      ("-i" "%d" (unless indent-tabs-mode tab-width))
-      ("-ln" "%s" (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix"))))))
+  (set-formatter! 'shfmt '("shfmt" "-ci" "-ln" "bash" "-bn" "-sr" "-kp" "-i" "4")))
 
 (defun sp-wrap-quote ()
   "Wrap following sexp in quotes."

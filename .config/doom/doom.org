@@ -4450,10 +4450,7 @@ Load my own template specifying Bash. For some reason, the detection of the corr
 Doom provides some basic arguments to [[https://github.com/mvdan/sh][shfmt]] but those aren't enough for my preferences so I add my own.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref sh-script-config
-(set-formatter! 'shfmt
-  '("shfmt" "-ci" "-bn" "-sr" "-kp"
-    ("-i" "%d" (unless indent-tabs-mode tab-width))
-    ("-ln" "%s" (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix")))))
+(set-formatter! 'shfmt '("shfmt" "-ci" "-ln" "bash" "-bn" "-sr" "-kp" "-i" "4"))
 #+end_src
 
 *** Open Bash Info Page
