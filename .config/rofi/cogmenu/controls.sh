@@ -4,7 +4,8 @@ directory="$HOME/.config/rofi/cogmenu"
 rofi_command="rofi -no-fixed-num-lines -location 2 -yoffset 57 -theme $directory/configs/cogmenu.rasi"
 
 # options
-desktop=" Desktop mode"
+onemonitor=" Primary Monitor"
+twomonitor=" Two Monitors"
 reloadi3=" Reload i3"
 reloadxmodmap=" Reload Xmodmap"
 keybindsi3=" i3 Keybinds"
@@ -15,15 +16,22 @@ err_msg() {
 }
 
 # variables passed to rofi
-options="$desktop\n$reloadi3\n$reloadxmodmap\n$keybindsi3"
+options="$onemonitor\n$twomonitor\n$reloadi3\n$reloadxmodmap\n$keybindsi3"
 
 selection="$(echo -e "$options" | $rofi_command -p 'controls' -dmenu)"
 case $selection in
-    $desktop)
-    if [[ -f "$directory/desktop.sh" ]]; then
-        bash "$directory/desktop.sh"
+    $onemonitor)
+    if [[ -f "$directory/primary-monitor.sh" ]]; then
+        bash "$directory/primary-monitor.sh"
     else
-        err_msg "$desktop file not found."
+        err_msg "$onemonitor file not found."
+    fi
+    ;;
+    $twomonitor)
+    if [[ -f "$directory/two-monitor.sh" ]]; then
+        bash "$directory/two-monitor.sh"
+    else
+        err_msg "$twomonitor file not found."
     fi
     ;;
     $reloadi3)
