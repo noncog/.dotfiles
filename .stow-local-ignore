@@ -1,0 +1,9 @@
+docs
+\.git
+\.gitattributes
+\.gitignore
+\.system_demo.org
+Brewfile
+LICENSE
+README.org
+# ^/.*\.org
