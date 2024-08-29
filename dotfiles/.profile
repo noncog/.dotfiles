@@ -51,4 +51,9 @@ export PATH="$PATH:/home/jake/.local/share/JetBrains/Toolbox/scripts"
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 # Add GNU grep to system instead of BSD grep.
+# TODO: Add check for existence of homebrew.
 PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
+
+PATH="/opt/mcd:$PATH"
+export MCD_MODE="remote"
+export MCD_REMOTE="vault-tec"

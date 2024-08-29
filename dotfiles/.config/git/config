@@ -11,3 +11,5 @@
   xfuncname = "^(\\(.*)$"
 [diff "org"]
   xfuncname = "^(\\*+ +.*)$"
+[github]
+	user = noncog

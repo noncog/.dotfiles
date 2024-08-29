@@ -81,29 +81,30 @@
   - [[#keybinds-4][Keybinds]]
 - [[#magit][Magit]]
   - [[#package-12][Package]]
+  - [[#variables-2][Variables]]
   - [[#behavior-9][Behavior]]
 - [[#vterm][Vterm]]
   - [[#package-13][Package]]
-  - [[#variables-2][Variables]]
+  - [[#variables-3][Variables]]
   - [[#keybinds-5][Keybinds]]
 - [[#visual-fill-column][Visual Fill Column]]
   - [[#package-14][Package]]
   - [[#fixes-2][Fixes]]
 - [[#org][Org]]
   - [[#package-15][Package]]
-  - [[#variables-3][Variables]]
+  - [[#variables-4][Variables]]
   - [[#appearance-4][Appearance]]
   - [[#behavior-10][Behavior]]
   - [[#fixes-3][Fixes]]
   - [[#helpers][Helpers]]
 - [[#denote][Denote]]
   - [[#package-16][Package]]
-  - [[#variables-4][Variables]]
+  - [[#variables-5][Variables]]
   - [[#behavior-11][Behavior]]
 - [[#org-roam][Org Roam]]
   - [[#package-17][Package]]
   - [[#resources-2][Resources]]
-  - [[#variables-5][Variables]]
+  - [[#variables-6][Variables]]
   - [[#appearance-5][Appearance]]
   - [[#behavior-12][Behavior]]
   - [[#keybinds-6][Keybinds]]
@@ -124,28 +125,28 @@
   - [[#package-20][Package]]
 - [[#org-capture][Org Capture]]
   - [[#package-21][Package]]
-  - [[#variables-6][Variables]]
+  - [[#variables-7][Variables]]
   - [[#behavior-15][Behavior]]
   - [[#fixes-4][Fixes]]
 - [[#org-roam-capture][Org Roam Capture]]
   - [[#package-22][Package]]
-  - [[#variables-7][Variables]]
+  - [[#variables-8][Variables]]
 - [[#org-roam-protocol][Org Roam Protocol]]
   - [[#package-23][Package]]
   - [[#behavior-16][Behavior]]
 - [[#org-roam-dailies][Org Roam Dailies]]
   - [[#package-24][Package]]
-  - [[#variables-8][Variables]]
+  - [[#variables-9][Variables]]
 - [[#org-bookmark][Org Bookmark]]
 - [[#orca][Orca]]
   - [[#package-25][Package]]
-  - [[#variables-9][Variables]]
+  - [[#variables-10][Variables]]
 - [[#org-modern][Org Modern]]
   - [[#package-26][Package]]
   - [[#appearance-8][Appearance]]
 - [[#org-gtd][Org GTD]]
   - [[#package-27][Package]]
-  - [[#variables-10][Variables]]
+  - [[#variables-11][Variables]]
   - [[#behavior-17][Behavior]]
   - [[#keybinds-9][Keybinds]]
 - [[#org-appear][Org Appear]]
@@ -163,7 +164,7 @@
   - [[#keybinds-10][Keybinds]]
 - [[#org-noter][Org Noter]]
   - [[#package-32][Package]]
-  - [[#variables-11][Variables]]
+  - [[#variables-12][Variables]]
   - [[#behavior-20][Behavior]]
   - [[#appearance-11][Appearance]]
   - [[#keybinds-11][Keybinds]]
@@ -1615,7 +1616,7 @@ I'm using this package to get emacs-lisp completions in Org's source blocks!
 I use the same convention for project location on each OS that I use.
 
 #+begin_src emacs-lisp :tangle no :noweb-ref projectile-config
-(setq projectile-project-search-path '("~/Projects"))
+(setq projectile-project-search-path '("~/Code" "~/Projects"))
 #+end_src
 
 ** Behavior
@@ -1665,10 +1666,24 @@ I add a keybind to quickly view which projects have uncommitted changes.
 #+begin_src emacs-lisp :tangle no :noweb-ref config :noweb yes :noweb-sep "\n\n"
 (use-package! magit
   :defer t
+  :init
+  <<magit-init>>
   :config
   <<magit-config>>)
 #+end_src
 #+html:</details>
+
+** Variables
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-init :exports none
+;; Variables
+#+end_src
+
+*** Set authinfo
+
+#+begin_src emacs-lisp :tangle no :noweb-ref magit-init :exports none
+(setq auth-sources '("~/.authinfo"))
+#+end_src
 
 ** Behavior
 
@@ -1683,7 +1698,7 @@ Defining this directory enables =magit-status= to search for a repository when n
 #+begin_src emacs-lisp :tangle no :noweb-ref magit-config
 (setq magit-repository-directories
       '(("~/.dotfiles" . 0)
-        ("~/Projects" . 1)
+        ("~/Projects" . 2)
         ("~/Code" . 1)))
 #+end_src
 
@@ -1888,7 +1903,6 @@ And finally, the custom standards checker is hooked into Magit's finish commit f
 (add-to-list 'git-commit-finish-query-functions
              #'my-git-commit-check-style-conventions)
 #+end_src
-
 * Vterm
 :PROPERTIES:
 :VISIBILITY: children

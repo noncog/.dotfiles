@@ -331,18 +331,21 @@
         "p l" #'projectile-browse-dirty-projects)
   :config
   ;; Variables
-  (setq projectile-project-search-path '("~/Projects"))
+  (setq projectile-project-search-path '("~/Code" "~/Projects"))
   ;; Behavior
   (setq projectile-auto-discover nil
         projectile-track-known-projects-automatically nil))
 
 (use-package! magit
   :defer t
+  :init
+  ;; Variables
+  (setq auth-sources '("~/.authinfo"))
   :config
   ;; Behavior
   (setq magit-repository-directories
         '(("~/.dotfiles" . 0)
-          ("~/Projects" . 1)
+          ("~/Projects" . 2)
           ("~/Code" . 1)))
   (defcustom my-git-commit-style-convention-checks '(summary-has-type
                                                      summary-type-lowercase
