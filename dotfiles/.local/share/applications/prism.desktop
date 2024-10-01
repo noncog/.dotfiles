@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Prism
+Exec=/opt/PrismLauncher/bin/prismlauncher
+Icon=/opt/PrismLauncher/share/icons/hicolor/scalable/apps/org.prismlauncher.PrismLauncher.svg
+Type=Application
+Terminal=false
