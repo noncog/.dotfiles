@@ -1,0 +1,4 @@
+[Unit]
+Description=X session managed by systemd
+BindsTo=graphical-session.target
+

@@ -1,0 +1,14 @@
+[Unit]
+Description=Polybar, a status bar for i3wm.service
+PartOf=graphical-session.target
+
+Requisite=i3wm.service
+After=i3wm.service
+
+[Service]
+ExecStart=/usr/bin/polybar default_bar
+ExecStop=/usr/bin/polybar-msg cmd quit
+Restart=on-failure
+
+[Install]
+WantedBy=i3wm.service

@@ -11,10 +11,15 @@ my %callbacks = (
         my ($x) = @_;
         my $ev = $x->{change};
         my $class = $x->{container}->{window_properties}->{class};
-        if ($class eq 'Emacs') {
-            $i3->message(TYPE_COMMAND, "mode emacs"); }
-        else {
-            $i3->message(TYPE_COMMAND, "mode default"); }
+
+        if ($ev eq "focus") {
+            if ($class eq "Emacs") {
+                $i3->message(TYPE_COMMAND, "mode Emacs"); }
+            elsif ($class eq "GT: New Horizons 2.6.1") {
+                $i3->message(TYPE_COMMAND, "mode GTNH"); }
+            else {
+                $i3->message(TYPE_COMMAND, "mode default"); }
+        }
     }
     );
 

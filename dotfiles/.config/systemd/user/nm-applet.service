@@ -1,0 +1,13 @@
+[Unit]
+Description=Network-Manager applet for i3wm.service
+PartOf=graphical-session.target
+
+Requisite=i3wm.service
+After=i3wm.service
+
+[Service]
+ExecStart=/usr/bin/nm-applet
+Restart=on-failure
+
+[Install]
+WantedBy=i3wm.service

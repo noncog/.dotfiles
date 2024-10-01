@@ -1,0 +1,377 @@
+#+title: I3
+#+startup: show3levels
+
+* i3
+
+#+begin_src conf :tangle ~/.config/i3/config :noweb yes
+<<settings>>
+<<modes>>
+<<keybinds-override>>
+<<keybinds-global>>
+<<startup>>
+#+end_src
+
+** Settings
+
+#+begin_src conf :noweb-ref settings
+focus_wrapping no
+focus_follows_mouse no
+mouse_warping output
+smart_borders on
+#+end_src
+
+** Appearance
+*** Font
+
+#+begin_src conf :noweb-ref settings
+font pango:Fira Code 11
+#+end_src
+
+*** Color Theme
+
+#+begin_src conf :noweb-ref settings
+# class                 border  bground text    indicator child_border
+client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+
+client.background       #F8F8F2
+#+end_src
+
+*** Window Borders
+
+#+begin_src conf :noweb-ref settings
+default_border pixel 1
+default_floating_border pixel 1
+#+end_src
+
+** Keybinds
+*** Modifier Keys
+
+#+begin_src conf :noweb-ref settings
+set $mod Mod4
+floating_modifier $mod
+#+end_src
+
+*** Directional Keys
+
+#+begin_src conf :noweb-ref settings
+set $left  h
+set $down  j
+set $up    k
+set $right l
+#+end_src
+
+*** Focus Windows
+
+#+begin_src conf :noweb-ref keybinds-override
+bindsym $mod+$left  [con_id="__focused__" class="^(?!Emacs)"] focus left
+bindsym $mod+$down  [con_id="__focused__" class="^(?!Emacs)"] focus down
+bindsym $mod+$up    [con_id="__focused__" class="^(?!Emacs)"] focus up
+bindsym $mod+$right [con_id="__focused__" class="^(?!Emacs)"] focus right
+#+end_src
+
+*** Move Windows
+
+#+begin_src conf :noweb-ref keybinds-override
+bindsym $mod+Shift+$left  [con_id="__focused__" class="^(?!Emacs)"] move left
+bindsym $mod+Shift+$down  [con_id="__focused__" class="^(?!Emacs)"] move down
+bindsym $mod+Shift+$up    [con_id="__focused__" class="^(?!Emacs)"] move up
+bindsym $mod+Shift+$right [con_id="__focused__" class="^(?!Emacs)"] move right
+#+end_src
+
+*** Focus Workspace
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 0
+#+end_src
+
+*** Move to Workspace
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+10 move container to workspace 10
+#+end_src
+
+*** Split Windows
+
+#+begin_src conf :noweb-ref keybinds-override
+bindsym $mod+v split h
+bindsym $mod+s split v
+#+end_src
+
+*** Kill Windows
+
+# TODO: Consider making this a passthrough bind.
+#+begin_src conf :noweb-ref keybinds-override
+bindsym $mod+Shift+q kill
+#+end_src
+
+*** Floating Window Controls
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+Control+Shift+space move scratchpad
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+space focus mode_toggle
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+apostrophe scratchpad show, move position center
+#+end_src
+
+*** Layout Controls
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+grave layout toggle splith splitv tabbed
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+F11 fullscreen toggle
+#+end_src
+
+*** Resize Window
+
+**** Reshape Mode
+
+TODO: Develop custom mode using IPC.
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+r mode "reshape"
+#+end_src
+
+#+begin_src conf :noweb-ref modes
+mode "reshape" {
+
+bindsym h [floating] resize grow left 10 px
+bindsym j [floating] resize grow down 10 px
+bindsym k [floating] resize grow up 10 px
+bindsym l [floating] resize grow right 10 px
+
+bindsym Shift+h [floating] resize shrink right 10 px
+bindsym Shift+j [floating] resize shrink up 10 px
+bindsym Shift+k [floating] resize shrink down 10 px
+bindsym Shift+l [floating] resize shrink left 10 px
+
+
+# Match only the focused floating window. And use i3-msg to ensure criteria is honored for next bind mode.
+bindsym c [con_id="__focused__" floating] exec "i3-msg move position center, mode \\"reshape - center\\""
+
+# back to normal: Enter or Escape or $mod+r
+bindcode 36 mode "default"
+bindcode 9 mode "default"
+bindcode $mod+27 mode "default"
+bindsym $mod+Escape mode "default"
+bindsym $mod+BackSpace mode "default"
+bindsym $mod+Return mode "default"
+bindsym q mode "default"
+}
+#+end_src
+
+#+begin_src conf :noweb-ref modes
+mode "reshape - center" {
+
+bindsym BackSpace mode "reshape"
+
+# Match only the focused floating window.
+bindsym c [con_id="__focused__" floating] move position center
+bindsym minus [floating] resize shrink width 10 px, resize shrink height 10 px, move position center
+bindsym equal [floating] resize grow width 10 px, resize grow height 10 px, move position center
+
+#bindsym $mod+c [workspace="__focused__" floating] move position center; mode "default"
+#bindsym c [workspace="__focused__" floating] move position center; mode "default"
+
+# back to normal: Enter or Escape or $mod+r
+bindcode 36 mode "default"
+bindcode 9 mode "default"
+bindcode $mod+27 mode "default"
+bindsym $mod+Escape mode "default"
+bindsym $mod+BackSpace mode "default"
+bindsym $mod+Return mode "default"
+bindsym q mode "default"
+}
+
+mode "reshape - position" {
+
+bindsym BackSpace mode "reshape - h,j,k,l - c"
+
+# Match only the focused floating window.
+bindsym c [con_id="__focused__" floating] move position center
+bindsym minus [floating] resize shrink width 10 px, resize shrink height 10 px, move position center
+bindsym equal [floating] resize grow width 10 px, resize grow height 10 px, move position center
+
+#bindsym $mod+c [workspace="__focused__" floating] move position center; mode "default"
+#bindsym c [workspace="__focused__" floating] move position center; mode "default"
+
+# back to normal: Enter or Escape or $mod+r
+bindcode 36 mode "default"
+bindcode 9 mode "default"
+bindcode $mod+27 mode "default"
+bindsym $mod+Escape mode "default"
+bindsym $mod+BackSpace mode "default"
+bindsym $mod+Return mode "default"
+bindsym q mode "default"
+}
+#+end_src
+
+**** Balance Windows
+
+i3 can't natively do this. So, we add that feature by using [[https://github.com/atreyasha/i3-balance-workspace][i3-balance-workspace]].
+
+#+begin_src conf :tangle ~/.config/i3/config :noweb-ref keybinds
+#bindsym $mod+Control+equal exec --no-startup-id $HOME/.local/bin/i3_balance_workspace
+#+end_src
+
+*** Volume Control
+
+#+begin_src conf :noweb-ref settings
+set $refresh_i3status killall -SIGUSR1 i3status
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+#+end_src
+
+*** Caps Lock Indicator
+
+#+begin_src conf :noweb-ref modes
+# NOTE: I'm using a customized caps lock key, you will need to use another keycode or Caps_Lock
+mode "CAPSLOCK" {
+bindcode 105 mode "default"
+}
+bindcode 105 mode "CAPSLOCK"
+#+end_src
+
+** Programs
+*** Emacs
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+e [class="Emacs"] focus
+bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""
+#+end_src
+
+#+begin_src conf :noweb-ref modes :noweb yes
+mode "Emacs" {
+<<keybinds-global>>
+}
+#+end_src
+
+*** Firefox
+
+#+begin_src conf :noweb-ref settings
+set $firefox_command "firefox -profile $HOME/.config/firefox/noncog"
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+f [class="Firefox-esr" tiling] focus
+bindsym $mod+Shift+f exec --no-startup-id $firefox_command
+#+end_src
+
+*** Kitty
+
+# TODO: Fix.
+
+#+begin_src conf :noweb-ref settings
+for_window [class="kitty"] floating toggle, resize set 50 ppt 50 ppt, move position center, move scratchpad, sticky enable
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+Return [class="kitty" floating] scratchpad show
+bindsym $mod+Shift+Return exec --no-startup-id kitty --class 'kitty-main-float'
+bindsym $mod+Control+Return [class="kitty" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
+#+end_src
+
+*** Discord
+
+#+begin_src conf :noweb-ref settings
+for_window [class="discord"] floating toggle, resize set 50 ppt 50 ppt, move position center, move scratchpad, sticky enable
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+d [class="discord" floating] scratchpad show
+bindsym $mod+Shift+d exec --no-startup-id discord
+bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
+#+end_src
+
+*** Spotify
+
+#+begin_src conf :noweb-ref settings
+for_window [class="Spotify"] floating toggle, resize set 50 ppt 60 ppt, move position center, move scratchpad, sticky enable
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+m [class="Spotify"] scratchpad show
+bindsym $mod+Shift+m exec --no-startup-id spotify
+#+end_src
+
+*** Prism
+
+#+begin_src conf :noweb-ref settings
+for_window [class="GT: New Horizons 2.6.1|Enigmatica 2: Expert"] floating toggle, resize set 1920 px 1080 px, move position center, move scratchpad, sticky enable
+#+end_src
+
+#+begin_src conf :noweb-ref modes :noweb yes
+mode "GTNH" {
+<<keybinds-override>>
+<<keybinds-global>>
+}
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-global
+bindsym $mod+g [class="GT: New Horizons 2.6.1" floating] scratchpad show; [class="GT: New Horizons 2.6.1" tiling] focus
+bindsym $mod+Shift+g exec --no-startup-id /opt/PrismLauncher/bin/prismlauncher -l "GT_New_Horizons_2.6.1_Java_17-21"
+#+end_src
+
+*** Rofi
+
+#+begin_src conf :noweb-ref keybinds-global
+# desktop app launcher
+bindsym $mod+o exec --no-startup-id rofi -show drun -show-icons
+# cogmenu - custom menu launcher
+bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
+#+end_src
+
+*** Nitrogen
+
+#+begin_src conf :noweb-ref startup
+exec --no-startup-id nitrogen --restore
+#+end_src
+
+** Tips
+*** Finding Information
+**** Key Names
+
+To find the name or =keysym= of the key to be used in this config use =xev= and press the key to get its name.
+
+**** Window Information
+
+To find window related information, you can use =xprop= and =xwininfo=.
+
