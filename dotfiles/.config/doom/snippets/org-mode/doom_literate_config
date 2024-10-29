@@ -1,8 +1,0 @@
-# name: doom literate config
-# key: doom_literate_config
-# expand-env: ((yas-indent-line 'fixed) (yas-after-exit-snippet-hook #'evil-force-normal-state))
-# --
-#+begin_src emacs-lisp :tangle no :noweb-ref config :noweb-sep "\n\n"
-$1
-#+end_src
-$0
