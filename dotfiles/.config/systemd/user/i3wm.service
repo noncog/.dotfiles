@@ -4,7 +4,7 @@ PartOf=graphical-session.target
 
 [Service]
 Type=notify
-ExecStart=/usr/bin/i3
+ExecStart=/usr/bin/bash -lc i3
 ExecReload=/usr/bin/i3-msg reload
 ExecStopPost=/usr/bin/systemctl --user stop --no-block graphical-session.target
 Restart=on-failure
