@@ -1,0 +1,3 @@
+#+title: ~/.dotfiles
+
+This repository holds my system configuration files.
