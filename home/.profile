@@ -1,0 +1,52 @@
+# ~/.profile: executed by the command interpreter for login shells.
+# This may mean that this is read by sh (dash) don't use Bash-isms.
+# This file is not read if ~/.bash_profile or ~/.bash_login exists.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+        . "$HOME/.bashrc"
+    fi
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ]; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ]; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
+# set path, manpath, etc., for homebrew.
+if [ -n "$BASH_VERSION" ]; then
+    # shellcheck disable=SC3028
+    case "$OSTYPE" in
+        darwin*)
+            # set path, manpath, etc. for homebrew.
+            [ -x /opt/homebrew/bin/brew ] &&
+                eval "$(/opt/homebrew/bin/brew shellenv)"
+            # add clangd/llvm for lsp mode.
+            [ -d /opt/homebrew/opt/llvm/bin ] &&
+                export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+            # add gnu grep to system to use over bsd grep.
+            [ -d /opt/homebrew/opt/grep/libexec/gnubin ] &&
+                export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
+            ;;
+    esac
+fi
+
+# set the most useful XDG user directories
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+# set emacs as system editor.
+export EDITOR="emacs"
+export VISUAL="$EDITOR"
