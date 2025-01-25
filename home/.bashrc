@@ -135,5 +135,3 @@ esac
 export EMACSDIR="$HOME/.local/share/doom-emacs"
 export DOOMDIR="$HOME/.config/doom"
 
-# set terminal.
-export TERMINAL=/usr/bin/kitty
