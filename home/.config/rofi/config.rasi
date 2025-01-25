@@ -1,0 +1,8 @@
+@import "dracula"
+
+configuration {
+    kb-accept-entry: "Return,KP_Enter";
+    kb-row-up: "Up,Control+p,Control+k,ISO_Left_Tab";
+    kb-row-down: "Down,Control+n,Control+j";
+    kb-remove-to-eol: "Control+K";
+}
