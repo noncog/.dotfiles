@@ -141,3 +141,10 @@ esac
 export EMACSDIR="$HOME/.local/share/doom-emacs"
 export DOOMDIR="$HOME/.dotfiles/home/.config/doom"
 
+# ALIASES
+# dotfiles and editor management
+[ -x ~/.dotfiles/bin/dotfiles ] &&
+    alias dotfiles='~/.dotfiles/bin/dotfiles'
+
+[ -x ~/.local/share/doom-emacs/bin/doom ] &&
+    alias doom='~/.local/share/doom-emacs/bin/doom'
