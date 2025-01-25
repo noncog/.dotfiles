@@ -1,10 +1,22 @@
 #!/bin/bash
-# This file is executed by startx and must remain executable.
-# This system keeps the setup using the startx/initx program but
-# runs my x session as a systemd target allowing me to depend
-# on it using other systemd targets.
-# Eventually this should be replaced by a custom version
-# developed by myself.
+#
+# This script initializes my X session as a systemd target remaining compatible
+# with the default startx script used by Debian. This allows the use of systemd
+# targets to orchestrate the building of a desktop environment. Eventually,
+# startx/xinit should be replaced by my own version.
+
+# This file is executed by startx and must remain executable, otherwise it will
+# break. There are other concerns such as the symlink breaking or the shell
+# interpreting the file as well. These concerns and others are all part of the
+# motivation to build a better startx system. Debian even recommends it.
+
+# For more information about using systemd to orchestrate an x session, see
+# my target units in .dotfiles/home/.config/systemd/user.
+
+# NOTE: xmodmap should also be replaced with a more robust system that cannot
+#       lose its state when recovering from sleeping or the screen saver.
+#       - These settings should also be made to be configurable.
+# NOTE: The shebang is also hard-coded currently.
 export XDG_SESSION_TYPE="x11"
 
 xmodmap -e "clear lock"
