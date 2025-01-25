@@ -1,0 +1,15 @@
+[user]
+	name = noncog
+	email = 108415765+noncog@users.noreply.github.com
+[init]
+	defaultBranch = main
+[commit]
+	template = ~/.config/git/commit/commit-message
+[pull]
+	ff = only
+[diff "lisp"]
+  xfuncname = "^(\\(.*)$"
+[diff "org"]
+  xfuncname = "^(\\*+ +.*)$"
+[github]
+	user = noncog
