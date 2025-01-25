@@ -132,6 +132,12 @@ case "$OSTYPE" in
 esac
 
 # set doom emacs' variables.
+# NOTE: Runs Doom from .dotfiles directory to prevent issues with symlinks
+#       on macOS with Doom.
+# NOTE: Could overwrite EDITOR and VISUAL here to allow ease of changing
+#       which Emacs version is used.
+# NOTE: Requires using $EMACS_SERVER_NAME and $EMACS_SOCKET_NAME for
+#       emacsclient with non-standard install location of Doom.
 export EMACSDIR="$HOME/.local/share/doom-emacs"
-export DOOMDIR="$HOME/.config/doom"
+export DOOMDIR="$HOME/.dotfiles/home/.config/doom"
 
