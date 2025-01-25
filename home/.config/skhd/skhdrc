@@ -1,0 +1,130 @@
+alt - h [
+  *      : yabai -m window --focus west
+  "Emacs" ~
+]
+alt - j  [
+  *      : yabai -m window --focus south
+  "Emacs" ~
+]
+alt - k  [
+  *      : yabai -m window --focus north
+  "Emacs" ~
+]
+alt - l  [
+  *      : yabai -m window --focus east
+  "Emacs" ~
+]
+
+shift + alt - h [
+  * : yabai -m window --swap west
+  "Emacs" ~
+]
+shift + alt - j [
+  * : yabai -m window --swap south
+  "Emacs" ~
+]
+shift + alt - k [
+  * : yabai -m window --swap north
+  "Emacs" ~
+]
+shift + alt - l [
+  * : yabai -m window --swap east
+  "Emacs" ~
+]
+
+alt + cmd - h [
+  * : yabai -m window --resize left:-20:0 || yabai -m window --resize right:-20:0
+  "Emacs" ~
+]
+alt + cmd - j [
+  * : yabai -m window --resize bottom:0:20 || yabai -m window --resize top:0:20
+  "Emacs" ~
+]
+alt + cmd - k [
+  * : yabai -m window --resize top:0:-20 || yabai -m window --resize bottom:0:-20
+  "Emacs" ~
+]
+alt + cmd - l [
+  * : yabai -m window --resize right:20:0 || yabai -m window --resize left:20:0
+  "Emacs" ~
+]
+
+shift + alt + cmd - h : yabai -m window --warp west
+shift + alt + cmd - j : yabai -m window --warp south
+shift + alt + cmd - k : yabai -m window --warp north
+shift + alt + cmd - l : yabai -m window --warp east
+
+alt - s  [
+  * : yabai -m window --toggle split
+  "Emacs" ~
+]
+alt - v  [
+  * : yabai -m window --toggle split
+  "Emacs" ~
+]
+
+shift + alt - q  [
+  * : yabai -m window --close
+  "Emacs" ~
+]
+
+shift + alt - space : yabai -m window --toggle float
+
+alt - 1 : yabai -m space --focus 1
+shift + alt - 1 : yabai -m window --space 1
+alt - 2 : yabai -m space --focus 2
+shift + alt - 2 : yabai -m window --space 2
+alt - 3 : yabai -m space --focus 3
+shift + alt - 3 : yabai -m window --space 3
+alt - 4 : yabai -m space --focus 4
+shift + alt - 4 : yabai -m window --space 4
+alt - 5 : yabai -m space --focus 5
+shift + alt - 5 : yabai -m window --space 5
+alt - 6 : yabai -m space --focus 6
+shift + alt - 6 : yabai -m window --space 6
+alt - 7 : yabai -m space --focus 7
+shift + alt - 7 : yabai -m window --space 7
+alt - 8 : yabai -m space --focus 8
+shift + alt - 8 : yabai -m window --space 8
+alt - 9 : yabai -m space --focus 9
+shift + alt - 9 : yabai -m window --space 9
+alt - 0 : yabai -m space --focus 0
+shift + alt - 0 : yabai -m window --space 0
+
+alt - f11 : yabai -m window --toggle zoom-fullscreen
+
+cmd - tab [
+  "Librewolf" : skhd -k "ctrl - tab"
+  "Safari" : skhd -k "ctrl - tab"
+  * ~
+]
+
+cmd + shift - tab [
+  "Librewolf" : skhd -k "ctrl + shift - tab"
+  "Safari" : skhd -k "ctrl + shift - tab"
+  * ~
+]
+
+alt - tab : yabai -m space --layout stack
+
+alt - 0x18  [
+  *      : yabai -m space --balance
+  "Emacs" ~
+]
+
+# alt - e : $HOME/.local/bin/macos_launch_emacs.sh
+alt -e : open -a emacs
+cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
+
+alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1 && open -a librewolf --args -profile $HOME/.config/firefox/noncog
+
+alt - return : yabai -m window --toggle kitty || open  -a kitty
+#alt - return : $HOME/.local/bin/yabai_scratchpad_app.sh kitty
+alt - d : yabai -m window --toggle discord || open -a discord
+#alt - d : $HOME/.local/bin/yabai_scratchpad_app.sh Discord
+alt - m : yabai -m window --toggle spotify || open -a  Spotify
+#alt - m : $HOME/.local/bin/yabai_scratchpad_app.sh Spotify
+
+# alt - return : yabai -m window --toggle kitty
+# alt - d : yabai -m window --toggle discord
+# alt - m : yabai -m window --toggle spotify
