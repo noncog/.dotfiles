@@ -61,6 +61,7 @@ esac
 # enable color for ls and others using dircolors and add handy aliases.
 # TODO: Make macOS compatible.
 # TODO: Consider a separate variable for .dircolors location.
+# TODO: Consider hard-coding DIRCOLORS with means of customizing.
 if [ -x /usr/bin/dircolors ]; then
     if [ -r ~/.dircolors ]; then
         eval "$(dircolors -b ~/.dircolors)"
@@ -85,6 +86,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
+# TODO: Check if completions works on macos.
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
         . /usr/share/bash-completion/bash_completion
