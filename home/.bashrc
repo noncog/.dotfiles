@@ -118,6 +118,19 @@ if [ "$TERM" = "linux" ]; then
 fi
 
 # NON-LOGIN ENVIRONMENT VARIABLES
+# set TERMINAL
+case "$OSTYPE" in
+    darwin*)
+        [ -x /opt/homebrew/bin/kitty ] &&
+            export TERMINAL="/opt/homebrew/bin/kitty"
+
+       ;;
+    linux-gnu*)
+        [ -x /usr/bin/kitty ] &&
+            export TERMINAL="/usr/bin/kitty"
+        ;;
+esac
+
 # set doom emacs' variables.
 export EMACSDIR="$HOME/.local/share/doom-emacs"
 export DOOMDIR="$HOME/.config/doom"
