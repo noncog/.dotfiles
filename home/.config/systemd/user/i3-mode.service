@@ -1,0 +1,13 @@
+[Unit]
+Description=i3wm perl script for setting a mode depending on the active application
+PartOf=graphical-session.target
+
+Requisite=i3wm.service
+After=i3wm.service
+
+[Service]
+ExecStart=/usr/bin/perl %h/.config/i3/i3-mode.pl
+Restart=on-failure
+
+[Install]
+WantedBy=i3wm.service
