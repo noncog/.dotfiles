@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# This script is to be used for managing and interacting with my system and its
+# configurations.
+#
+# For now, this script will be extremely simple to allow me to use the system
+# as I build out a better model for managing it. Currently, it depends on
+# GNU stow to symlink the configuration files into place.
+
+# NOTE: Only supports differentiating configurations based on $OSTYPE and
+#       nothing else, including user, profile, manifest, etc. It only symlinks
+#       different files for Linux and macOS and does not support other
+#       deployment methods like subrepositories, git bare, or copying.
+#       Also does not support error handling for GNU Stow.
+function dotfiles::deploy {
+    if ! builtin command -v -- stow > /dev/null 2>&1; then
+        printf 'error: dotfiles requires GNU Stow for deployment, exiting\n'
+        exit 1
+    fi
+
+    case "$OSTYPE" in
+        darwin*)
+            stow -v -d ~/.dotfiles/ -t ~/ -R home \
+                --ignore='.xsession' \
+                --ignore='.config/systemd' \
+                --ignore='.config/rofi' \
+                --ignore='.config/polybar' \
+                --ignore='.config/picom' \
+                --ignore='.config/nitrogen' \
+                --ignore='.config/i3' \
+                --ignore='.config/dunst' \
+                --ignore='.config/barrier' \
+            ;;
+        linux-gnu*)
+            stow -v -d ~/.dotfiles/ -t ~/ -R home --ignore='.config/skhd'
+            ;;
+        *)
+            printf 'error: unrecognized operating system: %s\n' "$OSTYPE"
+            exit 1
+    esac
+}
+
+# NOTE: only supports single arguments with basic errors and no usage string.
+if [[ "$#" -gt 0 ]]; then
+    case "$1" in
+        deploy)
+            dotfiles::deploy
+            ;;
+        *)
+            printf 'error: unrecognized command: %s\n' "$1"
+            exit 1
+            ;;
+    esac
+else
+    printf 'error: no arguments specified\n'
+    exit 1
+fi
