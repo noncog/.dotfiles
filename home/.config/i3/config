@@ -1,112 +1,84 @@
-focus_wrapping no
+# i3 Configuration dynamically generated (tangled) from ./i3.org.
+
+## BEHAVIOR
+# Focus
 focus_follows_mouse no
 mouse_warping output
-smart_borders on
+workspace_auto_back_and_forth no
+# Gaps
+smart_gaps off
+# Borders
+hide_edge_borders smart
 
-smart_gaps inverse_outer
-gaps outer 0
-# TODO: Investigate default_border
+## APPEARANCE
+# Font
 font pango:Fira Code 11
+# Theme (Dracula)
 # class                 border  bground text    indicator child_border
 client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
 client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
 client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
-
 client.background       #F8F8F2
+# Gaps
+gaps outer 0px
+gaps inner 0px
+# Borders
 default_border pixel 1
 default_floating_border pixel 1
+
+## VARIABLES
+# Modifiers
 set $mod Mod4
 floating_modifier $mod
+# Direction Key Aliases
 set $left  h
 set $down  j
 set $up    k
 set $right l
-set $refresh_i3status killall -SIGUSR1 i3status
-set $emacs 17
+
+## APPLICATION SETTINGS
+# Emacs
+set $emacs 11
 for_window [class="Emacs" tiling] move container to workspace $emacs
-set $firefox_command "firefox -profile $HOME/.config/firefox/noncog"
-# Make pop-out floating video player window sticky.
-for_window [class="(?i)firefox-esr" window_type="utility" window_role="PictureInPicture" floating] sticky enable
-
-set $firefox 18
+# Firefox
+set $firefox 12
 for_window [class="(?i)firefox-esr" tiling] move container to workspace $firefox
+set $firefox_command "firefox" #-profile $HOME/.config/firefox/noncog"
+for_window [class="(?i)firefox-esr" window_type="utility" window_role="PictureInPicture" floating] sticky enable
+# Kitty
 for_window [class="kitty-main-float"] floating toggle, resize set 50 ppt 50 ppt, move position center, move scratchpad, sticky enable
-#for_window [class="kitty-main-float" floating] move scratchpad
-set $discord "20"
+# Discord
+set $discord "13"
+for_window [class="discord" floating] sticky enable
+assign [class="discord"] workspace $discord
+# Spotify
+set $spotify "14"
+assign [class="Spotify"] workspace $spotify
 
-for_window [class="discord"] floating toggle, resize set 50 ppt 60 ppt, move position center, move scratchpad, sticky enable
-
-assign [class="discord" tiling] workspace $discord
-for_window [class="Spotify"] floating toggle, resize set 50 ppt 60 ppt, move position center, move scratchpad, sticky enable
-mode "Emacs" {
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 0
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+10 move container to workspace 10
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+Control+Shift+space move scratchpad
-bindsym $mod+space focus mode_toggle
-bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
-bindsym $mod+apostrophe scratchpad show, move position center
-bindsym $mod+grave layout toggle splith splitv tabbed
-bindsym $mod+F11 fullscreen toggle
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
-bindsym $mod+e [class="Emacs"] focus
-bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""
-#bindsym $mod+Shift+e exec --no-startup-id ~/.config/emacs/bin/doom run
-bindsym $mod+Control+Shift+e move container to workspace $emacs
-bindsym $mod+f [class="(?i)firefox-esr" tiling] focus
-bindsym $mod+Shift+f exec --no-startup-id $firefox_command
-bindsym $mod+Control+Shift+f move container to workspace $firefox
-bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad, scratchpad show; [class="kitty-main-float" floating] scratchpad show
-#bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad; [class="kitty-main-float" floating] scratchpad show
-
-#bindsym $mod+Control+Return [class="kitty-main-float" workspace="^(?!-1).*" floating] move scratchpad
-#bindsym $mod+Return [class="kitty-main-float" workspace="^(?!-1)" floating] move scratchpad, [class="kitty-main-float" workspace="^(?!-1)" floating] scratchpad show
-bindsym $mod+Shift+Return exec --no-startup-id kitty --class 'kitty-main-float'
-bindsym $mod+Control+Return [class="kitty-main-float" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
-#bindsym $mod+d [class="discord"] focus
-bindsym $mod+d [class="discord" floating] scratchpad show; [class="discord" tiling] focus
-bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
-bindsym $mod+m [class="Spotify"] scratchpad show
-bindsym $mod+Shift+m exec --no-startup-id spotify
-# desktop app launcher
-bindsym $mod+o exec --no-startup-id rofi -show drun -show-icons
-# cogmenu - custom menu launcher
-bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
-}
+## KEYBINDS
+# NOTE: The following keybinds are overridden to be different for specific
+#       applications like when using Emacs. For more information see:
+#       ./i3-emacs-mode.pl
+# Focus Windows
 bindsym $mod+$left  [con_id="__focused__" class="^(?!Emacs)"] focus left
 bindsym $mod+$down  [con_id="__focused__" class="^(?!Emacs)"] focus down
 bindsym $mod+$up    [con_id="__focused__" class="^(?!Emacs)"] focus up
 bindsym $mod+$right [con_id="__focused__" class="^(?!Emacs)"] focus right
+# Move Windows
 bindsym $mod+Shift+$left  [con_id="__focused__" class="^(?!Emacs)"] move left
 bindsym $mod+Shift+$down  [con_id="__focused__" class="^(?!Emacs)"] move down
 bindsym $mod+Shift+$up    [con_id="__focused__" class="^(?!Emacs)"] move up
 bindsym $mod+Shift+$right [con_id="__focused__" class="^(?!Emacs)"] move right
+# Split Windows in Direction
 bindsym $mod+v split h
 bindsym $mod+s split v
+# Kill Windows
 bindsym $mod+Shift+q kill
+
+# NOTE: The following keybinds are available everywhere regardless of mode.
+# Focus Workspaces
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
 bindsym $mod+3 workspace 3
@@ -117,6 +89,7 @@ bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 0
+# Move Windows to Workspace
 bindsym $mod+Shift+1 move container to workspace 1
 bindsym $mod+Shift+2 move container to workspace 2
 bindsym $mod+Shift+3 move container to workspace 3
@@ -127,38 +100,118 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+10 move container to workspace 10
+# Toggle Container Layout
+#bindsym $mod+grave layout toggle splith splitv tabbed
+# Floating and Scratchpad Window Controls
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+Control+Shift+space move scratchpad
 bindsym $mod+space focus mode_toggle
 bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
 bindsym $mod+apostrophe scratchpad show, move position center
-bindsym $mod+grave layout toggle splith splitv tabbed
+# Toggle Fullscreen
 bindsym $mod+F11 fullscreen toggle
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+# Volume Controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+## APPLICATION KEYBINDS
+# Emacs
 bindsym $mod+e [class="Emacs"] focus
 bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""
-#bindsym $mod+Shift+e exec --no-startup-id ~/.config/emacs/bin/doom run
 bindsym $mod+Control+Shift+e move container to workspace $emacs
+# Firefox
 bindsym $mod+f [class="(?i)firefox-esr" tiling] focus
 bindsym $mod+Shift+f exec --no-startup-id $firefox_command
 bindsym $mod+Control+Shift+f move container to workspace $firefox
+# Kitty
 bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad, scratchpad show; [class="kitty-main-float" floating] scratchpad show
-#bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad; [class="kitty-main-float" floating] scratchpad show
-
-#bindsym $mod+Control+Return [class="kitty-main-float" workspace="^(?!-1).*" floating] move scratchpad
-#bindsym $mod+Return [class="kitty-main-float" workspace="^(?!-1)" floating] move scratchpad, [class="kitty-main-float" workspace="^(?!-1)" floating] scratchpad show
 bindsym $mod+Shift+Return exec --no-startup-id kitty --class 'kitty-main-float'
 bindsym $mod+Control+Return [class="kitty-main-float" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
-#bindsym $mod+d [class="discord"] focus
-bindsym $mod+d [class="discord" floating] scratchpad show; [class="discord" tiling] focus
-bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
-bindsym $mod+m [class="Spotify"] scratchpad show
-bindsym $mod+Shift+m exec --no-startup-id spotify
-# desktop app launcher
+# Discord
+bindsym $mod+d [class="discord"] focus
+bindsym $mod+Control+Shift+d move container to workspace $discord
+# Spotify
+bindsym $mod+m [class="Spotify"] focus
+bindsym $mod+Control+Shift+m move container to workspace $spotify
+# Rofi
+# App launcher
 bindsym $mod+o exec --no-startup-id rofi -show drun -show-icons
-# cogmenu - custom menu launcher
+# Cogmenu - Custom Menu Launcher
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
+
+## STARTUP
+# NOTE: Most startup related applications/services are executed by systemd.
+#       Only nitrogen is executed to re-apply the saved desktop wallpaper.
 exec --no-startup-id nitrogen --restore
+
+## MODES
+mode "Emacs" {
+    # This mode is enabled by ./i3-emacs-mode.pl
+    # whenever Emacs is the focused application to
+    # enable window manager keybinds to be used in Emacs.
+
+    # Focus Workspaces
+    bindsym $mod+1 workspace 1
+    bindsym $mod+2 workspace 2
+    bindsym $mod+3 workspace 3
+    bindsym $mod+4 workspace 4
+    bindsym $mod+5 workspace 5
+    bindsym $mod+6 workspace 6
+    bindsym $mod+7 workspace 7
+    bindsym $mod+8 workspace 8
+    bindsym $mod+9 workspace 9
+    bindsym $mod+0 workspace 0
+    # Move Windows to Workspace
+    bindsym $mod+Shift+1 move container to workspace 1
+    bindsym $mod+Shift+2 move container to workspace 2
+    bindsym $mod+Shift+3 move container to workspace 3
+    bindsym $mod+Shift+4 move container to workspace 4
+    bindsym $mod+Shift+5 move container to workspace 5
+    bindsym $mod+Shift+6 move container to workspace 6
+    bindsym $mod+Shift+7 move container to workspace 7
+    bindsym $mod+Shift+8 move container to workspace 8
+    bindsym $mod+Shift+9 move container to workspace 9
+    bindsym $mod+Shift+10 move container to workspace 10
+    # Toggle Container Layout
+    #bindsym $mod+grave layout toggle splith splitv tabbed
+    # Floating and Scratchpad Window Controls
+    bindsym $mod+Shift+space floating toggle
+    bindsym $mod+Control+Shift+space move scratchpad
+    bindsym $mod+space focus mode_toggle
+    bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
+    bindsym $mod+apostrophe scratchpad show, move position center
+    # Toggle Fullscreen
+    bindsym $mod+F11 fullscreen toggle
+    # Volume Controls
+    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1%
+    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1%
+    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    
+    ## APPLICATION KEYBINDS
+    # Emacs
+    bindsym $mod+e [class="Emacs"] focus
+    bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""
+    bindsym $mod+Control+Shift+e move container to workspace $emacs
+    # Firefox
+    bindsym $mod+f [class="(?i)firefox-esr" tiling] focus
+    bindsym $mod+Shift+f exec --no-startup-id $firefox_command
+    bindsym $mod+Control+Shift+f move container to workspace $firefox
+    # Kitty
+    bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad, scratchpad show; [class="kitty-main-float" floating] scratchpad show
+    bindsym $mod+Shift+Return exec --no-startup-id kitty --class 'kitty-main-float'
+    bindsym $mod+Control+Return [class="kitty-main-float" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
+    # Discord
+    bindsym $mod+d [class="discord"] focus
+    bindsym $mod+Control+Shift+d move container to workspace $discord
+    # Spotify
+    bindsym $mod+m [class="Spotify"] focus
+    bindsym $mod+Control+Shift+m move container to workspace $spotify
+    # Rofi
+    # App launcher
+    bindsym $mod+o exec --no-startup-id rofi -show drun -show-icons
+    # Cogmenu - Custom Menu Launcher
+    bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
+}

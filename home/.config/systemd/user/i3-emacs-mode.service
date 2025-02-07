@@ -6,7 +6,7 @@ Requisite=i3wm.service
 After=i3wm.service
 
 [Service]
-ExecStart=/usr/bin/perl %h/.config/i3/i3-mode.pl
+ExecStart=/usr/bin/perl %h/.config/i3/i3-emacs-mode.pl
 Restart=on-failure
 
 [Install]

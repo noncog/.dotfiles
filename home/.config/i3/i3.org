@@ -1,50 +1,208 @@
 #+title: I3
 #+startup: show3levels
+#+export_exclude_tags: exclude noexport
 
-#+begin_src conf :tangle config :noweb yes
-<<settings>>
-<<modes>>
-<<keybinds-override>>
-<<keybinds-global>>
+[[https://i3wm.org/][i3]] is an open source tiling window manager for X11.
+
+My configuration is generated dynamically (tangled) from this Emacs org-mode file. This allows me to write the configuration non-linearly and to have comments and settings placed where they need to be dynamically upon generation. I use this to create a mode called "Emacs" mode that is automatically activated by the Perl script =./i3-emacs-mode.pl= whenever I focus an Emacs window. This allows me to integrate the i3 window management keybinds with Emacs' keybinds. Or, in general to have control over my keybinds per actively focused window.
+
+The Perl script is executed by SystemD which I use to orchestrate the execution of my graphical environment, including starting the X server, i3, the i3-emacs-mode.pl script, etc. This allows for the coordination of services without using Bash scripts or IPC, and more.
+
+* Setup :noexport:
+
+Build the config file.
+
+#+begin_src conf :tangle config :noweb yes :exports none
+# i3 Configuration dynamically generated (tangled) from ./i3.org.
+
+## BEHAVIOR
+# Focus
+<<behavior-focus>>
+# Gaps
+<<behavior-gaps>>
+# Borders
+<<behavior-borders>>
+
+## APPEARANCE
+# Font
+<<appearance-font>>
+# Theme (Dracula)
+<<appearance-theme>>
+# Gaps
+<<appearance-gaps>>
+# Borders
+<<appearance-borders>>
+
+## VARIABLES
+# Modifiers
+<<variables-modifiers>>
+# Direction Key Aliases
+<<variables-directions>>
+
+## APPLICATION SETTINGS
+# Emacs
+<<settings-emacs>>
+# Firefox
+<<settings-firefox>>
+# Kitty
+<<settings-kitty>>
+# Discord
+<<settings-discord>>
+# Spotify
+<<settings-spotify>>
+
+## KEYBINDS
+# NOTE: The following keybinds are overridden to be different for specific
+#       applications like when using Emacs. For more information see:
+#       ./i3-emacs-mode.pl
+# Focus Windows
+<<keybinds-override-focus>>
+# Move Windows
+<<keybinds-override-move>>
+# Split Windows in Direction
+<<keybinds-override-split>>
+# Kill Windows
+<<keybinds-override-kill>>
+
+# NOTE: The following keybinds are available everywhere regardless of mode.
+<<keybinds-global-build>>
+
+## STARTUP
+# NOTE: Most startup related applications/services are executed by systemd.
+#       Only nitrogen is executed to re-apply the saved desktop wallpaper.
 <<startup>>
+
+## MODES
+<<modes>>
 #+end_src
 
-* Settings
+Build the global keybinds to be used in Emacs mode and available everywhere.
 
-#+begin_src conf :noweb-ref settings
-focus_wrapping no
+#+begin_src conf :noweb-ref keybinds-global-build :noweb yes
+# Focus Workspaces
+<<keybinds-global-focus-workspace>>
+# Move Windows to Workspace
+<<keybinds-global-move-workspace>>
+# Toggle Container Layout
+<<keybinds-global-layout>>
+# Floating and Scratchpad Window Controls
+<<keybinds-global-float>>
+# Toggle Fullscreen
+<<keybinds-global-fullscreen>>
+# Volume Controls
+<<keybinds-global-volume>>
+
+## APPLICATION KEYBINDS
+# Emacs
+<<keybinds-emacs>>
+# Firefox
+<<keybinds-firefox>>
+# Kitty
+<<keybinds-kitty>>
+# Discord
+<<keybinds-discord>>
+# Spotify
+<<keybinds-spotify>>
+# Rofi
+<<keybinds-rofi>>
+#+end_src
+
+#+begin_src conf :noweb-ref modes :noweb yes
+mode "Emacs" {
+    # This mode is enabled by ./i3-emacs-mode.pl
+    # whenever Emacs is the focused application to
+    # enable window manager keybinds to be used in Emacs.
+
+    <<keybinds-global-build>>
+}
+#+end_src
+
+* Table of Contents :TOC:QUOTE:
+#+BEGIN_QUOTE
+- [[#behavior][Behavior]]
+  - [[#focus][Focus]]
+  - [[#gaps][Gaps]]
+  - [[#borders][Borders]]
+- [[#appearance][Appearance]]
+  - [[#font][Font]]
+  - [[#color-theme][Color Theme]]
+  - [[#window-gaps][Window Gaps]]
+  - [[#window-borders][Window Borders]]
+- [[#keybinds][Keybinds]]
+  - [[#modifier-keys][Modifier Keys]]
+  - [[#directional-keys][Directional Keys]]
+  - [[#focus-windows][Focus Windows]]
+  - [[#move-windows][Move Windows]]
+  - [[#focus-workspace][Focus Workspace]]
+  - [[#move-to-workspace][Move to Workspace]]
+  - [[#split-windows][Split Windows]]
+  - [[#kill-windows][Kill Windows]]
+  - [[#toggle-container-layout][Toggle Container Layout]]
+  - [[#floating-window-controls][Floating Window Controls]]
+  - [[#toggle-fullscreen][Toggle Fullscreen]]
+  - [[#volume-controls][Volume Controls]]
+- [[#programs][Programs]]
+  - [[#emacs][Emacs]]
+  - [[#firefox][Firefox]]
+  - [[#kitty][Kitty]]
+  - [[#discord][Discord]]
+  - [[#spotify][Spotify]]
+  - [[#rofi][Rofi]]
+  - [[#nitrogen][Nitrogen]]
+- [[#tips][Tips]]
+  - [[#finding-information][Finding Information]]
+#+END_QUOTE
+
+* Behavior
+** Focus
+
+#+begin_src conf :noweb-ref behavior-focus
 focus_follows_mouse no
 mouse_warping output
-smart_borders on
+workspace_auto_back_and_forth no
+#+end_src
 
-smart_gaps inverse_outer
-gaps outer 0
-# TODO: Investigate default_border
+** Gaps
+
+#+begin_src conf :noweb-ref behavior-gaps
+smart_gaps off
+#+end_src
+
+** Borders
+
+#+begin_src conf :noweb-ref behavior-borders
+hide_edge_borders smart
 #+end_src
 
 * Appearance
 ** Font
 
-#+begin_src conf :noweb-ref settings
+#+begin_src conf :noweb-ref appearance-font
 font pango:Fira Code 11
 #+end_src
 
 ** Color Theme
 
-#+begin_src conf :noweb-ref settings
+#+begin_src conf :noweb-ref appearance-theme
 # class                 border  bground text    indicator child_border
 client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
 client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
 client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
 client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
-
 client.background       #F8F8F2
+#+end_src
+
+** Window Gaps
+
+#+begin_src conf :noweb-ref appearance-gaps
+gaps outer 0px
+gaps inner 0px
 #+end_src
 
 ** Window Borders
 
-#+begin_src conf :noweb-ref settings
+#+begin_src conf :noweb-ref appearance-borders
 default_border pixel 1
 default_floating_border pixel 1
 #+end_src
@@ -52,14 +210,14 @@ default_floating_border pixel 1
 * Keybinds
 ** Modifier Keys
 
-#+begin_src conf :noweb-ref settings
+#+begin_src conf :noweb-ref variables-modifiers
 set $mod Mod4
 floating_modifier $mod
 #+end_src
 
 ** Directional Keys
 
-#+begin_src conf :noweb-ref settings
+#+begin_src conf :noweb-ref variables-directions
 set $left  h
 set $down  j
 set $up    k
@@ -68,7 +226,7 @@ set $right l
 
 ** Focus Windows
 
-#+begin_src conf :noweb-ref keybinds-override
+#+begin_src conf :noweb-ref keybinds-override-focus
 bindsym $mod+$left  [con_id="__focused__" class="^(?!Emacs)"] focus left
 bindsym $mod+$down  [con_id="__focused__" class="^(?!Emacs)"] focus down
 bindsym $mod+$up    [con_id="__focused__" class="^(?!Emacs)"] focus up
@@ -77,7 +235,7 @@ bindsym $mod+$right [con_id="__focused__" class="^(?!Emacs)"] focus right
 
 ** Move Windows
 
-#+begin_src conf :noweb-ref keybinds-override
+#+begin_src conf :noweb-ref keybinds-override-move
 bindsym $mod+Shift+$left  [con_id="__focused__" class="^(?!Emacs)"] move left
 bindsym $mod+Shift+$down  [con_id="__focused__" class="^(?!Emacs)"] move down
 bindsym $mod+Shift+$up    [con_id="__focused__" class="^(?!Emacs)"] move up
@@ -86,7 +244,7 @@ bindsym $mod+Shift+$right [con_id="__focused__" class="^(?!Emacs)"] move right
 
 ** Focus Workspace
 
-#+begin_src conf :noweb-ref keybinds-global
+#+begin_src conf :noweb-ref keybinds-global-focus-workspace
 bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
 bindsym $mod+3 workspace 3
@@ -101,7 +259,7 @@ bindsym $mod+0 workspace 0
 
 ** Move to Workspace
 
-#+begin_src conf :noweb-ref keybinds-global
+#+begin_src conf :noweb-ref keybinds-global-move-workspace
 bindsym $mod+Shift+1 move container to workspace 1
 bindsym $mod+Shift+2 move container to workspace 2
 bindsym $mod+Shift+3 move container to workspace 3
@@ -116,93 +274,105 @@ bindsym $mod+Shift+10 move container to workspace 10
 
 ** Split Windows
 
-#+begin_src conf :noweb-ref keybinds-override
+#+begin_src conf :noweb-ref keybinds-override-split
 bindsym $mod+v split h
 bindsym $mod+s split v
 #+end_src
 
 ** Kill Windows
 
-# TODO: Consider making this a passthrough bind.
-#+begin_src conf :noweb-ref keybinds-override
+#+begin_src conf :noweb-ref keybinds-override-kill
 bindsym $mod+Shift+q kill
+#+end_src
+
+** Toggle Container Layout
+
+Disabled currently, as I need to experiment with this workflow more and consider its integration with other workflows. Example: i3fyra.
+
+#+begin_src conf :noweb-ref keybinds-global-layout
+#bindsym $mod+grave layout toggle splith splitv tabbed
 #+end_src
 
 ** Floating Window Controls
 
-#+begin_src conf :noweb-ref keybinds-global
+The following may also become disabled as their use is of limited value currently, although interesting.
+
+#+begin_src conf :noweb-ref keybinds-global-float
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+Control+Shift+space move scratchpad
 #+end_src
 
-#+begin_src conf :noweb-ref keybinds-global
+#+begin_src conf :noweb-ref keybinds-global-float
 bindsym $mod+space focus mode_toggle
 #+end_src
 
-#+begin_src conf :noweb-ref keybinds-global
+#+begin_src conf :noweb-ref keybinds-global-float
 bindsym $mod+semicolon [workspace="__focused__" floating] scratchpad show
 #+end_src
 
-#+begin_src conf :noweb-ref keybinds-global
+#+begin_src conf :noweb-ref keybinds-global-float
 bindsym $mod+apostrophe scratchpad show, move position center
 #+end_src
 
-** Layout Controls
+** Toggle Fullscreen
 
-#+begin_src conf :noweb-ref keybinds-global
-bindsym $mod+grave layout toggle splith splitv tabbed
-#+end_src
-
-#+begin_src conf :noweb-ref keybinds-global
+#+begin_src conf :noweb-ref keybinds-global-fullscreen
 bindsym $mod+F11 fullscreen toggle
 #+end_src
 
-** Volume Control
+** Volume Controls
 
-#+begin_src conf :noweb-ref settings
-set $refresh_i3status killall -SIGUSR1 i3status
-#+end_src
+The following audio control commands will need changed once I update my current Debian audio server.
 
-#+begin_src conf :noweb-ref keybinds-global
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+#+begin_src conf :noweb-ref keybinds-global-volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 #+end_src
 
 * Programs
 ** Emacs
 
-#+begin_src conf :noweb-ref settings
-set $emacs 17
+Set workspace number and move new windows there.
+
+#+begin_src conf :noweb-ref settings-emacs
+set $emacs 11
 for_window [class="Emacs" tiling] move container to workspace $emacs
 #+end_src
 
-#+begin_src conf :noweb-ref keybinds-global
+Create launching, focus, and moving binds to send windows to the dedicated workspace.
+
+#+begin_src conf :noweb-ref keybinds-emacs
 bindsym $mod+e [class="Emacs"] focus
 bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""
-#bindsym $mod+Shift+e exec --no-startup-id ~/.config/emacs/bin/doom run
 bindsym $mod+Control+Shift+e move container to workspace $emacs
-#+end_src
-
-#+begin_src conf :noweb-ref modes :noweb yes
-mode "Emacs" {
-<<keybinds-global>>
-}
 #+end_src
 
 ** Firefox
 
-#+begin_src conf :noweb-ref settings
-set $firefox_command "firefox -profile $HOME/.config/firefox/noncog"
-# Make pop-out floating video player window sticky.
-for_window [class="(?i)firefox-esr" window_type="utility" window_role="PictureInPicture" floating] sticky enable
+Set workspace number and move new windows there.
 
-set $firefox 18
+#+begin_src conf :noweb-ref settings-firefox
+set $firefox 12
 for_window [class="(?i)firefox-esr" tiling] move container to workspace $firefox
 #+end_src
 
-#+begin_src conf :noweb-ref keybinds-global
+Set adjustable command for launching firefox with explicit profiles and settings.
+
+#+begin_src conf :noweb-ref settings-firefox
+set $firefox_command "firefox" #-profile $HOME/.config/firefox/noncog"
+#+end_src
+
+Make pop-out floating video player window sticky.
+
+#+begin_src conf :noweb-ref settings-firefox
+for_window [class="(?i)firefox-esr" window_type="utility" window_role="PictureInPicture" floating] sticky enable
+#+end_src
+
+Create launching, focus, and moving binds to send windows to the dedicated workspace.
+
+#+begin_src conf :noweb-ref keybinds-firefox
 bindsym $mod+f [class="(?i)firefox-esr" tiling] focus
 bindsym $mod+Shift+f exec --no-startup-id $firefox_command
 bindsym $mod+Control+Shift+f move container to workspace $firefox
@@ -210,56 +380,89 @@ bindsym $mod+Control+Shift+f move container to workspace $firefox
 
 ** Kitty
 
-# TODO: Fix.
+Set size, position, and behavior of drop-down Kitty window.
 
-#+begin_src conf :noweb-ref settings
+#+begin_src conf :noweb-ref settings-kitty
 for_window [class="kitty-main-float"] floating toggle, resize set 50 ppt 50 ppt, move position center, move scratchpad, sticky enable
+#+end_src
+
+#+begin_src conf :exports none
+# old code
 #for_window [class="kitty-main-float" floating] move scratchpad
 #+end_src
 
-#+begin_src conf :noweb-ref keybinds-global
-bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad, scratchpad show; [class="kitty-main-float" floating] scratchpad show
-#bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad; [class="kitty-main-float" floating] scratchpad show
+Create launching, focus, and moving binds to send dropdown Kitty window to the scratchpad workspace.
 
-#bindsym $mod+Control+Return [class="kitty-main-float" workspace="^(?!-1).*" floating] move scratchpad
-#bindsym $mod+Return [class="kitty-main-float" workspace="^(?!-1)" floating] move scratchpad, [class="kitty-main-float" workspace="^(?!-1)" floating] scratchpad show
+#+begin_src conf :noweb-ref keybinds-kitty
+bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad, scratchpad show; [class="kitty-main-float" floating] scratchpad show
 bindsym $mod+Shift+Return exec --no-startup-id kitty --class 'kitty-main-float'
 bindsym $mod+Control+Return [class="kitty-main-float" tiling] move scratchpad, scratchpad show; [class="kitty" floating] scratchpad show, floating toggle
 #+end_src
 
-** Discord
-
-#+begin_src conf :noweb-ref settings
-set $discord "20"
-
-for_window [class="discord"] floating toggle, resize set 50 ppt 60 ppt, move position center, move scratchpad, sticky enable
-
-assign [class="discord" tiling] workspace $discord
+#+begin_src conf :exports none
+# old code
+#bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad; [class="kitty-main-float" floating] scratchpad show
+#bindsym $mod+Control+Return [class="kitty-main-float" workspace="^(?!-1).*" floating] move scratchpad
+#bindsym $mod+Return [class="kitty-main-float" workspace="^(?!-1)" floating] move scratchpad, [class="kitty-main-float" workspace="^(?!-1)" floating] scratchpad show
 #+end_src
 
-#+begin_src conf :noweb-ref keybinds-global
-#bindsym $mod+d [class="discord"] focus
-bindsym $mod+d [class="discord" floating] scratchpad show; [class="discord" tiling] focus
-bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
+** Discord
+
+Set workspace number and move new tiling windows there.
+
+Otherwise, show the "startup" floating window on all workspaces.
+
+#+begin_src conf :noweb-ref settings-discord
+set $discord "13"
+for_window [class="discord" floating] sticky enable
+assign [class="discord"] workspace $discord
+#+end_src
+
+#+begin_src conf :exports none
+# old code
+# for_window [class="discord"] floating toggle, resize set 50 ppt 60 ppt, move position center, move scratchpad, sticky enable
+#+end_src
+
+Create focusing and moving binds. Launching is done through Rofi.
+
+Focus the Discord window regardless of it's location, or state. This may need some tweaking in the future. For now, I'm going to try to use non-popup (scratchpad) windows as much as possible. Otherwise complex rules will need to be added to enable the use of Discord as a floating, tiling, and scratchpad window.
+
+#+begin_src conf :noweb-ref keybinds-discord
+bindsym $mod+d [class="discord"] focus
+bindsym $mod+Control+Shift+d move container to workspace $discord
+#+end_src
+
+#+begin_src conf :exports none
+# old code
+# bindsym $mod+d [class="discord" floating] scratchpad show; [class="discord" tiling] focus
+# bindsym $mod+Control+d [class="discord" tiling] move scratchpad, scratchpad show; [class="discord" floating] scratchpad show, floating toggle
 #+end_src
 
 ** Spotify
 
-#+begin_src conf :noweb-ref settings
-for_window [class="Spotify"] floating toggle, resize set 50 ppt 60 ppt, move position center, move scratchpad, sticky enable
+Set workspace number and move new tiling windows there.
+
+#+begin_src conf :noweb-ref settings-spotify
+set $spotify "14"
+assign [class="Spotify"] workspace $spotify
 #+end_src
 
-#+begin_src conf :noweb-ref keybinds-global
-bindsym $mod+m [class="Spotify"] scratchpad show
-bindsym $mod+Shift+m exec --no-startup-id spotify
+Create focusing and moving binds. Launching is done through Rofi.
+
+#+begin_src conf :noweb-ref keybinds-spotify
+bindsym $mod+m [class="Spotify"] focus
+bindsym $mod+Control+Shift+m move container to workspace $spotify
 #+end_src
 
 ** Rofi
 
-#+begin_src conf :noweb-ref keybinds-global
-# desktop app launcher
+#+begin_src conf :noweb-ref keybinds-rofi
+# App launcher
 bindsym $mod+o exec --no-startup-id rofi -show drun -show-icons
-# cogmenu - custom menu launcher
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-rofi
+# Cogmenu - Custom Menu Launcher
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+end_src
 
