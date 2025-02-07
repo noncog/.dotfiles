@@ -120,33 +120,40 @@ if [ "$TERM" = "linux" ]; then
 fi
 
 # NON-LOGIN ENVIRONMENT VARIABLES
-# set TERMINAL
-case "$OSTYPE" in
-    darwin*)
-        [ -x /opt/homebrew/bin/kitty ] &&
-            export TERMINAL="/opt/homebrew/bin/kitty"
-
-       ;;
-    linux-gnu*)
-        [ -x /usr/bin/kitty ] &&
-            export TERMINAL="/usr/bin/kitty"
-        ;;
-esac
-
-# set doom emacs' variables.
-# NOTE: Runs Doom from .dotfiles directory to prevent issues with symlinks
-#       on macOS with Doom.
+# Sets the following per $OSTYPE:
+# - $TERMINAL based on installation directory per-os.
+# - $EMACSDIR for alternate Doom installation to allow other configurations
+#   in ~/.config/emacs for versions lower than 29 which don't support the
+#   --init-dir option.
+# - $DOOMDIR per-os to fix separate symlink and directory following issues
+#   on both Linux and macOS.
+#   - Symlinks don't work on macOS.
+#   - Alternate directories don't work on Linux.
 # NOTE: Could overwrite EDITOR and VISUAL here to allow ease of changing
 #       which Emacs version is used.
 # NOTE: Requires using $EMACS_SERVER_NAME and $EMACS_SOCKET_NAME for
 #       emacsclient with non-standard install location of Doom.
-export EMACSDIR="$HOME/.local/share/doom-emacs"
-export DOOMDIR="$HOME/.dotfiles/home/.config/doom"
+
+export EMACSDIR="$HOME/.config/emacs"
+
+case "$OSTYPE" in
+    darwin*)
+        [ -x /opt/homebrew/bin/kitty ] &&
+            export TERMINAL="/opt/homebrew/bin/kitty"
+        [ -d "$HOME/.dotfiles/home/.config/doom" ] &&
+            export DOOMDIR="$HOME/.dotfiles/home/.config/doom"
+       ;;
+    linux-gnu*)
+        [ -x /usr/bin/kitty ] &&
+            export TERMINAL="/usr/bin/kitty"
+        export DOOMDIR="$HOME/.config/doom"
+        ;;
+esac
 
 # ALIASES
 # dotfiles and editor management
 [ -x ~/.dotfiles/bin/dotfiles ] &&
     alias dotfiles='~/.dotfiles/bin/dotfiles'
 
-[ -x ~/.local/share/doom-emacs/bin/doom ] &&
-    alias doom='~/.local/share/doom-emacs/bin/doom'
+[ -x ~/.config/emacs/bin/doom ] &&
+    alias doom='~/.config/emacs/bin/doom'

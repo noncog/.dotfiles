@@ -50,3 +50,6 @@ export XDG_STATE_HOME="$HOME/.local/state"
 # set emacs as system editor.
 export EDITOR="emacs"
 export VISUAL="$EDITOR"
+
+# Doom may require this for non-interactive use.
+export EMACSDIR="$HOME/.config/emacs"
