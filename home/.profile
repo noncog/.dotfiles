@@ -6,25 +6,15 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+# set the most useful XDG user directories explicitly to default
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-        . "$HOME/.bashrc"
-    fi
-fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ]; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ]; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
-# set path, manpath, etc., for homebrew.
-if [ -n "$BASH_VERSION" ]; then
+    # per-os setup
     # shellcheck disable=SC3028
     case "$OSTYPE" in
         darwin*)
@@ -39,13 +29,21 @@ if [ -n "$BASH_VERSION" ]; then
                 export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
             ;;
     esac
-fi
 
-# set the most useful XDG user directories
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_STATE_HOME="$HOME/.local/state"
+    # set PATH so it includes user's private bin if it exists
+    if [ -d "$HOME/bin" ]; then
+        PATH="$HOME/bin:$PATH"
+    fi
+
+    if [ -d "$HOME/.local/bin" ]; then
+        PATH="$HOME/.local/bin:$PATH"
+    fi
+
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+        . "$HOME/.bashrc"
+    fi
+fi
 
 # set emacs as system editor.
 export EDITOR="emacs"
