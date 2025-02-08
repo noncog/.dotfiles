@@ -116,7 +116,8 @@ alt - 0x18  [
 alt -e : open -a emacs
 cmd + shift + alt - e : yabai -m window --space 1; yabai -m space --focus 1
 
-alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1 && open -a librewolf --args -profile $HOME/.config/firefox/noncog
+# alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1 && open -a librewolf --args -profile $HOME/.config/firefox/noncog
+alt - f : export MOZ_DISABLE_SAFE_MODE_KEY=1 && open -a safari
 
 alt - return : yabai -m window --toggle kitty || open  -a kitty
 #alt - return : $HOME/.local/bin/yabai_scratchpad_app.sh kitty
