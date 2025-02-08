@@ -30,9 +30,11 @@ function dotfiles::deploy {
                 --ignore='.config/i3' \
                 --ignore='.config/dunst' \
                 --ignore='.config/barrier' \
+                --ignore='.config/emacs'
             ;;
         linux-gnu*)
-            stow -v -d ~/.dotfiles/ -t ~/ -R home --ignore='.config/skhd'
+            stow -v -d ~/.dotfiles/ -t ~/ -R home --ignore='.config/skhd' \
+                 --ignore='.config/emacs'
             ;;
         *)
             printf 'error: unrecognized operating system: %s\n' "$OSTYPE"
