@@ -1,0 +1,120 @@
+#+title: Emacs
+
+* Installation
+** Debian 12
+*** Build From Source
+**** Dependencies
+***** Tree-Sitter
+
+I build =tree-sitter= from source since Debian's version is outdated.
+
+#+begin_src bash :noeval
+git clone --depth=1 \
+    git@github.com:tree-sitter/tree-sitter.git \
+    "$HOME/.local/src/tree-sitter"
+
+cd "$HOME/.local/src/tree-sitter" && make
+
+sudo make install
+#+end_src
+
+***** Build Dependencies
+
+#+begin_src bash :noeval
+sudo apt build-dep emacs
+
+sudo apt install \
+    texinfo \
+    gnutls-bin \
+    gcc-12 \
+    libgcc-s1 \
+    libgcc-12-dev \
+    libgccjit0 \
+    libgccjit-12-dev \
+    libmagickcore-dev \
+    libmagick++-dev \
+    libjansson4 \
+    libjansson-dev
+#+end_src
+
+**** Compiling
+
+This only compiles Emacs and currently does not install it.
+
+#+begin_src bash :noeval
+mkdir -p -- "$HOME/.local/src/emacs-29"
+
+git clone --depth=1 \
+    git://git.savannah.gnu.org/emacs.git \
+    "$HOME/.local/src/emacs-29"
+
+cd "$HOME/.local/src/emacs-29"
+
+export CC='/usr/bin/gcc-12' CXX='/usr/bin/gcc-12'
+export LD_LIBRARY_PATH=/usr/local/lib/
+
+./autogen.sh
+
+./configure CLAGS="-O2 -mtune=native -march=native -fomit-frame-pointer" \
+    --with-modules \
+    --with-native-compilation \
+    --with-tree-sitter \
+    --with-json \
+    --with-imagemagick \
+    --without-compress-install \
+    --without-sound \
+    --with-mailutils \
+    --without-pop \
+    --with-gnutls \
+    --without-xwidgets \
+    --without-gconf \
+    --without-gsettings \
+    --without-gameuser
+
+make --jobs="$(nproc --ignore 2)"
+#+end_src
+
+*** Install Apt Package
+
+I keep Debian's Emacs package available in case I break my compiled version.
+
+#+begin_src bash :noeval
+sudo apt install emacs
+#+end_src
+
+** macOS
+*** Homebrew Package
+**** Dependencies
+
+#+begin_src bash :noeval
+# brew
+# make
+# autoconf
+# gnu-sed
+# gnu-tar
+# grep
+# awk
+# coreutils
+# pkg-config
+# texinfo
+# xz
+# m4
+# sqlite
+# imagemagick
+# librsvg
+# tree-sitter
+#+end_src
+
+**** Install
+
+#+begin_src bash :noeval
+brew tap d12frosted/emacs-plus
+#+end_src
+
+#+begin_src bash :noeval
+brew install emacs-plus@29 \
+    --with-no-frame-refocus \
+    --with-native-comp \
+    --with-imagemagick \
+    --with-modern-doom3-icon
+#+end_src
