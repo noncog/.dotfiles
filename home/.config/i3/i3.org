@@ -361,7 +361,7 @@ for_window [class="(?i)firefox-esr" tiling] move container to workspace $firefox
 Set adjustable command for launching firefox with explicit profiles and settings.
 
 #+begin_src conf :noweb-ref settings-firefox
-set $firefox_command "firefox" #-profile $HOME/.config/firefox/noncog"
+set $firefox_command "firefox -profile $HOME/.config/firefox/noncog"
 #+end_src
 
 Make pop-out floating video player window sticky.

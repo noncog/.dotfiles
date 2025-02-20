@@ -45,7 +45,7 @@ for_window [class="Emacs" tiling] move container to workspace $emacs
 # Firefox
 set $firefox 12
 for_window [class="(?i)firefox-esr" tiling] move container to workspace $firefox
-set $firefox_command "firefox" #-profile $HOME/.config/firefox/noncog"
+set $firefox_command "firefox -profile $HOME/.config/firefox/noncog"
 for_window [class="(?i)firefox-esr" window_type="utility" window_role="PictureInPicture" floating] sticky enable
 # Kitty
 for_window [class="kitty-main-float"] floating toggle, resize set 50 ppt 50 ppt, move position center, move scratchpad, sticky enable
