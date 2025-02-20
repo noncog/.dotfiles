@@ -30,7 +30,7 @@ function settings::global() {
     [ -x ~/.config/emacs/bin/doom ] &&
         alias doom='~/.config/emacs/bin/doom'
     [ -x ~/.local/src/emacs-29/src/emacs ] &&
-        alias memacs='~/.local/src/emacs-29/src/emacs -Q --init-directory="~/.dotfiles/home/.config/emacs/"'
+        alias memacs='~/.local/src/emacs-29/src/emacs --no-site-lisp --no-x-resources --no-site-file --no-splash --init-directory="~/.dotfiles/home/.config/emacs/"'
 
     settings::apply
     unset -f settings::apply
