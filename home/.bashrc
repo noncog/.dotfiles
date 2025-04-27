@@ -4,7 +4,7 @@
 # return if in a non-interactive shell.
 case $- in
     *i*) ;;
-      *) return ;;
+    *) return ;;
 esac
 
 function settings::global() {
@@ -16,8 +16,8 @@ function settings::global() {
     HISTFILESIZE=8000      # - these values are larger than debian default.
 
     # BEHAVIOR SETTINGS
-    shopt -s checkwinsize  # keep window size (LINES and COLUMNS) updated.
-    shopt -u globstar      # disable pathname expansion using globs.
+    shopt -s checkwinsize # keep window size (LINES and COLUMNS) updated.
+    shopt -u globstar     # disable pathname expansion using globs.
 
     # USER-MADE OPTIONS
     local COLOR_TTY='dracula' # Use selected theme in TTY for Linux.
@@ -25,12 +25,12 @@ function settings::global() {
     local COLOR_FILE=''       # Use .dircolors or equivalent file for color settings.
 
     # ALIASES
-    [ -x ~/.dotfiles/bin/dotfiles ] &&
-        alias dotfiles='~/.dotfiles/bin/dotfiles'
-    [ -x ~/.config/emacs/bin/doom ] &&
-        alias doom='~/.config/emacs/bin/doom'
-    [ -x ~/.local/src/emacs-29/src/emacs ] &&
-        alias memacs='~/.local/src/emacs-29/src/emacs --no-site-lisp --no-x-resources --no-site-file --no-splash --init-directory="~/.dotfiles/home/.config/emacs/"'
+    [ -x ~/.dotfiles/bin/dotfiles ] \
+        && alias dotfiles='~/.dotfiles/bin/dotfiles'
+    [ -x ~/.config/emacs/bin/doom ] \
+        && alias doom='~/.config/emacs/bin/doom'
+    [ -x ~/.local/src/emacs-29/src/emacs ] \
+        && alias memacs='~/.local/src/emacs-29/src/emacs --no-site-lisp --no-x-resources --no-site-file --no-splash --init-directory="~/.dotfiles/home/.config/emacs/"'
 
     alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
 
@@ -82,12 +82,12 @@ function settings::apply() {
     # Apply processed settings.
 
     # Set $TERMINAL.
-    [ -x "$bin_kitty" ] &&
-        export TERMINAL="$bin_kitty"
+    [ -x "$bin_kitty" ] \
+        && export TERMINAL="$bin_kitty"
 
     # Set $DOOMDIR.
-    [ -d "$dir_doom" ] &&
-        export DOOMDIR="$dir_doom"
+    [ -d "$dir_doom" ] \
+        && export DOOMDIR="$dir_doom"
 
     # Setup Bash completions.
     if [ "x${BASH_COMPLETION_VERSINFO-}" != x ]; then
@@ -105,8 +105,8 @@ function settings::apply() {
     # Apply color to output using dircolors.
     if [ "$COLOR_CLI" -eq 1 ]; then
         if [ -x "$bin_dircolors" ]; then
-            if [ -n "$COLOR_FILE" ] &&
-                   [ -r "$COLOR_FILE" ]; then
+            if [ -n "$COLOR_FILE" ] \
+                && [ -r "$COLOR_FILE" ]; then
                 eval "$(${bin_dircolors} -b $COLORS_FILE)"
             else
                 # NOTE: Consider support for using .dircolors file.
@@ -160,7 +160,7 @@ function settings::apply() {
         else
             # if verbose say here, otherwise continue.
             #echo "terminal is not a tty, currently only supports linux tty theming"
-           :
+            :
         fi
     fi
 
@@ -188,7 +188,7 @@ function settings::prompt() {
                 color_prompt=yes
             else
                 color_prompt=
-            fi
+            fi ;;
     esac
     # finally set the prompt to be colored or uncolored.
     if [ "$color_prompt" = yes ]; then
