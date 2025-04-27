@@ -51,3 +51,6 @@ export VISUAL="$EDITOR"
 
 # Doom may require this for non-interactive use.
 export EMACSDIR="$HOME/.config/emacs"
+
+# Prevent less from using a history file.
+export LESSHISTFILE="/dev/null"
