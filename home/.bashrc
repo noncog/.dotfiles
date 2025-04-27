@@ -33,6 +33,8 @@ function settings::global() {
         alias memacs='~/.local/src/emacs-29/src/emacs --no-site-lisp --no-x-resources --no-site-file --no-splash --init-directory="~/.dotfiles/home/.config/emacs/"'
 
     alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
+
+    alias expand_alias='echo '
     settings::apply
     unset -f settings::apply
 }
