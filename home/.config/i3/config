@@ -44,10 +44,9 @@ set $right l
 set $emacs 11
 for_window [class="Emacs" tiling] move container to workspace $emacs
 # Firefox
-set $firefox 12
-for_window [class="(?i)firefox-esr" tiling] move container to workspace $firefox
-set $firefox_command "firefox -profile $HOME/.config/firefox/noncog"
-for_window [class="(?i)firefox-esr" window_type="utility" window_role="PictureInPicture" floating] sticky enable
+set $brave 12
+for_window [class="(?i)brave-browser" tiling] move container to workspace $brave
+set $brave_command "flatpak run com.brave.Browser"
 # Kitty
 for_window [class="kitty-main-float"] floating toggle, resize set 50 ppt 50 ppt, move position center, move scratchpad, sticky enable
 # Discord
@@ -123,9 +122,9 @@ bindsym $mod+e [class="Emacs"] focus
 bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""
 bindsym $mod+Control+Shift+e move container to workspace $emacs
 # Firefox
-bindsym $mod+f [class="(?i)firefox-esr" tiling] focus
-bindsym $mod+Shift+f exec --no-startup-id $firefox_command
-bindsym $mod+Control+Shift+f move container to workspace $firefox
+bindsym $mod+f [class="(?i)brave-browser" tiling] focus
+bindsym $mod+Shift+f exec --no-startup-id $brave_command
+bindsym $mod+Control+Shift+f move container to workspace $brave
 # Kitty
 bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad, scratchpad show; [class="kitty-main-float" floating] scratchpad show
 bindsym $mod+Shift+Return exec --no-startup-id kitty --class 'kitty-main-float'
@@ -197,9 +196,9 @@ mode "Emacs" {
     bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""
     bindsym $mod+Control+Shift+e move container to workspace $emacs
     # Firefox
-    bindsym $mod+f [class="(?i)firefox-esr" tiling] focus
-    bindsym $mod+Shift+f exec --no-startup-id $firefox_command
-    bindsym $mod+Control+Shift+f move container to workspace $firefox
+    bindsym $mod+f [class="(?i)brave-browser" tiling] focus
+    bindsym $mod+Shift+f exec --no-startup-id $brave_command
+    bindsym $mod+Control+Shift+f move container to workspace $brave
     # Kitty
     bindsym $mod+Return [class="kitty-main-float" workspace="__focused__"] focus, move scratchpad, scratchpad show; [class="kitty-main-float" floating] scratchpad show
     bindsym $mod+Shift+Return exec --no-startup-id kitty --class 'kitty-main-float'

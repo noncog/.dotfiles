@@ -143,7 +143,7 @@ mode "Emacs" {
   - [[#volume-controls][Volume Controls]]
 - [[#programs][Programs]]
   - [[#emacs][Emacs]]
-  - [[#firefox][Firefox]]
+  - [[#brave][Brave]]
   - [[#kitty][Kitty]]
   - [[#discord][Discord]]
   - [[#spotify][Spotify]]
@@ -160,6 +160,7 @@ mode "Emacs" {
 focus_follows_mouse no
 mouse_warping output
 workspace_auto_back_and_forth no
+focus_wrapping no
 #+end_src
 
 ** Gaps
@@ -349,33 +350,27 @@ bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor="
 bindsym $mod+Control+Shift+e move container to workspace $emacs
 #+end_src
 
-** Firefox
+** Brave
 
 Set workspace number and move new windows there.
 
 #+begin_src conf :noweb-ref settings-firefox
-set $firefox 12
-for_window [class="(?i)firefox-esr" tiling] move container to workspace $firefox
+set $brave 12
+for_window [class="(?i)brave-browser" tiling] move container to workspace $brave
 #+end_src
 
 Set adjustable command for launching firefox with explicit profiles and settings.
 
 #+begin_src conf :noweb-ref settings-firefox
-set $firefox_command "firefox -profile $HOME/.config/firefox/noncog"
-#+end_src
-
-Make pop-out floating video player window sticky.
-
-#+begin_src conf :noweb-ref settings-firefox
-for_window [class="(?i)firefox-esr" window_type="utility" window_role="PictureInPicture" floating] sticky enable
+set $brave_command "flatpak run com.brave.Browser"
 #+end_src
 
 Create launching, focus, and moving binds to send windows to the dedicated workspace.
 
 #+begin_src conf :noweb-ref keybinds-firefox
-bindsym $mod+f [class="(?i)firefox-esr" tiling] focus
-bindsym $mod+Shift+f exec --no-startup-id $firefox_command
-bindsym $mod+Control+Shift+f move container to workspace $firefox
+bindsym $mod+f [class="(?i)brave-browser" tiling] focus
+bindsym $mod+Shift+f exec --no-startup-id $brave_command
+bindsym $mod+Control+Shift+f move container to workspace $brave
 #+end_src
 
 ** Kitty
