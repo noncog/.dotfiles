@@ -479,7 +479,7 @@ It breaks on macOS and I use window managers for the same functionality.
 - Prevent shifting buffer contents when line numbers grow.
 - Disable line numbers in org-mode.
 
-#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+#+begin_src emacs-lisp :tangle ./config.el
 (setq display-line-numbers-type 'visual
       display-line-numbers-grow-only t)
 (add-hook 'org-mode-hook #'doom-disable-line-numbers-h)
