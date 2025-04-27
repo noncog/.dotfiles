@@ -1,7 +1,7 @@
 ;;; org-roam-filetags.el --- Automatic org-roam filetag updates -*- lexical-binding: t; -*-
 ;;
-;; Author: Jake Turner <john@doe.com>
-;; Maintainer: Jake Turner <john@doe.com>
+;; Author: noncog
+;; Maintainer: noncog
 ;; Created: October 25, 2024
 ;; Modified: October 25, 2024
 ;; Version: 0.0.1
@@ -28,14 +28,25 @@
 ;;
 ;;; Code:
 
+;; TODO: Fix case where filetags is added with space after only #+title and no other keywords.
 ;; TODO: Add moving file with sets of tags to locations.
 ;; TODO: Add inheriting parent directory name tag.
 ;; TODO: Consider adding ability to choose different tag names for each.
 ;; TODO: Keep org tag alist up-to-date with org-roam tags.
+;; TODO: Consider person tag having ability to get from hidden property somehow the preferred name or alias to use for them.
+;; TODO: Make variable to turn on and off sorting.
+;; TODO: Consider moving to org-roam-tag.el
+;; TODO: Make variables defcustom.
+;; TODO: Handle inheritance for person tag.
 
+(require 's)
+(require 'org-roam-utils)
+(require 'org-roam-keyword)
 (require 'org-roam-agenda)
 
-(defvar org-roam-filetags-update-person t
+(add-to-list 'org-tags-exclude-from-inheritance "person")
+
+(defvar org-roam-filetags-update-person nil
   "Non-nil adds filetag of node's title as a person's name, like `@PersonName'.
 
 Primarily used when linking a person's node into a task, their tag is added
@@ -47,11 +58,17 @@ Expects a hash quoted name of function name that accepts two arguments.
 See `sort' for documentation on this function's expected behavior.")
 
 (defun org-roam-filetags-sort (string1 string2)
-  "Function used in `org-roam-filetags-update' to call `org-roam-filetags-sort-fn'."
+  "Function used by `org-roam-filetags-update' to call `org-roam-filetags-sort-fn'.
+
+Accepts STRING1 and STRING2 and"
   (and org-roam-filetags-sort-fn (funcall org-roam-filetags-sort-fn string1 string2)))
 
 (defun org-roam-filetags-update (title filetags)
-  "Add or remove FILETAGS to the current node based on conditions."
+  "Add or remove FILETAGS to the current node based on conditions.
+
+Used by `org-roam-file-pre-save-h' to enable automatic update
+to the FILETAGS keyword using the TITLE based on user settings of
+org-roam-filetags-update-* variables."
   (let* ((title-as-tag (concat "@" (s-replace " " "" title)))
          (tags-list (if filetags
                         (split-string
@@ -64,7 +81,7 @@ See `sort' for documentation on this function's expected behavior.")
     ;; See org-roam-agenda-file-p for conditions.
     (if (org-roam-agenda-file-p)
         (cl-pushnew "agenda" add-tags :test #'string=)
-        (cl-pushnew "agenda" remove-tags :test #'string=))
+      (cl-pushnew "agenda" remove-tags :test #'string=))
     ;; Ensure that @PersonName tag is set when node is tagged as a person.
     (when org-roam-filetags-update-person
       (if (seq-contains-p tags-list "person")

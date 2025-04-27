@@ -16,9 +16,11 @@
 ;; the Denote file naming scheme when visiting org-roam buffers using it.
 ;;
 ;;; Code:
+(require 'denote)
 
+;; TODO: Look into how Teco does this.
 (defun org-roam-modeline-process-buffer-file-name (file-name)
-  "Return buffer-file-name filtered if necessary for display in Doom Modeline."
+  "Return FILE-NAME for buffer filtered if necessary for display in Doom Modeline."
   (when (eq major-mode 'org-mode)
     ;; NOTE: Provides encryption detection.
     (if (denote-filename-is-note-p file-name)

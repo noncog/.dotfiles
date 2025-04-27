@@ -1,7 +1,7 @@
 ;;; magit-lint.el --- Add Angular and Conventional commit linting to Magit -*- lexical-binding: t; -*-
 ;;
-;; Author: Jake Turner <john@doe.com>
-;; Maintainer: Jake Turner <john@doe.com>
+;; Author: noncog
+;; Maintainer: noncog
 ;; Created: October 25, 2024
 ;; Modified: October 25, 2024
 ;; Version: 0.0.1
@@ -19,26 +19,61 @@
 ;;
 ;; This code is an extension of git-commit-style-convention-checks from Magit.
 ;;
-;; NOTE: Requires two files to define list of words to check against the commit message:
+;; Requires two files to define list of words to check against the commit message:
 ;; - commit-types
 ;; - imperative-verbs
-;;;
+;;
 ;;; Code:
 
+(require 'magit)
+
+;; Set commit summary max length.
+;; This length seems to be a popular value compatible with conventional commits.
+(setq git-commit-summary-max-length 50)
+
+;; Set commit body max length.
+;; Magit/Doom use fill column and git-commit-mode-hook to wrap the body length.
+;; (setq-hook! 'git-commit-mode-hook fill-column 72)
+
 (defvar magit-lint-commit-types-file "~/.config/git/commit/commit-types"
-  "A git commit types list used by: 'magit-lint-check-style-conventions'")
+  "File containing a list of (conventional) commit types checked by magit-lint.
+
+Used in `magit-lint-check-style-conventions' to ensure the commit uses a
+valid commit type keyword.")
 
 (defvar magit-lint-imperative-verbs-file "~/.config/git/commit/imperative-verbs"
-  "A git commit imperative verbs list used by `magit-lint-check-style-conventions'.")
+  "File containing a list of imperative commit verbs checked by magit-lint.
+
+Used in `magit-lint-check-style-conventions' to ensure the commit uses an
+imperative verb. If the verb is not in the list, asks to add it.")
+
+(defun magit-lint-get-commit-types ()
+  "Return a list of commit types from `magit-lint-commit-types-file'.
+
+Used by `magit-lint-check-style-conventions'."
+  (let ((file-path magit-lint-commit-types-file))
+    (with-temp-buffer
+      (insert-file-contents file-path)
+      (split-string (buffer-string) "\n" t))))
+
+(defun magit-lint-get-imperative-verbs ()
+  "Return a list of imperative verbs from `magit-lint-imperative-verbs-file'.
+
+Used by `magit-lint-check-style-conventions'."
+  (let ((file-path magit-lint-imperative-verbs-file))
+    (with-temp-buffer
+      (insert-file-contents file-path)
+      (split-string (buffer-string) "\n" t))))
 
 (defcustom magit-lint-style-convention-checks '(summary-has-type
-                                                   summary-type-lowercase
-                                                   summary-has-separator
-                                                   summary-scope-lowercase
-                                                   summary-title-starts-with-lowercase
-                                                   summary-title-uses-imperative-verb
-                                                   summary-title-not-end-in-punctuation)
+                                                summary-type-lowercase
+                                                summary-has-separator
+                                                summary-scope-lowercase
+                                                summary-title-starts-with-lowercase
+                                                summary-title-uses-imperative-verb
+                                                summary-title-not-end-in-punctuation)
   "List of checks performed by `magit-lint-check-style-conventions'.
+
 Valid members are `summary-has-type',  `summary-type-lowercase',
 `summary-has-separator', `summary-scope-lowercase',
 `summary-title-starts-with-lowercase', `summary-title-uses-imperative-verb', and
@@ -54,11 +89,21 @@ Valid members are `summary-has-type',  `summary-type-lowercase',
   :group 'magit-lint)
 
 (defun magit-lint-check-style-conventions (&optional force)
-  "Check for violations of certain basic style conventions.
+  "Check for violations of conventional commit style conventions.
 
 For each violation ask the user if she wants to proceed anyway.
 Option `magit-lint-check-style-conventions' controls which
-conventions are checked."
+conventions are checked.
+
+The function is used by `git-commit-finish-query-function' and is
+provided one argument: FORCE. If non-nil, that indicates that the
+user used a prefix argument to force the finishing of the commit
+session despite issues.
+
+This package relies on Magit to check `overlong-summary-line' and
+`non-empty-second-line' in `git-commit-style-convention-checks' to
+avoid redundant redefinition of those checks. Ensure these checks
+are also set."
   (or force
       (save-excursion
         (goto-char (point-min))
@@ -106,26 +151,10 @@ conventions are checked."
                    (not (string-match-p "[\\.!\\?;,:]$" commit-title))
                    (y-or-n-p "Commit title ends with punctuation. Commit anyway?")))))))
 
-(defun magit-lint-get-commit-types ()
-  "Return a list of commit types."
-  (let ((file-path magit-lint-commit-types-file))
-    (with-temp-buffer
-      (insert-file-contents file-path)
-      (split-string (buffer-string) "\n" t))))
-
-(defun magit-lint-get-imperative-verbs ()
-  "Return a list of imperative verbs."
-  (let ((file-path magit-lint-imperative-verbs-file))
-    (with-temp-buffer
-      (insert-file-contents file-path)
-      (split-string (buffer-string) "\n" t))))
-
-(setq git-commit-summary-max-length 50) ; Maximum title (summary) length.
-;; OBSOLETE: Removed in Magit by bc18ba942f2a3dd22e552df7d05c3173482e0359
-;; (setq git-commit-fill-column 72)        ; Description column limit.
-
-(add-hook 'after-save-hook 'magit-after-save-refresh-status t) ;; TODO: Validate this is required.
 (add-to-list 'git-commit-finish-query-functions #'magit-lint-check-style-conventions)
+
+;; TODO: Validate this is required.
+(add-hook 'after-save-hook 'magit-after-save-refresh-status t)
 
 (provide 'magit-lint)
 ;;; magit-lint.el ends here
