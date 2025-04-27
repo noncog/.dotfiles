@@ -500,7 +500,7 @@ Always use home directory as =default-directory= instead of recent file/project.
 [[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information.
 #+end_quote
 
-#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+#+begin_src emacs-lisp :tangle ./config.el
 (use-package! helpful
   :defer t
   :config
@@ -551,7 +551,7 @@ By default, Doom centers the page when you visit a source file. Often, I can't s
 [[https://github.com/minad/vertico][Vertico]] provides a performant and compatible vertical completion UI for Emacs. It extends the minibuffer and =completing-read= commands.
 #+end_quote
 
-#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+#+begin_src emacs-lisp :tangle ./config.el
 (use-package! vertico
   :defer t
   :config
@@ -611,7 +611,7 @@ Luckily Doom doesn't use these yet and they can just be added.
   :pin "c8f24cb8aaf6d772d45f817d8bfd9eaa0b6a254c")
 #+end_src
 
-#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+#+begin_src emacs-lisp :tangle ./config.el
 (use-package! sinister)
 #+end_src
 
@@ -623,7 +623,7 @@ Luckily Doom doesn't use these yet and they can just be added.
   :pin "37a5dd35be310ca2752f04b64b8b17136503f505")
 #+end_src
 
-#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
 (use-package! mini-ontop)
 #+end_src
 
@@ -635,7 +635,7 @@ Luckily Doom doesn't use these yet and they can just be added.
   :pin "05029febdb451941ed218e6ddbef5294776e31d4")
 #+end_src
 
-#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
 (use-package! stillness-mode)
 #+end_src
 
@@ -648,7 +648,7 @@ Currently this appears to work the best but there are scenarios that break it.
 [[https://github.com/abo-abo/avy][Avy]] is a package for jumping to visible text using a char-based decision tree. Quickly jump to anything you see on your screen!
 #+end_quote
 
-#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
 (use-package! avy
   :defer t
   :config
@@ -688,7 +688,7 @@ I don’t use most of the default providers (Google) so I set my own.
 [[https://github.com/bbatsov/projectile][Projectile]] is a project interaction library for Emacs. It provides easy project management and navigation.
 #+end_quote
 
-#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
 (use-package! projectile
   :defer t
   :init
@@ -1124,7 +1124,7 @@ To use org-protocol to interact with the browser we can use the following bookma
 
 When using this with various browsers, you may need to enable the handler in the browser's settings manually. Some browsers just work and others require you to set it in the GUI settings, thankfully not in their text configuration.
 
-#+begin_src javascript :tangle no :exports none
+#+begin_src javascript :tangle no
 javascript:location.href =
     'org-protocol://roam-ref?template=b&ref='
     + encodeURIComponent(location.href)
@@ -1134,16 +1134,8 @@ javascript:location.href =
     + encodeURIComponent(window.getSelection())
 #+end_src
 
-#+begin_src javascript :tangle no :exports none
+#+begin_src javascript :tangle no
 javascript:location.href = 'org-protocol://roam-ref?template=b&ref=' + encodeURIComponent(location.href) + '&title=' + encodeURIComponent(document.title) + '&body=' + encodeURIComponent(window.getSelection())
-#+end_src
-
-#+begin_src javascript :tangle no :exports none
-javascript:location.href = "org-protocol://roam-ref?template=b&ref=" + encodeURIComponent(location.href) + "&title=" + encodeURIComponent(document.title) + "&body=" + encodeURIComponent(window.getSelection())
-#+end_src
-
-#+begin_src javascript :tangle no :exports none
-javascript:(function()%7B
 #+end_src
 
 #+begin_src javascript :tangle no :exports none
