@@ -30,10 +30,7 @@
 
        :ui
        ;;deft              ; notational velocity for Emacs
-       ;;doom              ; what makes DOOM look the way it does
-                           ; NOTE: Disabled :ui doom to avoid solaire-mode and use
-                           ; latest doom-themes myself. Also avoids:
-                           ; pos-tip-internal-border variables that have no reference.
+       doom                ; what makes DOOM look the way it does ; NOTE: custom user module.
        doom-dashboard      ; a nifty splash screen for Emacs
        ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
        ;;(emoji +unicode)  ; 🙂
@@ -45,7 +42,9 @@
        ;;nav-flash         ; blink cursor line after big motions
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints             ; highlight the region an operation acts on
-       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       (popup              ; tame sudden yet inevitable temporary windows
+        +all
+        +defaults)
        ;;tabs              ; a tab bar for Emacs
        ;;treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
@@ -59,7 +58,7 @@
        (evil +everywhere)  ; come to the dark side, we have cookies
        file-templates      ; auto-snippets for empty files
        fold                ; (nigh) universal code folding
-       ;;(format +onsave)  ; automated prettiness
+       (format +onsave)    ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        ;;multiple-cursors  ; editing in many places at once
@@ -70,10 +69,12 @@
        word-wrap           ; soft wrapping with language-aware indent
 
        :emacs
-       dired               ; making dired pretty [functional]
+       (dired              ; making dired pretty [functional]
+        +dirvish
+        +icons)
        electric            ; smarter, keyword-based electric-indent
        ;;eww               ; the internet is gross
-       ;;ibuffer           ; interactive buffer management
+       (ibuffer +icons)    ; interactive buffer management
        undo                ; persistent, smarter undo for your inevitable mistakes
        vc                  ; version-control and Emacs, sitting in a tree
 
@@ -97,10 +98,10 @@
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
-       ;(eval +overlay)     ; run code, run (also, repls)
+       ;;(eval +overlay)    ; run code, run (also, repls)
        lookup              ; navigate your code and its documentation
        ;;lsp               ; M-x vscode
-       (magit)             ; a git porcelain for Emacs
+       magit               ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        pdf                 ; pdf enhancements
@@ -110,8 +111,8 @@
        ;;tree-sitter       ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 
-       :os
-       (:if (featurep :system 'macos) macos)          ; improve compatibility with macOS
+       :os                 ; improve compatibility with macOS
+       (:if (featurep :system 'macos) macos)
        tty                 ; improve the terminal Emacs experience
 
        :lang
@@ -156,9 +157,12 @@
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org                ; organize your plain life in plain text
-         +roam2
-         +gnuplot
-         +noter)
+        +pretty
+        +dragndrop
+        +contacts
+        +roam2
+        +gnuplot
+        +noter)
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;graphviz          ; diagrams for confusing yourself even more

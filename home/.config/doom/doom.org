@@ -1,1 +1,1759 @@
-#+title: Doom
+#+export_exclude_tags: exclude noexport
+
+* Table of Contents :TOC:QUOTE:FOLD:
+:PROPERTIES:
+:CUSTOM_ID: table-of-contents
+:VISIBILITY: folded
+:END:
+
+#+html:<details><summary>Table of Contents</summary>
+#+BEGIN_QUOTE
+- [[#doom][Doom]]
+  - [[#about][About]]
+  - [[#resources][Resources]]
+- [[#initial-setup][Initial Setup]]
+  - [[#constants][Constants]]
+  - [[#search-path][Search Path]]
+  - [[#system-settings][System Settings]]
+  - [[#personal-information][Personal Information]]
+- [[#global][Global]]
+  - [[#behavior][Behavior]]
+  - [[#keybinds][Keybinds]]
+- [[#interface][Interface]]
+  - [[#font][Font]]
+  - [[#theme][Theme]]
+  - [[#cursor][Cursor]]
+  - [[#frame][Frame]]
+  - [[#modeline][Modeline]]
+  - [[#line-numbers][Line Numbers]]
+  - [[#dashboard][Dashboard]]
+  - [[#help][Help]]
+  - [[#completion][Completion]]
+  - [[#jumping][Jumping]]
+  - [[#lookup][Lookup]]
+- [[#utilities][Utilities]]
+  - [[#project-management][Project Management]]
+  - [[#terminal][Terminal]]
+  - [[#directory][Directory]]
+  - [[#organization][Organization]]
+  - [[#ebooks][Ebooks]]
+- [[#languages][Languages]]
+  - [[#shell][Shell]]
+- [[#experiments][Experiments]]
+#+END_QUOTE
+#+html:</details>
+
+* Doom
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+#+begin_quote
+[[https://github.com/doomemacs/doomemacs][Doom]] is a configuration framework for GNU Emacs tailored for Emacs bankruptcy veterans who want less framework in their frameworks, a modicum of stability (and reproducibility) from their package manager, and the performance of a hand rolled config (or better). It can be a foundation for your own config or a resource for Emacs enthusiasts to learn more about our favorite operating system.
+#+end_quote
+
+** About
+
+=Configuring Emacs is an art form... and it can get ugly.=
+
+*** Config Files
+
+=Doom uses three config files, loaded in a specific order.=
+
+#+begin_quote
+[!IMPORTANT]
+It's imperative that your configuration is loaded in the correct time and place. My configuration files are dynamically generated (tangled) from this =README.org= file using [[https://orgmode.org/][org-mode]]. The load order perceived does not reflect the actual source code.
+
+See [[#literate-configuration][Literate Configuration]] for more information.
+#+end_quote
+
+- Init.el :: Defines which of Doom’s modules are enabled.
+- Packages.el :: Defines external packages to be loaded by Doom.
+- Config.el :: Defines the user's custom configuration.
+
+*** Literate Configuration
+
+#+begin_quote
+An org-mode [[https://leanpub.com/lit-config/read][Literate Configuration]] enables you to dynamically mix documentation, source code, languages, formats, images, tables, and more in your config files! It primarily provides the ability to non-linearly generate source files from documentation, such as this.
+#+end_quote
+
+**** File Generation
+
+Only the =config.el= and =packages.el= files are generated from this file. I don't generate the =init.el= file since I prefer to avoid adding its length to this file and instead manually toggle Doom's modules.
+
+There is also some question regarding whether or not my generated modules file would prevent me from recieving an updated modules list from Doom.
+
+**** Organization
+
+This file is structured to promote discoverability and comprehension. In general, each section follows a scheme similar to this:
+
+#+begin_quote
+*Section*
+- Variables
+- Appearance
+- Behavior
+- Keybinds
+- Fixes
+#+end_quote
+
+*** Coding Conventions
+**** Naming
+
+- I try to use a descriptive and generalized name for any emacs-lisp that I write, unless writing or extending a package.
+- For functions and variables that do not fit into or extend a package I use the prefix =my/= to denote code specific to me.
+- Hook function names should end in =-h=.
+- Variables that hold the name of a function to be executed should end in =-fn=.
+- Custom packages should only contain functions whose name begins with the file name as a prefix.
+- I try to adhere to standard Emacs naming conventions and avoid Doom's naming conventions as they're confusing and often not applied correctly.
+
+**** Dependencies
+
+- I try to avoid Doom specific libraries and macros to promote reuse in other Emacs configurations.
+- All custom packages should include =require= statements to load their dependencies.
+
+** Resources
+
+#+html:<details><summary>Other Emacs User Configurations</summary>
+
+*** Doom Users
+
+- [[https://github.com/tecosaur/emacs-config][Tecosaur]]
+- [[https://github.com/zzamboni/dot-doom/blob/master/doom.org][Zzamboni]]
+- [[https://github.com/elken/doom][Elken]]
+- [[https://github.com/hieutkt/dotfiles/tree/main/emacs/.doom.d][Nguyen Duc Hieu]]
+- [[https://github.com/slano-ls/Doom-Emacs-Config][Saihaj Law]]
+- [[https://github.com/chrisbarrett/doom-configuration][Chris Barrett]]
+- [[https://github.com/hlissner/.doom.d/tree/master][Henrik Lissner]]
+- [[https://github.com/tefkah/doom-emacs-config][Tefkah]]
+
+*** Emacs Users
+
+- [[https://github.com/daviwil/dotfiles/][David Wilson]]
+- [[https://github.com/rougier/dotemacs/tree/master][Nicolas P. Rougier]]
+- [[https://github.com/jimeh/.emacs.d][Emacs Siren]]
+- [[https://github.com/howardabrams/hamacs][Howard Abrams]]
+- [[https://github.com/novoid/dot-emacs/blob/master/config.org][Novoid]]
+- [[https://github.com/ianyepan/.wsl-emacs.d][Ian Y.E. Pan]]
+- [[https://github.com/abougouffa/minemacs/tree/main][Abdelhak Bougouffa - Minemacs]]
+- [[https://github.com/yantar92/emacs-config][Ihor Radchenko]]
+
+#+html:</details>
+
+*** Tips and Tricks
+
+- To quickly visit the source code for a package use: =straight-visit-package=.
+
+- To quickly visit the website for a package use: =straight-visit-package-website=.
+
+- To quickly browse the contents of a source code file, use =imenu= or =consult-imenu= (=SPC s i=) to see and jump through its definitions.
+
+- To save and interact with a list of results from the minibuffer use =embark-collect= (=C-c C-l=) to move them to their own buffer.
+
+* Initial Setup
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+** File Headers :noexport:
+*** Init.el
+*** Config.el
+
+#+begin_src emacs-lisp :tangle ./config.el
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+end_src
+
+*** Packages.el
+
+#+begin_src emacs-lisp :tangle ./packages.el
+;; -*- no-byte-compile: t; -*-
+;;; $DOOMDIR/packages.el
+#+end_src
+
+** Constants
+*** Home Directory
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(defconst user-home-directory (getenv "HOME")
+  "Filepath of the user's home directory.")
+#+end_src
+
+*** System Name
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(defconst user-system-name (string-remove-suffix ".local" (system-name))
+    "Name of the user's system.")
+#+end_src
+
+** Search Path
+
+Add the lisp subdirectory to the load-path for my custom packages.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(add-to-list 'load-path (expand-file-name "lisp" doom-user-dir))
+#+end_src
+
+** System Settings
+
+#+begin_quote
+[[file:lisp/system-settings.el][System-Settings]] is a simple library to use an alist to store and retrieve per-system settings. Inspired by [[https://github.com/daviwil/dotfiles/][David Wilson]].
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el
+(use-package! system-settings
+  :config
+  (setq system-settings-list
+      (append
+       ;; Put system-specific settings at the front so they're found first.
+       (when (string= user-system-name "Ganymede")
+         '((wm-command . "yabai -m window --")
+           (wm-focus-command . "focus")
+           (wm-move-command . "swap")
+           (wm-direction-left . "west")
+           (wm-direction-right . "east")
+           (wm-direction-up . "north")
+           (wm-direction-down . "south")))
+       ;; Put default settings after system-specific settings.
+       '((wm-command . "i3-msg ")
+         (wm-focus-command . "focus")
+         (wm-move-command . "move")
+         (wm-direction-left . "left")
+         (wm-direction-right . "right")
+         (wm-direction-up . "up")
+         (wm-direction-down . "down")))))
+#+end_src
+
+** Personal Information
+
+Defines an identity for use with GPG, email, and file templates/snippets.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(when (string= user-login-name "noncog")
+  (setq user-full-name "noncog"
+        user-mail-address "noncog@github.com"))
+#+end_src
+
+* Global
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+** Behavior
+*** Autoload File Changes
+
+If the file changes on disk, update the buffer displaying it.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(global-auto-revert-mode 1)
+#+end_src
+
+*** Enable Evil Fine Undo
+
+By default, all changes made while using insert mode are considered one.
+
+This setting enables a more granular undo scheme.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(setq evil-want-fine-undo t)
+#+end_src
+
+*** Enable Subword Mode
+
+Allows iterating through CamelCase words.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(global-subword-mode 1)
+#+end_src
+
+*** Prevent Pasting From Adding to Kill Ring
+
+Whenever you overwrite text in visual mode, prevent adding that text to the kill ring.
+
+This enables you to paste the same thing multiple times without losing it.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(setq evil-kill-on-visual-paste nil)
+#+end_src
+
+*** Focus New Windows After Splitting
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
+#+end_src
+
+*** Window Manager Integration
+
+#+begin_quote
+[[file:lisp/wm.el][Window-Manager]] is a small library I created to integrate Emacs and window manager commands, allowing the use of universal window management keybinds inside and outside of Emacs.
+#+end_quote
+
+Define my configurations per-system (different window managers) using my [[file:lisp/system-settings.el][System-Settings]] library.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(use-package! wm
+  :config
+  (setq wm-command (system-settings-get 'wm-command)
+        wm-focus-command (system-settings-get 'wm-focus-command)
+        wm-move-command (system-settings-get 'wm-move-command)
+        wm-direction-left (system-settings-get 'wm-direction-left)
+        wm-direction-right (system-settings-get 'wm-direction-right)
+        wm-direction-up (system-settings-get 'wm-direction-up)
+        wm-direction-down (system-settings-get 'wm-direction-down))
+  ;; I use super as my window manager modifier key.
+  ;; These binds allow the window manager windowing keybinds to work within Emacs.
+  (map! (:map global-map
+              "s-h" #'wm-focus-win-left
+              "s-j" #'wm-focus-win-down
+              "s-k" #'wm-focus-win-up
+              "s-l" #'wm-focus-win-right
+              "s-H" #'wm-move-win-left
+              "s-J" #'wm-move-win-down
+              "s-K" #'wm-move-win-up
+              "s-L" #'wm-move-win-right
+              "s-=" #'balance-windows
+              "s-v" #'evil-window-vsplit
+              "s-s" #'evil-window-split
+              "s-Q" #'evil-quit))
+  ;; These binds allow you to use Doom's window management keybinds from Emacs to windows outside of it.
+  (map! :leader "w h" #'wm-focus-win-left
+        "w j" #'wm-focus-win-down
+        "w k" #'wm-focus-win-up
+        "w l" #'wm-focus-win-right
+        "w H" #'wm-move-win-left
+        "w J" #'wm-move-win-down
+        "w K" #'wm-move-win-up
+        "w L" #'wm-move-win-right)
+  ;; These binds allow you to resize windows directionally.
+  ;; These echo the window manager functionality but are not fully integrated yet.
+  (map! "C-s-h" #'wm-resize-win-left
+        "C-s-j" #'wm-resize-win-down
+        "C-s-k" #'wm-resize-win-up
+        "C-s-l" #'wm-resize-win-right))
+#+end_src
+
+*** Scrolling
+
+This is an area of contention for me. Eventually I would like to overhaul this behavior entirely.
+
+**** Set Scroll Amount
+
+For now, reduce scrolling from half-pages to a smaller line count.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(setq-default evil-scroll-count 10)
+#+end_src
+
+** Keybinds
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+*** Modifiers
+
+On macOS I translate the modifer keys to mirror Linux.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(when (featurep :system 'macos)
+  (setq mac-command-modifier 'control ; Maps Command -> Control
+        mac-control-modifier 'meta    ; Maps Control -> Alt (Meta)
+        mac-option-modifier 'super))  ; Maps Option -> Super
+#+end_src
+
+*** Profiler
+
+Move Doom's profiler toggle keybind from the 'help' leader key list to the 'toggle' list.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(map! :leader "h T" nil
+      :leader "t T" #'doom/toggle-profiler)
+#+end_src
+
+*** Frame Opacity
+
+Add a keybind to toggle frame opacity.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(map! :leader "t o" #'doom/set-frame-opacity)
+#+end_src
+
+* Interface
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+** Font
+
+I mostly use Jetbrains Mono or Fira Code fonts.
+
+Currently only setting the font on Linux based systems.
+
+Fonts can cause performance issues on macOS.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(when (and (doom-font-exists-p "JetBrains Mono")
+           (featurep :system 'linux))
+           (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
+                 doom-big-font (font-spec :family "JetBrains Mono" :size 16)))
+#+end_src
+
+** Theme
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(setq doom-theme 'doom-one)
+#+end_src
+
+*** Keybinds
+
+Move Doom's theme changing keybinds from the 'help' leader keymap to the 'toggle' map.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(map! :leader "h t" nil
+      :leader "t t" #'load-theme)
+#+end_src
+
+** Cursor
+
+Draw the block cursor as wide as the glyph under it.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(setq-default x-stretch-cursor t)
+#+end_src
+
+** Frame
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+*** Appearance
+**** Enable Round Corners and No Title Bar
+
+On macOS and when using Emacs 29+, I like to use rounded window corners with no title bar.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(when (and (featurep :system 'macos)
+           (>= emacs-major-version 29))
+           (add-to-list 'default-frame-alist '(undecorated-round . t)))
+#+end_src
+
+*** Behavior
+**** Prevent Frame Resizing Due to Font/Face Changes
+
+On macOS with Yabai, toggling =doom-big-font-mode= was causing the frame to resize and lose window management. This fixes that.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(when (and (featurep :system 'macos)
+           (>= emacs-major-version 29))
+      (setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines)))
+#+end_src
+
+*** Keybinds
+
+Remove frame fullscreen keybind.
+
+It breaks on macOS and I use window managers for the same functionality.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(map! "C-s-f" nil
+      :leader "t F" nil)
+#+end_src
+
+** Modeline
+*** Doom Modeline
+
+#+begin_quote
+[[https://github.com/seagle0128/doom-modeline][Doom-Modeline]] is a fancy and fast mode-line inspired by minimalism design.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+(use-package! doom-modeline
+  :defer t
+  :config
+  (setq doom-modeline-height 25
+        doom-modeline-icon t
+        doom-modeline-buffer-file-true-name t
+        doom-modeline-project-detection 'auto
+        doom-modeline-buffer-file-name-style 'relative-from-project
+        doom-modeline-major-mode-icon nil
+        doom-modeline-vcs-max-length 60
+        auto-revert-check-vc-info t))
+#+end_src
+
+** Line Numbers
+
+- I use relative visual line numbers to move around.
+- Prevent shifting buffer contents when line numbers grow.
+- Disable line numbers in org-mode.
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+(setq display-line-numbers-type 'visual
+      display-line-numbers-grow-only t)
+(add-hook 'org-mode-hook #'doom-disable-line-numbers-h)
+#+end_src
+
+** Dashboard
+
+Always use home directory as =default-directory= instead of recent file/project.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(setq +doom-dashboard-pwd-policy user-home-directory) ;; NOTE: uses personal constant.
+#+end_src
+
+** Help
+*** Helpful
+
+#+begin_quote
+[[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+(use-package! helpful
+  :defer t
+  :config
+  <<helpful-config>>)
+#+end_src
+
+**** Behavior
+***** Increase Max Window Count
+
+Increase the window count to be able to move back and forth between more help windows using the keybinds that I set.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(setq helpful-max-buffers 10)
+#+end_src
+
+***** Show Documentation At Top Line
+
+By default, Doom centers the page when you visit a source file. Often, I can't see the information behind the helpful window, so I remove the old advice and update it to display at the top of the screen.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref helpful-config
+(defadvice! my/+popup--helpful-open-in-origin-window-a (button)
+  "Open links in non-popup, originating window rather than helpful's window."
+  :override #'helpful--navigate
+  (let ((path (substring-no-properties (button-get button 'path)))
+        enable-local-variables
+        origin)
+    (save-popups!
+     (find-file path)
+     (when-let (pos (get-text-property button 'position
+                                       (marker-buffer button)))
+       (goto-char pos))
+     (setq origin (selected-window))
+     (recenter 0)) ; Added argument 0 to cause recenter to top of screen.
+    (select-window origin)))
+#+end_src
+
+** Completion
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+*** Vertico
+
+#+begin_quote
+[[https://github.com/minad/vertico][Vertico]] provides a performant and compatible vertical completion UI for Emacs. It extends the minibuffer and =completing-read= commands.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+(use-package! vertico
+  :defer t
+  :config
+  <<vertico-config>>)
+#+end_src
+
+**** Keybinds
+***** Add Vim Scrolling Keybinds to Minibuffer
+
+Luckily Doom doesn't use these yet and they can just be added.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref vertico-config
+(map! :map vertico-map "C-u" #'scroll-down-command
+      :map vertico-map "C-d" #'scroll-up-command)
+#+end_src
+
+*** Marginalia
+
+#+begin_quote
+[[https://github.com/minad/marginalia][Marginalia]] adds marks or annotations (marginalia) to the margin of the minibuffer for your completion candidates.
+#+end_quote
+
+*** Consult
+
+#+begin_quote
+[[https://github.com/minad/consult][Consult]] provides search and navigation commands to the minibuffer through =completing-read=.
+#+end_quote
+
+*** Orderless
+
+#+begin_quote
+[[https://github.com/oantolin/orderless][Orderless]] provides an =orderless= completion style for =completing-read= that divides the pattern into space-separated components, and matches candidates that match all of the components in any order.
+#+end_quote
+
+*** Embark
+
+#+begin_quote
+[[https://github.com/oantolin/embark][Embark]] provides an interface to choose a command based on the point in the buffer or minibuffer. You can think of it as a keyboard-based right-click menu.
+#+end_quote
+
+*** Corfu
+
+#+begin_quote
+[[https://github.com/minad/corfu][Corfu]] enhances in-buffer completion with a small completion popup. The current candidates are shown in a popup below or above the point, and can be selected by moving up and down. Corfu is the minimalistic in-buffer completion counterpart of the Vertico minibuffer UI.
+#+end_quote
+
+*** Which-Key
+
+#+begin_quote
+[[https://github.com/justbur/emacs-which-key][Which-Key]] is a minor mode that displays keybinds for your currently unfinished inputs.
+#+end_quote
+*** Sinister
+
+#+begin_src emacs-lisp :tangle ./packages.el
+(package! sinister
+  :recipe (:host github :repo "positron-solutions/sinister")
+  :pin "c8f24cb8aaf6d772d45f817d8bfd9eaa0b6a254c")
+#+end_src
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+(use-package! sinister)
+#+end_src
+
+*** Mini Ontop
+
+#+begin_src emacs-lisp :tangle ./packages.el
+(package! mini-ontop
+  :recipe (:host github :repo "hkjels/mini-ontop.el")
+  :pin "37a5dd35be310ca2752f04b64b8b17136503f505")
+#+end_src
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+(use-package! mini-ontop)
+#+end_src
+
+*** Stillness Mode
+
+#+begin_src emacs-lisp :tangle ./packages.el
+(package! stillness-mode
+  :recipe (:host github :repo "neeasade/stillness-mode.el")
+  :pin "05029febdb451941ed218e6ddbef5294776e31d4")
+#+end_src
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+(use-package! stillness-mode)
+#+end_src
+
+Currently this appears to work the best but there are scenarios that break it.
+
+** Jumping
+*** Avy
+
+#+begin_quote
+[[https://github.com/abo-abo/avy][Avy]] is a package for jumping to visible text using a char-based decision tree. Quickly jump to anything you see on your screen!
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+(use-package! avy
+  :defer t
+  :config
+  ;; Behavior
+  (setq avy-all-windows t))
+#+end_src
+
+** Lookup
+*** Lookup Providers
+
+I don’t use most of the default providers (Google) so I set my own.
+
+#+begin_src emacs-lisp :noeval :tangle ./config.el
+(setq +lookup-provider-url-alist
+      '(("DuckDuckGo" +lookup--online-backend-duckduckgo "https://duckduckgo.com/?q=%s")
+        ("Debian Package" "https://packages.debian.org/search?keywords=%s")
+        ("Github" "https://github.com/search?ref=simplesearch&q=%s")
+        ("Youtube" "https://youtube.com/results?aq=f&oq=&search_query=%s")
+        ("Wikipedia" "https://wikipedia.org/search-redirect.php?language=en&go=Go&search=%s")
+        ("StackOverflow" "https://stackoverflow.com/search?q=%s")
+        ("Doom Issues" "https://github.com/hlissner/doom-emacs/issues?q=is%%3Aissue+%s")
+        ("Internet archive" "https://web.archive.org/web/*/%s")
+        ("Project Gutenberg" "http://www.gutenberg.org/ebooks/search/?query=%s")
+        ("MDN" "https://developer.mozilla.org/en-US/search?q=%s")
+        ("Arch Wiki" "https://wiki.archlinux.org/index.php?search=%s&title=Special%3ASearch&wprov=acrw1")
+        ("AUR" "https://aur.archlinux.org/packages?O=0&K=%s")))
+#+end_src
+
+* Utilities
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+** Project Management
+*** Projectile
+
+#+begin_quote
+[[https://github.com/bbatsov/projectile][Projectile]] is a project interaction library for Emacs. It provides easy project management and navigation.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+(use-package! projectile
+  :defer t
+  :init
+  (setq projectile-project-search-path
+        '(("~/.dotfiles" . 0)
+          ("~/Projects" . 1)   ; My projects.
+          ("~/Code" . 1)))   ; Other's code.
+  :config
+  ;; Behavior
+  ;; - Disable automatic project discovery.
+  (setq projectile-auto-discover nil
+        projectile-track-known-projects-automatically nil)
+  ;; Keybinds
+  (map! :map project-prefix-map
+        :leader
+        :desc "List dirty projects"
+        "p l" #'projectile-browse-dirty-projects))
+#+end_src
+
+*** Magit
+
+#+begin_quote
+[[https://magit.vc][Magit]] is a powerful Git interface for Emacs. "It fills the glaring gap between the Git command-line interface and various GUIs, letting you perform trivial as well as elaborate version control tasks with just a couple of mnemonic key presses."
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! magit
+  :defer t
+  :config
+  (setq magit-repository-directories
+        '(("~/.dotfiles" . 0)
+          ("~/Projects" . 1)   ; My projects.
+          ("~/Code" . 1)))   ; Other's code.
+  (require 'magit-lint)) ;; Load my custom commit linter.
+#+end_src
+
+** Terminal
+*** Vterm
+
+#+begin_quote
+[[https://github.com/akermu/emacs-libvterm][Vterm]] is the most capable Emacs terminal emulator with unrivaled performance and compatibility.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! vterm
+  :defer t
+  :init
+  ;; Update Bash version on macOS if available.
+  (when (and (featurep :system 'macos)
+             (file-exists-p "/opt/homebrew/bin/bash"))
+    (setq vterm-shell "/opt/homebrew/bin/bash"))
+  :config
+  ;; Keybinds
+  ;; - Fix M-backspace keybind on macOS.
+  (evil-define-key* 'insert vterm-mode-map (kbd "<M-backspace>") #'vterm-send-meta-backspace))
+#+end_src
+
+** Directory
+*** Dired
+
+#+begin_quote
+Dired, the built-in directory editor is an interface to edit directories and their files.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! dired
+  :defer t)
+#+end_src
+
+*** Dirvish
+
+#+begin_quote
+Dirvish enhances Emacs’ built-in Dired mode, providing a visually appealing and highly customizable interface.
+
+More than just a facelift, Dirvish delivers a comprehensive suite of features, transforming Dired into a modern and fully functional file manager.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! dirvish
+  :defer t
+  :custom
+  (dirvish-quick-access-entries
+   '(("h" "~/" "Home")
+     ("d" "~/.dotfiles/" "Dotfiles")
+     ("o" "~/Documents/org/" "Org")))
+  :config
+  (set-popup-rule! "^ ?\\*\\(?:[Dd]irvish\\|SIDE :: \\).*" :width 0.15 :ignore t :quit 'current))
+#+end_src
+
+** Organization
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+*** Org
+
+#+begin_quote
+[[https://orgmode.org/][Org Mode]] describes itself as, "a GNU Emacs major mode for keeping notes, authoring documents, computational notebooks, literate programming, maintaining to-do lists, planning projects, and more — in a fast and effective plain text system."
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org
+  :defer t
+  :init
+  ;; Functions
+  (defun org-file (path) ;; Inspired by jwiegley.
+    "Return PATH expanded relative to org-directory.
+
+- Intended for use with file names.
+- PATH must not begin with a slash."
+    (expand-file-name path org-directory))
+  (defun org-subdirectory (subdir)
+    "Return SUBDIR expanded as directory name relative to org-directory."
+    (file-name-as-directory (org-file subdir)))
+  ;; Variables
+  (setq org-directory (file-truename "~/Documents/org/") ;; NOTE: trailing slash denotes a directory.
+        org-id-locations-file (expand-file-name "data/org-ids" org-directory)
+        org-inbox-directory (org-subdirectory "inbox")
+        org-inbox-file (expand-file-name (concat user-system-name ".org") org-inbox-directory))
+  :config
+  ;; Appearance
+  (setq org-default-notes-file org-inbox-file   ; Set default notes file to inbox file.
+        org-hide-leading-stars t                ; Hide leading stars.
+        org-ellipsis " ▾ "                      ; Use UTF-8 to indicate folded heading.
+        org-hidden-keywords nil                 ; Don't hide any TODO keywords.
+        org-image-actual-width '(0.9)           ; Use an in-buffer image width closer to export's
+        org-startup-with-inline-images t        ; Show images at startup.
+        org-startup-with-latex-preview nil      ; Don't show LaTeX on startup.
+        org-hide-emphasis-markers t             ; Hide syntax for emphasis. (Use org-appear)
+        org-src-preserve-indentation t          ; Keep language specific indenting in source blocks.
+        org-pretty-entities t)                  ; Show sub/superscript as UTF8.
+  (setq org-property-format "%-10s %s")
+  ;; Behavior
+  ;; - General
+  (setq org-list-allow-alphabetical t           ; Use alphabet as lists.
+        org-use-property-inheritance t          ; Sub-headings inherit parent properties.
+        org-imenu-depth 5                       ; Allow imenu to search deeply in org docs.
+        org-return-follows-link t               ; Allow return to open links.
+        org-insert-heading-respect-content nil  ; Insert heading here, not at end of list.
+        org-use-fast-todo-selection 'auto)      ; Method to select TODO heading keywords.
+  ;; - Logging
+  (setq org-log-done 'time                      ; Add completion time to DONE items.
+        org-log-into-drawer t                   ; Log times into a drawer to hide them.
+        org-log-reschedule t                    ; Log rescheduling of scheduled items.
+        org-log-redeadline t                    ; Log rescheduling of deadline items.
+        org-treat-insert-todo-heading-as-state-change t
+        org-log-states-order-reversed nil)      ; Log times reverse chronologically.
+  ;; - Habits
+  (add-to-list 'org-modules 'org-habit t)       ; Enable org-habit for tracking repeated actions.
+  ;; - Calendar
+  (setq evil-collection-calendar-want-org-bindings t) ; Use Evil keybinds to move in calendar.
+  ;; - Tags
+  ;; - Todos
+  (setq org-todo-keywords
+        '((sequence
+           "TODO(t!)"      ; Task that needs doing & is ready to do.
+           "NEXT(N!)"      ; Task that needs doing & is ready to do.
+           "|"             ; Required to get org-roam to ignore the following todo items.
+           "DONE(d!)"      ; Task successfully completed.
+           "KILL(k@/!)")   ; Task cancelled or not applicable.
+          (type
+           "WAIT(w@/!)"    ; Task on hold by somthing.
+           "SOMEDAY(s!)"   ; Task that could be done someday.
+           "MAYBE(m!)"     ; Task that I might do someday.
+           "BOOKMARK(b!)"  ; A link to be bookmarked.
+           "ISSUE(I!)"     ; An issue.
+           "IDEA(i!)"      ; An idea.
+           "NOTE(n!)"))    ; A fleeting note, in person, idea, or link.
+        org-todo-keyword-faces
+        '(("TODO"  . +org-todo-active)
+          ("NEXT" . +org-todo-active)
+          ("WAIT" . +org-todo-onhold)
+          ("SOMEDAY" . +org-todo-onhold)
+          ("MAYBE" . +org-todo-onhold)
+          ("PROJ" . +org-todo-project)
+          ("DONE" . +org-todo-cancel)
+          ("KILL" . +org-todo-cancel))))
+#+end_src
+
+*** Denote
+
+#+begin_quote
+[[https://github.com/protesilaos/denote][Denote]] is a simple note-taking tool for Emacs with an efficient file naming scheme.
+
+It's based on the idea that notes should follow a predictable and descriptive file-naming scheme.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./packages.el
+(package! denote
+  :recipe (:host github :repo "protesilaos/denote")
+  :pin "c98c74ec74fb6f0c894c5bf730d092d716e55b84")
+#+end_src
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! denote
+  :after org
+  :config
+  (setq denote-directory org-directory    ;; Use org-directory with denote.
+        org-id-ts-format denote-id-format ;; Use denote-id-format for org-id.
+        org-id-method 'ts                 ;; Use org-roam compatible front-matter.
+        ;; Use Denote ID as date to avoid the org timestamp which is missing seconds.
+        denote-date-format denote-id-format
+        denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n"))
+#+end_src
+
+*** Org Roam
+
+#+begin_quote
+[[https://github.com/org-roam/org-roam][Org Roam]] is a plain-text knowledge management system.
+
+It provides a solution for non-hierarchical note-taking and linking.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-roam
+  :defer t
+  :init
+  (setq org-roam-directory org-directory
+        org-roam-db-location (expand-file-name "data/org-roam.db" org-roam-directory))
+  :config
+  (require 'org-roam-file)       ;; Integrates org-roam with org-agenda and denote.
+  (require 'org-roam-include)    ;; Prevents certain files with org headings with org-id from being included in database.
+  (setq org-roam-db-node-include-function #'org-roam-include-p
+        org-roam-include-exclude-directories (list org-inbox-directory)
+        org-roam-include-exclude-files (list "agenda.org" "bookmarks.org"))
+  (setq org-roam-file-rename-exclude (append
+                                      '("~/Documents/org/resource/bookmarks.org"
+                                        "~/Documents/org/agenda.org"
+                                        "~/Documents/org/system-overview.org")
+                                      (directory-files org-inbox-directory 'full ".org$") nil))
+  (require 'org-roam-tags)       ;; Automatic tag insertion after node insertion.
+  (when (modulep! :ui modeline)
+    (require 'org-roam-modeline) ;; Integrate doom-modeline with the denote file naming scheme under org-roam.
+    (setq doom-modeline-buffer-file-name-function #'org-roam-modeline-process-buffer-file-name
+          doom-modeline-buffer-file-truename-function #'org-roam-modeline-process-buffer-file-name)))
+#+end_src
+
+*** Capture
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+**** Org Capture
+
+#+begin_quote
+Org Capture lets you quickly insert into your org documents.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-capture
+  :defer t
+  :config
+  (defun org-capture-id-get-created ()
+    "Create an ID and CREATED property for the current entry.
+
+Intended for use with `:before-finalize` keyword in `org-capture-templates`."
+    (org-entry-put (point) "CREATED" (format-time-string "[%F %a %R]" (date-to-time (org-id-get-create)))))
+
+  ;; NOTE: Does not support errors. Implicitly sets the id does not give option to pass in ID.
+  ;; TODO: Rewrite.
+  ;; TODO: Extend org-bookmark to use link capturing abilities.
+  ;; (setq +org-capture-fn #'org-roam-capture)
+  ;; (set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
+  ;; (set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
+  (setq org-capture-bookmark nil
+        org-capture-templates
+        '(("t" "Task" entry
+           (file org-inbox-file)
+           "* TODO %?"
+           :prepend t
+           :before-finalize (org-capture-id-get-created)
+           :empty-lines-before 1)
+          ("n" "Note" entry
+           (file org-inbox-file)
+           "* NOTE %?"
+           :prepend t
+           :before-finalize (org-capture-id-get-created)
+           :empty-lines-before 1)
+          ("b" "Bookmark" entry
+           (file org-inbox-file)
+           "* BOOKMARK %?"
+           :prepend t
+           :before-finalize (org-capture-id-get-created)
+           :empty-lines-before 1))))
+  ;; Hidden templates used in certain context.
+  ;; ("T" "Hidden Templated tasks.")
+  ;; ("Ta" "Hidden Agenda tasks.")
+  ;; ("Tah" "Task in Agenda Heading" entry
+  ;;  (file org-inbox-file)
+  ;;  "* TODO %?"
+  ;;  :prepend t
+  ;;  :before-finalize (org-id-get-create)
+  ;;  :empty-lines-before 1)))
+  ;; ))
+
+  ;; (defun my/org-capture-context () (if (string= (buffer-file-name) (expand-file-name "~/Documents/org/agenda.org")) t nil))
+  ;; (setq org-capture-templates-contexts
+  ;;       '(("t" ((not-in-file .  "~/Documents/org/agenda.org")))
+  ;;         ("n" ((not-in-file .  "~/Documents/org/agenda.org")))
+  ;;         ("v" (my/org-capture-context))
+  ;;         ("t" "v" (my/org-capture-context (in-file .  "~/Documents/org/agenda.org")))
+  ;;         ))
+  ;; ("t" "v" ((in-file . "~/Documents/org/agenda.org"))))
+  ;; ("t" "n" (my/org-capture-context (in-file .  "~/Documents/org/agenda.org")))
+  ;; Known to work:
+  ;; ("v" (my/org-capture-context (in-file .  "~/Documents/org/agenda.org")))
+
+  ;; )
+;; ("t" "v" ((in-file . "~/Documents/org/agenda.org")
+;; )
+#+end_src
+
+**** Org Roam Capture
+
+#+begin_quote
+Org Roam Capture extends the built-in Org Capture functionality with Org Roam specific template expansions, integration with node creation, and Org Roam Reference captures using Org Roam Ref Protocol!
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-roam-capture
+  :defer t
+  :config
+  (setq org-roam-capture-templates
+        '(("n" "node" plain "%?"
+           :target (file+head "node/${id}--${slug}.org"
+                              "#+title: ${title}\n")
+           :unnarrowed t)
+          ("p" "person" plain "%?"
+           :target (file+head "resource/person/${id}--${slug}.org"
+                              "#+title: ${title}\n#+filetags: :person:\n")))))
+#+end_src
+
+**** Org Roam Protocol
+
+#+begin_quote
+[[https://www.orgroam.com/manual.html#org_002droam_002dprotocol][Org Roam Protocol]] is an extension to org-roam for capturing content from external applications such as web browsers via org-protocol. It extends org-protocol with two more protocols: roam-node and roam-ref.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-roam-protocol
+  :defer t
+  :config
+  (setq org-roam-protocol-store-links t)
+  (setq org-roam-capture-ref-templates
+        '(("r" "ref" plain "*%?"
+           :target (file+head "resource/reference/${id}--${slug}.org" "#+title: ${title}\n\n${body}")
+           :unnarrowed t)
+          ("b" "Bookmark" plain "%?"
+           :target (file+olp "resource/bookmarks.org" ("*Testing"))
+           :unnarrowed t
+           :empty-lines-before 1))))
+#+end_src
+
+***** Setup
+****** Org Roam Protocol
+
+There's some basic steps to get this working, some people have had poor luck with it, thankfully I've automated most of it. ([[https://www.orgroam.com/manual.html#Mac-OS][Source]])
+
+******* Linux
+
+#+begin_src conf
+[Desktop Entry]
+Name=Org-Protocol
+Exec=emacsclient %u
+Icon=emacs-icon
+Type=Application
+Terminal=false
+MimeType=x-scheme-handler/org-protocol
+#+end_src
+
+#+begin_src shell
+update-desktop-database ~/.local/share/applications/
+#+end_src
+
+#+begin_src shell
+xdg-mime default org-protocol.desktop x-scheme-handler/org-protocol
+#+end_src
+
+#+begin_src
+open org-protocol://roam-ref\?template=b\&ref=test\&title=this
+#+end_src
+
+******* macOS
+
+This ugly function uses Applescript and Emacs-Lisp to generate and customize an application (=OrgProtocolClient.app=) to act as our scheme handler for =org-protocol:= links. It's automatically installed in the applications directory and appears to automatically register itself as the handler for our new URI. On macOS any application in =/Applications= that has a =CFBundleURLTypes= value in its =Info.plist= will be registered as a handler for the URL schemes.
+
+#+begin_src emacs-lisp :tangle no
+(defun my/org-protocol-make-app-handler ()
+  "Generate the Applescript application 'OrgProtocol.app' using Applescript and elisp."
+  ;; TODO: Create options to change where the application gets created.
+  (interactive)
+  ;; TODO: Consider prompting are you sure?
+  (let* ((script (expand-file-name "OrgProtocolClient.applescript" doom-user-dir))
+         (app "/Applications/OrgProtocolClient.app")
+         ;; NOTE: Once you've made the link succesffuly you should be able to update the app without a problem, otherwise, recursively run 'lsregister' until there's no app for that command. Could automate that eventually.
+         (plist (expand-file-name "Contents/Info.plist" app))
+         (emacsclient "/opt/homebrew/bin/emacsclient -n "))
+    (with-temp-file script
+      (insert "on open location this_URL\n")
+      (insert (format "\tset EC to \"%s\"\n" emacsclient))
+      (insert "\tset filePath to quoted form of this_URL\n")
+      (insert "\tdo shell script EC & filePath\n")
+      (insert "\ttell application \"Emacs\" to activate\n")
+      (insert "end open location\n"))
+    ;; Must be done for osacompile to recognize application extension.
+    (when (file-exists-p app) (delete-directory app t))
+    (let ((status (call-process-shell-command (format "osacompile -o %s %s" app script))))
+      (if (eq status 0)
+          (with-temp-file plist
+            (when (file-exists-p script) (delete-file script t))
+            (when-let  ((plist-buffer (get-file-buffer plist)))
+              (kill-buffer plist-buffer))
+            (insert-file-contents plist)
+            (goto-char (point-max))
+            (goto-char (re-search-backward "</dict>"))
+            (previous-line) (end-of-line) (newline)
+            (insert "\t<key>CFBundleURLTypes</key>\n")
+            (insert "\t<array>\n")
+            (insert "\t\t<dict>\n")
+            (insert "\t\t\t<key>CFBundleURLName</key>\n")
+            (insert "\t\t\t<string>org-protocol handler</string>\n")
+            (insert "\t\t\t<key>CFBundleURLSchemes</key>\n")
+            (insert "\t\t\t<array>\n")
+            (insert "\t\t\t\t<string>org-protocol</string>\n")
+            (insert "\t\t\t</array>\n")
+            (insert "\t\t</dict>\n")
+            (insert "\t</array>")
+            (write-region nil nil plist))
+        (error "Something wen't wrong with the compilation of the script!")))))
+#+end_src
+
+******* Bookmark
+
+To use org-protocol to interact with the browser we can use the following bookmarklet written in Javascript. Simply add this to your browser to be able to send web links and information from them to Org Mode!
+
+When using this with various browsers, you may need to enable the handler in the browser's settings manually. Some browsers just work and others require you to set it in the GUI settings, thankfully not in their text configuration.
+
+#+begin_src javascript :tangle no :exports none
+javascript:location.href =
+    'org-protocol://roam-ref?template=b&ref='
+    + encodeURIComponent(location.href)
+    + '&title='
+    + encodeURIComponent(document.title)
+    + '&body='
+    + encodeURIComponent(window.getSelection())
+#+end_src
+
+#+begin_src javascript :tangle no :exports none
+javascript:location.href = 'org-protocol://roam-ref?template=b&ref=' + encodeURIComponent(location.href) + '&title=' + encodeURIComponent(document.title) + '&body=' + encodeURIComponent(window.getSelection())
+#+end_src
+
+#+begin_src javascript :tangle no :exports none
+javascript:location.href = "org-protocol://roam-ref?template=b&ref=" + encodeURIComponent(location.href) + "&title=" + encodeURIComponent(document.title) + "&body=" + encodeURIComponent(window.getSelection())
+#+end_src
+
+#+begin_src javascript :tangle no :exports none
+javascript:(function()%7B
+#+end_src
+
+#+begin_src javascript :tangle no :exports none
+javascript:(function()%7Bvar%20url%20%3D%20document.URL%20%3B%0Avar%20title%20%3D%20document.title%20%3B%0Awindow.location.href%20%3D%20%22https%3A%2F%2Fwww.reddit.com%2Fr%2F%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20prompt(%22Subreddit%3A%20%22%2C%20%22%22)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20%22%2Fsubmit%3Ftitle%3D%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20title%20%2B%20%22%26url%3D%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2B%20url%20%3B%7D)()%3B
+#+end_src
+
+**** Org Roam Dailies
+
+#+begin_quote
+[[https://www.orgroam.com/manual.html#org_002droam_002ddailies][Org Roam Dailies]] is an extension to org-roam to provide journaling capabilities akin to org-journal but better integrated.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-roam-dailies
+  :defer t
+  :config
+  ;; (set-popup-rule! "\\([0-9]\\{8\\}\\)\\(T[0-9]\\{6\\}\\)" :side 'right :vslot 1 :width 60 :modeline nil :select t :quit nil)
+  (setq org-roam-dailies-directory "log/journal/"
+        ;; TODO: Investigate if this format will show up in Calendar. Due to org-time-string.org mention in help string.
+        org-roam-dailies-capture-templates
+        '(("d" "default" plain "%?"
+           :target (file+head "${id}--log.org" "#+title: Log\n#+date: %u\n#+filetags:\n\n* Log")))))
+#+end_src
+
+*** Agenda
+
+#+begin_quote
+Org Agenda collects, creates, and displays an overview of actionable tasks your org files.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-agenda
+  :defer t
+  :init
+  <<org-agenda-init>>
+  :config
+  <<org-agenda-config>>
+  (setq org-agenda-prefix-format
+        '((agenda . " %i %-12(org-roam-agenda-category)%?-12t% s")
+          (todo . " %i %-12(org-roam-agenda-category) ")
+          (tags . " %i %-12(org-roam-agenda-category) ")
+          (search . " %i %-12(org-roam-agenda-category) "))))
+#+end_src
+
+**** Appearance
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config :exports none
+;; Appearance
+#+end_src
+
+***** Habits
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
+      org-habit-show-all-today t)            ; Keep habits visible even if done.
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+;(setq +org-habit-min-width)
+;(setq +org-habit-graph-padding)
+;(setq +org-habit-graph-window-ratio)
+;(setq org-habit-graph-column)
+;(setq org-habit-today-glyph)
+;(setq org-habit-completed-glyph)
+;(setq org-habit-show-done-always-green)
+#+end_src
+
+***** Section Title Face
+
+Make agenda section titles slightly more bold.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(custom-set-faces!
+  '(org-agenda-structure
+    :height 1.3 :weight bold))
+#+end_src
+
+***** Remove Empty Agenda Sections
+
+If one of my agenda blocks has no information, I don't want to see it.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(defun noncog/agenda-remove-empty ()
+  "A simple function to remove empty agenda sections. Scans for blank lines.
+Blank sections defined by having two consecutive blank lines.
+Not compatible with the block separator."
+  (interactive)
+  (setq buffer-read-only nil)
+  ;; initializes variables and scans first line.
+  (goto-char (point-min))
+  (let* ((agenda-blank-line "[[:blank:]]*$")
+         (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
+         (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
+         (start-pos (point)))
+    ;; step until the end of the buffer
+    (while (not (eobp))
+      (forward-line 1)
+       (cond
+        ;; delete region if previously found two blank lines
+        ((when (> content-blank-line-count 1)
+          (delete-region start-pos (point))
+          (setq content-blank-line-count 0)
+          (setq start-pos (point))))
+        ;; if found a non-blank line
+        ((not (looking-at-p agenda-blank-line))
+         (setq content-line-count (1+ content-line-count))
+         (setq start-pos (point))
+         (setq content-blank-line-count 0))
+        ;; if found a blank line
+        ((looking-at-p agenda-blank-line)
+         (setq content-blank-line-count (1+ content-blank-line-count)))))
+    ;; final blank line check at end of file
+    (when (> content-blank-line-count 1)
+      (delete-region start-pos (point))
+      (setq content-blank-line-count 0)))
+  ;; return to top and finish
+  (goto-char (point-min))
+  (setq buffer-read-only t))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init
+(add-hook! 'org-agenda-finalize-hook #'noncog/agenda-remove-empty)
+#+end_src
+
+***** Tags Column
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(setq noncog/agenda-width 70)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(setq org-agenda-tags-column (+ 10 (* -1 noncog/agenda-width)))
+#+end_src
+
+***** My Custom Agenda
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(setq org-agenda-custom-commands
+      '(
+        ("o" "My Agenda" (
+         (agenda
+          ""
+          ( ;; Today
+           (org-agenda-overriding-header "Today\n")
+           (org-agenda-overriding-header " Agenda\n")
+           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+           (org-agenda-block-separator nil)
+           (org-agenda-format-date " %a, %b %-e")  ; american date format
+           (org-agenda-start-on-weekday nil)          ; start today
+           (org-agenda-start-day "+0d")               ; don't show previous days. Required to make org-agenda-later work.
+           (org-agenda-span 1)                        ; only show today
+           (org-scheduled-past-days 0)                ; don't show overdue
+           (org-deadline-warning-days 0)              ; don't show deadlines for the future
+           (org-agenda-time-leading-zero t)           ; unify times formatting
+           (org-agenda-remove-tags t)
+           (org-agenda-time-grid '((today remove-match) (800 1000 1200 1400 1600 1800 2000 2200) "" ""))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-prefix-format '((agenda . " %8:(org-roam-agenda-category) %-5t ")))
+           (org-agenda-dim-blocked-tasks nil)
+           ;; TODO: Fix inbox not-skipping... Since I no longer have that tag.
+           (org-agenda-skip-function '(noncog/skip-tag "inbox"))
+           (org-agenda-entry-types '(:timestamp :deadline :scheduled))
+           ))
+         (agenda
+          ""
+          ( ;; Next Three Days
+           (org-agenda-overriding-header "\nNext Three Days\n")
+           (org-agenda-overriding-header "")
+           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+           (org-agenda-block-separator nil)
+           (org-agenda-format-date " %a, %b %-e")
+           (org-agenda-start-on-weekday nil)
+           (org-agenda-start-day "+1d")
+           (org-agenda-span 3)
+           (org-scheduled-past-days 0)
+           (org-deadline-warning-days 0)
+           (org-agenda-time-leading-zero t)
+           (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+           (org-agenda-entry-types '(:deadline :scheduled))
+           (org-agenda-time-grid '((daily weekly) () "" ""))
+           (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-dim-blocked-tasks nil)
+           ))
+         (agenda
+          ""
+          ( ;; Upcoming Deadlines
+           (org-agenda-overriding-header "\n Coming Up\n")
+           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+           (org-agenda-block-separator nil)
+           (org-agenda-format-date " %a, %b %-e")
+           (org-agenda-start-on-weekday nil)
+           (org-agenda-start-day "+4d")
+           (org-agenda-span 28)
+           (org-scheduled-past-days 0)
+           (org-deadline-warning-days 0)
+           (org-agenda-time-leading-zero t)
+           (org-agenda-time-grid nil)
+           ;(org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+           (org-agenda-prefix-format '((agenda . " %8:(org-roam-agenda-category) %-5t ")))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+           (org-agenda-entry-types '(:deadline :scheduled))
+           (org-agenda-show-all-dates nil)
+           (org-agenda-dim-blocked-tasks nil)
+           ))
+         (agenda
+          ""
+          ( ;; Past Due
+           (org-agenda-overriding-header "\n Past Due\n")
+           (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+           (org-agenda-block-separator nil)
+           (org-agenda-format-date " %a, %b %-e")
+           (org-agenda-start-on-weekday nil)
+           (org-agenda-start-day "-60d")
+           (org-agenda-span 60)
+           (org-scheduled-past-days 60)
+           (org-deadline-past-days 60)
+           (org-deadline-warning-days 0)
+           (org-agenda-time-leading-zero t)
+           (org-agenda-time-grid nil)
+           (org-agenda-prefix-format '((agenda . "  %?-9:(org-roam-agenda-category)%t ")))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+           (org-agenda-entry-types '(:deadline :scheduled))
+           (org-agenda-show-all-dates nil)
+           (org-agenda-dim-blocked-tasks nil)
+           ))
+         (todo
+          ""
+          ( ;; Important Tasks No Date
+           (org-agenda-overriding-header "\n Important Tasks - No Date\n")
+           (org-agenda-block-separator nil)
+           (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+           (org-agenda-block-separator nil)
+           (org-agenda-time-grid nil)
+           (org-agenda-prefix-format '((todo . "  %?:(org-roam-agenda-category) ")))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-dim-blocked-tasks nil)
+           ))
+         (todo
+          ""
+          ( ;; Next
+           (org-agenda-overriding-header "\n Next\n")
+           (org-agenda-block-separator nil)
+           (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("NEXT" "STRT")))
+           (org-agenda-block-separator nil)
+           (org-agenda-time-grid nil)
+           (org-agenda-prefix-format '((todo . "  %?:(org-roam-agenda-category) ")))
+           ;(org-agenda-todo-keyword-format "%-4s")
+           (org-agenda-dim-blocked-tasks nil)
+           ))
+         (tags-todo
+          "inbox"
+          ( ;; Inbox
+           (org-agenda-overriding-header (propertize "\n Inbox\n" 'help-echo "Effort: 'c e' Refile: 'SPC m r'")) ; Ads mouse hover tooltip.
+           ;(org-agenda-remove-tags t)
+           (org-agenda-block-separator nil)
+           (org-agenda-prefix-format "  %?-4e ")
+           ;(org-agenda-todo-keyword-format "%-4s")
+           ))
+         ))))
+#+end_src
+
+***** Agenda Popup Window
+
+I use Doom's popup window rules to create a dedicated agenda window on the right side.
+
+I use a custom width variable to ensure the formatting as I can't trust auto-align.
+
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+;;(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit t)
+;; TODO: Possibly extend this for named agendas to appear in side window.
+(set-popup-rule! "^\\*Org Agenda\\*" :side 'right :vslot 1 :width 60 :modeline nil :select t :quit nil)
+#+end_src
+
+**** Behavior
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config :exports none
+;; Behavior
+#+end_src
+
+***** Logging
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(setq org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
+#+end_src
+
+**** Keybinds
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init :exports none
+;; Keybinds
+#+end_src
+
+***** My Custom Agenda Launcher
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init
+(defun noncog/my-agenda ()
+  "My custom agenda launcher."
+  (interactive)
+  (org-agenda nil "o"))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init
+(map! :leader :desc "My agenda" "o a o" #'noncog/my-agenda)
+#+end_src
+
+**** Helpers
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init :exports none
+;; Helpers
+#+end_src
+
+***** Find and Skip Tags
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(defun noncog/skip-tag (tag)
+  "Skip trees with this tag."
+  (let* ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
+         (current-headline (or (and (org-at-heading-p) (point))
+                               (save-excursion (org-back-to-heading)))))
+    (if (member tag (org-get-tags current-headline))
+        next-headline nil)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-config
+(defun noncog/skip-all-but-this-tag (tag)
+  "Skip trees that are not this tag."
+  (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+    (if (re-search-forward (concat ":" tag ":") subtree-end t)
+        nil          ; tag found, do not skip
+      subtree-end))) ; tag not found, continue after end of subtree
+#+end_src
+
+***** Find Primary org-agenda file.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref org-agenda-init
+(defun org-agenda-primary-file ()
+  "Return primary agenda file."
+  (org-file "agenda.org"))
+#+end_src
+
+*** Org Refile
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-refile
+  :config
+  (setq org-outline-path-complete-in-steps nil
+        org-refile-use-outline-path 'file
+        org-log-refile t                       ; Log when a heading is refiled.
+        org-refile-allow-creating-parent-nodes 'confirm
+        org-refile-targets '((nil :maxlevel . 3)
+                            (org-agenda-primary-file :maxlevel . 5)
+                            (org-agenda-files :maxlevel . 3))))
+#+end_src
+
+*** Org Modern
+
+#+begin_quote
+[[https://github.com/minad/org-modern][Org Modern]] implements a “modern” style for your Org buffers using font locking and text properties.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-modern
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
+  :config
+  (setq org-modern-star nil
+        org-modern-hide-stars nil
+        org-modern-todo t
+        org-modern-todo-faces nil
+        org-modern-tag t
+        org-modern-tag-faces nil
+        org-modern-priority t
+        org-modern-progress nil
+        org-modern-timestamp t
+        org-modern-block-name nil
+        org-modern-table-vertical 1
+        org-modern-table-horizontal 0.2))
+#+end_src
+
+*** Org Appear
+
+#+begin_quote
+[[https://github.com/awth13/org-appear][Org Appear]] makes invisible Org elements such as emphasis markers magically appear!
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-appear-autokeywords nil         ; Don't show hidden todo-keywords.
+        org-appear-autolinks nil            ; Don't expand link markup.
+        org-appear-autoemphasis t           ; Show emphasis markup.
+        org-appear-autosubmarkers t         ; Show sub/superscript
+        org-appear-autoentities t           ; Show LaTeX like Org pretty entities.
+        org-appear-autolinks nil            ; Shows Org links.
+        org-appear-inside-latex nil))       ; Don't show inside latex.
+#+end_src
+
+*** TOC Org
+
+#+begin_quote
+[[https://github.com/snosov1/toc-org][TOC-Org]] creates an up-to-date table of contents in an Org file, useful primarily for READMEs on GitHub.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! toc-org
+  :defer t
+  :config
+  (setq org-toc-default-depth 3)
+  ;; Extend org-toc to add folding to table of contents using HTML.
+  (defconst toc-org-fold-tag-regexp ":fold:\\(\\(\s+-->\\)?$\\|[^ ]*?:\\(\s+-->\\)?$\\)"
+    "Regexp to find the heading with the :fold: tag")
+  (defun toc-org-insert-toc (&optional dry-run)
+    "Update table of contents in heading tagged :TOC:.
+
+When DRY-RUN is non-nil, the buffer is not modified, only the
+internal hash-table is updated to enable `org-open-at-point' for
+TOC links.
+
+The table of contents heading may also be set with these tags:
+
+- :TOC_#: Sets the maximum depth of the headlines in the table of
+          contents to the number given, e.g. :TOC_3: for
+          3 (default for plain :TOC: tag is 2).
+
+- :TOC_#_gh: Sets the maximum depth as above and also uses
+             GitHub-style anchors in the table of contents (the
+             default).  The other supported style is :TOC_#_org:,
+             which is the default org style.
+
+Headings may be excluded from the TOC with these tags:
+
+- :noexport: Exclude this heading.
+
+- :noexport_#: Exclude this heading's children with relative
+               level greater than number given (e.g. :noexport_1:
+               causes all child headings to be excluded).
+
+Note that :noexport: is also used by Org-mode's exporter, but
+not :noexport_#:."
+    (interactive)
+    (save-excursion
+      (goto-char (point-min))
+      (let* ((case-fold-search t)
+             (markdown-syntax-p (derived-mode-p 'markdown-mode))
+             (heading-symbol-regexp (if markdown-syntax-p "^#" "^\\*")))
+        ;; find the first heading with the :TOC: tag
+        (when (re-search-forward (concat heading-symbol-regexp toc-org-toc-org-regexp) (point-max) t)
+          (let* ((tag (match-string 2))
+                 ;; is there a better way to convert char to number?
+                 (depth (if tag (- (aref tag 1) ?0) toc-org-max-depth))
+                 (hrefify-tag (if (and tag (>= (length tag) 4))
+                                  (downcase (substring tag 3)) toc-org-hrefify-default))
+                 (hrefify-string (concat "toc-org-hrefify-" hrefify-tag))
+                 (hrefify (intern-soft hrefify-string))
+                 (put-quote (save-match-data (string-match toc-org-quote-tag-regexp (match-string 0))))
+                 (put-fold (save-match-data (string-match toc-org-fold-tag-regexp (match-string 0))))
+                 (toc-prefix (if put-quote (if markdown-syntax-p "```\n" "#+BEGIN_QUOTE\n") ""))
+                 (toc-suffix (if put-quote (if markdown-syntax-p "```\n" "#+END_QUOTE\n") "")))
+            (if hrefify
+                (let ((new-toc
+                       (concat (if put-fold "#+html:<details><summary>Table of Contents</summary>\n" "")
+                               toc-prefix
+                               (toc-org-hrefify-toc
+                                (toc-org-flush-subheadings (toc-org-raw-toc markdown-syntax-p) depth)
+                                hrefify
+                                markdown-syntax-p
+                                (when toc-org-hrefify-hash
+                                  (clrhash toc-org-hrefify-hash)))
+                               toc-suffix
+                               (if put-fold "#+html:</details>\n" ""))))
+                  (unless dry-run
+                    (newline (forward-line 1))
+                    ;; skip drawers
+                    (let ((end (save-excursion ;; limit to next heading
+                                 (search-forward-regexp heading-symbol-regexp (point-max) 'skip))))
+                      (while (re-search-forward toc-org-drawer-regexp end t)
+                        (skip-chars-forward "[:space:]")))
+                    (beginning-of-line)
+                    ;; insert newline if TOC is currently empty
+                    (when (looking-at heading-symbol-regexp)
+                      (open-line 1))
+                    ;; find TOC boundaries
+                    (let ((beg (point))
+                          (end
+                           (save-excursion
+                             (when (search-forward-regexp heading-symbol-regexp (point-max) 'skip)
+                               (forward-line -1))
+                             (end-of-line)
+                             (point))))
+                      ;; update the TOC, but only if it's actually different
+                      ;; from the current one
+                      (unless (equal (buffer-substring-no-properties beg end) new-toc)
+                        (delete-region beg end)
+                        (insert new-toc)))))
+              (message (concat "Hrefify function " hrefify-string " is not found")))))))))
+#+end_src
+
+*** Org Contacts
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-contacts
+  :config
+  (setq org-contacts-directory (org-subdirectory "person")))
+#+end_src
+
+*** Org Ql
+
+#+begin_quote
+[[https://github.com/alphapapa/org-ql][Org QL]] provides a query language for Org files. It offers two syntax styles: Lisp-like sexps and search engine-like keywords.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./packages.el
+(package! org-ql
+  :recipe (:host github :repo "alphapapa/org-ql")
+  :pin "98c62ab0a6c084ae4132110e24d9fe1ace91d363")
+#+end_src
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-ql
+  :defer t
+  :after denote)
+
+(use-package! org-ql-search
+  :after org-roam
+  :autoload org-dblock-write:org-ql)
+#+end_src
+
+*** Org Sidebar
+
+#+begin_quote
+[[https://github.com/alphapapa/org-sidebar][Org Sidebar]] presents helpful sidebars for Org buffers. Sidebars are customizable using [[https://github.com/alphapapa/org-ql][org-ql]] queries and [[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] grouping.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./packages.el
+(package! org-sidebar
+  :recipe (:host github :repo "alphapapa/org-sidebar")
+  :pin "1e06d1b4ab5f0d09301712cdecb757c9437a7179")
+#+end_src
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! org-sidebar
+  :after org)
+#+end_src
+
+** Ebooks
+*** PDF Tools
+* Languages
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+** Shell
+*** Sh-Script
+
+#+begin_quote
+Sh-Script is a built-in library that provides a major mode for editing shell scripts.
+#+end_quote
+
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
+(use-package! sh-script
+  :defer t
+  :init
+  <<sh-script-init>>
+  :config
+  <<sh-script-config>>)
+#+end_src
+
+**** Behavior
+***** Ensure Shell is Bash
+
+Load my own file template specifying Bash explicitly.
+
+For some reason, the detection of the correct shell appears to work, except in templates.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref sh-script-init
+(set-file-template! "\\.sh" :trigger "__sh" :mode 'sh-mode)
+#+end_src
+
+***** Formatter Rules (shfmt)
+
+Doom provides some basic arguments to [[https://github.com/mvdan/sh][shfmt]] but those aren't enough for my preferences so I add my own.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref sh-script-config
+(set-formatter! 'shfmt
+  '("shfmt" "-filename" filepath "-ci" "-bn" "-sr" "-ln"
+    (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix"))
+    (when apheleia-formatters-respect-indent-level
+      (list "-i"
+            (number-to-string
+             (cond
+              (indent-tabs-mode 0)
+              ((boundp 'sh-basic-offset)
+               sh-basic-offset)
+              (t 4))))))
+  :modes '(sh-mode))
+#+end_src
+
+***** Open Bash Info Page
+
+This is a simple interactive function that I call to quickly jump to the info page for Bash.
+
+#+begin_src emacs-lisp :tangle no :noweb-ref sh-script-config
+(defun my/bash-info-page ()
+  "Go to the Bash info page."
+  (interactive)
+  (info "Bash"))
+#+end_src
+
+* Experiments
