@@ -459,7 +459,7 @@ It breaks on macOS and I use window managers for the same functionality.
 [[https://github.com/seagle0128/doom-modeline][Doom-Modeline]] is a fancy and fast mode-line inspired by minimalism design.
 #+end_quote
 
-#+begin_src emacs-lisp :tangle ./config.el :noweb yes :exports none
+#+begin_src emacs-lisp :tangle ./config.el
 (use-package! doom-modeline
   :defer t
   :config
