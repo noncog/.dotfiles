@@ -248,3 +248,4 @@ switch
 inherit
 modularize
 restore
+enforce
