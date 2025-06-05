@@ -77,7 +77,7 @@ function dotfiles::deploy() {
                 --ignore='.config/nitrogen' \
                 --ignore='.config/i3' \
                 --ignore='.config/dunst' \
-                --ignore='.config/barrier' \
+                --ignore='.config/deskflow' \
                 --ignore='.config/emacs'
             ;;
         linux-gnu*)
