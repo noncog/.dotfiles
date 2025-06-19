@@ -46,7 +46,7 @@ for_window [class="Emacs" tiling] move container to workspace $emacs
 # Firefox
 set $brave 12
 for_window [class="(?i)brave-browser" tiling] move container to workspace $brave
-set $brave_command "flatpak run com.brave.Browser"
+set $brave_command "flatpak run com.brave.Browser --password-store=basic"
 # Kitty
 for_window [class="kitty-main-float"] floating toggle, resize set 50 ppt 50 ppt, move position center, move scratchpad, sticky enable
 # Discord

@@ -359,10 +359,10 @@ set $brave 12
 for_window [class="(?i)brave-browser" tiling] move container to workspace $brave
 #+end_src
 
-Set adjustable command for launching firefox with explicit profiles and settings.
+Set adjustable command for launching Brave with explicit settings.
 
 #+begin_src conf :noweb-ref settings-firefox
-set $brave_command "flatpak run com.brave.Browser"
+set $brave_command "flatpak run com.brave.Browser --password-store=basic"
 #+end_src
 
 Create launching, focus, and moving binds to send windows to the dedicated workspace.
