@@ -1,5 +1,5 @@
 [Unit]
-Description=Polybar, a status bar for i3wm.service
+Description=Polybar, a status bar for X window managers
 PartOf=graphical-session.target
 
 Requisite=i3wm.service
