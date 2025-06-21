@@ -6,7 +6,7 @@ Requisite=i3wm.service
 After=i3wm.service
 
 [Service]
-ExecStart=/usr/bin/polybar default_bar
+ExecStart=/usr/bin/polybar default
 ExecStop=/usr/bin/polybar-msg cmd quit
 Restart=on-failure
 
