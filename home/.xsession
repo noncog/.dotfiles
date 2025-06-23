@@ -31,4 +31,10 @@ elif [ "$HOSTNAME" = "Europa" ]; then
     xrandr --auto --dpi 96
 fi
 
+#echo "$SSH_AUTH_SOCK" "$SSH_AGENT_PID"
+
+if [ -x "/usr/bin/dbus-update-activation-environment" ]; then
+        dbus-update-activation-environment --verbose --systemd SSH_AUTH_SOCK SSH_AGENT_PID
+fi
+
 exec systemctl --user start --wait xsession.target
