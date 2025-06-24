@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 # This script initializes my X session as a systemd target remaining compatible
 # with the default startx script used by Debian. This allows the use of systemd
 # targets to orchestrate the building of a desktop environment. Eventually,
@@ -19,10 +19,6 @@
 # NOTE: The shebang is also hard-coded currently.
 export XDG_SESSION_TYPE="x11"
 
-xmodmap -e "clear lock"
-xmodmap -e "clear control"
-xmodmap -e "keycode 66 = Control_L"
-xmodmap -e "add control = Control_L"
 xset r rate 300 25
 
 if [ "$HOSTNAME" = "Callisto" ]; then
