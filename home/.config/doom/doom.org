@@ -500,7 +500,7 @@ Always use home directory as =default-directory= instead of recent file/project.
 [[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information.
 #+end_quote
 
-#+begin_src emacs-lisp :tangle ./config.el
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
 (use-package! helpful
   :defer t
   :config
@@ -551,7 +551,7 @@ By default, Doom centers the page when you visit a source file. Often, I can't s
 [[https://github.com/minad/vertico][Vertico]] provides a performant and compatible vertical completion UI for Emacs. It extends the minibuffer and =completing-read= commands.
 #+end_quote
 
-#+begin_src emacs-lisp :tangle ./config.el
+#+begin_src emacs-lisp :tangle ./config.el :noweb yes
 (use-package! vertico
   :defer t
   :config
