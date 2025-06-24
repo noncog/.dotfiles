@@ -195,8 +195,8 @@
   :init
   (setq projectile-project-search-path
         '(("~/.dotfiles" . 0)
-          ("~/Projects" . 1)   ; My projects.
-          ("~/Code" . 1)))   ; Other's code.
+          ("~/dev/projects" . 1)   ; My projects.
+          ("~/dev/source" . 1)))   ; Other's code.
   :config
   ;; Behavior
   ;; - Disable automatic project discovery.
@@ -213,8 +213,8 @@
   :config
   (setq magit-repository-directories
         '(("~/.dotfiles" . 0)
-          ("~/Projects" . 1)   ; My projects.
-          ("~/Code" . 1)))   ; Other's code.
+          ("~/dev/projects" . 1)   ; My projects.
+          ("~/dev/source" . 1)))   ; Other's code.
   (require 'magit-lint)) ;; Load my custom commit linter.
 
 (use-package! vterm
@@ -238,7 +238,7 @@
   (dirvish-quick-access-entries
    '(("h" "~/" "Home")
      ("d" "~/.dotfiles/" "Dotfiles")
-     ("o" "~/Documents/org/" "Org")))
+     ("o" "~/documents/org/" "Org")))
   :config
   (set-popup-rule! "^ ?\\*\\(?:[Dd]irvish\\|SIDE :: \\).*" :width 0.15 :ignore t :quit 'current))
 
@@ -256,7 +256,7 @@
     "Return SUBDIR expanded as directory name relative to org-directory."
     (file-name-as-directory (org-file subdir)))
   ;; Variables
-  (setq org-directory (file-truename "~/Documents/org/") ;; NOTE: trailing slash denotes a directory.
+  (setq org-directory (file-truename "~/documents/org/") ;; NOTE: trailing slash denotes a directory.
         org-id-locations-file (expand-file-name "data/org-ids" org-directory)
         org-inbox-directory (org-subdirectory "inbox")
         org-inbox-file (expand-file-name (concat user-system-name ".org") org-inbox-directory))
