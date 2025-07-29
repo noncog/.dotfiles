@@ -29,8 +29,8 @@ function settings::global() {
         && alias dotfiles='~/.dotfiles/bin/dotfiles'
     [ -x ~/.config/emacs/bin/doom ] \
         && alias doom='~/.config/emacs/bin/doom'
-    [ -x ~/.local/src/emacs-29/src/emacs ] \
-        && alias memacs='~/.local/src/emacs-29/src/emacs --no-site-lisp --no-x-resources --no-site-file --no-splash --init-directory="~/.dotfiles/home/.config/emacs/"'
+    [ -x ~/.local/src/emacs-30/src/emacs ] \
+        && alias memacs='~/.local/src/emacs-30/src/emacs --no-site-lisp --no-x-resources --no-site-file --no-splash --init-directory="~/.dotfiles/home/.config/emacs/"'
 
     alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
 
