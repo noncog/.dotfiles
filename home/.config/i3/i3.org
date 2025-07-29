@@ -125,11 +125,11 @@ mode "Emacs" {
   - [[#borders][Borders]]
 - [[#appearance][Appearance]]
   - [[#font][Font]]
-  - [[#color-theme][Color Theme]]
-  - [[#window-gaps][Window Gaps]]
-  - [[#window-borders][Window Borders]]
+  - [[#theme][Theme]]
+  - [[#gaps-1][Gaps]]
+  - [[#borders-1][Borders]]
 - [[#keybinds][Keybinds]]
-  - [[#modifier-keys][Modifier Keys]]
+  - [[#modifiers][Modifiers]]
   - [[#directional-keys][Directional Keys]]
   - [[#focus-windows][Focus Windows]]
   - [[#move-windows][Move Windows]]
@@ -182,7 +182,7 @@ hide_edge_borders smart
 font pango:Fira Code 11
 #+end_src
 
-** Color Theme
+** Theme
 
 #+begin_src conf :noweb-ref appearance-theme
 # class                 border  bground text    indicator child_border
@@ -194,14 +194,14 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 client.background       #F8F8F2
 #+end_src
 
-** Window Gaps
+** Gaps
 
 #+begin_src conf :noweb-ref appearance-gaps
 gaps outer 0px
 gaps inner 0px
 #+end_src
 
-** Window Borders
+** Borders
 
 #+begin_src conf :noweb-ref appearance-borders
 default_border pixel 1
@@ -209,7 +209,7 @@ default_floating_border pixel 1
 #+end_src
 
 * Keybinds
-** Modifier Keys
+** Modifiers
 
 #+begin_src conf :noweb-ref variables-modifiers
 set $mod Mod4
@@ -270,7 +270,7 @@ bindsym $mod+Shift+6 move container to workspace 6
 bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+10 move container to workspace 10
+bindsym $mod+Shift+0 move container to workspace 10
 #+end_src
 
 ** Split Windows
@@ -291,7 +291,7 @@ bindsym $mod+Shift+q kill
 Disabled currently, as I need to experiment with this workflow more and consider its integration with other workflows. Example: i3fyra.
 
 #+begin_src conf :noweb-ref keybinds-global-layout
-#bindsym $mod+grave layout toggle splith splitv tabbed
+bindsym $mod+grave layout toggle splith splitv tabbed
 #+end_src
 
 ** Floating Window Controls
