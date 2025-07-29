@@ -361,9 +361,9 @@
                                       (directory-files org-inbox-directory 'full ".org$") nil))
   (require 'org-roam-tags)       ;; Automatic tag insertion after node insertion.
   (when (modulep! :ui modeline)
-    (require 'org-roam-modeline) ;; Integrate doom-modeline with the denote file naming scheme under org-roam.
-    (setq doom-modeline-buffer-file-name-function #'org-roam-modeline-process-buffer-file-name
-          doom-modeline-buffer-file-truename-function #'org-roam-modeline-process-buffer-file-name)))
+    (require 'org-roam-modeline))) ;; Integrate doom-modeline with the denote file naming scheme under org-roam.
+;; (setq doom-modeline-buffer-file-name-function #'org-roam-modeline-process-buffer-file-name
+;;       doom-modeline-buffer-file-truename-function #'org-roam-modeline-process-buffer-file-name)))
 
 (defvar org-bookmark--format-hash (make-hash-table :test #'equal)
   "A hash of (DOMAIN TITLE-FORMATTER) to be applied to link titles.")
