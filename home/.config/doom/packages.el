@@ -15,7 +15,7 @@
 
 (package! denote
   :recipe (:host github :repo "protesilaos/denote")
-  :pin "c98c74ec74fb6f0c894c5bf730d092d716e55b84")
+  :pin "3bb05f212cc29fa6953e6d703e5e0c2e982882a9")
 
 (package! org-ql
   :recipe (:host github :repo "alphapapa/org-ql")
