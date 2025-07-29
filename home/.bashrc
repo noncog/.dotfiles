@@ -179,6 +179,7 @@ function settings::prompt() {
     # if terminal natively supports color, enable colored prompt.
     # otherwise, check for color capability for terminals that
     # support it but don't expose its capability by default.
+    local color_prompt
     case "$TERM" in
         xterm-color | *-256color | xterm-kitty)
             color_prompt=yes
@@ -196,8 +197,6 @@ function settings::prompt() {
     else
         PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     fi
-
-    unset color_prompt
 
     # --title
     # if an xterm set the title to user@host:dir
