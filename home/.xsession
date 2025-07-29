@@ -19,6 +19,7 @@
 # NOTE: The shebang is also hard-coded currently.
 export XDG_SESSION_TYPE="x11"
 
+# TODO: Fix losing this on keyboard disconnect.
 xset r rate 300 25
 
 if [ "$HOSTNAME" = "Callisto" ]; then
