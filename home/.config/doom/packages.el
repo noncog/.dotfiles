@@ -17,6 +17,10 @@
   :recipe (:host github :repo "protesilaos/denote")
   :pin "3bb05f212cc29fa6953e6d703e5e0c2e982882a9")
 
+(package! orca
+  :recipe (:host github :repo "abo-abo/orca")
+  :pin "0687f416a5573f63b691d384454f5a793266ed97")
+
 (package! org-ql
   :recipe (:host github :repo "alphapapa/org-ql")
   :pin "98c62ab0a6c084ae4132110e24d9fe1ace91d363")
