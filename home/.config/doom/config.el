@@ -1,18 +1,29 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
+;;; Initialization
+
+;; Set user variables.
+(when (string= user-login-name "noncog")
+  (setq user-full-name "noncog"
+        user-mail-address "noncog@github.com"))
+
+;; Extend user variables.
 (defconst user-home-directory (getenv "HOME")
   "Filepath of the user's home directory.")
 
 (defconst user-system-name (string-remove-suffix ".local" (system-name))
-    "Name of the user's system.")
+  "Name of the user's system.")
 
-(add-to-list 'load-path (expand-file-name "lisp" doom-user-dir))
+;; Setup per-system settings using a basic wrapper around alist.
+(defvar system-settings-list nil
+  "An associative list holding per-system settings for variables.")
 
-(use-package! system-settings
-  :config
-  (setq system-settings-list
-      (append
-       ;; Put system-specific settings at the front so they're found first.
+(defun system-settings-get (setting)
+  "Return the first value found for `SETTING' in `system-settings-list'."
+  (alist-get setting system-settings-list))
+
+(setq system-settings-list
+      (append ;; Put system-specific settings at the front (found first).
        (when (string= user-system-name "Ganymede")
          '((wm-command . "yabai -m window --")
            (wm-focus-command . "focus")
@@ -21,30 +32,47 @@
            (wm-direction-right . "east")
            (wm-direction-up . "north")
            (wm-direction-down . "south")))
-       ;; Put default settings after system-specific settings.
+       ;; Put default settings at the end.
        '((wm-command . "i3-msg ")
          (wm-focus-command . "focus")
          (wm-move-command . "move")
          (wm-direction-left . "left")
          (wm-direction-right . "right")
          (wm-direction-up . "up")
-         (wm-direction-down . "down")))))
+         (wm-direction-down . "down"))))
 
-(when (string= user-login-name "noncog")
-  (setq user-full-name "noncog"
-        user-mail-address "noncog@github.com"))
+;; Update load-path to include 'lisp' subdirectory of Doom config directory.
+(add-to-list 'load-path (expand-file-name "lisp" doom-user-dir))
 
-(global-auto-revert-mode 1)
+;; Initialize macOS setup.
+(when (featurep :system 'macos)
+  ;; Unify macOS keybinds (based on current OS keybind settings) with
+  ;; standard Linux layout. Keep your Linux muscle memory on a Mac.
+  (setq mac-command-modifier 'control ; Maps Command -> Control
+        mac-control-modifier 'meta    ; Maps Control -> Alt (Meta)
+        mac-option-modifier 'super)  ; Maps Option -> Super
+  (when (>= emacs-major-version 29)
+    ;; Setup frame to use rounded corners natively on Emacs 29+.
+    (add-to-list 'default-frame-alist '(undecorated-round . t))))
 
-(setq evil-want-fine-undo t)
+;; Initialize global behavior.
 
-(global-subword-mode 1)
+;; NOTE From autorevert.el, more settings available.
+(global-auto-revert-mode 1)       ; Revert buffer to show file changes on disk.
+(global-subword-mode 1)           ; Enable iterating through camelcase words.
+(setq-default x-stretch-cursor t) ; Show cursor (point) as wide as glyph under it.
 
-(setq evil-kill-on-visual-paste nil)
+;; TODO Verify all.
+(use-package! evil-vars
+  :defer t
+  :config
+  (setq evil-want-fine-undo t
+        evil-split-window-below t
+        evil-vsplit-window-right t
+        evil-kill-on-visual-paste nil) ; TODO Add note.
+  (setq-default evil-scroll-count 10)) ; Reduce scroll count instead of scroll by pages.
 
-(setq evil-split-window-below t
-      evil-vsplit-window-right t)
-
+;; Unify interal and external window management keybinds.
 (use-package! wm
   :config
   (setq wm-command (system-settings-get 'wm-command)
@@ -56,69 +84,58 @@
         wm-direction-down (system-settings-get 'wm-direction-down))
   ;; I use super as my window manager modifier key.
   ;; These binds allow the window manager windowing keybinds to work within Emacs.
-  (map! (:map global-map
-              "s-h" #'wm-focus-win-left
-              "s-j" #'wm-focus-win-down
-              "s-k" #'wm-focus-win-up
-              "s-l" #'wm-focus-win-right
-              "s-H" #'wm-move-win-left
-              "s-J" #'wm-move-win-down
-              "s-K" #'wm-move-win-up
-              "s-L" #'wm-move-win-right
-              "s-=" #'balance-windows
-              "s-v" #'evil-window-vsplit
-              "s-s" #'evil-window-split
-              "s-Q" #'evil-quit))
-  ;; These binds allow you to use Doom's window management keybinds from Emacs to windows outside of it.
-  (map! :leader "w h" #'wm-focus-win-left
-        "w j" #'wm-focus-win-down
-        "w k" #'wm-focus-win-up
-        "w l" #'wm-focus-win-right
-        "w H" #'wm-move-win-left
-        "w J" #'wm-move-win-down
-        "w K" #'wm-move-win-up
-        "w L" #'wm-move-win-right)
-  ;; These binds allow you to resize windows directionally.
-  ;; These echo the window manager functionality but are not fully integrated yet.
-  (map! "C-s-h" #'wm-resize-win-left
-        "C-s-j" #'wm-resize-win-down
-        "C-s-k" #'wm-resize-win-up
-        "C-s-l" #'wm-resize-win-right))
+  (map!
+   "C-s-h" #'wm-resize-win-left
+   "C-s-j" #'wm-resize-win-down
+   "C-s-k" #'wm-resize-win-up
+   "C-s-l" #'wm-resize-win-right
+   (:map global-map
+         "s-h" #'wm-focus-win-left
+         "s-j" #'wm-focus-win-down
+         "s-k" #'wm-focus-win-up
+         "s-l" #'wm-focus-win-right
+         "s-H" #'wm-move-win-left
+         "s-J" #'wm-move-win-down
+         "s-K" #'wm-move-win-up
+         "s-L" #'wm-move-win-right
+         "s-=" #'balance-windows
+         "s-v" #'evil-window-vsplit
+         "s-s" #'evil-window-split
+         "s-Q" #'evil-quit)
+   (:leader "w h" #'wm-focus-win-left
+            "w j" #'wm-focus-win-down
+            "w k" #'wm-focus-win-up
+            "w l" #'wm-focus-win-right
+            "w H" #'wm-move-win-left
+            "w J" #'wm-move-win-down
+            "w K" #'wm-move-win-up
+            "w L" #'wm-move-win-right)))
 
-(setq-default evil-scroll-count 10)
-
-(when (featurep :system 'macos)
-  (setq mac-command-modifier 'control ; Maps Command -> Control
-        mac-control-modifier 'meta    ; Maps Control -> Alt (Meta)
-        mac-option-modifier 'super))  ; Maps Option -> Super
-
-(map! :leader "h T" nil
-      :leader "t T" #'doom/toggle-profiler)
-
-(map! :leader "t o" #'doom/set-frame-opacity)
-
-(when (and (doom-font-exists-p "JetBrains Mono")
-           (featurep :system 'linux))
-           (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-                 doom-big-font (font-spec :family "JetBrains Mono" :size 16)))
-
-(setq doom-theme 'doom-one)
-
-(map! :leader "h t" nil
-      :leader "t t" #'load-theme)
-
-(setq-default x-stretch-cursor t)
-
-(when (and (featurep :system 'macos)
-           (>= emacs-major-version 29))
-           (add-to-list 'default-frame-alist '(undecorated-round . t)))
-
-(when (and (featurep :system 'macos)
-           (>= emacs-major-version 29))
-      (setq frame-inhibit-implied-resize '(font font-backend tab-bar-lines)))
-
+;; Remap some global keybinds I don't agree with.
+;; TODO:
+;; - [ ] Test "t F"
+;; - [ ] Test "C-s-f"
+;; - [ ] Test "t o"
+;; - [ ] Comment about fullscreen toggling bind.
 (map! "C-s-f" nil
-      :leader "t F" nil)
+      :leader
+      "h T" nil
+      "t T" #'doom/toggle-profiler
+      "h t" nil
+      "t t" #'load-theme
+      "t F" nil
+      "t o" #'doom/set-frame-opacity)
+
+;; Initialize appearance.
+
+(use-package! doom-ui
+  :config
+  (setq doom-theme 'doom-one)
+  ;; Avoid setting font on macOS until a performant one can be found.
+  (when (and (doom-font-exists-p "JetBrains Mono")
+             (featurep :system 'linux))
+    (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
+          doom-big-font (font-spec :family "JetBrains Mono" :size 16))))
 
 (use-package! doom-modeline
   :defer t
@@ -132,49 +149,15 @@
         doom-modeline-vcs-max-length 60
         auto-revert-check-vc-info t))
 
-(setq display-line-numbers-type 'visual
-      display-line-numbers-grow-only t)
-(add-hook 'org-mode-hook #'doom-disable-line-numbers-h)
-
-(setq +doom-dashboard-pwd-policy user-home-directory) ;; NOTE: uses personal constant.
-
-(use-package! helpful
+(use-package! display-line-numbers
   :defer t
   :config
-  (setq helpful-max-buffers 10)
-  (advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
-  (defadvice! my/+popup--helpful-open-in-origin-window-a (button)
-    "Open links in non-popup, originating window rather than helpful's window."
-    :override #'helpful--navigate
-    (let ((path (substring-no-properties (button-get button 'path)))
-          enable-local-variables
-          origin)
-      (save-popups!
-       (find-file path)
-       (when-let (pos (get-text-property button 'position
-                                         (marker-buffer button)))
-         (goto-char pos))
-       (setq origin (selected-window))
-       (recenter 0)) ; Added argument 0 to cause recenter to top of screen.
-      (select-window origin))))
+  (setq display-line-numbers-type 'visual
+        display-line-numbers-grow-only t)
+  ;; Disable line numbers in org-mode.
+  (add-hook 'org-mode-hook #'doom-disable-line-numbers-h))
 
-(use-package! vertico
-  :defer t
-  :config
-  (map! :map vertico-map "C-u" #'scroll-down-command
-        :map vertico-map "C-d" #'scroll-up-command))
-
-(use-package! sinister)
-
-(use-package! mini-ontop)
-
-(use-package! stillness-mode)
-
-(use-package! avy
-  :defer t
-  :config
-  ;; Behavior
-  (setq avy-all-windows t))
+;;; Navigation
 
 (setq +lookup-provider-url-alist
       '(("DuckDuckGo" +lookup--online-backend-duckduckgo "https://duckduckgo.com/?q=%s")
@@ -190,6 +173,20 @@
         ("Arch Wiki" "https://wiki.archlinux.org/index.php?search=%s&title=Special%3ASearch&wprov=acrw1")
         ("AUR" "https://aur.archlinux.org/packages?O=0&K=%s")))
 
+(use-package! vertico
+  :defer t
+  :config
+  ;; Add Vim scroll binds to minibuffer.
+  (map! :map vertico-map "C-u" #'scroll-down-command
+        :map vertico-map "C-d" #'scroll-up-command))
+
+(use-package! avy
+  :defer t
+  :config
+  (setq avy-all-windows t))
+
+;;; Project
+
 (use-package! projectile
   :defer t
   :init
@@ -198,14 +195,10 @@
           ("~/dev/projects" . 1)   ; My projects.
           ("~/dev/source" . 1)))   ; Other's code.
   :config
-  ;; Behavior
-  ;; - Disable automatic project discovery.
   (setq projectile-auto-discover nil
         projectile-track-known-projects-automatically nil)
-  ;; Keybinds
   (map! :map project-prefix-map
-        :leader
-        :desc "List dirty projects"
+        :leader :desc "List dirty projects"
         "p l" #'projectile-browse-dirty-projects))
 
 (use-package! magit
@@ -213,34 +206,48 @@
   :config
   (setq magit-repository-directories
         '(("~/.dotfiles" . 0)
-          ("~/dev/projects" . 1)   ; My projects.
-          ("~/dev/source" . 1)))   ; Other's code.
+          ("~/Dev/projects" . 1)   ; My projects.
+          ("~/Dev/source" . 1)))   ; Other's code.
   (require 'magit-lint)) ;; Load my custom commit linter.
+
+;;; Terminal
 
 (use-package! vterm
   :defer t
   :init
   ;; Update Bash version on macOS if available.
-  (when (and (featurep :system 'macos)
-             (file-exists-p "/opt/homebrew/bin/bash"))
+  (when (and (featurep :system 'macos) (file-exists-p "/opt/homebrew/bin/bash"))
     (setq vterm-shell "/opt/homebrew/bin/bash"))
   :config
-  ;; Keybinds
-  ;; - Fix M-backspace keybind on macOS.
+  ;; Fix M-backspace keybind on macOS.
+  ;; TODO Verify required.
   (evil-define-key* 'insert vterm-mode-map (kbd "<M-backspace>") #'vterm-send-meta-backspace))
 
-(use-package! dired
-  :defer t)
+;;; Languages
 
-(use-package! dirvish
+(use-package! sh-script
   :defer t
-  :custom
-  (dirvish-quick-access-entries
-   '(("h" "~/" "Home")
-     ("d" "~/.dotfiles/" "Dotfiles")
-     ("o" "~/documents/org/" "Org")))
+  :init
+  (set-file-template! "\\.sh" :trigger "__sh" :mode 'sh-mode)
   :config
-  (set-popup-rule! "^ ?\\*\\(?:[Dd]irvish\\|SIDE :: \\).*" :width 0.15 :ignore t :quit 'current))
+  (set-formatter! 'shfmt
+    '("shfmt" "-filename" filepath "-ci" "-bn" "-sr" "-ln"
+      (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix"))
+      (when apheleia-formatters-respect-indent-level
+        (list "-i"
+              (number-to-string
+               (cond
+                (indent-tabs-mode 0)
+                ((boundp 'sh-basic-offset)
+                 sh-basic-offset)
+                (t 4))))))
+    :modes '(sh-mode))
+  (defun my/bash-info-page ()
+    "Go to the Bash info page."
+    (interactive)
+    (info "Bash")))
+
+;;; Org
 
 (use-package! org
   :defer t
@@ -261,6 +268,13 @@
         org-inbox-directory (org-subdirectory "inbox")
         org-inbox-file (expand-file-name (concat user-system-name ".org") org-inbox-directory))
   :config
+  ;; Keybinds
+  (map! :leader
+        (:prefix "n"
+                 (:prefix ("g" . "goto")
+                          (:prefix ("l" . "last")
+                                   "c" #'org-capture-goto-last-stored
+                                   "r" #'org-refile-goto-last-stored))))
   ;; Appearance
   (setq org-default-notes-file org-inbox-file   ; Set default notes file to inbox file.
         org-hide-leading-stars t                ; Hide leading stars.
@@ -351,6 +365,205 @@
     (setq doom-modeline-buffer-file-name-function #'org-roam-modeline-process-buffer-file-name
           doom-modeline-buffer-file-truename-function #'org-roam-modeline-process-buffer-file-name)))
 
+(defvar org-bookmark--format-hash (make-hash-table :test #'equal)
+  "A hash of (DOMAIN TITLE-FORMATTER) to be applied to link titles.")
+
+(defun org-bookmark-add-link-formatter (domain title-transformer)
+  "Adds a DOMAIN and associated TITLE-TRANSFORMER to the org-bookmark--format-hash"
+  (puthash domain title-transformer org-bookmark--format-hash))
+
+(defun org-bookmark-replace-in-link-title (regex replacement)
+  "Replace REGEX of a link's title with REPLACEMENT."
+  (lambda (title)
+    (replace-regexp-in-string regex replacement title)))
+
+(defun org-bookmark-format-stored-link ()
+  "Return a pretty-printed top of `org-stored-links'."
+  (let* ((link (caar org-stored-links))
+         (title (cl-cadar org-stored-links))
+         (parsed-link (url-generic-parse-url link))
+         (domain (concat (url-type parsed-link) "://" (url-host parsed-link)))
+         (formatter (gethash domain org-bookmark--format-hash)))
+    (progn (unless org-link-keep-stored-after-insertion (pop org-stored-links))
+           (org-link-make-string link (if formatter (funcall formatter title) title)))))
+
+;; (defun org-bookmark-retrieve-title (url)
+;;   (when (member (url-type (url-generic-parse-url url))
+;;                 '("http" "https"))
+;;     (with-temp-buffer
+;;       (url-insert-file-contents url)
+;;       (goto-char (point-min))
+;;       (when (search-forward "<title>" nil t)
+;;         (let ((start (point)))
+;;           (when (search-forward "</title>" nil t)
+;;             (buffer-substring start (match-beginning 0))))))))
+
+(defun org-bookmark-retrieve-title (url)
+  (when (member (url-type (url-generic-parse-url url))
+                '("http" "https"))
+    ;; (with-temp-buffer
+    ;;   (url-insert-file-contents url)
+    ;;   (goto-char (point-min))
+    ;;   (when (search-forward "<title>" nil t)
+    ;;     (let ((start (point)))
+    ;;       (when (search-forward "</title>" nil t)
+    ;;         (buffer-substring start (match-beginning 0))))))
+    (let ((response-buffer (url-retrieve-synchronously url t t)))
+      (when response-buffer
+        (with-current-buffer response-buffer
+          (goto-char (point-min))
+          (when (search-forward "<title>" nil t)
+            (let ((start (point)))
+              (when (search-forward "</title>" nil t)
+                (buffer-substring start (match-beginning 0))))))))
+    ))
+
+(defun org-bookmark--format-link (url title)
+  (if title (format "[[%s][%s]]" url title)
+    (format "[[%s]]" url)))
+
+(defun org-bookmark-format-link ()
+  (if org-stored-links
+      (org-bookmark-format-stored-link)
+    (let* ((url (if (caar org-stored-links)
+                    (org-bookmark-format-stored-link)
+                  (string-trim (substring-no-properties (current-kill 0))))))
+      (org-bookmark--format-link url (org-bookmark-retrieve-title url)))))
+
+(defvar org-bookmark-location-handlers nil
+  "List of bookmark location handlers by priority.
+
+Each item is a function of zero arguments that opens an
+appropiriate file/line and returns non-nil on match.")
+
+(defun org-bookmark-handler-file-heading (file heading)
+  "Open or create the FILE and HEADING to insert a bookmark at."
+  (set-buffer (org-capture-target-buffer file))
+  (unless (derived-mode-p 'org-mode)
+    (org-display-warning
+     (format "Capture requirement: switching buffer %S to Org mode"
+             (current-buffer)))
+    (org-mode))
+  (org-capture-put-target-region-and-position)
+  (widen)
+  (goto-char (point-min))
+  (if (re-search-forward (format org-complex-heading-regexp-format
+                                 (regexp-quote heading)) nil t)
+      (beginning-of-line)
+    (goto-char (point-max))
+    (unless (bolp) (insert "\n"))
+    (insert "* " heading "\n")
+    (beginning-of-line 0))
+  t)
+
+(defun org-bookmark-handler-match-url (regex file heading)
+  "For link matching REGEX select FILE at HEADING."
+  (if
+      (caar org-stored-links)
+      (when (string-match regex (caar org-stored-links))
+        (org-bookmark-handler-file-heading file heading))
+    (when (string-match regex (string-trim (substring-no-properties
+                                            (current-kill 0))))
+      (org-bookmark-handler-file-heading file heading))))
+
+(defvar org-bookmark-append-style 'beginning)
+
+(defun org-bookmark-append-style-valid-p ()
+  (if (and (symbolp org-bookmark-append-style)
+           (member org-bookmark-append-style (list 'nil 'beginning 'end)))
+      t nil))
+
+;; TODO: These need some work, steal from org capture insertion commands.
+(defun org-bookmark-append-content (initial-content)
+  (unless (org-bookmark-append-style-valid-p)
+    (error "Invalid org-bookmark appending style '%s'" org-bookmark-append-style))
+  (when (eq org-bookmark-append-style 'beginning)
+    (progn
+      (org-end-of-meta-data t)
+      (insert initial-content "\n")))
+  (when (eq org-bookmark-append-style 'end)
+    (progn
+      (outline-next-heading)
+      (beginning-of-line 0)
+      (insert initial-content "\n"))))
+
+(defun org-bookmark-find-rg ()
+  (unless (executable-find "rg")
+    (error "Org-bookmark could not find rg in your path!")))
+
+(defun org-bookmark-find-link ()
+  (let* ((link (if (caar org-stored-links)
+                   (caar org-stored-links)
+                 (string-trim (substring-no-properties (current-kill 0)))))
+         (old-links
+          (split-string (shell-command-to-string
+                         (format "rg -Fn '[%s]' %s" link org-directory))
+                        "\n" t)))
+    (if old-links
+        (let ((old-link (car old-links)))
+          (if (string-match "^\\(.*\\):\\([0-9]+\\):\\(.*\\)$" old-link)
+              (let ((file (match-string 1 old-link))
+                    (line (string-to-number (match-string 2 old-link))))
+                (find-file file)
+                (goto-char (point-min))
+                (forward-line (1- line))
+                (if (string-match-p "https://www.youtube.com" link)
+                    (not (y-or-n-p "old link: redo?"))
+                  (message "%d old link(s)" (length old-links)) t))
+            (error "Could not match %s" old-link)))
+      nil)))
+
+(defun org-bookmark-capture-kill ()
+  (let ((initial-content (plist-get org-store-link-plist :initial)))
+    (when (and org-bookmark-append-style initial-content (not (string-empty-p initial-content)))
+      (org-bookmark-append-content initial-content))
+    (unless org-link-keep-stored-after-insertion (pop org-stored-links))
+    (org-capture-kill)))
+
+(defun org-bookmark-handle-location ()
+  (let ((hands org-bookmark-location-handlers)
+        hand)
+    (while (and (setq hand (pop hands))
+                (null
+                 (apply (car hand) (cdr hand)))))))
+
+(defun org-bookmark-location ()
+  "Selects a location to store the current bookmark link."
+  (if (org-bookmark-find-link)
+      (org-bookmark-capture-kill)
+    (org-bookmark-handle-location)))
+
+(org-bookmark-add-link-formatter "https://github.com" (org-bookmark-replace-in-link-title ":[ ].*$?" ""))
+
+(setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading org-inbox-file "Bookmarks")))
+
+(defun org-bookmark-symbol ()
+  (let ((symbol (symbol-name (helpful--read-symbol
+                              "Symbol: " (helpful--symbol-at-point)
+                              #'helpful--bound-p))))
+    (my/org-store-help-link symbol)
+    (apply #'org-bookmark-handler-file-heading '("~/Documents/notes/area/20231006T042354--emacs.org" "Useful Symbols and Keybinds"))))
+
+;; (use-package! orca
+;;   :after org-protocol
+  ;;; Variables
+  ;;; (setq orca-handler-list
+  ;;;       '((orca-handler-match-url
+  ;;;          "https://www.reddit.com"         "/home/noncog/Documents/notes/wiki/emacs.org"
+  ;;;          "\\ * Reddit")))
+                                        ;(setq orca-handler-list
+                                        ;      '((orca-handler-match-url
+                                        ;         "https://www.reddit.com/emacs/"
+                                        ;         "~/Documents/notes/wiki/emacs.org"
+                                        ;         "Reddit")
+                                        ;        (orca-handler-match-url
+                                        ;         "https://emacs.stackexchange.com/"
+                                        ;         "~/Documents/notes/wiki/emacs.org"
+                                        ;         "\\* Questions")
+                                        ;        (orca-handler-current-buffer
+                                        ;         "\\* Tasks")))
+;; )
+
 (use-package! org-capture
   :defer t
   :config
@@ -366,8 +579,8 @@ Intended for use with `:before-finalize` keyword in `org-capture-templates`."
   ;; (setq +org-capture-fn #'org-roam-capture)
   ;; (set-popup-rule! "^*Capture*$" :side 'bottom :height 1 :select nil :autosave 'ignore)
   ;; (set-popup-rule! "^CAPTURE-.*$" :side 'bottom :height 0.3 :vslot -1 :quit nil :select t :autosave 'ignore)
-  (setq org-capture-bookmark nil
-        org-capture-templates
+  ;; org-capture-bookmark nil
+  (setq org-capture-templates
         '(("t" "Task" entry
            (file org-inbox-file)
            "* TODO %?"
@@ -381,35 +594,43 @@ Intended for use with `:before-finalize` keyword in `org-capture-templates`."
            :before-finalize (org-capture-id-get-created)
            :empty-lines-before 1)
           ("b" "Bookmark" entry
-           (file org-inbox-file)
-           "* BOOKMARK %?"
+           (function org-bookmark-location)
+           "* %(org-bookmark-format-link)\n:PROPERTIES:\n:DATE: %U\n:END:\n%i%?"
            :prepend t
            :before-finalize (org-capture-id-get-created)
-           :empty-lines-before 1))))
-  ;; Hidden templates used in certain context.
-  ;; ("T" "Hidden Templated tasks.")
-  ;; ("Ta" "Hidden Agenda tasks.")
-  ;; ("Tah" "Task in Agenda Heading" entry
-  ;;  (file org-inbox-file)
-  ;;  "* TODO %?"
-  ;;  :prepend t
-  ;;  :before-finalize (org-id-get-create)
-  ;;  :empty-lines-before 1)))
-  ;; ))
+           :empty-lines-before 1
+           :immediate-finish t)
+          ;; ("b" "Bookmark" entry
+          ;;  (file org-inbox-file)
+          ;;  "* BOOKMARK %?"
+          ;;  :prepend t
+          ;;  :before-finalize (org-capture-id-get-created)
+          ;;  :empty-lines-before 1)
+          )))
+;; Hidden templates used in certain context.
+;; ("T" "Hidden Templated tasks.")
+;; ("Ta" "Hidden Agenda tasks.")
+;; ("Tah" "Task in Agenda Heading" entry
+;;  (file org-inbox-file)
+;;  "* TODO %?"
+;;  :prepend t
+;;  :before-finalize (org-id-get-create)
+;;  :empty-lines-before 1)))
+;; ))
 
-  ;; (defun my/org-capture-context () (if (string= (buffer-file-name) (expand-file-name "~/Documents/org/agenda.org")) t nil))
-  ;; (setq org-capture-templates-contexts
-  ;;       '(("t" ((not-in-file .  "~/Documents/org/agenda.org")))
-  ;;         ("n" ((not-in-file .  "~/Documents/org/agenda.org")))
-  ;;         ("v" (my/org-capture-context))
-  ;;         ("t" "v" (my/org-capture-context (in-file .  "~/Documents/org/agenda.org")))
-  ;;         ))
-  ;; ("t" "v" ((in-file . "~/Documents/org/agenda.org"))))
-  ;; ("t" "n" (my/org-capture-context (in-file .  "~/Documents/org/agenda.org")))
-  ;; Known to work:
-  ;; ("v" (my/org-capture-context (in-file .  "~/Documents/org/agenda.org")))
+;; (defun my/org-capture-context () (if (string= (buffer-file-name) (expand-file-name "~/Documents/org/agenda.org")) t nil))
+;; (setq org-capture-templates-contexts
+;;       '(("t" ((not-in-file .  "~/Documents/org/agenda.org")))
+;;         ("n" ((not-in-file .  "~/Documents/org/agenda.org")))
+;;         ("v" (my/org-capture-context))
+;;         ("t" "v" (my/org-capture-context (in-file .  "~/Documents/org/agenda.org")))
+;;         ))
+;; ("t" "v" ((in-file . "~/Documents/org/agenda.org"))))
+;; ("t" "n" (my/org-capture-context (in-file .  "~/Documents/org/agenda.org")))
+;; Known to work:
+;; ("v" (my/org-capture-context (in-file .  "~/Documents/org/agenda.org")))
 
-  ;; )
+;; )
 ;; ("t" "v" ((in-file . "~/Documents/org/agenda.org")
 ;; )
 
@@ -423,7 +644,12 @@ Intended for use with `:before-finalize` keyword in `org-capture-templates`."
            :unnarrowed t)
           ("p" "person" plain "%?"
            :target (file+head "resource/person/${id}--${slug}.org"
-                              "#+title: ${title}\n#+filetags: :person:\n")))))
+                              "#+title: ${title}\n#+filetags: :person:\n")
+           :unnarrowed t)
+          ("P" "project" plain "%?"
+           :target (file+head "project/${id}--${slug}.org"
+                              "#+title: ${title}\n#+filetags: :project:\n")
+           :unnarrowed t))))
 
 (use-package! org-roam-protocol
   :defer t
@@ -466,13 +692,13 @@ Intended for use with `:before-finalize` keyword in `org-capture-templates`."
   ;; Appearance
   (setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
         org-habit-show-all-today t)            ; Keep habits visible even if done.
-  ;(setq +org-habit-min-width)
-  ;(setq +org-habit-graph-padding)
-  ;(setq +org-habit-graph-window-ratio)
-  ;(setq org-habit-graph-column)
-  ;(setq org-habit-today-glyph)
-  ;(setq org-habit-completed-glyph)
-  ;(setq org-habit-show-done-always-green)
+                                        ;(setq +org-habit-min-width)
+                                        ;(setq +org-habit-graph-padding)
+                                        ;(setq +org-habit-graph-window-ratio)
+                                        ;(setq org-habit-graph-column)
+                                        ;(setq org-habit-today-glyph)
+                                        ;(setq org-habit-completed-glyph)
+                                        ;(setq org-habit-show-done-always-green)
   (custom-set-faces!
     '(org-agenda-structure
       :height 1.3 :weight bold))
@@ -491,20 +717,20 @@ Intended for use with `:before-finalize` keyword in `org-capture-templates`."
       ;; step until the end of the buffer
       (while (not (eobp))
         (forward-line 1)
-         (cond
-          ;; delete region if previously found two blank lines
-          ((when (> content-blank-line-count 1)
+        (cond
+         ;; delete region if previously found two blank lines
+         ((when (> content-blank-line-count 1)
             (delete-region start-pos (point))
             (setq content-blank-line-count 0)
             (setq start-pos (point))))
-          ;; if found a non-blank line
-          ((not (looking-at-p agenda-blank-line))
-           (setq content-line-count (1+ content-line-count))
-           (setq start-pos (point))
-           (setq content-blank-line-count 0))
-          ;; if found a blank line
-          ((looking-at-p agenda-blank-line)
-           (setq content-blank-line-count (1+ content-blank-line-count)))))
+         ;; if found a non-blank line
+         ((not (looking-at-p agenda-blank-line))
+          (setq content-line-count (1+ content-line-count))
+          (setq start-pos (point))
+          (setq content-blank-line-count 0))
+         ;; if found a blank line
+         ((looking-at-p agenda-blank-line)
+          (setq content-blank-line-count (1+ content-blank-line-count)))))
       ;; final blank line check at end of file
       (when (> content-blank-line-count 1)
         (delete-region start-pos (point))
@@ -517,128 +743,129 @@ Intended for use with `:before-finalize` keyword in `org-capture-templates`."
   (setq org-agenda-custom-commands
         '(
           ("o" "My Agenda" (
-           (agenda
-            ""
-            ( ;; Today
-             (org-agenda-overriding-header "Today\n")
-             (org-agenda-overriding-header " Agenda\n")
-             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-             (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a, %b %-e")  ; american date format
-             (org-agenda-start-on-weekday nil)          ; start today
-             (org-agenda-start-day "+0d")               ; don't show previous days. Required to make org-agenda-later work.
-             (org-agenda-span 1)                        ; only show today
-             (org-scheduled-past-days 0)                ; don't show overdue
-             (org-deadline-warning-days 0)              ; don't show deadlines for the future
-             (org-agenda-time-leading-zero t)           ; unify times formatting
-             (org-agenda-remove-tags t)
-             (org-agenda-time-grid '((today remove-match) (800 1000 1200 1400 1600 1800 2000 2200) "" ""))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-prefix-format '((agenda . " %8:(org-roam-agenda-category) %-5t ")))
-             (org-agenda-dim-blocked-tasks nil)
-             ;; TODO: Fix inbox not-skipping... Since I no longer have that tag.
-             (org-agenda-skip-function '(noncog/skip-tag "inbox"))
-             (org-agenda-entry-types '(:timestamp :deadline :scheduled))
-             ))
-           (agenda
-            ""
-            ( ;; Next Three Days
-             (org-agenda-overriding-header "\nNext Three Days\n")
-             (org-agenda-overriding-header "")
-             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-             (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a, %b %-e")
-             (org-agenda-start-on-weekday nil)
-             (org-agenda-start-day "+1d")
-             (org-agenda-span 3)
-             (org-scheduled-past-days 0)
-             (org-deadline-warning-days 0)
-             (org-agenda-time-leading-zero t)
-             (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
-             (org-agenda-entry-types '(:deadline :scheduled))
-             (org-agenda-time-grid '((daily weekly) () "" ""))
-             (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-dim-blocked-tasks nil)
-             ))
-           (agenda
-            ""
-            ( ;; Upcoming Deadlines
-             (org-agenda-overriding-header "\n Coming Up\n")
-             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-             (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a, %b %-e")
-             (org-agenda-start-on-weekday nil)
-             (org-agenda-start-day "+4d")
-             (org-agenda-span 28)
-             (org-scheduled-past-days 0)
-             (org-deadline-warning-days 0)
-             (org-agenda-time-leading-zero t)
-             (org-agenda-time-grid nil)
-             ;(org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
-             (org-agenda-prefix-format '((agenda . " %8:(org-roam-agenda-category) %-5t ")))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
-             (org-agenda-entry-types '(:deadline :scheduled))
-             (org-agenda-show-all-dates nil)
-             (org-agenda-dim-blocked-tasks nil)
-             ))
-           (agenda
-            ""
-            ( ;; Past Due
-             (org-agenda-overriding-header "\n Past Due\n")
-             (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
-             (org-agenda-block-separator nil)
-             (org-agenda-format-date " %a, %b %-e")
-             (org-agenda-start-on-weekday nil)
-             (org-agenda-start-day "-60d")
-             (org-agenda-span 60)
-             (org-scheduled-past-days 60)
-             (org-deadline-past-days 60)
-             (org-deadline-warning-days 0)
-             (org-agenda-time-leading-zero t)
-             (org-agenda-time-grid nil)
-             (org-agenda-prefix-format '((agenda . "  %?-9:(org-roam-agenda-category)%t ")))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
-             (org-agenda-entry-types '(:deadline :scheduled))
-             (org-agenda-show-all-dates nil)
-             (org-agenda-dim-blocked-tasks nil)
-             ))
-           (todo
-            ""
-            ( ;; Important Tasks No Date
-             (org-agenda-overriding-header "\n Important Tasks - No Date\n")
-             (org-agenda-block-separator nil)
-             (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
-             (org-agenda-block-separator nil)
-             (org-agenda-time-grid nil)
-             (org-agenda-prefix-format '((todo . "  %?:(org-roam-agenda-category) ")))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-dim-blocked-tasks nil)
-             ))
-           (todo
-            ""
-            ( ;; Next
-             (org-agenda-overriding-header "\n Next\n")
-             (org-agenda-block-separator nil)
-             (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("NEXT" "STRT")))
-             (org-agenda-block-separator nil)
-             (org-agenda-time-grid nil)
-             (org-agenda-prefix-format '((todo . "  %?:(org-roam-agenda-category) ")))
-             ;(org-agenda-todo-keyword-format "%-4s")
-             (org-agenda-dim-blocked-tasks nil)
-             ))
-           (tags-todo
-            "inbox"
-            ( ;; Inbox
-             (org-agenda-overriding-header (propertize "\n Inbox\n" 'help-echo "Effort: 'c e' Refile: 'SPC m r'")) ; Ads mouse hover tooltip.
-             ;(org-agenda-remove-tags t)
-             (org-agenda-block-separator nil)
-             (org-agenda-prefix-format "  %?-4e ")
-             ;(org-agenda-todo-keyword-format "%-4s")
-             ))
-           ))))
+                            (agenda
+                             ""
+                             ( ;; Today
+                              (org-agenda-overriding-header "Today\n")
+                              (org-agenda-overriding-header " Agenda\n")
+                              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-format-date " %a, %b %-e")  ; american date format
+                              (org-agenda-start-on-weekday nil)          ; start today
+                              (org-agenda-start-day "+0d")               ; don't show previous days. Required to make org-agenda-later work.
+                              (org-agenda-span 1)                        ; only show today
+                              (org-scheduled-past-days 0)                ; don't show overdue
+                              (org-deadline-warning-days 0)              ; don't show deadlines for the future
+                              (org-agenda-time-leading-zero t)           ; unify times formatting
+                              (org-agenda-remove-tags t)
+                              (org-agenda-time-grid '((today remove-match) (800 1000 1200 1400 1600 1800 2000 2200) "" ""))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-prefix-format '((agenda . "  %?-5t %?:c ")))
+                                        ;(org-agenda-prefix-format '((agenda . "   %?-5t %?:(org-roam-agenda-category) ")))
+                              (org-agenda-dim-blocked-tasks nil)
+                              ;; TODO: Fix inbox not-skipping... Since I no longer have that tag.
+                              (org-agenda-skip-function '(noncog/skip-tag "inbox"))
+                              (org-agenda-entry-types '(:timestamp :deadline :scheduled))
+                              ))
+                            (agenda
+                             ""
+                             ( ;; Next Three Days
+                              (org-agenda-overriding-header "\nNext Three Days\n")
+                              (org-agenda-overriding-header "")
+                              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-format-date " %a, %b %-e")
+                              (org-agenda-start-on-weekday nil)
+                              (org-agenda-start-day "+1d")
+                              (org-agenda-span 3)
+                              (org-scheduled-past-days 0)
+                              (org-deadline-warning-days 0)
+                              (org-agenda-time-leading-zero t)
+                              (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+                              (org-agenda-entry-types '(:deadline :scheduled))
+                              (org-agenda-time-grid '((daily weekly) () "" ""))
+                              (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-dim-blocked-tasks nil)
+                              ))
+                            (agenda
+                             ""
+                             ( ;; Upcoming Deadlines
+                              (org-agenda-overriding-header "\n Coming Up\n")
+                              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-format-date " %a, %b %-e")
+                              (org-agenda-start-on-weekday nil)
+                              (org-agenda-start-day "+4d")
+                              (org-agenda-span 28)
+                              (org-scheduled-past-days 0)
+                              (org-deadline-warning-days 0)
+                              (org-agenda-time-leading-zero t)
+                              (org-agenda-time-grid nil)
+                                        ;(org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+                              (org-agenda-prefix-format '((agenda . " %(org-roam-agenda-category) %-5t ")))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+                              (org-agenda-entry-types '(:deadline :scheduled))
+                              (org-agenda-show-all-dates nil)
+                              (org-agenda-dim-blocked-tasks nil)
+                              ))
+                            (agenda
+                             ""
+                             ( ;; Past Due
+                              (org-agenda-overriding-header "\n Past Due\n")
+                              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-format-date " %a, %b %-e")
+                              (org-agenda-start-on-weekday nil)
+                              (org-agenda-start-day "-60d")
+                              (org-agenda-span 60)
+                              (org-scheduled-past-days 60)
+                              (org-deadline-past-days 60)
+                              (org-deadline-warning-days 0)
+                              (org-agenda-time-leading-zero t)
+                              (org-agenda-time-grid nil)
+                              (org-agenda-prefix-format '((agenda . "  %?-9:(org-roam-agenda-category)%t ")))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-skip-function '(or (noncog/skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+                              (org-agenda-entry-types '(:deadline :scheduled))
+                              (org-agenda-show-all-dates nil)
+                              (org-agenda-dim-blocked-tasks nil)
+                              ))
+                            (todo
+                             ""
+                             ( ;; Important Tasks No Date
+                              (org-agenda-overriding-header "\n Important Tasks - No Date\n")
+                              (org-agenda-block-separator nil)
+                              (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-time-grid nil)
+                              (org-agenda-prefix-format '((todo . "  %?:(org-roam-agenda-category) ")))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-dim-blocked-tasks nil)
+                              ))
+                            (todo
+                             ""
+                             ( ;; Next
+                              (org-agenda-overriding-header "\n Next\n")
+                              (org-agenda-block-separator nil)
+                              (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("NEXT" "STRT")))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-time-grid nil)
+                              (org-agenda-prefix-format '((todo . "  %?:(org-roam-agenda-category) ")))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-dim-blocked-tasks nil)
+                              ))
+                            (tags-todo
+                             "inbox"
+                             ( ;; Inbox
+                              (org-agenda-overriding-header (propertize "\n Inbox\n" 'help-echo "Effort: 'c e' Refile: 'SPC m r'")) ; Ads mouse hover tooltip.
+                                        ;(org-agenda-remove-tags t)
+                              (org-agenda-block-separator nil)
+                              (org-agenda-prefix-format "  %?-4e ")
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              ))
+                            ))))
   ;;(set-popup-rule! "^*Org Agenda*" :side 'right :vslot 1 :width 70 :modeline nil :select t :quit t)
   ;; TODO: Possibly extend this for named agendas to appear in side window.
   (set-popup-rule! "^\\*Org Agenda\\*" :side 'right :vslot 1 :width 60 :modeline nil :select t :quit nil)
@@ -670,8 +897,8 @@ Intended for use with `:before-finalize` keyword in `org-capture-templates`."
         org-log-refile t                       ; Log when a heading is refiled.
         org-refile-allow-creating-parent-nodes 'confirm
         org-refile-targets '((nil :maxlevel . 3)
-                            (org-agenda-primary-file :maxlevel . 5)
-                            (org-agenda-files :maxlevel . 3))))
+                             (org-agenda-primary-file :maxlevel . 5)
+                             (org-agenda-files :maxlevel . 3))))
 
 (use-package! org-modern
   :hook
@@ -707,7 +934,8 @@ Intended for use with `:before-finalize` keyword in `org-capture-templates`."
   :config
   (setq org-toc-default-depth 3)
   ;; Extend org-toc to add folding to table of contents using HTML.
-  (defconst toc-org-fold-tag-regexp ":fold:\\(\\(\s+-->\\)?$\\|[^ ]*?:\\(\s+-->\\)?$\\)"
+  (defconst toc-org-fold-tag-regexp
+    ":fold:\\(\\(\s+-->\\)?$\\|[^ ]*?:\\(\s+-->\\)?$\\)"
     "Regexp to find the heading with the :fold: tag")
   (defun toc-org-insert-toc (&optional dry-run)
     "Update table of contents in heading tagged :TOC:.
@@ -794,10 +1022,6 @@ not :noexport_#:."
                         (insert new-toc)))))
               (message (concat "Hrefify function " hrefify-string " is not found")))))))))
 
-(use-package! org-contacts
-  :config
-  (setq org-contacts-directory (org-subdirectory "person")))
-
 (use-package! org-ql
   :defer t
   :after denote)
@@ -807,26 +1031,8 @@ not :noexport_#:."
   :autoload org-dblock-write:org-ql)
 
 (use-package! org-sidebar
-  :after org)
-
-(use-package! sh-script
-  :defer t
-  :init
-  (set-file-template! "\\.sh" :trigger "__sh" :mode 'sh-mode)
+  :after org
   :config
-  (set-formatter! 'shfmt
-    '("shfmt" "-filename" filepath "-ci" "-bn" "-sr" "-ln"
-      (pcase sh-shell (`bash "bash") (`mksh "mksh") (_ "posix"))
-      (when apheleia-formatters-respect-indent-level
-        (list "-i"
-              (number-to-string
-               (cond
-                (indent-tabs-mode 0)
-                ((boundp 'sh-basic-offset)
-                 sh-basic-offset)
-                (t 4))))))
-    :modes '(sh-mode))
-  (defun my/bash-info-page ()
-    "Go to the Bash info page."
-    (interactive)
-    (info "Bash")))
+  (setq org-sidebar-side 'left
+        org-sidebar-default-fns 'org-sidebar-tree-view-buffer
+        org-sidebar-tree-jump-fn 'org-sidebar-tree-jump-source))
