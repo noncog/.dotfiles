@@ -13,6 +13,8 @@
   :recipe (:host github :repo "neeasade/stillness-mode.el")
   :pin "05029febdb451941ed218e6ddbef5294776e31d4")
 
+(package! nov :pin "b37d9380752e541db3f4b947c219ca54d50ca273")
+
 (package! denote
   :recipe (:host github :repo "protesilaos/denote")
   :pin "3bb05f212cc29fa6953e6d703e5e0c2e982882a9")
