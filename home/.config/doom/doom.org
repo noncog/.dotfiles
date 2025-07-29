@@ -1638,14 +1638,6 @@ not :noexport_#:."
               (message (concat "Hrefify function " hrefify-string " is not found")))))))))
 #+end_src
 
-*** Org Contacts
-
-#+begin_src emacs-lisp :tangle ./config.el :noweb yes
-(use-package! org-contacts
-  :config
-  (setq org-contacts-directory (org-subdirectory "person")))
-#+end_src
-
 *** Org Ql
 
 #+begin_quote

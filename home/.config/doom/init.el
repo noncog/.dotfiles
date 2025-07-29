@@ -159,7 +159,6 @@
        (org                ; organize your plain life in plain text
         +pretty
         +dragndrop
-        +contacts
         +roam2
         +gnuplot
         +noter)
