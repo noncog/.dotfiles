@@ -41,7 +41,7 @@
 
 (require 's)
 (require 'org-roam-utils)
-(require 'org-roam-keyword)
+;;(require 'org-roam-keyword)
 (require 'org-roam-agenda)
 
 (add-to-list 'org-tags-exclude-from-inheritance "person")
