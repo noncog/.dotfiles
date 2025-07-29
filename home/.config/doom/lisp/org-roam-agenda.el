@@ -104,13 +104,78 @@ Category is defined by one of the following items:
 - filename without directory and extension
 
 Refer to `org-agenda-prefix-format' for more information."
-  (let* ((file-name (when buffer-file-name
-                      (file-name-sans-extension
-                       (file-name-nondirectory buffer-file-name))))
-         (title (org-roam--get-keyword "title"))
-         ;; NOTE: Cannot use org-get-category in Org 9.7+
-         (category (org-agenda-get-category)))
-    (or (if (and title (string-equal category file-name)) title category) "")))
+  ;; (when buffer-file-name
+  ;;   (let* ((file-name (when buffer-file-name
+  ;;                       (file-name-sans-extension
+  ;;                        (file-name-nondirectory buffer-file-name))))
+  ;;          (title (org-roam--get-keyword "title"))
+  ;;          ;; NOTE: Cannot use org-get-category in Org 9.7+
+  ;;          (category (org-get-category)))
+  ;;     (message "file name: %s" file-name)
+  ;;     (message "title: %s" title)
+  ;;     (message  "category: %s" category)
+  ;;     (or (if (and title (string-equal category file-name)) title category) ""))))
+
+  ;; NOTE: This kind of works, but isn't great.
+  (when buffer-file-name
+    (with-current-buffer (find-buffer-visiting buffer-file-name)
+      (let* ((file-name (when buffer-file-name
+                          (file-name-sans-extension
+                           (file-name-nondirectory buffer-file-name))))
+             (title (org-get-title (current-buffer)))
+             ;; NOTE: Cannot use org-get-category in Org 9.7+
+             (category (org-get-category)))
+        ;; (message "file name: %s" file-name)
+        ;; (message "title: %s" title)
+        ;; (message  "category: %s" category)
+        (or (if (and title (string-equal category file-name)) title category) "")))))
+;;   (let ((category (org-agenda-get-category))
+;;         (title (when buffer-file-name
+;;                  (with-current-buffer (find-buffer-visiting buffer-file-name) (org-roam--get-keyword "title")))))
+;;     buffer-file-name))
+;; (or (if (and title (string-equal category file-name)) title category) "")))
+;; (let* ((file-name "")
+;;        (title "")
+;;        (category ""))
+;;   (when buffer-file-name
+;;     (message "file name: %s" buffer-file-name))
+;;                                       ;(setq title (with-current-buffer (find-buffer-visiting buffer-file-name) (org-roam--get-keyword "title"))))
+;;   (setq category (org-agenda-get-category))
+
+;;   (message "title: %s" title)
+;;   (message  "category: %s" category)
+;;   (or (if (and title (string-equal category file-name)) title category) " ")))
+
+;; (when buffer-file-name (file-name-sans-extension
+;;                      (file-name-nondirectory buffer-file-name)))
+;; (let* ((file-name "")
+;;        (title "")
+;;        (category ""))
+;;   (when buffer-file-name
+;;     (setq file-name
+;;           (file-name-sans-extension
+;;            (file-name-nondirectory buffer-file-name)))
+;;     (with-current-buffer (find-buffer-visiting buffer-file-name)
+;;       (setq title (org-roam--get-keyword "title"))
+;;       )
+;;     )
+
+;;   (setq category (org-agenda-get-category))
+;;   (message "file name: %s" file-name)
+;;   (message "title: %s" title)
+;;   (message  "category: %s" category)
+;;   (or (if (and title (string-equal category file-name)) title category) " ")
+;;   ))
+;; (let* ((file-name (when buffer-file-name
+;;                     (file-name-sans-extension
+;;                      (file-name-nondirectory buffer-file-name))))
+;;        (title (org-roam--get-keyword "title"))
+;;        ;; NOTE: Cannot use org-get-category in Org 9.7+
+;;        (category (org-agenda-get-category)))
+;; (message "file name: %s" file-name)
+;; (message "title: %s" title)
+;; (message  "category: %s" category)
+;; (or (if (and title (string-equal category file-name)) title category) " ")))
 
 
 (provide 'org-roam-agenda)
