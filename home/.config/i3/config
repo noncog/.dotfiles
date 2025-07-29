@@ -101,7 +101,7 @@ bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 # Toggle Container Layout
-#bindsym $mod+grave layout toggle splith splitv tabbed
+bindsym $mod+grave layout toggle splith splitv tabbed
 # Floating and Scratchpad Window Controls
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+Control+Shift+space move scratchpad
@@ -175,7 +175,7 @@ mode "Emacs" {
     bindsym $mod+Shift+9 move container to workspace 9
     bindsym $mod+Shift+0 move container to workspace 10
     # Toggle Container Layout
-    #bindsym $mod+grave layout toggle splith splitv tabbed
+    bindsym $mod+grave layout toggle splith splitv tabbed
     # Floating and Scratchpad Window Controls
     bindsym $mod+Shift+space floating toggle
     bindsym $mod+Control+Shift+space move scratchpad
