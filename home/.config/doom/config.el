@@ -287,6 +287,9 @@
         org-src-preserve-indentation t          ; Keep language specific indenting in source blocks.
         org-pretty-entities t)                  ; Show sub/superscript as UTF8.
   (setq org-property-format "%-10s %s")
+  ;; Links
+  ;; Enable linking to man pages.
+  (require 'ol-man)
   ;; Behavior
   ;; - General
   (setq org-list-allow-alphabetical t           ; Use alphabet as lists.
