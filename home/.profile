@@ -27,6 +27,8 @@ if [ -n "$BASH_VERSION" ]; then
             # add gnu grep to system to use over bsd grep.
             [ -d /opt/homebrew/opt/grep/libexec/gnubin ] &&
                 export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
+            [ -d /opt/homebrew/opt/gnu-sed/libexec/gnubin ] &&
+               export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
             ;;
     esac
 
