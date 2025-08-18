@@ -248,103 +248,74 @@
 
 ;;; Org
 
+(use-package! evil-collection
+  :defer t
+  :config
+  (setq evil-collection-calendar-want-org-bindings t))
+
+;; TODO: Maybe make org-property-format look a bit nicer.
 (use-package! org
   :defer t
   :init
-  ;; Functions
-  (defun org-file (path) ;; Inspired by jwiegley.
-    "Return PATH expanded relative to org-directory.
-
-- Intended for use with file names.
-- PATH must not begin with a slash."
-    (expand-file-name path org-directory))
-  (defun org-subdirectory (subdir)
-    "Return SUBDIR expanded as directory name relative to org-directory."
-    (file-name-as-directory (org-file subdir)))
-  ;; Variables
-  (setq org-directory (file-truename "~/documents/org/") ;; NOTE: trailing slash denotes a directory.
-        org-id-locations-file (expand-file-name "data/org-ids" org-directory)
-        org-inbox-directory (org-subdirectory "inbox")
-        org-inbox-file (expand-file-name (concat user-system-name ".org") org-inbox-directory))
+  (setq org-directory (expand-file-name "~/documents/org/")
+        org-id-locations-file (expand-file-name "data/org-ids" org-directory))
+  (defvar org-inbox-directory (expand-file-name "./inbox/" org-directory)
+    "A directory used to hold `org-capture' items.")
+  (defvar org-inbox-file (expand-file-name (concat user-system-name ".org") org-inbox-directory)
+    "Inbox file to use with `org-capture'. Uses system name to avoid sync conflicts.")
   :config
-  ;; Keybinds
-  (map! :leader
-        (:prefix "n"
-                 (:prefix ("g" . "goto")
-                          (:prefix ("l" . "last")
-                                   "c" #'org-capture-goto-last-stored
-                                   "r" #'org-refile-goto-last-stored))))
-  ;; Appearance
-  (setq org-default-notes-file org-inbox-file   ; Set default notes file to inbox file.
-        org-hide-leading-stars t                ; Hide leading stars.
-        org-ellipsis " ▾ "                      ; Use UTF-8 to indicate folded heading.
-        org-hidden-keywords nil                 ; Don't hide any TODO keywords.
-        org-image-actual-width '(0.9)           ; Use an in-buffer image width closer to export's
-        org-startup-with-inline-images t        ; Show images at startup.
-        org-startup-with-latex-preview nil      ; Don't show LaTeX on startup.
-        org-hide-emphasis-markers t             ; Hide syntax for emphasis. (Use org-appear)
-        org-src-preserve-indentation t          ; Keep language specific indenting in source blocks.
-        org-pretty-entities t)                  ; Show sub/superscript as UTF8.
-  (setq org-property-format "%-10s %s")
-  ;; Links
-  ;; Enable linking to man pages.
-  (require 'ol-man)
-  ;; Behavior
-  ;; - General
-  (setq org-list-allow-alphabetical t           ; Use alphabet as lists.
-        org-use-property-inheritance t          ; Sub-headings inherit parent properties.
-        org-imenu-depth 5                       ; Allow imenu to search deeply in org docs.
-        org-return-follows-link t               ; Allow return to open links.
-        org-insert-heading-respect-content nil  ; Insert heading here, not at end of list.
-        org-use-fast-todo-selection 'auto)      ; Method to select TODO heading keywords.
-  ;; - Logging
-  (setq org-log-done 'time                      ; Add completion time to DONE items.
-        org-log-into-drawer t                   ; Log times into a drawer to hide them.
-        org-log-reschedule t                    ; Log rescheduling of scheduled items.
-        org-log-redeadline t                    ; Log rescheduling of deadline items.
-        org-treat-insert-todo-heading-as-state-change t
-        org-log-states-order-reversed nil)      ; Log times reverse chronologically.
-  ;; - Habits
-  (add-to-list 'org-modules 'org-habit t)       ; Enable org-habit for tracking repeated actions.
-  ;; - Calendar
-  (setq evil-collection-calendar-want-org-bindings t) ; Use Evil keybinds to move in calendar.
-  ;; - Tags
-  ;; - Todos
-  (setq org-todo-keywords
-        '((sequence
-           "TODO(t!)"      ; Task that needs doing & is ready to do.
-           "NEXT(N!)"      ; Task that needs doing & is ready to do.
-           "|"             ; Required to get org-roam to ignore the following todo items.
-           "DONE(d!)"      ; Task successfully completed.
-           "KILL(k@/!)")   ; Task cancelled or not applicable.
-          (type
-           "WAIT(w@/!)"    ; Task on hold by somthing.
-           "SOMEDAY(s!)"   ; Task that could be done someday.
-           "MAYBE(m!)"     ; Task that I might do someday.
-           "BOOKMARK(b!)"  ; A link to be bookmarked.
-           "ISSUE(I!)"     ; An issue.
-           "IDEA(i!)"      ; An idea.
-           "NOTE(n!)"))    ; A fleeting note, in person, idea, or link.
-        org-todo-keyword-faces
-        '(("TODO"  . +org-todo-active)
-          ("NEXT" . +org-todo-active)
-          ("WAIT" . +org-todo-onhold)
-          ("SOMEDAY" . +org-todo-onhold)
-          ("MAYBE" . +org-todo-onhold)
-          ("PROJ" . +org-todo-project)
-          ("DONE" . +org-todo-cancel)
-          ("KILL" . +org-todo-cancel))))
+  (setq org-default-notes-file org-inbox-file           ; Set default notes file to inbox file.
+        org-hide-leading-stars t                        ; Hide leading stars.
+        org-ellipsis " ▾ "                              ; Use UTF-8 to indicate folded heading.
+        org-hidden-keywords nil                         ; Don't hide any TODO keywords.
+        org-image-actual-width '(0.9)                   ; Use an in-buffer image width closer to export's
+        org-startup-with-inline-images t                ; Show images at startup.
+        org-startup-with-latex-preview nil              ; Don't show LaTeX on startup.
+        org-hide-emphasis-markers t                     ; Hide syntax for emphasis. (Use org-appear)
+        org-src-preserve-indentation t                  ; Keep language specific indenting in source blocks.
+        org-pretty-entities t                           ; Show sub/superscript as UTF8.
+        org-property-format "%-10s %s"                  ; How property key/value pairs is formatted by `indent-line'.
+        org-list-allow-alphabetical t                   ; Allow alphabet as lists.
+        org-use-property-inheritance t                  ; Sub-headings inherit parent properties.
+        org-imenu-depth 5                               ; Allow imenu to search deeply in org docs.
+        org-return-follows-link t                       ; Allow return to open links.
+        org-insert-heading-respect-content nil          ; Insert heading here, not at end of list.
+        org-use-fast-todo-selection 'auto               ; Method to select TODO heading keywords.
+        org-log-done 'time                              ; Add completion time to DONE items.
+        org-log-into-drawer t                           ; Log times into a drawer to hide them.
+        org-log-reschedule t                            ; Log rescheduling of scheduled items.
+        org-log-redeadline t                            ; Log rescheduling of deadline items.
+        org-log-states-order-reversed nil               ; Log times reverse chronologically.
+        org-treat-insert-todo-heading-as-state-change t ; Enable logging on todo state change.
+        org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(d!)")))
+  (add-to-list 'org-modules 'org-habit t)               ; Enable org-habit for tracking repeated actions.
+  (add-to-list 'org-modules 'ol-man t))                 ; Enable links to man pages.
 
-(use-package! denote
-  :after org
+(use-package! org-id
+  :defer t
   :config
-  (setq denote-directory org-directory    ;; Use org-directory with denote.
-        org-id-ts-format denote-id-format ;; Use denote-id-format for org-id.
-        org-id-method 'ts                 ;; Use org-roam compatible front-matter.
-        ;; Use Denote ID as date to avoid the org timestamp which is missing seconds.
-        denote-date-format denote-id-format
-        denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n"))
+  (setq org-id-method 'ts ; Setup ISO-8601 (Maybe) timestamp format for identifiers.
+        org-id-ts-format "%Y%m%dT%H%M%S"))
 
+;; (use-package! denote
+;;   :after org
+;;   :config
+;;   (setq denote-directory org-directory    ;; Use org-directory with denote.
+;;         org-id-ts-format denote-id-format ;; Use denote-id-format for org-id.
+;;         org-id-method 'ts                 ;; Use org-roam compatible front-matter.
+;;         ;; Use Denote ID as date to avoid the org timestamp which is missing seconds.
+;;         denote-date-format denote-id-format
+;;         denote-org-front-matter ":PROPERTIES:\n:ID: %4$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n"))
+
+;;org-inbox-directory (expand-file-name "./inbox/" org-directory)
+;;org-inbox-file (expand-file-name (concat user-system-name ".org") org-inbox-directory))
+;; Keybinds
+;; (map! :leader
+;;       (:prefix "n"
+;;                (:prefix ("g" . "goto")
+;;                         (:prefix ("l" . "last")
+;;                                  "c" #'org-capture-goto-last-stored
+;;                                  "r" #'org-refile-goto-last-stored))))
 (use-package! org-roam
   :defer t
   :init
