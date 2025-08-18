@@ -134,8 +134,8 @@
   ;; Avoid setting font on macOS until a performant one can be found.
   (when (and (doom-font-exists-p "JetBrains Mono")
              (featurep :system 'linux))
-    (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-          doom-big-font (font-spec :family "JetBrains Mono" :size 16))))
+    (setq doom-font (font-spec :family "JetBrains Mono" :size 15.0)
+          doom-big-font (font-spec :family "JetBrains Mono" :size 16.0))))
 
 (use-package! doom-modeline
   :defer t
