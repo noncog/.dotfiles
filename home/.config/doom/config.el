@@ -50,7 +50,7 @@
   ;; standard Linux layout. Keep your Linux muscle memory on a Mac.
   (setq mac-command-modifier 'control ; Maps Command -> Control
         mac-control-modifier 'meta    ; Maps Control -> Alt (Meta)
-        mac-option-modifier 'super)  ; Maps Option -> Super
+        mac-option-modifier 'super)   ; Maps Option -> Super
   (when (>= emacs-major-version 29)
     ;; Setup frame to use rounded corners natively on Emacs 29+.
     (add-to-list 'default-frame-alist '(undecorated-round . t))))
@@ -154,7 +154,6 @@
   :config
   (setq display-line-numbers-type 'visual
         display-line-numbers-grow-only t)
-  ;; Disable line numbers in org-mode.
   (add-hook 'org-mode-hook #'doom-disable-line-numbers-h))
 
 ;;; Navigation
@@ -190,13 +189,13 @@
 (use-package! projectile
   :defer t
   :init
-  (setq projectile-project-search-path
+  :config
+  (setq projectile-auto-discover nil
+        projectile-track-known-projects-automatically nil
+        projectile-project-search-path
         '(("~/.dotfiles" . 0)
           ("~/dev/projects" . 1)   ; My projects.
           ("~/dev/source" . 1)))   ; Other's code.
-  :config
-  (setq projectile-auto-discover nil
-        projectile-track-known-projects-automatically nil)
   (map! :map project-prefix-map
         :leader :desc "List dirty projects"
         "p l" #'projectile-browse-dirty-projects))
@@ -206,9 +205,9 @@
   :config
   (setq magit-repository-directories
         '(("~/.dotfiles" . 0)
-          ("~/Dev/projects" . 1)   ; My projects.
-          ("~/Dev/source" . 1)))   ; Other's code.
-  (require 'magit-lint)) ;; Load my custom commit linter.
+          ("~/Dev/projects" . 1)
+          ("~/Dev/source" . 1)))
+  (require 'magit-lint)) ; Load my custom commit linter.
 
 ;;; Terminal
 
@@ -216,11 +215,11 @@
   :defer t
   :init
   ;; Update Bash version on macOS if available.
-  (when (and (featurep :system 'macos) (file-exists-p "/opt/homebrew/bin/bash"))
+  (when (and (featurep :system 'macos)
+             (file-exists-p "/opt/homebrew/bin/bash"))
     (setq vterm-shell "/opt/homebrew/bin/bash"))
   :config
-  ;; Fix M-backspace keybind on macOS.
-  ;; TODO Verify required.
+  ;; Fix M-backspace keybind on macOS. TODO Verify required.
   (evil-define-key* 'insert vterm-mode-map (kbd "<M-backspace>") #'vterm-send-meta-backspace))
 
 ;;; Languages
