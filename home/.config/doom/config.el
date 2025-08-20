@@ -873,34 +873,34 @@ Intended for use with `:before-finalize` keyword in `org-capture-templates`."
                              (org-agenda-primary-file :maxlevel . 5)
                              (org-agenda-files :maxlevel . 3))))
 
-(use-package! org-modern
-  :hook
-  (org-mode . org-modern-mode)
-  (org-agenda-finalize . org-modern-agenda)
-  :config
-  (setq org-modern-star nil
-        org-modern-hide-stars nil
-        org-modern-todo t
-        org-modern-todo-faces nil
-        org-modern-tag t
-        org-modern-tag-faces nil
-        org-modern-priority t
-        org-modern-progress nil
-        org-modern-timestamp t
-        org-modern-block-name nil
-        org-modern-table-vertical 1
-        org-modern-table-horizontal 0.2))
+;; (use-package! org-modern
+;;   :hook
+;;   (org-mode . org-modern-mode)
+;;   (org-agenda-finalize . org-modern-agenda)
+;;   :config
+;;   (setq org-modern-star nil
+;;         org-modern-hide-stars nil
+;;         org-modern-todo t
+;;         org-modern-todo-faces nil
+;;         org-modern-tag t
+;;         org-modern-tag-faces nil
+;;         org-modern-priority t
+;;         org-modern-progress nil
+;;         org-modern-timestamp t
+;;         org-modern-block-name nil
+;;         org-modern-table-vertical 1
+;;         org-modern-table-horizontal 0.2))
 
-(use-package! org-appear
-  :hook (org-mode . org-appear-mode)
-  :config
-  (setq org-appear-autokeywords nil         ; Don't show hidden todo-keywords.
-        org-appear-autolinks nil            ; Don't expand link markup.
-        org-appear-autoemphasis t           ; Show emphasis markup.
-        org-appear-autosubmarkers t         ; Show sub/superscript
-        org-appear-autoentities t           ; Show LaTeX like Org pretty entities.
-        org-appear-autolinks nil            ; Shows Org links.
-        org-appear-inside-latex nil))       ; Don't show inside latex.
+;; (use-package! org-appear
+;;   :hook (org-mode . org-appear-mode)
+;;   :config
+;;   (setq org-appear-autokeywords nil         ; Don't show hidden todo-keywords.
+;;         org-appear-autolinks nil            ; Don't expand link markup.
+;;         org-appear-autoemphasis t           ; Show emphasis markup.
+;;         org-appear-autosubmarkers t         ; Show sub/superscript
+;;         org-appear-autoentities t           ; Show LaTeX like Org pretty entities.
+;;         org-appear-autolinks nil            ; Shows Org links.
+;;         org-appear-inside-latex nil))       ; Don't show inside latex.
 
 (use-package! toc-org
   :defer t
