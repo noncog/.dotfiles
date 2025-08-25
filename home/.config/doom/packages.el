@@ -19,6 +19,10 @@
   :recipe (:host github :repo "protesilaos/denote")
   :pin "3bb05f212cc29fa6953e6d703e5e0c2e982882a9")
 
+(package! org-transclusion
+  :recipe (:host github :repo "nobiot/org-transclusion")
+  :pin "e9728b0b14b5c2e5d3b68af98f772ed99e136b48")
+
 (package! orca
   :recipe (:host github :repo "abo-abo/orca")
   :pin "0687f416a5573f63b691d384454f5a793266ed97")
