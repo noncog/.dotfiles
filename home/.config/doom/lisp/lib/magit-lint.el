@@ -5,7 +5,7 @@
 ;; Created: October 25, 2024
 ;; Modified: October 25, 2024
 ;; Version: 0.0.1
-;; Homepage: https://github.com/noncog/.dotfiles/dotfiles/.config/doom/lisp/magit-lint.el
+;; Homepage: https://github.com/noncog/.dotfiles/dotfiles/.config/doom/lisp/lib/magit-lint.el
 ;; Package-Requires: ((emacs "28.1"))
 ;;
 ;; This file is not part of GNU Emacs.
@@ -17,9 +17,9 @@
 ;; The code is based on and highly modified from:
 ;; - https://www.adventuresinwhy.com/post/commit-message-linting
 ;;
-;; This code is an extension of git-commit-style-convention-checks from Magit.
+;; This code is an extension of `git-commit-style-convention-checks' from Magit.
 ;;
-;; Requires two files to define list of words to check against the commit message:
+;; Requires two files to define a list of words to check against the commit message summary:
 ;; - commit-types
 ;; - imperative-verbs
 ;;
@@ -153,7 +153,7 @@ are also set."
 
 (add-to-list 'git-commit-finish-query-functions #'magit-lint-check-style-conventions)
 
-;; TODO: Validate this is required.
+;; TODO: Verify this works and if there is a better way to use after-save-hook in contexts.
 (add-hook 'after-save-hook 'magit-after-save-refresh-status t)
 
 (provide 'magit-lint)
