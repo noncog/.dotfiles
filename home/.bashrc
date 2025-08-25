@@ -1,14 +1,17 @@
 # ~/.bashrc: executed for non-login shells.
-# TODO: Add note on both .profile and .bashrc with compatibility statement.
 
-# return if in a non-interactive shell.
+# Return if this is a non-interactive shell.
 case $- in
     *i*) ;;
     *) return ;;
 esac
 
-function settings::global() {
-    # NOTE: 1 = true, 0 = false, opposite of Shell return codes.
+# Configuration is done inside of functions to allow for the use of local
+# variables and to split the configuration for modularity. Any functions
+# defined here are unset before the end of this file's execution.
+
+# The following is the main entry point to the global configuration.
+function settings::bash() {
     # HISTORY SETTINGS
     shopt -s histappend    # append to the history file, don't overwrite it.
     HISTCONTROL=ignoreboth # ignore space prefixed or duplicate lines.
@@ -19,98 +22,80 @@ function settings::global() {
     shopt -s checkwinsize # keep window size (LINES and COLUMNS) updated.
     shopt -u globstar     # disable pathname expansion using globs.
 
-    # USER-MADE OPTIONS
+    # USER-MADE OPTIONS       Uncomment to use. Set booleans to 'true' or 'false'.
     local COLOR_TTY='dracula' # Use selected theme in TTY for Linux.
-    local COLOR_CLI=1         # Use color in various program outputs.
-    local COLOR_FILE=''       # Use .dircolors or equivalent file for color settings.
+    local COLOR_CLI='true'    # Use color in various program outputs.
+    local COLOR_FILE=''       # Use .dircolors or equivalent file for colors.
 
     # ALIASES
+    alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
+    alias expand_alias='echo '
+
     [ -x ~/.dotfiles/bin/dotfiles ] \
         && alias dotfiles='~/.dotfiles/bin/dotfiles'
     [ -x ~/.config/emacs/bin/doom ] \
         && alias doom='~/.config/emacs/bin/doom'
     [ -x ~/.local/src/emacs-30/src/emacs ] \
-        && alias memacs='~/.local/src/emacs-30/src/emacs --no-site-lisp --no-x-resources --no-site-file --no-splash --init-directory="~/.dotfiles/home/.config/emacs/"'
+        && alias memacs='emacs --no-site-lisp --no-x-resources --no-site-file --no-splash --init-directory="~/.dotfiles/home/.config/emacs/"'
 
-    alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
+    # GENERAL
 
-    alias expand_alias='echo '
-    settings::apply
-    unset -f settings::apply
+    # Set $DOOMDIR.
+    [ -d "$HOME/.config/doom" ] \
+        && export DOOMDIR="$HOME/.config/doom"
+
+    # CONFIGURATION FUNCTIONS
+    settings::per_os
+    unset -f settings::per_os
+
+    settings::color_tty
+    unset -f settings::color_tty
+
+    settings::prompt
+    unset -f settings::prompt
 }
 
-function settings::apply() {
-    # The following enables per-os configurations while
-    # avoiding several branches or functions by defining
-    # the relevant differences as variables then applying
-    # their setting. Only calls once to "$OSTYPE".
-
-    # Initialize variables for per-os configs.
-    local dir_brewpath=""
-    local bin_kitty=""
-    local dir_doom=""
-    local bin_bash_completion=""
-    local bin_dircolors=""
-
-    # Process universal settings.
-    dir_doom="$HOME/.config/doom"
+# The following function exists to reduce startup time and configure settings
+# that may vary between macOS and Linux. It avoids multiple forks by only
+# checking the '$OSTYPE' once and setting variables according to each.
+function settings::per_os() {
+    # Initialize variables.
+    local homebrew_bin kitty_bin bash_completion_bin dircolors_bin
 
     # Process per-os settings.
     case "$OSTYPE" in
         darwin*)
             if [ -n "$HOMEBREW_PREFIX" ]; then
-                dir_brewpath="$HOMEBREW_PREFIX/bin"
-                bin_kitty="${dir_brewpath}/kitty"
-                bin_bash_completion="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+                homebrew_bin="$HOMEBREW_PREFIX/bin"
+                kitty_bin="${homebrew_bin}/kitty"
+                bash_completion_bin="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
                 [ "$COLOR_CLI" -eq 1 ] && export CLI_COLOR=1
-                bin_dircolors="$dir_brewpath/gdircolors"
+                dircolors_bin="$homebrew_bin/gdircolors"
             else
                 echo "error homebrew does not appear to be installed. Cannot install.."
+                # Should return here.
             fi
             ;;
         linux-gnu*)
-            bin_kitty="/usr/bin/kitty"
+            kitty_bin="/usr/bin/kitty"
             if [ -f /usr/share/bash-completion/bash_completion ]; then
-                bin_bash_completion="/usr/share/bash-completion/bash_completion"
+                bash_completion_bin="/usr/share/bash-completion/bash_completion"
             elif [ -f /etc/bash_completion ]; then
-                bin_bash_completion="/etc/bash_completion"
+                bash_completion_bin="/etc/bash_completion"
             fi
-            bin_dircolors="/usr/bin/dircolors"
+            dircolors_bin="/usr/bin/dircolors"
             ;;
     esac
 
-    # Apply processed settings.
-
-    # Set $TERMINAL.
-    [ -x "$bin_kitty" ] \
-        && export TERMINAL="$bin_kitty"
-
-    # Set $DOOMDIR.
-    [ -d "$dir_doom" ] \
-        && export DOOMDIR="$dir_doom"
-
-    # Setup Bash completions.
-    if [ "x${BASH_COMPLETION_VERSINFO-}" != x ]; then
-        if ! shopt -oq posix; then
-            if [ -r "$bin_bash_completion" ]; then
-                # shellcheck disable=SC1090
-                . "$bin_bash_completion"
-            else
-                # TODO: Develop temp logging lib with verbosity levels.
-                echo "bash completions binary not found"
-            fi
-        fi
-    fi
-
     # Apply color to output using dircolors.
     if [ "$COLOR_CLI" -eq 1 ]; then
-        if [ -x "$bin_dircolors" ]; then
+        if [ -x "$dircolors_bin" ]; then
             if [ -n "$COLOR_FILE" ] \
                 && [ -r "$COLOR_FILE" ]; then
-                eval "$(${bin_dircolors} -b $COLORS_FILE)"
+                eval "$(${dircolors_bin} -b "$COLOR_FILE")"
             else
                 # NOTE: Consider support for using .dircolors file.
-                eval "$(${bin_dircolors} -b)"
+                eval "$(${dircolors_bin} -b)"
                 alias ls='ls --color=auto'
                 alias lsa='ls -a --color=auto'
                 alias dir='dir --color=auto'
@@ -128,29 +113,50 @@ function settings::apply() {
         export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
     fi
 
-    # Apply TTY theme.
+    # Set $TERMINAL.
+    [ -x "$kitty_bin" ] \
+        && export TERMINAL="$kitty_bin"
+
+    # Setup Bash completions.
+    if [ "x${BASH_COMPLETION_VERSINFO-}" != x ]; then
+        if ! shopt -oq posix; then
+            if [ -r "$bash_completion_bin" ]; then
+                # shellcheck disable=SC1090
+                . "$bash_completion_bin"
+            else
+                # TODO: Develop temp logging lib with verbosity levels.
+                echo "bash completions binary not found"
+            fi
+        fi
+    fi
+
+}
+
+function settings::color_tty() {
+    # Apply the TTY color theme if enabled. More themes can be added here.
+    # TODO: Consider refactoring disabling of COLOR_TTY if we can detect earlier that not in one.
     if [ -n "$COLOR_TTY" ]; then
         if [ "$TERM" = "linux" ]; then
             case "$COLOR_TTY" in
                 dracula)
-                    printf %b '\e[40m' '\e[8]' # set default background to color 0 'dracula-bg'
-                    printf %b '\e[37m' '\e[8]' # set default foreground to color 7 'dracula-fg'
-                    printf %b '\e]P0282a36'    # redefine 'black'          as 'dracula-bg'
-                    printf %b '\e]P86272a4'    # redefine 'bright-black'   as 'dracula-comment'
-                    printf %b '\e]P1ff5555'    # redefine 'red'            as 'dracula-red'
-                    printf %b '\e]P9ff7777'    # redefine 'bright-red'     as '#ff7777'
-                    printf %b '\e]P250fa7b'    # redefine 'green'          as 'dracula-green'
-                    printf %b '\e]PA70fa9b'    # redefine 'bright-green'   as '#70fa9b'
-                    printf %b '\e]P3f1fa8c'    # redefine 'brown'          as 'dracula-yellow'
-                    printf %b '\e]PBffb86c'    # redefine 'bright-brown'   as 'dracula-orange'
-                    printf %b '\e]P4bd93f9'    # redefine 'blue'           as 'dracula-purple'
-                    printf %b '\e]PCcfa9ff'    # redefine 'bright-blue'    as '#cfa9ff'
-                    printf %b '\e]P5ff79c6'    # redefine 'magenta'        as 'dracula-pink'
-                    printf %b '\e]PDff88e8'    # redefine 'bright-magenta' as '#ff88e8'
-                    printf %b '\e]P68be9fd'    # redefine 'cyan'           as 'dracula-cyan'
-                    printf %b '\e]PE97e2ff'    # redefine 'bright-cyan'    as '#97e2ff'
-                    printf %b '\e]P7f8f8f2'    # redefine 'white'          as 'dracula-fg'
-                    printf %b '\e]PFffffff'    # redefine 'bright-white'   as '#ffffff'
+                    printf '%b' '\e[40m' '\e[8]' # set default background to color 0 'dracula-bg'
+                    printf '%b' '\e[37m' '\e[8]' # set default foreground to color 7 'dracula-fg'
+                    printf '%b' '\e]P0282a36'    # 'black'          as 'dracula-bg'
+                    printf '%b' '\e]P86272a4'    # 'bright-black'   as 'dracula-comment'
+                    printf '%b' '\e]P1ff5555'    # 'red'            as 'dracula-red'
+                    printf '%b' '\e]P9ff7777'    # 'bright-red'     as '#ff7777'
+                    printf '%b' '\e]P250fa7b'    # 'green'          as 'dracula-green'
+                    printf '%b' '\e]PA70fa9b'    # 'bright-green'   as '#70fa9b'
+                    printf '%b' '\e]P3f1fa8c'    # 'brown'          as 'dracula-yellow'
+                    printf '%b' '\e]PBffb86c'    # 'bright-brown'   as 'dracula-orange'
+                    printf '%b' '\e]P4bd93f9'    # 'blue'           as 'dracula-purple'
+                    printf '%b' '\e]PCcfa9ff'    # 'bright-blue'    as '#cfa9ff'
+                    printf '%b' '\e]P5ff79c6'    # 'magenta'        as 'dracula-pink'
+                    printf '%b' '\e]PDff88e8'    # 'bright-magenta' as '#ff88e8'
+                    printf '%b' '\e]P68be9fd'    # 'cyan'           as 'dracula-cyan'
+                    printf '%b' '\e]PE97e2ff'    # 'bright-cyan'    as '#97e2ff'
+                    printf '%b' '\e]P7f8f8f2'    # 'white'          as 'dracula-fg'
+                    printf '%b' '\e]PFffffff'    # 'bright-white'   as '#ffffff'
                     clear
                     ;;
                 *)
@@ -158,25 +164,25 @@ function settings::apply() {
                     ;;
             esac
         else
-            # if verbose say here, otherwise continue.
-            #echo "terminal is not a tty, currently only supports linux tty theming"
+            # NOTE: Disabled to prevent error message showing in regular graphical terminal session.
+            #echo "COLOR_TTY setting: $COLOR_TTY, not applied. TERM: $TERM is unsupported."
             :
         fi
     fi
-
-    settings::prompt
-    unset -f settings::prompt
 }
 
 function settings::prompt() {
-    # --location
-    # set variable identifying the chroot you work in for the prompt.
+    # Setup the prompt according to system capabilities.
+
+    # LOCATION
+    # Set variable identifying the chroot you work in for the prompt.
+    # NOTE: Only setup to work with Debian for now.
     if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
         debian_chroot="$(< /etc/debian_chroot)"
     fi
 
-    # --color
-    # if terminal natively supports color, enable colored prompt.
+    # COLOR
+    # If terminal natively supports color, enable colored prompt.
     # otherwise, check for color capability for terminals that
     # support it but don't expose its capability by default.
     local color_prompt
@@ -191,15 +197,16 @@ function settings::prompt() {
                 color_prompt=
             fi ;;
     esac
-    # finally set the prompt to be colored or uncolored.
+
+    # Setup the prompt, colored or uncolered.
     if [ "$color_prompt" = yes ]; then
         PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
     else
         PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     fi
 
-    # --title
-    # if an xterm set the title to user@host:dir
+    # TITLE
+    # If an xterm set the title to user@host:dir
     case "$TERM" in
         xterm* | rxvt*)
             PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
@@ -208,5 +215,5 @@ function settings::prompt() {
     esac
 }
 
-settings::global
-unset -f settings::global
+settings::bash
+unset -f settings::bash
