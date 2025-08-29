@@ -56,7 +56,7 @@ function settings::bash() {
 }
 
 # The following function exists to reduce startup time and configure settings
-# that may vary between macOS and Linux. It avoids multiple forks by only
+# that may vary between macOS and Linux. It avoids branching by only
 # checking the '$OSTYPE' once and setting variables according to each.
 function settings::per_os() {
     # Initialize variables.
@@ -69,8 +69,10 @@ function settings::per_os() {
                 homebrew_bin="$HOMEBREW_PREFIX/bin"
                 kitty_bin="${homebrew_bin}/kitty"
                 bash_completion_bin="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
-                [ "$COLOR_CLI" -eq 1 ] && export CLI_COLOR=1
                 dircolors_bin="$homebrew_bin/gdircolors"
+                if "$COLOR_CLI"; then
+                    export CLI_COLOR=1 # TODO: Check why this specific variant exists.
+                fi
             else
                 echo "error homebrew does not appear to be installed. Cannot install.."
                 # Should return here.
@@ -87,8 +89,14 @@ function settings::per_os() {
             ;;
     esac
 
+    # LS_COLORS may be called LSCOLORS
+    # https://www.pixelbeat.org/scripts/l
+    # https://ss64.com/bash/lsenv.html
+
     # Apply color to output using dircolors.
-    if [ "$COLOR_CLI" -eq 1 ]; then
+    if "$COLOR_CLI"; then
+        export CLI_COLOR=1
+
         if [ -x "$dircolors_bin" ]; then
             if [ -n "$COLOR_FILE" ] \
                 && [ -r "$COLOR_FILE" ]; then
@@ -108,7 +116,6 @@ function settings::per_os() {
         else
             alias lsa='ls -a'
         fi
-    else
         # enable colored GCC warnings and errors
         export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
     fi
