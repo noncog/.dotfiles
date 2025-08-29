@@ -22,9 +22,9 @@
         org-roam-include-exclude-directories (list org-inbox-directory)
         org-roam-include-exclude-files (list "agenda.org" "bookmarks.org"))
   (setq org-roam-file-rename-exclude (append
-                                      '("~/Documents/org/resource/bookmarks.org"
-                                        "~/Documents/org/agenda.org"
-                                        "~/Documents/org/system-overview.org")
+                                      '("~/documents/org/resource/bookmarks.org"
+                                        "~/documents/org/agenda.org"
+                                        "~/documents/org/system-overview.org")
                                       (directory-files org-inbox-directory 'full ".org$") nil))
   (require 'org-roam-tags))      ;; Automatic tag insertion after node insertion.
 
@@ -67,3 +67,11 @@
         org-roam-dailies-capture-templates
         '(("d" "default" plain "%?"
            :target (file+head "${id}--log.org" "#+title: Log\n#+date: %u\n#+filetags:\n\n* Log")))))
+
+(use-package! denote
+  :defer t
+  :after org
+  :config
+  ;; Prevent default configuration from creating directories.
+  (setq denote-directory org-directory
+        denote-dired-directories org-directory))
