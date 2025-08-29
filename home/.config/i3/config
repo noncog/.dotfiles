@@ -1,5 +1,15 @@
 # i3 Configuration dynamically generated (tangled) from ./i3.org.
 
+# default_orientation vertical
+# drop as sibling
+# drop to parent
+# mode_toggle to switch between focusing on floating and tiling modes.
+# focus accepts criteria for workspace.
+# focus accepts parent to focus something.
+# see difference between assign and for_window
+# assign works whenever any window changes its properties to match a criteria, for_window is done when a window is made.
+workspace_layout tabbed
+
 ## BEHAVIOR
 # Focus
 focus_follows_mouse no
