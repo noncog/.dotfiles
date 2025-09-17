@@ -19,16 +19,16 @@ if [ -n "$BASH_VERSION" ]; then
     case "$OSTYPE" in
         darwin*)
             # set path, manpath, etc. for homebrew.
-            [ -x /opt/homebrew/bin/brew ] &&
-                eval "$(/opt/homebrew/bin/brew shellenv)"
+            [ -x /opt/homebrew/bin/brew ] \
+                && eval "$(/opt/homebrew/bin/brew shellenv)"
             # add clangd/llvm for lsp mode.
-            [ -d /opt/homebrew/opt/llvm/bin ] &&
-                export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+            [ -d /opt/homebrew/opt/llvm/bin ] \
+                && export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
             # add gnu grep to system to use over bsd grep.
-            [ -d /opt/homebrew/opt/grep/libexec/gnubin ] &&
-                export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
-            [ -d /opt/homebrew/opt/gnu-sed/libexec/gnubin ] &&
-               export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+            [ -d /opt/homebrew/opt/grep/libexec/gnubin ] \
+                && export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
+            [ -d /opt/homebrew/opt/gnu-sed/libexec/gnubin ] \
+                && export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
             ;;
     esac
 
