@@ -1,0 +1,138 @@
+#!/bin/env bash
+#===============================================================================#
+#        file: fref - File (Name) Reference Utility                             #
+# description: A utility tool for maintaining file names using a structured     #
+#              formatting convetion. Get and set timestamps, titles, and tags.  #
+#      author: noncog                                                           #
+#    homepage: https://github.com/noncog/.dotfiles/home/.local/bin/fref         #
+#        date: September 17, 2025                                               #
+#===============================================================================#
+
+# Settings
+readonly TIME_FORMAT='+%Y%m%dT%H%M%S'
+
+# Constants
+readonly rx_uint='^[0-9]+$'
+
+#====================================================================#
+# log::error ()                                                      #
+# Print a formatted error message to STDERR.                         #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#====================================================================#
+function log::error() {
+    printf 'error: %s: %s\n' "${FUNCNAME[1]}" "$@" >&2
+}
+
+#====================================================================#
+# time::format_epoch ()                                              #
+# Convert epoch time string into other formats using 'date'.         #
+# Accepts formatted time strings or epoch time in seconds.           #
+# Optionally accept format string to use instead of default.         #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#====================================================================#
+function time::format() {
+    if [[ "$#" -lt 1 ]]; then
+        log::error "incorrect argument count: $#"
+        return 2
+    fi
+
+    local time=$1
+    local format="$2"
+
+    # When given epoch time, 'date' wants this format.
+    if [[ "$1" =~ $rx_uint ]]; then
+        time="@${time}"
+    fi
+
+    # Do the correct conversion per operating system.
+    case "$OSTYPE" in
+        darwin*)
+            # Workaround, use GNU date instead of BSD date.
+            # see: stackoverflow.com/questions/6508819
+            if command -v -- 'gdate' > /dev/null 2>&1; then
+                gdate --date="$time" "${format:="$TIME_FORMAT"}"
+            else
+                log::error
+                "macOS requires GNU date from homebrew coreutils package"
+                return 1
+            fi
+            ;;
+        linux*)
+            date --date="$time" "${format:="$TIME_FORMAT"}"
+            ;;
+        *)
+            log::error "unsupported operating system"
+            return 1
+            ;;
+    esac
+}
+
+#====================================================================#
+# file::get_crtime ()                                                #
+# Return the creation time of the file. If given a format string,    #
+# return the formatted value. If format string is empty, use the     #
+# default format set by 'TIME_FORMAT'.                               #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#====================================================================#
+function file::get_crtime() {
+    if [[ "$#" -lt 1 || "$#" -gt 2 ]]; then
+        log::error "incorrect argument count: $#"
+        return 2
+    fi
+
+    local crtime_epoch
+    crtime_epoch="$(stat -c %W "$1")"
+    if [[ "$crtime_epoch" -eq 0 ]]; then
+        # 'stat' may fail on different file systems.
+        log::error "Unable to get creation time for file: $1"
+        return 1
+    elif [[ "$#" -eq 2 ]]; then
+        time::format "$crtime_epoch" "$2"
+    else
+        printf '%s\n' "$crtime_epoch"
+    fi
+}
+
+# WIP SECTION:
+
+# function file::get_timestamp() {:}
+# function file::get_title() {:}
+# function file::get_tags() {:}
+
+function file::get_parts() {
+    local filename extension
+    filename=$(basename -- "$1")
+    #extension="${filename##*.}"
+    echo "filename before trim: $filename"
+    extension="$([[ "$filename" = *.* ]] && echo ".${filename##*.}" || echo '')"
+    filename="${filename%.*}"
+    echo "filename: $filename"
+    echo "extension: $extension"
+    # Alternatively, you can focus on the last '/' of the path instead of the '.' which should work even if you have unpredictable file extensions:
+
+    # filename="${fullfile##*/}"
+    # This "solution" does not work if the file does not have an extension -- instead, the whole file name is output, which is quite bad considering that files without extensions are omnipresent.
+    # Fix for dealing with file names without extension: extension=$([[ "$filename" = *.* ]] && echo ".${filename##*.}" || echo ''). Note that if an extension is present, it will be returned including the initial ., e.g., .txt.
+    # this may be worth doing:
+    # FULL_FILENAME=$FILENAME
+    # FILENAME=${FULL_FILENAME##*/}
+    # echo ${FILENAME%%.*}
+    # I haven't tested it extensively but I could get the extension with ext="${filename##?(.)+([^.])?(.)}" and the name without extension then with raw_name="${filename:0:${#filename} - ${#ext}}" like this you at least won't need the conditional afterwards. It at least works for files without extension, multiple extensions like tar.gz and also files starting with a dot.
+    # To remove the last / from dir use dir_noslash="${dir%[/]}". (when creating folders etc)
+    # https://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
+    # TODO: Rename variables to file, basename, extension
+    # NOTE: basename supports adding extension to it to trim it.
+}
+
+file::get_parts "$@"
