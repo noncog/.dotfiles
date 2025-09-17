@@ -56,3 +56,6 @@ export EMACSDIR="$HOME/.config/emacs"
 
 # Prevent less from using a history file.
 export LESSHISTFILE="/dev/null"
+
+# Prevent .java directory in $HOME and use XDG_CONFIG_HOME instead.
+export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
