@@ -37,9 +37,6 @@
   :group 'org-agenda
   :type '(repeat (string :tag "Keyword")))
 
-;; TODO: Make value accept boolean and not just string.
-;;       Works for nil and not t.
-;; TODO: Consider rewriting for efficiency.
 (defun org-file-property-p (property &optional value)
   "Return non-nil if org buffer has file-level PROPERTY.
 
@@ -48,9 +45,8 @@ if it contains PROPERTY set to this value. If PROPERTY should be
 explicitly set to nil, use string \"nil\" for VALUE."
   (org-with-point-at 1
     (let ((has-prop (org-find-property property value)))
-      (if has-prop
-          (org-with-point-at has-prop (org-before-first-heading-p))
-        nil))))
+      (if (and has-prop (progn (goto-char has-prop) (org-before-first-heading-p)))
+          (if value t (org-entry-get has-prop property nil t)) nil))))
 
 ;; TODO: Ensure works in narrowed buffers.
 ;; TODO: Replace org-file-property-p argument for value a boolean and not string.
