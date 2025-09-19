@@ -94,9 +94,9 @@ Searches for entries containing:
 (defun org-file-end-of-meta-data ()
   "Skip to end of properties drawer and keywords in file.
 
-Similar to `org-end-of-meta-data' but for file level."
+Similar to `org-end-of-meta-data' but for file level meta-data."
   (if (buffer-narrowed-p)
-      (user-error "Unable to move to top-level (file) meta-data in narrowed buffer.")
+      (user-error "Unable to move to top-level (file) meta-data in narrowed buffer")
     (goto-char (point-min))
     (when (looking-at org-property-drawer-re)
       (goto-char (match-end 0))
