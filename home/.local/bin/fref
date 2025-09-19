@@ -2,7 +2,7 @@
 #===============================================================================#
 #        file: fref - File (Name) Reference Utility                             #
 # description: A utility tool for maintaining file names using a structured     #
-#              formatting convetion. Get and set timestamps, titles, and tags.  #
+#              formatting convention. Get and set timestamps, titles, and tags. #
 #      author: noncog                                                           #
 #    homepage: https://github.com/noncog/.dotfiles/home/.local/bin/fref         #
 #        date: September 17, 2025                                               #
