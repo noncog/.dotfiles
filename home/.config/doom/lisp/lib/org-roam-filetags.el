@@ -43,6 +43,7 @@
 (require 'org-roam-utils)
 ;;(require 'org-roam-keyword)
 (require 'org-roam-agenda)
+(require 'org-file)
 
 (add-to-list 'org-tags-exclude-from-inheritance "person")
 
@@ -79,7 +80,7 @@ org-roam-filetags-update-* variables."
          (remove-tags (list)))
     ;; Ensure the agenda tag is set when appropriate.
     ;; See org-roam-agenda-file-p for conditions.
-    (if (org-roam-agenda-file-p)
+    (if (org-file-agenda-p)
         (cl-pushnew "agenda" add-tags :test #'string=)
       (cl-pushnew "agenda" remove-tags :test #'string=))
     ;; Ensure that @PersonName tag is set when node is tagged as a person.

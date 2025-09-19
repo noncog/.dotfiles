@@ -19,8 +19,10 @@
   (defvar org-inbox-file (expand-file-name (concat user-system-name ".org") org-inbox-directory)
     "Inbox file to use with `org-capture'. Uses system name to avoid sync conflicts.")
   :config
+  (custom-set-faces! '(org-document-title :height 1.0))
   (add-to-list 'org-modules 'org-habit t)               ; Enable org-habit for tracking repeated actions.
   (add-to-list 'org-modules 'ol-man t)                  ; Enable links to man pages.
+  (add-to-list 'org-modules 'ol-info t)                 ; Enable links to info pages.
   (setq org-default-notes-file org-inbox-file           ; Set default notes file to inbox file.
         org-hide-leading-stars t                        ; Hide leading heading stars.
         org-ellipsis " ▾ "                              ; Use UTF-8 to indicate a folded heading.
@@ -60,7 +62,6 @@
         org-id-ts-format "%Y%m%dT%H%M%S"))
 
 (use-package! org-file
-  :defer t
   :after org
   :config
   (setq org-file-tag-agenda "agenda"
@@ -84,6 +85,7 @@
   :defer t
   :config
   ;; Declare helper functions.
+  ;; NOTE: Does not work with multi-level heading captures.
   (defun org-capture-add-created-property ()
     "Add Create an ID and CREATED property for the current entry.
 Intended for use with `:before-finalize' keyword in `org-capture-templates'."
@@ -148,6 +150,9 @@ Intended for use with `:before-finalize' keyword in `org-capture-templates'."
 
 (use-package! org-ql
   :defer t
+  :after org)
+
+(use-package! org-transclusion
   :after org)
 
 (use-package! org-ql-search

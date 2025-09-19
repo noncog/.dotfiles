@@ -6,7 +6,7 @@
 ;; Modified: October 25, 2024
 ;; Version: 0.0.1
 ;; Homepage: https://github.com/noncog/.dotfiles/dotfiles/.config/doom/lisp/org-roam-agenda.el
-;; Package-Requires: ((emacs "28.1"))
+;; Package-Requires: ((emacs "29.1"))
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -26,45 +26,6 @@
 (require 'org-element)
 (require 'org-roam-db)
 (require 'org-agenda)
-
-;; TODO: Add ignoring of certain directories/files.
-;; TODO: Add more conditions.
-(defun org-roam-agenda-file-p ()
-  "Return non-nil if current buffer has todo keywords or scheduled items.
-
-TODO entries marked as done are ignored, meaning this function returns nil
-if current buffer contains only completed tasks. The only exception is headings
-tagged as REFILE."
-  (interactive)
-  (org-element-map
-      (org-element-parse-buffer 'headline)
-      'headline
-    (lambda (h)
-      ;; TODO: Fix todo-type which finds todo or done. Instead use todo-keyword to compare specific keywords.
-      (let ((todo-type (org-element-property :todo-type h)))
-        (or
-         ;; any headline with some todo keyword
-         (eq 'todo todo-type)
-         ;; any headline with REFILE tag (no inheritance)
-         (seq-contains-p (org-element-property :tags h) "REFILE")
-         ;; any non-todo headline with an active timestamp
-         (and
-          (not (eq 'done todo-type))
-          (org-element-property :contents-begin h)
-          (save-excursion
-            (goto-char (org-element-property :contents-begin h))
-            (let ((end (save-excursion
-                         ;; we must look for active timestamps only
-                         ;; before then next heading, even if it's
-                         ;; child, but org-element-property
-                         ;; :contents-end includes all children
-                         (or
-                          (re-search-forward org-element-headline-re
-                                             (org-element-property :contents-end h)
-                                             ':noerror)
-                          (org-element-property :contents-end h)))))
-              (re-search-forward org-ts-regexp end 'noerror)))))))
-    nil 'first-match))
 
 ;; NOTE: Could use a flag to rely on either ripgrep against file name or query the database.
 ;; NOTE: Could also use vulpea compatibility. Could copy how vulpea does query by tags some.

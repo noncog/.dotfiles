@@ -1,5 +1,7 @@
 ;;; +org-roam.el --- My org-roam configuration and extensions until later replacement -*- lexical-binding: t; -*-
 
+;; org-roam-tag-* functions use org-collect-keywords, I don't like it's speed. It's 4x slower.
+
 (use-package! org-roam
   :defer t
   :after org

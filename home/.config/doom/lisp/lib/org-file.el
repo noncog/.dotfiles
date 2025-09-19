@@ -112,9 +112,19 @@ Similar to `org-end-of-meta-data' but for file level meta-data."
       (goto-char (match-end 0))
       (forward-line))))
 
+;; TODO: Setup to use use org-roam--get-keyword as it is faster,
+;;       with bound of something small like 1024 to only search top of file.
+;;       Optionally accept input of bound. Add option to search entire file
+;;       or by using depth with something like org-macro--find-keyword-value.
 (defun org-file-get-keyword (name)
   "Return value of first occurence of keyword NAME in file."
   (org-macro--find-keyword-value name))
+
+(defun org-file-rename-p ()
+  "Return t if current org file is not marked as exempt from renaming.
+
+If file property `RENAME' is nil, return nil, otherwise return t."
+  (not (org-file-property-p "RENAME" "nil")))
 
 (provide 'org-file)
 ;;; org-file.el ends here
