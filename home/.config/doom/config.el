@@ -31,7 +31,6 @@
 ;; Update load-path to include subdirectories of the Doom config directory.
 (add-to-list 'load-path (expand-file-name "lisp" doom-user-dir))
 (add-to-list 'load-path (expand-file-name "lisp/lib" doom-user-dir))
-(add-to-list 'load-path (expand-file-name "lisp/init" doom-user-dir))
 
 ;; Initialize macOS setup.
 (when (featurep :system 'macos)
