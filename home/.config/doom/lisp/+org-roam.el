@@ -10,8 +10,6 @@
         org-roam-db-location (expand-file-name "data/org-roam.db" org-roam-directory))
   :config
   ;; Modify org-roam filename to be compatible with filename scheme (Denote).
-  ;; See: https://github.com/org-roam/org-roam/pull/1544
-  ;; TODO: Check if :after can be used.
   (cl-defmethod org-roam-node-slug :around ((node org-roam-node))
     "Return the slug of NODE."
     (ignore node)
