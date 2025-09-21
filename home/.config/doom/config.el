@@ -1,11 +1,5 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; TODO: Prevent minibuffer from scrolling windows.
-;;       - Stillness-mode
-;;       - Mini-ontop
-;;       - Sinister
-;; TODO: Check out cursor-intangible-mode.
-
 ;;; Initial Setup
 
 ;; Set user variables.
