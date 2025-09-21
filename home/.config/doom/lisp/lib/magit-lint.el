@@ -35,17 +35,23 @@
 ;; Magit/Doom use fill column and git-commit-mode-hook to wrap the body length.
 ;; (setq-hook! 'git-commit-mode-hook fill-column 72)
 
-(defvar magit-lint-commit-types-file "~/.config/git/commit/commit-types"
+(defcustom magit-lint-commit-types-file "~/.config/git/commit/commit-types"
   "File containing a list of (conventional) commit types checked by magit-lint.
 
 Used in `magit-lint-check-style-conventions' to ensure the commit uses a
-valid commit type keyword.")
+valid commit type keyword."
+  :group 'magit-lint
+  :group 'magit
+  :type 'file)
 
-(defvar magit-lint-imperative-verbs-file "~/.config/git/commit/imperative-verbs"
+(defcustom magit-lint-imperative-verbs-file "~/.config/git/commit/imperative-verbs"
   "File containing a list of imperative commit verbs checked by magit-lint.
 
 Used in `magit-lint-check-style-conventions' to ensure the commit uses an
-imperative verb. If the verb is not in the list, asks to add it.")
+imperative verb. If the verb is not in the list, asks to add it."
+  :group 'magit-lint
+  :group 'magit
+  :type 'file)
 
 (defun magit-lint-get-commit-types ()
   "Return a list of commit types from `magit-lint-commit-types-file'.
@@ -86,7 +92,8 @@ Valid members are `summary-has-type',  `summary-type-lowercase',
              summary-title-uses-imperative-verb
              summary-title-not-end-in-punctuation)
   :type '(list :convert-widget custom-hook-convert-widget)
-  :group 'magit-lint)
+  :group 'magit-lint
+  :group 'magit)
 
 (defun magit-lint-check-style-conventions (&optional force)
   "Check for violations of conventional commit style conventions.
