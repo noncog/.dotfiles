@@ -1,15 +1,13 @@
 ;;; +org.el --- My personal org-mode configuration -*- lexical-binding: t; -*-
 
 ;; TODO: Add org-protocol setup functions.
+;; TODO: Look into nov requiring org.
 
 (use-package! evil-collection
   :defer t
   :config
   (setq evil-collection-calendar-want-org-bindings t))
 
-;; TODO: Add linking to info pages.
-;; TODO: Update title and heading sizes.
-;; TODO: See if logbook can be formatted better.
 (use-package! org
   :defer t
   :init
@@ -19,6 +17,7 @@
   (defvar org-inbox-file (expand-file-name (concat user-system-name ".org") org-inbox-directory)
     "Inbox file to use with `org-capture'. Uses system name to avoid sync conflicts.")
   :config
+  ;; TODO: Update title and heading sizes.
   (custom-set-faces! '(org-document-title :height 1.0))
   (add-to-list 'org-modules 'org-habit t)               ; Enable org-habit for tracking repeated actions.
   (add-to-list 'org-modules 'ol-man t)                  ; Enable links to man pages.
@@ -33,6 +32,7 @@
         org-hide-emphasis-markers t                     ; Hide syntax for emphasis. (Use org-appear)
         org-src-preserve-indentation t                  ; Keep language specific indenting in source blocks.
         org-pretty-entities t                           ; Show sub/superscript as UTF8.
+        ;; TODO: See if logbook can be formatted better.
         org-property-format "%-10s %s"                  ; How property key/value pairs is formatted by `org-indent-line'.
         org-list-allow-alphabetical t                   ; Allow alphabet as lists.
         org-use-property-inheritance t                  ; Sub-headings inherit parent properties.
@@ -51,22 +51,37 @@
         org-time-stamp-formats '("%Y-%m-%d %a" . "%Y-%m-%d %a %H:%M:%S")
         org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(d!)"))))
 
-;; TODO: Ensure org-ts-regexp works for ISO-8601 with seconds included.
 (use-package! org-id
   :defer t
   :config
   (setq org-id-locations-file (expand-file-name "data/org-ids" org-directory)
         org-id-track-globally t                         ; Track identifiers in all org files so id links always work.
         org-id-locations-file-relative t                ; Use relative references for cross-platform compatibility.
+        ;; TODO: Ensure org-ts-regexp works for ISO-8601 with seconds included.
         org-id-method 'ts                               ; ISO-8601 timestamp format for identifiers.
         org-id-ts-format "%Y%m%dT%H%M%S"))
 
-(use-package! org-file
+(use-package! denote
+  :defer t
   :after org
   :config
+  ;; Prevent default configuration from creating directories.
+  (setq denote-directory org-directory
+        denote-dired-directories org-directory))
+
+(use-package! org-file
+  :after org
+  :hook (org-mode . org-file-update-on-save-enable)
+  :config
+  (defun my/org-file-rename-fn (filename title filetags id)
+    "A function to rename org files."
+    (ignore title filetags id)
+    (when (functionp #'denote-rename-file-using-front-matter)
+      (denote-rename-file-using-front-matter filename)))
   (setq org-file-tag-agenda "agenda"
         org-file-agenda-tags '("refile")
-        org-file-agenda-keywords '("TODO"))
+        org-file-agenda-keywords '("TODO")
+        org-file-rename-fn #'my/org-file-rename-fn)
   (add-to-list 'org-tags-exclude-from-inheritance "agenda"))
 
 (use-package! org-refile
@@ -131,12 +146,12 @@ Intended for use with `:before-finalize' keyword in `org-capture-templates'."
     '(org-agenda-structure
       :height 1.3 :weight bold))
   (setq org-agenda-tags-column (+ 10 (* -1 70))         ; Attempt to format agenda width.
-        org-agenda-start-with-log-mode t                ; Show 'completed' items in agenda.
-        org-agenda-prefix-format
-        '((agenda . " %i %-12(org-roam-agenda-category)%?-12t% s")
-          (todo . " %i %-12(org-roam-agenda-category) ")
-          (tags . " %i %-12(org-roam-agenda-category) ")
-          (search . " %i %-12(org-roam-agenda-category) ")))
+        org-agenda-start-with-log-mode t)               ; Show 'completed' items in agenda.
+  ;; org-agenda-prefix-format
+  ;; '((agenda . " %i %-12(org-roam-agenda-category)%?-12t% s")
+  ;;   (todo . " %i %-12(org-roam-agenda-category) ")
+  ;;   (tags . " %i %-12(org-roam-agenda-category) ")
+  ;;   (search . " %i %-12(org-roam-agenda-category) ")))
   ;; TODO: Possibly extend this for named agendas to appear in side window.
   (set-popup-rule! "^\\*Org Agenda\\*" :side 'right :vslot 1 :width 60 :modeline nil :select t :quit nil)
   (load "+org-agenda.el")

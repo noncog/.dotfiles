@@ -1,6 +1,6 @@
 ;;; +org-roam.el --- My org-roam configuration and extensions until later replacement -*- lexical-binding: t; -*-
 
-;; org-roam-tag-* functions use org-collect-keywords, I don't like it's speed. It's 4x slower.
+;; NOTE: org-roam-tag-* functions use org-collect-keywords, I don't like it's speed. It's 4x slower.
 
 (use-package! org-roam
   :defer t
@@ -16,18 +16,38 @@
     "Return the slug of NODE."
     (ignore node)
     (string-replace "_" "-" (cl-call-next-method)))
-  ;; Exclude nodes tagged as a person from being inherited.
-  (add-to-list 'org-tags-exclude-from-inheritance "person")
-  (require 'org-roam-file)       ;; Integrates org-roam with org-agenda and denote.
+
+  (defun org-roam-agenda-files ()
+    "Return a list of org-roam node files containing the `agenda' tag."
+    (seq-uniq
+     (seq-map
+      #'car
+      (org-roam-db-query
+       [:select [nodes:file]
+        :from tags
+        :left-join nodes
+        :on (= tags:node-id nodes:id)
+        :where (like tag (quote "%\"agenda\"%"))]))))
+
+  (defun org-roam-agenda-files-update ()
+    "A function used to get and set a list of org-agenda-files."
+    (setq org-agenda-files (org-roam-agenda-files)))
+
+  (setq org-file-update-agenda-fn #'org-roam-agenda-files-update)
+
+  ;; TODO: Move to org-file or something.
+  (advice-add 'org-agenda :before #'org-roam-agenda-files-update)
+  (advice-add 'org-todo-list :before #'org-roam-agenda-files-update)
+
+
   (require 'org-roam-include)    ;; Prevents certain files with org headings with org-id from being included in database.
+  (setq org-roam-link-auto-replace nil) ;; Prevent org-roam link reformatter from running on auto-save since using v2 instead of v1.
   (setq org-roam-db-node-include-function #'org-roam-include-p
         org-roam-include-exclude-directories (list org-inbox-directory)
         org-roam-include-exclude-files (list "agenda.org" "bookmarks.org"))
-  (setq org-roam-file-rename-exclude (append
-                                      '("~/documents/org/resource/bookmarks.org"
-                                        "~/documents/org/agenda.org"
-                                        "~/documents/org/system-overview.org")
-                                      (directory-files org-inbox-directory 'full ".org$") nil))
+
+  ;; Exclude nodes tagged as a person from being inherited.
+  (add-to-list 'org-tags-exclude-from-inheritance "person")
   (require 'org-roam-tags))      ;; Automatic tag insertion after node insertion.
 
 (use-package! org-roam-capture
@@ -69,11 +89,3 @@
         org-roam-dailies-capture-templates
         '(("d" "default" plain "%?"
            :target (file+head "${id}--log.org" "#+title: Log\n#+date: %u\n#+filetags:\n\n* Log")))))
-
-(use-package! denote
-  :defer t
-  :after org
-  :config
-  ;; Prevent default configuration from creating directories.
-  (setq denote-directory org-directory
-        denote-dired-directories org-directory))

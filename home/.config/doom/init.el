@@ -161,7 +161,7 @@
        ;;ocaml             ; an objective camel
        (org                ; organize your plain life in plain text
         +dragndrop
-        +roam2
+        +roam
         +gnuplot
         +noter)
        ;;php               ; perl's insecure younger brother
