@@ -27,8 +27,9 @@
         :on (= tags:node-id nodes:id)
         :where (like tag (quote "%\"agenda\"%"))]))))
 
-  (defun org-roam-agenda-files-update ()
+  (defun org-roam-agenda-files-update (&rest args)
     "A function used to get and set a list of org-agenda-files."
+    (ignore args)
     (setq org-agenda-files (org-roam-agenda-files)))
 
   (setq org-file-update-agenda-fn #'org-roam-agenda-files-update)
