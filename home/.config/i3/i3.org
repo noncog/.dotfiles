@@ -1,121 +1,14 @@
-#+title: I3
+#+title: i3 Window Manager
 #+startup: show3levels
 #+export_exclude_tags: exclude noexport
 
 [[https://i3wm.org/][i3]] is an open source tiling window manager for X11.
 
-My configuration is generated dynamically (tangled) from this Emacs org-mode file. This allows me to write the configuration non-linearly and to have comments and settings placed where they need to be dynamically upon generation. I use this to create a mode called "Emacs" mode that is automatically activated by the Perl script =./i3-emacs-mode.pl= whenever I focus an Emacs window. This allows me to integrate the i3 window management keybinds with Emacs' keybinds. Or, in general to have control over my keybinds per actively focused window.
+My configuration is generated dynamically (tangled) from this Emacs org-mode file.
 
-The Perl script is executed by SystemD which I use to orchestrate the execution of my graphical environment, including starting the X server, i3, the i3-emacs-mode.pl script, etc. This allows for the coordination of services without using Bash scripts or IPC, and more.
+This allows me to write the configuration non-linearly and to have comments and settings placed where they need to be dynamically upon generation.
 
-* Setup :noexport:
-
-Build the config file.
-
-#+begin_src conf :tangle config :noweb yes :exports none
-# i3 Configuration dynamically generated (tangled) from ./i3.org.
-
-## BEHAVIOR
-# Focus
-<<behavior-focus>>
-# Gaps
-<<behavior-gaps>>
-# Borders
-<<behavior-borders>>
-
-## APPEARANCE
-# Font
-<<appearance-font>>
-# Theme (Dracula)
-<<appearance-theme>>
-# Gaps
-<<appearance-gaps>>
-# Borders
-<<appearance-borders>>
-
-## VARIABLES
-# Modifiers
-<<variables-modifiers>>
-# Direction Key Aliases
-<<variables-directions>>
-
-## APPLICATION SETTINGS
-# Emacs
-<<settings-emacs>>
-# Firefox
-<<settings-firefox>>
-# Kitty
-<<settings-kitty>>
-# Discord
-<<settings-discord>>
-# Spotify
-<<settings-spotify>>
-
-## KEYBINDS
-# NOTE: The following keybinds are overridden to be different for specific
-#       applications like when using Emacs. For more information see:
-#       ./i3-emacs-mode.pl
-# Focus Windows
-<<keybinds-override-focus>>
-# Move Windows
-<<keybinds-override-move>>
-# Split Windows in Direction
-<<keybinds-override-split>>
-# Kill Windows
-<<keybinds-override-kill>>
-
-# NOTE: The following keybinds are available everywhere regardless of mode.
-<<keybinds-global-build>>
-
-## STARTUP
-# NOTE: Most startup related applications/services are executed by systemd.
-#       Only nitrogen is executed to re-apply the saved desktop wallpaper.
-<<startup>>
-
-## MODES
-<<modes>>
-#+end_src
-
-Build the global keybinds to be used in Emacs mode and available everywhere.
-
-#+begin_src conf :noweb-ref keybinds-global-build :noweb yes
-# Focus Workspaces
-<<keybinds-global-focus-workspace>>
-# Move Windows to Workspace
-<<keybinds-global-move-workspace>>
-# Toggle Container Layout
-<<keybinds-global-layout>>
-# Floating and Scratchpad Window Controls
-<<keybinds-global-float>>
-# Toggle Fullscreen
-<<keybinds-global-fullscreen>>
-# Volume Controls
-<<keybinds-global-volume>>
-
-## APPLICATION KEYBINDS
-# Emacs
-<<keybinds-emacs>>
-# Firefox
-<<keybinds-firefox>>
-# Kitty
-<<keybinds-kitty>>
-# Discord
-<<keybinds-discord>>
-# Spotify
-<<keybinds-spotify>>
-# Rofi
-<<keybinds-rofi>>
-#+end_src
-
-#+begin_src conf :noweb-ref modes :noweb yes
-mode "Emacs" {
-    # This mode is enabled by ./i3-emacs-mode.pl
-    # whenever Emacs is the focused application to
-    # enable window manager keybinds to be used in Emacs.
-
-    <<keybinds-global-build>>
-}
-#+end_src
+I use this to create a mode called "Emacs" mode that is automatically activated by the Perl script =./i3-emacs-mode.pl= whenever I focus an Emacs window. This allows me to integrate the i3 window management keybinds with Emacs' keybinds. Or, in general to have control over my keybinds per actively focused window. The Perl script is executed by SystemD which I use to orchestrate the execution of my graphical environment, including starting the X server, i3, the i3-emacs-mode.pl script, etc. This allows for the coordination of services without using Bash scripts or IPC, and more.
 
 * Table of Contents :TOC:QUOTE:
 #+BEGIN_QUOTE
@@ -123,6 +16,7 @@ mode "Emacs" {
   - [[#focus][Focus]]
   - [[#gaps][Gaps]]
   - [[#borders][Borders]]
+  - [[#layout][Layout]]
 - [[#appearance][Appearance]]
   - [[#font][Font]]
   - [[#theme][Theme]]
@@ -151,40 +45,243 @@ mode "Emacs" {
   - [[#nitrogen][Nitrogen]]
 - [[#tips][Tips]]
   - [[#finding-information][Finding Information]]
+  - [[#terms][Terms]]
 #+END_QUOTE
+
+* Setup :noexport:
+** Config
+
+Build the config file.
+
+#+begin_src conf :tangle config :noweb yes :exports none
+# i3 window manager configuration dynamically generated (tangled) from ./i3.org.
+
+<<settings>>
+
+<<variables>>
+
+<<keybinds>>
+
+<<applications>>
+
+<<startup>>
+
+<<modes>>
+#+end_src
+
+** Build Keybinds
+
+Build the global keybinds to be used in Emacs mode and available everywhere.
+
+#+begin_src conf :noweb-ref keybinds-global-build :noweb yes
+# Focus Workspaces
+<<keybinds-global-focus-workspace>>
+
+# Move Windows to Workspace
+<<keybinds-global-move-workspace>>
+
+# Toggle Container Layout
+<<keybinds-global-layout>>
+
+# Floating and Scratchpad Window Controls
+<<keybinds-global-float>>
+
+# Toggle Fullscreen
+<<keybinds-global-fullscreen>>
+
+# Volume Controls
+<<keybinds-global-volume>>
+
+# Emacs
+<<keybinds-emacs>>
+
+# Brave
+<<keybinds-brave>>
+
+# Kitty
+<<keybinds-kitty>>
+
+# Discord
+<<keybinds-discord>>
+
+# Spotify
+<<keybinds-spotify>>
+
+# Rofi
+<<keybinds-rofi>>
+#+end_src
+
+** Settings
+
+#+begin_src conf :noweb-ref settings :noweb yes
+#===============================================================================#
+# >>> Settings                                                                  #
+#===============================================================================#
+
+# Focus
+<<focus>>
+
+# Gaps
+<<gaps>>
+
+# Borders
+<<borders>>
+
+# Font
+<<font>>
+
+# Theme (Dracula)
+<<theme>>
+
+# Gaps
+<<gaps>>
+
+# Borders
+<<borders>>
+
+# Layout
+<<layout>>
+#+end_src
+** Variables
+
+#+begin_src conf :noweb-ref variables :noweb yes
+#===============================================================================#
+# >>> Variables                                                                 #
+#===============================================================================#
+
+# Modifiers
+<<variables-modifiers>>
+
+# Direction Key Aliases
+<<variables-directions>>
+
+# Configuration Aliases
+set $exec exec --no-startup-id
+set $move_to_workspace move container to workspace
+set $exclude_emacs [con_id="__focused__" class="^(?!Emacs)"]
+#+end_src
+
+** Keybinds
+
+#+begin_src conf :noweb-ref keybinds :noweb yes
+#===============================================================================#
+# >>> Keybinds                                                                  #
+#===============================================================================#
+# NOTE: The following keybinds are overridden to be different for specific
+#       applications like when using Emacs. For more information see:
+#       ./i3-emacs-mode.pl
+
+# Focus Windows
+<<keybinds-override-focus>>
+
+# Move Windows
+<<keybinds-override-move>>
+
+# Split Windows in Direction
+<<keybinds-override-split>>
+
+# Kill Windows
+<<keybinds-override-kill>>
+
+# NOTE: The following keybinds are available everywhere regardless of mode.
+
+<<keybinds-global-build>>
+#+end_src
+
+** Application Settings
+
+#+begin_src conf :noweb-ref applications :noweb yes
+#===============================================================================#
+# >>> Application Settings                                                      #
+#===============================================================================#
+
+# Emacs
+<<settings-emacs>>
+
+# Brave
+<<settings-brave>>
+
+# Kitty
+<<settings-kitty>>
+
+# Discord
+<<settings-discord>>
+
+# Spotify
+<<settings-spotify>>
+#+end_src
+
+** Startup
+
+#+begin_src conf :noweb-ref startup :noweb yes :noweb-sep "\n\n"
+#===============================================================================#
+# >>> Startup                                                                   #
+#===============================================================================#
+# Note: Most startup related applications/services are executed by systemd.
+#+end_src
+
+** Modes
+
+#+begin_src conf :noweb-ref modes :noweb yes
+#===============================================================================#
+# >>> Modes                                                                     #
+#===============================================================================#
+
+<<emacs-mode>>
+#+end_src
+
+*** Emacs
+
+#+begin_src conf :noweb-ref emacs-mode :noweb yes
+# Emacs
+mode "Emacs" {
+    # This mode is enabled by ./i3-emacs-mode.pl only when
+    # Emacs is the focused application to enable window manager
+    # keybinds to be used in Emacs.
+
+    <<keybinds-global-build>>
+}
+#+end_src
 
 * Behavior
 ** Focus
 
-#+begin_src conf :noweb-ref behavior-focus
+#+begin_src conf :noweb-ref focus
 focus_follows_mouse no
+focus_wrapping no
 mouse_warping output
 workspace_auto_back_and_forth no
-focus_wrapping no
 #+end_src
 
 ** Gaps
 
-#+begin_src conf :noweb-ref behavior-gaps
+#+begin_src conf :noweb-ref gaps
 smart_gaps off
 #+end_src
 
 ** Borders
 
-#+begin_src conf :noweb-ref behavior-borders
+#+begin_src conf :noweb-ref borders
 hide_edge_borders smart
+#+end_src
+
+** Layout
+
+#+begin_src conf :noweb-ref layout
+default_orientation vertical
+workspace_layout default
 #+end_src
 
 * Appearance
 ** Font
 
-#+begin_src conf :noweb-ref appearance-font
+#+begin_src conf :noweb-ref font
 font pango:Fira Code 11
 #+end_src
 
 ** Theme
 
-#+begin_src conf :noweb-ref appearance-theme
+#+begin_src conf :noweb-ref theme
 # class                 border  bground text    indicator child_border
 client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
@@ -196,14 +293,14 @@ client.background       #F8F8F2
 
 ** Gaps
 
-#+begin_src conf :noweb-ref appearance-gaps
+#+begin_src conf :noweb-ref gaps
 gaps outer 0px
 gaps inner 0px
 #+end_src
 
 ** Borders
 
-#+begin_src conf :noweb-ref appearance-borders
+#+begin_src conf :noweb-ref borders
 default_border pixel 1
 default_floating_border pixel 1
 #+end_src
@@ -211,9 +308,10 @@ default_floating_border pixel 1
 * Keybinds
 ** Modifiers
 
-#+begin_src conf :noweb-ref variables-modifiers
+#+begin_src conf :noweb-ref variables-modifiers :comments org
 set $mod Mod4
 floating_modifier $mod
+tiling_drag swap_modifier Shift
 #+end_src
 
 ** Directional Keys
@@ -228,19 +326,19 @@ set $right l
 ** Focus Windows
 
 #+begin_src conf :noweb-ref keybinds-override-focus
-bindsym $mod+$left  [con_id="__focused__" class="^(?!Emacs)"] focus left
-bindsym $mod+$down  [con_id="__focused__" class="^(?!Emacs)"] focus down
-bindsym $mod+$up    [con_id="__focused__" class="^(?!Emacs)"] focus up
-bindsym $mod+$right [con_id="__focused__" class="^(?!Emacs)"] focus right
+bindsym $mod+$left  $exclude_emacs focus left
+bindsym $mod+$down  $exclude_emacs focus down
+bindsym $mod+$up    $exclude_emacs focus up
+bindsym $mod+$right $exclude_emacs focus right
 #+end_src
 
 ** Move Windows
 
 #+begin_src conf :noweb-ref keybinds-override-move
-bindsym $mod+Shift+$left  [con_id="__focused__" class="^(?!Emacs)"] move left
-bindsym $mod+Shift+$down  [con_id="__focused__" class="^(?!Emacs)"] move down
-bindsym $mod+Shift+$up    [con_id="__focused__" class="^(?!Emacs)"] move up
-bindsym $mod+Shift+$right [con_id="__focused__" class="^(?!Emacs)"] move right
+bindsym $mod+Shift+$left  $exclude_emacs move left
+bindsym $mod+Shift+$down  $exclude_emacs move down
+bindsym $mod+Shift+$up    $exclude_emacs move up
+bindsym $mod+Shift+$right $exclude_emacs move right
 #+end_src
 
 ** Focus Workspace
@@ -335,42 +433,26 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 * Programs
 ** Emacs
 
-Set workspace number and move new windows there.
-
 #+begin_src conf :noweb-ref settings-emacs
-set $emacs 11
-for_window [class="Emacs" tiling] move container to workspace $emacs
+for_window [class="Emacs" tiling] $move_to_workspace 11
 #+end_src
-
-Create launching, focus, and moving binds to send windows to the dedicated workspace.
 
 #+begin_src conf :noweb-ref keybinds-emacs
 bindsym $mod+e [class="Emacs"] focus
-bindsym $mod+Shift+e exec --no-startup-id emacsclient -c -n --alternate-editor=""
-bindsym $mod+Control+Shift+e move container to workspace $emacs
+bindsym $mod+Shift+e $exec "emacsclient -c -n --alternate-editor=''"
+bindsym $mod+Control+Shift+e $move_to_workspace 11
 #+end_src
 
 ** Brave
 
-Set workspace number and move new windows there.
-
-#+begin_src conf :noweb-ref settings-firefox
-set $brave 12
-for_window [class="(?i)brave-browser" tiling] move container to workspace $brave
+#+begin_src conf :noweb-ref settings-brave
+for_window [class="(?i)brave-browser" tiling] $move_to_workspace 12
 #+end_src
 
-Set adjustable command for launching Brave with explicit settings.
-
-#+begin_src conf :noweb-ref settings-firefox
-set $brave_command "flatpak run com.brave.Browser --password-store=basic"
-#+end_src
-
-Create launching, focus, and moving binds to send windows to the dedicated workspace.
-
-#+begin_src conf :noweb-ref keybinds-firefox
-bindsym $mod+f [class="(?i)brave-browser" tiling] focus
-bindsym $mod+Shift+f exec --no-startup-id $brave_command
-bindsym $mod+Control+Shift+f move container to workspace $brave
+#+begin_src conf :noweb-ref keybinds-brave
+bindsym $mod+f $exec i3-msg [workspace="__focused__" class="(?i)brave-browser"] focus || i3-msg [workspace="12" class="(?i)brave-browser"] focus
+bindsym $mod+Shift+f $exec "flatpak run com.brave.Browser --password-store=basic"
+bindsym $mod+Control+Shift+f $move_to_workspace 12
 #+end_src
 
 ** Kitty
@@ -408,9 +490,8 @@ Set workspace number and move new tiling windows there.
 Otherwise, show the "startup" floating window on all workspaces.
 
 #+begin_src conf :noweb-ref settings-discord
-set $discord "13"
 for_window [class="discord" floating] sticky enable
-assign [class="discord"] workspace $discord
+assign [class="discord"] workspace 13
 #+end_src
 
 #+begin_src conf :exports none
@@ -424,7 +505,7 @@ Focus the Discord window regardless of it's location, or state. This may need so
 
 #+begin_src conf :noweb-ref keybinds-discord
 bindsym $mod+d [class="discord"] focus
-bindsym $mod+Control+Shift+d move container to workspace $discord
+bindsym $mod+Control+Shift+d $move_to_workspace 13
 #+end_src
 
 #+begin_src conf :exports none
@@ -435,29 +516,20 @@ bindsym $mod+Control+Shift+d move container to workspace $discord
 
 ** Spotify
 
-Set workspace number and move new tiling windows there.
-
 #+begin_src conf :noweb-ref settings-spotify
-set $spotify "14"
-assign [class="Spotify"] workspace $spotify
+assign [class="Spotify"] workspace 14
 #+end_src
-
-Create focusing and moving binds. Launching is done through Rofi.
 
 #+begin_src conf :noweb-ref keybinds-spotify
 bindsym $mod+m [class="Spotify"] focus
-bindsym $mod+Control+Shift+m move container to workspace $spotify
+bindsym $mod+Control+Shift+m $move_to_workspace 14
 #+end_src
 
 ** Rofi
 
 #+begin_src conf :noweb-ref keybinds-rofi
-# App launcher
+# App and menu launchers
 bindsym $mod+o exec --no-startup-id rofi -show drun -show-icons
-#+end_src
-
-#+begin_src conf :noweb-ref keybinds-rofi
-# Cogmenu - Custom Menu Launcher
 bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 #+end_src
 
@@ -476,4 +548,11 @@ To find the name or =keysym= of the key to be used in this config use =xev= and 
 *** Window Information
 
 To find window related information, you can use =xprop= and =xwininfo=.
-
+** Terms
+- mapping :: when a window is displayed.
+- assign :: execute when window is mapped.
+- for_window :: execute when window changes properties to match criteria.
+- move :: move [container|window] to position or direction.
+  - accepts direction + [px|ppt] amount which only applies to floating containers.
+  - accepts moving to mouse position or screen position.
+  
