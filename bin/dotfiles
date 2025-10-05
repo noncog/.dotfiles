@@ -92,4 +92,5 @@ function dotfiles::deploy() {
     esac
 }
 
-dotfiles::main "$@"; exit "$?"
+dotfiles::main "$@"
+exit "$?"
