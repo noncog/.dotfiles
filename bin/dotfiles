@@ -88,6 +88,7 @@ function dotfiles::deploy() {
         *)
             log::error "unrecognized operating system: $OSTYPE"
             return 1
+            ;;
     esac
 }
 
