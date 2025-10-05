@@ -38,10 +38,10 @@
 (use-package! evil-vars
   :defer t
   :config
-  (setq evil-want-fine-undo t
+  (setq evil-want-fine-undo t          ; Enable granular undo for evil operations.
         evil-split-window-below t
         evil-vsplit-window-right t
-        evil-kill-on-visual-paste nil) ; TODO Add note.
+        evil-kill-on-visual-paste nil) ; Prevent paste from adding to kill ring. Allows multiple pastes.
   (setq-default evil-scroll-count 10)) ; Reduce scroll count instead of scroll by pages.
 
 ;; Unify internal and external window management keybinds.
