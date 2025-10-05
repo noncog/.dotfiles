@@ -27,7 +27,7 @@ elif [[ -n "${POSIXLY_CORRECT+1}" ]]; then
 fi
 
 # Prevent script form being sourced to avoid function or builtin overrides.
-(return 0 2>/dev/null) && die "dotfiles script cannot be sourced."
+(return 0 2> /dev/null) && die "dotfiles script cannot be sourced."
 
 # Require minimum Bash version and "$HOME" environment variable to be set.
 if [[ "${BASH_VERSINFO[0]}" -lt 3 ||
