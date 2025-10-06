@@ -35,12 +35,16 @@ function init::bash() {
     export EMACSDIR="$XDG_CONFIG_HOME/emacs"
     export DOOMDIR="${XDG_CONFIG_HOME}/doom"
 
+    # Prevent $HOME directory pollution.
+    export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
+    export LESSHISTFILE="/dev/null"
+
     # ALIASES
     alias expand_alias='echo '
-
-    alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
-
     alias lsa='ls -a'
+
+    # Prevent $HOME directory pollution.
+    alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
 
     if [[ -x ~/.dotfiles/bin/dotfiles ]]; then
         alias dotfiles='~/.dotfiles/bin/dotfiles'

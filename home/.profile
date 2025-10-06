@@ -19,10 +19,6 @@ if [ -d "$HOME" ]; then
     export XDG_STATE_HOME="$HOME/.local/state"
     export XDG_BIN_HOME="$HOME/.local/bin"
 
-    # Prevent $HOME directory pollution.
-    export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
-    export LESSHISTFILE="/dev/null"
-
     # If this is Bash...
     if [ -n "$BASH_VERSION" ]; then
         # Setup Homebrew on macOS.
