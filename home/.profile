@@ -23,9 +23,6 @@ if [ -d "$HOME" ]; then
     export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
     export LESSHISTFILE="/dev/null"
 
-    # Doom may require this for non-interactive use.
-    export EMACSDIR="$XDG_CONFIG_HOME/emacs"
-
     # If this is Bash...
     if [ -n "$BASH_VERSION" ]; then
         # Setup Homebrew on macOS.
