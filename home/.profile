@@ -32,18 +32,16 @@ if [ -d "$HOME" ]; then
         # shellcheck disable=SC3028,SC3010
         case "$OSTYPE" in
             darwin*)
-                if [[ -n ${HOMEBREW_PREFIX-} ]]; then
-                    if [[ -x "${HOMEBREW_PREFIX-}/bin/brew" ]]; then
-                        # Set path, manpath, etc. for homebrew.
-                        eval "$(/opt/homebrew/bin/brew shellenv)"
-                        # Add Homebrew executables directories to $PATH.
-                        [[ -d "${HOMEBREW_PREFIX}/opt/llvm/bin" ]] \
-                            && export PATH="${HOMEBREW_PREFIX}/opt/llvm/bin:$PATH"
-                        [ -d "${HOMEBREW_PREFIX}/opt/grep/libexec/gnubin" ] \
-                            && export PATH="${HOMEBREW_PREFIX}/opt/grep/libexec/gnubin:$PATH"
-                        [ -d "${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin" ] \
-                            && export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
-                    fi
+                if [[ -n "${HOMEBREW_PREFIX-}" ]] \
+                    && [[ -x "${HOMEBREW_PREFIX-}/bin/brew" ]]; then
+                    # Set path, manpath, etc. for homebrew.
+                    eval "$(/opt/homebrew/bin/brew shellenv)"
+                    # Add Homebrew package directories to environment.
+                    for dir in "${HOMEBREW_PREFIX}/opt/"*"/libexec/gnubin"; do export PATH="$dir:$PATH"; done
+                    for dir in "${HOMEBREW_PREFIX}/opt/"*"/bin"; do export PATH="$dir:$PATH"; done
+                    for dir in "${HOMEBREW_PREFIX}/opt/"*"/libexec/gnuman"; do export MANPATH="$dir:$MANPATH"; done
+                    for dir in "${HOMEBREW_PREFIX}/opt/"*"/share/man/man1"; do export MANPATH="$dir:$MANPATH"; done
+                    unset dir
                 fi
                 ;;
         esac
