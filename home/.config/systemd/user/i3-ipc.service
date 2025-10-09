@@ -1,12 +1,12 @@
 [Unit]
-Description=i3wm perl script for setting a mode depending on the active application
+Description=i3wm perl script for inter-process communication
 PartOf=graphical-session.target
 
 Requisite=i3wm.service
 After=i3wm.service
 
 [Service]
-ExecStart=/usr/bin/perl %h/.config/i3/i3-emacs-mode.pl
+ExecStart=/usr/bin/perl %h/.config/i3/i3-ipc.pl
 Restart=on-failure
 
 [Install]
