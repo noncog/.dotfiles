@@ -43,7 +43,7 @@ function time::format() {
         return 2
     fi
 
-    local time=$1
+    local time="$1"
     local format="$2"
 
     # When given epoch time, 'date' wants this format.
@@ -78,7 +78,7 @@ function time::format() {
 # file::get_crtime ()                                                #
 # Return the creation time of the file. If given a format string,    #
 # return the formatted value. If format string is empty, use the     #
-# default format set by 'TIME_FORMAT'.                               #
+# default format set by 'TIME_FORMAT', otherwise return epoch time.  #
 #                                                                    #
 # Returns:                                                           #
 #   - 0 on success                                                   #
@@ -103,6 +103,65 @@ function file::get_crtime() {
         printf '%s\n' "$crtime_epoch"
     fi
 }
+
+#====================================================================#
+# fref::main ()                                                      #
+# The main entry function of fref responsible for parsing arguments. #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#====================================================================#
+function fref::main() {
+    # Parse arguments.
+    if [[ "$#" -gt 0 ]]; then
+        case "$1" in
+            get)
+                shift
+                fref::get "$@"
+                ;;
+            *)
+                log::error "unrecognized command: '$1'"
+                return 1
+                ;;
+        esac
+    else
+        log::error "no arguments provided"
+        exit 2
+    fi
+}
+
+#====================================================================#
+# fref::get ()                                                       #
+# Return the desired file property if found.                         #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#====================================================================#
+function fref::get() {
+    # Parse arguments.
+    if [[ "$#" -gt 0 ]]; then
+        case "$1" in
+            crtime)
+                shift
+                file::get_crtime "$1" ''
+                ;;
+            *)
+                log::error "unrecognized file property: '$1'"
+                # TODO: Print options.
+                return 1
+                ;;
+        esac
+    else
+        log::error "no arguments provided"
+        exit 2
+    fi
+}
+
+fref::main "$@"
 
 # WIP SECTION:
 
@@ -135,4 +194,5 @@ function file::get_parts() {
     # NOTE: basename supports adding extension to it to trim it.
 }
 
-file::get_parts "$@"
+#file::get_crtime "$@"
+#file::get_parts "$@"
