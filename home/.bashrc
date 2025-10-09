@@ -42,6 +42,8 @@ function init::bash() {
     # ALIASES
     alias expand_alias='echo '
     alias lsa='ls -a'
+    alias cp='cp -vi'
+    alias mv='mv -vi'
 
     # Prevent $HOME directory pollution.
     alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
