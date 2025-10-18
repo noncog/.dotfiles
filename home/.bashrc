@@ -124,31 +124,16 @@ function init::color() {
 }
 
 function init::color_tty() {
-    # Apply the TTY color theme if enabled. More themes can be added here.
+    # Apply the TTY color theme if selected.
     if [[ -n "$COLOR_TTY" ]] && [[ "$TERM" = "linux" ]]; then
-        case "$COLOR_TTY" in
-            dracula)
-                printf '%b' '\e[40m' '\e[8]' # set default background to color 0 'dracula-bg'
-                printf '%b' '\e[37m' '\e[8]' # set default foreground to color 7 'dracula-fg'
-                printf '%b' '\e]P0282a36'    # 'black'          as 'dracula-bg'
-                printf '%b' '\e]P86272a4'    # 'bright-black'   as 'dracula-comment'
-                printf '%b' '\e]P1ff5555'    # 'red'            as 'dracula-red'
-                printf '%b' '\e]P9ff7777'    # 'bright-red'     as '#ff7777'
-                printf '%b' '\e]P250fa7b'    # 'green'          as 'dracula-green'
-                printf '%b' '\e]PA70fa9b'    # 'bright-green'   as '#70fa9b'
-                printf '%b' '\e]P3f1fa8c'    # 'brown'          as 'dracula-yellow'
-                printf '%b' '\e]PBffb86c'    # 'bright-brown'   as 'dracula-orange'
-                printf '%b' '\e]P4bd93f9'    # 'blue'           as 'dracula-purple'
-                printf '%b' '\e]PCcfa9ff'    # 'bright-blue'    as '#cfa9ff'
-                printf '%b' '\e]P5ff79c6'    # 'magenta'        as 'dracula-pink'
-                printf '%b' '\e]PDff88e8'    # 'bright-magenta' as '#ff88e8'
-                printf '%b' '\e]P68be9fd'    # 'cyan'           as 'dracula-cyan'
-                printf '%b' '\e]PE97e2ff'    # 'bright-cyan'    as '#97e2ff'
-                printf '%b' '\e]P7f8f8f2'    # 'white'          as 'dracula-fg'
-                printf '%b' '\e]PFffffff'    # 'bright-white'   as '#ffffff'
-                clear
-                ;;
-        esac
+        # Themes are located in the following directory:
+        local themes_dir="$HOME/.local/share/dotfiles/themes/"
+        # The file name should be tty.sh under the theme name subdirectory.
+        local theme_file="$themes_dir/$COLOR_TTY/tty.sh"
+
+        if [[ -r "$theme_file" ]]; then
+            source "$theme_file"
+        fi
     fi
 }
 
