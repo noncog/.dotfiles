@@ -90,6 +90,7 @@ function init::per_os() {
     init::color
     unset -f init::color
 }
+
 function init::color() {
     # LS_COLORS may be called LSCOLORS
     # https://www.pixelbeat.org/scripts/l
