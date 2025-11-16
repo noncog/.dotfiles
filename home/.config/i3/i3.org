@@ -8,20 +8,14 @@ My configuration is generated dynamically (tangled) from this Emacs org-mode fil
 
 This allows me to write the configuration non-linearly and to have comments and settings placed where they need to be dynamically upon generation.
 
-I use this to create a mode called "Emacs" mode that is automatically activated by the Perl script =./i3-emacs-mode.pl= whenever I focus an Emacs window. This allows me to integrate the i3 window management keybinds with Emacs' keybinds. Or, in general to have control over my keybinds per actively focused window. The Perl script is executed by SystemD which I use to orchestrate the execution of my graphical environment, including starting the X server, i3, the i3-emacs-mode.pl script, etc. This allows for the coordination of services without using Bash scripts or IPC, and more.
+I use this to create a mode called "Emacs" mode that is automatically activated by the Perl script =./i3-ipc.pl= whenever I focus an Emacs window. This allows me to integrate the i3 window management keybinds with Emacs' keybinds. Or, in general to have control over my keybinds per actively focused window. The Perl script is executed by SystemD which I use to orchestrate the execution of my graphical environment, including starting the X server, i3, the i3-emacs-mode.pl script, etc. This allows for the coordination of services without using Bash scripts or IPC, and more.
 
 * Table of Contents :TOC:QUOTE:
 #+BEGIN_QUOTE
-- [[#behavior][Behavior]]
-  - [[#focus][Focus]]
-  - [[#gaps][Gaps]]
-  - [[#borders][Borders]]
-  - [[#layout][Layout]]
-- [[#appearance][Appearance]]
-  - [[#font][Font]]
-  - [[#theme][Theme]]
-  - [[#gaps-1][Gaps]]
-  - [[#borders-1][Borders]]
+- [[#setup][Setup]]
+  - [[#variables][Variables]]
+  - [[#behavior][Behavior]]
+  - [[#appearance][Appearance]]
 - [[#keybinds][Keybinds]]
   - [[#modifiers][Modifiers]]
   - [[#directional-keys][Directional Keys]]
@@ -43,6 +37,8 @@ I use this to create a mode called "Emacs" mode that is automatically activated 
   - [[#spotify][Spotify]]
   - [[#rofi][Rofi]]
   - [[#nitrogen][Nitrogen]]
+  - [[#pavucontrol][Pavucontrol]]
+  - [[#prism-launcher][Prism Launcher]]
 - [[#tips][Tips]]
   - [[#finding-information][Finding Information]]
   - [[#terms][Terms]]
@@ -109,6 +105,9 @@ Build the global keybinds to be used in Emacs mode and available everywhere.
 
 # Rofi
 <<keybinds-rofi>>
+
+# Prism
+<<keybinds-prism>>
 #+end_src
 
 ** Settings
@@ -141,7 +140,11 @@ Build the global keybinds to be used in Emacs mode and available everywhere.
 
 # Layout
 <<layout>>
+
+# Fullscreen
+<<fullscreen>>
 #+end_src
+
 ** Variables
 
 #+begin_src conf :noweb-ref variables :noweb yes
@@ -209,6 +212,12 @@ set $exclude_emacs [con_id="__focused__" class="^(?!Emacs)"]
 
 # Spotify
 <<settings-spotify>>
+
+# Pavucontrol
+<<settings-pavucontrol>>
+
+# Prism
+<<settings-prism>>
 #+end_src
 
 ** Startup
@@ -243,8 +252,11 @@ mode "Emacs" {
 }
 #+end_src
 
-* Behavior
-** Focus
+* Setup
+** Variables
+
+** Behavior
+*** Focus
 
 #+begin_src conf :noweb-ref focus
 focus_follows_mouse no
@@ -253,33 +265,39 @@ mouse_warping output
 workspace_auto_back_and_forth no
 #+end_src
 
-** Gaps
+*** Gaps
 
 #+begin_src conf :noweb-ref gaps
 smart_gaps off
 #+end_src
 
-** Borders
+*** Borders
 
 #+begin_src conf :noweb-ref borders
 hide_edge_borders smart
 #+end_src
 
-** Layout
+*** Layout
 
 #+begin_src conf :noweb-ref layout
-default_orientation vertical
+default_orientation auto
 workspace_layout default
 #+end_src
 
-* Appearance
-** Font
+*** Fullscreen
+
+#+begin_src conf :noweb-ref fullscreen
+popup_during_fullscreen all #smart|ignore|leave_fullscreen|all
+#+end_src
+
+** Appearance
+*** Font
 
 #+begin_src conf :noweb-ref font
 font pango:Fira Code 11
 #+end_src
 
-** Theme
+*** Theme
 
 #+begin_src conf :noweb-ref theme
 # class                 border  bground text    indicator child_border
@@ -291,14 +309,14 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 client.background       #F8F8F2
 #+end_src
 
-** Gaps
+*** Gaps
 
 #+begin_src conf :noweb-ref gaps
 gaps outer 0px
 gaps inner 0px
 #+end_src
 
-** Borders
+*** Borders
 
 #+begin_src conf :noweb-ref borders
 default_border pixel 1
@@ -421,8 +439,6 @@ bindsym $mod+F11 fullscreen toggle
 
 ** Volume Controls
 
-The following audio control commands will need changed once I update my current Debian audio server.
-
 #+begin_src conf :noweb-ref keybinds-global-volume
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1%
@@ -539,6 +555,29 @@ bindsym $mod+Escape exec --no-startup-id $HOME/.config/rofi/cogmenu/cogmenu.sh
 exec --no-startup-id nitrogen --restore
 #+end_src
 
+** Pavucontrol
+
+#+begin_src conf :noweb-ref settings-pavucontrol
+for_window [class="pavucontrol"] floating toggle, resize set 50 ppt 50 ppt, move position center, sticky enable
+#+end_src
+
+** Prism Launcher
+
+#+begin_src conf :noweb-ref settings-prism
+for_window [class="(?i)prismlauncher"] $move_to_workspace 1
+
+for_window [window_type="dialog" class="(?i)prismlauncher"] floating enable, move position center, move container to workspace current
+for_window [window_type="dialog"] floating enable, move container to workspace current
+# TODO: Add focus game window.
+for_window [class="org-prismlauncher-EntryPoint"] move container to workspace current, floating enable
+for_window [class="(?i)(GT: New Horizons.*)"] floating toggle, resize set 1920 px 1080 px, move position center, sticky enable
+#+end_src
+
+#+begin_src conf :noweb-ref keybinds-prism
+bindsym $mod+g [class="(?i)(GT: New Horizons.*)" workspace="__focused__"] focus, move scratchpad, scratchpad show; [class="(?i)(GT: New Horizons.*)" floating] resize set 1920 px 1080 px, scratchpad show, move position center
+bindsym $mod+Shift+g $exec /home/noncog/.local/src/prism-launcher/PrismLauncher -l "GT_New_Horizons_2.8.1_Java_17-25"
+#+end_src
+
 * Tips
 ** Finding Information
 *** Key Names
@@ -556,3 +595,4 @@ To find window related information, you can use =xprop= and =xwininfo=.
   - accepts direction + [px|ppt] amount which only applies to floating containers.
   - accepts moving to mouse position or screen position.
   
+    
