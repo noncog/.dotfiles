@@ -67,8 +67,11 @@
   :config
   ;; Prevent default configuration from creating directories.
   (setq denote-directory org-directory
-        denote-dired-directories org-directory))
+        denote-dired-directories org-directory
+        denote-org-front-matter
+        ":PROPERTIES:\n:ID: %4$s\n:DATE: %2$s\n:END:\n#+title: %1$s\n#+filetags: %3$s\n"))
 
+;; TODO: After Denote?
 (use-package! org-file
   :after org
   :hook (org-mode . org-file-update-on-save-enable)
