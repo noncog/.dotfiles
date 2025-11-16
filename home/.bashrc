@@ -107,6 +107,7 @@ function init::color() {
             else
                 eval "$(${bin_dircolors} -b)"
             fi
+            # NOTE: May fail to eval...
             alias ls='ls --color=auto'
             alias lsa='ls -a --color=auto'
             alias dir='dir --color=auto'
