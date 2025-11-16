@@ -2,6 +2,8 @@
 
 ;; TODO: Add org-protocol setup functions.
 ;; TODO: Look into nov requiring org.
+;; TODO: See if org-agenda advice can be used with just the org-agenda-mode-hook.
+;; TODO: Create org-data-directory
 
 (use-package! evil-collection
   :defer t
