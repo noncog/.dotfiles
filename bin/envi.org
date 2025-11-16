@@ -1,0 +1,1646 @@
+:PROPERTIES:
+:header-args:bash: :eval no :noweb-sep "\n\n"
+:END:
+#+title: Envi
+
+* About
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+
+=Envi= is a cross-platform single-file utility script written in Bash to help automate setup and maintenance of the system.
+
+The goal of Envi is to support:
+
+- Setup of programs, fonts, and settings.
+- Easy interaction with services and the environment.
+- CLI and TUI usage.
+
+* Script
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+** Header
+
+#+begin_src bash :noweb-ref file-header
+#===============================================================================#
+#        file: envi                                                             #
+# description: A cross-platform tool to help automate changing and monitoring   #
+#              your environment. Includes:                                      #
+#              - Setup of programs, fonts, and settings.                        #
+#              - Setup and monitoring of services.                              #
+#      author: noncog                                                           #
+#    homepage: https://github.com/noncog/.dotfiles/bin/envi                     #
+#        date: July 31, 2025                                                    #
+#===============================================================================#
+#+end_src
+
+** Fail Fast Checks
+
+#+begin_src bash :noweb-ref fail-fast-checks
+# Fail fast checks.
+
+# shellcheck disable=SC2292 # - Ignore use of [ vs [[.
+# shellcheck disable=SC2016 # - Ignore printing of unexpanded variables.
+if [ -z "${BASH_VERSION:-}" ]; then
+    echo 'Bash is required to interpret the script.'
+    exit 1
+elif [[ -n "${POSIXLY_CORRECT+1}" ]]; then
+    echo 'Script must not run in POSIX mode. Please unset POSIXLY_CORRECT.'
+    exit 1
+elif [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
+    echo 'Script must not run as root user.'
+    exit 1
+elif [[ -z "${HOME:-}" ]]; then
+    echo ''\$HOME' directory is unset, exiting.'
+    exit 1
+elif ! [[ -d "${HOME}" ]]; then
+    echo ''\$HOME' is not a directory: $HOME.'
+    exit 1
+elif ! [[ -r "${HOME}" ]]; then
+    echo ''\$HOME' directory is not readable by current user: $HOME.'
+    exit 1
+elif [[ "${BASH_VERSINFO[0]}" -lt 3 ||
+            ("${BASH_VERSINFO[0]}" -eq 3 &&
+                 "${BASH_VERSINFO[1]}" -lt 2) ]]; then
+    echo 'Bash version 3.2+ is required, exiting.'
+    exit 1
+fi
+
+# Prevent script form being sourced.
+(return 0 2> /dev/null) && {
+    echo "Script cannot be executed by sourcing."
+    exit 1
+}
+#+end_src
+
+** Initial Setup
+
+#+begin_src bash :noweb-ref initial-setup
+# Initial setup.
+
+# TODO: Ensure set -u is free from side-effects.
+# TODO: Consider adding pipefail.
+
+set -u   # Treat unset variables as an error when substituting.
+LC_ALL=C # Increase speed by avoiding unicode (only ANSI) text.
+LANG=C
+
+# Get this script's name and directory.
+SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(builtin cd -- "$(dirname -- "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd -P)"
+readonly SCRIPT_NAME SCRIPT_DIR
+
+# Detect the Bash version's capabilities.
+_BASH_ASSOCIATIVE_ARRAYS='false'
+_PRINTF_DATE='false'
+
+case "${BASH_VERSINFO[0]}" in
+    4) # 4.0+
+        _BASH_ASSOCIATIVE_ARRAYS='true'
+        # 4.2+, use 'printf' instead of 'date' for timestamps.
+        if [[ "${BASH_VERSINFO[1]}" -ge 2 ]]; then
+            _PRINTF_DATE='true'
+        fi
+        ;;
+    5) # 5.0+
+        _BASH_ASSOCIATIVE_ARRAYS='true'
+        _PRINTF_DATE='true'
+        ;;
+esac
+#+end_src
+
+** Main
+
+#+begin_src bash :noweb-ref main
+#====================================================================#
+# main ()                                                            #
+# The main entry point for Envi.                                     #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#====================================================================#
+# TODO: Create CLI interface/argument parsing.
+# TODO: Develop debug mode.
+# TODO: Add usage printing.
+function main() {
+    # Initial setup.
+    ui::init
+    system::detect || die "Unable to detect system information, exiting."
+    # TODO: Parse arguments.
+    :
+}
+#+end_src
+
+** Functions
+
+This section should hold functions specific to envi and not a general library.
+
+** Build
+
+#+begin_src bash :tangle envi :noweb yes :shebang #!/bin/env bash
+<<file-header>>
+
+<<fail-fast-checks>>
+
+<<initial-setup>>
+
+<<main>>
+
+<<lib-regex>>
+
+<<lib-terminal>>
+
+<<lib-log>>
+
+<<lib-ui>>
+
+<<lib-system>>
+
+<<lib-file>>
+
+<<lib-helper>>
+
+# TODO: Decide if script arguments should be cached for "security"
+main "$@" # Pass all script arguments to main.
+#+end_src
+
+* Library
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+** Regex
+
+#+begin_src bash :noweb-ref lib-regex
+#===============================================================================#
+# >>> Regular Expression Library.                                               #
+#===============================================================================#
+#+end_src
+
+*** Constants
+
+#+begin_src bash :noweb-ref lib-regex
+# The following defines variables which hold useful regular expressions.
+# When using these in a test, do not quote the variable for expansion.
+
+# shellcheck disable=SC2034 # - Ignore check for use of variables.
+readonly rx_uint='^[0-9]+$'
+readonly rx_int='^[+-]?[0-9]+$'
+#+end_src
+
+** Terminal
+
+#+begin_src bash :noweb-ref lib-terminal :noweb yes
+#===============================================================================#
+# >>> Terminal Library.                                                         #
+#===============================================================================#
+#+end_src
+
+*** Console Codes
+
+#+begin_src bash :noweb-ref lib-terminal :noweb yes
+# Console Codes:
+
+# The following defines constants for console codes, commonly referred
+# to as ANSI or ESCAPE codes. Use with printf to control text
+# formatting and console capabilities. Many capabilities are not stored
+# here as variables but instead are implemented using functions.
+
+#                                           | Octal | Hex  | Unicode |
+#-------------------------------------------|-------|------|---------|
+# Introducers                               |       |      |         |
+#                                           |       |      |         |
+readonly ESC="\033"    # Escape (\e)        | \033  | \x1b | \u001b  |
+readonly CSI="${ESC}[" # Control Sequence   |       | \x9B |         |
+#                      # Introducer         |       |      |         |
+#                                           |       |      |         |
+#-------------------------------------------|       |      |         |
+# Delimiters                                |       |      |         |
+#                                           |       |      |         |
+readonly ST="${ESC}\\" # String Terminator  |       |      |         |
+readonly OSC="${ESC}]" # Operating System   |       | \x9D |         |
+#                      # Command            |       |      |         |
+#                                           |       |      |         |
+#-------------------------------------------|       |      |         |
+# Format Effectors                          |       |      |         |
+#                                           |       |      |         |
+readonly BS="\b"       # Backspace          | \010  | \x08 |         |
+readonly CR="\r"       # Carriage Return    | \015  | \x0D |         |
+readonly FF="\f"       # Form Feed          | \014  | \x0C |         |
+readonly HT="\t"       # Horizontal Tab     | \011  | \x09 |         |
+readonly LF="\n"       # Line Feed (Newline)| \012  | \x0A |         |
+readonly VT="\v"       # Vertical Tab       | \013  | \x0B |         |
+#                                           |       |      |         |
+#-------------------------------------------|       |      |         |
+# Miscellaneous Control Functions           |       |      |         |
+#                                           |       |      |         |
+readonly BEL="\a"      # Bell (Alert)       | \007  | \x07 |         |
+readonly RIS="${ESC}c" # Reset to Initial   | \001  |      |         |
+#                      # State              |       |      |         |
+#                                           |       |      |         |
+#-------------------------------------------|------------------------|
+# Operating System Commands                 |
+#                                           |
+readonly OSC7="${OSC}]7"   # TODO:          |
+readonly OSC8="${OSC}]8"   # TODO:          |
+readonly OSC9="${OSC}]9"   # TODO:          |
+readonly OSC99="${OSC}]99" # TODO:          |
+#                                           |
+#-------------------------------------------|
+# Text Formatting                           |
+#                                           |
+readonly RESET="${CSI}0m"                  #|         
+readonly BOLD="${CSI}1m"                   #|         
+readonly DIM="${CSI}2m"                    #|         
+readonly INTENSITY_OFF="${CSI}22m"         #|         
+readonly ITALIC="${CSI}3m"                 #|         
+readonly ITALIC_OFF="${CSI}23m"            #|         
+readonly UNDERLINE="${CSI}4m"              #|         
+readonly UNDERLINE_OFF="${CSI}24m"         #|         
+readonly REVERSE="${CSI}7m"                #|         
+readonly REVERSE_OFF="${CSI}27m"           #|         
+readonly STRIKE="${CSI}9m"                 #|         
+readonly STRIKE_OFF="${CSI}29m"            #|         
+#                                           |         
+#-------------------------------------------|
+# Text Color (Foreground)                   |
+#                                           |         
+readonly RESET_FG="${CSI}39m"              #|
+readonly BLACK="${CSI}30m"                 #|
+readonly BRIGHT_BLACK="${CSI}90m"          #|
+readonly WHITE="${CSI}37m"                 #|
+readonly BRIGHT_WHITE="${CSI}97m"          #|
+readonly RED="${CSI}31m"                   #|
+readonly BRIGHT_RED="${CSI}91m"            #|
+readonly GREEN="${CSI}32m"                 #|
+readonly BRIGHT_GREEN="${CSI}92m"          #|
+readonly YELLOW="${CSI}33m"                #|
+readonly BRIGHT_YELLOW="${CSI}93m"         #|
+readonly BLUE="${CSI}34m"                  #|
+readonly BRIGHT_BLUE="${CSI}94m"           #|
+readonly MAGENTA="${CSI}35m"               #|
+readonly BRIGHT_MAGENTA="${CSI}95m"        #|
+readonly CYAN="${CSI}36m"                  #|
+readonly BRIGHT_CYAN="${CSI}96m"           #|
+#                                           |         
+#-------------------------------------------|
+# Text Color (Background)                   |
+#                                           |         
+readonly RESET_BG="${CSI}49m"              #|
+readonly BLACK_BG="${CSI}40m"              #|
+readonly BRIGHT_BLACK_BG="${CSI}100m"      #|
+readonly WHITE_BG="${CSI}47m"              #|
+readonly BRIGHT_WHITE_BG="${CSI}107m"      #|
+readonly RED_BG="${CSI}41m"                #|
+readonly BRIGHT_RED_BG="${CSI}101m"        #|
+readonly GREEN_BG="${CSI}42m"              #|
+readonly BRIGHT_GREEN_BG="${CSI}102m"      #|
+readonly YELLOW_BG="${CSI}43m"             #|
+readonly BRIGHT_YELLOW_BG="${CSI}103m"     #|
+readonly BLUE_BG="${CSI}44m"               #|
+readonly BRIGHT_BLUE_BG="${CSI}104m"       #|
+readonly MAGENTA_BG="${CSI}45m"            #|
+readonly BRIGHT_MAGENTA_BG="${CSI}105m"    #|
+readonly CYAN_BG="${CSI}46m"               #|
+readonly BRIGHT_CYAN_BG="${CSI}106m"       #|
+#                                           |         
+#-------------------------------------------|
+#+end_src
+
+*** =term::interactive=
+
+#+begin_src bash :noweb-ref lib-terminal
+#====================================================================#
+# term::get_interactivity ()                                         #
+# Checks if Bash is running as the interactive mode.                 #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#====================================================================#
+function term::interactive() {
+    if test -t 1 || [[ "$-" == *i* ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+#+end_src
+
+*** =term::get_size=
+
+#+begin_src bash :noweb-ref lib-terminal
+#====================================================================#
+# term::get_size ()                                                  #
+# Update the value of $LINES and $COLUMNS when called. This function #
+# is meant to be used with the SIGWINCH trap but can also be called  #
+# directly. Supports older versions of Bash and 4.3+'s checkwinsize  #
+# option. stty is used when Bash < 4.3 and is available everywhere.  #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#====================================================================#
+function term::get_size() {
+    # The following is experimental and needs verified.
+    # NOTE: May cause issues with forking subshells.
+    # NOTE: Bash may by default error if option unavailable.
+    # FIXME: size not updated during blocking read command.
+
+    if [[ "${BASH_VERSINFO[0]}" -lt 4 ||
+              ("${BASH_VERSINFO[0]}" -eq 4 &&
+                   "${BASH_VERSINFO[1]}" -lt 3) ]]; then
+        # If Bash version < 4.3+, use stty, otherwise use checkwinsizes.
+        read -r LINES COLUMNS < <(stty size)
+        # TODO: Compare to 'read LINES COLUMNS <<< `stty size`'
+    elif ! shopt checkwinsize > /dev/null 2>&1; then
+        # Use built-in option, subshell required to update size right now.
+        shopt -s checkwinsize && (:;:)
+    fi
+    log::debug "window size changed: LINES: $LINES, COLUMNS: $COLUMNS"
+}
+#+end_src
+
+** Logging
+
+#+begin_src bash :noweb-ref lib-log
+#===============================================================================#
+# >>> Logging Library.                                                          #
+#===============================================================================#
+#+end_src
+
+#+begin_src bash :noweb-ref lib-log
+# TODO: Add ability to set log verbosity from CLI.
+# TODO: Add log rotation, max file length, file count.
+# TODO: Add non-clobbering of ui and output streams.
+# TODO: Add support for multi-line error messages.
+# TODO: Add ability to trace parent calls.
+# TODO: Consider adding verbose tracing with function, line number, etc. to output.
+# TODO: Consider adding system logger support.
+# TODO: Decide how output formatting and message building should be handled.
+#+end_src
+
+#+begin_src bash :noweb-ref lib-log
+# Provide logging to the screen and a file without dependence on available or
+# preferred system loggers. Implements syslog (RFC 5424) style logging levels
+# with verbosity and includes additional levels from modern logging libraries.
+
+# See: man syslog(3), https://www.rfc-editor.org/rfc/rfc5424#page-8
+
+# Goals:
+#   - Avoid stream clobbering.
+#   - Avoid interface clobbering.
+#   - Support usage or implementation of other loggers and their formats.
+#   - GitHub Actions enhancements (color, emojis, progress, debug info, etc.)
+
+# Settings.                                   # (Inheritable from environment.)
+: "${LOG_FILE:="$HOME/envi.log"}"             # Default log file.
+: "${LOG_LEVEL:=7}"                           # Logging verbosity level.
+: "${LOG_COLOR:=true}"                        # Enable/disable colored output.
+: "${LOG_TIME:=true}"                         # Enable/disable timestamps.
+: "${LOG_TIME_FORMAT:="%Y-%m-%dT-%H:%M:%S"}"  # Accepts 'date'/'printf' format.
+
+# Log levels.                  Code: Severity:                                    
+readonly LOG_LVL_EMERGENCY=0 # | 0 | system is unusable
+readonly LOG_LVL_ALERT=1     # | 1 | action must be taken immediately
+readonly LOG_LVL_CRITICAL=2  # | 2 | critical conditions (system fail)
+readonly LOG_LVL_ERROR=3     # | 3 | error conditions (attention required)
+readonly LOG_LVL_WARNING=4   # | 4 | warning conditions (problems arise)
+readonly LOG_LVL_NOTICE=5    # | 5 | normal but significant condition
+readonly LOG_LVL_INFO=6      # | 6 | informational messages
+readonly LOG_LVL_DEBUG=7     # | 7 | debug-level messages
+readonly LOG_LVL_FATAL=0     # | 0 | system is unusable
+readonly LOG_LVL_SUCCESS=6   # | 6 | informational message
+readonly LOG_LVL_TRACE=7     # | 7 | debug-level message
+readonly LOG_LVL_ENTRY=7     # | 7 | debug-level message
+
+readonly LOG_LEVEL_COLORS=(
+    "$RED"
+    "$RED"
+    "$RED"
+    "$RED"
+    "$YELLOW"
+    "$YELLOW"
+    "$GREEN"
+    "$GREEN")
+#+end_src
+
+*** =log::_write= [0/1]
+
+- [ ] Add redirection to output streams.
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::_write ()                                                     #
+# Wrapper for 'log::*' commands to print a formatted message to the  #
+# log if appropriate, according to the chosen verbosity level.       #
+#                                                                    #
+# Returns:                                                           #
+#   - 2 on incorrect argument count                                  #
+#====================================================================#
+function log::_write() {
+    if [[ "$#" -lt 2 ]]; then
+        log::error "incorrect argument count"
+        return 2
+    fi
+
+    # Only print levels from {n..$LOG_LEVEL}.
+    if [[ "$LOG_LEVEL" -ge "$verbosity" ]]; then
+        local prefix="${SCRIPT_NAME}:"
+        local tag="$1"
+        shift 1
+
+        # Create timestamp.
+        if "$LOG_TIME"; then
+            local timestamp=""
+            if "$_PRINTF_DATE"; then
+                printf -v timestamp "%(${LOG_TIME_FORMAT})T"
+            else
+                timestamp="$(date "+${LOG_TIME_FORMAT}")"
+            fi
+            prefix+=" $timestamp"
+        fi
+
+        # Format message.
+        if "$TERM_SUPPORTS_COLOR" && "$LOG_COLOR"; then
+            local tag_color="${LOG_LEVEL_COLORS[$verbosity]}"
+            printf '%s [%b%s%b] %s\n' "$prefix" "$tag_color" "$tag" "$RESET_FG" "$@"
+        else
+            printf '%s [%s] %s\n' "$prefix" "$tag" "$@"
+        fi
+    fi
+}
+#+end_src
+
+*** =log::emergency=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::emergency ()                                                  #
+#====================================================================#
+function log::emergency() {
+    local verbosity="$LOG_LVL_EMERGENCY"
+    log::_write "EMERGENCY" "$@"
+}
+#+end_src
+
+*** =log::alert=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::alert ()                                                      #
+#====================================================================#
+function log::alert() {
+    local verbosity="$LOG_LVL_ALERT"
+    log::_write "ALERT" "$@"
+}
+#+end_src
+
+*** =log::critical=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::critical ()                                                   #
+#====================================================================#
+function log::critical() {
+    local verbosity="$LOG_LVL_CRITICAL"
+    log::_write "CRITICAL" "$@"
+}
+#+end_src
+
+*** =log::error=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::error ()                                                      #
+#====================================================================#
+function log::error() {
+    local verbosity="$LOG_LVL_ERROR"
+    log::_write "ERROR" "$@"
+}
+#+end_src
+
+*** =log::warning=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::warning ()                                                    #
+#====================================================================#
+function log::warning() {
+    local verbosity="$LOG_LVL_WARNING"
+    log::_write "WARNING" "$@"
+}
+#+end_src
+
+*** =log::notice=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::notice ()                                                     #
+#====================================================================#
+function log::notice() {
+    local verbosity="$LOG_LVL_NOTICE"
+    log::_write "NOTICE" "$@"
+}
+#+end_src
+
+*** =log::info=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::info ()                                                       #
+#====================================================================#
+function log::info() {
+    local verbosity="$LOG_LVL_INFO"
+    log::_write "INFO" "$@"
+}
+#+end_src
+
+*** =log::debug=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::debug ()                                                      #
+#====================================================================#
+function log::debug() {
+    local verbosity="$LOG_LVL_DEBUG"
+    log::_write "DEBUG" "$@"
+}
+#+end_src
+
+*** =log::fatal=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::fatal ()                                                      #
+#====================================================================#
+function log::fatal() {
+    local verbosity="$LOG_LVL_FATAL"
+    log::_write "FATAL" "$@"
+}
+#+end_src
+
+*** =log::success=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::success ()                                                    #
+#====================================================================#
+function log::success() {
+    local verbosity="$LOG_LVL_SUCCESS"
+    log::_write "SUCCESS" "$@"
+}
+#+end_src
+
+*** =log::trace=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::trace ()                                                      #
+#====================================================================#
+function log::trace() {
+    local verbosity="$LOG_LVL_TRACE"
+    log::_write "TRACE" "$@"
+}
+#+end_src
+
+*** =log::entry=
+
+#+begin_src bash :noweb-ref lib-log
+#====================================================================#
+# log::entry ()                                                      #
+#====================================================================#
+function log::entry() {
+    local verbosity="$LOG_LVL_ENTRY"
+    log::_write "ENTRY" "$@"
+}
+#+end_src
+
+** User Interface
+
+#+begin_src bash :noweb-ref lib-ui
+#===============================================================================#
+# >>> User Interface Library.                                                   #
+#===============================================================================#
+#+end_src
+
+#+begin_src bash :noweb-ref lib-ui
+# TODO: Consider adding checks to enable/disable ui functions in non-interactive shells.
+#+end_src
+
+*** =ui::init=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::init ()                                                        #
+# Initialize information about the terminal's display capabilities.  #
+#====================================================================#
+# TODO: Add trap for cursor hiding reset.
+# TODO: Add trap for scroll area reset.
+function ui::init() {
+    if term::interactive; then
+        TERM_SUPPORTS_COLOR='true'
+        # TODO: Refactor this trap for trap management.
+        trap 'term::get_size' WINCH
+    else
+        TERM_SUPPORTS_COLOR='false'
+    fi
+}
+#+end_src
+
+*** =ui::cursor_up=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::cursor_up ()                                                   #
+# Move cursor by "$1" characters upward from current position.       #
+# Moves 1 character if no arguments or 0 or 1 is provided.           #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#   - 3 on incorrect argument type                                   #
+#====================================================================#
+function ui::cursor_up() {
+    if [[ "$#" -gt 1 ]]; then
+        log::error "incorrect argument count"
+        return 2
+    elif [[ "$#" -eq 1 ]] && ! [[ "$1" =~ $rx_uint ]]; then
+        log::error "incorrect argument type"
+        return 3
+    fi
+
+    local arg1="${1:-1}"
+    printf '\033[%dA' "$arg1"
+}
+#+end_src
+
+*** =ui::cursor_down=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::cursor_down ()                                                 #
+# Move cursor by "$1" characters downward from current position.     #
+# Moves 1 character if no arguments or 0 or 1 is provided.           #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#   - 3 on incorrect argument type                                   #
+#====================================================================#
+function ui::cursor_down() {
+    if [[ "$#" -gt 1 ]]; then
+        log::error "incorrect argument count"
+        return 2
+    elif [[ "$#" -eq 1 ]] && ! [[ "$1" =~ $rx_uint ]]; then
+        log::error "incorrect argument type"
+        return 3
+    fi
+    local arg1="${1:-1}"
+    printf '\033[%dB' "$arg1"
+}
+#+end_src
+
+*** =ui::cursor_left=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::cursor_left ()                                                 #
+# Move cursor by "$1" characters left from current position.         #
+# Moves 1 character if no arguments or 0 or 1 is provided.           #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#   - 3 on incorrect argument type                                   #
+#====================================================================#
+function ui::cursor_left() {
+    if [[ "$#" -gt 1 ]]; then
+        log::error "incorrect argument count"
+        return 2
+    elif [[ "$#" -eq 1 ]] && ! [[ "$1" =~ $rx_uint ]]; then
+        log::error "incorrect argument type"
+        return 3
+    fi
+    local arg1="${1:-1}"
+    printf '\033[%dD' "$arg1"
+}
+#+end_src
+
+*** =ui::cursor_right=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::cursor_right ()                                                #
+# Move cursor by "$1" characters right from current position.        #
+# Moves 1 character if no arguments or 0 or 1 is provided.           #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#   - 3 on incorrect argument type                                   #
+#====================================================================#
+function ui::cursor_right() {
+    if [[ "$#" -gt 1 ]]; then
+        log::error "incorrect argument count"
+        return 2
+    elif [[ "$#" -eq 1 ]] && ! [[ "$1" =~ $rx_uint ]]; then
+        log::error "incorrect argument type"
+        return 3
+    fi
+    local arg1="${1:-1}"
+    printf '\033[%dC' "$arg1"
+}
+#+end_src
+
+*** =ui::cursor_to=
+
+- [ ] Consider adding bounds checking or a warning.
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::cursor_to ()                                                   #
+# Move cursor to position specified by row and column.               #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#   - 3 on incorrect argument type                                   #
+#====================================================================#
+function ui::cursor_to() {
+    if [[ "$#" -ne 2 ]]; then
+        log::error "incorrect argument count"
+        return 2
+    elif ! [[ "$1" =~ $rx_uint ]] || ! [[ "$2" =~ $rx_uint ]]; then
+        log::error "incorrect argument type"
+        return 3
+    fi
+    printf '%b' "\033[$1;$2H"
+}
+#+end_src
+
+*** =ui::cursor_hide=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::cursor_hide ()                                                 #
+# Disable rendering of the cursor on the screen.                     #
+#====================================================================#
+function ui::cursor_hide() {
+    printf '\033[?25l'
+}
+#+end_src
+
+*** =ui::cursor_show=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::cursor_show ()                                                 #
+# Enable rendering of the cursor on the screen.                      #
+#====================================================================#
+function ui::cursor_show() {
+    printf '\033[?25h'
+}
+#+end_src
+
+*** =ui::clear=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::clear ()                                                       #
+# Clear all lines currently on the screen.                           #
+#====================================================================#
+function ui::clear() {
+    printf '%s' "\033[2J"
+}
+#+end_src
+
+*** =ui::clear_above=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::clear_above ()                                                 #
+# Clear all lines above current row on the screen.                   #
+#====================================================================#
+function ui::clear_above() {
+    printf '\033[1J'
+}
+#+end_src
+
+*** =ui::clear_below=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::clear_below ()                                                 #
+# Clear all lines below current row on the screen.                   #
+#====================================================================#
+function ui::clear_below() {
+    printf '\033[0J'
+}
+#+end_src
+
+*** =ui::clear_scrollback=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::clear_scrollback ()                                            #
+# Clear all scrollback buffer lines without moving the cursor.       #
+#====================================================================#
+function ui::clear_scrollback() {
+    printf '\033[3J'
+}
+#+end_src
+
+*** =ui::clear_eol=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::clear_eol ()                                                   #
+# Clear content from cursor to end of line.                          #
+#====================================================================#
+function ui::clear_eol() {
+    printf '\033[0J'
+}
+#+end_src
+
+*** =ui::clear_bol=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::clear_bol ()                                                   #
+# Clear content from cursor to beginning of line.                    #
+#====================================================================#
+function ui::clear_bol() {
+    printf '\033[1J'
+}
+#+end_src
+
+*** =ui::clear_line=
+
+#+begin_src bash :noweb-ref lib-ui
+#====================================================================#
+# ui::clear_line ()                                                  #
+# Clear entire line cursor is on.                                    #
+#====================================================================#
+function ui::clear_line() {
+    printf '\033[2K'
+}
+#+end_src
+
+*** =ui::confirm= [0/10]
+
+- [ ] Consider adding info logging.
+- [ ] Consider adding location argument to specify screen location.
+- [ ] Consider adding support for specific outputs.
+- [ ] Consider adding timeout after x count.
+- [ ] Consider adding question modification after x failures.
+- [ ] Consider adding support for alternate buffer.
+- [ ] Add comments.
+- [ ] Consider separating processing of read results into another function.
+- [ ] Add support for escape and enter handling?
+- [ ] Add separate input processing function?
+
+- Resources:
+  - https://stackoverflow.com/questions/24016046/shell-script-respond-to-keypress
+
+#+begin_src bash :noweb-ref lib-ui
+# TODO: Add input checking.
+#====================================================================#
+# ui::confirm ()                                                     #
+# Prompt the user for an answer to a yes or no question, reading     #
+# input until y (yes) or n (no) is provided. Optionally print the    #
+# question at a specified location at row and column position.       #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 when input received was yes                                  #
+#   - 1 when input received was no                                   #
+#   - 2 on incorrect argument count                                  #
+#====================================================================#
+function ui::confirm() {
+    if [[ "$#" -lt 1 ]]; then
+        log::error "incorrect argument count"
+        return 2
+    fi
+
+    local question="$1"
+
+    # TODO Refactor this block?
+    if [[ "$#" -eq 3 ]]; then
+        local row="$2"
+        local col="$3"
+        if ! ui::cursor_to "$row" "$col"; then
+            return "$?"
+        fi
+    fi
+
+    printf '%s ' "$question"
+
+    while true; do
+        read -rsn 1
+        case "$REPLY" in
+            y | Y)
+                return 0
+                ;;
+            n | N)
+                return 1
+                ;;
+            $'\e')
+                # Escape
+                # TODO Support esc exit.
+                echo "you hit esc"
+                ;;
+            $'\177')
+                # Backspace
+                echo "you hit backspace"
+                ;;
+            $'\t')
+                # Tab
+                echo "You hit tab!"
+                ;;
+            q | Q)
+                # Quit
+                echo "You hit q!"
+                ;;
+            "")
+                # Enter
+                # TODO Replace with more accurate enter match.
+                echo "you hit enter"
+                ;;
+        esac
+    done
+}
+#+end_src
+
+** Trap
+
+#+begin_src bash :noweb-ref lib-trap
+#===============================================================================#
+# >>> Trap Library.                                                             #
+#===============================================================================#
+#+end_src
+
+** System
+
+#+begin_src bash :noweb-ref lib-system
+#===============================================================================#
+# >>> System Library.                                                           #
+#===============================================================================#
+#+end_src
+
+*** =system::get_kernel=
+
+#+begin_src bash :noweb-ref lib-system
+#====================================================================#
+# system::get_kernel ()                                              #
+# Detect kernel info by parsing the 'uname' command.                 #
+#                                                                    #
+# Globals:                                                           #
+#   kernel_name    - Kernel type: Linux, macOS, Windows, BSD.        #
+#   kernel_release - Kernel version.                                 #
+#   kernel_machine - Machine architecture type: x86-64, arm64, etc.  #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#====================================================================#
+function system::get_kernel() {
+    if "$SYSTEM_DETECTED"; then
+        log::entry \
+        "${FUNCNAME[0]}: system information already detected, returning"
+        return
+    fi
+    
+    if command -v -- 'uname' > /dev/null 2>&1; then
+        local uname
+        IFS=" " read -ra uname <<< "$(uname -srm)"
+        readonly kernel_name="${uname[0]}"
+        readonly kernel_release="${uname[1]}"
+        readonly kernel_machine="${uname[2]}"
+        return 0
+    else
+        log::error "Missing dependency: 'uname'"
+        return 1
+    fi
+}
+#+end_src
+
+*** =system::get_os=
+
+#+begin_src bash :noweb-ref lib-system
+#====================================================================#
+# system::get_os ()                                                  #
+# Detects the operating system and associated information about it.  #
+#                                                                    #
+# Globals:                                                           #
+#   os             - Kernel type: Linux, macOS, Windows, BSD.        #
+#   os_version     - Kernel version.                                 #
+#   distro         - For Unix-like operating systems. (and Windows)  #
+#   distro_version - Distribution version of the distro.             #
+#   codename       - For Linux distribution and macOS codenames.     #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#====================================================================#
+# TODO: Add more logging.
+# TODO: Consider supporting the following:
+#       - OpenWRT
+#       - Hardened BSD
+#       - Android
+#       - OpenBSD
+#       - OPNSense
+#       - iOS
+#       - TrueNAS
+#       - pfSense
+# TODO: Consider replacing awk with substring/variable expansion in places.
+# TODO: Consider adding more awk availability checks.
+# TODO: Decide if file existence should be done using -f or -r test.
+# TODO: Consider inverting error printing and variable setting statements for clarity.
+# TODO: Ensure all set variables become readonly.
+# TODO: Invesetigate kernel/machine arch system-specific idiosyncrasies (windows/bsd uname -p)
+function system::get_os() {
+    if "$SYSTEM_DETECTED"; then
+        log::entry \
+        "${FUNCNAME[0]}: system information already detected, returning"
+        return
+    fi
+    
+    case "$kernel_name" in
+        Linux | GNU*)
+            readonly os="Linux"
+
+            if [[ -f /etc/NIXOS ]]; then
+                distro="NixOS"
+                os_version="$(nixos-version | awk '{print substr($1,0,5),$2}')"
+            elif command -v -- 'guix' > /dev/null 2>&1; then
+                distro="Guix System"
+                os_version="$(guix -V | awk 'NR==1{printf $4}')"
+            elif [[ -f /etc/linspire-version ]]; then
+                distro="Linspire"
+                os_version="$(awk '/Version/ {print $2}' /etc/linspire-version)"
+            elif command -v -- 'pveversion' > /dev/null 2>&1; then
+                distro="Proxmox VE"
+                os_version="$(pveversion)"
+                # TODO: Ensure version string is correctly formatted.
+            elif command -v -- 'twistver' > /dev/null 2>&1; then
+                if file::load "/etc/armbian-release"; then
+                    os_version="$VERSION"
+                    codename="$DISTRIBUTION_CODENAME"
+                elif file::load "/etc/os-release"; then
+                    os_version="$VERSION_ID"
+                else
+                    log::error "could not get distro info for twistver"
+                    return 1
+                fi
+                distro="$(twistver)"
+                # TODO: Add codename for twistver.
+            elif [[ -f /etc/armbian-release ]]; then
+                # shellcheck disable=SC1091
+                if source /etc/armbian-release; then
+                    distro="Armbian"
+                    os_version="${VERSION:-}"
+                    codename="$DISTRIBUTION_CODENAME"
+                else
+                    log::error "could not get info for armbian"
+                    return 1
+                fi
+            elif command -v -- 'lsb_release' > /dev/null 2>&1; then
+                # Cache the output of lsb_release into dist_info array to avoid forking.
+                local dist_info # 0=distro (id), 1=os_version(release), 2=codename(codename)
+                IFS=$'\n' read -ra dist_info -d '' <<< "$(lsb_release -sirc 2> /dev/null)"
+
+                if [[ -f /etc/manjaro-release ]]; then
+                    distro="Manjaro Linux"
+                    os_version="${dist_info[1]}"
+                    codename="${dist_info[2]}"
+                elif [[ -f /etc/debian_version ]] \
+                    && [[ "${dist_info[0]}" != *"buntu"* ]] \
+                    && [[ "${dist_info[0]}" != *"neon"* ]]; then
+                    # TODO: Add Ubuntu flavor detection.
+                    # TODO: Add Fedora flavor detection.
+                    dist_info[1]="$(< /etc/debian_version)"
+                    distro="${dist_info[0]}"
+                    os_version="${dist_info[1]}"
+                    codename="${dist_info[2]}"
+                else
+                    distro="${dist_info[0]}"
+                    os_version="${dist_info[1]}"
+                    codename="${dist_info[2]}"
+                fi
+            elif [[ -f /etc/os-release || -f /usr/lib/os-release ||
+                        -f /etc/openwrt_release || -f /etc/lsb-release ]]; then
+                echo "TODO"
+                return 1
+            else
+                echo "TODO"
+                return 1
+            fi
+            # TODO: Decide if string trim/formatting will be required for various Linux formats.
+            ;;
+        Darwin)
+            if [[ -f /System/Library/CoreServices/SystemVersion.plist ]]; then
+                if command -v -- 'awk' > /dev/null 2>&1; then
+                    # macOS can report incorrect versions unless this is 0.
+                    # https://github.com/dylanaraps/neofetch/issues/1607
+                    export SYSTEM_VERSION_COMPAT=0
+
+                    local sw_vers darwin_name darwin_version darwin_build
+
+                    IFS=$'\n' read -d "" -ra sw_vers <<< \
+                        "$(awk -F'<|>' '/key|string/ {print $3}' \
+                        "/System/Library/CoreServices/SystemVersion.plist")"
+                    for ((i = 0; i < ${#sw_vers[@]}; i += 2)); do
+                        case ${sw_vers[i]} in
+                            ProductName)
+                                darwin_name=${sw_vers[i + 1]}
+                                ;;
+                            ProductVersion)
+                                darwin_version=${sw_vers[i + 1]}
+                                ;;
+                            ProductBuildVersion)
+                                darwin_build=${sw_vers[i + 1]}
+                                ;;
+                        esac
+                    done
+                else
+                    log::error "missing dependency: 'awk'"
+                    return 1
+                fi
+            else
+                log::error \
+                    "missing file: /System/Library/CoreServices/SystemVersion.plist"
+                return 1
+            fi
+
+            readonly os="$darwin_name"
+
+            if [[ "$os" == "Mac OS X" ]] || [[ "$os" == "macOS" ]]; then
+                readonly os_version="$darwin_version"
+                case "$os_version" in
+                    10.4*) codename="Mac OS X Tiger" ;;
+                    10.5*) codename="Mac OS X Leopard" ;;
+                    10.6*) codename="Mac OS X Snow Leopard" ;;
+                    10.7*) codename="Mac OS X Lion" ;;
+                    10.8*) codename="OS X Mountain Lion" ;;
+                    10.9*) codename="OS X Mavericks" ;;
+                    10.10*) codename="OS X Yosemite" ;;
+                    10.11*) codename="OS X El Capitan" ;;
+                    10.12*) codename="macOS Sierra" ;;
+                    10.13*) codename="macOS High Sierra" ;;
+                    10.14*) codename="macOS Mojave" ;;
+                    10.15*) codename="macOS Catalina" ;;
+                    10.16*) codename="macOS Big Sur" ;;
+                    11.*) codename="macOS Big Sur" ;;
+                    12.*) codename="macOS Monterey" ;;
+                    13.*) codename="macOS Ventura" ;;
+                    14.*) codename="macOS Sonoma" ;;
+                    15.*) codename="macOS Sequoia" ;;
+                    26.*) codename="macos Tahoe" ;;
+                    # TODO: Add logging message about undefined codename.
+                    ,*) codename="macOS"
+                       log::notice "unknown macOS version detected, using generalized codename: macOS"
+                       ;;
+                esac
+            fi
+            ;;
+        CYGWIN* | MSYS* | MINGW*)
+            log::error "Windows-based operating systems are unsupported, aborting..."
+            exit 1
+            ;;
+        ,*BSD)
+            os=BSD
+            ;;
+        ,*)
+            log::error "Unknown OS detected: '$kernel_name', aborting..."
+            log::error "Open an issue on GitHub to add support for your OS."
+            exit 1
+            ;;
+    esac
+}
+#+end_src
+
+*** =system::get_escalator=
+
+#+begin_src bash :noweb-ref lib-system
+#====================================================================#
+# system::get_escalator ()                                           #
+# Search for and set the default privilege escalation tool to use.   #
+#                                                                    #
+# If multiple supported tools are found, prompt to select one.       #
+#                                                                    #
+# Globals:                                                           #
+#   ESCALATOR        - Default command for privilege escalation.     #
+#   ESCALATION_TOOLS - List of escalation tools found on the system. #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success of finding/setting an escalation tool             #
+#   - 1 on failure to find/set an escalation tool                    #
+#====================================================================#
+function system::get_escalator() {
+    # TODO: Decide if should check user permissions for escalation tool usage.
+    # TODO: Decide if these global variables should be readonly or if envi
+    #       should be able to set them up and then set them as readonly.
+    if "$SYSTEM_DETECTED"; then
+        log::entry \
+        "${FUNCNAME[0]}: system information already detected, returning"
+        return
+    fi
+    
+    # Supported escalation tools:
+    local escalation_tools=('sudo' 'doas')
+
+    local tool
+    local available_tools=()
+    local tool_count=0
+    for tool in "${escalation_tools[@]}"; do
+        if command_exists "$tool"; then
+            available_tools+=("$tool")
+            ((tool_count += 1))
+        fi
+    done
+
+    if [[ "$tool_count" -eq 0 ]]; then
+        log::error "No escalation tools found!"
+        printf '%s' "Please install one of the supported escalation tools: "
+        local IFS=","; printf '%s\n' "${escalation_tools[*]}"
+        return 1
+    elif [[ "$tool_count" -eq 1 ]]; then
+        ESCALATOR="${available_tools[0]}"
+        ESCALATION_TOOLS=("${available_tools[@]}")
+        return 0
+    elif [[ "$tool_count" -gt 1 ]]; then
+
+        : "${ESCALATOR=""}" # Can use -z or comparison == "" to check if empty.
+        ESCALATION_TOOLS=("${available_tools[@]}")
+
+        if term::interactive; then
+            # TODO: Setup selection menu system for multiple found tools.
+            echo "select the tool:"
+        else
+            echo "This is not implemented yet. Here's what needs done, consider helping:"
+            echo "1. Check if user has option configured for default tool, set and log it."
+            echo "2. If no default tool configured, tell user how to set one for non-interactive use."
+            exit 1
+        fi
+    fi
+}
+#+end_src
+
+*** =system::detect=
+
+#+begin_src bash :noweb-ref lib-system
+#====================================================================#
+# system::detect ()                                                  #
+# Get all required information about the operating system.           #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success of all detection functions                        #
+#   - 1 on failure of any detection function                         #
+#====================================================================#
+function system::detect() {
+    local "${SYSTEM_DETECTED:=false}"
+    system::get_kernel || return 1
+    system::get_os || return 1
+    system::get_escalator || return 1
+    readonly SYSTEM_DETECTED='true'
+}
+#+end_src
+
+** File
+
+#+begin_src bash :noweb-ref lib-file
+#===============================================================================#
+# >>> File Library.                                                             #
+#===============================================================================#
+#+end_src
+
+*** =file::load=
+
+#+begin_src bash :noweb-ref lib-file
+#====================================================================#
+# file::load ()                                                      #
+# Attempt to source a file into this script, if it exists.           #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#====================================================================#
+function file::load() {
+    if [[ "$#" -ne 1 ]]; then
+        log::error "incorrect argument count"
+        return 2
+    fi
+
+    if [[ -f "$1" ]]; then # TODO: Consider using -r file existence test.
+        log::info "found file: $1"
+        # shellcheck disable=SC1090
+        if ! source "$1"; then
+            log::error "could not load file: $1"
+            return 1
+        else
+            return 0
+        fi
+    else
+        log::error "file does not exist or can't read file: $1"
+        return 1
+    fi
+}
+#+end_src
+
+** Helpers and Utilities
+
+#+begin_src bash :noweb-ref lib-helper
+#===============================================================================#
+# >>> Helper and Utility Functions.                                             #
+#===============================================================================#
+#+end_src
+
+*** =die=
+
+#+begin_src bash :noweb-ref lib-helper
+#====================================================================#
+# die ()                                                             #
+# Print an (optional) error message and immediately exit the script, #
+# with a return code (optional) with a default value of 1.           #
+#====================================================================#
+function die() {
+    if [[ "$#" -lt 1 ]]; then
+        log::fatal \
+            "encountered unspecified fatal condition, exiting"
+        exit 1
+    fi
+
+    local messages=() codes=()
+    
+    # Parse arguments.
+    while (("$#")); do
+        if [[ "$1" =~ $rx_uint ]]; then
+            codes+=("$1")
+        else
+            messages+=("$1")
+        fi
+        shift
+    done
+
+    # Print message if provided.
+    if [[ "${#messages[@]}" -ge 1 ]]; then
+        log::fatal "${messages[@]}"
+    fi
+
+    # Handle custom exit code if provided.
+    if [[ "${#codes[@]}" -gt 1 ]]; then
+        log::error "multiple return codes provided: ${codes[@]}"
+    elif [[ "${#codes[@]}" -eq 1 ]] &&
+             [[ "${codes[0]}" -gt 0 ]]; then
+        exit "${codes[0]}"
+    fi
+    
+    exit 1
+}
+#+end_src
+
+*** =command_exists=
+
+#+begin_src bash :noweb-ref lib-helper
+#====================================================================#
+# command_exists ()                                                  #
+# Check if command or list of commands is found in $PATH.            #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 on success                                                   #
+#   - 1 on failure                                                   #
+#   - 2 on incorrect argument count                                  #
+#====================================================================#
+function command_exists() {
+    if [[ "$#" -eq 0 ]]; then
+        log::error "incorrect argument count: $#"
+        return 2
+    fi
+
+    local cmd
+    for cmd in "$@"; do
+        if [[ "$cmd" == 'brew' ]]; then
+            if [[ -n ${HOMEBREW_PREFIX-} && -x "${HOMEBREW_PREFIX-}/bin/brew" ]]; then
+                continue
+            else
+                return 1
+            fi
+        elif command -v -- "$cmd" > /dev/null 2>&1; then
+            continue
+        else
+            return 1
+        fi
+    done
+    return 0
+}
+#+end_src
+
+*** =font_exists=
+
+Omarchy has a method which uses fc-list and some options and filtering to return a nicely formatted list of font names.
+- Consider moving to font::file_exists and font::cache_exists or font::exists_file and font::exists_cache
+  
+#+begin_src bash :noweb-ref lib-helper
+#====================================================================#
+# font_exists ()                                                     #
+# Check if font file is found in standard directories on system.     #
+# Searches for font file names using globbing patterns.              #
+# On Linux, search in: "${XDG_DATA_HOME}/fonts"                      #
+# On macOS, search in: "${HOME}/Library/Fonts"                       #
+#                                                                    #
+# Returns:                                                           #
+#   - 0 if all fonts found                                           #
+#   - 1 if any fonts not found                                       #
+#   - 2 on incorrect argument count                                  #
+#   - 3 on incorrect argument type                                   #
+#====================================================================#
+function font_exists() {
+    if [[ "$#" -eq 0 ]]; then
+        log::error "incorrect argument count: $#"
+        return 2
+    fi
+
+    # TODO: Add note/check for globstar, extglob, nullglob, etc. on old shells.
+    # TODO: Verify logic.
+    # TODO: Add directory relocating or printing of flatpak incompatibility for ~/.fonts directory.
+    # TODO: Consider changing incorrect arg type to unknown arg type.
+
+    local dirs=()
+
+    case "$os" in
+        'Linux')
+            dirs+=("${XDG_DATA_HOME}/fonts")
+            ;;
+        'macOS')
+            dirs+=("${HOME}/Library/Fonts")
+            ;;
+        ,*)
+            log::error "unsupported operating system: $os"
+            return 1
+            ;;
+    esac
+
+    local arg fonts=() return_path='false'
+
+    while [[ $# -ne 0 ]]; do
+        arg="$1"
+        shift
+        case "$arg" in
+            '-p' | '--path')
+                return_path='true'
+                ;;
+            '-'* | '--'*)
+                log::error "incorrect argument type: $arg"
+                return 3
+                ;;
+            ,*)
+                fonts+=("$arg")
+                ;;
+            esac
+    done
+
+    local font dir path was_found='false'
+
+    for font in "${fonts[@]}"; do
+        if [[ -z "$font" ]]; then
+            return 1
+        fi
+
+        # If no extension or glob, add it.
+        if ! [[ "$font" =~ [.*] ]]; then
+            # Use '*' over '.*' for more matches.
+            font="$font*"
+        fi
+
+        # Iterate through the font directories.
+        was_found='false'
+
+        for dir in "${dirs[@]}"; do
+            path=''
+            for path in $dir/$font; do
+                if [[ -f "$path" ]]; then
+                    was_found='true'
+                    if "$return_path"; then
+                        printf '%s\n' "$path"
+                    fi
+                fi
+            done
+        done
+
+        # Check if found.
+        if "$was_found"; then
+            continue
+        else
+            return 1
+        fi
+    done
+
+    return 0
+}
+#+end_src
+
+*** =package_exists=
+
+~/dev/source/dorothy/commands/get-app
+
+#+begin_src bash :tangle no
+# TODO Header comment.
+# TODO Implement from Dorothy.
+function package_exists() {
+    echo "thing"
+
+}
+#+end_src
+
+*** =app_exists=
+
+#+begin_src bash :tangle no
+# TODO: Header comment.
+# TODO: Re-engineer from Dorothy.
+# TODO: Consider wrapping in OS detection since platform dependent.
+function app_exists() {
+    :
+}
+#+end_src
+
+** Run
+*** =run::logged=
+
+#+begin_src bash :tangle no
+# TODO: Execute a command logging its output somewhere.
+function run::logged() {
+    :
+}
+#+end_src
+
+* Extensions
+** Emacs
+** Prism Launcher
+** Brave
+** Ripgrep
+** Silver Surfer
+** Doom Emacs
+** Fonts
+*** JetBrains Mono
+*** Fira Code
+*** Nerd Fonts
+** Dunst
+** Libnotify
+** Java
+*** Temurin
+** Network Manager
+* Development
+:PROPERTIES:
+:VISIBILITY: children
+:END:
+** Resources
+
+- bash infinity framework
+- valet
+- go script bash
+- linutil
+- dorothy
+- vterm: emacs-vterm-bash.sh
+- omarchy
+- neofetch
+  
+** Notes
+
+- Whenever associative arrays are not available there may be work-arounds using other means of data encoding.
+  - Arrays can hold variable names. Then we can use an array like an object. This can be used for packages, modules, etc.
+
+#+begin_src bash :eval no
+# The following can be used similar to Doom Emacs' modules function to allow enabling/disabling.
+function modules::enabled() {
+    local modules=(
+        something # description
+        another # another description
+        
+    )
+    
+}
+#+end_src
+
+- To enable more capability we could forego strictly using Bash.
+  - The script could be interpreted under sh and perform basic detection acquiring Bash or Emacs first and then executing a section under that interpreter.
+
+** Tasks
+
+#+begin_src bash :eval no
+# TODO: See if linutil's use/setup of $PATH and Flatpak works and why.
+# TODO: Decide if argument count checks should use arithmetic comparison or test flags.
+# TODO: Decide on incorrect argument count error message and return value (number).
+# TODO: Decide how variables should be used in Bash as true/false in if statements.
+#      - Sometimes can fail or have odd consequences with certain values (un[safe|predictable]).
+# TODO: Add conversion between forms: dec, hex, oct, asci, ansi, etc.
+# TODO: Add checking if a package is a brew package and if the one found on the path is the one from brew.
+# TODO: Develop testing setup.
+#+end_src
+
