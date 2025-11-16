@@ -102,7 +102,7 @@
 
 (use-package! doom-ui
   :config
-  (setq doom-theme 'doom-one)
+  (setq doom-theme 'doom-badger)
   ;; Avoid setting font on macOS until a performant one can be found.
   (when (and (doom-font-exists-p "JetBrains Mono")
              (featurep :system 'linux))
