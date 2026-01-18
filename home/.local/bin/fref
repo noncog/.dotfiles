@@ -27,7 +27,7 @@ function log::error() {
 }
 
 #====================================================================#
-# time::format_epoch ()                                              #
+# time::format ()                                                    #
 # Convert epoch time string into other formats using 'date'.         #
 # Accepts formatted time strings or epoch time in seconds.           #
 # Optionally accept format string to use instead of default.         #
@@ -89,18 +89,32 @@ function file::get_crtime() {
     if [[ "$#" -lt 1 || "$#" -gt 2 ]]; then
         log::error "incorrect argument count: $#"
         return 2
+    elif ! [[ -f "$1" ]]; then
+        log::error "file does not exist: $1"
+        return 1
     fi
 
-    local crtime_epoch
-    crtime_epoch="$(stat -c %W "$1")"
-    if [[ "$crtime_epoch" -eq 0 ]]; then
-        # 'stat' may fail on different file systems.
-        log::error "Unable to get creation time for file: $1"
-        return 1
-    elif [[ "$#" -eq 2 ]]; then
-        time::format "$crtime_epoch" "$2"
+    # 'stat' may fail on different file systems.
+    case "$OSTYPE" in
+        darwin*)
+            # Use BSD stat command on macOS.
+            if ! crtime="$(stat -f "%SB" "$1" 2> /dev/null)"; then
+                log::error "Unable to get creation time for file: $1"
+            fi
+            ;;
+        *)
+            # Return crtime as epoch time on most *nix systems.
+            # This option for crtime may not exist on all file systems.
+            if ! crtime="$(stat -c %W "$1" 2> /dev/null)"; then
+                log::error "Unable to get creation time for file: $1"
+            fi
+            ;;
+    esac
+
+    if [[ "$#" -eq 2 ]]; then
+        time::format "$crtime" "$2"
     else
-        printf '%s\n' "$crtime_epoch"
+        printf '%s\n' "$crtime"
     fi
 }
 
