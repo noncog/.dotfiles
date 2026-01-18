@@ -207,6 +207,3 @@ function file::get_parts() {
     # TODO: Rename variables to file, basename, extension
     # NOTE: basename supports adding extension to it to trim it.
 }
-
-#file::get_crtime "$@"
-#file::get_parts "$@"
