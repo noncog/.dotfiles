@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 #===============================================================================#
 #        file: fref - File (Name) Reference Utility                             #
 # description: A utility tool for maintaining file names using a structured     #
