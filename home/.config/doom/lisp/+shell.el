@@ -9,7 +9,7 @@
 (use-package! sh-script
   :defer t
   :init
-  (set-file-template! "\\.sh" :trigger "__sh" :mode 'sh-mode)
+  (set-file-template! "\\.sh" :mode 'sh-mode)
   :config
   (set-formatter! 'shfmt
     '("shfmt" "-filename" filepath "-ci" "-bn" "-sr" "-ln"
