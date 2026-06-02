@@ -167,13 +167,15 @@
         ;; ("Arch Wiki" "https://wiki.archlinux.org/index.php?search=%s&title=Special%3ASearch&wprov=acrw1")
         ("AUR" "https://aur.archlinux.org/packages?O=0&K=%s")))
 
+;;; Project Management
+
 (use-package magit
   :defer t
   :config
   (setq magit-repository-directories
         '(("~/.dotfiles" . 0)
-          ("~/development/projects" . 1)
-          ("~/development/source" . 1)))
+          ("~/development/projects" . 1) ; My projects.
+          ("~/development/source" . 1))) ; Other's code.
   ;; Load my custom commit linter.
   (require 'magit-lint))
 
