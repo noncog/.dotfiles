@@ -25,6 +25,25 @@
 ;; Update load-path to include subdirectories of the Doom config directory.
 (add-to-list 'load-path (expand-file-name "lisp" doom-user-dir))
 
+;; Initialize macOS setup.
+(when (featurep :system 'macos)
+  ;; Unify macOS keybinds (based on current OS keybind settings) with
+  ;; standard Linux layout. Keep your Linux muscle memory on a Mac.
+  (setq mac-command-modifier 'control ; Maps Command -> Control
+        ns-command-modifier 'control
+        mac-control-modifier 'meta    ; Maps Control -> Alt (Meta)
+        ns-control-modifier 'meta
+        mac-option-modifier 'super   ; Maps Option -> Super
+        ns-option-modifier 'super)
+  ;; Update the default Bash shell to a newer one from Homebrew.
+  ;; NOTE: This value is currently hard-coded. Instead, could search for
+  ;;       HOMEBREW_PREFIX variable and use the expanded path if it exists.
+  (when (file-exists-p "/opt/homebrew/bin/bash")
+    (setq shell-file-name "/opt/homebrew/bin/bash"))
+  ;; Setup the frame for rounded corners with no title, if available.
+  (when (>= emacs-major-version 29)
+    (add-to-list 'default-frame-alist '(undecorated-round . t))))
+
 ;; Unify internal and external window management keybinds.
 (use-package windman
   :config
