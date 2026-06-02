@@ -5,7 +5,7 @@
 ;; Author: noncog
 ;; Maintainer: noncog
 ;; Version: 0.0.1
-;; Homepage: https://github.com/noncog/.dotfiles/home/.config/doom/lisp/wm.el
+;; Homepage: https://github.com/noncog/.dotfiles/home/.config/doom/lisp/windman.el
 ;; Package-Requires: ((emacs "28.1"))
 ;;
 ;; This file is not part of GNU Emacs.
@@ -22,7 +22,7 @@
 ;;
 ;; For use with i3wm, a small script must be used to activate a mode that does not contain the keybinds
 ;; to be passed through whenever Emacs is the focused window so they can be used within Emacs itself.
-;; I've used a small perl script to achieve this. (~/.dotfiles/home/.config/i3/i3-emacs-mode.pl)
+;; I've used a small perl script to achieve this. (~/.dotfiles/home/.config/i3/i3-ipc.pl)
 ;;
 ;; Although no longer maintained, on macOS SKHD (for use with Yabai) supports pass-through natively.
 ;;
