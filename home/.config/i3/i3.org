@@ -38,7 +38,6 @@ I use this to create a mode called "Emacs" mode that is automatically activated 
   - [[#rofi][Rofi]]
   - [[#nitrogen][Nitrogen]]
   - [[#pavucontrol][Pavucontrol]]
-  - [[#prism-launcher][Prism Launcher]]
 - [[#tips][Tips]]
   - [[#finding-information][Finding Information]]
   - [[#terms][Terms]]
@@ -105,9 +104,6 @@ Build the global keybinds to be used in Emacs mode and available everywhere.
 
 # Rofi
 <<keybinds-rofi>>
-
-# Prism
-<<keybinds-prism>>
 #+end_src
 
 ** Settings
@@ -215,9 +211,6 @@ set $exclude_emacs [con_id="__focused__" class="^(?!Emacs)"]
 
 # Pavucontrol
 <<settings-pavucontrol>>
-
-# Prism
-<<settings-prism>>
 #+end_src
 
 ** Startup
@@ -559,23 +552,6 @@ exec --no-startup-id nitrogen --restore
 
 #+begin_src conf :noweb-ref settings-pavucontrol
 for_window [class="pavucontrol"] floating toggle, resize set 50 ppt 50 ppt, move position center, sticky enable
-#+end_src
-
-** Prism Launcher
-
-#+begin_src conf :noweb-ref settings-prism
-for_window [class="(?i)prismlauncher"] $move_to_workspace 1
-
-for_window [window_type="dialog" class="(?i)prismlauncher"] floating enable, move position center, move container to workspace current
-for_window [window_type="dialog"] floating enable, move container to workspace current
-# TODO: Add focus game window.
-for_window [class="org-prismlauncher-EntryPoint"] move container to workspace current, floating enable
-for_window [class="(?i)(GT: New Horizons.*)"] floating toggle, resize set 1920 px 1080 px, move position center, sticky enable
-#+end_src
-
-#+begin_src conf :noweb-ref keybinds-prism
-bindsym $mod+g [class="(?i)(GT: New Horizons.*)" workspace="__focused__"] focus, move scratchpad, scratchpad show; [class="(?i)(GT: New Horizons.*)" floating] resize set 1920 px 1080 px, scratchpad show, move position center
-bindsym $mod+Shift+g $exec /home/noncog/.local/src/prism-launcher/PrismLauncher -l "GT_New_Horizons_2.8.1_Java_17-25"
 #+end_src
 
 * Tips
