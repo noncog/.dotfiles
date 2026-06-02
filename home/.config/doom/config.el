@@ -91,7 +91,7 @@
   (setq doom-font (font-spec :family "JetBrains Mono" :size 11.0)
         doom-big-font (font-spec :family "JetBrains Mono" :size 15.0)))
 
-(use-package! display-line-numbers
+(use-package display-line-numbers
   :defer t
   :config
   (setq display-line-numbers-type 'visual
