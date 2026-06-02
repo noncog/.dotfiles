@@ -101,13 +101,13 @@
 ;; Initialize appearance.
 
 (use-package! doom-ui
+  :defer t
   :config
   (setq doom-theme 'doom-badger)
+  ;; FIXME: system type detection is not working at initialization.
   ;; Avoid setting font on macOS until a performant one can be found.
-  (when (and (doom-font-exists-p "JetBrains Mono")
-             (featurep :system 'linux))
-    (setq doom-font (font-spec :family "JetBrains Mono" :size 15.0)
-          doom-big-font (font-spec :family "JetBrains Mono" :size 16.0))))
+  (setq doom-font (font-spec :family "JetBrains Mono" :size 11.0)
+        doom-big-font (font-spec :family "JetBrains Mono" :size 15.0)))
 
 (use-package! doom-modeline
   :defer t
