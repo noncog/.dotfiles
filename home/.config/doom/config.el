@@ -132,9 +132,6 @@
             "w K" #'windman-move-win-up
             "w L" #'windman-move-win-right)))
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
 
 (use-package magit
   :defer t
@@ -145,3 +142,10 @@
           ("~/development/source" . 1)))
   ;; Load my custom commit linter.
   (require 'magit-lint))
+
+;;; Org
+
+(use-package org
+  :defer t
+  :init
+  (setq org-directory "~/documents/org/"))
