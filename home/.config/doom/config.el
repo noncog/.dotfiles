@@ -90,4 +90,12 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-
+(use-package! magit
+  :defer t
+  :config
+  (setq magit-repository-directories
+        '(("~/.dotfiles" . 0)
+          ("~/development/projects" . 1)
+          ("~/development/source" . 1)))
+  ;; Load my custom commit linter.
+  (require 'magit-lint))
