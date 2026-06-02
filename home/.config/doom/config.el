@@ -76,7 +76,9 @@
   :config
   (setq evil-collection-calendar-want-org-bindings t))
 
-;; Unify internal and external window management keybinds.
+;; Unify internal/external window management.
+;; Allows use of same keybinds across window managers and Emacs windows.
+
 (use-package windman
   :config
   (setq windman-command "i3-msg "
@@ -86,8 +88,6 @@
         windman-direction-right "right"
         windman-direction-up "up"
         windman-direction-down "down")
-  ;; I use super as my window manager modifier key.
-  ;; These binds allow the window manager windowing keybinds to work within Emacs.
   (map!
    "C-s-h" #'windman-resize-win-left
    "C-s-j" #'windman-resize-win-down
