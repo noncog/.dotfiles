@@ -64,6 +64,19 @@
 (global-subword-mode 1)           ; Enable iterating through camelcase words.
 (setq-default x-stretch-cursor t) ; Show cursor (point) as wide as glyph under it.
 
+;; Remap default global keybinds.
+
+;; Move 'toggle' binds from 'help' to 'toggle' menu.
+;; Disable frame fullscreen keybinds. Breaks on different window managers.
+(map! "C-s-f" nil
+      :leader
+      "h T" nil
+      "t T" #'doom/toggle-profiler
+      "h t" nil
+      "t t" #'load-theme
+      "t F" nil
+      "t o" #'doom/set-frame-opacity)
+
 ;; Configure Evil
 
 (use-package evil-vars
