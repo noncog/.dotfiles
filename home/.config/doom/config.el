@@ -221,3 +221,13 @@
         org-id-track-globally t                         ; Track identifiers in all org files so id links always work.
         org-id-method 'ts                               ; Use timestamps for unique identifiers.
         org-id-ts-format "%Y%m%dT%H%M%S"))              ; ISO-8601 timestamp format for identifiers.
+
+(use-package vulpea
+  :demand t
+  :hook ((after-init . vulpea-db-autosync-mode))
+  :init
+  (setq vulpea-db-sync-directories '("~/documents/org/")
+        ;; FIXME: Directory must exist otherwise emacsql won't work.
+        vulpea-db-location (expand-file-name "vulpea.db" org-data-directory)
+        vulpea-db-index-heading-level t                 ; Index heading level notes.
+        vulpea-db-sync-scan-on-enable 'async))          ; Automatically scan on enable.
