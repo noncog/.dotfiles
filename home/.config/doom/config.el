@@ -132,6 +132,12 @@
             "w K" #'windman-move-win-up
             "w L" #'windman-move-win-right)))
 
+(use-package vertico
+  :defer t
+  :config
+  ;; Add Vim scroll binds to minibuffer.
+  (map! :map vertico-map "C-u" #'scroll-down-command
+        :map vertico-map "C-d" #'scroll-up-command))
 
 (use-package magit
   :defer t
