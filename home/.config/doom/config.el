@@ -60,6 +60,10 @@
         display-line-numbers-grow-only t)
   (add-hook 'org-mode-hook #'doom-disable-line-numbers-h))
 
+(global-auto-revert-mode 1)       ; Revert buffer to show file changes on disk.
+(global-subword-mode 1)           ; Enable iterating through camelcase words.
+(setq-default x-stretch-cursor t) ; Show cursor (point) as wide as glyph under it.
+
 ;; Configure Evil
 
 (use-package evil-vars
