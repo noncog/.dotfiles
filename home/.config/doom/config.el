@@ -44,6 +44,22 @@
   (when (>= emacs-major-version 29)
     (add-to-list 'default-frame-alist '(undecorated-round . t))))
 
+;;; Interface
+
+(use-package doom-ui
+  :defer t
+  :config
+  (setq doom-theme 'doom-one)
+  (setq doom-font (font-spec :family "JetBrains Mono" :size 11.0)
+        doom-big-font (font-spec :family "JetBrains Mono" :size 15.0)))
+
+(use-package display-line-numbers
+  :defer t
+  :config
+  (setq display-line-numbers-type 'visual
+        display-line-numbers-grow-only t)
+  (add-hook 'org-mode-hook #'doom-disable-line-numbers-h))
+
 ;; Unify internal and external window management keybinds.
 (use-package windman
   :config
@@ -82,22 +98,6 @@
             "w J" #'windman-move-win-down
             "w K" #'windman-move-win-up
             "w L" #'windman-move-win-right)))
-
-;;; Interface
-
-(use-package doom-ui
-  :defer t
-  :config
-  (setq doom-theme 'doom-one)
-  (setq doom-font (font-spec :family "JetBrains Mono" :size 11.0)
-        doom-big-font (font-spec :family "JetBrains Mono" :size 15.0)))
-
-(use-package display-line-numbers
-  :defer t
-  :config
-  (setq display-line-numbers-type 'visual
-        display-line-numbers-grow-only t)
-  (add-hook 'org-mode-hook #'doom-disable-line-numbers-h))
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
