@@ -139,6 +139,34 @@
   (map! :map vertico-map "C-u" #'scroll-down-command
         :map vertico-map "C-d" #'scroll-up-command))
 
+;;; Lookup
+
+;; Add or remove lookup providers I don't agree with or won't use.
+;; NOTE: Overwrites any conditional providers added from modules.
+(setq +lookup-provider-url-alist
+      '(("Doom issues"       "https://github.com/orgs/doomemacs/projects/2/views/30?filterQuery=%s")
+        ;;("Doom discourse"    "https://discourse.doomemacs.org/search?q=%s")
+        ;;("Google"            +lookup--online-backend-google "https://google.com/search?q=%s")
+        ;;("Google images"     "https://www.google.com/images?q=%s")
+        ;;("Google maps"       "https://maps.google.com/maps?q=%s")
+        ("Kagi"              "https://kagi.com/search?q=%s")
+        ("Project Gutenberg" "http://www.gutenberg.org/ebooks/search/?query=%s")
+        ("Debian Package" "https://packages.debian.org/search?keywords=%s")
+        ("DuckDuckGo"        +lookup--online-backend-duckduckgo "https://duckduckgo.com/?q=%s")
+        ("DevDocs.io"        "https://devdocs.io/#q=%s")
+        ("StackOverflow"     "https://stackoverflow.com/search?q=%s")
+        ("StackExchange"     "https://stackexchange.com/search?q=%s")
+        ("Github"            "https://github.com/search?ref=simplesearch&q=%s")
+        ("Youtube"           "https://youtube.com/results?aq=f&oq=&search_query=%s")
+        ("Wolfram alpha"     "https://wolframalpha.com/input/?i=%s")
+        ("Wikipedia"         "https://wikipedia.org/search-redirect.php?language=en&go=Go&search=%s")
+        ("MDN"               "https://developer.mozilla.org/en-US/search?q=%s")
+        ("Internet archive"  "https://web.archive.org/web/*/%s")
+        ("Sourcegraph"       "https://sourcegraph.com/search?q=context:global+%s&patternType=literal")
+        ;; FIXME: %3 breaks string expansion for this url/provider.
+        ;; ("Arch Wiki" "https://wiki.archlinux.org/index.php?search=%s&title=Special%3ASearch&wprov=acrw1")
+        ("AUR" "https://aur.archlinux.org/packages?O=0&K=%s")))
+
 (use-package magit
   :defer t
   :config
