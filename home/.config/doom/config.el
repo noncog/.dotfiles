@@ -203,4 +203,21 @@
   (defvar org-inbox-directory (expand-file-name "inbox/" org-directory)
     "A directory used to hold `org-capture' items.")
   (defvar org-inbox-file (expand-file-name (concat user-system-name ".org") org-inbox-directory)
-    "Inbox file to use with `org-capture'. Uses system name to avoid sync conflicts."))
+    "Inbox file to use with `org-capture'. Uses system name to avoid sync conflicts.")
+  :config
+  ;; Appearance
+  (setq org-hide-leading-stars t                        ; Hide leading heading stars.
+        org-ellipsis " ▾ ")                             ; Use UTF-8 to indicate a folded heading.
+  ;; Modules
+  (add-to-list 'org-modules 'org-habit t)               ; Enable org-habit for tracking repeated actions.
+  (add-to-list 'org-modules 'ol-man t)                  ; Enable links to man pages.
+  (add-to-list 'org-modules 'ol-info t))                ; Enable links to info pages.
+
+(use-package org-id
+  :defer t
+  :config
+  (setq org-id-locations-file (expand-file-name "org-ids" org-data-directory)
+        org-id-locations-file-relative t                ; Use relative references for cross-platform compatibility.
+        org-id-track-globally t                         ; Track identifiers in all org files so id links always work.
+        org-id-method 'ts                               ; Use timestamps for unique identifiers.
+        org-id-ts-format "%Y%m%dT%H%M%S"))              ; ISO-8601 timestamp format for identifiers.
