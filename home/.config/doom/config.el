@@ -60,6 +60,22 @@
         display-line-numbers-grow-only t)
   (add-hook 'org-mode-hook #'doom-disable-line-numbers-h))
 
+;; Configure Evil
+
+(use-package evil-vars
+  :defer t
+  :config
+  (setq evil-want-fine-undo t          ; Enable granular undo for evil operations.
+        evil-split-window-below t      ; Emulate i3 horizontal window splits.
+        evil-vsplit-window-right t     ; Emulate i3 vertical window splits.
+        evil-kill-on-visual-paste nil) ; Prevent paste from adding to kill ring. Allows multiple pastes.
+  (setq-default evil-scroll-count 10)) ; Reduce scroll count instead of scroll by pages.
+
+(use-package evil-collection
+  :defer t
+  :config
+  (setq evil-collection-calendar-want-org-bindings t))
+
 ;; Unify internal and external window management keybinds.
 (use-package windman
   :config
