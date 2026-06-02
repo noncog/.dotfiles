@@ -1,13 +1,29 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
+;;; Initial Setup
 
+;; Set user variables.
+(when (string= user-login-name "noncog")
+  (setq user-full-name "noncog"
+        user-mail-address "noncog@github.com"))
 
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
-;; (setq user-full-name "John Doe"
-;;       user-mail-address "john@doe.com")
+;; Extend user variables.
+(defconst user-home-directory (getenv "HOME")
+  "Filepath of the user's home directory.")
+
+(defconst user-system-name (string-remove-suffix ".local" (system-name))
+  "Name of the user's system.")
+
+;; Setup per-system settings using a basic wrapper around alist.
+(defvar system-settings-list nil
+  "An associative list holding per-system settings for variables.")
+
+(defun system-settings-get (setting)
+  "Return the first value found for `SETTING' in `system-settings-list'."
+  (alist-get setting system-settings-list))
+
+;; Update load-path to include subdirectories of the Doom config directory.
+(add-to-list 'load-path (expand-file-name "lisp" doom-user-dir))
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
