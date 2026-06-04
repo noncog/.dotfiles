@@ -216,7 +216,7 @@
 (use-package org-id
   :defer t
   :config
-  (setq org-id-locations-file (expand-file-name "org-ids" org-data-directory)
+  (setq org-id-locations-file (expand-file-name "org.id" org-data-directory)
         org-id-locations-file-relative t                ; Use relative references for cross-platform compatibility.
         org-id-track-globally t                         ; Track identifiers in all org files so id links always work.
         org-id-method 'ts                               ; Use timestamps for unique identifiers.
