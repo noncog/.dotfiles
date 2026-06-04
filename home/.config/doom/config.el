@@ -211,7 +211,7 @@
   ;; Modules
   (add-to-list 'org-modules 'org-habit t)               ; Enable org-habit for tracking repeated actions.
   (add-to-list 'org-modules 'ol-man t)                  ; Enable links to man pages.
-  (add-to-list 'org-modules 'ol-info t))                ; Enable links to info pages.
+  (add-to-list 'org-modules 'ol-info t)                 ; Enable links to info pages.
 
 (use-package org-id
   :defer t
