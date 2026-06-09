@@ -212,6 +212,16 @@
   (add-to-list 'org-modules 'org-habit t)               ; Enable org-habit for tracking repeated actions.
   (add-to-list 'org-modules 'ol-man t)                  ; Enable links to man pages.
   (add-to-list 'org-modules 'ol-info t)                 ; Enable links to info pages.
+  ;; Task Management
+  (setq org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(d!)")))
+  ;; Logging
+  (setq org-log-into-drawer t                           ; Log times into a drawer to hide them.
+        org-log-reschedule t                            ; Log rescheduling of scheduled items.
+        org-log-redeadline t                            ; Log rescheduling of deadline items.
+        org-log-states-order-reversed nil               ; Log times reverse chronologically.
+        org-treat-insert-todo-heading-as-state-change t ; Enable logging on `org-insert-todo-heading'.
+        org-log-done 'time                              ; Add completion time to DONE items.
+        ))
 
 (use-package org-id
   :defer t
