@@ -233,11 +233,75 @@
         org-id-ts-format "%Y%m%dT%H%M%S"))              ; ISO-8601 timestamp format for identifiers.
 
 (use-package vulpea
-  :demand t
+  :defer t
   :hook ((after-init . vulpea-db-autosync-mode))
   :init
-  (setq vulpea-db-sync-directories '("~/documents/org/")
-        ;; FIXME: Directory must exist otherwise emacsql won't work.
+  ;; TODO: Investigate if setq-default should be used.
+  (setq vulpea-db-sync-directories (list org-directory)
         vulpea-db-location (expand-file-name "vulpea.db" org-data-directory)
+        ;; FIXME: If directory does not exist, it won't create the file.
+        vulpea-default-notes-directory (expand-file-name "notes/" org-directory)
         vulpea-db-index-heading-level t                 ; Index heading level notes.
-        vulpea-db-sync-scan-on-enable 'async))          ; Automatically scan on enable.
+        vulpea-db-sync-scan-on-enable 'async)           ; Automatically scan on enable.
+  :config
+  (setq vulpea-buffer-alias-property "ALIASES"))
+
+;; Setup "notes" keybinds.
+
+;; From: [[file:~/.config/emacs/modules/config/default/+evil-bindings.el:::prefix-map ("n" . "notes"]]
+(map! :leader
+      (:prefix-map ("n" . "notes")
+       :desc "Search notes for symbol"      "*" #'+default/search-notes-for-symbol-at-point
+       :desc "Org agenda"                   "a" #'org-agenda
+       (:when (modulep! :tools biblio)
+         :desc "Bibliographic notes"        "b"
+         (cond ((modulep! :completion vertico)  #'citar-open-notes)
+               ((modulep! :completion ivy)      #'ivy-bibtex)
+               ((modulep! :completion helm)     #'helm-bibtex)))
+       :desc "Toggle last org-clock"        "c" #'+org/toggle-last-clock
+       :desc "Cancel current org-clock"     "C" #'org-clock-cancel
+       :desc "Notes directory"              "d" #'+default/browse-notes
+       (:when (modulep! :lang org +noter)
+         :desc "Org noter"                   "e" #'org-noter)
+       :desc "Find file in notes"           "f" #'+default/find-in-notes
+       :desc "Browse notes"                 "F" #'+default/browse-notes
+       :desc "Org store link"               "l" #'org-store-link
+       :desc "Tags search"                  "m" #'org-tags-view
+       :desc "Org capture"                  "n" #'org-capture
+       :desc "Goto capture"                 "N" #'org-capture-goto-target
+       :desc "Active org-clock"             "o" #'org-clock-goto
+       :desc "Todo list"                    "t" #'org-todo-list
+       :desc "Search notes"                 "s" #'+default/org-notes-search
+       :desc "Search org agenda headlines"  "S" #'+default/org-notes-headlines
+       :desc "View search"                  "v" #'org-search-view
+       :desc "Org export to clipboard"        "y" #'+org/export-to-clipboard
+       :desc "Org export to clipboard as RTF" "Y" #'+org/export-to-clipboard-as-rich-text
+       (:prefix ("r" . "roam")
+        ;; :desc "Open random node"           "a" #'org-roam-node-random
+        :desc "Find note"                  "f" #'vulpea-find
+        ;; :desc "Find ref"                   "F" #'org-roam-ref-find
+        ;; :desc "Show graph"                 "g" #'org-roam-graph
+        :desc "Insert note"                "i" #'vulpea-insert
+        ;; :desc "Capture to node"            "n" #'org-roam-capture
+        ;; :desc "Toggle roam buffer"         "r" #'org-roam-buffer-toggle
+        ;; :desc "Launch roam buffer"         "R" #'org-roam-buffer-display-dedicated
+        ;; :desc "Sync database"              "s" #'org-roam-db-sync
+        ;; (:prefix ("d" . "by date")
+        ;;  :desc "Goto previous note"        "b" #'org-roam-dailies-goto-previous-note
+        ;;  :desc "Goto date"                 "d" #'org-roam-dailies-goto-date
+        ;;  :desc "Capture date"              "D" #'org-roam-dailies-capture-date
+        ;;  :desc "Goto next note"            "f" #'org-roam-dailies-goto-next-note
+        ;;  :desc "Goto tomorrow"             "m" #'org-roam-dailies-goto-tomorrow
+        ;;  :desc "Capture tomorrow"          "M" #'org-roam-dailies-capture-tomorrow
+        ;;  :desc "Capture today"             "n" #'org-roam-dailies-capture-today
+        ;;  :desc "Goto today"                "t" #'org-roam-dailies-goto-today
+        ;;  :desc "Capture today"             "T" #'org-roam-dailies-capture-today
+        ;;  :desc "Goto yesterday"            "y" #'org-roam-dailies-goto-yesterday
+        ;;  :desc "Capture yesterday"         "Y" #'org-roam-dailies-capture-yesterday
+        ;;  :desc "Find directory"            "-" #'org-roam-dailies-find-directory)
+        )
+       (:when (modulep! :lang org +journal)
+         (:prefix ("j" . "journal")
+          :desc "New Entry"           "j" #'org-journal-new-entry
+          :desc "New Scheduled Entry" "J" #'org-journal-new-scheduled-entry
+          :desc "Search Forever"      "s" #'org-journal-search-forever))))
