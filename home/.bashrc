@@ -79,6 +79,8 @@ function init::per_os() {
             bin_dircolors="/usr/bin/dircolors"
             # Set $TERMINAL variable used by: [i3|rofi]-sensible-terminal
             [[ -x "$TERMINAL" ]] && export TERMINAL
+            # opencode
+            export PATH=/home/noncog/.opencode/bin:"$PATH"
             ;;
     esac
 
