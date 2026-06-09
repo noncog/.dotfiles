@@ -50,8 +50,8 @@
   :defer t
   :config
   (setq doom-theme 'doom-one)
-  (setq doom-font (font-spec :family "JetBrains Mono" :size 11.0)
-        doom-big-font (font-spec :family "JetBrains Mono" :size 15.0)))
+  (setq doom-font (font-spec :family "JetBrains Mono" :size 10.0)
+        doom-big-font (font-spec :family "JetBrains Mono" :size 14.0)))
 
 (use-package display-line-numbers
   :defer t
