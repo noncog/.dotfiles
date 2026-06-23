@@ -305,3 +305,14 @@
           :desc "New Entry"           "j" #'org-journal-new-entry
           :desc "New Scheduled Entry" "J" #'org-journal-new-scheduled-entry
           :desc "Search Forever"      "s" #'org-journal-search-forever))))
+
+(use-package agent-shell
+  ;; investigate if after evil needs to happen.
+  :defer t
+  :config
+  (setq agent-shell-preferred-agent-config (agent-shell-opencode-make-agent-config)
+       agent-shell-opencode-default-model-id "llama.cpp/unsloth/Qwen3.6-35B-A3B-GGUF:UD-Q4_K_M")
+  ;; Fix (Re-bind) broken default binds on Doom.
+  (map! :map agent-shell-mode-map
+        :m [tab] #'agent-shell-next-item
+        :n [return] #'agent-shell-ui-toggle-fragment))
