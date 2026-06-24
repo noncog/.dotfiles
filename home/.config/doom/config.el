@@ -316,4 +316,6 @@
   ;; Fix (Re-bind) broken default binds on Doom.
   (map! :map agent-shell-mode-map
         :m [tab] #'agent-shell-next-item
-        :n [return] #'agent-shell-ui-toggle-fragment))
+        :n [return] #'agent-shell-ui-toggle-fragment
+        :localleader :desc "Cycle session mode"
+        "m"  #'agent-shell-cycle-session-mode))
