@@ -311,7 +311,8 @@
   :defer t
   :config
   (setq agent-shell-preferred-agent-config (agent-shell-opencode-make-agent-config)
-       agent-shell-opencode-default-model-id "llama.cpp/unsloth/Qwen3.6-35B-A3B-GGUF:UD-Q4_K_M")
+        agent-shell-opencode-default-model-id "llama.cpp/unsloth/Qwen3.6-35B-A3B-GGUF:UD-Q4_K_M"
+        agent-shell-opencode-default-session-mode-id "plan")
   ;; Fix (Re-bind) broken default binds on Doom.
   (map! :map agent-shell-mode-map
         :m [tab] #'agent-shell-next-item
