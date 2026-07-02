@@ -33,7 +33,6 @@
 ;;       - if org-file or fref, denote, etc. should be the lib for getting files and category.
 ;;       - settings for updating database cache on user cache settings.
 ;;         - if cache set to not work on save, manual update, perhaps async update.
-;; - [ ] Install info for org-file-update-on-save-enable.
 ;; - [ ] Complex file front-matter sync handler.
 ;;       - Mismatched front-matter.
 ;;       - Filename vs buffer as source of truth.
@@ -44,6 +43,13 @@
 ;; - [ ] Integrate org-roam-extract-subtree to support ID and Filetags.
 ;; - [ ] Support multiple agenda tags.
 ;;
+;; TODO: Implement
+;; vulpea-para-agenda functions.
+;; vulpea-para-agenda-person
+;; vulpea-para-people-tag
+;; vulpea-insert-handle-functions for org-roam-tags-node-insert-h
+;;
+;; TODO: Compare functionp vs fboundp.
 ;;; Code:
 
 (require 'org)
@@ -190,11 +196,11 @@ Force inclusion or exclusion with file property `AGENDA' set to t or nil."
 
 ;;; File Updates
 
+;; TODO: Add more checks, org-directory, etc.
 (defun org-file-rename-p ()
   "Return t if current org file is not marked as exempt from renaming.
 
 If file property `RENAME' is nil, return nil, otherwise return t."
-  ;; TODO: Add more checks, org-directory, etc.
   (not (org-file-property-p "RENAME" "nil")))
 
 (defcustom org-file-rename-fn nil
