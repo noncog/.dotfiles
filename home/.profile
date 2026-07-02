@@ -11,6 +11,8 @@ export VISUAL="$EDITOR"
 export SUDO_EDITOR="$EDITOR"
 
 # Set user-specific environment variables:
+
+# Relative to the home directory:
 if [ -d "$HOME" ]; then
     # Set the XDG base directories.
     export XDG_CONFIG_HOME="$HOME/.config"
@@ -18,6 +20,9 @@ if [ -d "$HOME" ]; then
     export XDG_DATA_HOME="$HOME/.local/share"
     export XDG_STATE_HOME="$HOME/.local/state"
     export XDG_BIN_HOME="$HOME/.local/bin"
+
+    # Set $PATH to include user's binary directory.
+    [ -d "$XDG_BIN_HOME" ] && export PATH="$XDG_BIN_HOME:$PATH"
 
     # If this is Bash...
     if [ -n "$BASH_VERSION" ]; then
@@ -38,10 +43,7 @@ if [ -d "$HOME" ]; then
                 fi
                 ;;
         esac
-
         # Load Bash configuration.
         [ -r "$HOME/.bashrc" ] && . "$HOME/.bashrc"
     fi
-    # Set $PATH to include user's binary directory.
-    [ -d "$XDG_BIN_HOME" ] && export PATH="$XDG_BIN_HOME:$PATH"
 fi
