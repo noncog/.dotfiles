@@ -110,7 +110,7 @@
    "C-s-j" #'windman-resize-win-down
    "C-s-k" #'windman-resize-win-up
    "C-s-l" #'windman-resize-win-right
-   (:map global-map
+   :map global-map
          "s-h" #'windman-focus-win-left
          "s-j" #'windman-focus-win-down
          "s-k" #'windman-focus-win-up
@@ -122,15 +122,15 @@
          "s-=" #'balance-windows
          "s-v" #'evil-window-vsplit
          "s-s" #'evil-window-split
-         "s-Q" #'evil-quit)
-   (:leader "w h" #'windman-focus-win-left
+         "s-Q" #'evil-quit
+   :leader "w h" #'windman-focus-win-left
             "w j" #'windman-focus-win-down
             "w k" #'windman-focus-win-up
             "w l" #'windman-focus-win-right
             "w H" #'windman-move-win-left
             "w J" #'windman-move-win-down
             "w K" #'windman-move-win-up
-            "w L" #'windman-move-win-right)))
+            "w L" #'windman-move-win-right))
 
 (use-package vertico
   :defer t
