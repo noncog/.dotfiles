@@ -23,7 +23,7 @@ export XDG_SESSION_TYPE="x11"
 xset r rate 300 25
 
 if [ "$HOSTNAME" = "Callisto" ]; then
-    xrandr --auto --dpi 108 --output DP-0 --primary --mode 2560x1440 --rate 165.08 --output HDMI-0 --off
+    xrandr --auto --dpi 109 --output DP-0 --primary --mode 2560x1440 --rate 165.08 --output HDMI-0 --off
 elif [ "$HOSTNAME" = "Europa" ]; then
     xrandr --auto --dpi 96
 fi
