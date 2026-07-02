@@ -203,13 +203,6 @@ Force inclusion or exclusion with file property `AGENDA' set to t or nil."
 If file property `RENAME' is nil, return nil, otherwise return t."
   (not (org-file-property-p "RENAME" "nil")))
 
-(defcustom org-file-rename-fn nil
-  "Function to use to sort org filetags. If nil, disables sorting.
-Expects the hash quoted name of a function that accepts two arguments.
-See `sort' for documentation on this function's expected behavior."
-  :group 'org-file
-  :type 'function)
-
 (defcustom org-file-update-name t
   "Automatically update the org file name on save."
   :group 'org-file
@@ -232,8 +225,15 @@ See `sort' for documentation on this function's expected behavior."
   :group 'org-file
   :type 'boolean)
 
-(defcustom org-file-update-agenda-fn nil
-  "Function to use to update org-agenda-files."
+(defcustom org-file-agenda-files-fn nil
+  "Function to use to collect org-agenda-files."
+  :group 'org-file
+  :type 'function)
+
+(defcustom org-file-rename-fn nil
+  "Function to use to sort org filetags. If nil, disables sorting.
+Expects the hash quoted name of a function that accepts two arguments.
+See `sort' for documentation on this function's expected behavior."
   :group 'org-file
   :type 'function)
 
@@ -287,13 +287,51 @@ to automatically run a set of updates for the current org file."
      (when org-file-update-name
        (org-file--name-update title filetags id))
      ;; Update agenda files.
-     (when (and org-file-update-agenda
-                (functionp org-file-update-agenda-fn))
-       (funcall org-file-update-agenda-fn)))))
+     (when org-file-update-agenda
+       (org-file-agenda-files-update)))))
 
 (defun org-file-update-on-save-enable ()
   "Enable checking and updating an org document on saving."
   (add-hook 'before-save-hook 'org-file-pre-save-h t t))
+
+(defvar org-file-agenda-inhibit-files-update nil
+  "When non-nil, `org-file-agenda-files-update' leaves files alone.
+
+Bind it around an `org-agenda' call that sets `org-agenda-files' itself,
+so the agenda-mode advice does not overwrite the restriction.")
+
+(defun org-file-agenda-files-update (&rest _)
+  "Set `org-agenda-files' to the tagged agenda files.
+
+Ignores its arguments, so it works as :before advice on `org-agenda'
+and `org-todo-list'.  Does nothing while
+`org-file-agenda-inhibit-files-update' is non-nil."
+  (unless org-file-agenda-inhibit-files-update
+    (when (fboundp org-file-agenda-files-fn)
+      (setq org-agenda-files (funcall org-file-agenda-files-fn)))))
+
+;; TODO: org-file-agenda-tag-scope
+
+;;;###autoload
+(define-minor-mode org-file-update-mode
+  "Updates file properties including the agenda tag updated.
+
+When on, Org buffers maintain their file properties on save, and
+`org-agenda-files' is refreshed from the database before each agenda or
+todo list is built.  The tagging scope is `org-file-agenda-tag-scope',
+which limits it to your vault by default so files elsewhere are left
+alone.  You wire this up once; after that a file slips in and out of the
+agenda on its own as work appears and finishes."
+  :global t
+  :group 'org-file
+  (if org-file-update-mode
+      (progn
+        (add-hook 'org-mode-hook #'org-file-update-on-save-enable)
+        (advice-add 'org-agenda :before #'org-file-agenda-files-update)
+        (advice-add 'org-todo-list :before #'org-file-agenda-files-update))
+    (remove-hook 'org-mode-hook #'org-file-update-on-save-enable)
+    (advice-remove 'org-agenda #'org-file-agenda-files-update)
+    (advice-remove 'org-todo-list #'org-file-agenda-files-update)))
 
 (provide 'org-file)
 ;;; org-file.el ends here
