@@ -50,7 +50,7 @@
   :defer t
   :init
   (setq doom-theme 'modus-vivendi-deuteranopia)
-  (setq doom-font (font-spec :family "JetBrains Mono" :size 10.0)
+  (setq doom-font (font-spec :family "JetBrains Mono" :size 11.0)
         doom-big-font (font-spec :family "JetBrains Mono" :size 14.0)))
 
 (use-package display-line-numbers
