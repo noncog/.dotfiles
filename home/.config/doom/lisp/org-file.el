@@ -2,10 +2,8 @@
 ;;
 ;; Author: noncog
 ;; Maintainer: noncog
-;; Created: August 27, 2025
-;; Modified: August 27, 2025
 ;; Version: 0.0.1
-;; Homepage: https://github.com/noncog/.dotfiles/home/.config/doom/lisp/lib/org-file.el
+;; Homepage: https://github.com/noncog/.dotfiles/home/.config/doom/lisp/org-file.el
 ;; Package-Requires: ((emacs "29.1"))
 ;;
 ;; This file is not part of GNU Emacs.
