@@ -30,8 +30,9 @@ if [ -d "$HOME" ]; then
         # shellcheck disable=SC3028,SC3010
         case "$OSTYPE" in
             darwin*)
-                if [[ -n "${HOMEBREW_PREFIX-}" ]] \
-                    && [[ -x "${HOMEBREW_PREFIX-}/bin/brew" ]]; then
+                # Temporarily remove HOMEBREW_PREFIX check.
+                # Use check for executable instead.
+                if [[ -x /opt/homebrew/bin/brew ]]; then
                     # Set path, manpath, etc. for homebrew.
                     eval "$(/opt/homebrew/bin/brew shellenv)"
                     # Add Homebrew package directories to environment.
