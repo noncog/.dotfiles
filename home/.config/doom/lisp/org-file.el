@@ -50,6 +50,7 @@
 ;; vulpea-insert-handle-functions for org-roam-tags-node-insert-h
 ;;
 ;; TODO: Compare functionp vs fboundp.
+;; TODO: Add directory based automatic tagging.
 ;;; Code:
 
 (require 'org)
@@ -226,7 +227,7 @@ See `sort' for documentation on this function's expected behavior."
   :type 'boolean)
 
 (defcustom org-file-agenda-files-fn nil
-  "Function to use to collect org-agenda-files."
+  "Function to use to collect `org-agenda-files'."
   :group 'org-file
   :type 'function)
 
