@@ -20,13 +20,13 @@
   (setq org-hide-leading-stars t                        ; Hide leading heading stars.
         org-ellipsis " ▾ ")                             ; Use UTF-8 to indicate a folded heading.
   ;; Task Management
-  (setq org-todo-keywords '((sequence "TODO(t!)" "|" "DONE(d!)")))
+  (setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d!)")))
   ;; Logging
   (setq org-log-into-drawer t                           ; Log times into a drawer to hide them.
         org-log-reschedule t                            ; Log rescheduling of scheduled items.
         org-log-redeadline t                            ; Log rescheduling of deadline items.
         org-log-states-order-reversed nil               ; Log times reverse chronologically.
-        org-treat-insert-todo-heading-as-state-change t ; Enable logging on `org-insert-todo-heading'.
+        org-treat-insert-todo-heading-as-state-change nil ; Enable logging on `org-insert-todo-heading'.
         org-log-done 'time))                            ; Add completion time to DONE items.
 
 (use-package org-id
