@@ -45,7 +45,7 @@
 
 
 ;; TODO: Setup fref to replace Denote.
-(use-package! denote
+(use-package denote
   :defer t
   :after org
   :config
