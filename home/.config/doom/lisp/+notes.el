@@ -7,10 +7,10 @@
   ;; Define additional core variables.
   (defvar org-data-directory (expand-file-name "data/" org-directory)
     "A directory used to hold data files related to org.")
-  (defvar org-inbox-directory (expand-file-name "inbox/" org-directory)
-    "A directory used to hold `org-capture' items.")
-  (defvar org-inbox-file (expand-file-name (concat user-system-name ".org") org-inbox-directory)
-    "Inbox file to use with `org-capture'. Uses system name to avoid sync conflicts.")
+  ;; (defvar org-inbox-directory (expand-file-name "inbox/" org-directory)
+  ;;   "A directory used to hold `org-capture' items.")
+  (defvar org-inbox-file (expand-file-name "inbox.org" org-directory)
+    "Inbox file to use with `org-capture'.")
   :config
   ;; Modules
   (add-to-list 'org-modules 'org-habit t)               ; Enable org-habit for tracking repeated actions.
