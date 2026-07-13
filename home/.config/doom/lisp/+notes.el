@@ -58,10 +58,13 @@
 (use-package org-file
   :after org
   :config
+  ;; TODO: Fix denote leaving fake renamed buffers around when say no.
   (defun my/org-file-rename-fn (filename title filetags id)
     "A function to rename org files."
     (ignore title filetags id)
-    (when (functionp #'denote-rename-file-using-front-matter)
+    (when (and (equal vulpea-default-notes-directory
+                      (file-name-parent-directory filename))
+               (functionp #'denote-rename-file-using-front-matter))
       (denote-rename-file-using-front-matter filename)))
   (setq org-file-tag-agenda "agenda"                    ; Tag added to mark a file as an org-agenda file.
         org-file-agenda-tags '("refile")                ; Tags a heading can have marking it for the agenda.
@@ -112,9 +115,53 @@ is set, notes it rejects are left out."
   (defun my/vulpea-fix-slug (slug)
     "A function to format SLUG with dashes instead of underscores."
     (string-replace "_" "-" slug))
+
   (advice-add 'vulpea-title-to-slug :filter-return #'my/vulpea-fix-slug)
+
   (setq vulpea-buffer-alias-property "ALIASES"
-        vulpea-create-default-template '(:file-name "${id}--${slug}.org" :head "#+created: %<[%Y-%m-%d]>")))
+        vulpea-create-default-template '(:file-name "${id}--${slug}.org" :head "#+created: %<[%Y-%m-%d]>"))
+
+  ;; TODO: Add tags sorting functions.
+  ;; TODO: Extend to support more tagging uses.
+  (defvar vulpea-person-tag "person"
+    "A filetag that marks a note as a person.")
+
+  (defvar vulpea-tag-person-on-linked-task t
+    "Add a `@PersonName' tag to a task when linking their vulpea note.
+
+Used by `vulpea-insert-update-tags-h' to automatically add a `person'
+tag of the form `@PersonName' when linking to their note under a task
+heading. The tag format is automatically generated from the #title of the
+linked note if it has the `person' tag.")
+
+  (defun vulpea-insert-update-tags-h (note)
+    "Update parent node tags when an vulpea node is inserted as an Org link.
+
+Recieves the inserted note from `vulpea-insert-handle-functions' to
+update the parent node tags according to the value of yet to be implemented
+options.
+
+Currently only supports adding a `person' tag of the form `@PersonName'
+generated from the title of a node that has the `person' tag."
+    (let ((filetags (vulpea-tags note)))
+      (when (and vulpea-tag-person-on-linked-task
+                 (seq-contains-p filetags vulpea-person-tag))
+        (save-excursion
+          (ignore-errors
+            (org-back-to-heading)
+            (when (eq 'todo (org-element-property
+                             :todo-type
+                             (org-element-at-point)))
+              (org-set-tags
+               (seq-uniq (cons (concat "@" (s-replace " " "" (vulpea-note-title note))) (org-get-tags nil t))))))))))
+
+  (add-hook 'vulpea-insert-handle-functions #'vulpea-insert-update-tags-h)
+
+  ;; TODO: Setup vulpea-db-index-heading-level function that excludes file paths.
+  ;; called by: vulpea-db--should-index-headings-p
+  ;; vulpea-db--extract-heading-nodes
+  ;; Use it to ignore bookmarks?
+  )
 
 (use-package vulpea-ui
   :after vulpea)
@@ -122,8 +169,17 @@ is set, notes it rejects are left out."
 (use-package vulpea-journal
   :after (vulpea vulpea-ui)
   :config
-  (vulpea-journal-setup))
+  (vulpea-journal-setup)
+  ;; Move journal directory up one layer.
+  (setq vulpea-journal-default-template '(:file-name "../journal/%Y-%m-%d.org" :title "%Y-%m-%d %A" :tags ("journal") :head
+                                          "#+created: %<[%Y-%m-%d]>")))
 
+(use-package vulpea-para
+  :after (vulpea vulpea-ui)
+  :config
+  (setq vulpea-para-people-tag "person")
+  ;; (vulpea-para-setup-defaults)
+  )
 
 ;; Setup "notes" keybinds. From: ~/.config/emacs/modules/config/default/+evil-bindings.el
 (map! :leader
@@ -183,13 +239,45 @@ is set, notes it rejects are left out."
           :desc "New Scheduled Entry" "J" #'org-journal-new-scheduled-entry
           :desc "Search Forever"      "s" #'org-journal-search-forever))))
 
+;; TODO: Integrate vulpea/denote/citar. Replace org-roam integration.
 (use-package org-noter
   :defer t
   :config
-  (setq org-noter-always-create-frame nil
-        org-noter-kill-frame-at-session-end nil))
+  (setq org-noter-notes-search-path (list vulpea-default-notes-directory)
+        org-noter-always-create-frame nil
+        org-noter-kill-frame-at-session-end nil)
+  ;; (setq org-noter-create-session-from-document-hook
+  ;;       '(org-noter--create-session-from-document-file-supporting-vulpea))
+  )
 
 (defun my/insert-current-time ()
   "Insert current time string according to org-id-ts-format."
   (interactive)
   (insert (format-time-string org-id-ts-format)))
+
+(use-package org-url
+  :config
+  (org-url-add-title-formatter "https://emacs.stackexchange.com/" (org-url-replace-in-title " - Emacs Stack Exchange" ""))
+  (org-url-add-title-formatter "https://stackoverflow.com" (org-url-replace-in-title " - Stack Overflow" ""))
+  (org-url-add-title-formatter "https://github.com" (org-url-replace-in-title ":[ ].*$?" "")))
+
+(use-package org-bookmark
+  :config
+  (setq org-bookmark-location-handlers '((org-bookmark-handler-file-heading org-inbox-file "Bookmarks")))
+  (unless (assoc "b" org-capture-templates)
+    (add-to-list 'org-capture-templates
+                 `(,"b" "Bookmark" entry #'org-bookmark-capture
+                   "* %(org-bookmark-format-link)\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?" :prepend t :immediate-finish t :jump-to-captured t))))
+
+(use-package! org-habit
+  :defer t
+  :config
+  (setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
+        ;; +org-habit-min-width                ; TODO
+        ;; +org-habit-graph-padding            ; TODO
+        ;; +org-habit-graph-window-ratio       ; TODO
+        ;; org-habit-graph-column              ; TODO
+        ;; org-habit-today-glyph               ; TODO
+        ;; org-habit-completed-glyph           ; TODO
+        ;; org-habit-show-done-always-green    ; TODO
+        org-habit-show-all-today t))           ; Keep habits visible even if done.
