@@ -197,3 +197,15 @@
 
 (load "+notes.el")
 (load "+ai.el")
+
+(use-package! vterm
+  :defer t
+  :init
+  ;; Update Bash version on macOS if available.
+  (when (and (featurep :system 'macos)
+             (file-exists-p "/opt/homebrew/bin/bash"))
+    (setq vterm-shell "/opt/homebrew/bin/bash"))
+  :config
+  ;; Keybinds
+  ;; - Fix M-backspace keybind on macOS.
+  (evil-define-key* 'insert vterm-mode-map (kbd "<M-backspace>") #'vterm-send-meta-backspace))
