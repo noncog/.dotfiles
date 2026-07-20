@@ -269,7 +269,7 @@ generated from the title of a node that has the `person' tag."
                  `(,"b" "Bookmark" entry #'org-bookmark-capture
                    "* %(org-bookmark-format-link)\n:PROPERTIES:\n:CREATED: %U\n:END:\n%?" :prepend t :immediate-finish t :jump-to-captured t))))
 
-(use-package! org-habit
+(use-package org-habit
   :defer t
   :config
   (setq org-habit-show-habits-only-for-today t ; Only show habits in one section.
