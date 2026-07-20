@@ -281,3 +281,37 @@ generated from the title of a node that has the `person' tag."
         ;; org-habit-completed-glyph           ; TODO
         ;; org-habit-show-done-always-green    ; TODO
         org-habit-show-all-today t))           ; Keep habits visible even if done.
+
+(use-package org-capture
+  :defer t
+  :config
+  ;; Declare helper functions.
+  ;; NOTE: Does not work with multi-level heading captures.
+  (defun org-capture-add-created-property ()
+    "Add Create an ID and CREATED property for the current entry.
+Intended for use with `:before-finalize' keyword in `org-capture-templates'."
+    (when org-capture-mode
+      (org-entry-put (point) "CREATED" (format-time-string org-id-ts-format))))
+  ;; Configure package.
+  (setq org-capture-templates-contexts nil              ; TODO
+        org-capture-templates
+        '(("t" "Task" entry
+           (file+headline org-inbox-file "Tasks")
+           "* TODO %?"
+           :prepend t
+           :before-finalize (org-id-get-create)
+           :empty-lines-after 1)
+          ("n" "Note" entry
+           (file+headline org-inbox-file "Notes")
+           "* NOTE %?"
+           :prepend t
+           ;; :before-finalize (org-capture-add-created-property)
+           :before-finalize (org-id-get-create)
+           :empty-lines- 1)
+          ;; ("b" "bookmark" entry
+          ;;  ;; (function my/find-org-inbox-file)
+          ;;  (function org-bookmark-location)
+          ;;  ;; (file org-inbox-file)
+          ;;  "* %(org-bookmark-format-link)\n"
+          ;;  :prepend t)
+          )))
