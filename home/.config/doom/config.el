@@ -211,12 +211,6 @@
           ("~/development/projects" . 1)  ; My projects.
           ("~/development/source" . 1)))) ; Other's code.
 
-
-;;; Load "modules".
-
-(load "+notes.el")
-(load "+ai.el")
-
 (use-package vterm
   :defer t
   :init
@@ -228,3 +222,9 @@
   ;; Keybinds
   ;; - Fix M-backspace keybind on macOS.
   (evil-define-key* 'insert vterm-mode-map (kbd "<M-backspace>") #'vterm-send-meta-backspace))
+
+;;; Load "modules".
+
+(load "+notes.el")
+(load "+ai.el")
+
