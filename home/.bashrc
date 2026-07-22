@@ -38,15 +38,17 @@ function init::bash() {
     # Prevent $HOME directory pollution.
     export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
     export LESSHISTFILE="/dev/null"
+    export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
+    alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
+    export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+    export HISTFILE="$XDG_STATE_HOME"/bash/history
+    export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 
     # ALIASES
     alias expand_alias='echo '
     alias lsa='ls -a'
     alias cp='cp -vi'
     alias mv='mv -vi'
-
-    # Prevent $HOME directory pollution.
-    alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
 
     if [[ -x ~/.dotfiles/bin/dotfiles ]]; then
         alias dotfiles='~/.dotfiles/bin/dotfiles'
