@@ -217,7 +217,7 @@
 (load "+notes.el")
 (load "+ai.el")
 
-(use-package! vterm
+(use-package vterm
   :defer t
   :init
   ;; Update Bash version on macOS if available.
