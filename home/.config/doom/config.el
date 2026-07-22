@@ -60,7 +60,6 @@
         display-line-numbers-grow-only t)
   (add-hook 'org-mode-hook #'doom-disable-line-numbers-h))
 
-(global-auto-revert-mode 1)       ; Revert buffer to show file changes on disk.
 (global-subword-mode 1)           ; Enable iterating through camelcase words.
 (setq-default x-stretch-cursor t) ; Show cursor (point) as wide as glyph under it.
 
@@ -138,6 +137,29 @@
   ;; Add Vim scroll binds to minibuffer.
   (map! :map vertico-map "C-u" #'scroll-down-command
         :map vertico-map "C-d" #'scroll-up-command))
+
+(use-package dired
+  :defer t
+  :config
+  ;; TODO: Investigate how dired handles overwrites.
+  ;;       - Where are the backups/
+  ;;       - Can we prompt instead?
+  (setq dired-backup-overwrite t
+        ;; TODO: Investigate if dired-backup-overwrite is loaded in time from dired-aux.
+        ;; Move files to trash instead of deleting.
+        ;; Dired wronged me with careless keybind use.
+        ;; TODO: Perhaps try trashed, for integration into evil and gui.
+        ;; See: magit-delete-by-moving-to-trash, evil-collection-trashed-setup
+        delete-by-moving-to-trash t
+        remote-file-name-inhibit-delete-by-moving-to-trash nil))
+
+(use-package autorevert
+  :defer t
+  :config
+  ;; Enable auto-revert in all buffers to show file changes on disk.
+  (setq global-auto-revert-non-file-buffers t
+        auto-revert-verbose t)
+  (global-auto-revert-mode 1))
 
 ;;; Lookup
 
