@@ -161,7 +161,35 @@ generated from the title of a node that has the `person' tag."
   ;; called by: vulpea-db--should-index-headings-p
   ;; vulpea-db--extract-heading-nodes
   ;; Use it to ignore bookmarks?
-  )
+
+  ;; TODO: Review this: simply sets up basic filtering, setup better rules.
+  (defun my/vulpea-find-candidates (&optional filter)
+    "Return list of candidates for `vulpea-find'.
+
+FILTER is a `vulpea-note' predicate."
+    (let ((notes (vulpea-db-query-by-tags-none '("archive"))))
+      (if filter
+          (-filter filter notes)
+        notes)))
+
+;;;###autoload
+  (defun my/vulpea-insert-candidates (&optional filter)
+    "Return list of candidates for `vulpea-find'.
+
+FILTER is a `vulpea-note' predicate."
+    (let ((notes (vulpea-db-query-by-tags-none nil)))
+      (if filter
+          (-filter filter notes)
+        notes)))
+
+  (setq vulpea-find-default-candidates-source #'my/vulpea-find-candidates
+        vulpea-insert-default-candidates-source #'my/vulpea-insert-candidates
+        vulpea-find-default-filter (when vulpea-db-index-heading-level
+                                     (lambda (note)
+                                       (= (vulpea-note-level note) 0)))
+        vulpea-insert-default-filter (when vulpea-db-index-heading-level
+                                       (lambda (note)
+                                         (= (vulpea-note-level note) 0)))))
 
 (use-package vulpea-ui
   :after vulpea)
