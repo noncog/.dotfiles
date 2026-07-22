@@ -186,11 +186,8 @@
         projectile-track-known-projects-automatically nil
         projectile-project-search-path
         '(("~/.dotfiles" . 0)
-          ("~/development/projects" . 1) ; My projects.
-          ("~/development/source" . 1))) ; Other's code.
-  (map! :map project-prefix-map
-        :leader :desc "List dirty projects"
-        "p l" #'projectile-browse-dirty-projects))
+          ("~/development/projects" . 1)  ; My projects.
+          ("~/development/source" . 1)))) ; Other's code.
 
 
 ;;; Load "modules".
