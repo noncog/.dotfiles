@@ -30,7 +30,7 @@ function init::bash() {
     local TERMINAL='/usr/bin/kitty' # Use this terminal for i3 and rofi on Linux.
 
     # ENVIRONMENT VARIABLES
-    [[ "${XDG_CONFIG_HOME/bash/inputrc}" ]] && export INPUTRC="${XDG_CONFIG_HOME/bash/inputrc}"
+    [[ -r "${XDG_CONFIG_HOME}/bash/inputrc" ]] && export INPUTRC="${XDG_CONFIG_HOME}/bash/inputrc"
 
     export EMACSDIR="$XDG_CONFIG_HOME/emacs"
     export DOOMDIR="${XDG_CONFIG_HOME}/doom"
