@@ -246,30 +246,14 @@ FILTER is a `vulpea-note' predicate."
        :desc "View search"                  "v" #'org-search-view
        :desc "Org export to clipboard"        "y" #'+org/export-to-clipboard
        :desc "Org export to clipboard as RTF" "Y" #'+org/export-to-clipboard-as-rich-text
-       (:prefix ("r" . "roam")
-        ;; :desc "Open random node"           "a" #'org-roam-node-random
+       (:prefix ("r" . "roam") ;; TODO: Change this. Will require refactor of all 'note' binds.
         :desc "Find note"                  "f" #'vulpea-find
-        ;; :desc "Find ref"                   "F" #'org-roam-ref-find
-        ;; :desc "Show graph"                 "g" #'org-roam-graph
         :desc "Insert note"                "i" #'vulpea-insert
-        ;; :desc "Capture to node"            "n" #'org-roam-capture
-        ;; :desc "Toggle roam buffer"         "r" #'org-roam-buffer-toggle
-        ;; :desc "Launch roam buffer"         "R" #'org-roam-buffer-display-dedicated
-        ;; :desc "Sync database"              "s" #'org-roam-db-sync
-        ;; (:prefix ("d" . "by date")
-        ;;  :desc "Goto previous note"        "b" #'org-roam-dailies-goto-previous-note
-        ;;  :desc "Goto date"                 "d" #'org-roam-dailies-goto-date
-        ;;  :desc "Capture date"              "D" #'org-roam-dailies-capture-date
-        ;;  :desc "Goto next note"            "f" #'org-roam-dailies-goto-next-note
-        ;;  :desc "Goto tomorrow"             "m" #'org-roam-dailies-goto-tomorrow
-        ;;  :desc "Capture tomorrow"          "M" #'org-roam-dailies-capture-tomorrow
-        ;;  :desc "Capture today"             "n" #'org-roam-dailies-capture-today
-        ;;  :desc "Goto today"                "t" #'org-roam-dailies-goto-today
-        ;;  :desc "Capture today"             "T" #'org-roam-dailies-capture-today
-        ;;  :desc "Goto yesterday"            "y" #'org-roam-dailies-goto-yesterday
-        ;;  :desc "Capture yesterday"         "Y" #'org-roam-dailies-capture-yesterday
-        ;;  :desc "Find directory"            "-" #'org-roam-dailies-find-directory)
-        )
+        (:prefix ("d" . "by date")
+         :desc "Journal previous"          "b" #'vulpea-journal-previous
+         :desc "Journal date"              "d" #'vulpea-journal-date
+         :desc "Journal next"              "f" #'vulepa-journal-next
+         :desc "Journal today"             "t" #'vulpea-journal-today))
        (:when (modulep! :lang org +journal)
          (:prefix ("j" . "journal")
           :desc "New Entry"           "j" #'org-journal-new-entry
