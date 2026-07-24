@@ -53,6 +53,13 @@
   (setq doom-font (font-spec :family "JetBrains Mono" :size 11.0)
         doom-big-font (font-spec :family "JetBrains Mono" :size 14.0)))
 
+;; Dashboard
+
+;; Always start from "$HOME" at the dashboard.
+(setq +doom-dashboard-pwd-policy user-home-directory)
+
+;; Line Numbers
+
 (use-package display-line-numbers
   :defer t
   :config
