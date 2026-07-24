@@ -67,6 +67,8 @@
         display-line-numbers-grow-only t)
   (add-hook 'org-mode-hook #'doom-disable-line-numbers-h))
 
+;; Cursor
+
 (global-subword-mode 1)           ; Enable iterating through camelcase words.
 (setq-default x-stretch-cursor t) ; Show cursor (point) as wide as glyph under it.
 
@@ -83,7 +85,7 @@
       "t F" nil
       "t o" #'doom/set-frame-opacity)
 
-;; Configure Evil
+;; Evil Keybinds
 
 (use-package evil-vars
   :defer t
@@ -98,6 +100,8 @@
   :defer t
   :config
   (setq evil-collection-calendar-want-org-bindings t))
+
+;; Window Manager Keybinds
 
 ;; Unify internal/external window management.
 ;; Allows use of same keybinds across window managers and Emacs windows.
