@@ -20,7 +20,8 @@
   (setq org-hide-leading-stars t                        ; Hide leading heading stars.
         org-ellipsis " ▾ ")                             ; Use UTF-8 to indicate a folded heading.
   ;; Task Management
-  (setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d!)")))
+  (setq org-todo-keywords                               ; Only use sequence to denote state that
+        '((sequence "TODO(t)" "|" "DONE(d!)")))         ; requires progress. Either do or done.
   ;; Logging
   (setq org-log-into-drawer t                           ; Log times into a drawer to hide them.
         org-log-reschedule t                            ; Log rescheduling of scheduled items.
@@ -87,13 +88,13 @@
   :hook ((after-init . vulpea-db-autosync-mode))
   :init
   (setq-default vulpea-db-sync-directories (list org-directory)
-        vulpea-db-location (expand-file-name "vulpea.db" org-data-directory)
-        ;; FIXME: If directory does not exist, it won't create the file.
-        vulpea-default-notes-directory (expand-file-name "notes/" org-directory)
-        vulpea-db-index-heading-level t                 ; Index heading level notes.
-        vulpea-db-exclude-archived t                    ; Prevent archived entries from polluting the database.
-        vulpea-db-sync-scan-on-enable 'async            ; Automatically scan on enable.
-        vulpea-db-exclude-property "IGNORE")            ; Don't index nodes with this property.
+                vulpea-db-location (expand-file-name "vulpea.db" org-data-directory)
+                ;; FIXME: If directory does not exist, it won't create the file.
+                vulpea-default-notes-directory (expand-file-name "notes/" org-directory)
+                vulpea-db-index-heading-level t                 ; Index heading level notes.
+                vulpea-db-exclude-archived t                    ; Prevent archived entries from polluting the database.
+                vulpea-db-sync-scan-on-enable 'async            ; Automatically scan on enable.
+                vulpea-db-exclude-property "IGNORE")            ; Don't index nodes with this property.
   :config
   ;; Agenda update.
   (defcustom vulpea-agenda-files-filter nil
@@ -106,15 +107,15 @@ some notes (for example a cemetery) out of the agenda file list."
     :group 'vulpea-para)
 
   (defun vulpea-agenda-files ()
-  "Return the file paths of notes tagged for the agenda.
+    "Return the file paths of notes tagged for the agenda.
 
 These are the files that currently hold open work, which are the only
 files `org-agenda' needs to scan.  When `vulpea-agenda-files-filter'
 is set, notes it rejects are left out."
-  (let ((notes (vulpea-db-query-by-tags-some (list org-file-tag-agenda))))
-    (when vulpea-agenda-files-filter
-      (setq notes (seq-filter vulpea-agenda-files-filter notes)))
-    (seq-uniq (mapcar #'vulpea-note-path notes))))
+    (let ((notes (vulpea-db-query-by-tags-some (list org-file-tag-agenda))))
+      (when vulpea-agenda-files-filter
+        (setq notes (seq-filter vulpea-agenda-files-filter notes)))
+      (seq-uniq (mapcar #'vulpea-note-path notes))))
 
   (setq org-file-agenda-files-fn #'vulpea-agenda-files)
   (org-file-update-mode 1)
