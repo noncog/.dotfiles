@@ -33,19 +33,20 @@
 (use-package org-id
   :defer t
   :config
-  (defun +org-add-id-to-new-todo-headings ()
-    "Add an org-id to a heading when it becomes a TODO heading for the first time."
-    (when (and org-state (not (member org-state org-done-keywords)))
-      (org-id-get-create)))
-
-  (add-hook 'org-after-todo-state-change-hook #'+org-add-id-to-new-todo-headings)
-
+  ;; Helpers
   (defun +org-insert-id ()
     "Insert an org-id at point for current time formatted by `org-id-ts-format'."
     (interactive)
     (insert (format-time-string org-id-ts-format)))
 
+  ;; Automatically assign new TODO headings an org-id.
+  (defun +org-add-id-to-new-todo-headings ()
+    "Add an org-id to a heading when it becomes a TODO heading for the first time."
+    (when (and org-state (not (member org-state org-done-keywords)))
+      (org-id-get-create)))
+  (add-hook 'org-after-todo-state-change-hook #'+org-add-id-to-new-todo-headings)
 
+  ;; Configure
   (setq org-id-locations-file (expand-file-name "org.id" org-data-directory)
         org-id-link-to-org-use-id t                     ; Storing a link to a file uses the org-id.
         org-id-locations-file-relative t                ; Use relative references for cross-platform compatibility.
