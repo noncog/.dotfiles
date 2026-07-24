@@ -260,7 +260,7 @@ FILTER is a `vulpea-note' predicate."
           :desc "New Scheduled Entry" "J" #'org-journal-new-scheduled-entry
           :desc "Search Forever"      "s" #'org-journal-search-forever))))
 
-;; TODO: Integrate vulpea/denote/citar. Replace org-roam integration.
+;; TODO: Integrate with vulpea/denote/citar/nov/org-remark, replacing org-roam integration.
 (use-package org-noter
   :defer t
   :config
