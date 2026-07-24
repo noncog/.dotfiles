@@ -59,7 +59,7 @@
        fold                ; (nigh) universal code folding
        (format +onsave)    ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
-       ;;lispy               ; vim for lisp, for people who don't like vim
+       ;;lispy             ; vim for lisp, for people who don't like vim
        ;;multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        ;;parinfer          ; turn lisp into python, sort of
@@ -108,7 +108,7 @@
        pdf                 ; pdf enhancements
        ;;terraform         ; infrastructure as code
        tmux                ; an API for interacting with tmux
-       ;; tree-sitter      ; syntax and parsing, sitting in a tree...
+       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
        upload              ; map local to remote projects via ssh/ftp
 
        :os
@@ -130,7 +130,7 @@
        ;;dhall
        ;;elixir            ; erlang done right
        ;;elm               ; care for a cup of TEA?
-       emacs-lisp        ; drown in parentheses
+       emacs-lisp          ; drown in parentheses
        ;;erlang            ; an elegant language for a more civilized age
        ;;ess               ; emacs speaks statistics
        ;;factor
@@ -180,8 +180,8 @@
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       web               ; the tubes
-       yaml              ; JSON, but readable
+       web                 ; the tubes
+       yaml                ; JSON, but readable
        ;;zig               ; C, but simpler
 
        :email
@@ -192,9 +192,9 @@
        :app
        calendar
        ;;emms
-       everywhere        ; *leave* Emacs!? You must be joking
-       irc               ; how neckbeards socialize
-       (rss +org)        ; emacs as an RSS reader
+       everywhere          ; *leave* Emacs!? You must be joking
+       irc                 ; how neckbeards socialize
+       (rss +org)          ; emacs as an RSS reader
 
        :config
        ;;literate
