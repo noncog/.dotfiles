@@ -83,8 +83,11 @@
         org-file-rename-fn #'my/org-file-rename-fn)     ; Function for renaming org files.
   (add-to-list 'org-tags-exclude-from-inheritance "agenda"))
 
-;; TODO: Fix issue with async nature db update and immediate org-file agenda update.
-;; NOTE: Would need hook on vulpea-db-sync--message for final summary complete message.
+;; TODO: Fix disparity between db async updates and org-file save-hook execution.
+;;       - The save hook executes faster than the database update and immediately
+;;         sets the `org-agenda-files' variables from the database before the db
+;;         had updated its value to be included.
+;;       - Would require a hook ran somewhere around `vulpea-db-sync--message'.
 (use-package vulpea
   :hook ((after-init . vulpea-db-autosync-mode))
   :init
@@ -209,8 +212,11 @@ FILTER is a `vulpea-note' predicate."
   :config
   (vulpea-journal-setup)
   ;; Move journal directory up one layer.
-  (setq vulpea-journal-default-template '(:file-name "../journal/%Y-%m-%d.org" :title "%Y-%m-%d %A" :tags ("journal") :head
-                                          "#+created: %<[%Y-%m-%d]>")))
+  (setq vulpea-journal-default-template
+        '(:file-name "../journal/%Y-%m-%d.org"
+          :title "%Y-%m-%d %A"
+          :tags ("journal")
+          :head "#+created: %<[%Y-%m-%d]>")))
 
 (use-package vulpea-para
   :after (vulpea vulpea-ui)
@@ -267,10 +273,7 @@ FILTER is a `vulpea-note' predicate."
   :config
   (setq org-noter-notes-search-path (list vulpea-default-notes-directory)
         org-noter-always-create-frame nil
-        org-noter-kill-frame-at-session-end nil)
-  ;; (setq org-noter-create-session-from-document-hook
-  ;;       '(org-noter--create-session-from-document-file-supporting-vulpea))
-  )
+        org-noter-kill-frame-at-session-end nil))
 
 (use-package org-url
   :config
