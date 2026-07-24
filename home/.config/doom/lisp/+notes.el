@@ -47,11 +47,11 @@
 
 
   (setq org-id-locations-file (expand-file-name "org.id" org-data-directory)
+        org-id-link-to-org-use-id t                     ; Storing a link to a file uses the org-id.
         org-id-locations-file-relative t                ; Use relative references for cross-platform compatibility.
         org-id-track-globally t                         ; Track identifiers in all org files so id links always work.
         org-id-method 'ts                               ; Use timestamps for unique identifiers.
         org-id-ts-format "%Y%m%dT%H%M%S"))              ; ISO-8601 timestamp format for identifiers.
-
 
 ;; TODO: Setup fref to replace Denote.
 (use-package denote
