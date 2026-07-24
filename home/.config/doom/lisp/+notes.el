@@ -7,27 +7,47 @@
   ;; Define additional core variables.
   (defvar org-data-directory (expand-file-name "data/" org-directory)
     "A directory used to hold data files related to org.")
-  ;; (defvar org-inbox-directory (expand-file-name "inbox/" org-directory)
-  ;;   "A directory used to hold `org-capture' items.")
+  (defvar org-inbox-directory (expand-file-name "inbox/" org-directory) ;; NOTE: Unused currently.
+    "A directory used to hold `org-capture' items.")
   (defvar org-inbox-file (expand-file-name "inbox.org" org-directory)
     "Inbox file to use with `org-capture'.")
   :config
+  (setq org-default-notes-file org-inbox-file)  ; Set default notes file to inbox file.
   ;; Modules
-  (add-to-list 'org-modules 'org-habit t)               ; Enable org-habit for tracking repeated actions.
-  (add-to-list 'org-modules 'ol-man t)                  ; Enable links to man pages.
-  (add-to-list 'org-modules 'ol-info t)                 ; Enable links to info pages.
+  (add-to-list 'org-modules 'org-habit t)       ; Enable org-habit for tracking repeated actions.
+  (add-to-list 'org-modules 'ol-man t)          ; Enable links to man pages.
+  (add-to-list 'org-modules 'ol-info t)         ; Enable links to info pages.
   ;; Appearance
-  (setq org-hide-leading-stars t                        ; Hide leading heading stars.
-        org-ellipsis " ▾ ")                             ; Use UTF-8 to indicate a folded heading.
+  (setq org-hide-leading-stars t                ; Hide leading heading stars.
+        org-ellipsis " ▾ "                      ; Use UTF-8 to indicate a folded heading.
+        org-hidden-keywords nil                 ; Don't hide any TODO keywords.
+        org-image-actual-width '(0.9)           ; Use an in-buffer image width closer to export's
+        org-startup-with-inline-images t        ; Show images at startup.
+        org-startup-with-latex-preview nil      ; Don't show LaTeX on startup.
+        org-hide-emphasis-markers t             ; Hide syntax for emphasis. (Use org-appear)
+        org-src-preserve-indentation t          ; Keep language specific indenting in source blocks.
+        org-pretty-entities t)                  ; Show sub/superscript as UTF8.
+  (setq org-property-format "%-10s %s")         ; TODO: Investigate if works or broken.
+  ;; General Behavior
+  (setq org-list-allow-alphabetical t           ; Use alphabet as lists.
+        org-use-property-inheritance t          ; Sub-headings inherit parent properties.
+        org-imenu-depth 6                       ; Allow imenu to search deeply in org docs.
+        org-return-follows-link t               ; Allow return to open links.
+        org-insert-heading-respect-content nil  ; Insert heading here, not at end of list. TODO: Investigate
+        org-use-fast-todo-selection 'auto)      ; Method to select TODO heading keywords.
+  ;; org-allow-promoting-top-level-subtree ; TODO: Investigate
   ;; Task Management
-  (setq org-todo-keywords                               ; Only use sequence to denote state that
-        '((sequence "TODO(t)" "|" "DONE(d!)")))         ; requires progress. Either do or done.
+  (setq org-todo-keywords                       ; Only use sequence to denote state that
+        '((sequence "TODO(t)" "|" "DONE(d!)"))  ; requires progress. Either do or done.
+        org-todo-keyword-faces                  ; Control the colors of todo keywords.
+        '(("TODO" . +org-todo-active)           ; - Removes Doom's opinionated defaults
+          ("DONE" . +org-todo-cancel)))         ;   leftover.
   ;; Logging
-  (setq org-log-into-drawer t                           ; Log times into a drawer to hide them.
-        org-log-reschedule t                            ; Log rescheduling of scheduled items.
-        org-log-redeadline t                            ; Log rescheduling of deadline items.
-        org-log-states-order-reversed nil               ; Log times reverse chronologically.
-        org-treat-insert-todo-heading-as-state-change nil ; Enable logging on `org-insert-todo-heading'.
+  (setq org-log-into-drawer t                   ; Log times into a drawer to hide them.
+        org-log-reschedule t                    ; Log rescheduling of scheduled items.
+        org-log-redeadline t                    ; Log rescheduling of deadline items.
+        org-log-states-order-reversed nil       ; Log times reverse chronologically.
+        org-treat-insert-todo-heading-as-state-change nil
         org-log-done 'time))                            ; Add completion time to DONE items.
 
 (use-package org-id
@@ -330,3 +350,247 @@ Intended for use with `:before-finalize' keyword in `org-capture-templates'."
            :before-finalize (org-id-get-create)
            :immediate-finish t
            :jump-to-captured t))))
+
+(use-package org-agenda
+  :defer t
+  :init
+  ;; Custom agenda launcher.
+  (defun my/org-agenda ()
+    "My custom agenda launcher."
+    (interactive)
+    (org-agenda nil "o"))
+  (map! :leader :desc "My agenda" "o a o" #'my/org-agenda)
+  ;; Appearance
+  (add-hook 'org-agenda-finalize-hook #'my/org-agenda-remove-empty-sections)
+  :config
+  (custom-set-faces!
+    '(org-agenda-structure
+      :height 1.3 :weight bold))               ; Increase title/header size.
+  (setq my/agenda-width 70                     ; Set tags column in a convoluted way.
+        org-agenda-tags-column (+ 10 (* -1 my/agenda-width))
+        org-habit-show-habits-only-for-today t ; Only show habits in one section.
+        org-habit-show-all-today t             ; Keep habits visible even if done.
+        org-agenda-start-with-log-mode t)      ; Show 'completed' items in agenda.
+
+  ;; Display in dedicated side-window.
+  ;; TODO: Possibly extend this for named agendas to appear in the side window.
+  (set-popup-rule! "^\\*Org Agenda\\*" :side 'right :vslot 1 :width 60 :modeline nil :select t :quit nil)
+
+  ;; Helpers
+  ;; - Removes empty agenda sections.
+  ;; - Skip specific tags.
+  ;; - Skip all other tags.
+  (defun my/org-agenda-remove-empty-sections ()
+    "A simple function to remove empty agenda sections. Scans for blank lines.
+Blank sections defined by having two consecutive blank lines.
+Not compatible with the block separator."
+    (interactive)
+    (setq buffer-read-only nil)
+    ;; initializes variables and scans first line.
+    (goto-char (point-min))
+    (let* ((agenda-blank-line "[[:blank:]]*$")
+           (content-line-count (if (looking-at-p agenda-blank-line) 0 1))
+           (content-blank-line-count (if (looking-at-p agenda-blank-line) 1 0))
+           (start-pos (point)))
+      ;; step until the end of the buffer
+      (while (not (eobp))
+        (forward-line 1)
+        (cond ;; delete region if previously found two blank lines
+         ((when (> content-blank-line-count 1)
+            (delete-region start-pos (point))
+            (setq content-blank-line-count 0)
+            (setq start-pos (point))))
+         ;; if found a non-blank line
+         ((not (looking-at-p agenda-blank-line))
+          (setq content-line-count (1+ content-line-count))
+          (setq start-pos (point))
+          (setq content-blank-line-count 0))
+         ;; if found a blank line
+         ((looking-at-p agenda-blank-line)
+          (setq content-blank-line-count (1+ content-blank-line-count)))))
+      ;; final blank line check at end of file
+      (when (> content-blank-line-count 1)
+        (delete-region start-pos (point))
+        (setq content-blank-line-count 0)))
+    ;; return to top and finish
+    (goto-char (point-min))
+    (setq buffer-read-only t))
+
+  (defun my/org-agenda-skip-tag (tag)
+    "Skip trees with this tag."
+    (let* ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
+           (current-headline (or (and (org-at-heading-p) (point))
+                                 (save-excursion (org-back-to-heading)))))
+      (if (member tag (org-get-tags current-headline))
+          next-headline nil)))
+
+  (defun my/org-agenda-skip-all-but-this-tag (tag)
+    "Skip trees that are not this tag."
+    (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+      (if (re-search-forward (concat ":" tag ":") subtree-end t)
+          nil          ; tag found, do not skip
+        subtree-end))) ; tag not found, continue after end of subtree
+
+  ;; Custom Agendas
+
+  (setq org-agenda-custom-commands
+        '(("o" "My Agenda" ((agenda
+                             ""
+                             ( ;; Today
+                              (org-agenda-overriding-header "Today\n")
+                              (org-agenda-overriding-header " Agenda\n")
+                              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-format-date " %a, %b %-e")  ; american date format
+                              (org-agenda-start-on-weekday nil)          ; start today
+                              (org-agenda-start-day "+0d")               ; don't show previous days. Required to make org-agenda-later work.
+                              (org-agenda-span 1)                        ; only show today
+                              (org-scheduled-past-days 0)                ; don't show overdue
+                              (org-deadline-warning-days 0)              ; don't show deadlines for the future
+                              (org-agenda-time-leading-zero t)           ; unify times formatting
+                              (org-agenda-remove-tags t)
+                              (org-agenda-time-grid '((today remove-match) (800 1000 1200 1400 1600 1800 2000 2200) "" ""))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              ;; (org-agenda-prefix-format '((agenda . " %8:(org-roam-agenda-category) %-5t ")))
+                              (org-agenda-dim-blocked-tasks nil)
+                              ;; TODO: Fix inbox not-skipping... Since I no longer have that tag.
+                              (org-agenda-skip-function '(my/org-agenda-skip-tag "inbox"))
+                              (org-agenda-entry-types '(:timestamp :deadline :scheduled))
+                              ))
+                            (agenda
+                             ""
+                             ( ;; Next Three Days
+                              (org-agenda-overriding-header "\nNext Three Days\n")
+                              (org-agenda-overriding-header "")
+                              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-format-date " %a, %b %-e")
+                              (org-agenda-start-on-weekday nil)
+                              (org-agenda-start-day "+1d")
+                              (org-agenda-span 3)
+                              (org-scheduled-past-days 0)
+                              (org-deadline-warning-days 0)
+                              (org-agenda-time-leading-zero t)
+                              (org-agenda-skip-function '(or (my/org-agenda-skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+                              (org-agenda-entry-types '(:deadline :scheduled))
+                              (org-agenda-time-grid '((daily weekly) () "" ""))
+                              (org-agenda-prefix-format '((agenda . "  %?-9:c%t ")))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-dim-blocked-tasks nil)
+                              ))
+                            (agenda
+                             ""
+                             ( ;; Upcoming Deadlines
+                              (org-agenda-overriding-header "\n Coming Up\n")
+                              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-format-date " %a, %b %-e")
+                              (org-agenda-start-on-weekday nil)
+                              (org-agenda-start-day "+4d")
+                              (org-agenda-span 28)
+                              (org-scheduled-past-days 0)
+                              (org-deadline-warning-days 0)
+                              (org-agenda-time-leading-zero t)
+                              (org-agenda-time-grid nil)
+                                        ;(org-agenda-prefix-format '((agenda . "  %?-5t %?-9:c")))
+                              ;; (org-agenda-prefix-format '((agenda . " %8:(org-roam-agenda-category) %-5t ")))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-skip-function '(or (my/org-agenda-skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+                              (org-agenda-entry-types '(:deadline :scheduled))
+                              (org-agenda-show-all-dates nil)
+                              (org-agenda-dim-blocked-tasks nil)
+                              ))
+                            (agenda
+                             ""
+                             ( ;; Past Due
+                              (org-agenda-overriding-header "\n Past Due\n")
+                              (org-agenda-day-face-function (lambda (date) 'org-agenda-date))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-format-date " %a, %b %-e")
+                              (org-agenda-start-on-weekday nil)
+                              (org-agenda-start-day "-60d")
+                              (org-agenda-span 60)
+                              (org-scheduled-past-days 60)
+                              (org-deadline-past-days 60)
+                              (org-deadline-warning-days 0)
+                              (org-agenda-time-leading-zero t)
+                              (org-agenda-time-grid nil)
+                              ;; (org-agenda-prefix-format '((agenda . "  %?-9:(org-roam-agenda-category)%t ")))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-skip-function '(or (my/org-agenda-skip-tag "inbox") (org-agenda-skip-entry-if 'todo '("DONE" "KILL"))))
+                              (org-agenda-entry-types '(:deadline :scheduled))
+                              (org-agenda-show-all-dates nil)
+                              (org-agenda-dim-blocked-tasks nil)
+                              ))
+                            (todo
+                             ""
+                             ( ;; Important Tasks No Date
+                              (org-agenda-overriding-header "\n Important Tasks - No Date\n")
+                              (org-agenda-block-separator nil)
+                              (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp 'notregexp "\\[\\#A\\]"))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-time-grid nil)
+                              ;; (org-agenda-prefix-format '((todo . "  %?:(org-roam-agenda-category) ")))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-dim-blocked-tasks nil)
+                              ))
+                            (todo
+                             ""
+                             ( ;; Next
+                              (org-agenda-overriding-header "\n Next\n")
+                              (org-agenda-block-separator nil)
+                              (org-agenda-skip-function '(org-agenda-skip-entry-if 'nottodo '("NEXT" "STRT")))
+                              (org-agenda-block-separator nil)
+                              (org-agenda-time-grid nil)
+                              ;; (org-agenda-prefix-format '((todo . "  %?:(org-roam-agenda-category) ")))
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              (org-agenda-dim-blocked-tasks nil)
+                              ))
+                            (tags-todo
+                             "inbox"
+                             ( ;; Inbox
+                              (org-agenda-overriding-header (propertize "\n Inbox\n" 'help-echo "Effort: 'c e' Refile: 'SPC m r'")) ;; Adds mouse hover tooltip.
+                                        ;(org-agenda-remove-tags t)
+                              (org-agenda-block-separator nil)
+                              (org-agenda-prefix-format "  %?-4e ")
+                                        ;(org-agenda-todo-keyword-format "%-4s")
+                              )))))))
+
+(use-package org-modern
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
+  :config
+  (setq org-modern-star nil
+        org-modern-hide-stars nil
+        org-modern-todo t
+        org-modern-todo-faces nil
+        org-modern-tag t
+        org-modern-tag-faces nil
+        org-modern-priority t
+        org-modern-progress nil
+        org-modern-timestamp t
+        org-modern-block-name nil
+        org-modern-table-vertical 1
+        org-modern-table-horizontal 0.2))
+
+(use-package org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-appear-autokeywords nil         ; Don't show hidden todo-keywords.
+        org-appear-autolinks nil            ; Don't expand link markup.
+        org-appear-autoemphasis t           ; Show emphasis markup.
+        org-appear-autosubmarkers t         ; Show sub/superscript
+        org-appear-autoentities t           ; Show LaTeX like Org pretty entities.
+        org-appear-autolinks nil            ; Shows Org links.
+        org-appear-inside-latex nil))       ; Don't show inside latex.
+
+(use-package org-refile
+  :config
+  (setq org-outline-path-complete-in-steps nil
+        org-refile-use-outline-path 'file
+        org-log-refile t                       ; Log when a heading is refiled.
+        org-refile-allow-creating-parent-nodes 'confirm
+        org-refile-targets '((nil :maxlevel . 3)
+                             ;; (org-agenda-primary-file :maxlevel . 5)
+                             (org-agenda-files :maxlevel . 3))))
