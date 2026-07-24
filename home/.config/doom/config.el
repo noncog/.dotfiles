@@ -104,32 +104,31 @@
         windman-direction-right "right"
         windman-direction-up "up"
         windman-direction-down "down")
-  (map!
-   "C-s-h" #'windman-resize-win-left
-   "C-s-j" #'windman-resize-win-down
-   "C-s-k" #'windman-resize-win-up
-   "C-s-l" #'windman-resize-win-right
-   :map global-map
-         "s-h" #'windman-focus-win-left
-         "s-j" #'windman-focus-win-down
-         "s-k" #'windman-focus-win-up
-         "s-l" #'windman-focus-win-right
-         "s-H" #'windman-move-win-left
-         "s-J" #'windman-move-win-down
-         "s-K" #'windman-move-win-up
-         "s-L" #'windman-move-win-right
-         "s-=" #'balance-windows
-         "s-v" #'evil-window-vsplit
-         "s-s" #'evil-window-split
-         "s-Q" #'evil-quit
-   :leader "w h" #'windman-focus-win-left
-            "w j" #'windman-focus-win-down
-            "w k" #'windman-focus-win-up
-            "w l" #'windman-focus-win-right
-            "w H" #'windman-move-win-left
-            "w J" #'windman-move-win-down
-            "w K" #'windman-move-win-up
-            "w L" #'windman-move-win-right))
+  (map! "C-s-h" #'windman-resize-win-left
+        "C-s-j" #'windman-resize-win-down
+        "C-s-k" #'windman-resize-win-up
+        "C-s-l" #'windman-resize-win-right
+        :map global-map
+        "s-h" #'windman-focus-win-left
+        "s-j" #'windman-focus-win-down
+        "s-k" #'windman-focus-win-up
+        "s-l" #'windman-focus-win-right
+        "s-H" #'windman-move-win-left
+        "s-J" #'windman-move-win-down
+        "s-K" #'windman-move-win-up
+        "s-L" #'windman-move-win-right
+        "s-=" #'balance-windows
+        "s-v" #'evil-window-vsplit
+        "s-s" #'evil-window-split
+        "s-Q" #'evil-quit
+        :leader "w h" #'windman-focus-win-left
+        "w j" #'windman-focus-win-down
+        "w k" #'windman-focus-win-up
+        "w l" #'windman-focus-win-right
+        "w H" #'windman-move-win-left
+        "w J" #'windman-move-win-down
+        "w K" #'windman-move-win-up
+        "w L" #'windman-move-win-right))
 
 (use-package vertico
   :defer t
