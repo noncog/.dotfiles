@@ -46,6 +46,8 @@
 
 ;;; Interface
 
+;; Display
+
 (use-package doom-ui
   :defer t
   :init
@@ -72,10 +74,41 @@
 (global-subword-mode 1)           ; Enable iterating through camelcase words.
 (setq-default x-stretch-cursor t) ; Show cursor (point) as wide as glyph under it.
 
-;; Remap default global keybinds.
+;; Help
 
-;; Move 'toggle' binds from 'help' to 'toggle' menu.
+(use-package! helpful
+  :defer t
+  :config
+  ;; Increase max window count for greater help buffer traversal.
+  ;; Helpful deletes buffers after this count so you can't move
+  ;; back through them with something like winner undo.
+  (setq helpful-max-buffers 10)
+
+  ;; Doom centers the page when you visit a source file.
+  ;; The information is often hidden behind the helpful window, so
+  ;; I remove the old advice and update it to display at the top of the screen.
+  (advice-remove 'helpful--navigate #'+popup--helpful-open-in-origin-window-a)
+
+  (defadvice! my/+popup--helpful-open-in-origin-window-a (button)
+    "Open links in non-popup, originating window rather than helpful's window."
+    :override #'helpful--navigate
+    (let ((path (substring-no-properties (button-get button 'path)))
+          enable-local-variables
+          origin)
+      (save-popups!
+       (find-file path)
+       (when-let (pos (get-text-property button 'position
+                                         (marker-buffer button)))
+         (goto-char pos))
+       (setq origin (selected-window))
+       (recenter 0)) ; NOTE: Added argument 0 to cause recenter to top of screen.
+      (select-window origin))))
+
+;; Global Keybinds
+
+;; Remap defaults: Move 'toggle' binds from 'help' menu to 'toggle' menu.
 ;; Disable frame fullscreen keybinds. Breaks on different window managers.
+;; TODO: Verify 'super' is bound to 's' and not 'S', may be different across operating systems.
 (map! "C-s-f" nil
       :leader
       "h T" nil
