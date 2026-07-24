@@ -36,7 +36,15 @@
     "Add an org-id to a heading when it becomes a TODO heading for the first time."
     (when (and org-state (not (member org-state org-done-keywords)))
       (org-id-get-create)))
+
   (add-hook 'org-after-todo-state-change-hook #'+org-add-id-to-new-todo-headings)
+
+  (defun +org-insert-id ()
+    "Insert an org-id at point for current time formatted by `org-id-ts-format'."
+    (interactive)
+    (insert (format-time-string org-id-ts-format)))
+
+
   (setq org-id-locations-file (expand-file-name "org.id" org-data-directory)
         org-id-locations-file-relative t                ; Use relative references for cross-platform compatibility.
         org-id-track-globally t                         ; Track identifiers in all org files so id links always work.
@@ -277,11 +285,6 @@ FILTER is a `vulpea-note' predicate."
   ;; (setq org-noter-create-session-from-document-hook
   ;;       '(org-noter--create-session-from-document-file-supporting-vulpea))
   )
-
-(defun my/insert-current-time ()
-  "Insert current time string according to org-id-ts-format."
-  (interactive)
-  (insert (format-time-string org-id-ts-format)))
 
 (use-package org-url
   :config
