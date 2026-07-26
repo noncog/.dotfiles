@@ -142,6 +142,7 @@ is set, notes it rejects are left out."
       (seq-uniq (mapcar #'vulpea-note-path notes))))
 
   (setq org-file-agenda-files-fn #'vulpea-agenda-files)
+  ;; TODO: Fix this not activating correctly and setting variable to match..
   (org-file-update-mode 1)
 
   ;; Configure file templates.
