@@ -223,7 +223,33 @@ FILTER is a `vulpea-note' predicate."
                                        (= (vulpea-note-level note) 0)))
         vulpea-insert-default-filter (when vulpea-db-index-heading-level
                                        (lambda (note)
-                                         (= (vulpea-note-level note) 0)))))
+                                         (= (vulpea-note-level note) 0))))
+  ;; Experiments
+
+  (defun my/org-agenda-file-p (note)
+    "Return non-nil when NOTE is an agenda file.
+
+An file-level note, tagged with `org-file-tag-agenda'."
+    (and (= (vulpea-note-level note) 0)
+         (vulpea-note-tagged-any-p note org-file-tag-agenda)))
+
+
+  (defun my/org-agenda-files ()
+    "Return all agenda notes."
+    (seq-filter #'my/org-agenda-file-p
+                (vulpea-db-query-by-tags-some (list org-file-tag-agenda))))
+
+
+  (defun my/org-agenda-file-find (&optional other-window)
+    "Select an agenda file and visit it.
+
+With OTHER-WINDOW (a prefix argument), visit it in another window."
+    (interactive "P")
+    (vulpea-visit (vulpea-select-from "Area" (my/org-agenda-files)
+                                      :require-match t)
+                  other-window))
+
+  )
 
 (use-package vulpea-ui
   :after vulpea)
@@ -275,6 +301,7 @@ FILTER is a `vulpea-note' predicate."
        :desc "Org export to clipboard"        "y" #'+org/export-to-clipboard
        :desc "Org export to clipboard as RTF" "Y" #'+org/export-to-clipboard-as-rich-text
        (:prefix ("r" . "roam") ;; TODO: Change this. Will require refactor of all 'note' binds.
+        :desc "Find agenda files"          "a" #'my/org-agenda-file-find
         :desc "Find note"                  "f" #'vulpea-find
         :desc "Insert note"                "i" #'vulpea-insert
         :desc "Toggle sidebar"             "r" #'vulpea-ui-sidebar-toggle
