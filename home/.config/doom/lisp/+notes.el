@@ -276,6 +276,7 @@ FILTER is a `vulpea-note' predicate."
        (:prefix ("r" . "roam") ;; TODO: Change this. Will require refactor of all 'note' binds.
         :desc "Find note"                  "f" #'vulpea-find
         :desc "Insert note"                "i" #'vulpea-insert
+        :desc "Toggle sidebar"             "r" #'vulpea-ui-sidebar-toggle
         (:prefix ("d" . "by date")
          :desc "Journal previous"          "b" #'vulpea-journal-previous
          :desc "Journal date"              "d" #'vulpea-journal-date
