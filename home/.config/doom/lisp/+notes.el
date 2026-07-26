@@ -326,8 +326,10 @@ Intended for use with `:before-finalize' keyword in `org-capture-templates'."
       (org-entry-put (point) "CREATED" (format-time-string org-id-ts-format))))
   ;; Load org-bookmark helper lib.
   (require 'org-bookmark)
+  (defvar org-bookmarks-file (expand-file-name "bookmarks.org" org-directory)
+    "Bookmarks file to use with `org-capture'.")
   (setq org-bookmark-location-handlers
-        '((org-bookmark-handler-file-heading org-inbox-file "Bookmarks")))
+        '((org-bookmark-handler-file-heading org-bookmarks-file "Inbox")))
   ;; Configure package.
   (setq org-capture-templates-contexts nil
         org-capture-templates
@@ -342,8 +344,9 @@ Intended for use with `:before-finalize' keyword in `org-capture-templates'."
            "* %?"
            :prepend t
            :before-finalize (org-capture-add-created-property)
-           :empty-lines- 1)
+           :empty-lines-after 1)
           ("b" "Bookmark" entry
+           ;; (file org-bookmarks-file)
            #'org-bookmark-capture
            "* %(org-bookmark-format-link)\n%?"
            :prepend t
