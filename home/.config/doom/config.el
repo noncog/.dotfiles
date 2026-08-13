@@ -51,7 +51,9 @@
 (use-package doom-ui
   :defer t
   :init
-  (setq doom-theme 'modus-vivendi-deuteranopia)
+  ;; (setq doom-theme 'modus-vivendi-deuteranopia)
+  ;; (setq doom-theme 'leuven)
+  (setq doom-theme 'doom-one)
   (setq doom-font (font-spec :family "JetBrains Mono" :size 11.0)
         doom-big-font (font-spec :family "JetBrains Mono" :size 14.0)))
 
