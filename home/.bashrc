@@ -42,6 +42,7 @@ function init::bash() {
     alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
     export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
     export PATH="$XDG_DATA_HOME"/npm/bin:"$PATH"
+    export PATH=/home/noncog/.local/src/llama.cpp/build/bin:"$PATH"
     export HISTFILE="$XDG_STATE_HOME"/bash/history
     export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 
