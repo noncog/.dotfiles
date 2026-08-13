@@ -216,6 +216,8 @@ FILTER is a `vulpea-note' predicate."
           (-filter filter notes)
         notes)))
 
+  ;; TODO: Replace with emacsql db query sql function.
+
   (setq vulpea-find-default-candidates-source #'my/vulpea-find-candidates
         vulpea-insert-default-candidates-source #'my/vulpea-insert-candidates
         vulpea-find-default-filter (when vulpea-db-index-heading-level
@@ -223,7 +225,8 @@ FILTER is a `vulpea-note' predicate."
                                        (= (vulpea-note-level note) 0)))
         vulpea-insert-default-filter (when vulpea-db-index-heading-level
                                        (lambda (note)
-                                         (= (vulpea-note-level note) 0))))
+                                         (when (not (member (vulpea-note-path note) (list org-inbox-file org-bookmarks-file)))
+                                           (not (vulpea-note-todo note))))))
   ;; Experiments
 
   (defun my/org-agenda-file-p (note)
@@ -603,6 +606,8 @@ Not compatible with the block separator."
         org-modern-progress nil
         org-modern-timestamp t
         org-modern-block-name nil
+        ;; Temporarily disable due to TUI glitch.
+        org-modern-table nil
         org-modern-table-vertical 1
         org-modern-table-horizontal 0.2))
 
