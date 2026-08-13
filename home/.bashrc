@@ -40,7 +40,8 @@ function init::bash() {
     export LESSHISTFILE="/dev/null"
     export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
     alias vim='vim -i \"$XDG_CONFIG_HOME/vim/.viminfo\"'
-    export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
+    export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
+    export PATH="$XDG_DATA_HOME"/npm/bin:"$PATH"
     export HISTFILE="$XDG_STATE_HOME"/bash/history
     export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 
