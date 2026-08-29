@@ -147,7 +147,7 @@ bindsym $mod+Control+Shift+e $move_to_workspace 11
 
 # Brave
 bindsym $mod+f $exec i3-msg [workspace="__focused__" class="(?i)brave-browser"] focus || i3-msg [workspace="12" class="(?i)brave-browser"] focus
-bindsym $mod+Shift+f $exec "flatpak run com.brave.Browser --password-store=basic"
+bindsym $mod+Shift+f $exec "brave-browser --password-store=basic"
 bindsym $mod+Control+Shift+f $move_to_workspace 12
 
 # Kitty
@@ -196,7 +196,10 @@ for_window [class="pavucontrol"] floating toggle, resize set 50 ppt 50 ppt, move
 #===============================================================================#
 # Note: Most startup related applications/services are executed by systemd.
 
-exec --no-startup-id nitrogen --restore
+exec --no-startup-id perl ~/.config/i3/i3-ipc.pl
+exec --no-startup-id polybar default
+exec --no-startup-id nm-applet
+exec --no-startup-id dunst
 
 #===============================================================================#
 # >>> Modes                                                                     #
@@ -258,7 +261,8 @@ mode "Emacs" {
     
     # Brave
     bindsym $mod+f $exec i3-msg [workspace="__focused__" class="(?i)brave-browser"] focus || i3-msg [workspace="12" class="(?i)brave-browser"] focus
-    bindsym $mod+Shift+f $exec "flatpak run com.brave.Browser --password-store=basic"
+    # bindsym $mod+Shift+f $exec "flatpak run com.brave.Browser --password-store=basic"
+    bindsym $mod+Shift+f $exec brave-browser
     bindsym $mod+Control+Shift+f $move_to_workspace 12
     
     # Kitty

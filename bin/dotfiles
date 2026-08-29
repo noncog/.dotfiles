@@ -83,7 +83,9 @@ function dotfiles::deploy() {
         linux-gnu*)
             stow -v -d ~/.dotfiles/ -t ~/ -R home \
                 --ignore='.config/skhd' \
-                --ignore='.config/emacs'
+                --ignore='.config/emacs' \
+                --ignore='.config/systemd' \
+                --ignore='.config/picom'
             ;;
         *)
             log::error "unrecognized operating system: $OSTYPE"
