@@ -3,7 +3,7 @@
 # - This file is not read if ~/.bash_profile or ~/.bash_login exist.
 
 # The default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
+# for ssh logins, install and configure the libpam-umask package. (umask 022)
 
 # Set environment variables available everywhere:
 export EDITOR="emacs"
