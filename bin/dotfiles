@@ -92,6 +92,11 @@ function dotfiles::deploy() {
             return 1
             ;;
     esac
+
+    # Deploy private scripts from extra submodule.
+    if [[ -f ~/.dotfiles/extra/deploy.sh ]]; then
+        bash ~/.dotfiles/extra/deploy.sh
+    fi
 }
 
 dotfiles::main "$@"
