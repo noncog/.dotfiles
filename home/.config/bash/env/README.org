@@ -1,0 +1,5 @@
+#+title: Environment Scripts
+
+This directory holds environment scripts sourced by =~/.bashrc=.
+
+- Scripts are loaded in lexicographic order.

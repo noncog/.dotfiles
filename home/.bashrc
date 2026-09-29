@@ -46,6 +46,13 @@ function init::bash() {
     export HISTFILE="$XDG_STATE_HOME"/bash/history
     export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 
+    # Load environment scripts from ~/.config/bash/env/
+    if [[ -d "$XDG_CONFIG_HOME/bash/env" ]]; then
+        for env_script in "$XDG_CONFIG_HOME/bash/env"/*.sh; do
+            [[ -f "$env_script" ]] && source "$env_script"
+        done
+    fi
+
     # ALIASES
     alias expand_alias='echo '
     alias lsa='ls -a'
