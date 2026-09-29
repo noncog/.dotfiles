@@ -1,0 +1,6 @@
+# ignore all untracked files such that you have to use:
+# git add -f to prevent accidental inclusion of files.
+#*
+
+# Nested git repositories (standalone, not tracked by parent)
+extra/
